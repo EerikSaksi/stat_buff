@@ -1,9 +1,9 @@
 # Timelog
 
-* PROJECT NAME
-* YOUR NAME
-* STUDENT_ID
-* SUPERVISOR NAME
+Collaborative Activity Tracker
+Eerik Saksi
+2392230S
+Alistair Morrison
 
 ## Guidance
 
@@ -14,13 +14,11 @@
 
 ## Week 1
 
-### 19 Oct 2019
+### 4 Oct 2019
 
-* *4 hours* Read the project guidance notes
-* *0.5 hour* Created GitLab repository and cloned the cookiecutter for the projects
-* *1 hour* Modified dissertation template, compiled  
+* 2 hours: reading the paper recommended by supervisor "Pass the Ball: Enforced Turn-Taking in Activity Tracking". Although this wasn't directly related to my project, it gave some valuable information that I can apply to my own project.   
 
-## 20 Oct 2019
+## 5 Oct 2020
 
 * *1 hour* meeting with supervisor
 * *2 hours* writing initial version of test harness
