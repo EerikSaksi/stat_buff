@@ -21,4 +21,3 @@ Alistair Morrison
 ## 5 Oct 2020
 
 * *1 hour* meeting with supervisor
-* *2 hours* writing initial version of test harness
