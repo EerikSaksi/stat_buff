@@ -27,3 +27,7 @@ Alistair Morrison
 
 - 1 hour: writing plan
 - 3 hours: setting up React Native client and then setting up running on my phone. This took a while because I needed to install Android Studio, make sure all the SDK's were intalled, and it took me a while to realize I needed Java JDK 8.
+
+## 9 Oct 2020
+
+- 1 hour: converted both backend and frontend to typescript
