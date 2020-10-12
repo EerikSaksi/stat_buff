@@ -16,12 +16,11 @@ Alistair Morrison
 
 ### 4 Oct 2019
 
-- 2 hours: reading the paper recommended by supervisor "Pass the Ball: Enforced Turn-Taking in Activity Tracking". Although this wasn't directly related to my project, it gave some valuable information that I can apply to my own project. 
+- 2 hours: reading the paper recommended by supervisor "Pass the Ball: Enforced Turn-Taking in Activity Tracking". Although this wasn't directly related to my project, it gave some valuable information that I can apply to my own project.
 
 ## 5 Oct 2020
 
 - 1 hour: meeting with supervisor. We also discussed about what I should do before the next meeting. I should make my plan for software development of the project in the timeframe of until end of December, and consider what the priorities of the app should be (fun vs inciting behaviour change, targeting beginners or already exercising people)
-
 
 ## 6 Oct 2020
 
@@ -31,3 +30,7 @@ Alistair Morrison
 ## 9 Oct 2020
 
 - 1 hour: converted both backend and frontend to typescript
+
+## 9 Oct 2020
+
+- 3 hours: played around with setting up PostGraphile as a library. Tried to drop tables from the database and accidentally messed up entire datbase and had to reinstall everything until I figured out I was running multiple clusters at the same time which I had to remove. Will probably just stick to an ORM like sequelize from now on.
