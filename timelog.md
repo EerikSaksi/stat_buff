@@ -31,6 +31,9 @@ Alistair Morrison
 
 - 1 hour: converted both backend and frontend to typescript
 
-## 9 Oct 2020
+## 10 Oct 2020
 
 - 3 hours: played around with setting up PostGraphile as a library. Tried to drop tables from the database and accidentally messed up entire datbase and had to reinstall everything until I figured out I was running multiple clusters at the same time which I had to remove. Will probably just stick to an ORM like sequelize from now on.
+
+## 11 Oct 2020
+- 2 hours: analyzed existing products and appended existing research to new file, research.md
