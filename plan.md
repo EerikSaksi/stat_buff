@@ -28,6 +28,7 @@ Week-by-week plan for the whole project. Update this as you go along.
 - **Week 9**
   This will likely take another week to fully implement and test.
 - **Week 11 [PROJECT WEEK]**
+
 - **Week 12 [PROJECT WEEK]** Status report submitted.
 
 ## Winter break

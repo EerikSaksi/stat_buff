@@ -37,3 +37,34 @@ Alistair Morrison
 
 ## 11 Oct 2020
 - 2 hours: analyzed existing products and appended existing research to new file, research.md
+- 3 hours: setup Google OAuth console. Installed google login library in the app. Currently cannot connect the app to the client. Created User table in backend and inserted test user and PostGraphile automatically generated queries (and handled middleware).
+
+- 0.5 hours: meeting
+
+how malleable is the schedule
+Doesn't really matter 
+
+Is there concerns for doing too much too quickly
+There isn't really worry for this.
+
+What analytics
+
+  Interviewing people, qualitative interviews 
+
+  Diary based studies, ask users regularly
+
+  Usability of the interface 
+    Watch people use the app
+    Speak out about their use
+
+  More quantitatve
+    Track every single button click
+    How often they use
+    Different paths that they take
+    Clustering 
+  Identifying key features in for example 5 different apps  and make a table
+  The more academic leaning it is the more paper forcused it should be
+  exer game (wii)
+  
+Follow the references on pass the ball
+Should users be allowed to play alone? Probably not.
