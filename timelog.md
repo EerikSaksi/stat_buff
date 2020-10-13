@@ -68,3 +68,7 @@ What analytics
   
 Follow the references on pass the ball
 Should users be allowed to play alone? Probably not.
+
+## 11 Oct 2020
+- 2 hours: Trying to get react natives google login working. Quite a hastle, as I need to get the compiled Android version working as if a native one.
+- 1 hour: Read and analyzed the paper SpyFeet

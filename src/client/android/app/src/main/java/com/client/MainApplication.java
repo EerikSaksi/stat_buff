@@ -1,5 +1,5 @@
 package com.client;
-
+import co.apptailor.googlesignin.RNGoogleSigninPackage;  // <--- import
 import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
@@ -23,10 +23,9 @@ public class MainApplication extends Application implements ReactApplication {
         @Override
         protected List<ReactPackage> getPackages() {
           @SuppressWarnings("UnnecessaryLocalVariable")
-          return Arrays.<ReactPackage>asList(
-              new MainReactPackage(),
-              new RNGoogleSigninPackage() // <-- this needs to be in the list
-          );
+          List<ReactPackage> packages = new PackageList(this).getPackages();
+          //packages.add(RNGoogleSigninPackage());
+          return packages;
         }
 
         @Override

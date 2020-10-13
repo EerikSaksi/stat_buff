@@ -2,6 +2,21 @@
 
 Existing products
 
+## "SpyFeet: An Exercise RPG"
+
+### This paper is pretty close to what I want to make, but it had some differences
+
+- Instead of focusing on the gameplay of an RPG (for example, defeating enemies) they were more focused on the story side of the RPG.
+- Progress was made through walking and measured with a pedometer
+- The paper was mostly focused on better ways of telling interactive stories rather than the game itself.
+
+### Nonetheless, the paper had some good insight that I can use.
+
+- "Five out of six participants stated that the story gave them a purpose for exercising and preferred it over a point-based game which features numeric rewards or achievements instead of plot developments."
+  - This is noteable as my game will most likely not have any plot developments or any story aspects. In a sense, how far you've progressed against the progressively harder enemies is a numeric reward, but it still is more than just a simple point amount that keeps increasing and increasing (the level represents how far you've come and how many enemies you've defeated and not just a meaningless abstract number.)
+- “Point-based games make you competitive so you cannot play with your friends.”
+  - This is interesting, as the users of this app clearly didn't like quantitative competition with friends. This reinforces that in group competition should probably be avoided. I don't know whether or not out group competition with friends is harmful or not.
+
 ## "Pass the Ball: Enforced Turn-Taking in Activity Tracking" (paper recommended by supervisor)
 
 ### This paper wasn't exactly what my project was, but here are the key takeaways that would apply to my project
@@ -54,4 +69,3 @@ Existing features and will I also implement them:
   - I want to implement different armor you can wear, that will increase your damage per second. Better armor for different body parts are unlocked by getting stronger in exercises that use that particular body part.
 - Clicking damage: Clicking enemies deals damage, so you have passive and active damage
   - I probably want to avoid allowing to progress through simply tapping the screen. I think passive and active progress is important so you always feel as if you make progress outside of the game and more while you play it. I think one way of encouraging (active) progress is to give bonuses for checking in and saying you completed your workout. Active progress also occurs when you update your exercises and unlock better items to deal more damage. The game will also have active progress through teammates encouraging each other to perform. I could consider simply rewarding players for opening the app every day (kind of like a snap streak) as users are more likely to then also track their workouts, compare themselves to other teams and pay attention to their current monster they're fighting.
-
