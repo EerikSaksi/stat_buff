@@ -36,39 +36,45 @@ Alistair Morrison
 - 3 hours: played around with setting up PostGraphile as a library. Tried to drop tables from the database and accidentally messed up entire datbase and had to reinstall everything until I figured out I was running multiple clusters at the same time which I had to remove. Will probably just stick to an ORM like sequelize from now on.
 
 ## 11 Oct 2020
+
 - 2 hours: analyzed existing products and appended existing research to new file, research.md
 - 3 hours: setup Google OAuth console. Installed google login library in the app. Currently cannot connect the app to the client. Created User table in backend and inserted test user and PostGraphile automatically generated queries (and handled middleware).
 
 - 0.5 hours: meeting
 
 how malleable is the schedule
-Doesn't really matter 
+Doesn't really matter
 
 Is there concerns for doing too much too quickly
 There isn't really worry for this.
 
 What analytics
 
-  Interviewing people, qualitative interviews 
+Interviewing people, qualitative interviews
 
-  Diary based studies, ask users regularly
+Diary based studies, ask users regularly
 
-  Usability of the interface 
-    Watch people use the app
-    Speak out about their use
+Usability of the interface
+Watch people use the app
+Speak out about their use
 
-  More quantitatve
-    Track every single button click
-    How often they use
-    Different paths that they take
-    Clustering 
-  Identifying key features in for example 5 different apps  and make a table
-  The more academic leaning it is the more paper forcused it should be
-  exer game (wii)
-  
+More quantitatve
+Track every single button click
+How often they use
+Different paths that they take
+Clustering
+Identifying key features in for example 5 different apps and make a table
+The more academic leaning it is the more paper forcused it should be
+exer game (wii)
+
 Follow the references on pass the ball
 Should users be allowed to play alone? Probably not.
 
 ## 11 Oct 2020
-- 2 hours: Trying to get react natives google login working. Quite a hastle, as I need to get the compiled Android version working as if a native one.
+
+- 5 hours: Trying to get react natives google login working. Quite a hastle, as I need to get the compiled Android version working as if a native one.
 - 1 hour: Read and analyzed the paper SpyFeet
+  I have realized that React Native isn't as easy as Expo (which I have used previously.) React Native requires you to both know how to manage iOS builds and android builds, and I would require a mac to compile the iOS with XCode. Instead I'll use Expo, which is more limited in terms of freedom and libraries available,  but you only have to care about the singular Javascript code base.
+
+ This video explains it quite well: https://youtu.be/uHlAM4ICi1s
+

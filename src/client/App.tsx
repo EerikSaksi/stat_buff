@@ -1,26 +1,21 @@
+import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import {Text} from 'react-native';
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  statusCodes,
-} from '@react-native-community/google-signin';
-GoogleSignin.configure({
-  webClientId:
-    '761460499269-lh416u93k5pmeg6t2u73karm0trnqkcb.apps.googleusercontent.com',
+import { StyleSheet, Text, View } from 'react-native';
+
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <Text>Open up App.tsx to start working on your app!</Text>
+      <StatusBar style="auto" />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
-
-const signIn = async () => {
-  try {
-    await GoogleSignin.hasPlayServices();
-    const userInfo = await GoogleSignin.signIn();
-    console.log(userInfo);
-  } catch (error) {
-    console.log(error);
-  }
-};
-const App = () => {
-  return <GoogleSigninButton onPress={signIn} />;
-};
-
-export default App;
