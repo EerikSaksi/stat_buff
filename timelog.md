@@ -42,33 +42,7 @@ Alistair Morrison
 
 - 0.5 hours: meeting
 
-how malleable is the schedule
-Doesn't really matter
-
-Is there concerns for doing too much too quickly
-There isn't really worry for this.
-
-What analytics
-
-Interviewing people, qualitative interviews
-
-Diary based studies, ask users regularly
-
-Usability of the interface
-Watch people use the app
-Speak out about their use
-
-More quantitatve
-Track every single button click
-How often they use
-Different paths that they take
-Clustering
-Identifying key features in for example 5 different apps and make a table
-The more academic leaning it is the more paper forcused it should be
-exer game (wii)
-
-Follow the references on pass the ball
-Should users be allowed to play alone? Probably not.
+Discussed the importance of following the schedule (the plan is only for me). I asked about potential evaluation methods, and some that were listed were tracking events and analyzing the logging. I could analyze different paths that they take around the app, and how often they use, etc.
 
 ## 11 Oct 2020
 
@@ -77,4 +51,12 @@ Should users be allowed to play alone? Probably not.
   I have realized that React Native isn't as easy as Expo (which I have used previously.) React Native requires you to both know how to manage iOS builds and android builds, and I would require a mac to compile the iOS with XCode. Instead I'll use Expo, which is more limited in terms of freedom and libraries available,  but you only have to care about the singular Javascript code base.
 
  This video explains it quite well: https://youtu.be/uHlAM4ICi1s
+
+
+## 11 Oct 2020 - Nov 4 2020
+
+ - You might notice a gap in timelogging during this period
+ - I had a hard drive problem that took over two weeks to repair, and I lost all my data. 
+ - During this time it was unrealistic to set up environments and work on my parent's computer, so I did a literatrue review and paper summaries on 5 different papers, and got ahead on other classes.
+ - I plan on getting a lot of work done in the following days and weeks.
 
