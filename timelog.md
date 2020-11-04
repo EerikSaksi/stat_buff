@@ -53,10 +53,20 @@ Discussed the importance of following the schedule (the plan is only for me). I 
  This video explains it quite well: https://youtu.be/uHlAM4ICi1s
 
 
-## 11 Oct 2020 - Nov 4 2020
+## 11 Oct 2020 - Nov 3 2020
 
  - You might notice a gap in timelogging during this period
  - I had a hard drive problem that took over two weeks to repair, and I lost all my data. 
  - During this time it was unrealistic to set up environments and work on my parent's computer, so I did a literatrue review and paper summaries on 5 different papers, and got ahead on other classes.
  - I plan on getting a lot of work done in the following days and weeks.
+
+## Nov 4
+ - I got the Google login working with firebase now on client side: I built the app, I'm prompted for a login and the response showed my data as well as an token ID I can send and validate with my backend. 
+
+- I started setting up authentication on the backend (which I have done before). I did a lot of reading in to PostGraphile docs and I came to the following conclusions:
+
+-- Users Google IDs/emails need to be stored in a private schema, where PostGraphile doesn't auto generate relations that allow malicious users to steal them. 
+-- In order to implement data fetching through token IDs, I need to extend the PostGraphile resolvers manually, and include a query that uses Google's API to convert the token ID to a Google ID, which should then fetch the username from a private schema, which can then return all data for that username.
+
+
 
