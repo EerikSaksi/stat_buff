@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "761460499269",
+    "firebase_url": "https://rpgym-292308.firebaseio.com",
+    "project_id": "rpgym-292308",
+    "storage_bucket": "rpgym-292308.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:761460499269:android:0ecc05efe87ced53ac142c",
+        "android_client_info": {
+          "package_name": "com.rpgym"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "761460499269-f5bqp0e3bcfkr536hma7e4u3ju5p1hj4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rpgym",
+            "certificate_hash": "0b307feab28351474be9ccd7a51e2f11eb03f8d8"
+          }
+        },
+        {
+          "client_id": "761460499269-0k0250hlashl393vkc2g26768sq15ep7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSmak3zxg4HJ4D7uXJ-SBC46Y9o3eOxpU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "761460499269-0k0250hlashl393vkc2g26768sq15ep7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "761460499269-c5273jg8q9mkr9ji1h03csg6vdv0gg8o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.rpgym"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

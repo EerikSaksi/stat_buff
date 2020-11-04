@@ -38,7 +38,6 @@ const postgraphileOptions =
 
 const app = express();
 (async () => {
-  await initialize_postgres();
   app.use(postgraphile(process.env.DATABASE_URL, postgraphileOptions, 'public'));
 })();
 
