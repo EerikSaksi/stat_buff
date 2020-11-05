@@ -12,14 +12,18 @@ const postgraphileOptions =
       setofFunctionsContainNulls: false,
       ignoreRBAC: false,
       ignoreIndexes: false,
-      showErrorStack: 'json',
-      extendedErrors: ['hint', 'detail', 'errcode'],
-      appendPlugins: [require('@graphile-contrib/pg-simplify-inflector')],
-      exportGqlSchemaPath: 'schema.graphql',
+      showErrorStack: "json",
+      extendedErrors: ["hint", "detail", "errcode"],
+      appendPlugins: [require("@graphile-contrib/pg-simplify-inflector")],
+      exportGqlSchemaPath: "schema.graphql",
       graphiql: true,
       enhanceGraphiql: true,
+      allowExplain(req) {
+        // TODO: customise condition!
+        return true;
+      },
       enableQueryBatching: true,
-      legacyRelations: 'omit',
+      legacyRelations: "omit",
     }
     : {
       subscriptions: true,
@@ -38,7 +42,6 @@ const postgraphileOptions =
 
 const app = express();
 (async () => {
-  console.log('Running')
   app.use(postgraphile(process.env.DATABASE_URL, postgraphileOptions, 'public'));
 })();
 
