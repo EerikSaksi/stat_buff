@@ -1,6 +1,6 @@
 const express = require('express');
 const {postgraphile} = require('postgraphile');
-const initialize_postgres = require('./postgres_connector.ts')
+//const MyPlugin = require('./src/postgraphile_plugins.ts')
 
 require('dotenv').config();
 const postgraphileOptions =
@@ -38,8 +38,8 @@ const postgraphileOptions =
 
 const app = express();
 (async () => {
-  app.use(postgraphile(process.env.DATABASE_URL, postgraphileOptions, 'public'));
   console.log('Running')
+  app.use(postgraphile(process.env.DATABASE_URL, postgraphileOptions, 'public'));
 })();
 
 app.listen(process.env.PORT || 4000);

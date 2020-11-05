@@ -2,9 +2,9 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "start": "src/node index.ts"
+    "start": "node src/index.ts"
   },
   "author": "",
   "license": "ISC",

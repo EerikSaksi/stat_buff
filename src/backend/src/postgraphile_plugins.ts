@@ -1,9 +1,6 @@
 const {makeExtendSchemaPlugin, gql, } = require("graphile-utils");
-const {google} = require('googleapis');
 require('dotenv').config();
 const {OAuth2Client} = require('google-auth-library');
-
-
 const MyPlugin = makeExtendSchemaPlugin(build => {
   // Get any helpers we need from `build`
   const {pgSql: sql} = build;
@@ -28,14 +25,14 @@ const MyPlugin = makeExtendSchemaPlugin(build => {
           sql.fragment`(select * from "app_private.userID"  where googleID = ${userID} )`,
           () => {} // no-op
         );
-
         //no user found
         if (row.length == 0) {
           return null
         }
         return row;
       },
-    };
-  })
+    }
+  };
+})
 
 module.exports = MyPlugin;
