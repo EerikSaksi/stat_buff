@@ -24,6 +24,9 @@ const MyPlugin = makeExtendSchemaPlugin(build => {
           const payload = ticket.getPayload();
           const userID = payload['sub'];
           const {rows} = await context.pgClient.query(`select userName from "app_private.userID" where googleID = '${userID}'`);
+          if (rows.length == 0){
+            return null
+          }
           return rows[0];
         },
       }

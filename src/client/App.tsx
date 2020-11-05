@@ -20,21 +20,20 @@ const styles = StyleSheet.create({
 
 export default function App() {
   const [fetchUserByTokenID, {data}] = useLazyQuery(USER_BY_TOKEN_ID)
-  const {userByTokenID = {}} = data
-  
+  console.log(data)
   useEffect(() => {
     const signIn = async () => {
       initAsync()
       //get the token id and fetch data with it
       //const result: GoogleSignInAuthResult = await signInAsync();
       fetchUserByTokenID({variables: {tokenId: 'uh oh.. stinky'}})
+      console.log('ran')
     }
     signIn()
   }, [])
 
   return (
     <View style={styles.container} >
-      <Text>{JSON.stringify(userByTokenID)}</Text>
     </View>
   );
 }

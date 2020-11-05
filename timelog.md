@@ -60,7 +60,7 @@ Discussed the importance of following the schedule (the plan is only for me). I 
  - During this time it was unrealistic to set up environments and work on my parent's computer, so I did a literatrue review and paper summaries on 5 different papers, and got ahead on other classes.
  - I plan on getting a lot of work done in the following days and weeks.
 
-## Nov 4
+## Nov 4 (6 hours)
  - I got the Google login working with firebase now on client side: I built the app, I'm prompted for a login and the response showed my data as well as an token ID I can send and validate with my backend. 
 
 - I started setting up authentication on the backend (which I have done before). I did a lot of reading in to PostGraphile docs and I came to the following conclusions:
@@ -68,5 +68,8 @@ Discussed the importance of following the schedule (the plan is only for me). I 
 -- Users Google IDs/emails need to be stored in a private schema, where PostGraphile doesn't auto generate relations that allow malicious users to steal them. 
 -- In order to implement data fetching through token IDs, I need to extend the PostGraphile resolvers manually, and include a query that uses Google's API to convert the token ID to a Google ID, which should then fetch the username from a private schema, which can then return all data for that username.
 
-
-
+## Nov 5 (4 hours)
+ - I managed to create the aformentioned custom query. The query takes a tokenId, sends it to Google who convert it to a GoogleID which I use to select the username from a private table. 
+ - Lost an hour because I move my .env file away from the root directory which meant that process.env.DATABASE_URL didn't exist, which was causing a weird error with PostGraphile. 
+ - Managed to wrap the expo app with an ApolloProvider tag, which allows me to execute queries to the GraphQL API at the specified URL.
+ - Still need to figure out the port forwarding from my computers localhost to my phone's localhost so that I can test the new custom query. It will also require me building the app again as expo-google-sign-in doesn't work in the client.
