@@ -1,4 +1,4 @@
-const {makeExtendSchemaPlugin, gql, makeAddInflectorsPlugin } = require("graphile-utils");
+const {makeExtendSchemaPlugin, gql} = require("graphile-utils");
 require('dotenv').config();
 const {OAuth2Client} = require('google-auth-library');
 
@@ -9,6 +9,7 @@ const MyPlugin = makeExtendSchemaPlugin(build => {
     typeDefs: gql`
       extend type Query{
         userByTokenID(tokenId: String!): User 
+        }
     `,
     resolvers:
     {

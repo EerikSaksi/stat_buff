@@ -14,4 +14,4 @@ insert into
   "userID" (username, googleID)
 values
   ('orek', 'gID');
-comment on table userID is E'@omit';
+comment on table "userID" is E'@omit';

@@ -19,6 +19,7 @@ const postgraphileOptions =
       enhanceGraphiql: true,
       allowExplain(req) {
         // TODO: customise condition!
+
         return true;
       },
       enableQueryBatching: true,
