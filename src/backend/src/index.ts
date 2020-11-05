@@ -1,6 +1,6 @@
 const express = require('express');
 const {postgraphile} = require('postgraphile');
-//const MyPlugin = require('./src/postgraphile_plugins.ts')
+const MyPlugin = require('./postgraphile_plugins.ts')
 
 require('dotenv').config();
 const postgraphileOptions =
@@ -14,7 +14,7 @@ const postgraphileOptions =
       ignoreIndexes: false,
       showErrorStack: "json",
       extendedErrors: ["hint", "detail", "errcode"],
-      appendPlugins: [require("@graphile-contrib/pg-simplify-inflector")],
+      appendPlugins: [require("@graphile-contrib/pg-simplify-inflector"), MyPlugin],
       exportGqlSchemaPath: "schema.graphql",
       graphiql: true,
       enhanceGraphiql: true,
@@ -33,7 +33,7 @@ const postgraphileOptions =
       ignoreRBAC: false,
       ignoreIndexes: false,
       extendedErrors: ['errcode'],
-      appendPlugins: [require('@graphile-contrib/pg-simplify-inflector')],
+      appendPlugins: [require('@graphile-contrib/pg-simplify-inflector'), MyPlugin],
       graphiql: false,
       enableQueryBatching: true,
       disableQueryLog: true, // our default logging has performance issues, but do make sure you have a logging system in place!

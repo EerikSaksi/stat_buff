@@ -19,4 +19,4 @@ values
 insert into
   "app_private.userID" (username, googleID)
 values
-  ('orek', 'uh oh... stinky');
+  ('orek', 'gID');
