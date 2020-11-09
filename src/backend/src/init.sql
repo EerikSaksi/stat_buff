@@ -25,4 +25,3 @@ insert into
 values
   ('orek', 'gID');
 comment on table "userID" is E'@omit';
-

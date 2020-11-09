@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "node src/index.ts"
+    "start": "adb devices; adb reverse tcp:4000 tcp:4000; node src/index.ts"
   },
   "author": "",
   "license": "ISC",

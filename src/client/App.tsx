@@ -28,6 +28,7 @@ export default function App() {
       data.user ? setUserExists(true) : setUserExists(false)
     }
   })
+
   //don't know if user exists
   if (userExists === null) {
     return (
@@ -44,7 +45,6 @@ export default function App() {
       </View>
     );
   }
-
   if (!userExists) {
     return (<CreateUser />)
   }

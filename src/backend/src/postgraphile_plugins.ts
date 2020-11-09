@@ -20,6 +20,8 @@ const MyPlugin = makeExtendSchemaPlugin(build => {
       {
         userByTokenId: async (parent, args, context, resolveInfo) => {
           const googleID = await tokenToGoogleId(args.tokenId)
+          console.log(`tokenId ${args.tokenId.slice(0,100)}`)
+          console.log(googleID)
           const {rows} = await context.pgClient.query(
             `select username from "userID" where googleID = '$1'`,
             [googleID]
