@@ -1,5 +1,5 @@
 import registerRootComponent from 'expo/build/launch/registerRootComponent';
-import App from './App';
+import App from './Authenticator';
 import React from 'react';
 
 import {ApolloProvider, ApolloClient, ApolloClientOptions, InMemoryCache} from '@apollo/client'
