@@ -24,6 +24,7 @@ const postgraphileOptions =
       },
       enableQueryBatching: true,
       legacyRelations: "omit",
+      disableDefaultMutations: true,
     }
     : {
       subscriptions: true,
@@ -38,6 +39,7 @@ const postgraphileOptions =
       enableQueryBatching: true,
       disableQueryLog: true, // our default logging has performance issues, but do make sure you have a logging system in place!
       legacyRelations: 'omit',
+      disableDefaultMutations: true,
     };
 
 const app = express();

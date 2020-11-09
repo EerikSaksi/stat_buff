@@ -23,10 +23,11 @@ const MyPlugin = makeExtendSchemaPlugin(build => {
           console.log(`tokenId ${args.tokenId.slice(0,100)}`)
           console.log(googleID)
           const {rows} = await context.pgClient.query(
-            `select username from "userID" where googleID = '$1'`,
+            `select username from "userID" where googleID = $1`,
             [googleID]
           );
           if (rows.length == 0) {
+            console.log('There are in fact no rows')
             return null
           }
           return rows[0];

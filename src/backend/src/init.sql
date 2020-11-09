@@ -23,5 +23,5 @@ values
 insert into
   "userID" (username, googleID)
 values
-  ('orek', 'gID');
+  ('orek', '105395086988085655499');
 comment on table "userID" is E'@omit';
