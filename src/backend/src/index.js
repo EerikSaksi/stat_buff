@@ -12,7 +12,7 @@ const postgraphileOptions =
       setofFunctionsContainNulls: false,
       ignoreRBAC: false,
       ignoreIndexes: false,
-      handleErrors: (error: Error) => console.log(error),
+      handleErrors: (error) => console.log(error),
       appendPlugins: [require("@graphile-contrib/pg-simplify-inflector"), MyPlugins],
       exportGqlSchemaPath: "schema.graphql",
       graphiql: true,
@@ -41,6 +41,4 @@ const app = express();
 (async () => {
   app.use(postgraphile(process.env.DATABASE_URL, postgraphileOptions, 'public'));
 })();
-
 app.listen(process.env.PORT || 4000);
-export {};

@@ -1,6 +1,6 @@
 const {makeExtendSchemaPlugin, gql} = require("graphile-utils");
 require('dotenv').config();
-const tokenToGoogleId = require('./google_auth.ts')
+const tokenToGoogleId = require('./google_auth')
 
 const MyPlugins = makeExtendSchemaPlugin(build => {
   // Get any helpers we need from `build`
