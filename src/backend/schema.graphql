@@ -1,3 +1,38 @@
+"""All input for the create `Group` mutation."""
+input CreateGroupInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Group` to be created by this mutation."""
+  group: GroupInput!
+}
+
+"""The output of our create `Group` mutation."""
+type CreateGroupPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Group` that was created by this mutation."""
+  group: Group
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Group`. May be used by Relay 1."""
+  groupEdge(
+    """The method to use when ordering `Group`."""
+    orderBy: [GroupsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): GroupsEdge
+}
+
 """All input for the create `User` mutation."""
 input CreateUserInput {
   """
@@ -26,6 +61,9 @@ type CreateUserPayload {
   """
   query: Query
 
+  """Reads a single `Group` that is related to this `User`."""
+  groupByGroupname: Group
+
   """An edge for our `User`. May be used by Relay 1."""
   userEdge(
     """The method to use when ordering `User`."""
@@ -35,6 +73,54 @@ type CreateUserPayload {
 
 """A location in a connection that can be used for resuming pagination."""
 scalar Cursor
+
+"""All input for the `deleteGroupByNodeId` mutation."""
+input DeleteGroupByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Group` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteGroup` mutation."""
+input DeleteGroupInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  name: String!
+}
+
+"""The output of our delete `Group` mutation."""
+type DeleteGroupPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Group` that was deleted by this mutation."""
+  group: Group
+  deletedGroupNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Group`. May be used by Relay 1."""
+  groupEdge(
+    """The method to use when ordering `Group`."""
+    orderBy: [GroupsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): GroupsEdge
+}
 
 """All input for the `deleteUserByNodeId` mutation."""
 input DeleteUserByNodeIdInput {
@@ -77,6 +163,9 @@ type DeleteUserPayload {
   """
   query: Query
 
+  """Reads a single `Group` that is related to this `User`."""
+  groupByGroupname: Group
+
   """An edge for our `User`. May be used by Relay 1."""
   userEdge(
     """The method to use when ordering `User`."""
@@ -84,10 +173,110 @@ type DeleteUserPayload {
   ): UsersEdge
 }
 
+type Group implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  name: String!
+
+  """Reads and enables pagination through a set of `User`."""
+  usersByGroupname(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `User`."""
+    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserCondition
+  ): UsersConnection!
+}
+
+"""
+A condition to be used against `Group` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input GroupCondition {
+  """Checks for equality with the object’s `name` field."""
+  name: String
+}
+
+"""An input for mutations affecting `Group`"""
+input GroupInput {
+  name: String!
+}
+
+"""
+Represents an update to a `Group`. Fields that are set will be updated.
+"""
+input GroupPatch {
+  name: String
+}
+
+"""A connection to a list of `Group` values."""
+type GroupsConnection {
+  """A list of `Group` objects."""
+  nodes: [Group!]!
+
+  """
+  A list of edges which contains the `Group` and cursor to aid in pagination.
+  """
+  edges: [GroupsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Group` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Group` edge in the connection."""
+type GroupsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Group` at the end of the edge."""
+  node: Group!
+}
+
+"""Methods to use when ordering `Group`."""
+enum GroupsOrderBy {
+  NATURAL
+  NAME_ASC
+  NAME_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
 """
 The root mutation type which contains root level fields which mutate data.
 """
 type Mutation {
+  """Creates a single `Group`."""
+  createGroup(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateGroupInput!
+  ): CreateGroupPayload
+
   """Creates a single `User`."""
   createUser(
     """
@@ -95,6 +284,22 @@ type Mutation {
     """
     input: CreateUserInput!
   ): CreateUserPayload
+
+  """Updates a single `Group` using its globally unique id and a patch."""
+  updateGroupByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateGroupByNodeIdInput!
+  ): UpdateGroupPayload
+
+  """Updates a single `Group` using a unique key and a patch."""
+  updateGroup(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateGroupInput!
+  ): UpdateGroupPayload
 
   """Updates a single `User` using its globally unique id and a patch."""
   updateUserByNodeId(
@@ -112,6 +317,22 @@ type Mutation {
     input: UpdateUserInput!
   ): UpdateUserPayload
 
+  """Deletes a single `Group` using its globally unique id."""
+  deleteGroupByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteGroupByNodeIdInput!
+  ): DeleteGroupPayload
+
+  """Deletes a single `Group` using a unique key."""
+  deleteGroup(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteGroupInput!
+  ): DeleteGroupPayload
+
   """Deletes a single `User` using its globally unique id."""
   deleteUserByNodeId(
     """
@@ -127,6 +348,7 @@ type Mutation {
     """
     input: DeleteUserInput!
   ): DeleteUserPayload
+  createUserByTokenId(tokenId: String!, username: String!): Boolean
 }
 
 """An object with a globally unique `ID`."""
@@ -171,6 +393,35 @@ type Query implements Node {
     nodeId: ID!
   ): Node
 
+  """Reads and enables pagination through a set of `Group`."""
+  groups(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Group`."""
+    orderBy: [GroupsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: GroupCondition
+  ): GroupsConnection
+
   """Reads and enables pagination through a set of `User`."""
   users(
     """Only read the first `n` values of the set."""
@@ -199,14 +450,78 @@ type Query implements Node {
     """
     condition: UserCondition
   ): UsersConnection
+  group(name: String!): Group
   user(username: String!): User
+
+  """Reads a single `Group` using its globally unique `ID`."""
+  groupByNodeId(
+    """The globally unique `ID` to be used in selecting a single `Group`."""
+    nodeId: ID!
+  ): Group
 
   """Reads a single `User` using its globally unique `ID`."""
   userByNodeId(
     """The globally unique `ID` to be used in selecting a single `User`."""
     nodeId: ID!
   ): User
-  userByTokenID(tokenId: String!): User
+  userByTokenId(tokenId: String!): User
+}
+
+"""All input for the `updateGroupByNodeId` mutation."""
+input UpdateGroupByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Group` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Group` being updated.
+  """
+  patch: GroupPatch!
+}
+
+"""All input for the `updateGroup` mutation."""
+input UpdateGroupInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Group` being updated.
+  """
+  patch: GroupPatch!
+  name: String!
+}
+
+"""The output of our update `Group` mutation."""
+type UpdateGroupPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Group` that was updated by this mutation."""
+  group: Group
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Group`. May be used by Relay 1."""
+  groupEdge(
+    """The method to use when ordering `Group`."""
+    orderBy: [GroupsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): GroupsEdge
 }
 
 """All input for the `updateUserByNodeId` mutation."""
@@ -259,6 +574,9 @@ type UpdateUserPayload {
   """
   query: Query
 
+  """Reads a single `Group` that is related to this `User`."""
+  groupByGroupname: Group
+
   """An edge for our `User`. May be used by Relay 1."""
   userEdge(
     """The method to use when ordering `User`."""
@@ -272,6 +590,10 @@ type User implements Node {
   """
   nodeId: ID!
   username: String!
+  groupname: String
+
+  """Reads a single `Group` that is related to this `User`."""
+  groupByGroupname: Group
 }
 
 """
@@ -280,16 +602,21 @@ A condition to be used against `User` object types. All fields are tested for eq
 input UserCondition {
   """Checks for equality with the object’s `username` field."""
   username: String
+
+  """Checks for equality with the object’s `groupname` field."""
+  groupname: String
 }
 
 """An input for mutations affecting `User`"""
 input UserInput {
   username: String!
+  groupname: String
 }
 
 """Represents an update to a `User`. Fields that are set will be updated."""
 input UserPatch {
   username: String
+  groupname: String
 }
 
 """A connection to a list of `User` values."""
@@ -323,6 +650,8 @@ enum UsersOrderBy {
   NATURAL
   USERNAME_ASC
   USERNAME_DESC
+  GROUPNAME_ASC
+  GROUPNAME_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
