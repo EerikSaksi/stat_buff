@@ -22,12 +22,15 @@ const styles = StyleSheet.create({
 
 export default function App() {
   const [userExists, setUserExists] = useState<null | boolean>(null)
+
+  /*
   const [fetchUserByTokenID, {data}] = useLazyQuery(USER_BY_TOKEN_ID, {
     onCompleted: () => {
       //depending on if user exists set user exists state to true or false
       data.user ? setUserExists(true) : setUserExists(false)
     }
   })
+   */
 
   //don't know if user exists
   if (userExists === null) {
@@ -39,7 +42,9 @@ export default function App() {
             initAsync()
             //get the token id and fetch data with it
             const result: GoogleSignInAuthResult = await signInAsync();
+            /*
             fetchUserByTokenID({variables: {tokenId: result.user!.auth?.idToken}})
+             */
           }
           } />
       </View>

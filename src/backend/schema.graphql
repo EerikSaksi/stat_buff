@@ -85,7 +85,7 @@ enum GroupsOrderBy {
 The root mutation type which contains root level fields which mutate data.
 """
 type Mutation {
-  createUserByTokenId(tokenId: String!, username: String!): Boolean
+  createUserByTokenID(tokenID: String!, username: String!): Boolean
 }
 
 """An object with a globally unique `ID`."""
@@ -201,7 +201,7 @@ type Query implements Node {
     """The globally unique `ID` to be used in selecting a single `User`."""
     nodeId: ID!
   ): User
-  userByTokenId(tokenId: String!): User
+  userByTokenID(tokenID: String!): User
 }
 
 type User implements Node {

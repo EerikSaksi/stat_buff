@@ -1,6 +1,6 @@
 const express = require('express');
 const {postgraphile} = require('postgraphile');
-const MyPlugin = require('./postgraphile_plugins.ts')
+const MyPlugins = require('./postgraphile_plugins')
 
 require('dotenv').config();
 const postgraphileOptions =
@@ -12,16 +12,11 @@ const postgraphileOptions =
       setofFunctionsContainNulls: false,
       ignoreRBAC: false,
       ignoreIndexes: false,
-      handleErrors: (error) => console.log(error),
-      appendPlugins: [require("@graphile-contrib/pg-simplify-inflector"), MyPlugin],
+      handleErrors: (error: Error) => console.log(error),
+      appendPlugins: [require("@graphile-contrib/pg-simplify-inflector"), MyPlugins],
       exportGqlSchemaPath: "schema.graphql",
       graphiql: true,
       enhanceGraphiql: true,
-      allowExplain(req) {
-        // TODO: customise condition!
-
-        return true;
-      },
       enableQueryBatching: true,
       legacyRelations: "omit",
       disableDefaultMutations: true,
@@ -34,7 +29,7 @@ const postgraphileOptions =
       ignoreRBAC: false,
       ignoreIndexes: false,
       extendedErrors: ['errcode'],
-      appendPlugins: [require('@graphile-contrib/pg-simplify-inflector'), MyPlugin],
+      appendPlugins: [require('@graphile-contrib/pg-simplify-inflector'), MyPlugins],
       graphiql: false,
       enableQueryBatching: true,
       disableQueryLog: true, // our default logging has performance issues, but do make sure you have a logging system in place!
@@ -47,6 +42,5 @@ const app = express();
   app.use(postgraphile(process.env.DATABASE_URL, postgraphileOptions, 'public'));
 })();
 
-
 app.listen(process.env.PORT || 4000);
-module.exports = {}
+export {};

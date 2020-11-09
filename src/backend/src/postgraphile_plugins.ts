@@ -2,25 +2,25 @@ const {makeExtendSchemaPlugin, gql} = require("graphile-utils");
 require('dotenv').config();
 const tokenToGoogleId = require('./google_auth.ts')
 
-const MyPlugin = makeExtendSchemaPlugin(build => {
+const MyPlugins = makeExtendSchemaPlugin(build => {
   // Get any helpers we need from `build`
   const {pgSql: sql} = build;
   return {
     typeDefs: gql`
       extend type Query{
-        userByTokenId(tokenId: String!): User 
+        userByTokenID(tokenID: String!): User 
       }
       extend type Mutation{
-        createUserByTokenId(tokenId: String!, username: String!): Boolean
+        createUserByTokenID(tokenID: String!, username: String!): Boolean
       }
     `,
     resolvers:
     {
       Query:
       {
-        userByTokenId: async (parent, args, context, resolveInfo) => {
-          const googleID = await tokenToGoogleId(args.tokenId)
-          console.log(`tokenId ${args.tokenId.slice(0,100)}`)
+        userByTokenID: async (parent, args, context, resolveInfo) => {
+          const googleID = await tokenToGoogleId(args.tokenID)
+          console.log(`tokenID ${args.tokenID.slice(0,100)}`)
           console.log(googleID)
           const {rows} = await context.pgClient.query(
             `select username from "userID" where googleID = $1`,
@@ -35,8 +35,8 @@ const MyPlugin = makeExtendSchemaPlugin(build => {
       }
     },
     Mutation: {
-      createUserByTokenId: async (parent, args, context, resolveInfo) => {
-        const googleID = await tokenToGoogleId(args.tokenId)
+      createUserByTokenID: async (parent, args, context, resolveInfo) => {
+        const googleID = await tokenToGoogleID(args.tokenID)
         const {rows} = await context.pgClient.query(
           `select username from "userID" where googleID = '$1'`,
           [googleID]
@@ -62,4 +62,4 @@ const MyPlugin = makeExtendSchemaPlugin(build => {
   };
 })
 
-module.exports = MyPlugin;
+module.exports = MyPlugins;
