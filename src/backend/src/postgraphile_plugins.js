@@ -36,6 +36,10 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
     },
     Mutation: {
       createUserByTokenID: async (parent, args, context, resolveInfo) => {
+        //invalid username
+        if (username.length >= 20 || !username.match(/^[a-zA-Z0-9._]+$/) == null) {
+          return false
+        }
         const googleID = await tokenToGoogleID(args.tokenID)
         const {rows} = await context.pgClient.query(
           `select username from "userID" where googleID = '$1'`,

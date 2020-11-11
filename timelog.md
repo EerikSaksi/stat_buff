@@ -79,4 +79,6 @@ Discussed the importance of following the schedule (the plan is only for me). I 
 ## Nov 9 (4 hours)
  - I have fully integrated and tested Google authentication with the mobile device and the API
  - Removed Typescript from the backend. My language server was constantly complaining of non issues which made seeing real issues harder, and PostGraphile is truly so useful that I really won't write much code to even type check
- - Created groups tables and managed to created indices in the SQL script for foreign keys which makes PostGraphile auto generate queries like group(name: "Dream Team"){findUsersByGroup{ username}}
+ - Created groups tables and managed to created indices in the SQL script for foreign keys which makes PostGraphile auto generate queries like group(name: "Dream Team"){findUsersByGroup{ username}} to get the names of a particular group.
+ - Development will now move more towards the App. I was initially planning on using symmetricstrength.com, but they're not responding so I have messaged other websites.
+ - I will have to make some decisions on for instance what RPG art pack I might use for enemies and for the persona of the current character and how the navigation in the app should feel.
