@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import {gql, useMutation, useQuery} from '@apollo/client'
 import {TextInput, Text, Button, StyleSheet} from 'react-native'
+import {getCurrentUser} from 'expo-google-sign-in'
 import CenteredView from '../util_components/centered_view'
 const CREATE_USER_BY_TOKEN_ID = gql`mutation createuserbytokenid($tokenId: String!, $username: String!){
-    createUserByTokenId(tokenId: $tokenId, username: $username)
+    createUserByTokenID(tokenId: $tokenId, username: $username)
 }`
 
 const USER = gql`query user($username: String!){
@@ -25,11 +26,11 @@ const CreateUser: React.FC = () => {
   const [error, setError] = useState("")
 
   const [createUser] = useMutation(CREATE_USER_BY_TOKEN_ID, {
-    onCompleted: (data) => data 
+    onCompleted: (data) => data
   })
 
   //check if username exists
-  const {data: userData } = useQuery(USER, {
+  const {data: userData, loading: userLoading} = useQuery(USER, {
     variables: {username},
     skip: username === ""
   })
@@ -42,17 +43,21 @@ const CreateUser: React.FC = () => {
     else if (username.length >= 20) {
       setError("Username too long")
     }
-    ////username exists
-    else if (userData) {
+    //not checking if userData 
+    else if (!userLoading && userData && userData.user) {
       setError("Username taken")
     }
     else {
       setError("")
     }
   }, [username, userData])
-  const submit = () => {
-    if (error.length === 0){
-      createUser({variables: {username}})
+  const submit = async () => {
+    if (error.length === 0 && username.length !== 0) {
+      //get new token
+      const result = getCurrentUser()
+
+      //pass the username along with the token to the createUser function
+      createUser({variables: {username, tokenID: result?.auth?.idToken}})
     }
   }
   return (
@@ -60,10 +65,10 @@ const CreateUser: React.FC = () => {
       <Text>
         {error}
       </Text>
-      <TextInput onEndEditing = {submit} style = { username.length !== 0 ? (error.length == 0 ? styles.validInput : styles.invalidInput) : undefined} value = {username} placeholder = "Enter username"
-        onChangeText = {(e) => setUsername(e)}> 
+      <TextInput onEndEditing={submit} style={username.length !== 0 ? (error.length == 0 ? styles.validInput : styles.invalidInput) : undefined} value={username} placeholder="Enter username"
+        onChangeText={(e) => setUsername(e)}>
       </TextInput>
-      <Button title = "Submit" disabled = {error.length !== 0} onPress = {submit}>
+      <Button title="Submit" disabled={error.length !== 0 || username.length === 0} onPress={submit}>
       </Button>
     </CenteredView>
   )

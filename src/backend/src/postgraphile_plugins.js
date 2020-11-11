@@ -27,8 +27,7 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
             [googleID]
           );
           if (rows.length == 0) {
-            console.log('There are in fact no rows')
-            return null
+            throw "No users";
           }
           return rows[0];
         },
@@ -37,7 +36,7 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
     Mutation: {
       createUserByTokenID: async (parent, args, context, resolveInfo) => {
         //invalid username
-        if (username.length >= 20 || !username.match(/^[a-zA-Z0-9._]+$/) == null) {
+        if (username.length >= 20 || !username.match(/^[a-zA-Z0-9._]+$/) == null && username.length !== 0) {
           return false
         }
         const googleID = await tokenToGoogleID(args.tokenID)
