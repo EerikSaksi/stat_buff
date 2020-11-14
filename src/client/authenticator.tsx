@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, Suspense, lazy} from 'react';
 import {initAsync, GoogleSignInAuthResult, signInAsync} from 'expo-google-sign-in'
 import {gql} from '@apollo/client'
-import CreateUser from './components/create_user'
 import {SocialIcon} from 'react-native-elements'
-import App from './App'
-import CenteredView from './util_components/centered_view'
+import Loading from './util_components/loading'
+const CenteredView = lazy(() => import('./util_components/centered_view'))
+const App = lazy(() => import('./App'));
+const CreateUser = lazy(() => import('./components/create_user'))
 
 const USER_BY_TOKEN_ID = gql`query userbytokenid($tokenId: String!){
     userByTokenId(tokenId: $tokenId){
@@ -16,7 +17,7 @@ const USER_BY_TOKEN_ID = gql`query userbytokenid($tokenId: String!){
 
 export default function Authenticator() {
 
-  const [userExists, setUserExists] = useState<null | boolean>(false)
+  const [userExists, setUserExists] = useState<null | boolean>(true)
 
   /*
   const [fetchUserByTokenID, {data}] = useLazyQuery(USER_BY_TOKEN_ID, {
@@ -44,9 +45,13 @@ export default function Authenticator() {
     );
   }
   if (userExists) {
-    return (<App />)
+    return (<Suspense fallback={Loading}>
+      <App />
+    </Suspense>)
   }
   else {
-    return (<CreateUser />)
+    return (<Suspense fallback={Loading}>
+      <CreateUser setUserExists={setUserExists} />
+    </Suspense>)
   }
 }

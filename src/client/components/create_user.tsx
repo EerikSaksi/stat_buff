@@ -41,12 +41,19 @@ var styles = StyleSheet.create({
 
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
-const CreateUser: React.FC = () => {
+const CreateUser: React.FC<{setUserExists: (arg: boolean) => void}> = ({setUserExists}) => {
   const [username, setUsername] = useState("")
   const [error, setError] = useState("")
   const greenPixelValue = useRef<Animated.Value>(new Animated.Value(0)).current;
 
-  const [createUser] = useMutation(CREATE_USER_BY_TOKEN_ID)
+  //if succesfully created then user data exists for the current google user
+  const [createUser] = useMutation(CREATE_USER_BY_TOKEN_ID, {
+    onCompleted: (data) => {
+      if (data) {
+        setUserExists(true)
+      }
+    }
+  })
 
   //check if username exists
   const {data: userData, loading: userLoading} = useQuery(USER, {
@@ -82,7 +89,7 @@ const CreateUser: React.FC = () => {
   }
   useEffect(() => {
     //animate to red green or white depending on the current
-    if (!username.length){
+    if (!username.length) {
       Animated.timing(greenPixelValue, {toValue: 0, useNativeDriver: false}).start()
     }
     else if (error.length !== 0) {
