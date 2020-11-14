@@ -1,32 +1,20 @@
 import React, {useState, Suspense, lazy} from 'react';
 import {initAsync, GoogleSignInAuthResult, signInAsync} from 'expo-google-sign-in'
-import {gql} from '@apollo/client'
 import {SocialIcon} from 'react-native-elements'
 import Loading from './util_components/loading'
+import {useTokenQuery} from './hooks/use_token_query';
 const CenteredView = lazy(() => import('./util_components/centered_view'))
 const App = lazy(() => import('./App'));
 const CreateUser = lazy(() => import('./components/create_user'))
-
-const USER_BY_TOKEN_ID = gql`query userbytokenid($tokenId: String!){
-    userByTokenId(tokenId: $tokenId){
-      username
-    }
-}`
 
 
 
 export default function Authenticator() {
 
-  const [userExists, setUserExists] = useState<null | boolean>(true)
+  const [tokenID, setTokenID] = useState<string | undefined>(undefined)
+  //const {userExists, setUserExists} = useTokenQuery(tokenID)
 
-  /*
-  const [fetchUserByTokenID, {data}] = useLazyQuery(USER_BY_TOKEN_ID, {
-    onCompleted: () => {
-      //depending on if user exists set user exists state to true or false
-      data.user ? setUserExists(true) : setUserExists(false)
-    }
-  })
-   */
+  const [userExists, setUserExists] = useState(true)
 
   //don't know if user exists
   if (userExists === null) {
@@ -38,7 +26,7 @@ export default function Authenticator() {
             initAsync()
             //get the token id and fetch data with it
             const result: GoogleSignInAuthResult = await signInAsync();
-            //fetchUserByTokenID({variables: {tokenId: result.user!.auth?.idToken}})
+            setTokenID(result.user!.auth?.idToken)
           }
           } />
       </CenteredView>

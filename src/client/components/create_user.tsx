@@ -1,9 +1,9 @@
 import React, {useState, useEffect, useRef} from 'react'
 import {gql, useMutation, useQuery} from '@apollo/client'
 import {TextInput, Text, StyleSheet, ImageBackground, TouchableOpacity, Animated} from 'react-native'
-import {getCurrentUser} from 'expo-google-sign-in'
 import CenteredView from '../util_components/centered_view'
 import {generateShadow} from 'react-native-shadow-generator'
+import getCurrentTokenID from '../hooks/current_user_token_id'
 const CREATE_USER_BY_TOKEN_ID = gql`mutation createuserbytokenid($tokenId: String!, $username: String!){
     createUserByTokenID(tokenId: $tokenId, username: $username)
 }`
@@ -81,10 +81,9 @@ const CreateUser: React.FC<{setUserExists: (arg: boolean) => void}> = ({setUserE
   const submit = async () => {
     if (error.length === 0 && username.length !== 0) {
       //get new token
-      const result = getCurrentUser()
-
       //pass the username along with the token to the createUser function
-      createUser({variables: {username, tokenID: result?.auth?.idToken}})
+      const tokenID = await getCurrentTokenID()
+      createUser({variables: {username, tokenID}})
     }
   }
   useEffect(() => {
