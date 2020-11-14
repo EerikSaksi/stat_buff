@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import {gql, useMutation, useQuery} from '@apollo/client'
-import {TextInput, Text, StyleSheet, ImageBackground, TouchableOpacity} from 'react-native'
+import {TextInput, Text, StyleSheet, ImageBackground, TouchableOpacity, Animated} from 'react-native'
 import {getCurrentUser} from 'expo-google-sign-in'
 import CenteredView from '../util_components/centered_view'
 import {generateShadow} from 'react-native-shadow-generator'
@@ -16,14 +16,8 @@ const USER = gql`query user($username: String!){
 
 
 var styles = StyleSheet.create({
-  invalidInput: {
-    backgroundColor: "red"
-  },
-  validInput: {
-    backgroundColor: "#90EE90"
-  },
-  noInput: {
-    backgroundColor: "white",
+  input: {
+    //backgroundColor: "white",
     width: '50%',
     textAlign: 'center',
     marginBottom: '2%',
@@ -45,13 +39,14 @@ var styles = StyleSheet.create({
   }
 })
 
+const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
+
 const CreateUser: React.FC = () => {
   const [username, setUsername] = useState("")
   const [error, setError] = useState("")
+  const greenPixelValue = useRef<Animated.Value>(new Animated.Value(0)).current;
 
-  const [createUser] = useMutation(CREATE_USER_BY_TOKEN_ID, {
-    onCompleted: (data) => data
-  })
+  const [createUser] = useMutation(CREATE_USER_BY_TOKEN_ID)
 
   //check if username exists
   const {data: userData, loading: userLoading} = useQuery(USER, {
@@ -76,8 +71,6 @@ const CreateUser: React.FC = () => {
     }
   }, [username, userData])
 
-  //if no errors and input: valid, if input and error, invalidInput, otherwise no input
-  const inputStyle = username.length !== 0 ? (error.length == 0 ? styles.validInput : styles.invalidInput) : styles.noInput
   const submit = async () => {
     if (error.length === 0 && username.length !== 0) {
       //get new token
@@ -87,15 +80,34 @@ const CreateUser: React.FC = () => {
       createUser({variables: {username, tokenID: result?.auth?.idToken}})
     }
   }
+  useEffect(() => {
+    //animate to red green or white depending on the current
+    if (!username.length){
+      Animated.timing(greenPixelValue, {toValue: 0, useNativeDriver: false}).start()
+    }
+    else if (error.length !== 0) {
+      Animated.timing(greenPixelValue, {toValue: 2, useNativeDriver: false}).start()
+    }
+    else {
+      Animated.timing(greenPixelValue, {toValue: 1, useNativeDriver: false}).start()
+    }
+  }, [error, username])
+
+  const backgroundColor = username.length === 0 ? 'white' : greenPixelValue.interpolate(
+    {
+      inputRange: [0, 1, 2],
+      outputRange: ['white', 'lime', 'red']
+    }
+  )
   return (
     <ImageBackground blurRadius={1.5} style={styles.image} source={require('../assets/squat.jpeg')}>
       <CenteredView>
         <Text style={styles.text}>
           {error}
         </Text>
-        <TextInput onEndEditing={submit} style={StyleSheet.compose(styles.noInput, inputStyle)} value={username} placeholder="Enter username"
+        <AnimatedTextInput onEndEditing={submit} style={[styles.input, {backgroundColor}]} value={username} placeholder="Enter username"
           onChangeText={(e) => setUsername(e)}>
-        </TextInput>
+        </AnimatedTextInput>
         <TouchableOpacity style={styles.button} disabled={error.length !== 0 || username.length === 0} onPress={submit} >
           <Text>
             Submit

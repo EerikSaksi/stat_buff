@@ -90,3 +90,6 @@ Discussed the importance of following the schedule (the plan is only for me). I 
 - I have come to realize that UI design will be a bigger barrier than I initially thought. I consider myself reasonably good in web dev, but mobile development is a different beast. 
 - I have now contacted strengthlevel.com, which is very similar to symmetricstrength.com
 
+
+## Nov 13 (3 hours)
+- Worked more on the create user page. Added a nice little blurred background image (royalty free of course). I'm working a lot on UI design now. Also worked on decomposing components in to more reusable ones to increase code reuse.
