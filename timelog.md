@@ -99,7 +99,13 @@ Discussed the importance of following the schedule (the plan is only for me). I 
 - Started dividing the app more (you start in the authentication component, which either sends you to user creation or the main app component, and the main app has two tabs for you and your group)
 
 
-## Nov 15 ( hours)
-- Realized that I need to implement a search feature for groups
-- After doing some research managed to find a filter plugin for PostGraphile which lets me filter groups by name. i found that a case insensitive starts with works quite well.
+## Nov 15 (5 hours)
+- As I was designing the group page, I realized that I needed to include a search feature.
+- I did some digging and managed to get a filter plugin working with PostGraphile. 
+- This allows me to add to the query "filter: {name:{startsWithInsensitive: $query}" which only shows groups with names that start with $query (disregarding case). PostGraphile also allows me to add a first: 5 parameter which ensures I only get at most 5 elements
+- I realized that I had to do a little bit of research and refactoring with PostGraphile. The library auto generates CRUD (create read update delete) operations for all publicly available relations. This is problematic without any kind of security, because someone could for example run deleteUser(username: "not mine"). One solution is to hide these auto generated queries, and instead manually authenticate the Google token ID and to convert it to a Google one, and then perform the operation after the authentication. This is time consuming (instead of having an auto generated relation that handles all the latest fields I might have to implement updateUsername and updateAvatar and updateGroup) which would defeat the purpose of this library. I did a lot of digging and realized that there's an option called pgSettings that acts as initial middleware to the request. pgSettings can for example validate the sent Google ID token, convert it to a google ID, and then pass it as context to the database as user_id where it can be accessed for that user's request with current_setting("user_id"), 
+
+- So in short (well not very short, this has been a lot to digest in a day): 
+
+client -> request (with Google tokenID)  -> pgSettings converts token to Google ID -> pgSettings passes Google ID as user_id -> postgres accesses user_id through current_settings function -> CREATE policy update_own ON user FOR update USING ( current_settings('user_id') = google_id )  (users can only update their own data each query)
 
