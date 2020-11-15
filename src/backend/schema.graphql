@@ -7,6 +7,7 @@ type Group implements Node {
   """
   nodeId: ID!
   name: String!
+  level: Int!
 
   """Reads and enables pagination through a set of `User`."""
   usersByGroupname(
@@ -49,6 +50,23 @@ A condition to be used against `Group` object types. All fields are tested for e
 input GroupCondition {
   """Checks for equality with the object’s `name` field."""
   name: String
+}
+
+"""
+A filter to be used against `Group` object types. All fields are combined with a logical ‘and.’
+"""
+input GroupFilter {
+  """Filter by the object’s `name` field."""
+  name: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [GroupFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [GroupFilter!]
+
+  """Negates the expression."""
+  not: GroupFilter
 }
 
 """A connection to a list of `Group` values."""
@@ -162,6 +180,11 @@ type Query implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: GroupCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: GroupFilter
   ): GroupsConnection
 
   """Reads and enables pagination through a set of `User`."""
@@ -381,6 +404,9 @@ A filter to be used against `User` object types. All fields are combined with a 
 input UserFilter {
   """Filter by the object’s `username` field."""
   username: StringFilter
+
+  """Filter by the object’s `groupname` field."""
+  groupname: StringFilter
 
   """Checks for all expressions in this list."""
   and: [UserFilter!]

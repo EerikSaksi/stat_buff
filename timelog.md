@@ -94,5 +94,12 @@ Discussed the importance of following the schedule (the plan is only for me). I 
 ## Nov 13 (3 hours)
 - Worked more on the create user page. Added a nice little blurred background image (royalty free of course). I'm working a lot on UI design now. Also worked on decomposing components in to more reusable ones to increase code reuse.
 
-## Nov 14 ( hours)
-- Got the color working (green if ok username, red if not ok, and white if empty.)
+## Nov 14 (2 hours)
+- Got the color working for the username creation (green if ok username, red if not ok, and white if empty.)
+- Started dividing the app more (you start in the authentication component, which either sends you to user creation or the main app component, and the main app has two tabs for you and your group)
+
+
+## Nov 15 ( hours)
+- Realized that I need to implement a search feature for groups
+- After doing some research managed to find a filter plugin for PostGraphile which lets me filter groups by name. i found that a case insensitive starts with works quite well.
+
