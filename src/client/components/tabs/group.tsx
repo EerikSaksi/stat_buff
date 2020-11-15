@@ -1,10 +1,18 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {gql, useQuery} from '@apollo/client'
-import {Text} from 'react-native'
+import {Text, TextInput, StyleSheet, View, FlatList, StatusBar} from 'react-native'
 import CenteredView from '../../util_components/centered_view'
 import Loading from '../../util_components/loading'
 
-const GROUP_INFO = gql `query group_info($username: String!){
+const styles = StyleSheet.create({
+  top: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+})
+
+const GROUP_INFO = gql`query group_info($username: String!){
   user(username: $username) {
     groupByGroupname{
       name
@@ -12,7 +20,7 @@ const GROUP_INFO = gql `query group_info($username: String!){
   }
 }`
 const SEARCH_GROUPS = gql`query search_groups($query: String!){
-  groups(filter: {name:{startsWithInsensitive: $query}} first: 5){
+  groups(filter: {name:{startsWithInsensitive: $query}}, first: 5){
   	nodes{
       name
   	}
@@ -22,19 +30,39 @@ type NavigationProps = {params: {username: string}};
 
 const Group: React.FC<{route: NavigationProps}> = ({route}) => {
   const {username} = route.params
+  const [query, setQuery] = useState("")
+
+  //used to search for groups (don't search if no query)
+  const {data: searchData, loading: searchLoading} = useQuery(SEARCH_GROUPS, {
+    variables: {query},
+    skip: query === ""
+  })
 
   //try fetch group info
-  const {data, loading} = useQuery(GROUP_INFO, {
-    variables: {username}
+  const {data: groupData, loading: groupLoading} = useQuery(GROUP_INFO, {
+    variables: {username},
+    onCompleted: () => console.log('completed')
   })
-  if (loading){
-    return <Loading/>
-  }
-  return (
-    <CenteredView>
-      <Text>uh oh</Text>
-    </CenteredView>
-  )
+  console.log(groupData)
 
+  return (
+    <React.Fragment>
+      <View style={{position: 'absolute', width: '100%', top: StatusBar.currentHeight}}>
+        <View style={styles.top}>
+          <TextInput placeholder="Search for teams" value={query} onChangeText={(t) => setQuery(t)} />
+          <FlatList data={searchData ? searchData.groups.nodes.map(group => group.name) : []} renderItem={({item}) => <Text>{item}</Text>} />
+        </View>
+      </View>
+      {
+        groupLoading
+          ?
+          <Loading />
+          :
+          <CenteredView >
+            <Text>{`You're a part of: "${groupData.user.groupByGroupname.name}`}"</Text>
+          </CenteredView>
+      }
+    </React.Fragment >
+  )
 }
 export default Group

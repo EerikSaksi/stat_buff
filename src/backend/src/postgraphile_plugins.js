@@ -11,7 +11,7 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
         userByTokenID(tokenID: String!): User 
       }
       extend type Mutation{
-        createUserByTokenID(tokenID: String!, username: String!): Boolean
+        createUserByTokenID(tokenID: String!, username: String!): User
       }
     `,
     resolvers:
@@ -20,7 +20,7 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
       {
         userByTokenID: async (parent, args, context, resolveInfo) => {
           const googleID = await tokenToGoogleId(args.tokenID)
-          console.log(`tokenID ${args.tokenID.slice(0,100)}`)
+          console.log(`tokenID ${args.tokenID.slice(0, 100)}`)
           console.log(googleID)
           const {rows} = await context.pgClient.query(
             `select username from "userID" where googleID = $1`,
@@ -49,7 +49,7 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
         if (rows.length !== 0) {
           return false
         }
-        
+
         //else create user
         await context.pgClient.query(
           `
@@ -58,7 +58,8 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
           `,
           [googleID, args.username]
         );
-        return true
+        //return true
+        return {username: 'orek'}
       }
     }
 

@@ -8,7 +8,6 @@ type NavigationProps = {params: {username: string}};
 
 const User: React.FC<{route: NavigationProps}> = ({route}) => {
   const {username} = route.params
-  console.log(username)
   const [tokenID, setTokenID] = useState<string | undefined>(undefined)
   const {loading, data} = useTokenQuery(tokenID)
   useEffect(() => {
