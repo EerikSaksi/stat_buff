@@ -1,9 +1,9 @@
 DROP SCHEMA public CASCADE;
 create schema public;
-create table "group" (name varchar(32) not null primary key);
+create table "group" (name tsvector not null primary key);
 create table "user" (
   username varchar(32) not null primary key,
-  groupName varchar(32) REFERENCES "group" ON DELETE CASCADE
+  groupName tsvector REFERENCES "group" ON DELETE CASCADE
 );
 CREATE INDEX ON "user" (groupName);
 create table "userID" (

@@ -3,7 +3,7 @@ import {gql, useMutation, useQuery} from '@apollo/client'
 import {TextInput, Text, StyleSheet, ImageBackground, TouchableOpacity, Animated} from 'react-native'
 import CenteredView from '../util_components/centered_view'
 import {generateShadow} from 'react-native-shadow-generator'
-import getCurrentTokenID from '../hooks/current_user_token_id'
+import {getCurrentTokenID} from '../hooks/use_token_query'
 const CREATE_USER_BY_TOKEN_ID = gql`mutation createuserbytokenid($tokenId: String!, $username: String!){
     createUserByTokenID(tokenId: $tokenId, username: $username)
 }`

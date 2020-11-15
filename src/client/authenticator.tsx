@@ -12,8 +12,9 @@ const CreateUser = lazy(() => import('./components/create_user'))
 export default function Authenticator() {
 
   const [tokenID, setTokenID] = useState<string | undefined>(undefined)
-  //const {userExists, setUserExists} = useTokenQuery(tokenID)
+  //const {data, userExists, setUserExists} = useTokenQuery(tokenID)
 
+  const data = {user: {username: 'orek'}}
   const [userExists, setUserExists] = useState(true)
 
   //don't know if user exists
@@ -34,7 +35,7 @@ export default function Authenticator() {
   }
   if (userExists) {
     return (<Suspense fallback={Loading}>
-      <App />
+      <App username = {data.user.username}/>
     </Suspense>)
   }
   else {
