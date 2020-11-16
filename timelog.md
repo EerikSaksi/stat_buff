@@ -109,3 +109,7 @@ Discussed the importance of following the schedule (the plan is only for me). I 
 
 client -> request (with Google tokenID)  -> pgSettings converts token to Google ID -> pgSettings passes Google ID as user_id -> postgres accesses user_id through current_settings function -> CREATE policy update_own ON user FOR update USING ( current_settings('user_id') = google_id )  (users can only update their own data each query)
 
+
+## Nov 16 ( hours)
+- First I simply tried to pass hard coded user id to Postgres (not extracted from an incoming request), which worked.
+

@@ -9,11 +9,11 @@ create table "user" (
   groupName varchar(32) REFERENCES "group" ON DELETE CASCADE
 );
 CREATE INDEX ON "user" (groupName);
+CREATE INDEX ON "user" (username);
 create table "userID" (
   googleID varchar(64) not null primary key,
   username varchar(32) REFERENCES "user" ON DELETE CASCADE
 );
-CREATE INDEX ON "userID" (username);
 insert into
   "group" (name, level)
 values
@@ -23,16 +23,25 @@ values
 insert into
   "user" (username, groupName)
 values
-  ('orek', 'Dream Team');
+  ('orek', 'Dream Team'),
+  ('eerik', 'Team Rocket');
+insert into
+  "userID" (username, googleID)
+values
+  ('orek', 'stinky'),
+  ('eerik', 'uh oh');
 comment on table "userID" is E'@omit';
-create role query_sender;
-
 create function query_sender_data() returns "user" as $$
-  select u.username, groupName
-  from "user" u
-  left join "userID" uid
-  on u.username = uid.username
-  where uid.googleID = current_setting('user.id', true)::varchar
-$$ language sql stable;
---create policy update_person on "user" for update
-  --  to query_sender using (query_sender_data().username);
+select
+  u.*
+from
+  "user" u
+  inner join "userID" uid on u.username = uid.username
+where
+  uid.googleID = current_setting('user.id', true) :: varchar $$ language sql stable;
+
+grant usage on schema public to query_sender;
+grant all on table "user" to query_sender;
+--Alter table
+  --"user" enable row level security;
+--CREATE POLICY user_policy ON "user" FOR all TO query_sender USING (true);
