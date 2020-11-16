@@ -28,8 +28,11 @@ comment on table "userID" is E'@omit';
 create role query_sender;
 
 create function query_sender_data() returns "user" as $$
-  select *
-  from "user"
+  select u.username, groupName
+  from "user" u
+  left join "userID" uid
+  on u.username = uid.username
+  where uid.googleID = current_setting('user.id', true)::varchar
 $$ language sql stable;
 --create policy update_person on "user" for update
   --  to query_sender using (query_sender_data().username);
