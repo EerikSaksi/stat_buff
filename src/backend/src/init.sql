@@ -1,12 +1,14 @@
 DROP SCHEMA public CASCADE;
 create schema public;
-create table "group" (name varchar(32) not null primary key, level integer not null);
+create table "group" (
+  name varchar(32) not null primary key,
+  level integer not null
+);
 create table "user" (
   username varchar(32) not null primary key,
   groupName varchar(32) REFERENCES "group" ON DELETE CASCADE
 );
 CREATE INDEX ON "user" (groupName);
-
 create table "userID" (
   googleID varchar(64) not null primary key,
   username varchar(32) REFERENCES "user" ON DELETE CASCADE
@@ -22,9 +24,12 @@ insert into
   "user" (username, groupName)
 values
   ('orek', 'Dream Team');
-
-insert into
-  "userID" (username, googleID)
-values
-  ('orek', '105395086988085655499');
 comment on table "userID" is E'@omit';
+create role query_sender;
+
+create function query_sender_data() returns "user" as $$
+  select *
+  from "user"
+$$ language sql stable;
+--create policy update_person on "user" for update
+  --  to query_sender using (query_sender_data().username);

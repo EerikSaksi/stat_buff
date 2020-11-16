@@ -25,7 +25,7 @@ const postgraphileOptions =
       pgSettings: async req => {
         console.log(req)
         return ({
-          'user.id': `${req.session}`,
+          'user.id': `uh oh stinky`
         })
       },
     }

@@ -222,6 +222,7 @@ type Query implements Node {
   ): UsersConnection
   group(name: String!): Group
   user(username: String!): User
+  querySenderData: User
 
   """Reads a single `Group` using its globally unique `ID`."""
   groupByNodeId(
