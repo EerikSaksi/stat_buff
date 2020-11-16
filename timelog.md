@@ -110,6 +110,9 @@ Discussed the importance of following the schedule (the plan is only for me). I 
 client -> request (with Google tokenID)  -> pgSettings converts token to Google ID -> pgSettings passes Google ID as user_id -> postgres accesses user_id through current_settings function -> CREATE policy update_own ON user FOR update USING ( current_settings('user_id') = google_id )  (users can only update their own data each query)
 
 
-## Nov 16 ( hours)
+## Nov 16 (4 hours)
 - First I simply tried to pass hard coded user id to Postgres (not extracted from an incoming request), which worked.
+- I was having issues with managing permissions with Postgres, until I realized that I was passing the admin's connection string. I replaced this with a new user who had no permissions outside of accessing the schema, who was granted row access permission (eg. can update rows in user table but only if boolean condition is true, such as id = current_user.id). I now succesfully manage permissions, but haven't yet managed to integrate the pgSettings variable (which should tell me which users data we can access) with Postgres
+- Next steps will be integrating with the client. I think this will be easy, as my query client provides a function which it calls to get an authentication header, so I will just have to call Google's token request function. I also already have a function that goes from tokenID -> googleID so this will not require much work.
+
 
