@@ -42,6 +42,6 @@ where
 
 grant usage on schema public to query_sender;
 grant all on table "user" to query_sender;
---Alter table
-  --"user" enable row level security;
---CREATE POLICY user_policy ON "user" FOR all TO query_sender USING (true);
+--grant all on table "userID" to query_sender;
+Alter table "user" enable row level security;
+CREATE POLICY user_policy ON "user" FOR all TO query_sender USING (username = 'orek');
