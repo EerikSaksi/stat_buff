@@ -3,8 +3,13 @@ const {postgraphile} = require('postgraphile');
 const MyPlugins = require('./postgraphile_plugins')
 const PostGraphileConnectionFilterPlugin = require('postgraphile-plugin-connection-filter');
 const PostGraphileFulltextFilterPlugin = require('postgraphile-plugin-fulltext-filter');
-
+const tokenToUsername = require('./pg_auth')
+console.log(`Owner: ${process.env.OWNER_URL}`)
+console.log(`DATABASE_URL: ${process.env.DATABASE_URL}`)
 require('dotenv').config();
+var fs = require('fs');
+var util = require('util')
+
 const postgraphileOptions =
   process.env.NODE_ENV === 'development'
     ? {
@@ -23,9 +28,19 @@ const postgraphileOptions =
       legacyRelations: "omit",
       disableDefaultMutations: false,
       pgSettings: async req => {
-        return ({
-          'user.id': `stinky`
-        })
+        if (req.IncomingMessage) {
+          const headerAuth = req.IncomingMessage.headers.auth
+          //if passed token
+          if (headerAuth.length) {
+            //token has format Bearer [token] so get the second word and convert it to a username
+            //const username = tokenToUsername(headerAuth.split(" ")[1])
+            const username = 'orek'
+            return ({
+              'user.id': username
+            })
+          }
+        }
+
       },
       ownerConnectionString: process.env.OWNER_URL
     }
@@ -47,6 +62,6 @@ const postgraphileOptions =
 
 const app = express();
 (async () => {
-  app.use(postgraphile(process.env.DATABASE_URL, postgraphileOptions ));
+  app.use(postgraphile(process.env.DATABASE_URL, postgraphileOptions));
 })();
 app.listen(process.env.PORT || 4000);

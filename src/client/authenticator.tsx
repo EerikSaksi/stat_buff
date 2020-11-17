@@ -11,11 +11,11 @@ const CreateUser = lazy(() => import('./components/create_user'))
 
 export default function Authenticator() {
 
-  const [tokenID, setTokenID] = useState<string | undefined>(undefined)
-  //const {data, userExists, setUserExists} = useTokenQuery(tokenID)
+  //const [tokenID, setTokenID] = useState<string | undefined>(undefined)
+  const {data, userExists, setUserExists} = useTokenQuery(tokenID)
 
-  const data = {user: {username: 'orek'}}
-  const [userExists, setUserExists] = useState(true)
+  //const data = {user: {username: 'orek'}}
+  //const [userExists, setUserExists] = useState(true)
 
   //don't know if user exists
   if (userExists === null) {

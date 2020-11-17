@@ -39,11 +39,11 @@ const Group: React.FC<{route: NavigationProps}> = ({route}) => {
   })
 
   //try fetch group info
-  const {data: groupData, loading: groupLoading} = useQuery(GROUP_INFO, {
+  const {data: groupData, loading: groupLoading, error} = useQuery(GROUP_INFO, {
     variables: {username},
-    onCompleted: () => console.log('completed')
   })
-  console.log(groupData)
+  //console.log(`groupData ${JSON.stringify(groupData)}`)
+  console.log(error)
 
   return (
     <React.Fragment>
@@ -59,8 +59,16 @@ const Group: React.FC<{route: NavigationProps}> = ({route}) => {
           <Loading />
           :
           <CenteredView >
-            <Text>{`You're a part of: "${groupData.user.groupByGroupname.name}`}"</Text>
+            {
+              groupData
+                ?
+                <Text>{` part of: "$groupData.user.groupByGroupname.name`}</Text>
+                :
+                <Text>You have not joined a team.</Text>
+            }
+
           </CenteredView>
+
       }
     </React.Fragment >
   )

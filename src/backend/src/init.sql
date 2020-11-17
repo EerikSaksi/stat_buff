@@ -38,20 +38,10 @@ drop role query_sender;
 create role query_sender;
 alter role query_sender with login;
 alter user query_sender with password 'restrictedPermissions';
-grant connect on database rpgym to query_sender;
-grant usage on schema public to query_sender;
+grant all on database rpgym to query_sender;
+grant all on schema public to query_sender;
 grant all on table "user" to query_sender;
-grant all on table "userID" to query_sender;
-
-create function query_sender_data() returns "user" as $$
-select
-*
-from
-  "user" 
-  where username = 'orek';
-   $$ language sql stable;
-
+grant all on table "group" to query_sender;
 
 Alter table "user" enable row level security;
---CREATE POLICY user_policy ON "user" FOR all TO query_sender USING (username = (select username from query_sender_data())) 
-CREATE POLICY user_policy ON "user" FOR all TO query_sender USING (username = 'orek'); 
+CREATE POLICY user_policy ON "user" FOR all TO query_sender USING (username = current_setting('user.id')) 
