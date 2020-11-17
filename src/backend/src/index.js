@@ -4,7 +4,6 @@ const MyPlugins = require('./postgraphile_plugins')
 const PostGraphileConnectionFilterPlugin = require('postgraphile-plugin-connection-filter');
 const PostGraphileFulltextFilterPlugin = require('postgraphile-plugin-fulltext-filter');
 
-console.log(process.env.OWNER_URL)
 require('dotenv').config();
 const postgraphileOptions =
   process.env.NODE_ENV === 'development'

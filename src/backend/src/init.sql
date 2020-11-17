@@ -9,11 +9,11 @@ create table "user" (
   groupName varchar(32) REFERENCES "group" ON DELETE CASCADE
 );
 CREATE INDEX ON "user" (groupName);
-CREATE INDEX ON "userID" (username);
 create table "userID" (
   googleID varchar(64) not null primary key,
   username varchar(32) REFERENCES "user" ON DELETE CASCADE
 );
+CREATE INDEX ON "userID" (username);
 insert into
   "group" (name, level)
 values
@@ -31,19 +31,27 @@ values
   ('orek', 'stinky'),
   ('eerik', 'uh oh');
 comment on table "userID" is E'@omit';
-create function query_sender_data() returns varchar as $$
-select
-  u.username
-from
-  "user" as u, "userID" as uid
-  --where u.username = uid.username
---where
---  uid.googleID = current_setting('user.id', true) :: varchar 
-$$ language sql stable;
 
-
+--ensure no privileges that were set before exist
+drop owned by query_sender;
+drop role query_sender;
+create role query_sender;
+alter role query_sender with login;
+alter user query_sender with password 'restrictedPermissions';
+grant connect on database rpgym to query_sender;
 grant usage on schema public to query_sender;
 grant all on table "user" to query_sender;
 grant all on table "userID" to query_sender;
+
+create function query_sender_data() returns "user" as $$
+select
+*
+from
+  "user" 
+  where username = 'orek';
+   $$ language sql stable;
+
+
 Alter table "user" enable row level security;
---CREATE POLICY user_policy ON "user" FOR all TO query_sender USING (username = query_sender_data());
+--CREATE POLICY user_policy ON "user" FOR all TO query_sender USING (username = (select username from query_sender_data())) 
+CREATE POLICY user_policy ON "user" FOR all TO query_sender USING (username = 'orek'); 
