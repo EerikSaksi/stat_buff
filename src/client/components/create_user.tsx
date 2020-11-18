@@ -47,7 +47,7 @@ const CreateUser: React.FC<{googleID: string}> = ({googleID}) => {
 
   //if succesfully created then user data exists for the current google user
   const [createUser] = useMutation(CREATE_USER, {
-    variables: {username, googleid: googleID}
+    variables: {username, googleid: "poopy"}
   })
 
   //check if username exists

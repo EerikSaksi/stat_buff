@@ -120,3 +120,8 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 - I have not done a full integration test yet. Because the Google sign-in library only works in the compiled app,I have used fallback values (for example, instead of querying user, just setting username to eerik.) Just to save time in future builds, I will implement some fake queries (for example, fetching my data without requiring a token). After this switching from tests to real builds will be as simple as disabling fake queries, enabling google token auth headers, and enabling token validation in the backend.
 
 
+
+## Nov 17 (6 hours)
+- I refactored my app to remove all authentication logic as the authentication is now defined in just one place so it can be removed.
+- I made it such that I can test locally without using the client side Google library, and without using the token validation, and also in a way where I only have to change a few lines of codes to make this happen.
+- Certain attributes of users are now readable for everyone (everything but the googleID), but all other operations (update, insert, delete) are restricted with an ID check (where the ID is a validated token). Inserts, updates and require a token to be sent 
