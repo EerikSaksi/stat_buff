@@ -7,8 +7,6 @@ const tokenToUsername = require('./pg_auth')
 console.log(`Owner: ${process.env.OWNER_URL}`)
 console.log(`DATABASE_URL: ${process.env.DATABASE_URL}`)
 require('dotenv').config();
-var fs = require('fs');
-var util = require('util')
 
 const postgraphileOptions =
   process.env.NODE_ENV === 'development'
@@ -28,13 +26,15 @@ const postgraphileOptions =
       legacyRelations: "omit",
       disableDefaultMutations: false,
       pgSettings: async req => {
+        return{
+          'user.id': 'orek'
+        }
         if (req.IncomingMessage) {
           const headerAuth = req.IncomingMessage.headers.auth
           //if passed token
           if (headerAuth.length) {
             //token has format Bearer [token] so get the second word and convert it to a username
-            //const username = tokenToUsername(headerAuth.split(" ")[1])
-            const username = 'orek'
+            const username = tokenToUsername(headerAuth.split(" ")[1])
             return ({
               'user.id': username
             })
