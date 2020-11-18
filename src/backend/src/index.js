@@ -3,10 +3,12 @@ const {postgraphile} = require('postgraphile');
 const MyPlugins = require('./postgraphile_plugins')
 const PostGraphileConnectionFilterPlugin = require('postgraphile-plugin-connection-filter');
 const PostGraphileFulltextFilterPlugin = require('postgraphile-plugin-fulltext-filter');
-const tokenToUsername = require('./pg_auth')
+const googleIDToUsername = require('./pg_auth');
+const tokenToGoogleID = require('./google_auth');
 console.log(`Owner: ${process.env.OWNER_URL}`)
 console.log(`DATABASE_URL: ${process.env.DATABASE_URL}`)
 require('dotenv').config();
+
 
 const postgraphileOptions =
   process.env.NODE_ENV === 'development'
@@ -26,18 +28,16 @@ const postgraphileOptions =
       legacyRelations: "omit",
       disableDefaultMutations: false,
       pgSettings: async req => {
-        return{
-          'user.id': 'orek',
-          'user.googleID': 'uh oh'
-        }
         if (req.IncomingMessage) {
           const headerAuth = req.IncomingMessage.headers.auth
           //if passed token
           if (headerAuth.length) {
+            const googleID = tokenToGoogleID(headerAuth)
+            const username = googleIDToUsername(googleID)
             //token has format Bearer [token] so get the second word and convert it to a username
-            const username = tokenToUsername(headerAuth.split(" ")[1])
             return ({
-              'user.id': username
+              'user.id': username,
+              'user.googleID': googleID
             })
           }
         }
@@ -63,6 +63,7 @@ const postgraphileOptions =
 
 const app = express();
 (async () => {
+  console.log('ran')
   app.use(postgraphile(process.env.DATABASE_URL, postgraphileOptions));
 })();
 app.listen(process.env.PORT || 4000);
