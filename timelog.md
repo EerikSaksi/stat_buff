@@ -125,4 +125,5 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 - I refactored my app to remove all authentication logic as the authentication is now defined in just one place so it can be removed.
 - I made it such that I can test locally without using the client side Google library, and without using the token validation, and also in a way where I only have to change a few lines of codes to make this happen.
 - Certain attributes of users are now readable for everyone (everything but the googleID), but all other operations (update, insert, delete) are restricted with an ID check (where ths ID is a validated token). 
+- I struggled for a long time to actually get the checks for the different restricted operations to work. The issue in the end was that the boolean condition that checks if the passed googleID was the same as the one validated from the token needed to have permission to select the googleID to evaluate the condition. I removed this permission because I didn't want those to be accessible. I solved this by reenabling the select permission, but omitting googleID from being visible from the API with an @omit comment on that column 
 
