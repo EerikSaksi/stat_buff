@@ -124,4 +124,5 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 ## Nov 17 (6 hours)
 - I refactored my app to remove all authentication logic as the authentication is now defined in just one place so it can be removed.
 - I made it such that I can test locally without using the client side Google library, and without using the token validation, and also in a way where I only have to change a few lines of codes to make this happen.
-- Certain attributes of users are now readable for everyone (everything but the googleID), but all other operations (update, insert, delete) are restricted with an ID check (where the ID is a validated token). Inserts, updates and require a token to be sent 
+- Certain attributes of users are now readable for everyone (everything but the googleID), but all other operations (update, insert, delete) are restricted with an ID check (where ths ID is a validated token). 
+

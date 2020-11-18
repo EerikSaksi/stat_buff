@@ -30,11 +30,13 @@ alter role query_sender with login;
 alter user query_sender with password 'restrictedPermissions';
 grant all on database rpgym to query_sender;
 grant all on schema public to query_sender;
-grant all (username, groupName) on table "user" to query_sender;
-grant insert on table "user" to query_sender;
+grant all on table "user" to query_sender;
 grant all on table "group" to query_sender;
+
+comment on column "user".googleID is E'@omit';
 Alter table "user" enable row level security;
+
 CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.username'));
-CREATE POLICY user_delete ON "user" FOR delete to query_sender  USING (googleID = current_setting('user.usrname'));
-CREATE POLICY user_insert ON "user" FOR insert to query_sender with check (true);
+CREATE POLICY user_delete ON "user" FOR delete to query_sender  USING (googleID = current_setting('user.username'));
+CREATE POLICY user_insert ON "user" FOR insert to query_sender with check (googleID = current_setting('user.username'));
 CREATE POLICY user_select ON "user" FOR select to query_sender using (true);
