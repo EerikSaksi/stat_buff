@@ -6,6 +6,7 @@ import Group from './components/tabs/group'
 
 const Tab = createBottomTabNavigator();
 const App: React.FC<{username: string}> = ({username}) => {
+  console.log('app')
   return (
     <NavigationContainer>
       <Tab.Navigator>

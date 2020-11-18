@@ -7,7 +7,7 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
   return {
     typeDefs: gql`
       extend type Query{
-        usernameByTokenID: String
+        username: String
       }
     `,
     resolvers:
@@ -15,7 +15,8 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
       Query:
       {
         //this is necessary because the "user" query data requires a username by default. The user needs to know their own username for them to know their own username (it's a bit silly, but that's how postgraphile interprets it)
-        usernameByTokenID: async (parent, args, {req}, resolveInfo) => {
+        username: async (parent, args, {req}, resolveInfo) => {
+          return "doesn't exist"
           if (req.headers && req.headers.authorization) {
             return await tokenToUsername(req.headers.authorization)
           }

@@ -28,6 +28,10 @@ const postgraphileOptions =
       legacyRelations: "omit",
       disableDefaultMutations: false,
       pgSettings: async req => {
+        return ({
+          'user.id': "orek",
+          'user.googleID': "uh oh"
+        })
         if (req.IncomingMessage) {
           const headerAuth = req.IncomingMessage.headers.auth
           //if passed token
@@ -41,7 +45,6 @@ const postgraphileOptions =
             })
           }
         }
-
       },
       ownerConnectionString: process.env.OWNER_URL
     }

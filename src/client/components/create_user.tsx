@@ -3,8 +3,9 @@ import {gql, useMutation, useQuery} from '@apollo/client'
 import {TextInput, Text, StyleSheet, TouchableOpacity, Animated} from 'react-native'
 import CenteredView from '../util_components/centered_view'
 import {generateShadow} from 'react-native-shadow-generator'
-const CREATE_USER_BY_TOKEN_ID = gql`mutation createuserbytokenid($tokenId: String!, $username: String!){
-    createUserByTokenID(tokenId: $tokenId, username: $username)
+
+const CREATE_USER = gql`mutation createuser($googleID: String!, $username: String!){
+    createUser(username: $username, googleID: $googleID)
 }`
 
 const USER = gql`query user($username: String!){
@@ -35,13 +36,16 @@ var styles = StyleSheet.create({
 
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
-const CreateUser: React.FC = () => {
+const CreateUser: React.FC<{googleID: string}> = ({googleID}) => {
+  console.log('create user')
   const [username, setUsername] = useState("")
   const [error, setError] = useState("")
   const greenPixelValue = useRef<Animated.Value>(new Animated.Value(0)).current;
 
   //if succesfully created then user data exists for the current google user
-  const [createUser] = useMutation(CREATE_USER_BY_TOKEN_ID)
+  const [createUser] = useMutation(CREATE_USER, {
+    variables: {username, googleID}
+  })
 
   //check if username exists
   const {data: userData, loading: userLoading} = useQuery(USER, {
@@ -68,10 +72,8 @@ const CreateUser: React.FC = () => {
 
   const submit = async () => {
     if (error.length === 0 && username.length !== 0) {
-      //get new token
-      //pass the username along with the token to the createUser function
-      const tokenID = await getCurrentTokenID()
-      createUser({variables: {username, tokenID}})
+      createUser()
+
     }
   }
   useEffect(() => {

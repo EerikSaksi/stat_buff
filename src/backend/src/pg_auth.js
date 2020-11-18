@@ -6,4 +6,4 @@ const googleIDToUsername = async (googleID) => {
   await client.end()
   return res.rows[0].username
 }
-module.exports = tokenToUsername
+module.exports = googleIDToUsername

@@ -29,6 +29,7 @@ const SEARCH_GROUPS = gql`query search_groups($query: String!){
 type NavigationProps = {params: {username: string}};
 
 const Group: React.FC<{route: NavigationProps}> = ({route}) => {
+  console.log('group')
   const {username} = route.params
   const [query, setQuery] = useState("")
 
@@ -42,8 +43,6 @@ const Group: React.FC<{route: NavigationProps}> = ({route}) => {
   const {data: groupData, loading: groupLoading, error} = useQuery(GROUP_INFO, {
     variables: {username},
   })
-  //console.log(`groupData ${JSON.stringify(groupData)}`)
-  console.log(error)
 
   return (
     <React.Fragment>
