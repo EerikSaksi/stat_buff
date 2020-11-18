@@ -1,5 +1,5 @@
 import registerRootComponent from 'expo/build/launch/registerRootComponent';
-import App from './authenticator';
+import App from "./App.1";
 import React from 'react';
 import {setContext} from '@apollo/client/link/context';
 import {getCurrentUserAsync} from 'expo-google-sign-in'
@@ -12,8 +12,9 @@ const httpLink = createHttpLink({
 
 
 const authLink = setContext(async (_, {headers}) => {
-  const user = await getCurrentUserAsync()  
-  const token = user?.auth?.idToken
+  // const user = await getCurrentUserAsync()  
+  // const token = user?.auth?.idToken
+  const token = 'stinky'
   return {
     headers: {
       ...headers,

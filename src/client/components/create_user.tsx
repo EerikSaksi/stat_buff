@@ -1,9 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react'
 import {gql, useMutation, useQuery} from '@apollo/client'
-import {TextInput, Text, StyleSheet, ImageBackground, TouchableOpacity, Animated} from 'react-native'
+import {TextInput, Text, StyleSheet, TouchableOpacity, Animated} from 'react-native'
 import CenteredView from '../util_components/centered_view'
 import {generateShadow} from 'react-native-shadow-generator'
-import {getCurrentTokenID} from '../hooks/use_token_query'
 const CREATE_USER_BY_TOKEN_ID = gql`mutation createuserbytokenid($tokenId: String!, $username: String!){
     createUserByTokenID(tokenId: $tokenId, username: $username)
 }`
@@ -23,11 +22,6 @@ var styles = StyleSheet.create({
     marginBottom: '2%',
     ...generateShadow(24)
   },
-  image: {
-    flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center"
-  },
   text: {
     color: 'white',
     marginBottom: '2%',
@@ -41,19 +35,13 @@ var styles = StyleSheet.create({
 
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
-const CreateUser: React.FC<{setUserExists: (arg: boolean) => void}> = ({setUserExists}) => {
+const CreateUser: React.FC = () => {
   const [username, setUsername] = useState("")
   const [error, setError] = useState("")
   const greenPixelValue = useRef<Animated.Value>(new Animated.Value(0)).current;
 
   //if succesfully created then user data exists for the current google user
-  const [createUser] = useMutation(CREATE_USER_BY_TOKEN_ID, {
-    onCompleted: (data) => {
-      if (data) {
-        setUserExists(true)
-      }
-    }
-  })
+  const [createUser] = useMutation(CREATE_USER_BY_TOKEN_ID)
 
   //check if username exists
   const {data: userData, loading: userLoading} = useQuery(USER, {
@@ -106,21 +94,19 @@ const CreateUser: React.FC<{setUserExists: (arg: boolean) => void}> = ({setUserE
     }
   )
   return (
-    <ImageBackground blurRadius={1.5} style={styles.image} source={require('../assets/squat.jpeg')}>
-      <CenteredView>
-        <Text style={styles.text}>
-          {error}
-        </Text>
-        <AnimatedTextInput onEndEditing={submit} style={[styles.input, {backgroundColor}]} value={username} placeholder="Enter username"
-          onChangeText={(e) => setUsername(e)}>
-        </AnimatedTextInput>
-        <TouchableOpacity style={styles.button} disabled={error.length !== 0 || username.length === 0} onPress={submit} >
-          <Text>
-            Submit
+    <CenteredView>
+      <Text style={styles.text}>
+        {error}
+      </Text>
+      <AnimatedTextInput onEndEditing={submit} style={[styles.input, {backgroundColor}]} value={username} placeholder="Enter username"
+        onChangeText={(e) => setUsername(e)}>
+      </AnimatedTextInput>
+      <TouchableOpacity style={styles.button} disabled={error.length !== 0 || username.length === 0} onPress={submit} >
+        <Text>
+          Submit
           </Text>
-        </TouchableOpacity>
-      </CenteredView>
-    </ImageBackground>
+      </TouchableOpacity>
+    </CenteredView>
   )
 }
 export default CreateUser

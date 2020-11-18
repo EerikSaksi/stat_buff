@@ -117,5 +117,6 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 
 ## Nov 17 (5 hours)
 - I have now verified and made sure that I can pass the username from nodejs to Postgres for a particular query, which then only allows access to rows that contain user info. I also verified that I can send a auth header from the client which could contain the token that can be deduced to a username
-- I have not done a full integration test yet. Because the Google sign-in library only works in the compiled app,I have used fallback values (for example, instead of querying user, just setting username to eerik.) Just to save time in future builds, I will implement some fake queries (for example, fetching my data without requiring a token). 
+- I have not done a full integration test yet. Because the Google sign-in library only works in the compiled app,I have used fallback values (for example, instead of querying user, just setting username to eerik.) Just to save time in future builds, I will implement some fake queries (for example, fetching my data without requiring a token). After this switching from tests to real builds will be as simple as disabling fake queries, enabling google token auth headers, and enabling token validation in the backend.
+
 
