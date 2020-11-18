@@ -27,7 +27,8 @@ const postgraphileOptions =
       disableDefaultMutations: false,
       pgSettings: async req => {
         return{
-          'user.id': 'orek'
+          'user.id': 'orek',
+          'user.googleID': 'uh oh'
         }
         if (req.IncomingMessage) {
           const headerAuth = req.IncomingMessage.headers.auth

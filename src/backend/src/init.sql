@@ -30,8 +30,10 @@ insert into
 values
   ('orek', 'stinky'),
   ('eerik', 'uh oh');
+comment on table "userID.googleID" is E'@omit';
+
 --ensure no privileges that were set before exist
-  drop owned by query_sender;
+drop owned by query_sender;
 drop role query_sender;
 create role query_sender;
 alter role query_sender with login;
@@ -39,9 +41,9 @@ alter user query_sender with password 'restrictedPermissions';
 grant all on database rpgym to query_sender;
 grant all on schema public to query_sender;
 grant all on table "user" to query_sender;
+grant all on table "userID" to query_sender;
 grant all on table "group" to query_sender;
-Alter table
-  "user" enable row level security;
-CREATE POLICY user_insert ON "user" FOR insert TO query_sender with check (username = current_setting('user.id'));
-CREATE POLICY user_delete ON "user" FOR delete TO query_sender USING (username = current_setting('user.id'));
-CREATE POLICY user_update ON "user" FOR update TO query_sender USING (username = current_setting('user.id'));
+
+Alter table "user" enable row level security;
+CREATE POLICY user_policy ON "user" FOR all USING (username = current_setting('user.id'));
+CREATE POLICY user_id_policy on "userID" for all using(false) 
