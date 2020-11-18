@@ -5,7 +5,7 @@ create table "group" (
   level integer not null
 );
 create table "user" (
-  username varchar(32) primary key,
+  username varchar(32) primary key not null,
   groupName varchar(32) REFERENCES "group" ON DELETE CASCADE,
   googleID varchar(64) not null unique
 );
@@ -34,5 +34,7 @@ grant all (username, groupName) on table "user" to query_sender;
 grant insert (googleID) on table "user" to query_sender;
 grant all on table "group" to query_sender;
 Alter table "user" enable row level security;
-CREATE POLICY user_policy ON "user" FOR  all USING (username = current_setting('user.username'));
-CREATE POLICY user_insert ON "user" FOR insert with check (googleID = current_setting('user.googleID'));
+CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.username'));
+CREATE POLICY user_delete ON "user" FOR delete to query_sender  USING (googleID = current_setting('user.usrname'));
+CREATE POLICY user_insert ON "user" FOR insert to query_sender with check (googleID = current_setting('user.googleID'));
+CREATE POLICY user_select ON "user" FOR select to query_sender using (true);

@@ -29,8 +29,8 @@ const postgraphileOptions =
       disableDefaultMutations: false,
       pgSettings: async req => {
         return ({
-          'user.id': "orek",
-          'user.googleID': "uh oh"
+          'user.username': "",
+          'user.googleID': "poopy"
         })
         if (req.IncomingMessage) {
           const headerAuth = req.IncomingMessage.headers.auth
@@ -40,7 +40,7 @@ const postgraphileOptions =
             const username = googleIDToUsername(googleID)
             //token has format Bearer [token] so get the second word and convert it to a username
             return ({
-              'user.id': username,
+              'user.username': username,
               'user.googleID': googleID
             })
           }

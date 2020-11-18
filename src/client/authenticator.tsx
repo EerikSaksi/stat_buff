@@ -4,7 +4,7 @@ import {SocialIcon} from 'react-native-elements'
 import Loading from './util_components/loading'
 import {useQuery} from '@apollo/client/react/hooks';
 import {gql} from '@apollo/client';
-import {ImageBackground, StyleSheet} from 'react-native';
+import {ImageBackground, StyleSheet, Text} from 'react-native';
 import {generateShadow} from 'react-native-shadow-generator';
 const CenteredView = lazy(() => import('./util_components/centered_view'))
 const App = lazy(() => import('./App'));
@@ -25,13 +25,13 @@ const styles = StyleSheet.create({
 })
 
 export default function Authenticator() {
-  const [googleID, setGoogleID] = useState<string | undefined>('uh oh')
+  const [googleID, setGoogleID] = useState<string | undefined>('poopy')
 
   //try fetch the current user if we have a token (if not logged in google first we need to sign in)
   const {data, loading} = useQuery(USERNAME, {
     skip: !googleID
   })
-
+  console.log(data)
 
 
   ////when starting try check if user logged in and fetch their token
@@ -74,19 +74,23 @@ export default function Authenticator() {
         </Suspense>
     }
     else {
-
       //user signed in to google, but don't have a username in the database, so provide interface to create one.
-      if (!data) {
-        content = <Suspense fallback={<Loading />}><CreateUser googleID={googleID} /></Suspense>
+      if (!data.username) {
+         console.log(data)
+         content = <Suspense fallback={<Loading />}><CreateUser googleID={googleID} /></Suspense>
       }
       else {
-        return (<Suspense fallback={<Loading />}> <App username={data.username} /></Suspense>)
+        console.log(data)
+        return(<Text>wwa</Text>)
+        //return (<Suspense fallback={<Loading />}> <App username={data.username} /></Suspense>)
       }
     }
+
   }
 
   return (
     <ImageBackground blurRadius={1.5} style={styles.image} source={require('./assets/squat.jpeg')}>
+      {content}
     </ImageBackground>
   )
 }

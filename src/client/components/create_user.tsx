@@ -4,9 +4,12 @@ import {TextInput, Text, StyleSheet, TouchableOpacity, Animated} from 'react-nat
 import CenteredView from '../util_components/centered_view'
 import {generateShadow} from 'react-native-shadow-generator'
 
-const CREATE_USER = gql`mutation createuser($googleID: String!, $username: String!){
-    createUser(username: $username, googleID: $googleID)
+const CREATE_USER = gql`mutation createuser($googleid: String!, $username: String!){
+  createUser(input:{user:{googleid: $googleid, username: $username}}){
+    clientMutationId
+  }
 }`
+
 
 const USER = gql`query user($username: String!){
   user(username: $username){
@@ -44,7 +47,7 @@ const CreateUser: React.FC<{googleID: string}> = ({googleID}) => {
 
   //if succesfully created then user data exists for the current google user
   const [createUser] = useMutation(CREATE_USER, {
-    variables: {username, googleID}
+    variables: {username, googleid: googleID}
   })
 
   //check if username exists
@@ -100,13 +103,12 @@ const CreateUser: React.FC<{googleID: string}> = ({googleID}) => {
       <Text style={styles.text}>
         {error}
       </Text>
-      <AnimatedTextInput onEndEditing={submit} style={[styles.input, {backgroundColor}]} value={username} placeholder="Enter username"
-        onChangeText={(e) => setUsername(e)}>
+      <AnimatedTextInput onEndEditing={submit} style={[styles.input, {backgroundColor}]} value={username} placeholder="Enter username" onChangeText={(e) => setUsername(e)}>
       </AnimatedTextInput>
       <TouchableOpacity style={styles.button} disabled={error.length !== 0 || username.length === 0} onPress={submit} >
         <Text>
-          Submit
-          </Text>
+        Submit
+        </Text>
       </TouchableOpacity>
     </CenteredView>
   )
