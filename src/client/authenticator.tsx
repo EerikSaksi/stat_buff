@@ -4,7 +4,7 @@ import {SocialIcon} from 'react-native-elements'
 import Loading from './util_components/loading'
 import {useQuery} from '@apollo/client/react/hooks';
 import {gql} from '@apollo/client';
-import {ImageBackground, StyleSheet, Text} from 'react-native';
+import {ImageBackground, StyleSheet, View} from 'react-native';
 import {generateShadow} from 'react-native-shadow-generator';
 import App from './App'
 const CenteredView = lazy(() => import('./util_components/centered_view'))
@@ -19,7 +19,9 @@ const USERNAME = gql`query username{
 const styles = StyleSheet.create({
   image: {
     flex: 1,
-  },
+    position: 'relative',
+    resizeMode: 'cover',
+  }
 })
 
 export default function Authenticator() {
@@ -30,8 +32,7 @@ export default function Authenticator() {
     skip: !googleID
   })
 
-
-  ////when starting try check if user logged in and fetch their token
+  //when starting try check if user logged in and fetch their token
   useEffect(() => {
     const tryGetToken = async () => {
       /*
@@ -45,7 +46,7 @@ export default function Authenticator() {
     tryGetToken()
 
   }, [])
-  var content =  <Loading />
+  var content = <Loading />
 
   if (!loading) {
     //if tokenID is undefined then isSignedInAsync returned false so provide button to login to google
@@ -72,12 +73,17 @@ export default function Authenticator() {
     else {
       //user signed in to google, but don't have a username in the database, so provide interface to create one.
       if (!data.username) {
-        content = <Suspense fallback={<Loading />}><CreateUser refetchUser = {refetch}/></Suspense>
+        content = <Suspense fallback={<Loading />}><CreateUser refetchUser={refetch} /></Suspense>
       }
       else {
         return (<App username={data.username} />)
       }
     }
   }
-  return (< >{content}</>)
+
+  return (
+    <ImageBackground imageStyle = {{zIndex: -1}} style = {styles.image} blurRadius={1.5} source={require('./assets/squat.jpeg')}>
+      {content}
+    </ImageBackground>
+  )
 }
