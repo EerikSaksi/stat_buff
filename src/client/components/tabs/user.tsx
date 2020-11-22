@@ -1,21 +1,20 @@
+import {gql, useQuery} from '@apollo/client';
 import React, {useEffect, useState} from 'react'
 import {Text} from 'react-native'
 import CenteredView from '../../util_components/centered_view'
-import {useTokenQuery, getCurrentTokenID} from '../../hooks/use_token_query';
 import Loading from '../../util_components/loading';
 
-type NavigationProps = {params: {username: string}};
 
-const User: React.FC<{route: NavigationProps}> = ({route}) => {
-  const {username} = route.params
-  const [tokenID, setTokenID] = useState<string | undefined>(undefined)
-  const {loading, data} = useTokenQuery(tokenID)
-  useEffect(() => {
-    const fetchUserData = async () => {
-      setTokenID(await getCurrentTokenID())
+const USER = gql`query user_query($username: String!){
+    user(username: $username){
+      username
     }
-    fetchUserData()
-  }, [])
+}`
+type NavigationProps = {params: {username: string}};
+const User: React.FC<{route: NavigationProps}> = ({route}) => {
+  const {data, loading} = useQuery(USER, {
+    variables: {username: route.params.username}
+  })
   if (loading) {
     return (<Loading />)
   }

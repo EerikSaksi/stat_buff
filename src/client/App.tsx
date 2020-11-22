@@ -8,12 +8,10 @@ import Loading from './util_components/loading';
 const Tab = createBottomTabNavigator();
 const App: React.FC<{username: string}> = ({username}) => {
   return (
-    null
-  )
-  return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="Team" component={Loading} initialParams={{username}} />
+        <Tab.Screen name="User" component={User} initialParams={{username}} />
+
       </Tab.Navigator>
     </NavigationContainer>
   )

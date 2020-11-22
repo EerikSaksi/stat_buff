@@ -3,9 +3,9 @@ import CenteredView from './centered_view'
 import {ActivityIndicator} from 'react-native'
 
 const Loading: React.FC = () => {
-  return(
-    <CenteredView>
-      <ActivityIndicator/>
+  return (
+    <CenteredView >
+      <ActivityIndicator size='large' color = "blue" />
     </CenteredView>
   )
 }
