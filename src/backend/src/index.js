@@ -8,7 +8,6 @@ console.log(`Owner: ${process.env.OWNER_URL}`)
 console.log(`DATABASE_URL: ${process.env.DATABASE_URL}`)
 require('dotenv').config();
 
-
 const postgraphileOptions = {
   subscriptions: true,
   watchPg: true,

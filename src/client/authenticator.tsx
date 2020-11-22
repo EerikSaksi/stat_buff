@@ -35,13 +35,11 @@ export default function Authenticator() {
   //when starting try check if user logged in and fetch their token
   useEffect(() => {
     const tryGetToken = async () => {
-      /*
       await initAsync()
       if (await isSignedInAsync()) {
         const result = await getCurrentUserAsync()
         setGoogleID(result?.uid)
       }
-      */
     }
     tryGetToken()
 
@@ -57,14 +55,10 @@ export default function Authenticator() {
             <SocialIcon type='google' title={'Sign in with Google'} button
               style={{width: '50%', ...generateShadow(24)}}
               onPress={async () => {
-                setGoogleID('uh oh')
-
-                /*
                 initAsync()
                 //get the token id and fetch data with it
                 const result: GoogleSignInAuthResult = await signInAsync();
                 setGoogleID(result.user!.uid)
-                 */
               }
               } />
           </CenteredView>

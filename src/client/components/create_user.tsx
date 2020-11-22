@@ -44,12 +44,9 @@ const CreateUser: React.FC<{refetchUser: () => void}> = ({refetchUser}) => {
 
   //if succesfully created then user data exists for the current google user
   const [createUser] = useMutation(CREATE_USER, {
-    variables: {username, googleid: "poopy"},
+    variables: {username},
     onCompleted: (data) => {
-      //user created succesfully
-      console.log(data)
       if (data.createUser) {
-        console.log('ran')
         refetchUser()
       }
     }

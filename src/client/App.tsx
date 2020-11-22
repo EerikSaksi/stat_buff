@@ -11,10 +11,10 @@ const App: React.FC<{username: string}> = ({username}) => {
     <NavigationContainer>
       <Tab.Navigator>
         <Tab.Screen name="User" component={User} initialParams={{username}} />
+        <Tab.Screen name="Group" component={Group} initialParams={{username}} />
       </Tab.Navigator>
     </NavigationContainer>
   )
-
 }
 export default App
 

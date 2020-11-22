@@ -12,15 +12,15 @@ const USER = gql`query user_query($username: String!){
 }`
 type NavigationProps = {params: {username: string}};
 const User: React.FC<{route: NavigationProps}> = ({route}) => {
-  const {data, loading} = useQuery(USER, {
+  const {data} = useQuery(USER, {
     variables: {username: route.params.username}
   })
-  if (loading) {
+  if (!data) {
     return (<Loading />)
   }
   return (
     <CenteredView>
-      <Text>{data && data.user ? data.user.username : "User not found"}</Text>
+      <Text>{`Welcome back ${data.user.username}`}</Text>
     </CenteredView>
   )
 
