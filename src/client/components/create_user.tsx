@@ -4,10 +4,8 @@ import {TextInput, Text, StyleSheet, TouchableOpacity, Animated} from 'react-nat
 import CenteredView from '../util_components/centered_view'
 import {generateShadow} from 'react-native-shadow-generator'
 
-const CREATE_USER = gql`mutation createuser($googleid: String!, $username: String!){
-  createUser(input:{user:{googleid: $googleid, username: $username}}){
-    clientMutationId
-  }
+const CREATE_USER = gql`mutation createuser($username: String!){
+  createUser(username: $username)
 }`
 
 
@@ -39,15 +37,22 @@ var styles = StyleSheet.create({
 
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
-const CreateUser: React.FC<{googleID: string}> = ({googleID}) => {
-  console.log('create user')
+const CreateUser: React.FC<{refetchUser: () => void}> = ({refetchUser}) => {
   const [username, setUsername] = useState("")
   const [error, setError] = useState("")
   const greenPixelValue = useRef<Animated.Value>(new Animated.Value(0)).current;
 
   //if succesfully created then user data exists for the current google user
   const [createUser] = useMutation(CREATE_USER, {
-    variables: {username, googleid: "poopy"}
+    variables: {username, googleid: "poopy"},
+    onCompleted: (data) => {
+      //user created succesfully
+      console.log(data)
+      if (data.createUser) {
+        console.log('ran')
+        refetchUser()
+      }
+    }
   })
 
   //check if username exists
@@ -76,7 +81,6 @@ const CreateUser: React.FC<{googleID: string}> = ({googleID}) => {
   const submit = async () => {
     if (error.length === 0 && username.length !== 0) {
       createUser()
-
     }
   }
   useEffect(() => {
@@ -107,7 +111,7 @@ const CreateUser: React.FC<{googleID: string}> = ({googleID}) => {
       </AnimatedTextInput>
       <TouchableOpacity style={styles.button} disabled={error.length !== 0 || username.length === 0} onPress={submit} >
         <Text>
-        Submit
+          Submit
         </Text>
       </TouchableOpacity>
     </CenteredView>

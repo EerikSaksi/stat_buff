@@ -11,7 +11,6 @@ const App: React.FC<{username: string}> = ({username}) => {
     <NavigationContainer>
       <Tab.Navigator>
         <Tab.Screen name="User" component={User} initialParams={{username}} />
-
       </Tab.Navigator>
     </NavigationContainer>
   )

@@ -19,16 +19,14 @@ const USERNAME = gql`query username{
 const styles = StyleSheet.create({
   image: {
     flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center"
   },
 })
 
 export default function Authenticator() {
-  const [googleID, setGoogleID] = useState<string | undefined>('poopy')
+  const [googleID, setGoogleID] = useState<string | undefined>(undefined)
 
   //try fetch the current user if we have a token (if not logged in google first we need to sign in)
-  const {data, loading} = useQuery(USERNAME, {
+  const {data, loading, refetch} = useQuery(USERNAME, {
     skip: !googleID
   })
 
@@ -47,7 +45,6 @@ export default function Authenticator() {
     tryGetToken()
 
   }, [])
-
   var content =  <Loading />
 
   if (!loading) {
@@ -59,7 +56,7 @@ export default function Authenticator() {
             <SocialIcon type='google' title={'Sign in with Google'} button
               style={{width: '50%', ...generateShadow(24)}}
               onPress={async () => {
-                setGoogleID('stinky')
+                setGoogleID('uh oh')
 
                 /*
                 initAsync()
@@ -75,16 +72,12 @@ export default function Authenticator() {
     else {
       //user signed in to google, but don't have a username in the database, so provide interface to create one.
       if (!data.username) {
-        content = <Suspense fallback={<Loading />}><CreateUser googleID={googleID} /></Suspense>
+        content = <Suspense fallback={<Loading />}><CreateUser refetchUser = {refetch}/></Suspense>
       }
       else {
-        //return (<App username={data.username} />)
+        return (<App username={data.username} />)
       }
     }
   }
-  return (
-    <ImageBackground blurRadius={1.5} style={styles.image} source={require('./assets/squat.jpeg')}>
-      {content}
-    </ImageBackground>
-  )
+  return (< >{content}</>)
 }
