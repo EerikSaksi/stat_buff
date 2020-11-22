@@ -1,0 +1,93 @@
+CONNECTED(00000003)
+---
+Certificate chain
+ 0 s:OU = Domain Control Validated, CN = *.strengthlevel.com
+   i:C = US, ST = Arizona, L = Scottsdale, O = "GoDaddy.com, Inc.", OU = http://certs.godaddy.com/repository/, CN = Go Daddy Secure Certificate Authority - G2
+---
+Server certificate
+-----BEGIN CERTIFICATE-----
+MIIGwDCCBaigAwIBAgIIZY+/kMTCdYMwDQYJKoZIhvcNAQELBQAwgbQxCzAJBgNV
+BAYTAlVTMRAwDgYDVQQIEwdBcml6b25hMRMwEQYDVQQHEwpTY290dHNkYWxlMRow
+GAYDVQQKExFHb0RhZGR5LmNvbSwgSW5jLjEtMCsGA1UECxMkaHR0cDovL2NlcnRz
+LmdvZGFkZHkuY29tL3JlcG9zaXRvcnkvMTMwMQYDVQQDEypHbyBEYWRkeSBTZWN1
+cmUgQ2VydGlmaWNhdGUgQXV0aG9yaXR5IC0gRzIwHhcNMjAwNzA4MDkwNzU4WhcN
+MjIwNzA4MDkwNzU4WjBBMSEwHwYDVQQLExhEb21haW4gQ29udHJvbCBWYWxpZGF0
+ZWQxHDAaBgNVBAMMEyouc3RyZW5ndGhsZXZlbC5jb20wggEiMA0GCSqGSIb3DQEB
+AQUAA4IBDwAwggEKAoIBAQDV50Ry3EeG1BKAt0pI5szdKwi666Mirxz+Zae35r+F
+k+Vf5B1tzTKS6+KxcGcavITQZwlMKpkAEKniTvU48X5Fkh5kHMG3y8wK0cSzYEn0
+/535W0lBR/hFVYXuK3lhT1s15fMgt84EzXaSWO9ifNAyMjQ5Zsnyk5OrQNtSn+wk
+LrKIQefeEsD/HRo1cUXhY3i0YWzkB8ymusBAo7ajnS4gen4iVhTXeD/z7HPy3IAf
+4bNrjo+4EMKya8Had8xv2mRZErpVqHBo3GOoYxh3ZDv6vnwPb95+lv3L1czZI8Rr
+tjy5JXW0apaAr8iP+5CagJ+4owEb/CeZ/4ZLkLe6UIwDAgMBAAGjggNGMIIDQjAM
+BgNVHRMBAf8EAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAOBgNV
+HQ8BAf8EBAMCBaAwOAYDVR0fBDEwLzAtoCugKYYnaHR0cDovL2NybC5nb2RhZGR5
+LmNvbS9nZGlnMnMxLTIwOTQuY3JsMF0GA1UdIARWMFQwSAYLYIZIAYb9bQEHFwEw
+OTA3BggrBgEFBQcCARYraHR0cDovL2NlcnRpZmljYXRlcy5nb2RhZGR5LmNvbS9y
+ZXBvc2l0b3J5LzAIBgZngQwBAgEwdgYIKwYBBQUHAQEEajBoMCQGCCsGAQUFBzAB
+hhhodHRwOi8vb2NzcC5nb2RhZGR5LmNvbS8wQAYIKwYBBQUHMAKGNGh0dHA6Ly9j
+ZXJ0aWZpY2F0ZXMuZ29kYWRkeS5jb20vcmVwb3NpdG9yeS9nZGlnMi5jcnQwHwYD
+VR0jBBgwFoAUQMK9J47MNIMwojPX+2yz8LQsgM4wMQYDVR0RBCowKIITKi5zdHJl
+bmd0aGxldmVsLmNvbYIRc3RyZW5ndGhsZXZlbC5jb20wHQYDVR0OBBYEFCtxxgL0
+hkRicpqoXPlf+uBT3Xw8MIIBfQYKKwYBBAHWeQIEAgSCAW0EggFpAWcAdgApeb7w
+njk5IfBWc59jpXflvld9nGAK+PlNXSZcJV3HhAAAAXMtroWRAAAEAwBHMEUCIH7J
+GKyE3HgtDmZVaLW+969C/bFZORTos+jWborQWXSYAiEA4N3kPTq6+LsYpIMBXIVA
+lThuQrq4G43PHhJGANaHI90AdQAiRUUHWVUkVpY/oS/x922G4CMmY63AS39dxoNc
+buIPAgAAAXMtrobCAAAEAwBGMEQCIAl1P9QToTyMutV0oG5Ww/1rpjRKYD0lsfsQ
+ca9aKmTCAiA5/XFycMDAz1abgqkzEZEqSizxD7ok7TepfVuoCDBtiAB2AN+lXqto
+gk8fbK3uuF9OPlrqzaISpGpejjsSwCBEXCpzAAABcy2uiAMAAAQDAEcwRQIgUpWF
+R5qdJ3B82BrtNRJwHomapWSBvyn3a4faiqM+cVYCIQChMTM7xzzX60M9pmrUMzYa
+o0T3W5U4bQvDD77ymm1TvDANBgkqhkiG9w0BAQsFAAOCAQEAV6FjLNKBO9j1SUPW
+Yx14iKcPSc8H8W3+Ha5ZNMvMmKKK5UyywBjzpNV3onX3SFQezVGHO1U7ij05WEjv
+hibR9kobbJ3AKRm40gtTNICsmTWg+7B7SRgXOtNiRUFJWCRDfQAeSMm7m/UeCNXJ
+QR1XsH+lo+NjJaxw7gItZxb776o3C35znwk7dJtz93KvhzMCHpUN867la9V7O5Fc
+zxcfSJjwEQaLwq2zKgOpZsiw+4LAafWSaLR1vKkU5wGRfblu+IpEqYivN+KP8+2E
+MQW4NhdVgaWfTJLyyORKDSBxVqaqF8AOK353Ey3nzlKOeiT1nR0TBQ3NFMiZSwIs
+x99I/g==
+-----END CERTIFICATE-----
+subject=OU = Domain Control Validated, CN = *.strengthlevel.com
+
+issuer=C = US, ST = Arizona, L = Scottsdale, O = "GoDaddy.com, Inc.", OU = http://certs.godaddy.com/repository/, CN = Go Daddy Secure Certificate Authority - G2
+
+---
+No client certificate CA names sent
+Peer signing digest: SHA512
+Peer signature type: RSA
+Server Temp Key: ECDH, P-256, 256 bits
+---
+SSL handshake has read 2406 bytes and written 435 bytes
+Verification error: unable to verify the first certificate
+---
+New, TLSv1.2, Cipher is ECDHE-RSA-AES128-GCM-SHA256
+Server public key is 2048 bit
+Secure Renegotiation IS supported
+Compression: NONE
+Expansion: NONE
+No ALPN negotiated
+SSL-Session:
+    Protocol  : TLSv1.2
+    Cipher    : ECDHE-RSA-AES128-GCM-SHA256
+    Session-ID: 5872088C5AC2D7EC14998548B2C10378F164C5E4A54DDC9D199E5DD517A2A22D
+    Session-ID-ctx: 
+    Master-Key: 917BF7DCC2264176110259747CFE9974800F16E454DED326E427FFCEBB068C23099B78EB360B7307E242E29E358DC427
+    PSK identity: None
+    PSK identity hint: None
+    SRP username: None
+    TLS session ticket lifetime hint: 300 (seconds)
+    TLS session ticket:
+    0000 - ba 11 98 54 4a 09 47 c4-05 ce a2 37 6b 11 d7 03   ...TJ.G....7k...
+    0010 - 3c 54 65 5e fc 4b 28 3e-4a bf 54 2e 8b aa 29 06   <Te^.K(>J.T...).
+    0020 - e4 0f a2 fa d6 f4 f9 94-d5 37 03 20 cc bd 81 bc   .........7. ....
+    0030 - 5c 4f 61 58 3e 7d 6e 4b-1e b5 65 c9 12 c2 0d 02   \OaX>}nK..e.....
+    0040 - dc b4 77 d2 0b 46 f3 9d-9f d9 93 1b 34 84 c6 4e   ..w..F......4..N
+    0050 - bc 9f da c8 28 1b a3 7e-14 de ce 01 23 35 60 00   ....(..~....#5`.
+    0060 - a2 34 21 6c 12 04 69 1e-30 fb e4 d6 5a 81 00 8e   .4!l..i.0...Z...
+    0070 - 8a 65 4b 16 4e 7e 76 ba-b3 b7 d1 2a aa 94 b1 5b   .eK.N~v....*...[
+    0080 - b5 bc b5 24 7e f8 51 04-5d 6e 89 8c c7 bb 8d 9e   ...$~.Q.]n......
+    0090 - 0e 94 c7 1f 8b 9b 90 ee-a9 6a 05 52 6a f1 62 cf   .........j.Rj.b.
+    00a0 - 57 fb d1 1c c2 c3 f1 a5-ea bf 68 57 07 9e 8f db   W.........hW....
+
+    Start Time: 1606071223
+    Timeout   : 7200 (sec)
+    Verify return code: 21 (unable to verify the first certificate)
+    Extended master secret: no
+---
