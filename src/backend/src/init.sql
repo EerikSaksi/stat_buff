@@ -18,7 +18,7 @@ create table "body_stat" (
 );
 
 CREATE INDEX ON "user" (groupName);
-CREATE INDEX ON "body_stats" (username);
+CREATE INDEX ON "body_stat" (username);
 insert into
   "group" (name, level)
 values
@@ -56,9 +56,10 @@ Alter table "user" enable row level security;
 Alter table "body_stat" enable row level security;
 
 
---CREATE FUNCTION current_username RETURNS varchar AS $$
-  --select username from "user" where googleID = current_setting('user.googleID')
---$$ LANGUAGE plpgsql IMMUTABLE STRICT;
+CREATE FUNCTION current_username() RETURNS varchar AS $$
+  select username from "user" where googleID = current_setting('user.googleID')
+$$ LANGUAGE sql IMMUTABLE STRICT;
+comment on function current_username is E'@omit';
 
 --CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));
 CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));
@@ -66,4 +67,4 @@ CREATE POLICY user_delete ON "user" FOR delete to query_sender USING (googleID =
 CREATE POLICY user_select ON "user" FOR select to query_sender using (true);
 
 --only a user should have permissions to their own body stats
-create policy body_stats_all on "body_stat" FOR all to query_sender using ()
+create policy body_stats_all on "body_stat" FOR all to query_sender using (username = current_username())
