@@ -1,16 +1,10 @@
 import React, {useState} from 'react'
 import {gql, useMutation, useQuery} from '@apollo/client'
-import {Text, TextInput, StyleSheet, View, FlatList, StatusBar} from 'react-native'
+import {Text, TextInput, StyleSheet, View, FlatList} from 'react-native'
 import CenteredView from '../../util_components/centered_view'
 import Loading from '../../util_components/loading'
+import TopView from '../../util_components/top_view'
 
-const styles = StyleSheet.create({
-  top: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-})
 
 const GROUP_INFO = gql`query group_info($username: String!){
   user(username: $username) {
@@ -55,7 +49,7 @@ const Group: React.FC<{route: NavigationProps}> = ({route}) => {
   })
   const currentTeam = groupData
     ?
-    <Text style = {{ textAlign: 'center' }}>
+    <Text style={{textAlign: 'center'}}>
       {
         groupData.user.groupByGroupname
           ? `You're a part of "${groupData.user.groupByGroupname.name}"`
@@ -66,13 +60,11 @@ const Group: React.FC<{route: NavigationProps}> = ({route}) => {
 
   return (
     <React.Fragment>
-      <View style={{position: 'absolute', width: '100%', top: StatusBar.currentHeight}}>
-        <View style={styles.top}>
-          <TextInput placeholder="Search for teams" value={query} onChangeText={(t) => setQuery(t)} />
-          <FlatList  data={searchData ? searchData.groups.nodes.map(group => group.name) : []}
-            renderItem={({item: groupname}) => <View style={{borderBottomWidth: 1}} onTouchEnd = {() => updateGroup({variables: {username, groupname}})}  key={groupname}><Text>{groupname}</Text></View>} />
-        </View>
-      </View>
+      <TopView>
+        <TextInput placeholder="Search for teams" value={query} onChangeText={(t) => setQuery(t)} />
+        <FlatList data={searchData ? searchData.groups.nodes.map(group => group.name) : []}
+          renderItem={({item: groupname}) => <View style={{borderBottomWidth: 1}} onTouchEnd={() => updateGroup({variables: {username, groupname}})} key={groupname}><Text>{groupname}</Text></View>} />
+      </TopView>
       {
         <CenteredView>
           {currentTeam}

@@ -106,11 +106,6 @@ const CreateUser: React.FC<{refetchUser: () => void}> = ({refetchUser}) => {
       </Text>
       <AnimatedTextInput  onEndEditing={submit} style={[styles.input, {backgroundColor}]} value={username} placeholder="Enter username" onChangeText={(e) => setUsername(e)}>
       </AnimatedTextInput>
-      <TextInput
-        keyboardType='numeric'
-        onChangeText={(text) => this.onChanged(text)}
-        value={this.state.myNumber}
-      />
       <TouchableOpacity style={styles.button} disabled={error.length !== 0 || username.length === 0} onPress={submit} >
         <Text>
           Submit

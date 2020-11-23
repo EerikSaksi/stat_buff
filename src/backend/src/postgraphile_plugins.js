@@ -7,26 +7,12 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
   const {pgSql: sql} = build;
   return {
     typeDefs: gql`
-      extend type Query{
-        username: String
-      }
       extend type Mutation{
         createUser(username: String!): Boolean
       }
     `,
     resolvers:
     {
-      Query:
-      {
-        //this is necessary because the "user" query data requires a username by default. The user needs to know their own username for them to know their own username (it's a bit silly, but that's how postgraphile interprets it)
-        username: async (parent, args, context, resolveInfo) => {
-          const {rows} = await context.pgClient.query(
-            `select username from "user" where googleID = '${context.googleID}'`
-          );
-          return rows[0].username
-        
-        }
-      },
       Mutation:
       {
         //this is necessary because the "user" query data requires a username by default. The user needs to know their own username for them to know their own username (it's a bit silly, but that's how postgraphile interprets it)

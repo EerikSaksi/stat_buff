@@ -135,3 +135,10 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 - Searching for a group and clicking on it lets you join that group. 
 - I have done some work on UI design for the sign in/create app, but my UI for user/group mostly just validates that the queries work. Once I know what data I will present I will develop the UI more
 
+
+## Nov 22 (4 hours)
+- I implemented a scraper for the site strengthlevel.com by analysing the requests sent by the program and copying the request as a fetch. As it was a request sent from a domain, I had to apply the intermediary certificate as a https agent parameter for the fetch, which took a bit of tiem to figure out.
+- Coincidentally, the owner of strengthlevel also messaged me asking what I need to use his cite for, so they might give me access to their API, or their internal logic they use to calculate relative strength.
+- Implemented body stats table, these are only accessible and mutable by the user who these belong to. These include gender and body weight (might also include age once I figure out if it should be a range or any value).
+- I thought about how I could make my app look nicer. I realized one easy way would be to have different characters that the user could use, for instance this one https://luizmelo.itch.io/ghost-warrior. It has idle and attack animations, and the creator has many other ones in the same style. These would cost a bit but I want to include this in a resume so it would be worth it. I could have 5 different characters for the different strength classifications (beginner, novice, intermediate, advanced, elite) where the characters get cooler and look nicer.
+- Before I have thought about simply having the characters perpetually attack, but I figured that a better idea might be to have the characters attack n times after you workout, where n is calculated based on the difficulty of the workout. The damage of each swing would be based on the strength of the player. This would combine progress but also training consistently and hard.
