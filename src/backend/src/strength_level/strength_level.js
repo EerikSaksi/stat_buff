@@ -19,7 +19,7 @@ fetch("https://strengthlevel.com/", {
   },
   "referrer": "https://strengthlevel.com/",
   "referrerPolicy": "no-referrer-when-downgrade",
-  "body": "gender=male&age=20.5&bodymass=83&bodymassunit=kg&exercise=bench-press&liftmass=80&liftmassunit=kg&repetitions=8&timezone=2&source=homepage",
+  "body": "gender=male&age=20.5&bodymass=83&bodymassunit=kg&exercise=bench-press&liftmass=140&liftmassunit=kg&repetitions=8&timezone=2&source=homepage",
   "method": "POST",
   "mode": "cors",
   "credentials": "include",
@@ -30,5 +30,5 @@ fetch("https://strengthlevel.com/", {
   }
 })
 .then(text => {
-  console.log(text)
+
 })

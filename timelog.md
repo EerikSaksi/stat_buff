@@ -127,3 +127,11 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 - Certain attributes of users are now readable for everyone (everything but the googleID), but all other operations (update, insert, delete) are restricted with an ID check (where the ID is a validated token). 
 - I struggled for a long time to actually get the checks for the different restricted operations to work. The issue in the end was that the boolean condition that checks if the passed googleID was the same as the one validated from the token needed to have permission to select the googleID to evaluate the condition. I removed this selection permission because I didn't want those to be accessible. I solved this by reenabling the select permission, but omitting googleID from being visible from the API with an @omit comment on that column.
 
+
+## Nov 22 (7 hours)
+- I have now fully integrated the different components together, such that creating a user refetches the user data and thus takes youto the user page
+- I got the validation working properly for my custom defined resolvers by using a Postgres settings.
+- I started doing some scraping for a site that evaluates performance and found one that works with curl, this could be a possible solution for getting relative performance 
+- Searching for a group and clicking on it lets you join that group. 
+- I have done some work on UI design for the sign in/create app, but my UI for user/group mostly just validates that the queries work. Once I know what data I will present I will develop the UI more
+

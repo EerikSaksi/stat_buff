@@ -4,8 +4,7 @@ const MyPlugins = require('./postgraphile_plugins')
 const PostGraphileConnectionFilterPlugin = require('postgraphile-plugin-connection-filter');
 const PostGraphileFulltextFilterPlugin = require('postgraphile-plugin-fulltext-filter');
 const tokenToGoogleID = require('./google_auth');
-console.log(`Owner: ${process.env.OWNER_URL}`)
-console.log(`DATABASE_URL: ${process.env.DATABASE_URL}`)
+
 require('dotenv').config();
 
 const postgraphileOptions = {
@@ -24,9 +23,7 @@ const postgraphileOptions = {
   legacyRelations: "omit",
   disableDefaultMutations: false,
   async additionalGraphQLContextFromRequest(req, res) {
-    console.log(req.headers)
     if (req && req && req.headers && req.headers.authorization) {
-      console.log('ran')
       const googleID = await tokenToGoogleID(req.headers.authorization)
       return {
         googleID
@@ -34,21 +31,17 @@ const postgraphileOptions = {
     }
   },
   pgSettings: async req => {
-    if (req.IncomingMessage) {
-      const headerAuth = req.IncomingMessage.headers.auth
-      //if passed token
-      if (headerAuth.length) {
-        const googleID = await tokenToGoogleID(headerAuth)
-        //token has format Bearer [token] so get the second word and convert it to a username
-        return ({
-          'user.googleID': googleID,
-        })
-      }
-    }
+    //if (req && req && req.headers && req.headers.authorization) {
+      //const googleID = await tokenToGoogleID(req.headers.authorization)
+    
+      return {
+        'user.googleID': 'uh oh'
+      };
+    //}
   },
 }
 const app = express();
 (async () => {
-  app.use(postgraphile(process.env.DATABASE_URL, postgraphileOptions));
+  app.use(postgraphile("postgres://query_sender:restrictedPermissions@localhost:5432/rpgym", postgraphileOptions));
 })();
 app.listen(process.env.PORT || 4000);

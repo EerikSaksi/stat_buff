@@ -6,10 +6,19 @@ create table "group" (
 );
 create table "user" (
   username varchar(32) primary key not null,
-  groupName varchar(32) REFERENCES "group" ON DELETE CASCADE,
+  groupName varchar(32) REFERENCES "group" ON DELETE set null,
   googleID varchar(64) not null unique
 );
+
+create table "body_stat" (
+  username varchar(32) REFERENCES "user" ON DELETE cascade,
+  isMale boolean,  
+  weight integer,
+  unique(username)
+);
+
 CREATE INDEX ON "user" (groupName);
+CREATE INDEX ON "body_stats" (username);
 insert into
   "group" (name, level)
 values
@@ -22,21 +31,39 @@ values
   ('orek', 'Dream Team', 'uh oh'),
   ('eerik', 'Team Rocket', 'stinky');
 
+insert into
+  "body_stat" (weight, isMale, username)
+values
+  (85, true, 'eerik'),
+  (69, false, 'orek');
+
 --ensure no privileges that were set before exist
 drop owned by query_sender;
 drop role query_sender;
 create role query_sender;
 alter role query_sender with login;
 alter user query_sender with password 'restrictedPermissions';
+
 grant all on database rpgym to query_sender;
 grant all on schema public to query_sender;
 grant all on table "user" to query_sender;
 grant all on table "group" to query_sender;
+grant all on table "body_stat" to query_sender;
 
 comment on column "user".googleID is E'@omit';
 comment on table "user" is E'@omit create';
 Alter table "user" enable row level security;
+Alter table "body_stat" enable row level security;
 
-CREATE POLICY user_update ON "user" FOR update to query_sender USING (username = current_setting('user.username'));
-CREATE POLICY user_delete ON "user" FOR delete to query_sender  USING (username = current_setting('user.username'));
+
+--CREATE FUNCTION current_username RETURNS varchar AS $$
+  --select username from "user" where googleID = current_setting('user.googleID')
+--$$ LANGUAGE plpgsql IMMUTABLE STRICT;
+
+--CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));
+CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));
+CREATE POLICY user_delete ON "user" FOR delete to query_sender USING (googleID = current_setting('user.googleID'));
 CREATE POLICY user_select ON "user" FOR select to query_sender using (true);
+
+--only a user should have permissions to their own body stats
+create policy body_stats_all on "body_stat" FOR all to query_sender using ()
