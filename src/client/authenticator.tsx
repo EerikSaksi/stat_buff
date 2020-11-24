@@ -31,6 +31,7 @@ export default function Authenticator() {
     skip: !googleID
   })
 
+
   //when starting try check if user logged in and fetch their token
   useEffect(() => {
     //const tryGetToken = async () => {

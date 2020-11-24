@@ -1,5 +1,5 @@
 import React from 'react'
-import {View} from 'react-native'
+import {View, ViewStyle} from 'react-native'
 import {StyleSheet, StatusBar} from 'react-native'
 const styles = StyleSheet.create({
   top: {
@@ -11,9 +11,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 })
-const TopView: React.FC<{children: React.ReactNode}> = ({children}) => {
+const TopView: React.FC<{children: React.ReactNode, style?: ViewStyle}> = ({children, style}) => {
   return (
-    <View style={styles.top}>
+    <View style={{...styles.top, ...style}}>
       {children}
     </View >
   )
