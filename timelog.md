@@ -148,3 +148,4 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 - Parsed all exercise names from strengthlevel.com, can be used to fetch standards for a particular exercise
 - Added them to a table by their popularity ranking, so all searches will be ordered by their rank
 - Implementing modal popover that lets you update your body data and exercises in the user page.
+
