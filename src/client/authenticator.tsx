@@ -6,8 +6,8 @@ import {useQuery} from '@apollo/client/react/hooks';
 import {gql} from '@apollo/client';
 import {ImageBackground, StyleSheet, View} from 'react-native';
 import {generateShadow} from 'react-native-shadow-generator';
-const App = lazy(() => import('./App'))
-//import App from './App'
+//const App = lazy(() => import('./App'))
+import App from './App'
 const CenteredView = lazy(() => import('./util_components/centered_view'))
 const CreateUser = lazy(() => import('./components/create_user'))
 
@@ -71,7 +71,7 @@ export default function Authenticator() {
         content = <Suspense fallback={<Loading />}><CreateUser refetchUser={refetch} /></Suspense>
       }
       else {
-        return (<Suspense fallback = {<Loading/>}><App username={data.username} /></Suspense>)
+        return (<App username={data.username} />)
       }
     }
   }
