@@ -143,6 +143,8 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 - I also had a meeting with my advisor. We discussed that we should include user stories, wireframes, ER diagram (databases). ''
 - Papers (not high priority, design is the most priority)? 
 
-## Nov 24 (4 hours)
-
-
+## Nov 24 (5 hours)
+- Implemented animated characters in the app. I wanted to make sure they work in the real app before implementing in Figma. 
+- Parsed all exercise names from strengthlevel.com, can be used to fetch standards for a particular exercise
+- Added them to a table by their popularity ranking, so all searches will be ordered by their rank
+- Implementing modal popover that lets you update your body data and exercises in the user page.

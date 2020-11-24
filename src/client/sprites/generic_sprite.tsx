@@ -1,44 +1,40 @@
 import React, {useRef, useEffect} from 'react'
+import {TouchableOpacity} from 'react-native'
 import SpriteSheet from 'rn-sprite-sheet'
-import {SafeAreaView, KeyboardAvoidingView, View} from 'react-native'
+import CenteredView from '../util_components/centered_view'
 const GenericSprite: React.FC = () => {
   var spriteRef = useRef<SpriteSheet>(null)
-
-  useEffect(() => {
+  const animate = (options) => {
     if (spriteRef.current) {
-      spriteRef.current.play({
-        type: 'walk',
-        fps: 10,
-        loop: true,
-        onFinish: () => console.log('hi')
-      });
+      spriteRef.current!.play(options)
+    }
+  }
+  const idle = () => animate({type: "idle", loop: true, fps: 10})
+  const onHit = () => animate({type: "onHit", fps: 10, onFinish: () => idle()})
+  useEffect(() => {
+    if (spriteRef.current){
+      idle()
     }
   }, [spriteRef])
   return (
-    <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
-      <SafeAreaView style={{flex: 1}}>
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <SpriteSheet
-            ref={spriteRef}
-            source={require('../assets/Attack1.png')}
-            columns={8}
-            rows={1}
-            // height={200} // set either, none, but not both
-            // width={200}
-            // frameHeight={50} // manually set size of your sprite
-            // frameWidth={50} // overrides auto calculation of frame size based on height, width, columns, and rows.
-            // offsetX={0}
-            // offsetY={0}
-            imageStyle={{marginTop: -1}}
-            animations={{
-              walk: [0, 1, 2, 3, 4, 5, 6, 78],
-                //appear: Array.from({length: 15}, (v, i) => i + 18),
-                //die: Array.from({length: 21}, (v, i) => i + 33),
-            }}
-          />
-        </View>
-      </SafeAreaView>
-    </KeyboardAvoidingView>
+    <CenteredView>
+      <TouchableOpacity onPress={() => onHit()}>
+        <SpriteSheet
+          ref={spriteRef}
+          source={require('../assets/evil_wizard.png')}
+          columns={8}
+          rows={4}
+          height={600}
+          imageStyle={{marginTop: -1}}
+          animations={{
+            idle: [0, 1, 2, 3, 4, 5, 6, 7],
+            onHit: [8, 9, 10],
+            attack1: [16, 17, 18, 19, 20, 21, 22, 23],
+            attack2: [24, 25, 26, 27, 28, 29, 30, 31]
+          }}
+        />
+      </TouchableOpacity>
+    </CenteredView>
   )
 }
 export default GenericSprite

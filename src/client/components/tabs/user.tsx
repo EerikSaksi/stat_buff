@@ -1,10 +1,9 @@
-import React, {useRef} from 'react'
+import React, {useRef, useState} from 'react'
 import {gql, useQuery, useMutation} from '@apollo/client';
-import {Text, Button, Modal, TouchableOpacity} from 'react-native'
+import {Text, Modal, TouchableOpacity} from 'react-native'
 import CenteredView from '../../util_components/centered_view'
 import Loading from '../../util_components/loading';
 import TopView from '../../util_components/top_view';
-import {SpriteSheet} from 'rn-sprite-sheet'
 
 
 const USER = gql`query user_query($username: String!){
@@ -22,20 +21,23 @@ const User: React.FC<{route: NavigationProps}> = ({route}) => {
   const {data} = useQuery(USER, {
     variables: {username: route.params.username}
   })
-  const [updateBodyStatBy] = useMutation(UPDATE_BODY_STATS)
+  const [modalVisible, setModalVisible] = useState(false)
+  const [updateBodyStats] = useMutation(UPDATE_BODY_STATS)
 
   if (!data) {
     return (<Loading />)
   }
 
-
   return (
     <React.Fragment>
       <TopView>
-        <TouchableOpacity onPress={() => console.log('pressed')} >
+        <TouchableOpacity onPress={() => setModalVisible(true)} >
           <Text>Update Stats</Text>
         </TouchableOpacity>
       </TopView>
+      <Modal visible = {modalVisible}>
+        <Text>Hello world</Text>
+      </Modal>
       <CenteredView>
         <Text>{`Welcome back ${data.user.username}`}</Text>
       </CenteredView>

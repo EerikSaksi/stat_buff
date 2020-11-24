@@ -4,7 +4,6 @@ const MyPlugins = require('./postgraphile_plugins')
 const PostGraphileConnectionFilterPlugin = require('postgraphile-plugin-connection-filter');
 const PostGraphileFulltextFilterPlugin = require('postgraphile-plugin-fulltext-filter');
 const tokenToGoogleID = require('./google_auth');
-
 require('dotenv').config();
 
 const postgraphileOptions = {

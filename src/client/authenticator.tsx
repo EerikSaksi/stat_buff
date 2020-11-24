@@ -14,9 +14,7 @@ const CreateUser = lazy(() => import('./components/create_user'))
 
 const USERNAME = gql`query username{
   username
-}
-    
-`
+}`
 const styles = StyleSheet.create({
   image: {
     flex: 1,
