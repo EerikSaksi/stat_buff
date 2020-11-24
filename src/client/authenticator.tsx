@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 })
 
 export default function Authenticator() {
-  const [googleID, setGoogleID] = useState<string | undefined>(undefined)
+  const [googleID, setGoogleID] = useState<string | undefined>('uh oh')
 
   //try fetch the current user if we have a token (if not logged in google first we need to sign in)
   const {data, loading, refetch} = useQuery(USERNAME, {
@@ -76,7 +76,7 @@ export default function Authenticator() {
   }
 
   return (
-    <ImageBackground imageStyle = {{zIndex: -1}} style = {styles.image} blurRadius={1.5} source={require('./assets/squat.jpeg')}>
+    <ImageBackground imageStyle={{zIndex: -1}} style={styles.image} blurRadius={1.5} source={require('./assets/squat.jpeg')}>
       {content}
     </ImageBackground>
   )

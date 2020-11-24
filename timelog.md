@@ -127,7 +127,6 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 - Certain attributes of users are now readable for everyone (everything but the googleID), but all other operations (update, insert, delete) are restricted with an ID check (where the ID is a validated token). 
 - I struggled for a long time to actually get the checks for the different restricted operations to work. The issue in the end was that the boolean condition that checks if the passed googleID was the same as the one validated from the token needed to have permission to select the googleID to evaluate the condition. I removed this selection permission because I didn't want those to be accessible. I solved this by reenabling the select permission, but omitting googleID from being visible from the API with an @omit comment on that column.
 
-
 ## Nov 22 (7 hours)
 - I have now fully integrated the different components together, such that creating a user refetches the user data and thus takes youto the user page
 - I got the validation working properly for my custom defined resolvers by using a Postgres settings.
@@ -135,10 +134,15 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 - Searching for a group and clicking on it lets you join that group. 
 - I have done some work on UI design for the sign in/create app, but my UI for user/group mostly just validates that the queries work. Once I know what data I will present I will develop the UI more
 
-
-## Nov 22 (4 hours)
+## Nov 23 (4 hours)
 - I implemented a scraper for the site strengthlevel.com by analysing the requests sent by the program and copying the request as a fetch. As it was a request sent from a domain, I had to apply the intermediary certificate as a https agent parameter for the fetch, which took a bit of tiem to figure out.
 - Coincidentally, the owner of strengthlevel also messaged me asking what I need to use his cite for, so they might give me access to their API, or their internal logic they use to calculate relative strength.
 - Implemented body stats table, these are only accessible and mutable by the user who these belong to. These include gender and body weight (might also include age once I figure out if it should be a range or any value).
 - I thought about how I could make my app look nicer. I realized one easy way would be to have different characters that the user could use, for instance this one https://luizmelo.itch.io/ghost-warrior. It has idle and attack animations, and the creator has many other ones in the same style. These would cost a bit but I want to include this in a resume so it would be worth it. I could have 5 different characters for the different strength classifications (beginner, novice, intermediate, advanced, elite) where the characters get cooler and look nicer.
 - Before I have thought about simply having the characters perpetually attack, but I figured that a better idea might be to have the characters attack n times after you workout, where n is calculated based on the difficulty of the workout. The damage of each swing would be based on the strength of the player. This would combine progress but also training consistently and hard.
+- I also had a meeting with my advisor. We discussed that we should include user stories, wireframes, ER diagram (databases). ''
+- Papers (not high priority, design is the most priority)? 
+
+## Nov 24 (4 hours)
+
+
