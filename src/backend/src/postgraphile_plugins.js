@@ -1,5 +1,6 @@
 const {makeExtendSchemaPlugin, gql} = require("graphile-utils");
 const tokenToGoogleID = require("./google_auth");
+const statsToPercentageVal = require("./strength_level/strength_level");
 require('dotenv').config();
 
 const MyPlugins = makeExtendSchemaPlugin(build => {
@@ -9,6 +10,9 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
     typeDefs: gql`
       extend type Mutation{
         createUser(username: String!): Boolean
+      }
+      extend type Query{
+        calculateStrength(exercise: String!, liftmass: Int!, repetitions: Int!): Int
       }
     `,
     resolvers:
@@ -32,6 +36,36 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
           return true
         }
       },
+      Query: {
+        calculateStrength: async (parent, args, context, resolveInfo) => {
+          const {exercise, liftmass, repetitions} = args
+
+          //validate input
+          if (repetitions <= 0 || liftmass <= 0 ){
+            return null
+          }
+
+          //check the exercise exists
+          const {rows} = await context.pgClient.query(
+            'select count(*) from "exercise" where slug_name = $1',
+            [exercise]
+          );
+          if (!rows.length){
+            return null
+          }
+
+          //get the users bodyStats
+          const {rows: bodyStatRows} = await context.pgClient.query(
+            'select * from "body_stat" where username() = username'
+          );
+          const {ismale, bodymass} = bodyStatRows[0]
+          console.log(bodyStatRows)
+          const gender = ismale ? "male" : "female"
+          const val =  await statsToPercentageVal(gender, bodymass, exercise, liftmass, repetitions)
+          console.log({val})
+          return val
+        }
+      }
     },
   };
 })

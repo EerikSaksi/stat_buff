@@ -1,7 +1,8 @@
 const fetch = require('node-fetch')
 const https = require('https');
 const rootCas = require('ssl-root-cas').create();
-rootCas.addFile('intermediate.pem');
+const path = require('path')
+rootCas.addFile(path.resolve(__dirname, 'intermediate.pem'));
 const httpsAgent = new https.Agent({ca: rootCas});
 const cheerio = require('cheerio')
 
@@ -34,8 +35,7 @@ async function statsToPercentageVal(gender, bodymass, exercise, liftmass, repeti
     .then(text => {
       $ = cheerio.load(text)
       const result = $('p[class=has-text-weight-bold]').first().text().match(/[0-9]/g)
-      console.log(parseInt(result.join('')))
       return parseInt(result.join(''))
     })
 }
-statsToPercentageVal("male", 83, "bench-press", 140, 8)
+module.exports = statsToPercentageVal

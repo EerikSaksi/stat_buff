@@ -13,7 +13,7 @@ create table "user" (
 create table "body_stat" (
   username varchar(32) REFERENCES "user" ON DELETE cascade,
   isMale boolean,  
-  weight integer,
+  bodymass integer,
   unique(username)
 );
 
@@ -32,7 +32,7 @@ values
   ('eerik', 'Team Rocket', 'stinky');
 
 insert into
-  "body_stat" (weight, isMale, username)
+  "body_stat" (bodymass, isMale, username)
 values
   (85, true, 'eerik'),
   (69, false, 'orek');
