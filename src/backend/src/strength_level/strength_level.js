@@ -5,7 +5,7 @@ rootCas.addFile('intermediate.pem');
 const httpsAgent = new https.Agent({ca: rootCas});
 const cheerio = require('cheerio')
 
-async function statsToPercentageVal(){
+async function statsToPercentageVal(gender, bodymass, exercise, liftmass, repetitions) {
   await fetch("https://strengthlevel.com/", {
     "agent": httpsAgent,
     "headers": {
@@ -21,7 +21,7 @@ async function statsToPercentageVal(){
     },
     "referrer": "https://strengthlevel.com/",
     "referrerPolicy": "no-referrer-when-downgrade",
-    "body": "gender=male&age=20.5&bodymass=83&bodymassunit=kg&exercise=bench-press&liftmass=140&liftmassunit=kg&repetitions=8&timezone=2&source=homepage",
+    "body": `gender=${gender}&age=20.5&bodymass=${bodymass}&bodymassunit=kg&exercise=${exercise}&liftmass=${liftmass}&liftmassunit=kg&repetitions=${repetitions}&timezone=2&source=homepage`,
     "method": "POST",
     "mode": "cors",
     "credentials": "include",
@@ -34,7 +34,8 @@ async function statsToPercentageVal(){
     .then(text => {
       $ = cheerio.load(text)
       const result = $('p[class=has-text-weight-bold]').first().text().match(/[0-9]/g)
+      console.log(parseInt(result.join('')))
       return parseInt(result.join(''))
     })
 }
-console.log(statsToPercentageVal())
+statsToPercentageVal("male", 83, "bench-press", 140, 8)
