@@ -1,10 +1,11 @@
 import React, {useRef, useState} from 'react'
-import {gql, useQuery, useMutation} from '@apollo/client';
+import {gql, useQuery, useMutation, useReactiveVar} from '@apollo/client';
 import {Text, Modal, TouchableOpacity} from 'react-native'
 import CenteredView from '../../util_components/centered_view'
 import Loading from '../../util_components/loading';
 import TopView from '../../util_components/top_view';
 import UserModal from './user_modal';
+import {usernameVar} from '../../apollo_wrapper';
 
 
 const USER = gql`query user_query($username: String!){
@@ -17,9 +18,8 @@ const UPDATE_BODY_STATS = gql`mutation ($username: String!, $ismale: Boolean, $w
     clientMutationId
   }
 }`
-type NavigationProps = {params: {username: string}};
-const User: React.FC<{route: NavigationProps}> = ({route}) => {
-  const username = route.params.username
+const User: React.FC = () => {
+  const username = useReactiveVar(usernameVar)
   const {data} = useQuery(USER, {
     variables: {username}
   })

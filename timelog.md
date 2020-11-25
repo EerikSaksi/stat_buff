@@ -149,4 +149,6 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 - Added them to a table by their popularity ranking, so all searches will be ordered by their rank
 - Implementing modal popover that lets you update your body data and exercises in the user page.
 
-
+## Nov 25 (4 hours)
+- Finished the parse of all exercises, and integrated the users body stats (a user who has given their stats can find their relative strength as a percentage.)
+- Refactoring. I realized that I should be able to open another users page, so instead of passing the current authenticated users name in to the user component, I fetch that from the local state. This way if a username was passed we know we are looking at another users page.

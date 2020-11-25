@@ -8,6 +8,7 @@ import {ImageBackground, StyleSheet, View} from 'react-native';
 import {generateShadow} from 'react-native-shadow-generator';
 //const App = lazy(() => import('./App'))
 import App from './App'
+import {usernameVar} from './apollo_wrapper';
 const CenteredView = lazy(() => import('./util_components/centered_view'))
 const CreateUser = lazy(() => import('./components/create_user'))
 
@@ -28,9 +29,13 @@ export default function Authenticator() {
 
   //try fetch the current user if we have a token (if not logged in google first we need to sign in)
   const {data, loading, refetch} = useQuery(USERNAME, {
-    skip: !googleID
+    skip: !googleID,
+    onCompleted: () => {
+      if (data.user && data.user.username) {
+        usernameVar(data.user.username)
+      }
+    }
   })
-  console.log(googleID)
 
 
   //when starting try check if user logged in and fetch their token

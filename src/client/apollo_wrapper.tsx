@@ -4,7 +4,7 @@ import React from 'react';
 import {setContext} from '@apollo/client/link/context';
 import {getCurrentUserAsync} from 'expo-google-sign-in'
 
-import {ApolloProvider, ApolloClient, ApolloClientOptions, InMemoryCache, createHttpLink} from '@apollo/client'
+import {ApolloProvider, ApolloClient, ApolloClientOptions, InMemoryCache, createHttpLink, makeVar} from '@apollo/client'
 import Authenticator from './authenticator';
 
 const httpLink = createHttpLink({
@@ -23,9 +23,23 @@ const authLink = setContext(async (_, {headers}) => {
     }
   }
 });
+export const usernameVar = makeVar('');
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        usernameVar: {
+          read() {
+            return usernameVar();
+          }
+        }
+      }
+    }
+  }
+})
 const options: ApolloClientOptions<unknown> = {
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache,
   //REMOVE!
   defaultOptions: {
     watchQuery: {
