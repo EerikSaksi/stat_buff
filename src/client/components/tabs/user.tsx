@@ -34,7 +34,7 @@ const User: React.FC<{route: NavigationProps}> = ({route}) => {
 
   return (
     <React.Fragment>
-      <TopView>
+      <TopView style = {{ backgroundColor: 'blue' }}>
         <TouchableOpacity onPress={() => setModalVisible(true)} >
           <Text>Update Stats</Text>
         </TouchableOpacity>

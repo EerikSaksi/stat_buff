@@ -1,7 +1,0 @@
-openssl s_client -connect strengthlevel.com:443 -servername strengthlevel.com | tee logcertfile
-openssl x509 -in logcertfile -noout -text | grep -i "issuer"
-
-http://certificates.godaddy.com/repository/gdig2.crt
-
-curl --output intermediate.crt http://certificates.godaddy.com/repository/gdig2.crt
-openssl x509 -inform DER -in intermediate.crt -out intermediate.pem -text
