@@ -31,7 +31,7 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
           ////no need to ensure if already exists because of unique clause for googleID
           const {rows} = await context.pgClient.query(
             `insert into "user" (username, googleid)
-             values ('${username}', '${context.googleID}')`,
+             values ('${username}', current_setting('user.googleID'))`,
           );
           return true
         }
@@ -59,7 +59,6 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
             'select * from "body_stat" where username() = username'
           );
           const {ismale, bodymass} = bodyStatRows[0]
-          console.log(bodyStatRows)
           const gender = ismale ? "male" : "female"
           const val =  await statsToPercentageVal(gender, bodymass, exercise, liftmass, repetitions)
           console.log({val})

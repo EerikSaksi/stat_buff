@@ -63,6 +63,7 @@ $$ LANGUAGE sql IMMUTABLE STRICT;
 --CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));
 CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));
 CREATE POLICY user_delete ON "user" FOR delete to query_sender USING (googleID = current_setting('user.googleID'));
+CREATE POLICY user_create ON "user" FOR insert to query_sender with check (googleID = current_setting('user.googleID'));
 CREATE POLICY user_select ON "user" FOR select to query_sender using (true);
 
 --only a user should have permissions to their own body stats

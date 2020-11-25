@@ -24,12 +24,13 @@ const styles = StyleSheet.create({
 })
 
 export default function Authenticator() {
-  const [googleID, setGoogleID] = useState<string | undefined>('uh oh')
+  const [googleID, setGoogleID] = useState<string | undefined>(undefined)
 
   //try fetch the current user if we have a token (if not logged in google first we need to sign in)
   const {data, loading, refetch} = useQuery(USERNAME, {
     skip: !googleID
   })
+  console.log(googleID)
 
 
   //when starting try check if user logged in and fetch their token
@@ -54,7 +55,7 @@ export default function Authenticator() {
             <SocialIcon type='google' title={'Sign in with Google'} button
               style={{width: '50%', ...generateShadow(24)}}
               onPress={async () => {
-                setGoogleID('uh oh')
+                setGoogleID('dne')
                 //initAsync()
                 ////get the token id and fetch data with it
                 //const result: GoogleSignInAuthResult = await signInAsync();
