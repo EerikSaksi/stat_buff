@@ -37,11 +37,12 @@ const UserModal: React.FC<{visible: boolean, setVisible: (b: boolean) => void, u
   const [bodymass, setBodymass] = useState<number | undefined>(undefined)
   const [isMale, setIsMale] = useState(true)
   const [exerciseInput, setExerciseInput] = useState("")
+  console.log(bodymass)
 
   //check if the user has created body stats before (and in that case prefill the inputs)
   const {data, loading, refetch} = useQuery(FETCH_BODY_STAT, {
     variables: {username},
-    onCompleted: (bodyStatByUsername) => {
+    onCompleted: ({bodyStatByUsername}) => {
       if (bodyStatByUsername && bodyStatByUsername.ismale) {
         setIsMale(bodyStatByUsername.ismale)
         setBodymass(bodyStatByUsername.bodymass)
@@ -68,13 +69,13 @@ const UserModal: React.FC<{visible: boolean, setVisible: (b: boolean) => void, u
 
   return (
     <Modal style={{margin: 0}} visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={'slide'}>
-      <View style={{flex: 20}}>
+      <View style={{flex: 10}}>
         <Text style={{textAlign: 'center', fontSize: 20}} >
           Update body stats
           </Text>
         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
           <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            <TextInput placeholder='Bodyweight (kg)' onChangeText={(text) => setBodymass(parseInt(text))} keyboardType={'numeric'} />
+            <TextInput value = {bodymass ? bodymass.toString() : undefined} placeholder='Bodyweight (kg)' onChangeText={(text) => setBodymass(parseInt(text))} keyboardType={'numeric'} />
           </View>
           <View style={{
             flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'
@@ -90,9 +91,10 @@ const UserModal: React.FC<{visible: boolean, setVisible: (b: boolean) => void, u
           </Text>
           {bodyStatButton}
         </View>
-        <View style={{flex: 1, flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center'}}>
+        <View style={{flex: 7, alignItems: 'center', justifyContent: 'center'}}>
           <TextInput value = {exerciseInput} onChangeText = {(t) => setExerciseInput(t)} placeholder="Search for exercises">
           </TextInput>
+          <ExerciseSearch input = {exerciseInput}/>
         </View>
       </View>
     </Modal >

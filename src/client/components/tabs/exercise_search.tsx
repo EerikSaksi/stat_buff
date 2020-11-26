@@ -1,9 +1,8 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useQuery, gql} from '@apollo/client'
-import {View, Text} from 'react-native'
+import {View, Text, FlatList, TextInput} from 'react-native'
 import Loading from '../../util_components/loading'
-import {ListItem} from 'react-native-elements'
-import unslugify from '../../util_components/unslugify'
+import {unslugify, slugify} from '../../util_components/slug'
 const EXERCISE_SEARCH = gql`query($input: String!){
   exercises(filter: {slugName: {includesInsensitive: $input}}, orderBy: POPULARITY_RANKING_ASC, first: 5){
     nodes{
@@ -13,36 +12,51 @@ const EXERCISE_SEARCH = gql`query($input: String!){
 }`
 
 const ExerciseSearch: React.FC<{input: string}> = ({input}) => {
+  const [sluggedInput, setSluggedInput] = useState("")
+  useEffect(() => {
+    setSluggedInput(slugify(input))
+  }, [input])
   const {data, loading} = useQuery(EXERCISE_SEARCH, {
-    variables: {input},
+    variables: {input: sluggedInput},
     skip: input === ""
   })
 
-  if (loading) {
-    return <Loading />
+  if (!data) {
+    return (<Loading />)
   }
-  else if (input === "") {
-    return (
-      <View>
-        {
-          ["Bench Press", "Deadlift", "Squat", "Shoulder Press", "Pull Ups",].map(exercise => {
-            <ListItem title={exercise} />
-          })
-        }
-      </View>
-    )
-  }
-  else if (!data.exercises.nodes.length) {
-    return (<Text> No exercises found </Text>)
-  }
+
+  //either example search or actual search
+  const exercises = input === ""
+    ? ["bench-press", "deadlift", "squat", "shoulder-press", "pull-ups"]
+    : data.exercises.nodes.map(exercise => exercise.slugName)
+
   return (
-    <View>
+    <React.Fragment>
       {
-        data.exercises.nodes.map(exercise => {
-          <ListItem style = {{ flex: 1 }} title={unslugify(exercise.slugName)} />
-        })
+        input === ""
+          ?
+          <Text style={{fontSize: 20, }}>
+            Most popular searches
+          </Text>
+          : undefined
       }
-    </View>
+      <FlatList data={exercises} style={{width: '100%'}}
+        renderItem={({item}) =>
+          <View key={item} style={{flex: 1, alignItems: 'center', justifyContent: 'center', }}>
+            <View style={{flex: 1, flexDirection: 'row', }}>
+              <View style={{flex: 1}}>
+                <Text>
+                  {unslugify(item)}
+                </Text>
+              </View>
+              <TextInput style={{flex: 1, textAlign: 'center'}} placeholder={'Weight (kg)'} />
+              <TextInput style={{flex: 1, textAlign: 'center'}} placeholder={'Reps'} />
+            </View>
+          </View>
+        }
+      >
+      </FlatList>
+    </React.Fragment>
   )
 }
 export default ExerciseSearch
