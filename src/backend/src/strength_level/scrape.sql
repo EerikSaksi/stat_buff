@@ -1,8 +1,4 @@
-create table "exercise" (
-  slug_name varchar(32) not null primary key,
-  popularity_ranking integer unique
-);
-grant select on table "exercise" to query_sender;
+
 insert into
   "exercise" (popularity_ranking, slug_name)
 values

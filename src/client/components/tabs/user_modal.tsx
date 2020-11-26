@@ -16,18 +16,18 @@ const styles = StyleSheet.create({
 })
 
 const CREATE_BODY_STAT = gql`mutation ($username: String!, $ismale: Boolean!, $bodymass: Int!){
-  createBodyStat(input: {bodyStat: {username: $username, ismale: $ismale, bodymass: $bodymass}}){
+  createBodystat(input: {bodystat: {username: $username, ismale: $ismale, bodymass: $bodymass}}){
     clientMutationId
   }
 }`
 
 const UPDATE_BODY_STAT = gql`mutation ($username: String!, $ismale: Boolean!, $bodymass: Int!){
-  updateBodyStatByUsername(input: {username: $username, patch: {ismale: $ismale, bodymass: $bodymass}}){
+  updateBodystatByUsername(input: {username: $username, patch: {ismale: $ismale, bodymass: $bodymass}}){
     clientMutationId
   }
 }`
 const FETCH_BODY_STAT = gql`query($username: String!){
-  bodyStatByUsername(username: $username){
+  bodystatByUsername(username: $username){
     ismale
     bodymass
   }
@@ -42,10 +42,10 @@ const UserModal: React.FC<{visible: boolean, setVisible: (b: boolean) => void, u
   //check if the user has created body stats before (and in that case prefill the inputs)
   const {data, loading, refetch} = useQuery(FETCH_BODY_STAT, {
     variables: {username},
-    onCompleted: ({bodyStatByUsername}) => {
-      if (bodyStatByUsername && bodyStatByUsername.ismale) {
-        setIsMale(bodyStatByUsername.ismale)
-        setBodymass(bodyStatByUsername.bodymass)
+    onCompleted: ({bodystatByUsername}) => {
+      if (bodystatByUsername && bodystatByUsername.ismale) {
+        setIsMale(bodystatByUsername.ismale)
+        setBodymass(bodystatByUsername.bodymass)
       }
     }
   })
@@ -63,7 +63,7 @@ const UserModal: React.FC<{visible: boolean, setVisible: (b: boolean) => void, u
   const bodyStatButton =
     loading || !bodymass
       ? <Button title={loading ? "Loading" : "Enter a weight"} raised={true} disabled={true} />
-      : data && data.bodyStatByUsername
+      : data && data.bodystatByUsername
         ? <Button title="Update body stats" raised={true} onPress={() => updateBodyStats()} />
         : <Button title="Create body stats" raised={true} onPress={() => createBodyStats()} />
 

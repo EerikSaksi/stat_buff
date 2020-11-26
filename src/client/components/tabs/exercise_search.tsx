@@ -1,21 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import {useQuery, gql} from '@apollo/client';
-import {Text, FlatList} from 'react-native';
+import {Text, FlatList, ScrollView} from 'react-native';
 import Loading from '../../util_components/loading';
 import {slugify} from '../../util_components/slug';
 import ExerciseSearchResult from './exercise_search_result';
 const EXERCISE_SEARCH = gql`query($input: String!){
-  exercises(filter: {slugName: {includesInsensitive: $input}}, orderBy: POPULARITY_RANKING_ASC, first: 5){
+  exercises(filter: {slugName: {includesInsensitive: $input}}, orderBy: POPULARITY_RANKING_ASC, first: 8){
     nodes{
       slugName
     }
   }
 }`;
+
+
 const ExerciseSearch: React.FC<{input: string;}> = ({input}) => {
+  //the user will enter search normally, so slugify their input to be compatible with the slugged exercises
   const [sluggedInput, setSluggedInput] = useState("");
   useEffect(() => {
     setSluggedInput(slugify(input));
   }, [input]);
+
   const {data} = useQuery(EXERCISE_SEARCH, {
     variables: {input: sluggedInput},
     skip: input === ""
@@ -31,10 +35,10 @@ const ExerciseSearch: React.FC<{input: string;}> = ({input}) => {
     : data.exercises.nodes.map(exercise => exercise.slugName);
 
   return (
-    <React.Fragment>
+    <ScrollView style = {{ width: '100%' }}>
       {input === ""
         ?
-        <Text style={{fontSize: 20, }}>
+        <Text style={{fontSize: 20, textAlign: 'center'}}>
           Most popular searches
           </Text>
         : undefined}
@@ -43,7 +47,7 @@ const ExerciseSearch: React.FC<{input: string;}> = ({input}) => {
         }
       >
       </FlatList>
-    </React.Fragment>
+    </ScrollView>
   );
 };
 export default ExerciseSearch;
