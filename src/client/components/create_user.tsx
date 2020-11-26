@@ -45,10 +45,8 @@ const CreateUser: React.FC<{refetchUser: () => void}> = ({refetchUser}) => {
   //if succesfully created then user data exists for the current google user
   const [createUser] = useMutation(CREATE_USER, {
     variables: {username},
-    onCompleted: (data) => {
-      if (data.createUser) {
-        refetchUser()
-      }
+    onCompleted: () => {
+      refetchUser()
     }
   })
 
@@ -104,7 +102,7 @@ const CreateUser: React.FC<{refetchUser: () => void}> = ({refetchUser}) => {
       <Text style={styles.text}>
         {error}
       </Text>
-      <AnimatedTextInput  onEndEditing={submit} style={[styles.input, {backgroundColor}]} value={username} placeholder="Enter username" onChangeText={(e) => setUsername(e)}>
+      <AnimatedTextInput autoFocus = {true} onEndEditing={submit} style={[styles.input, {backgroundColor}]} value={username} placeholder="Enter username" onChangeText={(e) => setUsername(e)}>
       </AnimatedTextInput>
       <TouchableOpacity style={styles.button} disabled={error.length !== 0 || username.length === 0} onPress={submit} >
         <Text>

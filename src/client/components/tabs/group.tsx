@@ -1,12 +1,14 @@
 import React, {useState} from 'react'
-import {gql, useMutation, useQuery} from '@apollo/client'
+import {gql, useMutation, useQuery, useReactiveVar} from '@apollo/client'
 import {Text, TextInput, StyleSheet, View, FlatList} from 'react-native'
 import CenteredView from '../../util_components/centered_view'
 import Loading from '../../util_components/loading'
 import TopView from '../../util_components/top_view'
+import {usernameVar} from '../../apollo/cache'
 
 
 const GROUP_INFO = gql`query group_info($username: String!){
+
   user(username: $username) {
     groupByGroupname{
       name
@@ -25,12 +27,11 @@ const UPDATE_GROUP = gql`mutation updategroup($username: String!, $groupname: St
     clientMutationId
   }
 }`
-type NavigationProps = {params: {username: string}};
 
-const Group: React.FC<{route: NavigationProps}> = ({route}) => {
-  console.log('group')
-  const {username} = route.params
+const Group: React.FC = () => {
   const [query, setQuery] = useState("")
+  const username = useReactiveVar(usernameVar)
+  console.log(username)
 
   //used to search for groups (don't search if no query)
   const {data: searchData} = useQuery(SEARCH_GROUPS, {
@@ -39,9 +40,9 @@ const Group: React.FC<{route: NavigationProps}> = ({route}) => {
   })
 
   //try fetch group info
-  const {data: groupData, refetch} = useQuery(GROUP_INFO, {
-    variables: {username},
-  })
+  const {data: groupData, refetch} = useQuery(GROUP_INFO,
+    {variables: {username}}
+  )
 
   const [updateGroup] = useMutation(UPDATE_GROUP, {
     //whenever you update group also refetch user data

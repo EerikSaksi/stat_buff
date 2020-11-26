@@ -151,4 +151,4 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 
 ## Nov 25 (4 hours)
 - Finished the parse of all exercises, and integrated the users body stats (a user who has given their stats can find their relative strength as a percentage.)
-- Refactoring. I realized that I should be able to open another users page, so instead of passing the current authenticated users name in to the user component, I fetch that from the local state. This way if a username was passed we know we are looking at another users page.
+- Refactoring. I realized that I should be able to open another users page, so instead of passing the current authenticated users name in to the user component, I fetch that from the local state. This way if a username was passed we know we are looking at another users page, so we can omit things like edit profile.

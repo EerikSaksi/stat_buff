@@ -11,9 +11,9 @@ create table "user" (
 );
 
 create table "body_stat" (
-  username varchar(32) REFERENCES "user" ON DELETE cascade,
-  isMale boolean,  
-  bodymass integer,
+  username varchar(32) REFERENCES "user" ON DELETE cascade not null,
+  isMale boolean not null,  
+  bodymass integer not null check (bodymass > 0),
   unique(username)
 );
 

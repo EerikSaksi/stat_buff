@@ -8,14 +8,15 @@ import {ImageBackground, StyleSheet, View} from 'react-native';
 import {generateShadow} from 'react-native-shadow-generator';
 //const App = lazy(() => import('./App'))
 import App from './App'
-import {usernameVar} from './apollo_wrapper';
+import {usernameVar} from './apollo/cache';
 const CenteredView = lazy(() => import('./util_components/centered_view'))
 const CreateUser = lazy(() => import('./components/create_user'))
 
 
-const USERNAME = gql`query username{
+const USERNAME = gql`query{
   username
 }`
+
 const styles = StyleSheet.create({
   image: {
     flex: 1,
@@ -30,11 +31,14 @@ export default function Authenticator() {
   //try fetch the current user if we have a token (if not logged in google first we need to sign in)
   const {data, loading, refetch} = useQuery(USERNAME, {
     skip: !googleID,
-    onCompleted: () => {
-      if (data.user && data.user.username) {
-        usernameVar(data.user.username)
+    onCompleted: (data) => {
+      console.log({data})
+      if (data.username) {
+        console.log('inside')
+        usernameVar(data.username)
       }
-    }
+    },
+    fetchPolicy: 'network-only'
   })
 
 
@@ -43,7 +47,8 @@ export default function Authenticator() {
     //const tryGetToken = async () => {
     //  await initAsync()
     //  if (await isSignedInAsync()) {
-    //    const result = await getCurrentUserAsync()
+    //    const result = await getCurrent
+    //    UserAsync()
     //    setGoogleID(result?.uid)
     //  }
     //}
@@ -76,7 +81,7 @@ export default function Authenticator() {
         content = <Suspense fallback={<Loading />}><CreateUser refetchUser={refetch} /></Suspense>
       }
       else {
-        return (<App username={data.username} />)
+        return (<App/>)
       }
     }
   }
