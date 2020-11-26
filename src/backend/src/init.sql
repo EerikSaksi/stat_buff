@@ -35,7 +35,6 @@ insert into
   "body_stat" (bodymass, isMale, username)
 values
   (85, true, 'eerik'),
-  (69, false, 'orek');
 
 --ensure no privileges that were set before exist
 drop owned by query_sender;
@@ -67,4 +66,4 @@ CREATE POLICY user_create ON "user" FOR insert to query_sender with check (googl
 CREATE POLICY user_select ON "user" FOR select to query_sender using (true);
 
 --only a user should have permissions to their own body stats
-create policy body_stats_all on "body_stat" FOR all to query_sender using (username = username())
+create policy body_stats_all on "body_stat" FOR all to query_sender using (true)

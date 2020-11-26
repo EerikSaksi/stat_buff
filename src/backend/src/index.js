@@ -25,10 +25,11 @@ const postgraphileOptions = {
     //if (req && req && req.headers && req.headers.authorization) {
       //const googleID = await tokenToGoogleID(req.headers.authorization)
       return {
-        'user.googleID': 'new one'
+        'user.googleID': 'uh oh'
       };
     //}
   },
+  ownerConnectionString: "postgres://eerik:postGrizzly@localhost:5432/rpgym"
 }
 const app = express();
 (async () => {
