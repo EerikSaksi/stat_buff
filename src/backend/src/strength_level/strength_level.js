@@ -7,7 +7,7 @@ const httpsAgent = new https.Agent({ca: rootCas});
 const cheerio = require('cheerio')
 
 async function statsToPercentageVal(gender, bodymass, exercise, liftmass, repetitions) {
-  await fetch("https://strengthlevel.com/", {
+  return await fetch("https://strengthlevel.com/", {
     "agent": httpsAgent,
     "headers": {
       "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
@@ -35,7 +35,8 @@ async function statsToPercentageVal(gender, bodymass, exercise, liftmass, repeti
     .then(text => {
       $ = cheerio.load(text)
       const result = $('p[class=has-text-weight-bold]').first().text().match(/[0-9]/g)
-      return parseInt(result.join(''))
+      const toReturn = parseInt(result.join(''))
+      return (toReturn)
     })
 }
 module.exports = statsToPercentageVal

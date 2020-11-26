@@ -60,8 +60,7 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
           );
           const {ismale, bodymass} = bodyStatRows[0]
           const gender = ismale ? "male" : "female"
-          const val =  await statsToPercentageVal(gender, bodymass, exercise, liftmass, repetitions)
-          console.log({val})
+          const val = await statsToPercentageVal(gender, bodymass, exercise, liftmass, repetitions)
           return val
         }
       }

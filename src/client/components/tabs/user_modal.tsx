@@ -4,7 +4,7 @@ import TopView from '../../util_components/top_view'
 import {Button, Divider} from 'react-native-elements'
 import {useMutation, useQuery} from '@apollo/client/react'
 import {gql} from '@apollo/client'
-import ExerciseSearch from './exercise_search'
+import ExerciseSearch from "./exercise_search"
 import {generateShadow} from 'react-native-shadow-generator'
 const styles = StyleSheet.create({
   modal: {
