@@ -34,6 +34,7 @@ const FETCH_BODY_STAT = gql`query($username: String!){
 const UserModal: React.FC<{visible: boolean, setVisible: (b: boolean) => void, username: string}> = ({visible, setVisible, username}) => {
   const [bodymass, setBodymass] = useState<number | undefined>(undefined)
   const [isMale, setIsMale] = useState(true)
+  console.log(username)
 
   //check if the user has created body stats before (and in that case prefill the inputs)
   const {data, loading, refetch} = useQuery(FETCH_BODY_STAT, {
@@ -60,7 +61,7 @@ const UserModal: React.FC<{visible: boolean, setVisible: (b: boolean) => void, u
   const bodyStatButton = 
     loading || !bodymass
       ?   <Button title={loading ? "Loading" : "Enter a weight"} raised={true} disabled = {true} />
-      :   data
+      :   data && data.bodyStatByUsername
           ?   <Button title="Update body stats" raised={true} onPress={() => updateBodyStats()} />  
           :   <Button title="Create body stats" raised={true} onPress={() => createBodyStats()} />
 

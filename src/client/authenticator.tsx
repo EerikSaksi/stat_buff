@@ -26,15 +26,14 @@ const styles = StyleSheet.create({
 })
 
 export default function Authenticator() {
-  const [googleID, setGoogleID] = useState<string | undefined>(undefined)
+  const [googleID, setGoogleID] = useState<string | undefined>('asdfasdf')
 
   //try fetch the current user if we have a token (if not logged in google first we need to sign in)
   const {data, loading, refetch} = useQuery(USERNAME, {
     skip: !googleID,
     onCompleted: (data) => {
-      console.log({data})
+      console.log('username query')
       if (data.username) {
-        console.log('inside')
         usernameVar(data.username)
       }
     },
