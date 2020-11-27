@@ -8,7 +8,7 @@ const GenericSprite: React.FC = () => {
       spriteRef.current!.play(options)
     }
   }
-  const idle = () => animate({type: "idle", loop: true, fps: 10})
+  const idle = () => animate({type: "attack2", loop: true, fps: 10})
   const onHit = () => animate({type: "onHit", fps: 10, onFinish: () => idle()})
   useEffect(() => {
     if (spriteRef.current) {

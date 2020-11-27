@@ -37,6 +37,7 @@ const UserModal: React.FC<{visible: boolean, setVisible: (b: boolean) => void, u
   const [bodymass, setBodymass] = useState<number | undefined>(undefined)
   const [isMale, setIsMale] = useState(true)
   const [exerciseInput, setExerciseInput] = useState("")
+  const [onlyShowTracked, setOnlyShowTracked] = useState(false)
   console.log(bodymass)
 
   //check if the user has created body stats before (and in that case prefill the inputs)
@@ -92,9 +93,12 @@ const UserModal: React.FC<{visible: boolean, setVisible: (b: boolean) => void, u
           {bodyStatButton}
         </View>
         <View style={{flex: 7, alignItems: 'center', justifyContent: 'center'}}>
-          <TextInput value = {exerciseInput} onChangeText = {(t) => setExerciseInput(t)} placeholder="Search for exercises">
-          </TextInput>
-          <ExerciseSearch input = {exerciseInput}/>
+          <Text>
+            Only show exercises you've tracked
+          </Text>
+          <Switch value = {onlyShowTracked} onValueChange = {(v) => setOnlyShowTracked(v)}/>
+          <TextInput value = {exerciseInput} onChangeText = {(t) => setExerciseInput(t)} placeholder="Search for exercises"/>
+          <ExerciseSearch input = {exerciseInput} username = {username} onlyShowTracked = {onlyShowTracked}/>
         </View>
       </View>
     </Modal >

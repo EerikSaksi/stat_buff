@@ -11,9 +11,18 @@ const EXERCISE_SEARCH = gql`query($input: String!){
     }
   }
 }`;
+const USER_EXERCISE_SEARCH = gql`query($username: String!){
+	user(username: $username){
+    userExercisesByUsername{
+      nodes{
+        slugName
+      }
+    }
+  }
+}`
 
 
-const ExerciseSearch: React.FC<{input: string;}> = ({input}) => {
+const ExerciseSearch: React.FC<{input: string, username: string, onlyShowTracked: boolean}> = ({input, username, onlyShowTracked}) => {
   //the user will enter search normally, so slugify their input to be compatible with the slugged exercises
   const [sluggedInput, setSluggedInput] = useState("");
   useEffect(() => {
@@ -22,28 +31,40 @@ const ExerciseSearch: React.FC<{input: string;}> = ({input}) => {
 
   const {data} = useQuery(EXERCISE_SEARCH, {
     variables: {input: sluggedInput},
-    skip: input === ""
+    skip: input === "" && onlyShowTracked
   });
 
-  if (!data && input !== "") {
-    return (<Loading />);
-  }
+  const {data: userData} = useQuery(USER_EXERCISE_SEARCH, {
+    variables: {username, input: sluggedInput},
+    skip: !onlyShowTracked
+  });
 
+
+  console.log(userData)
+  //if the user is inputting something and the requested search (user data when we only want tracked exercises or data when we want either) is undefined then loading
+  if (input !== "" && ((!onlyShowTracked && !data || onlyShowTracked && !userData))) {
+    return (<Loading />)
+  }
   //either example search or actual search
-  const exercises = input === ""
-    ? ["bench-press", "deadlift", "squat", "shoulder-press", "pull-ups"]
-    : data.exercises.nodes.map(exercise => exercise.slugName);
+  const exercises =
+    onlyShowTracked
+      ? userData.user.userExercisesByUsername.nodes.map(exercise => exercise.slugName)
+      : input === ""
+          ? ["bench-press", "deadlift", "squat", "shoulder-press", "pull-ups"]
+          //map the search that the user wants
+          : data.exercises.nodes.map(exercise => exercise.slugName);
+
 
   return (
-    <ScrollView style = {{ width: '100%' }}>
-      {input === ""
+    <ScrollView style={{width: '100%'}}>
+      {!onlyShowTracked && input === ""
         ?
         <Text style={{fontSize: 20, textAlign: 'center'}}>
           Most popular searches
           </Text>
         : undefined}
       <FlatList data={exercises} style={{width: '100%'}}
-        renderItem={({item}) => <ExerciseSearchResult exerciseSlug={item} />
+        renderItem={({item}) => <ExerciseSearchResult key={item} exerciseSlug={item} username={username} />
         }
       >
       </FlatList>

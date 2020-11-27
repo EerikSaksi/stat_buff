@@ -56,7 +56,7 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
 
           //get the users bodyStats
           const {rows: bodyStatRows} = await context.pgClient.query(
-            'select * from "body_stat" where username() = username'
+            'select * from "bodystat" where username() = username'
           );
           const {ismale, bodymass} = bodyStatRows[0]
           const gender = ismale ? "male" : "female"

@@ -89,6 +89,9 @@ CREATE POLICY group_delete ON "group" FOR delete to query_sender USING (false);
 
 --only a user should have permissions to their own body stats
 create policy bodystats_all on "bodystat" FOR all to query_sender using (username = username());
+
+
 CREATE POLICY user_exercise_update ON "user_exercise" FOR update to query_sender USING (username = username());
 CREATE POLICY user_exercise_delete ON "user_exercise" FOR delete to query_sender USING (username = username());
 CREATE POLICY user_exercise_create ON "user_exercise" FOR insert to query_sender with check (username = username());
+CREATE POLICY user_exercise_select ON "user_exercise" FOR select to query_sender using (true);
