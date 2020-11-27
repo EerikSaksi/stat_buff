@@ -1,17 +1,10 @@
-import React, {useState} from 'react'
-import {Text, Switch, View, StyleSheet, Modal, TextInput} from 'react-native'
+import React from "react"
+import {gql} from "@apollo/client"
+import {useMutation} from "@apollo/client/react"
+import {useQuery} from "@apollo/client/react/hooks/useQuery"
+import {useState} from "react"
+import {Text, Switch, View, Modal, TextInput} from 'react-native'
 import {Button, Divider} from 'react-native-elements'
-import {useMutation, useQuery} from '@apollo/client/react'
-import {gql} from '@apollo/client'
-import ExerciseSearch from "./exercise_search"
-const styles = StyleSheet.create({
-  modal: {
-    opacity: 0,
-    margin: 100, // This is the important style you need to set
-    alignItems: undefined,
-    justifyContent: undefined,
-  }
-})
 
 const CREATE_BODY_STAT = gql`mutation ($username: String!, $ismale: Boolean!, $bodymass: Int!){
   createBodystat(input: {bodystat: {username: $username, ismale: $ismale, bodymass: $bodymass}}){
@@ -31,11 +24,9 @@ const FETCH_BODY_STAT = gql`query($username: String!){
   }
 }`
 
-const UserModal: React.FC<{visible: boolean, setVisible: (b: boolean) => void, username: string}> = ({visible, setVisible, username}) => {
+const BodyStatsModal: React.FC<{visible: boolean, setVisible: (b: boolean) => void, username: string}> = ({visible, setVisible, username}) => {
   const [bodymass, setBodymass] = useState<number | undefined>(undefined)
   const [isMale, setIsMale] = useState(true)
-  const [exerciseInput, setExerciseInput] = useState("")
-  const [onlyShowTracked, setOnlyShowTracked] = useState(false)
 
   //check if the user has created body stats before (and in that case prefill the inputs)
   const {data, loading, refetch} = useQuery(FETCH_BODY_STAT, {
@@ -90,27 +81,8 @@ const UserModal: React.FC<{visible: boolean, setVisible: (b: boolean) => void, u
           {bodyStatButton}
           <Divider style = {{ backgroundColor: 'black' }}/>
         </View>
-        <View style={{flex: 2, alignItems: 'center', justifyContent: 'center'}}>
-          <Text style={{textAlign: 'center', fontSize: 20}} >
-            Update Strength Data
-          </Text>
-          <View style={{flex: 2, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
-
-            <Text style={{marginRight: '2%'}}>
-              Only show exercises you've tracked
-            </Text>
-            <Switch value={onlyShowTracked} onValueChange={(v) => setOnlyShowTracked(v)} />
-          </View>
-        </View>
-        <View style = {{ justifyContent: 'center', alignItems: 'center' }}>
-          <View>
-            <TextInput value={exerciseInput} onChangeText={(t) => setExerciseInput(t)} placeholder="Search for exercises" />
-          </View>
-          <ExerciseSearch input={exerciseInput} username={username} onlyShowTracked={onlyShowTracked} />
-        </View>
       </View>
     </Modal >
   )
 }
-export default UserModal
-
+export default BodyStatsModal
