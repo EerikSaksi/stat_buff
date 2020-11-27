@@ -15,6 +15,7 @@ const USER = gql`query user_query($username: String!){
       username
     }
 }`
+
 const User: React.FC = () => {
   const username = useReactiveVar(usernameVar)
   const {data} = useQuery(USER, {

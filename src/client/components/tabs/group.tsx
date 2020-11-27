@@ -31,7 +31,6 @@ const UPDATE_GROUP = gql`mutation updategroup($username: String!, $groupname: St
 const Group: React.FC = () => {
   const [query, setQuery] = useState("")
   const username = useReactiveVar(usernameVar)
-  console.log(username)
 
   //used to search for groups (don't search if no query)
   const {data: searchData} = useQuery(SEARCH_GROUPS, {

@@ -40,11 +40,12 @@ const ExerciseSearch: React.FC<{input: string, username: string, onlyShowTracked
   });
 
 
-  console.log(userData)
   //if the user is inputting something and the requested search (user data when we only want tracked exercises or data when we want either) is undefined then loading
-  if (input !== "" && ((!onlyShowTracked && !data || onlyShowTracked && !userData))) {
+  if ((input !== "" && !onlyShowTracked && data) || (onlyShowTracked && !userData)) {
     return (<Loading />)
   }
+
+  console.log(userData)
   //either example search or actual search
   const exercises =
     onlyShowTracked
@@ -54,6 +55,7 @@ const ExerciseSearch: React.FC<{input: string, username: string, onlyShowTracked
           //map the search that the user wants
           : data.exercises.nodes.map(exercise => exercise.slugName);
 
+  //const exercises = ["bench-press"]
 
   return (
     <ScrollView style={{width: '100%'}}>

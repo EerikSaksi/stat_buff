@@ -12,7 +12,7 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
         createUser(username: String!): Boolean
       }
       extend type Query{
-        calculateStrength(exercise: String!, liftmass: Int!, repetitions: Int!): Int
+        calculateStrength(exercise: String!, liftmass: Float!, repetitions: Int!): Int
       }
     `,
     resolvers:

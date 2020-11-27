@@ -152,3 +152,12 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 ## Nov 25 (4 hours)
 - Finished the parse of all exercises, and integrated the users body stats (a user who has given their stats can find their relative strength as a percentage.)
 - Refactoring. I realized that I should be able to open another users page, so instead of passing the current authenticated users name in to the user component, I fetch that from the local state. This way if a username was passed we know we are looking at another users page, so we can omit things like edit profile.
+
+## Nov 26 (6 hours)
+- Added a modal popup on the user page. Clicking on it let's you set your body weight and gender and save it to the database. Really pleased with the logic for this: first it tries to fetch them from my server: if they exist, it prefills the inputs and switches the button to (update) which calls update body stats instead of create to avoid "duplicate primary key" issue. 
+- Also implemented exercise search: you can search for any exercise enter the reps and weight, which gives you a percentage strength value. This is not yet sent back to the database or persistent, which needs more work. 
+- Once this is done I can calculate the strength of a user by taking their average relative stronger than percentage. This means that we have met (at least my own) minimum specification for user stats. I still need to implement tracking workouts which lets you attack based on the frequency of the workout.
+
+## Nov 26 (hours)
+- Exercise data is sent to the database now. It first shows you the percentage of relative strength, and then asks you to confirm. This is good because the tracking of some exercises is ambiguous (if you use two dumbbells do you track both or 1?). Getting a really high or low value will make you realize the issue.
+- The data is also persistent like the weight and gender. If you close the app, the exercise data will be there, and reps and weight will be prefilled.

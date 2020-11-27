@@ -38,7 +38,6 @@ const UserModal: React.FC<{visible: boolean, setVisible: (b: boolean) => void, u
   const [isMale, setIsMale] = useState(true)
   const [exerciseInput, setExerciseInput] = useState("")
   const [onlyShowTracked, setOnlyShowTracked] = useState(false)
-  console.log(bodymass)
 
   //check if the user has created body stats before (and in that case prefill the inputs)
   const {data, loading, refetch} = useQuery(FETCH_BODY_STAT, {

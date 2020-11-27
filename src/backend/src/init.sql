@@ -26,7 +26,7 @@ create table "user_exercise" (
   slug_name varchar(32) REFERENCES "exercise" ON DELETE cascade not null,
   username varchar(32) REFERENCES "user" ON DELETE cascade not null,
   repetitions integer not null,
-  liftmass integer not null,
+  liftmass float not null,
   strongerPercentage integer not null,
   primary key(slug_name, username)
 );
@@ -76,6 +76,10 @@ Alter table "user_exercise" enable row level security;
 
 CREATE FUNCTION username() RETURNS varchar AS $$
   select username from "user" where googleID = current_setting('user.googleID')
+$$ LANGUAGE sql IMMUTABLE STRICT;
+
+CREATE FUNCTION average_strength() RETURNS numeric AS $$
+  select avg("user_exercise".strongerpercentage) from "user_exercise" where username = username()
 $$ LANGUAGE sql IMMUTABLE STRICT;
 
 --CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));
