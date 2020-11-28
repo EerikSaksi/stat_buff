@@ -8,7 +8,6 @@ import {usernameVar} from '../../apollo/cache'
 
 
 const GROUP_INFO = gql`query group_info($username: String!){
-
   user(username: $username) {
     groupByGroupname{
       name

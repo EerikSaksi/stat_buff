@@ -44,17 +44,17 @@ const ExerciseSearch: React.FC<{input: string, username: string, onlyShowTracked
   if ((input !== "" && !onlyShowTracked && data) || (onlyShowTracked && !userData)) {
     return (<Loading />)
   }
+  console.log(data)
 
-  console.log(userData)
   //either example search or actual search
   const exercises =
     onlyShowTracked
       ? userData.user.userExercisesByUsername.nodes.map(exercise => exercise.slugName)
       : input === ""
-          ? ["bench-press", "deadlift", "squat", "shoulder-press", "pull-ups"]
-          //map the search that the user wants
-          : data.exercises.nodes.map(exercise => exercise.slugName);
-
+        ? ["bench-press", "deadlift", "squat", "shoulder-press", "pull-ups", "dumbbell-bench-press", "barbell-curl", "dumbbell-curl"]
+        //map the search that the user wants
+        : data.exercises.nodes.map(exercise => exercise.slugName);
+  
   //const exercises = ["bench-press"]
 
   return (

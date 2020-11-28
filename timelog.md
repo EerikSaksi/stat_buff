@@ -158,6 +158,14 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 - Also implemented exercise search: you can search for any exercise enter the reps and weight, which gives you a percentage strength value. This is not yet sent back to the database or persistent, which needs more work. 
 - Once this is done I can calculate the strength of a user by taking their average relative stronger than percentage. This means that we have met (at least my own) minimum specification for user stats. I still need to implement tracking workouts which lets you attack based on the frequency of the workout.
 
-## Nov 26 (hours)
+## Nov 27 (5 hours)
 - Exercise data is sent to the database now. It first shows you the percentage of relative strength, and then asks you to confirm. This is good because the tracking of some exercises is ambiguous (if you use two dumbbells do you track both or 1?). Getting a really high or low value will make you realize the issue.
 - The data is also persistent like the weight and gender. If you close the app, the exercise data will be there, and reps and weight will be prefilled.
+- Added a filter which only shows exercises that you have logged, which allows easy updating/deletion for existing exercises.
+- Separated the body stat update and the exercise search in to two different modals, as it was a bit crammed having both forms and search results for exercises come up. This also makes the logic of forcing the user to enter their body stats before they calculate their strength easier.
+- Finished ER diagram illustrating a simple query, and a query requiring authentication. I didn't go in to much detail about the implementation of each technology (for example, I didn't talk about the tables in my database.) I am not fully sure about the requirements, so I will talk to my advisor about this. https://drive.google.com/file/d/1XRXI-DjldtAq4NITHhNCsKDC-83fxlEG/view?usp=sharing
+- Next step's for user include calculating the users strength and thus calculating their character's damage, aswell as giving the user a cooler looking avatar whenver they make it to a new classification. I also need to add a workout log which then lets your character attack n times based on the intensity of the workout. I will probably only do this once I have implemented the enemy in the group page.
+
+## Nov 28 (hours)
+- Finished user stories. I am not very experienced with this, so I expect that I will have to refine them based on my feedback from my supervisor. 
+- Finished Figma design https://www.figma.com/file/snj7PAjmHJOEm6HVV61Htp/rogym?node-id=5%3A5 

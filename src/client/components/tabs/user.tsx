@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {gql, useQuery, useReactiveVar} from '@apollo/client';
 import {Text, View, StatusBar} from 'react-native'
 import Loading from '../../util_components/loading';
-import UserModal from './user_modal';
+import UserModal from "./strength_modal";
 import {usernameVar} from '../../apollo/cache';
 import GenericSprite from '../../sprites/generic_sprite';
 
@@ -28,7 +28,7 @@ const User: React.FC = () => {
   const {data} = useQuery(USER, {
     variables: {username},
   })
-  const [strengthModalVisible, setStrengthModalVisible] = useState(false)
+  const [strengthModalVisible, setStrengthModalVisible] = useState(true)
   const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false)
 
   if (!data) {
