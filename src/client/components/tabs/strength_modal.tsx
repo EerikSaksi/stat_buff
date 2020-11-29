@@ -1,14 +1,17 @@
 import React, {useState} from 'react'
 import {Text, Switch, View, Modal, TextInput} from 'react-native'
 import ExerciseSearch from "./exercise_search"
-
+import {Ionicons} from "@expo/vector-icons"
 const StrengthModal: React.FC<{visible: boolean, setVisible: (b: boolean) => void, username: string}> = ({visible, setVisible, username}) => {
   const [exerciseInput, setExerciseInput] = useState("")
   const [onlyShowTracked, setOnlyShowTracked] = useState(false)
   return (
-    <Modal style={{margin: 0}} visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={'slide'}>
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <View style={{flex: 2, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
+    <Modal visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={'slide'}>
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
+        <View style={{position: 'absolute', left: '1%'}}>
+          <Ionicons onPress={() => setVisible(false)} name="ios-arrow-round-back" style={{color: 'black', fontSize: 40, flex: 1}} />
+        </View>
+        <View style={{flex: 2, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
           <Text style={{marginRight: '2%'}}>
             Only show exercises you've tracked
             </Text>

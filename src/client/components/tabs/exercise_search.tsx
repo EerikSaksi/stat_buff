@@ -4,6 +4,7 @@ import {Text, FlatList, ScrollView} from 'react-native';
 import Loading from '../../util_components/loading';
 import {slugify} from '../../util_components/slug';
 import ExerciseSearchResult from './exercise_search_result';
+
 const EXERCISE_SEARCH = gql`query($input: String!){
   exercises(filter: {slugName: {includesInsensitive: $input}}, orderBy: POPULARITY_RANKING_ASC, first: 8){
     nodes{
@@ -11,6 +12,7 @@ const EXERCISE_SEARCH = gql`query($input: String!){
     }
   }
 }`;
+
 const USER_EXERCISE_SEARCH = gql`query($username: String!){
 	user(username: $username){
     userExercisesByUsername{
@@ -44,7 +46,6 @@ const ExerciseSearch: React.FC<{input: string, username: string, onlyShowTracked
   if ((input !== "" && !onlyShowTracked && data) || (onlyShowTracked && !userData)) {
     return (<Loading />)
   }
-  console.log(data)
 
   //either example search or actual search
   const exercises =
@@ -54,11 +55,11 @@ const ExerciseSearch: React.FC<{input: string, username: string, onlyShowTracked
         ? ["bench-press", "deadlift", "squat", "shoulder-press", "pull-ups", "dumbbell-bench-press", "barbell-curl", "dumbbell-curl"]
         //map the search that the user wants
         : data.exercises.nodes.map(exercise => exercise.slugName);
-  
+
   //const exercises = ["bench-press"]
 
   return (
-    <ScrollView style={{width: '100%'}}>
+    <React.Fragment>
       {!onlyShowTracked && input === ""
         ?
         <Text style={{fontSize: 20, textAlign: 'center'}}>
@@ -70,7 +71,7 @@ const ExerciseSearch: React.FC<{input: string, username: string, onlyShowTracked
         }
       >
       </FlatList>
-    </ScrollView>
+    </React.Fragment>
   );
 };
 export default ExerciseSearch;

@@ -26,7 +26,8 @@
     "react-native-screens": "~2.10.1",
     "react-native-shadow-generator": "^1.1.2",
     "react-native-web": "~0.13.12",
-    "rn-sprite-sheet": "^1.1.12"
+    "rn-sprite-sheet": "^1.1.12",
+    "@expo/vector-icons": "^10.0.0"
   },
   "devDependencies": {
     "@types/react": "~16.9.35",
