@@ -45,10 +45,11 @@ values
   ('orek', 'Dream Team', 'uh oh'),
   ('eerik', 'Team Rocket', 'stinky');
 
-insert into
-  "bodystat" (bodymass, isMale, username)
-values
-  (85, true, 'eerik');
+--insert into
+--  "bodystat" (bodymass, isMale, username)
+--values
+--  (85, true, 'orek');
+
 
 --ensure no privileges that were set before exist
 drop owned by query_sender;
@@ -79,7 +80,7 @@ CREATE FUNCTION username() RETURNS varchar AS $$
 $$ LANGUAGE sql IMMUTABLE STRICT;
 
 CREATE FUNCTION average_strength() RETURNS numeric AS $$
-  select avg("user_exercise".strongerpercentage) from "user_exercise" where username = username()
+  select avg("user_exercise".strongerpercentage)  from "user_exercise" where username = username()
 $$ LANGUAGE sql IMMUTABLE STRICT;
 
 --CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));

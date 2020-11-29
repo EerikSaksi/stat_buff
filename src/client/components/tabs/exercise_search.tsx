@@ -24,7 +24,7 @@ const USER_EXERCISE_SEARCH = gql`query($username: String!){
 }`
 
 
-const ExerciseSearch: React.FC<{input: string, username: string, onlyShowTracked: boolean}> = ({input, username, onlyShowTracked}) => {
+const ExerciseSearch: React.FC<{input: string, username: string, onlyShowTracked: boolean, refetchParent: () => void}> = ({input, username, onlyShowTracked, refetchParent}) => {
   //the user will enter search normally, so slugify their input to be compatible with the slugged exercises
   const [sluggedInput, setSluggedInput] = useState("");
   useEffect(() => {
@@ -67,7 +67,7 @@ const ExerciseSearch: React.FC<{input: string, username: string, onlyShowTracked
           </Text>
         : undefined}
       <FlatList data={exercises} style={{width: '100%'}}
-        renderItem={({item}) => <ExerciseSearchResult key={item} exerciseSlug={item} username={username} />
+        renderItem={({item}) => <ExerciseSearchResult key={item} exerciseSlug={item} username={username} refetchParent = {refetchParent} />
         }
       >
       </FlatList>

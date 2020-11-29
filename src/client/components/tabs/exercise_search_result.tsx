@@ -30,7 +30,7 @@ const UPDATE_USER_EXERCISE = gql`mutation($exerciseSlug: String!, $username: Str
   }
 }
 `
-const ExerciseSearchResult: React.FC<{exerciseSlug: string, username: string}> = ({exerciseSlug, username}) => {
+const ExerciseSearchResult: React.FC<{exerciseSlug: string, username: string, refetchParent: () => void}> = ({exerciseSlug, username, refetchParent}) => {
   const [liftmass, setLiftmass] = useState<undefined | string>(undefined)
   const [repetitions, setRepetitions] = useState<undefined | number>(undefined)
   const [percentage, setPercentage] = useState<undefined | number>(undefined)
@@ -54,11 +54,11 @@ const ExerciseSearchResult: React.FC<{exerciseSlug: string, username: string}> =
   //provide mutations for updating and updating lift stats. These are offered based on whether data exists in the database, and both trigger a refetch to keep the data updated
   const [createUserExercise] = useMutation(CREATE_USER_EXERCISE, {
     variables: {exerciseSlug, username, repetitions, percentage, liftmass: parseFloat(liftmass!)},
-    onCompleted: () => refetch()
+    onCompleted: () => {refetch(); refetchParent()}
   })
   const [updateUserExercise] = useMutation(UPDATE_USER_EXERCISE, {
     variables: {exerciseSlug, username, repetitions, percentage, liftmass: parseFloat(liftmass!)},
-    onCompleted: () => refetch()
+    onCompleted: () => {refetch(); refetchParent()}
   })
 
   var button;

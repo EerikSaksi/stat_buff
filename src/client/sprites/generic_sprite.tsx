@@ -1,7 +1,34 @@
-import React, {useRef, useEffect} from 'react'
+import React, {useRef, useEffect, useState} from 'react'
 import {TouchableOpacity, ViewStyle} from 'react-native'
 import SpriteSheet from 'rn-sprite-sheet'
-const GenericSprite: React.FC = () => {
+import Loading from '../util_components/loading'
+const GenericSprite: React.FC<{skillTitle: string | undefined}> = ({skillTitle}) => {
+  const [source, setSource] = useState<undefined | string>(undefined)
+  useEffect(() => {
+    if (skillTitle){
+      console.log('l')
+      switch(skillTitle){
+        case "noob":
+          setSource(require('../assets/sprites/noob.png'))
+          break
+        case "novice":
+          setSource(require('../assets/sprites/novice.png'))
+          break
+        case "apprentice":
+          setSource(require('../assets/sprites/apprentice.png'))
+          break
+        case "intermediate":
+          setSource(require('../assets/sprites/intermediate.png'))
+          break
+        case "advanced":
+          setSource(require('../assets/sprites/advanced.png'))
+          break
+        case "elite":
+          setSource(require('../assets/sprites/elite.png'))
+          break
+      }
+    }
+  }, [skillTitle])
   var spriteRef = useRef<SpriteSheet>(null)
   const animate = (options) => {
     if (spriteRef.current) {
@@ -16,14 +43,16 @@ const GenericSprite: React.FC = () => {
     }
   }, [spriteRef])
   return (
-    <TouchableOpacity style={{backgroundColor: 'blue', }} onPress={() => onHit()}>
+    source 
+    ? 
+    <TouchableOpacity onPress={() => onHit()}>
       <SpriteSheet
         ref={spriteRef}
-        source={require('../assets/evil_wizard.png')}
+        source={source}
         columns={8}
         rows={4}
-        viewStyle={{marginTop: '-45%', marginBottom: '-68%',}}
-        height={600}
+        viewStyle={{marginTop: '-45%', marginBottom: '-145%',}}
+        height={1000}
         animations={{
           idle: [0, 1, 2, 3, 4, 5, 6, 7],
           onHit: [8, 9, 10],
@@ -32,6 +61,7 @@ const GenericSprite: React.FC = () => {
         }}
       />
     </TouchableOpacity>
+    : <Loading/>
   )
 }
 export default GenericSprite
