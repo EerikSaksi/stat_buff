@@ -7,10 +7,8 @@ const StrengthModal: React.FC<{visible: boolean, setVisible: (b: boolean) => voi
   const [onlyShowTracked, setOnlyShowTracked] = useState(false)
   return (
     <Modal visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={'slide'}>
+      <Ionicons onPress={() => setVisible(false)} name="ios-arrow-round-back" style={{color: 'black', fontSize: 40, left: '2%', position: 'absolute', }} />
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
-        <View style={{position: 'absolute', left: '1%'}}>
-          <Ionicons onPress={() => setVisible(false)} name="ios-arrow-round-back" style={{color: 'black', fontSize: 40, flex: 1}} />
-        </View>
         <View style={{flex: 2, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
           <Text style={{marginRight: '2%'}}>
             Only show exercises you've tracked

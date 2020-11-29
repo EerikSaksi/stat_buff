@@ -28,8 +28,8 @@ const User: React.FC = () => {
   const {data} = useQuery(USER, {
     variables: {username},
   })
-  const [strengthModalVisible, setStrengthModalVisible] = useState(true)
-  const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false)
+  const [strengthModalVisible, setStrengthModalVisible] = useState(false)
+  const [bodystatsModalVisible, setBodystatsModalVisible] = useState(true)
 
   if (!data) {
     return (<Loading />)

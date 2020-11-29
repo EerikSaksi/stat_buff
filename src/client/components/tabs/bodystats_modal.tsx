@@ -5,6 +5,8 @@ import {useQuery} from "@apollo/client/react/hooks/useQuery"
 import {useState} from "react"
 import {Text, Switch, View, Modal, TextInput} from 'react-native'
 import {Button, Divider} from 'react-native-elements'
+import {Ionicons} from "@expo/vector-icons"
+import {generateShadow} from "react-native-shadow-generator"
 
 const CREATE_BODY_STAT = gql`mutation ($username: String!, $ismale: Boolean!, $bodymass: Int!){
   createBodystat(input: {bodystat: {username: $username, ismale: $ismale, bodymass: $bodymass}}){
@@ -57,29 +59,28 @@ const BodyStatsModal: React.FC<{visible: boolean, setVisible: (b: boolean) => vo
         : <Button title="Create body stats" raised={true} onPress={() => createBodyStats()} />
 
   return (
-    <Modal style={{margin: 0}} visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={'slide'}>
-      <View style={{flex: 10}}>
-        <Text style={{textAlign: 'center', fontSize: 20}} >
-          Update body stats
-          </Text>
+    <Modal visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={'slide'} transparent={true}>
+      <View style={{flex: 1, flexShrink: 1, margin: '10%', marginBottom: '30%', marginTop: '30%', backgroundColor: 'white', ...generateShadow(24), justifyContent: 'center', alignItems: 'center'}}>
+        <Ionicons onPress={() => setVisible(false)} name="ios-arrow-round-back" style={{color: 'black', fontSize: 40, left: '2%', position: 'absolute', top: 0}} />
+
         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
           <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            <TextInput style = {{ textAlign: 'center' }} value={bodymass ? bodymass.toString() : undefined} placeholder='Bodyweight (kg)' onChangeText={(text) => setBodymass(parseInt(text))} keyboardType={'numeric'} />
+            <TextInput style={{textAlign: 'center'}} value={bodymass ? bodymass.toString() : undefined} placeholder='Bodyweight (kg)' onChangeText={(text) => setBodymass(parseInt(text))} keyboardType={'numeric'} />
           </View>
           <View style={{
-            flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'
+            flex: 2, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'
           }}>
             <Text>Male</Text>
             <Switch value={!isMale} thumbColor={'white'} trackColor={{false: 'blue', true: 'pink'}} onValueChange={(value) => setIsMale(!value)}></Switch>
             <Text>Female</Text>
           </View>
         </View>
-        <View style={{flex: 3, alignItems: 'center'}}>
-          <Text>
+        <View style={{flex: 3, alignItems: 'center', }}>
+          <Text style = {{ textAlign: 'center' }}>
             This data is private (needed for strength calculations)
           </Text>
           {bodyStatButton}
-          <Divider style = {{ backgroundColor: 'black' }}/>
+          <Divider style={{backgroundColor: 'black'}} />
         </View>
       </View>
     </Modal >
