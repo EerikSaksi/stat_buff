@@ -13,6 +13,7 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
       }
       extend type Query{
         calculateStrength(exercise: String!, liftmass: Float!, repetitions: Int!): Int
+        averageStrength: Float
       }
     `,
     resolvers:
@@ -62,8 +63,16 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
           const gender = ismale ? "male" : "female"
           const val = await statsToPercentageVal(gender, bodymass, exercise, liftmass, repetitions)
           return val
+        },
+        averageStrength: async (parent, args, context, resolveInfo) => {
+          //check the exercise exists
+          const {rows} = await context.pgClient.query(
+            'select avg("user_exercise".strongerpercentage) from "user_exercise" where username = username()',
+          );
+          return rows[0].avg
         }
       }
+
     },
   };
 })

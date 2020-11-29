@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useQuery, gql} from '@apollo/client';
-import {Text, FlatList, ScrollView} from 'react-native';
+import {Text, FlatList} from 'react-native';
 import Loading from '../../util_components/loading';
 import {slugify} from '../../util_components/slug';
 import ExerciseSearchResult from './exercise_search_result';

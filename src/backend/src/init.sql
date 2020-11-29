@@ -79,9 +79,6 @@ CREATE FUNCTION username() RETURNS varchar AS $$
   select username from "user" where googleID = current_setting('user.googleID')
 $$ LANGUAGE sql IMMUTABLE STRICT;
 
-CREATE FUNCTION average_strength() RETURNS numeric AS $$
-  select avg("user_exercise".strongerpercentage)  from "user_exercise" where username = username()
-$$ LANGUAGE sql IMMUTABLE STRICT;
 
 --CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));
 CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));

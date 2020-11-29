@@ -166,6 +166,16 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 - Finished ER diagram illustrating a simple query, and a query requiring authentication. I didn't go in to much detail about the implementation of each technology (for example, I didn't talk about the tables in my database.) I am not fully sure about the requirements, so I will talk to my advisor about this. https://drive.google.com/file/d/1XRXI-DjldtAq4NITHhNCsKDC-83fxlEG/view?usp=sharing
 - Next step's for user include calculating the users strength and thus calculating their character's damage, aswell as giving the user a cooler looking avatar whenver they make it to a new classification. I also need to add a workout log which then lets your character attack n times based on the intensity of the workout. I will probably only do this once I have implemented the enemy in the group page.
 
-## Nov 28 (hours)
+## Nov 28 (3 hours) 
 - Finished user stories. I am not very experienced with this, so I expect that I will have to refine them based on my feedback from my supervisor. 
 - Finished Figma design https://www.figma.com/file/snj7PAjmHJOEm6HVV61Htp/rogym?node-id=5%3A5 
+
+## Nov 29 (6 hours) 
+- There's now guidance in the input order. You can't track workouts before filling in body stats, and you must fill in exercises before tracking a workout
+- Made the body stat modal visually better. Before the modal took up the whole screen but it only had a gender and weight picker and a submit. Now it is much smaller and has a nice shadow effect over the user page.
+- Saw a black friday sale on rpg assets, and decided to buy it. I have 8 different enemies and many different player characters.
+- Added average strength query, which can be used to calculate strength and thus DPS.
+- Implemented idle characters for 5 different characters that are chosen based on your average relative strength percentage.
+- Added refetch prop to children of user: For example, I check from the root if the user has added their weight and gender, and I refetch after the child component sees this as submitted.
+- Fixed bug where I wasn't recalculating relative strength when updating reps and weight. 
+- Weird bug, still not fixed. I pass a refetch for average strength to the strength form, so whenever you update or create exercise strength data, the average is recalculated. This refetch is triggered by the onCompleted hook of the exercise create/update, so the new data should be there. I also verified that the new average is in fact queried after the create/update from the server logs. Strangely, the average returned by the refetch is the old average. This probably has something to do with the fact that the average is a custom function, and might not have access to some memory of values that are queued to be written. Either way, annoying.

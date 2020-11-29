@@ -4,12 +4,11 @@ import {Text, View, StatusBar} from 'react-native'
 import Loading from '../../util_components/loading';
 import ExerciseModal from "./exercise_modal";
 import {usernameVar} from '../../apollo/cache';
-import GenericSprite from '../../sprites/generic_sprite';
-
+import SpriteSelector from '../../sprites/sprite_selector';
 import BodyStatsModal from "./bodystats_modal"
 
 import {Button} from 'react-native-elements';
-import useSkillTitle from '../../hooks/useSkillTitle';
+import useSkillTitle from '../../hooks/use_skill_title';
 
 
 const USER_BODY_STATS = gql`
@@ -42,8 +41,8 @@ const User: React.FC = () => {
     variables: {username},
   })
 
-  const {data: exerciseData, refetch: exerciseRefetch} = useQuery(STRENGTH, {
-    variables: {username}
+  const {data: exerciseData, loading, refetch: exerciseRefetch} = useQuery(STRENGTH, {
+    variables: {username},
   })
   const {data: userBodyStats, refetch: userBodyStatsRefetch} = useQuery(USER_BODY_STATS, {
     variables: {username},
@@ -72,7 +71,13 @@ const User: React.FC = () => {
       <ExerciseModal visible={strengthModalVisible} setVisible={setStrengthModalVisible} username={username} refetchParent={exerciseRefetch} />
       <BodyStatsModal visible={bodystatsModalVisible} setVisible={setBodystatsModalVisible} username={username} refetchParent={userBodyStatsRefetch} />
       <View style={{flex: 5, justifyContent: 'flex-end', }}>
-        <GenericSprite skillTitle = {"intermediate"}/>
+        {
+          (exerciseData && exerciseData.averageStrength) || !loading
+          ? 
+          <SpriteSelector skillTitle={skillTitle} />
+          : 
+          <Loading/>
+        }
       </View>
       <View style={{flex: 1, width: '30%'}}>
         <Button disabled={!(exerciseData && exerciseData.averageStrength)} title='Log workout' onPress={() => setBodystatsModalVisible(true)} />
