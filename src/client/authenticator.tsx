@@ -32,7 +32,6 @@ export default function Authenticator() {
   const {data, loading, refetch} = useQuery(USERNAME, {
     skip: !googleID,
     onCompleted: (data) => {
-      console.log('username query')
       if (data.username) {
         usernameVar(data.username)
       }

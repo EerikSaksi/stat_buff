@@ -40,7 +40,7 @@ const ExerciseSearchResult: React.FC<{exerciseSlug: string, username: string, re
     onCompleted: (data) => {
       setPercentage(data.calculateStrength) 
       setAskingConfirmation(true)
-      refetchParent()
+      console.log('fetched parent')
     },
   })
 
@@ -64,7 +64,10 @@ const ExerciseSearchResult: React.FC<{exerciseSlug: string, username: string, re
   })
   const [updateUserExercise] = useMutation(UPDATE_USER_EXERCISE, {
     variables: {exerciseSlug, username, repetitions, percentage, liftmass: parseFloat(liftmass!)},
-    onCompleted: () => refetch()
+    onCompleted: () => {
+      refetch()
+      refetchParent()
+    }
   })
 
   var button;
@@ -90,7 +93,7 @@ const ExerciseSearchResult: React.FC<{exerciseSlug: string, username: string, re
   //user has data in the database for this exercise. Autofill input and allow user to edit and update their stats
   else if (savedData && savedData.userExercise && savedData.userExercise.repetitions) {
     const {strongerpercentage} = savedData.userExercise
-    button = <Button title={`Stronger than ${strongerpercentage}%. Tap to recalculate.`} onPress={() => {fetchCalculateStrength(); updateUserExercise()}} />
+    button = <Button title={`Stronger than ${strongerpercentage}%. Tap to recalculate.`} onPress={() => {fetchCalculateStrength()}} />
   }
 
   //calculate strength for the first time

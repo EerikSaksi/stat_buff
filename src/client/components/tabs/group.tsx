@@ -62,7 +62,7 @@ const Group: React.FC = () => {
       <TopView>
         <TextInput placeholder="Search for teams" value={query} onChangeText={(t) => setQuery(t)} />
         <FlatList data={searchData ? searchData.groups.nodes.map(group => group.name) : []}
-          renderItem={({item: groupname}) => <View style={{borderBottomWidth: 1}} onTouchEnd={() => updateGroup({variables: {username, groupname}})} key={groupname}><Text>{groupname}</Text></View>} />
+          renderItem={({item: groupname}) => <View key = {groupname} style={{borderBottomWidth: 1}} onTouchEnd={() => updateGroup({variables: {username, groupname}})} ><Text>{groupname}</Text></View>} />
       </TopView>
       {
         <CenteredView>

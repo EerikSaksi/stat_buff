@@ -38,7 +38,7 @@ const GenericSprite: React.FC<{ skillTitle: string | undefined }> = ({
   }
   return (
     <TouchableOpacity>
-      <Suspense fallback = {Loading}>{hero}</Suspense>
+      <Suspense fallback = {<Loading/>}>{hero}</Suspense>
     </TouchableOpacity>
   );
 };
