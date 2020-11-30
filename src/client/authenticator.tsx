@@ -26,18 +26,14 @@ const styles = StyleSheet.create({
 })
 
 export default function Authenticator() {
-  const [googleID, setGoogleID] = useState<string | undefined>('asdfasdf')
+  const [googleID, setGoogleID] = useState<string | undefined>(undefined)
 
   //try fetch the current user if we have a token (if not logged in google first we need to sign in)
   const {data, loading, refetch} = useQuery(USERNAME, {
     skip: !googleID,
-    onCompleted: (data) => {
-      if (data.username) {
-        usernameVar(data.username)
-      }
-    },
     fetchPolicy: 'network-only'
   })
+
 
 
   //when starting try check if user logged in and fetch their token
@@ -79,6 +75,7 @@ export default function Authenticator() {
         content = <Suspense fallback={<Loading />}><CreateUser refetchUser={refetch} /></Suspense>
       }
       else {
+        usernameVar(data.username)
         return (<App/>)
       }
     }

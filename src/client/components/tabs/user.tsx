@@ -35,6 +35,7 @@ query{
 
 const User: React.FC = () => {
   const username = useReactiveVar(usernameVar)
+  console.log(username)
   const [strengthModalVisible, setStrengthModalVisible] = useState(false)
   const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false)
   const {data} = useQuery(USER, {

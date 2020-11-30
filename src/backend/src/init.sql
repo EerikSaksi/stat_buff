@@ -79,6 +79,8 @@ CREATE FUNCTION username() RETURNS varchar AS $$
   select username from "user" where googleID = current_setting('user.googleID')
 $$ LANGUAGE sql IMMUTABLE STRICT;
 
+comment on function "username" is E'@omit';
+
 
 --CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));
 CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));

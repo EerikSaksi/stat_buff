@@ -47,10 +47,10 @@ const CreateUser: React.FC<{refetchUser: () => void}> = ({refetchUser}) => {
     variables: {username},
     onCompleted: (data) => {
       if (data.createUser){
+        console.log({createUser: data.createUser})
         refetchUser()
       }
     },
-    fetchPolicy: 'no-cache'
   })
 
   //check if username exists
@@ -61,7 +61,7 @@ const CreateUser: React.FC<{refetchUser: () => void}> = ({refetchUser}) => {
 
   useEffect(() => {
     //contains disallowed characters
-    if (!username.match(/^[a-zA-Z0-9._]+$/) == null) {
+    if (username.length && username.match(/^[a-zA-Z0-9._]+$/) === null) {
       setError("Only characters, numbers and _ are allowed.")
     }
     else if (username.length >= 20) {

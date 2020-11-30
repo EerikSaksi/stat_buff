@@ -14,6 +14,7 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
       extend type Query{
         calculateStrength(exercise: String!, liftmass: Float!, repetitions: Int!): Int
         averageStrength: Float
+        username: String
       }
     `,
     resolvers:
@@ -23,9 +24,8 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
         //this is necessary because the "user" query data requires a username by default. The user needs to know their own username for them to know their own username (it's a bit silly, but that's how postgraphile interprets it)
         createUser: async (parent, args, context, resolveInfo) => {
           const {username} = args
-          console.log({googleID: context.googleID})
           //contains disallowed characters, too long or too short
-          if (!username.match(/^[a-zA-Z0-9._]+$/) == null || username.length >= 20 || username.length === 0) {
+          if (username.match(/^[a-zA-Z0-9._]+$/) == null || username.length >= 20 || username.length === 0) {
             return null
           }
 
@@ -70,6 +70,13 @@ const MyPlugins = makeExtendSchemaPlugin(build => {
             'select avg("user_exercise".strongerpercentage) from "user_exercise" where username = username()',
           );
           return rows[0].avg
+        },
+        username: async (parent, args, context, resolveInfo) => {
+          //check the exercise exists
+          const {rows} = await context.pgClient.query(
+            `select username from "user" where googleID = current_setting('user.googleID')`,
+          );
+          return rows[0].username
         }
       }
 
