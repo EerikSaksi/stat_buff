@@ -1,4 +1,3 @@
-
 insert into
   "exercise" (popularity_ranking, slug_name)
 values

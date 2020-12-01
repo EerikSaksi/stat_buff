@@ -35,7 +35,6 @@ export default function Authenticator() {
   })
 
 
-
   //when starting try check if user logged in and fetch their token
   useEffect(() => {
     //const tryGetToken = async () => {

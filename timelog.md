@@ -179,3 +179,29 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 - Added refetch prop to children of user: For example, I check from the root if the user has added their weight and gender, and I refetch after the child component sees this as submitted.
 - Fixed bug where I wasn't recalculating relative strength when updating reps and weight. 
 - Weird bug, still not fixed. I pass a refetch for average strength to the strength form, so whenever you update or create exercise strength data, the average is recalculated. This refetch is triggered by the onCompleted hook of the exercise create/update, so the new data should be there. I also verified that the new average is in fact queried after the create/update from the server logs. Strangely, the average returned by the refetch is the old average. This probably has something to do with the fact that the average is a custom function, and might not have access to some memory of values that are queued to be written. Either way, annoying.
+
+
+## Nov 30 (2 hours) 
+- Fixed another annoying bug. I realized that the postgres functions do not work very well, or at least do not fetch the most recent data. This problem was causing the updated username sometimes to be available and sometimes not. Also, for whatever reason, the onCompleted hook for the useQuery hook (function called when the query that was passed to useQuery resolves) does not get called when refetching data, which is also annoying. 
+- Other than that, noticed a small bug where usernames weren't being validated on client side for illegal characters but they were on the backend, so you were stuck pressing the create user button hoping that it would work.
+- Made a video recording of the state of the current app. This was around the user tab as that is where I have done the most work.
+
+- Normally user stories stop where before they need the user stories. This might not be an issue unless word count is an issue.
+- Update strength numbers on figma. Embed search box and more exercises.
+- 200 hp left, how much out of health, and how much time have you spent so far.
+- Maybe health bar or a clock
+- History of attacks 
+- Timestamps
+- Extra screen for just the team leaderboards, current and total
+- Extra screen for just the current task and information on that 
+- New screen should be a new concept 
+- More information about the other users and their workouts
+- Clearer descriptions about how workouts and strengths connect
+- Log workout should take more inputs, but also prefill defaults (people hate filling inputs more than once)
+- Crab defeated: new history
+- Overall history, all enemies that have been defeated. If you clicked on it, you can see the breakdowns of all the workouts that defeated it.
+- ER diagram that describes the database and shows the database and what I might have 
+- Planning out all the screens 
+
+
+

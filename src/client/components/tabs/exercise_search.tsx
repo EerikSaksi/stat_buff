@@ -43,7 +43,7 @@ const ExerciseSearch: React.FC<{input: string, username: string, onlyShowTracked
 
 
   //if the user is inputting something and the requested search (user data when we only want tracked exercises or data when we want either) is undefined then loading
-  if ((input !== "" && !onlyShowTracked && data) || (onlyShowTracked && !userData)) {
+  if ((input !== "" && !onlyShowTracked && !data) || (onlyShowTracked && !userData)) {
     return (<Loading />)
   }
 

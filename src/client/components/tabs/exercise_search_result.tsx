@@ -40,7 +40,6 @@ const ExerciseSearchResult: React.FC<{exerciseSlug: string, username: string, re
     onCompleted: (data) => {
       setPercentage(data.calculateStrength) 
       setAskingConfirmation(true)
-      console.log('fetched parent')
     },
   })
 
@@ -60,7 +59,10 @@ const ExerciseSearchResult: React.FC<{exerciseSlug: string, username: string, re
   //provide mutations for updating and updating lift stats. These are offered based on whether data exists in the database, and both trigger a refetch to keep the data updated
   const [createUserExercise] = useMutation(CREATE_USER_EXERCISE, {
     variables: {exerciseSlug, username, repetitions, percentage, liftmass: parseFloat(liftmass!)},
-    onCompleted: () => refetch()
+    onCompleted: () => {
+      refetch()
+      refetchParent()
+    }
   })
   const [updateUserExercise] = useMutation(UPDATE_USER_EXERCISE, {
     variables: {exerciseSlug, username, repetitions, percentage, liftmass: parseFloat(liftmass!)},
