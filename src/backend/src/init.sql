@@ -3,7 +3,7 @@ create schema public;
 
 create table "group" (
   name varchar(32) not null primary key,
-  level integer not null,
+  level integer not null default 1,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -44,11 +44,11 @@ create index on "user_exercise" (slug_name);
 create index on "user_exercise" (username);
 
 insert into
-  "group" (name, level)
+  "group" (name)
 values
-  ('Dream Team', 1),
-  ('Team Rocket', 1),
-  ('BLU Team', 1);
+  ('Dream Team'),
+  ('Team Rocket'),
+  ('BLU Team');
 insert into
   "user" (username, groupName, googleID)
 values
