@@ -25,7 +25,7 @@ const postgraphileOptions = {
     //if (req && req && req.headers && req.headers.authorization) {
     //const googleID = await tokenToGoogleID(req.headers.authorization)
     return {
-      'user.googleID': 'new user'
+      'user.googleID': 'uh oh'
     };
     //}
   },

@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {View, TextInput, Text} from 'react-native'
-import {unslugify} from '../../util_components/slug'
+import {unslugify} from '../../../util_components/slug'
 import {Button} from 'react-native-elements'
 import {gql, useLazyQuery, useMutation, useQuery} from '@apollo/client'
 

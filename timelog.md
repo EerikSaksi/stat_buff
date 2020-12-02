@@ -203,5 +203,9 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 - ER diagram that describes the database and shows the database and what I might have 
 - Planning out all the screens 
 
+## Dec 1 (3 hours) 
+- Finished ER diagram but for real this time, I accidentally made a system architecture diagram before.
+- Implemented some of those new tables
+- Added created and updated at timestamps that are automatically triggered on create and update on most tables (this will be good for future extensibility, and for things like logging and debugging). It is also necessary for some tables, such as the enemy table, as it spawns at a certain time and you have a certain amount of time to defeat it.
 
 

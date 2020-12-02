@@ -3,7 +3,6 @@ create schema public;
 
 create table "group" (
   name varchar(32) not null primary key,
-  level integer not null default 1,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -15,23 +14,43 @@ create table "user" (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+alter table "group"
+add column creator_username varchar(32) not null unique REFERENCES "user" ON DELETE cascade;
+
+create table "enemy" (
+  level integer primary key,
+  max_health integer,
+  name varchar(64)
+);
+
+create table "active_enemy_stats" (
+  current_health integer not null,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+alter table "group"
+add column enemy_level integer REFERENCES "enemy" default 1;
+
 CREATE INDEX ON "user" (groupName);
 
 create table "bodystat" (
-  username varchar(32) REFERENCES "user" ON DELETE cascade not null,
+  username varchar(32) not null REFERENCES "user" ON DELETE cascade not null,
   isMale boolean not null,  
   bodymass integer not null check (bodymass > 0),
   primary key(username),
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+CREATE INDEX ON "bodystat" (username);
+
 create table "exercise" (
   slug_name varchar(32) not null primary key,
   popularity_ranking integer unique
 );
 create table "user_exercise" (
-  slug_name varchar(32) REFERENCES "exercise" ON DELETE cascade not null,
-  username varchar(32) REFERENCES "user" ON DELETE cascade not null,
+  slug_name varchar(32) not null REFERENCES "exercise" ON DELETE cascade not null,
+  username varchar(32) not null  REFERENCES "user" ON DELETE cascade not null,
   repetitions integer not null,
   liftmass float not null,
   strongerPercentage integer not null,
@@ -44,20 +63,32 @@ create index on "user_exercise" (slug_name);
 create index on "user_exercise" (username);
 
 insert into
-  "group" (name)
+  "enemy" (level, max_health, name)
 values
-  ('Dream Team'),
-  ('Team Rocket'),
-  ('BLU Team');
+  (1, 200, 'crab');
+
+
 insert into
-  "user" (username, groupName, googleID)
+  "user" (username, googleID)
 values
-  ('orek', 'Dream Team', 'uh oh'),
-  ('eerik', 'Team Rocket', 'stinky');
+  ('orek', 'uh oh'),
+  ('eerik', 'stinky');
 
---insert into
---  "bodystat" (bodymass, isMale, username)
---values
---  (85, true, 'orek');
+insert into
+  "group" (name, creator_username)
+values
+  ('Dream Team', 'orek'),
+  ('Team Rocket', 'eerik');
 
+update "user"
+  set groupName = 'Dream Team' 
+  where username = 'orek';
 
+update "user"
+  set groupName = 'Team Rocket' 
+  where username = 'eerik';
+
+insert into
+  "bodystat" (bodymass, isMale, username)
+values
+  (85, true, 'orek');

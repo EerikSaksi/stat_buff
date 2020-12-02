@@ -206,8 +206,8 @@ values
   (203, 'barbell-power-shrug'),
   (204, 'bent-arm-barbell-pullover');
 
---insert into
---  "user_exercise" 
---  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage)
---values
---  ('bench-press', 'orek', 8, 80, 52);
+insert into
+  "user_exercise" 
+  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage)
+values
+  ('bench-press', 'orek', 8, 80, 52);

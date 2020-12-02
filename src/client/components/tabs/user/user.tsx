@@ -1,19 +1,19 @@
 import React, {useState} from 'react'
 import {gql, useQuery, useReactiveVar} from '@apollo/client';
 import {Text, View, StatusBar} from 'react-native'
-import Loading from '../../util_components/loading';
+import Loading from '../../../util_components/loading';
 import ExerciseModal from "./exercise_modal";
-import {usernameVar} from '../../apollo/cache';
-import SpriteSelector from '../../sprites/sprite_selector';
+import {usernameVar} from '../../../apollo/cache';
+import SpriteSelector from '../../../sprites/sprite_selector';
 import BodyStatsModal from "./bodystats_modal"
 
 import {Button} from 'react-native-elements';
-import useSkillTitle from '../../hooks/use_skill_title';
+import useSkillTitle from '../../../hooks/use_skill_title';
 
 
 const USER_BODY_STATS = gql`
   query($username: String!){
-    bodystatByUsername(username: $username){
+    bodystat(username: $username){
       ismale
     }
   }
@@ -49,13 +49,14 @@ const User: React.FC = () => {
     variables: {username},
     onCompleted: (data) => {
       //haven't input their body stats, then open the option
-      if (!data.bodystatByUsername) {
+      if (!data.bodystat) {
         setBodystatsModalVisible(true)
       }
     }
   })
 
   const {skillTitle} = useSkillTitle(exerciseData && exerciseData.averageStrength ? parseFloat(exerciseData.averageStrength) : undefined)
+
   if (!data) {
     return (<Loading />)
   }
@@ -63,7 +64,7 @@ const User: React.FC = () => {
     <View style={{justifyContent: 'center', flex: 10, alignItems: 'center', top: StatusBar.currentHeight}}>
       <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly', width: '100%'}}>
         <Button style={{flex: 1}} title='Update Body Stats' onPress={() => setBodystatsModalVisible(true)} />
-        <Button style={{flex: 1}} disabled={!(userBodyStats && userBodyStats.bodystatByUsername)} title='Update Lifts' onPress={() => setStrengthModalVisible(true)} />
+        <Button style={{flex: 1}} disabled={!(userBodyStats && userBodyStats.bodystat)} title='Update Lifts' onPress={() => setStrengthModalVisible(true)} />
       </View>
       <View style={{flex: 1}}>
         <Text style={{fontSize: 30}}> {`Welcome back, ${username}.`} </Text>

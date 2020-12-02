@@ -20,11 +20,12 @@ const UPDATE_BODY_STAT = gql`mutation ($username: String!, $ismale: Boolean!, $b
   }
 }`
 const FETCH_BODY_STAT = gql`query($username: String!){
-  bodystatByUsername(username: $username){
-    ismale
-    bodymass
+    bodystat(username: $username){
+      ismale
+      bodymass
+    }
   }
-}`
+`
 
 const BodyStatsModal: React.FC<{visible: boolean, setVisible: (b: boolean) => void, username: string, refetchParent: () => void}> = ({visible, setVisible, username, refetchParent}) => {
   const [bodymass, setBodymass] = useState<number | undefined>(undefined)
@@ -33,10 +34,10 @@ const BodyStatsModal: React.FC<{visible: boolean, setVisible: (b: boolean) => vo
   //check if the user has created body stats before (and in that case prefill the inputs)
   const {data, loading, refetch} = useQuery(FETCH_BODY_STAT, {
     variables: {username},
-    onCompleted: ({bodystatByUsername}) => {
-      if (bodystatByUsername && bodystatByUsername.ismale) {
-        setIsMale(bodystatByUsername.ismale)
-        setBodymass(bodystatByUsername.bodymass)
+    onCompleted: ({bodystat}) => {
+      if (bodystat.ismale) {
+        setIsMale(bodystat.ismale)
+        setBodymass(bodystat.bodymass)
       }
     }
   })
@@ -54,7 +55,7 @@ const BodyStatsModal: React.FC<{visible: boolean, setVisible: (b: boolean) => vo
   const bodyStatButton =
     loading || !bodymass
       ? <Button title={loading ? "Loading" : "Enter a weight"} raised={true} disabled={true} />
-      : data && data.bodystatByUsername
+      : data && data.bodystat
         ? <Button title="Update body stats" raised={true} onPress={() => updateBodyStats()} />
         : <Button title="Create body stats" raised={true} onPress={() => createBodyStats()} />
 
