@@ -6,7 +6,6 @@ import ExerciseModal from "./exercise_modal";
 import {usernameVar} from '../../../apollo/cache';
 import SpriteSelector from '../../../sprites/sprite_selector';
 import BodyStatsModal from "./bodystats_modal"
-
 import {Button} from 'react-native-elements';
 import useSkillTitle from '../../../hooks/use_skill_title';
 
@@ -35,7 +34,6 @@ query{
 
 const User: React.FC = () => {
   const username = useReactiveVar(usernameVar)
-  console.log(username)
   const [strengthModalVisible, setStrengthModalVisible] = useState(false)
   const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false)
   const {data} = useQuery(USER, {
@@ -76,7 +74,7 @@ const User: React.FC = () => {
         {
           (exerciseData && exerciseData.averageStrength) || !loading
           ? 
-          <SpriteSelector skillTitle={skillTitle} />
+          <SpriteSelector spriteName={skillTitle} />
           : 
           <Loading/>
         }

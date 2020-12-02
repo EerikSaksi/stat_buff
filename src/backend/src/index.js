@@ -3,7 +3,7 @@ const {postgraphile} = require('postgraphile');
 const MyPlugins = require('./postgraphile_plugins')
 const PostGraphileConnectionFilterPlugin = require('postgraphile-plugin-connection-filter');
 const PostGraphileFulltextFilterPlugin = require('postgraphile-plugin-fulltext-filter');
-const tokenToGoogleID = require('./google_auth');
+const run_all_sql_scripts = require('./call_sql_scripts')
 require('dotenv').config();
 
 const postgraphileOptions = {
@@ -33,6 +33,7 @@ const postgraphileOptions = {
 }
 const app = express();
 (async () => {
+  await run_all_sql_scripts()
   app.use(postgraphile("postgres://query_sender:restrictedPermissions@localhost:5432/rpgym", postgraphileOptions));
 })();
 app.listen(process.env.PORT || 4000);

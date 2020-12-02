@@ -1,18 +1,27 @@
-import React, { useEffect, useState, lazy, Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import { TouchableOpacity, ViewStyle } from "react-native";
 import Loading from "../util_components/loading";
-import Noob from "./noob"
 const Novice = lazy(() => import("./novice"));
 const Apprentice = lazy(() => import("./apprentice"));
 const Intermediate = lazy(() => import("./intermediate"));
 const Advanced = lazy(() => import("./advanced"));
 const Elite = lazy(() => import("./elite"));
-const GenericSprite: React.FC<{ skillTitle: string | undefined }> = ({
-  skillTitle,
+const Crab = lazy(() => import("./crab"));
+const Earth = lazy(() => import("./earth"));
+const Fire = lazy(() => import("./fire"));
+const FrogMan = lazy(() => import("./frog_man"));
+const Ice = lazy(() => import("./ice"));
+const Minotaur = lazy(() => import("./minotaur"));
+const Noob = lazy(() => import("./noob"));
+const Scorpion = lazy(() => import("./scorpion"));
+const Wind = lazy(() => import("./wind"));
+
+const GenericSprite: React.FC<{ spriteName: string | undefined }> = ({
+  spriteName,
 }) => {
   var hero = <Loading />;
-  if (skillTitle) {
-    switch (skillTitle) {
+  if (spriteName) {
+    switch (spriteName) {
       case "noob":
         hero = <Noob />;
         break;
@@ -31,14 +40,38 @@ const GenericSprite: React.FC<{ skillTitle: string | undefined }> = ({
       case "elite":
         hero = <Elite />;
         break;
+      case "crab":
+        hero = <Crab />;
+        break;
+      case "earth":
+        hero = <Earth />;
+        break;
+      case "fire":
+        hero = <Fire />;
+        break;
+      case "frog_man":
+        hero = <FrogMan />;
+        break;
+      case "ice":
+        hero = <Ice />;
+        break;
+      case "minotaur":
+        hero = <Minotaur />;
+        break;
+      case "scorpion":
+        hero = <Scorpion />;
+        break;
+      case "wind":
+        hero = <Wind />;
+        break;
     }
   }
-  if (!skillTitle){
-    return (<Loading/>)
+  if (!spriteName) {
+    return <Loading />;
   }
   return (
     <TouchableOpacity>
-      <Suspense fallback = {<Loading/>}>{hero}</Suspense>
+      <Suspense fallback={<Loading />}>{hero}</Suspense>
     </TouchableOpacity>
   );
 };

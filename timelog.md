@@ -208,4 +208,14 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 - Implemented some of those new tables
 - Added created and updated at timestamps that are automatically triggered on create and update on most tables (this will be good for future extensibility, and for things like logging and debugging). It is also necessary for some tables, such as the enemy table, as it spawns at a certain time and you have a certain amount of time to defeat it.
 
+## Dec 2 (4 hours) 
+- To be honest, really didn't feel like getting work done today
+- There were still some menial tasks I needed to get done so I decided to do those
+- My node client automatically calls the SQL scripts when launching. This makes it easier to make changes to the database, as I can run the new scripts and the server at once. This will also make builds much easier once I host the server, as I won't need to open the CLI for the remote database after the build to run the scripts
+- Did a little bit of refactoring of files, thought about the component structure for the groups and made skeletons for those components
+- Decided to go over the enemy assets that I downloaded. They require a bit of preprocessing (concatenating the sprites that I need row by row, specifying how many rows and columns there are, and what animations are on each row). These sprites also need to manually sized and have their margins adjusted, such that each one is centered and has roughly the same bottom vertical position. 
+- Next steps include editing the figma diagram to fix previous issues as well as designing the group view. I need to create a script that generates enemies with progressively higher levels and health counts, and refer to different enemies (which will trigger loading a different sprite and name on client side). Hard coding this once will give everyone a consistent experience and save processing power.
+
+
+
 
