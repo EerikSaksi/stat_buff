@@ -13,6 +13,7 @@ create table "user" (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+CREATE INDEX ON "user" (groupName);
 
 alter table "group"
 add column creator_username varchar(32) not null unique REFERENCES "user" ON DELETE cascade;
@@ -22,17 +23,16 @@ create table "enemy" (
   max_health integer,
   name varchar(64)
 );
-
 create table "active_enemy_stats" (
-  current_health integer not null,
+  enemy_level integer REFERENCES "enemy" default 1,
+  groupName varchar primary key REFERENCES "group" on delete cascade,
+  current_health integer not null default 200,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-alter table "group"
-add column enemy_level integer REFERENCES "enemy" default 1;
-
-CREATE INDEX ON "user" (groupName);
+create index on "active_enemy_stats" (groupName);
+create index on "active_enemy_stats" (enemy_level);
 
 create table "bodystat" (
   username varchar(32) not null REFERENCES "user" ON DELETE cascade not null,
@@ -42,8 +42,8 @@ create table "bodystat" (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
-CREATE INDEX ON "bodystat" (username);
 
+CREATE INDEX ON "bodystat" (username);
 create table "exercise" (
   slug_name varchar(32) not null primary key,
   popularity_ranking integer unique
@@ -65,8 +65,7 @@ create index on "user_exercise" (username);
 insert into
   "enemy" (level, max_health, name)
 values
-  (1, 200, 'crab');
-
+  (1, 200, 'earth');
 
 insert into
   "user" (username, googleID)

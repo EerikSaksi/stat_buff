@@ -11,15 +11,19 @@ grant all on table "user" to query_sender;
 grant all on table "group" to query_sender;
 grant all on table "bodystat" to query_sender;
 grant select on table "exercise" to query_sender;
+grant select on table "enemy" to query_sender;
 grant all on table "user_exercise" to query_sender;
-
+grant all on table "active_enemy_stats" to query_sender;
 comment on column "user".googleID is E'@omit';
 comment on table "user" is E'@omit create';
+comment on table "active_enemy_stats" is E'@omit create, update, insert, all';
 comment on table "bodystat" is E'@omit all';
 
 Alter table "user" enable row level security;
 Alter table "bodystat" enable row level security;
 Alter table "user_exercise" enable row level security;
+Alter table "active_enemy_stats" enable row level security;
+Alter table "group" enable row level security;
 
 
 CREATE FUNCTION username() RETURNS varchar AS $$
@@ -27,13 +31,10 @@ CREATE FUNCTION username() RETURNS varchar AS $$
 $$ LANGUAGE sql IMMUTABLE STRICT;
 
 comment on function "username" is E'@omit';
-
---CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));
 CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));
 CREATE POLICY user_delete ON "user" FOR delete to query_sender USING (googleID = current_setting('user.googleID'));
 CREATE POLICY user_create ON "user" FOR insert to query_sender with check (googleID = current_setting('user.googleID'));
 CREATE POLICY user_select ON "user" FOR select to query_sender using (true);
-
 CREATE POLICY group_delete ON "group" FOR delete to query_sender USING (false);
 
 
@@ -44,3 +45,8 @@ CREATE POLICY user_exercise_update ON "user_exercise" FOR update to query_sender
 CREATE POLICY user_exercise_delete ON "user_exercise" FOR delete to query_sender USING (username = username());
 CREATE POLICY user_exercise_create ON "user_exercise" FOR insert to query_sender with check (username = username());
 CREATE POLICY user_exercise_select ON "user_exercise" FOR select to query_sender using (true);
+
+CREATE POLICY user_exercise_update ON "group" FOR update to query_sender USING (creator_username = username());
+CREATE POLICY user_exercise_delete ON "group" FOR delete to query_sender USING (creator_username = username());
+CREATE POLICY user_exercise_create ON "group" FOR insert to query_sender with check ((select groupName from "user" where username = username()) = null);
+CREATE POLICY user_exercise_select ON "group" FOR select to query_sender using (true);
