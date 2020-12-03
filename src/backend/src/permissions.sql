@@ -22,7 +22,7 @@ comment on table "bodystat" is E'@omit all';
 Alter table "user" enable row level security;
 Alter table "bodystat" enable row level security;
 Alter table "user_exercise" enable row level security;
-Alter table "active_enemy_stats" enable row level security;
+--Alter table "active_enemy_stats" enable row level security;
 Alter table "group" enable row level security;
 
 
@@ -50,3 +50,4 @@ CREATE POLICY user_exercise_update ON "group" FOR update to query_sender USING (
 CREATE POLICY user_exercise_delete ON "group" FOR delete to query_sender USING (creator_username = username());
 CREATE POLICY user_exercise_create ON "group" FOR insert to query_sender with check ((select groupName from "user" where username = username()) = null);
 CREATE POLICY user_exercise_select ON "group" FOR select to query_sender using (true);
+

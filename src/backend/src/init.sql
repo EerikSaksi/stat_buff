@@ -62,32 +62,3 @@ create table "user_exercise" (
 create index on "user_exercise" (slug_name);
 create index on "user_exercise" (username);
 
-insert into
-  "enemy" (level, max_health, name)
-values
-  (1, 200, 'earth');
-
-insert into
-  "user" (username, googleID)
-values
-  ('orek', 'uh oh'),
-  ('eerik', 'stinky');
-
-insert into
-  "group" (name, creator_username)
-values
-  ('Dream Team', 'orek'),
-  ('Team Rocket', 'eerik');
-
-update "user"
-  set groupName = 'Dream Team' 
-  where username = 'orek';
-
-update "user"
-  set groupName = 'Team Rocket' 
-  where username = 'eerik';
-
-insert into
-  "bodystat" (bodymass, isMale, username)
-values
-  (85, true, 'orek');

@@ -1,4 +1,35 @@
 insert into
+  "enemy" (level, max_health, name)
+values
+  (1, 200, 'earth');
+
+insert into
+  "user" (username, googleID)
+values
+  ('orek', 'uh oh'),
+  ('eerik', 'stinky');
+
+insert into
+  "group" (name, creator_username)
+values
+  ('Dream Team', 'orek'),
+  ('Team Rocket', 'eerik');
+
+update "user"
+  set groupName = 'Dream Team' 
+  where username = 'orek';
+
+update "user"
+  set groupName = 'Team Rocket' 
+  where username = 'eerik';
+
+insert into
+  "bodystat" (bodymass, isMale, username)
+values
+  (85, true, 'orek');
+
+
+insert into
   "exercise" (popularity_ranking, slug_name)
 values
   (1, 'bench-press'),

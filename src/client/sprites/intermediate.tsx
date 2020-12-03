@@ -1,4 +1,4 @@
-import React, { useRef} from "react";
+import React, { useRef } from "react";
 import SpriteSheet from "rn-sprite-sheet";
 import useSpriteController from "../hooks/use_sprite_controller";
 
@@ -11,9 +11,8 @@ const Intermediate = () => {
       source={require("../assets/sprites/intermediate.png")}
       columns={8}
       rows={4}
-      viewStyle={{ marginTop: "-45%", marginBottom: "-145%",}}
+      viewStyle={{ marginTop: "-45%", marginBottom: "-145%",  }}
       height={1000}
-      imageStyle= {{}}
       animations={{
         idle: [0, 1, 2, 3, 4, 5, 6, 7],
         onHit: [8, 9, 10],
