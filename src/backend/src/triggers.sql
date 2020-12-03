@@ -33,6 +33,11 @@ FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
 
+
+
+
+
+
 CREATE OR REPLACE FUNCTION init_active_enemy_stats()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -46,3 +51,26 @@ CREATE TRIGGER init_stats
 After insert ON "group"
 FOR EACH ROW
 EXECUTE PROCEDURE init_active_enemy_stats();
+
+
+
+CREATE OR REPLACE FUNCTION init_health()
+RETURNS TRIGGER AS $$
+BEGIN
+  if (old.enemy_level != new.enemy_level) then
+    new.current_health = (select max_health from "enemy" where level = new.enemy_level);
+  end if;
+  return new;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER init_stats_on_create
+before insert ON "active_enemy_stats"
+FOR EACH ROW
+EXECUTE PROCEDURE init_health();
+
+CREATE TRIGGER init_stats_on_create
+before update ON "active_enemy_stats"
+FOR EACH ROW
+EXECUTE PROCEDURE init_health();
+

@@ -13,7 +13,9 @@ const Fire = () => {
       rows={3}
       viewStyle={{
         marginBottom: "-74%",
-        marginRight: '10%'
+        marginTop: "-25%",
+        marginRight: '10%',
+
       }}
       height={850}
       animations={{

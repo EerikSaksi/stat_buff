@@ -216,6 +216,7 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 - Decided to go over the enemy assets that I downloaded. They require a bit of preprocessing (concatenating the sprites that I need row by row, specifying how many rows and columns there are, and what animations are on each row). These sprites also need to manually sized and have their margins adjusted, such that each one is centered and has roughly the same bottom vertical position. 
 - Next steps include editing the figma diagram to fix previous issues as well as designing the group view. I need to create a script that generates enemies with progressively higher levels and health counts, and refer to different enemies (which will trigger loading a different sprite and name on client side). Hard coding this once will give everyone a consistent experience and save processing power.
 
-
-
-
+## Dec 3 (4 hours)
+- Created script that auto generates 300 levels of enemies, rotating characters and upping their hitpoints
+- Figured out how to set up auto triggers for the enemy metadata table. I have a table for each group that stores the current hitpoints and remaining time to defeat the current enemy. I created a trigger that auto generates the meta table with level = 1 when a group is created, and one that sets the current health to be equal to the max health on update (but only if the old level does not equal the new level, or the enemy changed).
+- Started making the enemy information page. It fetches and renders the enemy, it's current health and name, and renders the correct sprite.
