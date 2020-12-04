@@ -26,8 +26,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  row: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: 'row'
+  },
   sprite: {
-    flex: 3,
+    flex: 2,
     justifyContent: "flex-end",
     alignItems: "center",
   },
@@ -87,20 +93,19 @@ const EnemyView: React.FC<{route: NavigationProps}> = ({route}) => {
   const { currentHealth, enemyLevel, enemyByEnemyLevel } = data.activeEnemyStat;
   return (
     <View style={styles.container}>
-      <View style={styles.container}>
-        <Text>{`You're a part of "${groupname}"`}</Text>
+      <View style = { styles.row }>
+        <Text style = { styles.heading }>
+          {`Level ${enemyLevel}: ${enemyByEnemyLevel.name}`}
+        </Text>
       </View>
       <View style={styles.sprite}>
-        <View>
-          <Text style={styles.heading}>{enemyByEnemyLevel.name}</Text>
-        </View>
         <SpriteSelector spriteName={enemyByEnemyLevel.name} />
       </View>
       <View style={styles.container}>
         <Text
           style={styles.subheading}
         >{`Health: ${currentHealth} / ${enemyByEnemyLevel.maxHealth}`}</Text>
-        {displayDate ? <Text>{displayDate}</Text> : undefined}
+        {displayDate ? <Text >{displayDate}</Text> : undefined}
       </View>
     </View>
   );

@@ -1,19 +1,24 @@
 import React, {useEffect, useState} from 'react'
-const useSkillTitle = (percentage: number | undefined) => {
+
+const useSkillTitle = (DPH: number | undefined) => {
   const [skillTitle, setSkillTitle] = useState<string | undefined>(undefined)
+
   useEffect(() => {
-    if (!percentage){
+    if (!DPH){
       setSkillTitle("noob")
     }
     else {
       var newSkill = "novice"
-      if (20 < percentage && percentage <= 40) {
+      if (.2 * 5 > DPH ) {
+        newSkill = "noob"
+      }
+      else if (.2 * 5 < DPH && DPH <= 0.4 * 5) {
         newSkill = "apprentice"
       }
-      else if (40 < percentage && percentage <= 60) {
+      else if (0.4 * 5 < DPH && DPH <= 0.6 * 5) {
         newSkill = "intermediate"
       }
-      else if (60 < percentage && percentage <= 80) {
+      else if (0.6 * 5 < DPH && DPH <= 0.8 * 5) {
         newSkill = "advanced"
       }
       else {
@@ -21,7 +26,7 @@ const useSkillTitle = (percentage: number | undefined) => {
       }
       setSkillTitle(newSkill)
     }
-  }, [percentage])
+  }, [DPH])
   return {skillTitle}
 }
 export default useSkillTitle

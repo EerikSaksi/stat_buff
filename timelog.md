@@ -221,3 +221,7 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 - Figured out how to set up auto triggers for the enemy metadata table. I have a table for each group that stores the current hitpoints and remaining time to defeat the current enemy. I created a trigger that auto generates the meta table with level = 1 when a group is created, and one that sets the current health to be equal to the max health on update (but only if the old level does not equal the new level, or the enemy changed).
 - Started making the enemy information page. It fetches and renders the enemy, it's current health and name, and renders the correct sprite.
 
+## Dec 4 (5 hours)
+- Renamed all enemies from boring names like frog_man to "Frogman, King of Deadlift Leverages". 
+- Divided screens in the group section. It now shows the enemy, its health, time remaining to defeat on one top tab, and yet to implement, stats for the current enemy and members of the team.
+- I will try to update my figma, finish the stats page and create the workout tracking for tomorrow.

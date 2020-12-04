@@ -12,9 +12,9 @@ const Earth = () => {
       columns={8}
       rows={3}
       viewStyle={{
-        marginBottom: "-70%",
+        marginBottom: "-75%",
       }}
-      height={850}
+      height={950}
       animations={{
         idle: [0, 1, 2, 3, 4, 5, 6, 7],
         onHit: [8, 9, 10],

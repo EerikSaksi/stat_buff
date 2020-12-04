@@ -1,88 +1,103 @@
-import React, {useState} from 'react'
-import {gql, useQuery, useReactiveVar} from '@apollo/client';
-import {Text, View, StatusBar} from 'react-native'
-import Loading from '../../../util_components/loading';
+import React, { useEffect, useState } from "react";
+import { gql, useLazyQuery, useQuery, useReactiveVar } from "@apollo/client";
+import { Text, View, StatusBar } from "react-native";
+import Loading from "../../../util_components/loading";
 import ExerciseModal from "./exercise_modal";
-import {usernameVar} from '../../../apollo/cache';
-import SpriteSelector from '../../../sprites/sprite_selector';
-import BodyStatsModal from "./bodystats_modal"
-import {Button} from 'react-native-elements';
-import useSkillTitle from '../../../hooks/use_skill_title';
-
+import { usernameVar } from "../../../apollo/cache";
+import SpriteSelector from "../../../sprites/sprite_selector";
+import BodyStatsModal from "./bodystats_modal";
+import { Button } from "react-native-elements";
+import useSkillTitle from "../../../hooks/use_skill_title";
 
 const USER_BODY_STATS = gql`
-  query($username: String!){
-    bodystat(username: $username){
+  query($username: String!) {
+    bodystat(username: $username) {
       ismale
     }
   }
-`
-
+`;
 
 const USER = gql`
-query user_query($username: String!){
-    user(username: $username){
+  query user_query($username: String!) {
+    user(username: $username) {
       username
     }
-}
-`
+  }
+`;
 const STRENGTH = gql`
-query{
-  averageStrength
-}
-`
+  query {
+    strengthStats {
+      averageStrength
+      numExercises
+      DPH
+    }
+  }
+`;
 
 const User: React.FC = () => {
-  const username = useReactiveVar(usernameVar)
-  const [strengthModalVisible, setStrengthModalVisible] = useState(false)
-  const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false)
-  const {data} = useQuery(USER, {
-    variables: {username},
-  })
+  const username = useReactiveVar(usernameVar);
+  const [strengthModalVisible, setStrengthModalVisible] = useState(false);
+  const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false);
+  const { data } = useQuery(USER, {
+    variables: { username },
+  });
 
-  const {data: exerciseData, loading, refetch: exerciseRefetch} = useQuery(STRENGTH, {
-    variables: {username},
-  })
-  const {data: userBodyStats, refetch: userBodyStatsRefetch} = useQuery(USER_BODY_STATS, {
-    variables: {username},
+  const [fetchStrength, { data: exerciseData, loading, refetch: exerciseRefetch }] = useLazyQuery(STRENGTH, {
+    variables: { username },
+  });
+  const [fetchBodyStats, { data: userBodyStats }] = useLazyQuery(USER_BODY_STATS, {
+    variables: { username },
     onCompleted: (data) => {
       //haven't input their body stats, then open the option
       if (!data.bodystat) {
-        setBodystatsModalVisible(true)
+        setBodystatsModalVisible(true);
       }
-    }
-  })
-
-  const {skillTitle} = useSkillTitle(exerciseData && exerciseData.averageStrength ? parseFloat(exerciseData.averageStrength) : undefined)
-
+    },
+  });
+  useEffect(() => {
+    fetchBodyStats()
+    fetchStrength()
+  }, [])
+  const { skillTitle } = useSkillTitle(exerciseData && exerciseData.strengthStats ? exerciseData.strengthStats.DPH : undefined);
   if (!data) {
-    return (<Loading />)
+    return <Loading />;
   }
   return (
-    <View style={{justifyContent: 'center', flex: 10, alignItems: 'center', top: StatusBar.currentHeight}}>
-      <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly', width: '100%'}}>
-        <Button style={{flex: 1}} title='Update Body Stats' onPress={() => setBodystatsModalVisible(true)} />
-        <Button style={{flex: 1}} disabled={!(userBodyStats && userBodyStats.bodystat)} title='Update Lifts' onPress={() => setStrengthModalVisible(true)} />
+    <View
+      style={{
+        justifyContent: "center",
+        flex: 10,
+        alignItems: "center",
+        top: StatusBar.currentHeight,
+      }}
+    >
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          width: "100%",
+        }}
+      >
+        <Button style={{ flex: 1 }} title="Update Body Stats" onPress={() => setBodystatsModalVisible(true)} />
+        <Button style={{ flex: 1 }} disabled={!(userBodyStats && userBodyStats.bodystat)} title="Update Lifts" onPress={() => setStrengthModalVisible(true)} />
       </View>
-      <View style={{flex: 1}}>
-        <Text style={{fontSize: 30}}> {`Welcome back, ${username}.`} </Text>
-        {exerciseData && exerciseData.averageStrength ? <Text style={{textAlign: 'center'}}>{`You're stronger than ${parseFloat(exerciseData.averageStrength).toFixed(2)}% (${skillTitle})`}</Text> : null}
+      <View style={{ flex: 1 }}>
+        <Text style={{ fontSize: 30, textAlign: "center" }}> {`Welcome back, ${username}.`} </Text>
+        {exerciseData && exerciseData.strengthStats ? (
+          <View>
+            <Text style={{ textAlign: "center", fontSize: 20 }}>{`Your character has DPH: ${exerciseData.strengthStats.DPH}`}</Text>
+            <Text style={{ textAlign: "center", fontSize: 12, overflow: "scroll" }}>{`Damage Per Hit = Stronger than ${exerciseData.strengthStats.averageStrength}% * ${exerciseData.strengthStats.numExercises} exercise ${exerciseData.strengthStats.numExercises === 1 ? '' : 's'} tracked`}</Text>
+          </View>
+        ) : null}
       </View>
-      <ExerciseModal visible={strengthModalVisible} setVisible={setStrengthModalVisible} username={username} refetchParent={exerciseRefetch} />
-      <BodyStatsModal visible={bodystatsModalVisible} setVisible={setBodystatsModalVisible} username={username} refetchParent={userBodyStatsRefetch} />
-      <View style={{flex: 5, justifyContent: 'flex-end', }}>
-        {
-          (exerciseData && exerciseData.averageStrength) || !loading
-          ? 
-          <SpriteSelector spriteName={skillTitle} />
-          : 
-          <Loading/>
-        }
-      </View>
-      <View style={{flex: 1, width: '30%'}}>
-        <Button disabled={!(exerciseData && exerciseData.averageStrength)} title='Log workout' onPress={() => setBodystatsModalVisible(true)} />
+      <ExerciseModal visible={strengthModalVisible} setVisible={setStrengthModalVisible} username={username} refetchParent={fetchStrength} />
+      <BodyStatsModal visible={bodystatsModalVisible} setVisible={setBodystatsModalVisible} username={username} refetchParent={fetchBodyStats} />
+      <View style={{ flex: 5, justifyContent: "flex-end" }}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={skillTitle} /> : <Loading />}</View>
+      <View style={{ flex: 1, width: "30%" }}>
+        <Button disabled={!(exerciseData && exerciseData.strengthStats)} title="Log workout" onPress={() => setBodystatsModalVisible(true)} />
       </View>
     </View>
-  )
-}
-export default User
+  );
+};
+export default User;
