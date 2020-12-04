@@ -10,9 +10,7 @@ const JoinGroup = lazy(() => import("./join_group"));
 const GROUP_INFO = gql`
   query group_info($username: String!) {
     user(username: $username) {
-      groupByGroupname {
-        name
-      }
+      groupname
     }
   }
 `;
@@ -29,10 +27,10 @@ const MainView: React.FC = () => {
   if (!data) {
     return <Loading />;
   }
-  if (data.user.groupByGroupname) {
+  if (data.user) {
     return (
       <Suspense fallback={<Loading />}>
-        <YourGroup groupname={data.user.groupByGroupname.name} />
+        <YourGroup groupname = {data.user.groupname}/>
       </Suspense>
     );
   }

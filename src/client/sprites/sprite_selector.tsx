@@ -40,28 +40,28 @@ const GenericSprite: React.FC<{ spriteName: string | undefined }> = ({
       case "elite":
         hero = <Elite />;
         break;
-      case "crab":
+      case "Mudcrab":
         hero = <Crab />;
         break;
-      case "earth":
+      case "Earth Golem":
         hero = <Earth />;
         break;
-      case "fire":
-        hero = <Fire />;
+      case "Fire Devil":
+        hero = <Fire/>;
         break;
-      case "frog_man":
+      case "Frogman, King of Deadlift Leverages":
         hero = <FrogMan />;
         break;
-      case "ice":
+      case "Guardian of the Frost Cavern":
         hero = <Ice />;
         break;
-      case "minotaur":
+      case "Minotaur":
         hero = <Minotaur />;
         break;
-      case "scorpion":
+      case "Queen of Scorpions":
         hero = <Scorpion />;
         break;
-      case "wind":
+      case "Defender on the Air Temple":
         hero = <Wind />;
         break;
     }

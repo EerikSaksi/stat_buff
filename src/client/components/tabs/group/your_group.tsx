@@ -1,63 +1,31 @@
-import { gql, useQuery } from "@apollo/client";
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
-import SpriteSelector from "../../../sprites/sprite_selector";
-import Loading from "../../../util_components/loading";
-
-const ENEMY_STATS = gql`
-  query($groupname: String!) {
-    activeEnemyStat(groupname: $groupname) {
-      currentHealth
-      enemyLevel
-      enemyByEnemyLevel {
-        maxHealth
-        name
-      }
-    }
-  }
-`;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  sprite: {
-    flex: 4,
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
-  heading: {
-    fontSize: 30
-  },
-  subheading: {
-    fontSize: 20
-  }
-});
-
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { Text, View } from "react-native";
+import EnemyView from "./enemy_view";
+import {useTheme} from "@react-navigation/native";
+const Tab = createMaterialTopTabNavigator();
 const YourGroup: React.FC<{ groupname: string }> = ({ groupname }) => {
-  const { data } = useQuery(ENEMY_STATS, {
-    variables: { groupname },
-  });
-  if (!data) {
-    return <Loading />;
-  }
-  const { currentHealth, enemyLevel, enemyByEnemyLevel } = data.activeEnemyStat;
+  const {colors} = useTheme()
   return (
-    <View style={styles.container}>
-      <View style={styles.container}>
-        <Text>{`You're a part of "${groupname}"`}</Text>
+    <View style = {{ flex: 1, justifyContent: 'center' }}>
+      <View style = {{ flex: 1, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center', borderBottomColor: colors.primary, borderBottomWidth: 1}}>
+        <Text style = {{ fontSize: 25 }}>
+          
+          {groupname}
+        </Text>
       </View>
-      <View style={styles.container}>
-        <Text style = { styles.heading }>{enemyByEnemyLevel.name}</Text>
-      </View>
-      <View style={styles.container}>
-        <Text style = { styles.subheading }>{`Health: ${currentHealth} / ${enemyByEnemyLevel.maxHealth}`}</Text>
-      </View>
-      <View style={styles.sprite}>
-        <SpriteSelector spriteName="fire" />
-      </View>
+      <Tab.Navigator style={{ flex: 10 }} tabBarOptions = {{style: {borderTopColor: colors.primary, borderTopWidth: 1, }}} >
+        <Tab.Screen
+          name="Enemy"
+          component={EnemyView}
+          initialParams={{ groupname: groupname }}
+        />
+        <Tab.Screen
+          name="Enemy 2"
+          component={EnemyView}
+          initialParams={{ groupname: groupname }}
+        />
+      </Tab.Navigator>
     </View>
   );
 };

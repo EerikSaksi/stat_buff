@@ -220,3 +220,4 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 - Created script that auto generates 300 levels of enemies, rotating characters and upping their hitpoints
 - Figured out how to set up auto triggers for the enemy metadata table. I have a table for each group that stores the current hitpoints and remaining time to defeat the current enemy. I created a trigger that auto generates the meta table with level = 1 when a group is created, and one that sets the current health to be equal to the max health on update (but only if the old level does not equal the new level, or the enemy changed).
 - Started making the enemy information page. It fetches and renders the enemy, it's current health and name, and renders the correct sprite.
+

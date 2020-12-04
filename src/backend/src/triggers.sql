@@ -69,7 +69,7 @@ before insert ON "active_enemy_stats"
 FOR EACH ROW
 EXECUTE PROCEDURE init_health();
 
-CREATE TRIGGER init_stats_on_create
+CREATE TRIGGER init_stats_on_update
 before update ON "active_enemy_stats"
 FOR EACH ROW
 EXECUTE PROCEDURE init_health();

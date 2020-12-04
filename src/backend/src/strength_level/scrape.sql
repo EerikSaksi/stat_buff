@@ -1,7 +1,7 @@
 insert into
   "enemy" (level, max_health, name)
 values
-  (1, 200, 'earth');
+  (1, 200, 'Earth Golem');
 
 insert into
   "user" (username, googleID)

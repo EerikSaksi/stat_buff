@@ -12,28 +12,28 @@ async function init_enemies(client) {
     var enemy = "";
     switch (level % 8) {
       case 0:
-        enemy = "crab";
+        enemy = "Mudcrab";
         break;
       case 1:
-        enemy = "earth";
+        enemy = "Earth Golem";
         break;
       case 2:
-        enemy = "fire";
+        enemy = "Fire Devil";
         break;
       case 3:
-        enemy = "frog_man";
+        enemy = "Frogman, King of Deadlift Leverages";
         break;
       case 4:
-        enemy = "ice";
+        enemy = "Guardian of the Frost Cavern";
         break;
       case 5:
-        enemy = "minotaur";
+        enemy = "Minotaur";
         break;
       case 6:
-        enemy = "scorpion";
+        enemy = "Queen of Scorpions";
         break;
       case 7:
-        enemy = "wind";
+        enemy = "Defender on the Air Temple";
         break;
     }
 

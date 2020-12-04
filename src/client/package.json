@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "@apollo/client": "^3.2.5",
+    "@expo/vector-icons": "^10.0.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.1",
+    "@react-navigation/material-top-tabs": "^5.3.10",
     "@react-navigation/native": "^5.8.9",
     "expo": "~39.0.2",
     "expo-google-sign-in": "~8.3.0",
@@ -25,9 +27,9 @@
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
     "react-native-shadow-generator": "^1.1.2",
+    "react-native-tab-view": "^2.15.2",
     "react-native-web": "~0.13.12",
-    "rn-sprite-sheet": "^1.1.12",
-    "@expo/vector-icons": "^10.0.0"
+    "rn-sprite-sheet": "^1.1.12"
   },
   "devDependencies": {
     "@types/react": "~16.9.35",
