@@ -17,9 +17,9 @@ const Scorpion = lazy(() => import("./scorpion"));
 const Wind = lazy(() => import("./wind"));
 
 const GenericSprite: React.FC<{ spriteName: string | undefined }> = ({
-  spriteName,
 }) => {
   var hero = <Loading />;
+  const spriteName: string= "Defender on the Air Temple"
   if (spriteName) {
     switch (spriteName) {
       case "noob":

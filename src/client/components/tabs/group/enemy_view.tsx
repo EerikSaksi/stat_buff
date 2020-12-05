@@ -95,7 +95,6 @@ const EnemyView: React.FC<{route: NavigationProps}> = ({route}) => {
   if (!data) {
     return <Loading />;
   }
-  console.log(data)
   const { currentHealth, enemyLevel, enemyByEnemyLevel } = data.group.battlesByGroupnameAndBattleNumber.nodes[0];
   return (
     <View style={styles.container}>

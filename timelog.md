@@ -226,3 +226,11 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 - Divided screens in the group section. It now shows the enemy, its health, time remaining to defeat on one top tab, and yet to implement, stats for the current enemy and members of the team.
 - I will try to update my figma, finish the stats page and create the workout tracking for tomorrow.
 - Implemented damage calculation. I do this by multiplying the your average relative strength percentage (for instance, stronger than 60% of male lifters at 80kg) by the number of exercises you've tracked. I think this is better than just looking at average strength, as otherwise the optimal strategy would be to only track your best exercise as that would result in the best average.
+
+## Dec 5 (6 hours)
+- Instead of storing the current enemy level and having a metadata table, the group now stores a "battle number" which is the nth battle that they are fighting. This is important, as you might get stuck on an enemy and thus have multiple battles against the same level. This will make it easier to show stats on the current enemy  
+- This also meant I had to refactor the frontend as the query structure changed. This is why I favor working first on the backend, but often you don't realize what you need until you start implementing
+- Created workout table
+- Worked on implementing more complex row level security
+- Turns out that all my sprites were manually adjusted wrong. I hard coded margin adjustments, but turns out margin adjustments take size in to account, so when I tried to create a smaller sprite for the workout battle screen, the different sprites were at inconsistent heights. Using absolute positioning with left, right etc. works fine. I had to manually render, readjust until the sprite was placed correctly until they were good again for all 6 player characters and 8 enemies. Hopefully for the last time.
+

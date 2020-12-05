@@ -6,6 +6,7 @@ create table "group" (
   battle_number integer default 1,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  unique(name),
   unique(name, battle_number)
 );
 create table "user" (

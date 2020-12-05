@@ -12,7 +12,7 @@ const Ice = () => {
       columns={8}
       rows={3}
       viewStyle={{
-        marginBottom: "-107%",
+        top: '37%'
       }}
       height={1100}
       animations={{

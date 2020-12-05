@@ -12,7 +12,7 @@ const Wind = () => {
       columns={8}
       rows={3}
       viewStyle={{
-        marginBottom: "-107%",
+        top: '40%'
       }}
       height={1100}
       animations={{

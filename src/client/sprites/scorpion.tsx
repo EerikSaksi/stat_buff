@@ -12,8 +12,8 @@ const Scorpion = () => {
       columns={8}
       rows={3}
       viewStyle={{
-        marginBottom: "-35%",
-        marginRight: "15%",
+        top: '29%',
+        right: '5%'
       }}
       height={500}
       animations={{

@@ -12,7 +12,7 @@ const FrogMan = () => {
       columns={8}
       rows={3}
       viewStyle={{
-        marginBottom: "-47%",
+        top: '32%'
       }}
       height={600}
       animations={{

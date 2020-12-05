@@ -63,10 +63,14 @@ const BodyStatsModal: React.FC<{visible: boolean, setVisible: (b: boolean) => vo
     <Modal visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={'slide'} transparent={true}>
       <View style={{margin: '10%', marginTop: '30%', marginBottom: '30%', flex: 1, backgroundColor: 'white', ...generateShadow(24), justifyContent: 'center', alignItems: 'center', }}>
         <Ionicons onPress={() => setVisible(false)} name="ios-arrow-round-back" style={{color: 'black', fontSize: 40, left: '2%', position: 'absolute', top: 0}} />
-        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center'}}>
+        <View style={{flex: 2, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center'}}>
           <View style={{alignItems: 'center', justifyContent: 'center', }}>
-            <TextInput style={{textAlign: 'center'}} value={bodymass ? bodymass.toString() : undefined} placeholder='Bodyweight (kg)' onChangeText={(text) => setBodymass(parseInt(text))} keyboardType={'numeric'} />
+            <View style = {{ flex: 1 }}><Text>Weight (kg)</Text></View>
+            <TextInput style={{textAlign: 'center', flex: 1}} value={bodymass ? bodymass.toString() : undefined} placeholder='Bodyweight (kg)' onChangeText={(text) => setBodymass(parseInt(text))} keyboardType={'numeric'} />
           </View>
+        </View>
+        <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center'}}>
+          <Text>Which dataset would you like to use?</Text>
         </View>
         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center'}}>
           <Text>Male</Text>

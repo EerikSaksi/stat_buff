@@ -12,8 +12,8 @@ const Crab = () => {
       columns={8}
       rows={3}
       viewStyle={{
-        marginBottom: "-20%",
-        marginLeft: "-8%",
+        bottom: "-20%",
+        right: '5%'
       }}
       height={400}
       animations={{

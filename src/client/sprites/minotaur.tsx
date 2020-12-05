@@ -12,7 +12,7 @@ const Minotaur = () => {
       columns={8}
       rows={3}
       viewStyle={{
-        marginBottom: "-33%",
+        top: '23%'
       }}
       height={600}
       animations={{

@@ -8,6 +8,7 @@ import SpriteSelector from "../../../sprites/sprite_selector";
 import BodyStatsModal from "./bodystats_modal";
 import { Button } from "react-native-elements";
 import useSkillTitle from "../../../hooks/use_skill_title";
+import WorkoutModal from "../../workout_modal";
 
 const USER_BODY_STATS = gql`
   query($username: String!) {
@@ -38,6 +39,7 @@ const User: React.FC = () => {
   const username = useReactiveVar(usernameVar);
   const [strengthModalVisible, setStrengthModalVisible] = useState(false);
   const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false);
+  const [workoutModalVisible, setWorkoutModalVisible] = useState(false);
   const { data } = useQuery(USER, {
     variables: { username },
   });
@@ -93,9 +95,10 @@ const User: React.FC = () => {
       </View>
       <ExerciseModal visible={strengthModalVisible} setVisible={setStrengthModalVisible} username={username} refetchParent={fetchStrength} />
       <BodyStatsModal visible={bodystatsModalVisible} setVisible={setBodystatsModalVisible} username={username} refetchParent={fetchBodyStats} />
-      <View style={{ flex: 5, justifyContent: "flex-end" }}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={skillTitle} /> : <Loading />}</View>
+      <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username}  />
+      <View style={{ flex: 5, justifyContent: "flex-end" }}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={'Earth Golem'} /> : <Loading />}</View>
       <View style={{ flex: 1, width: "30%" }}>
-        <Button disabled={!(exerciseData && exerciseData.strengthStats)} title="Log workout" onPress={() => setBodystatsModalVisible(true)} />
+        <Button disabled={!(exerciseData && exerciseData.strengthStats)} title="Log workout" onPress={() => setWorkoutModalVisible(true)}/>
       </View>
     </View>
   );

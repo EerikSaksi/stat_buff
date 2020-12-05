@@ -12,7 +12,7 @@ const Earth = () => {
       columns={8}
       rows={3}
       viewStyle={{
-        marginBottom: "-75%",
+        top: '34%'
       }}
       height={950}
       animations={{
