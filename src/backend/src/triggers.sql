@@ -28,7 +28,7 @@ EXECUTE PROCEDURE trigger_set_timestamp();
 
 
 CREATE TRIGGER set_timestamp
-BEFORE UPDATE ON "active_enemy_stats"
+BEFORE UPDATE ON "battle"
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
@@ -38,10 +38,10 @@ EXECUTE PROCEDURE trigger_set_timestamp();
 
 
 
-CREATE OR REPLACE FUNCTION init_active_enemy_stats()
+CREATE OR REPLACE FUNCTION init_battle()
 RETURNS TRIGGER AS $$
 BEGIN
-  insert into "active_enemy_stats" (groupName) values(new.name);
+  insert into "battle" (groupName) values(new.name);
   return new;
 END;
 $$ LANGUAGE plpgsql;
@@ -50,7 +50,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER init_stats
 After insert ON "group"
 FOR EACH ROW
-EXECUTE PROCEDURE init_active_enemy_stats();
+EXECUTE PROCEDURE init_battle();
 
 
 
@@ -65,12 +65,12 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER init_stats_on_create
-before insert ON "active_enemy_stats"
+before insert ON "battle"
 FOR EACH ROW
 EXECUTE PROCEDURE init_health();
 
 CREATE TRIGGER init_stats_on_update
-before update ON "active_enemy_stats"
+before update ON "battle"
 FOR EACH ROW
 EXECUTE PROCEDURE init_health();
 

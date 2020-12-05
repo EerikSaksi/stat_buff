@@ -13,16 +13,16 @@ grant all on table "bodystat" to query_sender;
 grant select on table "exercise" to query_sender;
 grant select on table "enemy" to query_sender;
 grant all on table "user_exercise" to query_sender;
-grant all on table "active_enemy_stats" to query_sender;
+grant all on table "battle" to query_sender;
 comment on column "user".googleID is E'@omit';
 comment on table "user" is E'@omit create';
-comment on table "active_enemy_stats" is E'@omit create, update, insert, all';
+comment on table "battle" is E'@omit create, update, insert, all';
 comment on table "bodystat" is E'@omit all';
 
 Alter table "user" enable row level security;
 Alter table "bodystat" enable row level security;
 Alter table "user_exercise" enable row level security;
---Alter table "active_enemy_stats" enable row level security;
+--Alter table "battle" enable row level security;
 Alter table "group" enable row level security;
 
 

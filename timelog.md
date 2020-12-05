@@ -225,3 +225,4 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 - Renamed all enemies from boring names like frog_man to "Frogman, King of Deadlift Leverages". 
 - Divided screens in the group section. It now shows the enemy, its health, time remaining to defeat on one top tab, and yet to implement, stats for the current enemy and members of the team.
 - I will try to update my figma, finish the stats page and create the workout tracking for tomorrow.
+- Implemented damage calculation. I do this by multiplying the your average relative strength percentage (for instance, stronger than 60% of male lifters at 80kg) by the number of exercises you've tracked. I think this is better than just looking at average strength, as otherwise the optimal strategy would be to only track your best exercise as that would result in the best average.

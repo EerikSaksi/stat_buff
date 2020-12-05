@@ -3,8 +3,10 @@ create schema public;
 
 create table "group" (
   name varchar(32) not null primary key,
+  battle_number integer default 1,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  unique(name, battle_number)
 );
 create table "user" (
   username varchar(32) primary key not null,
@@ -16,23 +18,25 @@ create table "user" (
 CREATE INDEX ON "user" (groupName);
 
 alter table "group"
-add column creator_username varchar(32) not null unique REFERENCES "user" ON DELETE cascade;
+add column creator_username varchar(32) not null unique REFERENCES "user" ON DELETE set null;
 
 create table "enemy" (
   level integer primary key,
   max_health integer,
   name varchar(64)
 );
-create table "active_enemy_stats" (
-  enemy_level integer REFERENCES "enemy" default 1,
-  groupName varchar primary key REFERENCES "group" on delete cascade,
+create table "battle" (
+  enemy_level integer REFERENCES "enemy" default 1 not null,
+  groupName varchar(32) not null,
+  battle_number integer not null default 1,   
   current_health integer not null default 200,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  FOREIGN KEY (groupName, battle_number) REFERENCES "group"(name, battle_number) on delete cascade
 );
+create index on "battle" (groupName);
+create index on "battle" (enemy_level);
 
-create index on "active_enemy_stats" (groupName);
-create index on "active_enemy_stats" (enemy_level);
 
 create table "bodystat" (
   username varchar(32) not null REFERENCES "user" ON DELETE cascade not null,
