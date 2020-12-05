@@ -8,13 +8,18 @@ import { usernameVar } from "../../../apollo/cache";
 
 const ENEMY_STATS = gql`
   query($groupname: String!) {
-    activeEnemyStat(groupname: $groupname) {
-      currentHealth
-      enemyLevel
-      createdAt
-      enemyByEnemyLevel {
-        maxHealth
-        name
+    group(name: $groupname){
+      battlesByGroupnameAndBattleNumber{
+        nodes{
+          enemyLevel
+          battleNumber
+          currentHealth
+          createdAt
+          enemyByEnemyLevel{
+            maxHealth
+            name
+          }
+        }
       }
     }
   }
@@ -81,7 +86,7 @@ const EnemyView: React.FC<{route: NavigationProps}> = ({route}) => {
   const { data } = useQuery(ENEMY_STATS, {
     variables: { groupname },
     onCompleted: () => {
-      var expiry = new Date(data.activeEnemyStat.createdAt);
+      var expiry = new Date(data.group.battlesByGroupnameAndBattleNumber.nodes[0].createdAt);
       expiry.setDate(expiry.getDate() + 7);
       const currentTime = new Date();
       setSeconds((expiry.getTime() - currentTime.getTime()) / 1000);
@@ -90,7 +95,8 @@ const EnemyView: React.FC<{route: NavigationProps}> = ({route}) => {
   if (!data) {
     return <Loading />;
   }
-  const { currentHealth, enemyLevel, enemyByEnemyLevel } = data.activeEnemyStat;
+  console.log(data)
+  const { currentHealth, enemyLevel, enemyByEnemyLevel } = data.group.battlesByGroupnameAndBattleNumber.nodes[0];
   return (
     <View style={styles.container}>
       <View style = { styles.row }>

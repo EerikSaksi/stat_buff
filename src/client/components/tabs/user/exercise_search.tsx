@@ -64,7 +64,7 @@ const ExerciseSearch: React.FC<{input: string, username: string, onlyShowTracked
         ?
         <Text style={{fontSize: 20, textAlign: 'center'}}>
           Most popular searches
-          'r'</Text>
+          </Text>
         : undefined}
         <FlatList data={exercises} style={{width: '100%'}} keyExtractor = {(item) => item}
         renderItem={({item}) => <ExerciseSearchResult  exerciseSlug={item} username={username} refetchParent = {refetchParent} />
