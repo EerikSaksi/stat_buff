@@ -26,12 +26,15 @@ BEFORE UPDATE ON "user_exercise"
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
-
 CREATE TRIGGER set_timestamp
 BEFORE UPDATE ON "battle"
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
+CREATE TRIGGER set_timestamp
+BEFORE UPDATE ON "workout"
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_timestamp();
 
 
 

@@ -34,7 +34,7 @@ create table "battle" (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   FOREIGN KEY (groupName, battle_number) REFERENCES "group"(name, battle_number) on delete cascade
 );
-create index on "battle" (groupName);
+create index on "battle"(groupName, battle_number);
 create index on "battle" (enemy_level);
 
 
@@ -43,6 +43,15 @@ create table "bodystat" (
   isMale boolean not null,  
   bodymass integer not null check (bodymass > 0),
   primary key(username),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+create table "workout" (
+  id serial primary key,
+  average_rir integer not null,
+  sets integer not null,
+  username varchar(32) not null references "user" on delete cascade,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
