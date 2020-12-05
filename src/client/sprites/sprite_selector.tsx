@@ -16,53 +16,51 @@ const Noob = lazy(() => import("./noob"));
 const Scorpion = lazy(() => import("./scorpion"));
 const Wind = lazy(() => import("./wind"));
 
-const GenericSprite: React.FC<{ spriteName: string | undefined }> = ({
-}) => {
+const GenericSprite: React.FC<{ spriteName: string | undefined, aspectRatio?: number }> = ({ spriteName, aspectRatio }) => {
   var hero = <Loading />;
-  const spriteName: string= "Defender on the Air Temple"
   if (spriteName) {
     switch (spriteName) {
       case "noob":
-        hero = <Noob />;
+        hero = <Noob aspectRatio = {aspectRatio} />;
         break;
       case "novice":
-        hero = <Novice />;
+        hero = <Novice aspectRatio = {aspectRatio}/>;
         break;
       case "apprentice":
-        hero = <Apprentice />;
+        hero = <Apprentice aspectRatio = {aspectRatio}/>;
         break;
       case "intermediate":
-        hero = <Intermediate />;
+        hero = <Intermediate aspectRatio = {aspectRatio}/>;
         break;
       case "advanced":
-        hero = <Advanced />;
+        hero = <Advanced aspectRatio = {aspectRatio}/>;
         break;
       case "elite":
-        hero = <Elite />;
+        hero = <Elite aspectRatio = {aspectRatio}/>;
         break;
       case "Mudcrab":
-        hero = <Crab />;
+        hero = <Crab aspectRatio = {aspectRatio}/>;
         break;
       case "Earth Golem":
-        hero = <Earth />;
+        hero = <Earth aspectRatio = {aspectRatio}/>;
         break;
       case "Fire Devil":
-        hero = <Fire/>;
+        hero = <Fire aspectRatio = {aspectRatio}/>;
         break;
       case "Frogman, King of Deadlift Leverages":
-        hero = <FrogMan />;
+        hero = <FrogMan aspectRatio = {aspectRatio}/>;
         break;
       case "Guardian of the Frost Cavern":
-        hero = <Ice />;
+        hero = <Ice aspectRatio = {aspectRatio}/>;
         break;
       case "Minotaur":
-        hero = <Minotaur />;
+        hero = <Minotaur aspectRatio = {aspectRatio}/>;
         break;
       case "Queen of Scorpions":
-        hero = <Scorpion />;
+        hero = <Scorpion aspectRatio = {aspectRatio}/>;
         break;
       case "Defender on the Air Temple":
-        hero = <Wind />;
+        hero = <Wind aspectRatio = {aspectRatio}/>;
         break;
     }
   }
@@ -70,9 +68,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined }> = ({
     return <Loading />;
   }
   return (
-    <TouchableOpacity>
-      <Suspense fallback={<Loading />}>{hero}</Suspense>
-    </TouchableOpacity>
+    <Suspense fallback={<Loading />}>{hero}</Suspense>
   );
 };
 export default GenericSprite;

@@ -11,7 +11,7 @@ const Ice = () => {
       source={require("../assets/sprites/ice.png")}
       columns={8}
       rows={3}
-      viewStyle={{
+      imageStyle={{
         top: '37%'
       }}
       height={1100}

@@ -41,8 +41,13 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
   return (
     <Modal visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"} transparent={true}>
       <View style={{ margin: "10%", marginTop: "30%", marginBottom: "30%", flex: 1, backgroundColor: "white", ...generateShadow(24), justifyContent: "center", alignItems: "center" }}>
-        <View style = {{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <SpriteSelector spriteName={"apprentice"} />
+        <View style={{ flex: 1,  flexDirection: "row", justifyContent: 'space-around', alignItems: 'center' }}>
+          <View style={{ flex: 1,  justifyContent: 'flex-start', alignItems: 'center' }}>
+            <SpriteSelector spriteName={"apprentice"} />
+          </View>
+          <View style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: 'blue', alignItems: 'flex-end' }}>
+            <SpriteSelector spriteName={"Mudcrab"} />
+          </View>
         </View>
       </View>
     </Modal>

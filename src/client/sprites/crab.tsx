@@ -11,7 +11,7 @@ const Crab = () => {
       source={require("../assets/sprites/crab.png")}
       columns={8}
       rows={3}
-      viewStyle={{
+      imageStyle={{
         bottom: "-20%",
         right: '5%'
       }}

@@ -11,7 +11,7 @@ const Scorpion = () => {
       source={require("../assets/sprites/scorpion.png")}
       columns={8}
       rows={3}
-      viewStyle={{
+      imageStyle={{
         top: '29%',
         right: '5%'
       }}

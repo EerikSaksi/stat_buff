@@ -12,7 +12,7 @@ const Novice: React.FC = () => {
       columns={4}
       rows={3}
       height={800}
-      viewStyle={{right: '4%', top: '35%'}}
+      imageStyle={{right: '4%', top: '35%'}}
       animations={{
         idle: [0, 1, 2, 3],
         onHit: [4, 5, 6, 7],

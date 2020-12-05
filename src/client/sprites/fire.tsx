@@ -11,7 +11,7 @@ const Fire = () => {
       source={require("../assets/sprites/fire.png")}
       columns={8}
       rows={3}
-      viewStyle={{
+      imageStyle={{
         top: '36%',
         right: '2%'
       }}

@@ -44,7 +44,7 @@ const User: React.FC = () => {
     variables: { username },
   });
 
-  const [fetchStrength, { data: exerciseData, loading, refetch: exerciseRefetch }] = useLazyQuery(STRENGTH, {
+  const [fetchStrength, { data: exerciseData, loading, }] = useLazyQuery(STRENGTH, {
     variables: { username },
   });
   const [fetchBodyStats, { data: userBodyStats }] = useLazyQuery(USER_BODY_STATS, {
@@ -96,7 +96,7 @@ const User: React.FC = () => {
       <ExerciseModal visible={strengthModalVisible} setVisible={setStrengthModalVisible} username={username} refetchParent={fetchStrength} />
       <BodyStatsModal visible={bodystatsModalVisible} setVisible={setBodystatsModalVisible} username={username} refetchParent={fetchBodyStats} />
       <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username}  />
-      <View style={{ flex: 5, justifyContent: "flex-end" }}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={'Earth Golem'} /> : <Loading />}</View>
+      <View style={{ flex: 5, justifyContent: "flex-end",  }}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={'apprentice'} /> : <Loading />}</View>
       <View style={{ flex: 1, width: "30%" }}>
         <Button disabled={!(exerciseData && exerciseData.strengthStats)} title="Log workout" onPress={() => setWorkoutModalVisible(true)}/>
       </View>

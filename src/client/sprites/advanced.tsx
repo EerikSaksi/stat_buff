@@ -11,7 +11,7 @@ const Advanced = () => {
       source={require("../assets/sprites/advanced.png")}
       columns={10}
       rows={3}
-      viewStyle={{ top: '35%',  right: '10%' }}
+      imageStyle={{ top: '35%',  right: '10%' }}
       height={800}
       animations={{
         idle: [0, 1, 2, 3, 4, 5, 6, 7],

@@ -11,8 +11,8 @@ const Wind = () => {
       source={require("../assets/sprites/wind.png")}
       columns={8}
       rows={3}
-      viewStyle={{
-        top: '40%'
+      imageStyle={{
+        top: '40%',
       }}
       height={1100}
       animations={{

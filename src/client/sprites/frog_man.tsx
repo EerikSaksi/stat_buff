@@ -11,7 +11,7 @@ const FrogMan = () => {
       source={require("../assets/sprites/frog_man.png")}
       columns={8}
       rows={3}
-      viewStyle={{
+      imageStyle={{
         top: '32%'
       }}
       height={600}

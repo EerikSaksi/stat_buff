@@ -11,7 +11,7 @@ const Earth = () => {
       source={require("../assets/sprites/earth.png")}
       columns={8}
       rows={3}
-      viewStyle={{
+      imageStyle={{
         top: '34%'
       }}
       height={950}

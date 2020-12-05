@@ -11,7 +11,7 @@ const Intermediate = () => {
       source={require("../assets/sprites/intermediate.png")}
       columns={8}
       rows={4}
-      viewStyle={{top: '33%'}}
+      imageStyle={{top: '33%'}}
       height={1000}
       animations={{
         idle: [0, 1, 2, 3, 4, 5, 6, 7],

@@ -11,7 +11,7 @@ const Minotaur = () => {
       source={require("../assets/sprites/minotaur.png")}
       columns={8}
       rows={3}
-      viewStyle={{
+      imageStyle={{
         top: '23%'
       }}
       height={600}
