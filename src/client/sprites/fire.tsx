@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import SpriteSheet from "rn-sprite-sheet";
 import useSpriteController from "../hooks/use_sprite_controller";
 
-const Fire = () => {
+const Fire : React.FC<{aspectRatio: number | undefined}> = ({aspectRatio}) => {
   var spriteRef = useRef<SpriteSheet>(null);
   useSpriteController(spriteRef);
   return (
@@ -15,7 +15,7 @@ const Fire = () => {
         top: '36%',
         right: '2%'
       }}
-      height={850}
+      height={aspectRatio ? aspectRatio * 850 : 850}
       animations={{
         idle: [0, 1, 2, 3, 4, 5, 6, 7],
         onHit: [8, 9, 10],

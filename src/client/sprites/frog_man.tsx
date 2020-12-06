@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import SpriteSheet from "rn-sprite-sheet";
 import useSpriteController from "../hooks/use_sprite_controller";
 
-const FrogMan = () => {
+const FrogMan : React.FC<{aspectRatio: number | undefined}> = ({aspectRatio}) => {  
   var spriteRef = useRef<SpriteSheet>(null);
   useSpriteController(spriteRef);
   return (
@@ -14,7 +14,7 @@ const FrogMan = () => {
       imageStyle={{
         top: '32%'
       }}
-      height={600}
+      height={aspectRatio ? aspectRatio * 600 : 600}
       animations={{
         idle: [0, 1, 2, 3, 4, 5, 6, 7],
         onHit: [8, 9, 10, 11],

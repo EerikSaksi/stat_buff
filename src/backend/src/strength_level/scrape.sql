@@ -29,6 +29,12 @@ values
   (85, true, 'orek');
 
 
+
+insert into
+  "workout" (average_rir, sets, username)
+values
+  (3, 21, 'orek');
+
 insert into
   "exercise" (popularity_ranking, slug_name)
 values

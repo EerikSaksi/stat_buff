@@ -53,6 +53,7 @@ create table "workout" (
   id serial primary key,
   average_rir integer not null,
   sets integer not null,
+  hits integer GENERATED ALWAYS as ((10 - average_rir) / 10.0 * sets) stored,
   username varchar(32) not null references "user" on delete cascade,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()

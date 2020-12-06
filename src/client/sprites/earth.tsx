@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import SpriteSheet from "rn-sprite-sheet";
 import useSpriteController from "../hooks/use_sprite_controller";
 
-const Earth = () => {
+const Earth:  React.FC<{aspectRatio: number | undefined}> = ({aspectRatio}) => {
   var spriteRef = useRef<SpriteSheet>(null);
   useSpriteController(spriteRef);
   return (
@@ -14,7 +14,7 @@ const Earth = () => {
       imageStyle={{
         top: '34%'
       }}
-      height={950}
+      height={aspectRatio ? aspectRatio * 950 : 950}
       animations={{
         idle: [0, 1, 2, 3, 4, 5, 6, 7],
         onHit: [8, 9, 10],

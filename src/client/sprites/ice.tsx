@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import SpriteSheet from "rn-sprite-sheet";
 import useSpriteController from "../hooks/use_sprite_controller";
 
-const Ice = () => {
+const Ice : React.FC<{aspectRatio: number | undefined}> = ({aspectRatio}) => {  
   var spriteRef = useRef<SpriteSheet>(null);
   useSpriteController(spriteRef);
   return (
@@ -14,7 +14,7 @@ const Ice = () => {
       imageStyle={{
         top: '37%'
       }}
-      height={1100}
+      height={aspectRatio ? aspectRatio * 1100 : 1100}
       animations={{
         idle: [0, 1, 2, 3, 4, 5, 6, 7],
         onHit: [8, 9, 10],
