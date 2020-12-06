@@ -20,13 +20,18 @@ update "user"
   where username = 'orek';
 
 update "user"
-  set groupName = 'Team Rocket' 
+  set groupName = 'Dream Team' 
   where username = 'eerik';
 
 insert into
   "bodystat" (bodymass, isMale, username)
 values
   (85, true, 'orek');
+
+insert into
+  "bodystat" (bodymass, isMale, username)
+values
+  (69, false, 'eerik');
 
 
 

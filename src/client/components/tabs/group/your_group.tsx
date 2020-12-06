@@ -3,6 +3,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { Text, View } from "react-native";
 import EnemyView from "./enemy_view";
 import {useTheme} from "@react-navigation/native";
+import Statistics from "./statistics";
 const Tab = createMaterialTopTabNavigator();
 const YourGroup: React.FC<{ groupname: string }> = ({ groupname }) => {
   const {colors} = useTheme()
@@ -22,7 +23,7 @@ const YourGroup: React.FC<{ groupname: string }> = ({ groupname }) => {
         />
         <Tab.Screen
           name="Enemy 2"
-          component={EnemyView}
+          component={Statistics}
           initialParams={{ groupname: groupname }}
         />
       </Tab.Navigator>
