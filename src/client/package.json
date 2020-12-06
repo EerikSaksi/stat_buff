@@ -29,6 +29,7 @@
     "react-native-shadow-generator": "^1.1.2",
     "react-native-tab-view": "^2.15.2",
     "react-native-web": "~0.13.12",
+    "react-timeago": "^5.2.0",
     "rn-sprite-sheet": "^1.1.12"
   },
   "devDependencies": {

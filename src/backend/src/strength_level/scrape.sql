@@ -39,6 +39,17 @@ insert into
   "workout" (average_rir, sets, username)
 values
   (3, 21, 'orek');
+update "workout"
+set created_at = '2020-12-05'
+where username = 'orek';
+
+insert into
+  "workout" (average_rir, sets, username)
+values
+  (6, 9, 'eerik');
+update "workout"
+set created_at = '2020-12-02'
+where username = 'eerik';
 
 insert into
   "exercise" (popularity_ranking, slug_name)
@@ -253,3 +264,20 @@ insert into
   (slug_name,  username,  repetitions,  liftmass,  strongerPercentage)
 values
   ('bench-press', 'orek', 8, 80, 52);
+
+insert into
+  "user_exercise" 
+  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage)
+values
+  ('shoulder-press', 'eerik', 12, 45, 52);
+
+--we want to change the updated at times, but changing the update times triggers the set update time trigger. Oh the irony
+ALTER TABLE "user_exercise" DISABLE TRIGGER set_timestamp;
+update "user_exercise"
+set updated_at = '2020-12-03'
+where username = 'orek';
+
+update "user_exercise"
+set updated_at = '2020-12-04'
+where username = 'eerik';
+ALTER TABLE "user_exercise" enable TRIGGER set_timestamp;

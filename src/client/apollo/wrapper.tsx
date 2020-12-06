@@ -3,10 +3,10 @@ import App from "../App";
 import React from 'react';
 import {setContext} from '@apollo/client/link/context';
 import {getCurrentUserAsync} from 'expo-google-sign-in'
-
 import {ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink, makeVar} from '@apollo/client'
 import {cache} from './cache'
 import Authenticator from '../authenticator';
+
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
 });
