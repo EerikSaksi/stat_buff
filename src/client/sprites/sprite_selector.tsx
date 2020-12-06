@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from "react";
-import { TouchableOpacity, ViewStyle } from "react-native";
+import { TouchableOpacity, View, ViewStyle } from "react-native";
 import Loading from "../util_components/loading";
 const Novice = lazy(() => import("./novice"));
 const Apprentice = lazy(() => import("./apprentice"));
@@ -68,7 +68,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined, aspectRatio?: nu
     return <Loading />;
   }
   return (
-    <Suspense fallback={<Loading />}>{hero}</Suspense>
+     <Suspense fallback={<Loading />}>{hero}</Suspense>
   );
 };
 export default GenericSprite;

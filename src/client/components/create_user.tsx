@@ -47,7 +47,6 @@ const CreateUser: React.FC<{refetchUser: () => void}> = ({refetchUser}) => {
     variables: {username},
     onCompleted: (data) => {
       if (data.createUser){
-        console.log({createUser: data.createUser})
         refetchUser()
       }
     },

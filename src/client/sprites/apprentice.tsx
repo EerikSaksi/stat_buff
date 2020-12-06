@@ -17,10 +17,9 @@ const Apprentice: React.FC<{aspectRatio: number | undefined}> = ({aspectRatio}) 
         onHit: [4, 5, 6, 7],
         attack: [8, 9, 10, 11],
       }}
-      viewStyle = {{ backgroundColor: 'blue'}}
       frameHeight = {100}
       frameWidth = {50}
-      offsetX = {160}
+      offsetX = {200}
       offsetY = {20}
     />
   );

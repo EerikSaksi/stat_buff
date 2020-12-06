@@ -48,7 +48,6 @@ const ExerciseSearchResult: React.FC<{exerciseSlug: string, username: string, re
     onCompleted: (data) => {
       //user has tracked this exercise
       if (data.userExercise && data.userExercise.repetitions) {
-        console.log({liftmass: parseFloat(liftmass!), exerciseSlug, repetitions})
         setRepetitions(data.userExercise.repetitions)
         setLiftmass(data.userExercise.liftmass.toString())
         setPercentage(data.userExercise.strongerpercentage)

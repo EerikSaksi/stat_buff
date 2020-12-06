@@ -71,23 +71,21 @@ type NavigationProps = { params: { groupname: string } };
 const Statistics: React.FC<{ route: NavigationProps }> = ({ route }) => {
   const [statsList, setStatsList] = useState<any[]>([]);
   const { groupname } = route.params;
-  useQuery(STATS, {
+  const {data} = useQuery(STATS, {
     variables: { groupname },
     //we need to sort the data with respect to updatedAt or createdAt
-    onCompleted: (data) => {
-      //sort the workout entries and user exercise entries with respect to themselves
-      //iterate over all users
-      //console.log(data.group.usersByGroupname.nodes)
-      const allStats = data.group.usersByGroupname.nodes
-        .map((user) => {
-          return user.workoutsByUsername.nodes.concat(user.userExercisesByUsername.nodes);
-        })
-        .flat();
-      allStats.sort(sort_by_date);
-      setStatsList(allStats);
-    },
   });
-  console.log(statsList);
+  useEffect(() => {
+    //iterate over all users
+    const allStats = data.group.usersByGroupname.nodes
+      .map((user) => {
+        return user.workoutsByUsername.nodes.concat(user.userExercisesByUsername.nodes);
+      })
+      .flat();
+    allStats.sort(sort_by_date);
+    setStatsList(allStats);
+  },
+  }, [data])
   return (
     <FlatList
       data={statsList}
