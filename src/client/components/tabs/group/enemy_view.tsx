@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
   sprite: {
     flex: 2,
     justifyContent: "flex-end",
-    alignItems: "center",
   },
   heading: {
     fontSize: 30,
@@ -48,6 +47,9 @@ const styles = StyleSheet.create({
   },
   subheading: {
     fontSize: 20,
+  },
+  time: {
+    fontSize: 16,
   },
 });
 const pad = (val: number): string => {
@@ -64,9 +66,7 @@ const EnemyView: React.FC<{route: NavigationProps}> = ({route}) => {
   const [displayDate, setDisplayDate] = useState<string | undefined>(undefined);
   useEffect(() => {
     const interval = setInterval(() => {
-      if (seconds) {
-        setSeconds((seconds) => seconds! - 1);
-      }
+      setSeconds((seconds) => seconds ? seconds - 1 : undefined);
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -110,7 +110,7 @@ const EnemyView: React.FC<{route: NavigationProps}> = ({route}) => {
         <Text
           style={styles.subheading}
         >{`Health: ${currentHealth} / ${enemyByEnemyLevel.maxHealth}`}</Text>
-        {displayDate ? <Text >{displayDate}</Text> : undefined}
+        {displayDate ? <Text style = {styles.time}>{displayDate}</Text> : undefined}
       </View>
     </View>
   );

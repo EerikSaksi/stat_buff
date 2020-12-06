@@ -3,6 +3,7 @@ import { gql, useQuery } from "@apollo/client";
 import { FlatList, Text, StyleSheet, View } from "react-native";
 import TimeAgo from "react-timeago";
 import { generateShadow } from "react-native-shadow-generator";
+import { unslugify } from "../../../util_components/slug";
 
 const STATS = gql`
   query($groupname: String!) {
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
   row: {
     flex: 1,
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent: "flex-start",
     alignItems: "center",
   },
   container: {
@@ -47,14 +48,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "white",
     ...generateShadow(10),
-    margin: "1%",
+    margin: "2%",
   },
   col: {
     flex: 1,
   },
-  centeredText:{
-    textAlign: 'center'
-  }
+  centeredText: {
+    textAlign: "center",
+  },
+  listTitle: {
+    fontSize: 18,
+  },
 });
 
 function sort_by_date(a, b) {
@@ -92,24 +96,38 @@ const Statistics: React.FC<{ route: NavigationProps }> = ({ route }) => {
         item["__typename"] === "Workout" ? (
           <View style={styles.container}>
             <View style={styles.row}>
-              <Text>{`Workout by ${item.username} `}</Text>
-              <TimeAgo date={item.createdAt} component={Text} />
+              <Text style={styles.listTitle}>{`Workout by ${item.username} `}</Text>
+              <TimeAgo date={item.createdAt} component={Text} style={styles.listTitle} />
             </View>
             <View style={styles.row}>
               <View style={styles.col}>
-                <Text style = { styles.centeredText }>{`${item.averageRir} reps in reserve`} </Text>
+                <Text style={styles.centeredText}>{`${item.averageRir} reps in reserve`} </Text>
               </View>
               <View style={styles.col}>
-                <Text style = { styles.centeredText }>{`${item.sets} sets`} </Text>
+                <Text style={styles.centeredText}>{`${item.sets} sets`} </Text>
               </View>
               <View style={styles.col}>
-                <Text style = { styles.centeredText }>{`${item.hits} enemy hits`} </Text>
+                <Text style={styles.centeredText}>{`${item.hits} enemy hits`} </Text>
               </View>
             </View>
           </View>
         ) : (
-          <View style={styles.row}>
-            <TimeAgo date={item.updatedAt} component={Text} />
+          <View style={styles.container}>
+            <View style={styles.row}>
+              <Text style={styles.listTitle}>{`Exercise update by ${item.username} `}</Text>
+              <TimeAgo date={item.updatedAt} component={Text} style={styles.listTitle} />
+            </View>
+            <View style={styles.row}>
+              <View style={styles.col}>
+                <Text style={styles.centeredText}>{`${unslugify(item.slugName)}`} </Text>
+              </View>
+              <View style={styles.col}>
+                <Text style={styles.centeredText}>{`${item.liftmass}kg`} </Text>
+              </View>
+              <View style={styles.col}>
+                <Text style={styles.centeredText}>{`${item.repetitions} reps`} </Text>
+              </View>
+            </View>
           </View>
         )
       }

@@ -16,6 +16,7 @@ grant all on table "bodystat" to query_sender;
 grant all on table "user_exercise" to query_sender;
 grant all on table "battle" to query_sender;
 grant all on table "workout" to query_sender;
+GRANT USAGE, SELECT ON SEQUENCE workout_id_seq TO query_sender;
 
 comment on column "user".googleID is E'@omit';
 comment on table "user" is E'@omit create';

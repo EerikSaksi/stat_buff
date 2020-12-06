@@ -39,7 +39,6 @@ create table "battle" (
 create index on "battle"(groupName, battle_number);
 create index on "battle" (enemy_level);
 
-
 create table "bodystat" (
   username varchar(32) not null REFERENCES "user" ON DELETE cascade not null,
   isMale boolean not null,  
