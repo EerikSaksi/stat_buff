@@ -234,3 +234,10 @@ client -> request (with Google tokenID)  -> pgSettings converts token to Google 
 - Worked on implementing more complex row level security
 - Turns out that all my sprites were manually adjusted wrong. I hard coded margin adjustments, but turns out margin adjustments take size in to account, so when I tried to create a smaller sprite for the workout battle screen, the different sprites were at inconsistent heights. Using absolute positioning with left, right etc. works fine. I had to manually render, readjust until the sprite was placed correctly until they were good again for all 6 player characters and 8 enemies. Hopefully for the last time.
 
+
+## Dec 6 (5 hours)
+- Finished up figma
+- Added new changes to ER diagram
+- Finished first prototype of group events feed
+- Added workout tracking
+

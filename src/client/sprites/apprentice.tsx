@@ -1,8 +1,8 @@
-import React, { useRef} from "react";
+import React, { useRef } from "react";
 import SpriteSheet from "rn-sprite-sheet";
 import useSpriteController from "../hooks/use_sprite_controller";
 
-const Apprentice: React.FC<{aspectRatio: number | undefined}> = ({aspectRatio}) => {
+const Apprentice: React.FC<{ aspectRatio: number | undefined }> = ({ aspectRatio }) => {
   var spriteRef = useRef<SpriteSheet>(null);
   useSpriteController(spriteRef);
   return (
@@ -11,16 +11,12 @@ const Apprentice: React.FC<{aspectRatio: number | undefined}> = ({aspectRatio}) 
       source={require("../assets/sprites/apprentice.png")}
       columns={4}
       rows={3}
-      height={aspectRatio ? aspectRatio * 800 : 800}
+      height={aspectRatio ? aspectRatio * 400 : 400}
       animations={{
         idle: [0, 1, 2, 3],
         onHit: [4, 5, 6, 7],
         attack: [8, 9, 10, 11],
       }}
-      frameHeight = {100}
-      frameWidth = {50}
-      offsetX = {200}
-      offsetY = {20}
     />
   );
 };
