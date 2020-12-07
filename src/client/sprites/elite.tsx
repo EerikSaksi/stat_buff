@@ -8,11 +8,10 @@ const Elite : React.FC<{aspectRatio: number | undefined}> = ({aspectRatio}) => {
   return (
     <SpriteSheet
       ref={spriteRef}
-      source={require("../assets/sprites/elite.png")}
+      source={require("../assets/cropped_sprites/elite.png")}
       columns={10}
       rows={3}
-      imageStyle={{top: '34%', right: '8%'}}
-      height={aspectRatio ? aspectRatio * 900 : 900}
+      height={aspectRatio ? aspectRatio * 600 : 600}
       animations={{
         idle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         onHit: [10, 11, 12],

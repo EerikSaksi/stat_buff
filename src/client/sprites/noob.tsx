@@ -7,12 +7,11 @@ const Noob: React.FC<{aspectRatio: number | undefined}> = ({aspectRatio}) => {
   useSpriteController(spriteRef)
   return (
     < SpriteSheet
-      source={require('../assets/sprites/noob.png')}
+      source={require('../assets/cropped_sprites/noob.png')}
       ref={spriteRef}
       columns={4}
       rows={3}
-      height={aspectRatio ? aspectRatio * 800 : 800}
-      imageStyle={{ top: '35%' }}
+      height={aspectRatio ? aspectRatio * 200 : 200}
       animations={{
         idle: [0, 1, 2, 3],
         onHit: [4, 5, 6, 7],

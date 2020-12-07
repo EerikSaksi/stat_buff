@@ -8,13 +8,9 @@ const Crab:  React.FC<{aspectRatio: number | undefined}> = ({aspectRatio}) => {
   return (
     <SpriteSheet
       ref={spriteRef}
-      source={require("../assets/sprites/crab.png")}
+      source={require("../assets/cropped_sprites/crab.png")}
       columns={8}
       rows={3}
-      imageStyle={{
-        bottom: "-20%",
-        right: '5%'
-      }}
       height={aspectRatio ? aspectRatio * 400 : 400}
       animations={{
         idle: [0, 1, 2, 3, 4, 5, 6, 7],

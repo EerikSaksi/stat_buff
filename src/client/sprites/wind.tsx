@@ -8,12 +8,9 @@ const Wind : React.FC<{aspectRatio: number | undefined}> = ({aspectRatio}) => {
   return (
     <SpriteSheet
       ref={spriteRef}
-      source={require("../assets/sprites/wind.png")}
+      source={require("../assets/cropped_sprites/wind.png")}
       columns={8}
       rows={3}
-      imageStyle={{
-        top: '40%',
-      }}
       height={aspectRatio ? aspectRatio * 1100 : 1100}
       animations={{
         idle: [0, 1, 2, 3, 4, 5, 6, 7],

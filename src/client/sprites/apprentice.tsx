@@ -8,7 +8,7 @@ const Apprentice: React.FC<{ aspectRatio: number | undefined }> = ({ aspectRatio
   return (
     <SpriteSheet
       ref={spriteRef}
-      source={require("../assets/sprites/apprentice.png")}
+      source={require("../assets/cropped_sprites/apprentice.png")}
       columns={4}
       rows={3}
       height={aspectRatio ? aspectRatio * 400 : 400}

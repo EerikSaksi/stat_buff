@@ -8,13 +8,9 @@ const Fire : React.FC<{aspectRatio: number | undefined}> = ({aspectRatio}) => {
   return (
     <SpriteSheet
       ref={spriteRef}
-      source={require("../assets/sprites/fire.png")}
+      source={require("../assets/cropped_sprites/fire.png")}
       columns={8}
       rows={3}
-      imageStyle={{
-        top: '36%',
-        right: '2%'
-      }}
       height={aspectRatio ? aspectRatio * 850 : 850}
       animations={{
         idle: [0, 1, 2, 3, 4, 5, 6, 7],

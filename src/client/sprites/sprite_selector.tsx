@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react";
-import { TouchableOpacity, View, ViewStyle } from "react-native";
 import Loading from "../util_components/loading";
+import SpriteSheet from "rn-sprite-sheet";
 const Novice = lazy(() => import("./novice"));
 const Apprentice = lazy(() => import("./apprentice"));
 const Intermediate = lazy(() => import("./intermediate"));
@@ -15,9 +15,9 @@ const Minotaur = lazy(() => import("./minotaur"));
 const Noob = lazy(() => import("./noob"));
 const Scorpion = lazy(() => import("./scorpion"));
 const Wind = lazy(() => import("./wind"));
-
 const GenericSprite: React.FC<{ spriteName: string | undefined, aspectRatio?: number }> = ({ spriteName, aspectRatio }) => {
   var hero = <Loading />;
+  var spriteRef = useRef<SpriteSheet>(null);
   if (spriteName) {
     switch (spriteName) {
       case "noob":
@@ -68,7 +68,18 @@ const GenericSprite: React.FC<{ spriteName: string | undefined, aspectRatio?: nu
     return <Loading />;
   }
   return (
-     <Suspense fallback={<Loading />}>{hero}</Suspense>
+    <SpriteSheet
+      ref={spriteRef}
+      source={require("../assets/cropped_sprites/advanced.png")}
+      columns={10}
+      rows={3}
+      height={aspectRatio ? aspectRatio * 200 : 200}
+      animations={{
+        idle: [0, 1, 2, 3, 4, 5, 6, 7],
+        onHit: [10, 11, 12, 13],
+        attack: [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+      }}
+    />
   );
 };
 export default GenericSprite;

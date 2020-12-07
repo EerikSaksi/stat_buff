@@ -8,12 +8,9 @@ const Ice : React.FC<{aspectRatio: number | undefined}> = ({aspectRatio}) => {
   return (
     <SpriteSheet
       ref={spriteRef}
-      source={require("../assets/sprites/ice.png")}
+      source={require("../assets/cropped_sprites/ice.png")}
       columns={8}
       rows={3}
-      imageStyle={{
-        top: '37%'
-      }}
       height={aspectRatio ? aspectRatio * 1100 : 1100}
       animations={{
         idle: [0, 1, 2, 3, 4, 5, 6, 7],

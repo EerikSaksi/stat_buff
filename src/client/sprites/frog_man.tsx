@@ -8,12 +8,9 @@ const FrogMan : React.FC<{aspectRatio: number | undefined}> = ({aspectRatio}) =>
   return (
     <SpriteSheet
       ref={spriteRef}
-      source={require("../assets/sprites/frog_man.png")}
+      source={require("../assets/cropped_sprites/frog_man.png")}
       columns={8}
       rows={3}
-      imageStyle={{
-        top: '32%'
-      }}
       height={aspectRatio ? aspectRatio * 600 : 600}
       animations={{
         idle: [0, 1, 2, 3, 4, 5, 6, 7],

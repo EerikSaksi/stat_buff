@@ -8,10 +8,9 @@ const Intermediate : React.FC<{aspectRatio: number | undefined}> = ({aspectRatio
   return (
     <SpriteSheet
       ref={spriteRef}
-      source={require("../assets/sprites/intermediate.png")}
+      source={require("../assets/cropped_sprites/intermediate.png")}
       columns={8}
       rows={4}
-      imageStyle={{top: '33%'}}
       height={aspectRatio ? aspectRatio * 1000 : 1000}
       animations={{
         idle: [0, 1, 2, 3, 4, 5, 6, 7],
