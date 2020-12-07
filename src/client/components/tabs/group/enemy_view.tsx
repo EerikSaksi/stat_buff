@@ -3,8 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import SpriteSelector from "../../../sprites/sprite_selector";
 import Loading from "../../../util_components/loading";
-import { useReactiveVar } from "@apollo/client";
-import { usernameVar } from "../../../apollo/cache";
+import TimeAgo from "react-timeago";
 
 const ENEMY_STATS = gql`
   query($groupname: String!) {
@@ -110,7 +109,7 @@ const EnemyView: React.FC<{route: NavigationProps}> = ({route}) => {
         <Text
           style={styles.subheading}
         >{`Health: ${currentHealth} / ${enemyByEnemyLevel.maxHealth}`}</Text>
-        {displayDate ? <Text style = {styles.time}>{displayDate}</Text> : undefined}
+        <TimeAgo date={data.group.battlesByGroupnameAndBattleNumber.nodes[0].createdAt} component={Text}   />
       </View>
     </View>
   );
