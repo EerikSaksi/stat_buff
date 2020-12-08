@@ -1,42 +1,68 @@
 import React, { lazy, useRef, useState, useEffect, Suspense } from "react";
 import Loading from "../util_components/loading";
-const SpriteSheet = lazy(() => import("rn-sprite-sheet"));
+import SpriteSheet from "rn-sprite-sheet";
 const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: number }> = ({ spriteName, aspectRatio }) => {
-  var spriteRef = useRef<SpriteSheet>(null);
+  var ref = useRef<SpriteSheet>(null);
   //useSpriteController(spriteRef);
   const [source, setSource] = useState<number | undefined>(undefined);
+  const [rows, setRows] = useState<number>(3);
+  const [cols, setCols] = useState<number>(8);
+  const [animationLengths, setAnimationLengths] = useState({ idle: 8, onHit: 4, dieOrAttack: 8 });
+
   useEffect(() => {
     if (spriteName) {
       switch (spriteName) {
         case "noob":
           setSource(require("../assets/cropped_sprites/noob.png"));
+          setRows(3);
+          setCols(4);
+          setAnimationLengths({ idle: 4, onHit: 4, dieOrAttack: 4 });
           break;
         case "novice":
           setSource(require("../assets/cropped_sprites/novice.png"));
+          setRows(3);
+          setCols(4);
+          setAnimationLengths({ idle: 4, onHit: 4, dieOrAttack: 4 });
           break;
         case "apprentice":
           setSource(require("../assets/cropped_sprites/apprentice.png"));
+          setRows(3);
+          setCols(4);
+          setAnimationLengths({ idle: 4, onHit: 4, dieOrAttack: 4 });
           break;
         case "intermediate":
           setSource(require("../assets/cropped_sprites/intermediate.png"));
+          setAnimationLengths({ idle: 8, onHit: 3, dieOrAttack: 8 });
           break;
         case "advanced":
           setSource(require("../assets/cropped_sprites/advanced.png"));
+          setRows(10);
+          setCols(3);
+          setAnimationLengths({ idle: 8, onHit: 4, dieOrAttack: 10 });
           break;
         case "elite":
           setSource(require("../assets/cropped_sprites/elite.png"));
+          setRows(10);
+          setCols(3);
+          setAnimationLengths({ idle: 10, onHit: 3, dieOrAttack: 10 });
           break;
         case "Mudcrab":
           setSource(require("../assets/cropped_sprites/crab.png"));
           break;
+        case "Fire Devil":
+          setSource(require("../assets/cropped_sprites/fire.png"));
+          setAnimationLengths({ idle: 8, onHit: 3, dieOrAttack: 7 });
+          break;
         case "Earth Golem":
           setSource(require("../assets/cropped_sprites/earth.png"));
+          setAnimationLengths({ idle: 8, onHit: 3, dieOrAttack: 5 });
           break;
         case "Frogman, King of Deadlift Leverages":
           setSource(require("../assets/cropped_sprites/frog_man.png"));
           break;
         case "Guardian of the Frost Cavern":
           setSource(require("../assets/cropped_sprites/ice.png"));
+          setAnimationLengths({ idle: 8, onHit: 3, dieOrAttack: 5 });
           break;
         case "Minotaur":
           setSource(require("../assets/cropped_sprites/minotaur.png"));
@@ -46,31 +72,33 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
           break;
         case "Defender on the Air Temple":
           setSource(require("../assets/cropped_sprites/wind.png"));
+          setAnimationLengths({ idle: 8, onHit: 3, dieOrAttack: 5 });
           break;
       }
     }
   }, [spriteName]);
+
+  //once the source has loaded we can start playing
   useEffect(() => {
-    if (spriteRef.current && spriteRef.current.play) {
-      spriteRef.current.play({ fps: 10, type: "idle", loop: true });
-    }
-  }, [spriteRef]);
+    ref.current?.play({ fps: 10, type: "idle", loop: true });
+  }, [source]);
 
   if (!source) {
     return <Loading />;
   }
+
   return (
     <Suspense fallback={<Loading />}>
       <SpriteSheet
-        ref={spriteRef}
+        ref={ref}
         source={source}
-        columns={10}
-        rows={3}
-        height={aspectRatio ? aspectRatio * 200 : 200}
+        columns={cols}
+        rows={rows}
+        height={aspectRatio ? aspectRatio * 400 : 400}
         animations={{
-          idle: [0, 1, 2, 3, 4, 5, 6, 7],
-          onHit: [10, 11, 12, 13],
-          attack: [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+          idle: Array.from({ length: animationLengths.idle }, (v, i) => i),
+          onHit: Array.from({ length: animationLengths.onHit }, (v, i) => i + rows),
+          attackOrDie: Array.from({ length: animationLengths.dieOrAttack }, (v, i) => i + 2 * rows),
         }}
       />
     </Suspense>

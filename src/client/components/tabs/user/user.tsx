@@ -96,7 +96,7 @@ const User: React.FC = () => {
       <ExerciseModal visible={strengthModalVisible} setVisible={setStrengthModalVisible} username={username} refetchParent={fetchStrength} />
       <BodyStatsModal visible={bodystatsModalVisible} setVisible={setBodystatsModalVisible} username={username} refetchParent={fetchBodyStats} />
       <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username} />
-      <View style={{ flex: 5, justifyContent: "flex-end", zIndex: -1, }}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={'advanced'} /> : <Loading />}</View>
+      <View style={{ flex: 5, justifyContent: "flex-end", zIndex: -1 }}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={"advanced"} /> : <Loading />}</View>
       <View style={{ flex: 1, width: "30%" }}>
         <Button disabled={!(exerciseData && exerciseData.strengthStats)} title="Log workout" onPress={() => setWorkoutModalVisible(true)} />
       </View>
