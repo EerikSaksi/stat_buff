@@ -33,17 +33,19 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
         case "intermediate":
           setSource(require("../assets/cropped_sprites/intermediate.png"));
           setAnimationLengths({ idle: 8, onHit: 3, dieOrAttack: 8 });
+          setRows(4);
+          setCols(8);
           break;
         case "advanced":
           setSource(require("../assets/cropped_sprites/advanced.png"));
-          setRows(10);
-          setCols(3);
+          setRows(3);
+          setCols(10);
           setAnimationLengths({ idle: 8, onHit: 4, dieOrAttack: 10 });
           break;
         case "elite":
           setSource(require("../assets/cropped_sprites/elite.png"));
-          setRows(10);
-          setCols(3);
+          setRows(3);
+          setCols(10);
           setAnimationLengths({ idle: 10, onHit: 3, dieOrAttack: 10 });
           break;
         case "Mudcrab":
