@@ -1,0 +1,17 @@
+./chopper.sh advanced.png 3 0.05 0; ./chopper.sh crop.png 3 0.35 0.65; mv crop.png ../cropped_sprites/advanced.png
+./chopper.sh apprentice.png 3 0.00 0; ./chopper.sh crop.png 3 0.35 0.65; mv crop.png ../cropped_sprites/apprentice.png
+./chopper.sh crab.png 3 0.30 0; ./chopper.sh crop.png 3 0.2 0.8; mv crop.png ../cropped_sprites/crab.png
+./chopper.sh earth.png 3 0.40 0; ./chopper.sh crop.png 3 0.55 0.45; mv crop.png ../cropped_sprites/earth.png
+./chopper.sh elite.png 3 0.1 0; ./chopper.sh crop.png 3 0.38 0.62; mv crop.png ../cropped_sprites/elite.png
+./chopper.sh fire.png 3 0.2 0; ./chopper.sh crop.png 3 0.45 0.55; mv crop.png ../cropped_sprites/fire.png
+./chopper.sh frog_man.png 3 0.3 0; ./chopper.sh crop.png 3 0.45 0.55;   mv crop.png ../cropped_sprites/frog_man.png
+./chopper.sh ice.png 3 0.40 0; ./chopper.sh crop.png 3 0.6 0.4; mv crop.png ../cropped_sprites/ice.png
+./chopper.sh intermediate.png 4 0.1 0; ./chopper.sh crop.png 4 0.28 0.72; mv crop.png ../cropped_sprites/intermediate.png
+./chopper.sh minotaur.png 3 0.22 0; ./chopper.sh crop.png 3 0.28 0.72; mv crop.png ../cropped_sprites/minotaur.png
+./chopper.sh noob.png 3 0.32 0; ./chopper.sh crop.png 3 0.5 0.5; mv crop.png ../cropped_sprites/noob.png
+./chopper.sh novice.png 3 0.32 0; ./chopper.sh crop.png 3 0.5 0.5; mv crop.png ../cropped_sprites/novice.png
+./chopper.sh scorpion.png 3 0.15 0; ./chopper.sh crop.png 3 0.33 0.67; mv crop.png ../cropped_sprites/scorpion.png
+./chopper.sh wind.png 3 0.33 0; ./chopper.sh crop.png 3 0.51 0.49; mv crop.png ../cropped_sprites/wind.png
+
+
+
