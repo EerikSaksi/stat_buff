@@ -63,15 +63,13 @@ const styles = StyleSheet.create({
   sprites: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     flex: 4,
-    left: '-25%',
+    width: '80%'
   },
-  leftSprite:{
+  sprite:{
     flex: 1,
-  },
-  rightSprite:{
-    flex: 1,
+    justifyContent: 'flex-start'
   },
   input: {
     textAlign: "center",
@@ -109,8 +107,8 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
             <Button disabled={!rir || !sets} title="Save Workout" style={styles.row} onPress={() => createWorkout()} />
           </View>
           <View style={styles.sprites}>
-            <View style = { styles.rightSprite }><SpriteSelector aspectRatio = {0.4} spriteName="noob" /></View>
-            <View style = { styles.leftSprite }><SpriteSelector aspectRatio = {0.2} spriteName="Mudcrab" /></View>
+            <View style = { styles.sprite }><SpriteSelector aspectRatio = {0.4} spriteName="advanced" /></View>
+            <View style = { styles.sprite }><SpriteSelector aspectRatio = {0.2} spriteName="Mudcrab" /></View>
           </View>
         </View>
       )}
