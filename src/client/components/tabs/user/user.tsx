@@ -39,7 +39,7 @@ const User: React.FC = () => {
   const username = useReactiveVar(usernameVar);
   const [strengthModalVisible, setStrengthModalVisible] = useState(false);
   const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false);
-  const [workoutModalVisible, setWorkoutModalVisible] = useState(false);
+  const [workoutModalVisible, setWorkoutModalVisible] = useState(true);
   const { data } = useQuery(USER, {
     variables: { username },
   });
@@ -95,8 +95,8 @@ const User: React.FC = () => {
       </View>
       <ExerciseModal visible={strengthModalVisible} setVisible={setStrengthModalVisible} username={username} refetchParent={fetchStrength} />
       <BodyStatsModal visible={bodystatsModalVisible} setVisible={setBodystatsModalVisible} username={username} refetchParent={fetchBodyStats} />
-      <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username} />
-      <View style={{ flex: 5, justifyContent: "flex-end", alignItems: 'center',zIndex: -1 }}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={"Mudcrab"} /> : <Loading />}</View>
+      <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username} skillTitle = {skillTitle}/>
+      <View style={{ flex: 5, justifyContent: "flex-end", alignItems: 'center',zIndex: -1 }}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={skillTitle} /> : <Loading />}</View>
       <View style={{ flex: 1, width: "30%" }}>
         <Button disabled={!(exerciseData && exerciseData.strengthStats)} title="Log workout" onPress={() => setWorkoutModalVisible(true)} />
       </View>

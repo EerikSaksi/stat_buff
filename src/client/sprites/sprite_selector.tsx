@@ -58,25 +58,35 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
           break;
         case "Mudcrab":
           setSource(require("../assets/cropped_sprites/crab.png"));
-          setHeight(100)
+          setHeight(200)
+          setLeftShift(-3)
           break;
         case "Fire Devil":
           setSource(require("../assets/cropped_sprites/fire.png"));
           setAnimationLengths({ idle: 8, onHit: 3, dieOrAttack: 7 });
+          setHeight(300)
+          setLeftShift(18)
           break;
         case "Earth Golem":
           setSource(require("../assets/cropped_sprites/earth.png"));
+          setLeftShift(-3)
           setAnimationLengths({ idle: 8, onHit: 3, dieOrAttack: 5 });
           break;
         case "Frogman, King of Deadlift Leverages":
           setSource(require("../assets/cropped_sprites/frog_man.png"));
+          setHeight(220)
+          setLeftShift(10)
           break;
         case "Guardian of the Frost Cavern":
           setSource(require("../assets/cropped_sprites/ice.png"));
+          setHeight(220)
+          setLeftShift(-5)
           setAnimationLengths({ idle: 8, onHit: 3, dieOrAttack: 5 });
           break;
         case "Minotaur":
           setSource(require("../assets/cropped_sprites/minotaur.png"));
+          setHeight(300)
+          setLeftShift(20)
           break;
         case "Queen of Scorpions":
           setSource(require("../assets/cropped_sprites/scorpion.png"));
@@ -84,6 +94,8 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
         case "Defender on the Air Temple":
           setSource(require("../assets/cropped_sprites/wind.png"));
           setAnimationLengths({ idle: 8, onHit: 3, dieOrAttack: 5 });
+          setHeight(280)
+          setLeftShift(-15)
           break;
       }
     }

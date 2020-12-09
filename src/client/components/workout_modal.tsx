@@ -1,10 +1,10 @@
 import { gql, useMutation } from "@apollo/client";
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, TextInput, View, StyleSheet, Text } from "react-native";
 import { Button } from "react-native-elements";
 import { generateShadow } from "react-native-shadow-generator";
-import SpriteSelector from "../sprites/sprite_selector";
+import WorkoutModalAttack from "./workout_modal_attack";
 const STRENGTH = gql`
   query {
     strengthStats {
@@ -13,26 +13,6 @@ const STRENGTH = gql`
   }
 `;
 
-const ENEMY_STATS = gql`
-  query($username: String!) {
-    user(username: $username) {
-      groupByGroupName {
-        battlesByGroupnameAndBattleNumber {
-          nodes {
-            enemyLevel
-            battleNumber
-            currentHealth
-            createdAt
-            enemyByEnemyLevel {
-              maxHealth
-              name
-            }
-          }
-        }
-      }
-    }
-  }
-`;
 const CREATE_WORKOUT = gql`
   mutation($rir: Int!, $sets: Int!, $username: String!) {
     createWorkout(input: { workout: { averageRir: $rir, sets: $sets, username: $username } }) {
@@ -44,7 +24,7 @@ const CREATE_WORKOUT = gql`
 `;
 const styles = StyleSheet.create({
   modal: {
-    margin: "10%",
+    margin: "3%",
     marginTop: "30%",
     marginBottom: "30%",
     flex: 1,
@@ -60,17 +40,6 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
     flex: 1,
   },
-  sprites: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'space-evenly',
-    flex: 4,
-    width: '80%'
-  },
-  sprite:{
-    flex: 1,
-    justifyContent: 'flex-start'
-  },
   input: {
     textAlign: "center",
   },
@@ -79,20 +48,20 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
 });
-const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (val: boolean) => void }> = ({ username, visible, setVisible }) => {
-  const [rir, setRir] = useState<number | undefined>(undefined);
-  const [sets, setSets] = useState<number | undefined>(undefined);
+const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (val: boolean) => void, skillTitle: string }> = ({ username, visible, setVisible, skillTitle }) => {
+  const [rir, setRir] = useState<number | undefined>(2);
+  const [sets, setSets] = useState<number | undefined>(15);
   const [createWorkout, { data }] = useMutation(CREATE_WORKOUT, {
     variables: { username, rir, sets },
   });
-
+  useEffect(() => {
+    createWorkout()
+  }, [])
   return (
     <Modal visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"} transparent={true}>
       {data ? (
         <View style={styles.modal}>
-          <Ionicons onPress={() => setVisible(false)} name="ios-arrow-round-back" style={{ color: "black", fontSize: 40, left: "2%", position: "absolute", top: 0 }} />
-          <Text style={styles.heading}>{`You hit the enemy ${data.createWorkout.workout.hits} times`}</Text>
-          <Text>{`(10 - ${rir} RIR) / 10 * ${sets} sets = ${data.createWorkout.workout.hits}`}</Text>
+          <WorkoutModalAttack username = {username} hits = {data.createWorkout.workout.hits} skillTitle = {skillTitle}/>
         </View>
       ) : (
         <View style={styles.modal}>
@@ -105,10 +74,6 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
           </View>
           <View style={styles.row}>
             <Button disabled={!rir || !sets} title="Save Workout" style={styles.row} onPress={() => createWorkout()} />
-          </View>
-          <View style={styles.sprites}>
-            <View style = { styles.sprite }><SpriteSelector aspectRatio = {0.4} spriteName="advanced" /></View>
-            <View style = { styles.sprite }><SpriteSelector aspectRatio = {0.2} spriteName="Mudcrab" /></View>
           </View>
         </View>
       )}
