@@ -1,5 +1,5 @@
 import {gql, useQuery} from "@apollo/client";
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useState, useEffect} from "react";
 import { View, StyleSheet} from "react-native";
 import SpriteSelector from "../sprites/sprite_selector";
 import Loading from "../util_components/loading";
@@ -42,21 +42,32 @@ const WorkoutModalAttack: React.FC<{hits: number, skillTitle: string | undefined
   const {data} = useQuery(ENEMY_STATS, {
     variables: {username}
   })
-  const [playerAnimations, setPlayerAnimations] = useState<[Animation, number][]>([["attackOrDie", 2]])
-  const [enemyAnimations, setEnemyAnimations] = useState<[Animation, number][]>([])
-  const enemyTakesHit = useCallback(() => {
-    setEnemyAnimations([['onHit', 1]])
+  const [playerAnimation, setPlayerAnimation] = useState<Animation | undefined>('attackOrDie')
+  const [enemyAnimation, setEnemyAnimation] = useState<Animation | undefined >('onHit')
+  const playerAnimationFinished = useCallback(() => {
+    setEnemyAnimation('idle')
+    setEnemyAnimation('onHit')
   }, [])
+
+  const enemyAnimationFinished = useCallback(() => {
+    setPlayerAnimation('idle')
+    setPlayerAnimation('attackOrDie')
+  }, [])
+  
+  useEffect(() => {
+    enemyAnimationFinished()
+  }, [])
+
   if (!data){
     return (<Loading/>)
   }
   return (
     <View style={styles.sprites}>
       <View style={styles.sprite}>
-        <SpriteSelector aspectRatio={0.7} spriteName={skillTitle}  animationsToComplete = {playerAnimations} parentFinishedCallback = {enemyTakesHit} />
+        <SpriteSelector aspectRatio={0.7} spriteName={skillTitle} currentAnimation = {playerAnimation} animationFinished = {playerAnimationFinished} />
       </View>
       <View style={styles.sprite}>
-        <SpriteSelector aspectRatio={0.7} spriteName={data.user.groupByGroupname.battlesByGroupnameAndBattleNumber.nodes[0].enemyByEnemyLevel.name} animationsToComplete = {enemyAnimations} />
+        <SpriteSelector aspectRatio={0.7} spriteName={'Fire Devil'} currentAnimation = {enemyAnimation} animationFinished = {enemyAnimationFinished} />
       </View>
     </View>
   );

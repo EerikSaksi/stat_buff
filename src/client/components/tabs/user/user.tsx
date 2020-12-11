@@ -61,7 +61,7 @@ const User: React.FC = () => {
     fetchStrength();
   }, []);
   //const { skillTitle } = useSkillTitle(exerciseData && exerciseData.strengthStats ? exerciseData.strengthStats.DPH : undefined);
-  const skillTitle = "apprentice"
+  const skillTitle = "advanced"
   if (!data) {
     return <Loading />;
   }

@@ -1,10 +1,9 @@
-import React, { lazy, useRef, useState, useEffect, Suspense, useCallback } from "react";
+import React, { useRef, useState, useEffect, Suspense } from "react";
 import Loading from "../util_components/loading";
 import SpriteSheet from "rn-sprite-sheet";
 
 type Animation = "idle" | "onHit" | "attackOrDie";
-type AnimationQueue = [Animation, number][];
-const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: number; animationsToComplete?: AnimationQueue; parentFinishedCallback?: () => void }> = ({ spriteName, aspectRatio, animationsToComplete, parentFinishedCallback }) => {
+const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: number; currentAnimation?: Animation; animationFinished?: () => void }> = ({ spriteName, aspectRatio, currentAnimation, animationFinished }) => {
   var ref = useRef<SpriteSheet>(null);
   const [source, setSource] = useState<number | undefined>(undefined);
   const [rows, setRows] = useState<number>(3);
@@ -13,51 +12,28 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
   const [animationLengths, setAnimationLengths] = useState({ idle: 8, onHit: 4, dieOrAttack: 8 });
   const [leftShift, setLeftShift] = useState(0);
 
-  const [animationQueue, setAnimationQueue] = useState<AnimationQueue>([]);
-
-  //when a parent assigns animations to complete, initialize the local queue with them
-  useEffect(() => {
-    console.log('ran')
-    if (animationsToComplete) {
-      setAnimationQueue(animationsToComplete);
-    }
-  }, [animationsToComplete]);
-
-
   //if we have animations to complete then complete one from the queue or otherwise idle
   useEffect(() => {
-    if (animationQueue[0]) {
-      const currentAnimation = animationQueue[0][0];
-      ref.current?.play({
-        fps: 8,
-        type: currentAnimation,
-        //remove the first animation
-        onFinish: async () => {
-          if (parentFinishedCallback) parentFinishedCallback();
-          setAnimationQueue(() => {
-            //if we still have left over animations of this type then reduce the count of the first element
-            if (animationQueue[0][1]) {
-              return animationQueue.map((animation, i) => {
-                if (!i) {
-                  return [animation[0], animation[1] - 1];
-                }
-                return animation;
-              });
-            }
-            //otherwise remove it from the queue
-            return animationQueue.filter((animation, i) => {
-              if (!i) {
-                return false;
-              }
-              return true;
-            });
-          });
-        },
-      });
-    } else {
-      ref.current?.play({ fps: 10, type: "idle", loop: true });
+    if (ref.current) {
+      //if passed animation then play the animation, and then call the parent listener function (if exists)
+      if (currentAnimation) {
+        ref.current.play({
+          type: currentAnimation,
+          fps: 8,
+          onFinish: () => {
+            if (animationFinished) animationFinished();
+          },
+        });
+      }
+      //default to idle looping
+      else {
+        ref.current.play({
+          type: "idle",
+          fps: 6,
+        });
+      }
     }
-  }, [source, animationQueue, animationLengths]);
+  }, [source, currentAnimation]);
 
   useEffect(() => {
     if (spriteName) {
@@ -171,4 +147,5 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
     </Suspense>
   );
 };
+
 export default GenericSprite;
