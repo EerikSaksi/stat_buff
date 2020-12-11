@@ -9,11 +9,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flex: 1,
     alignItems: 'flex-end',
-    right: '10%'
   },
   sprite: {
     flex: 1,
-    justifyContent: 'flex-end'
+    justifyContent: 'center',
   },
 });
 
@@ -42,8 +41,8 @@ const WorkoutModalAttack: React.FC<{hits: number, skillTitle: string | undefined
   const {data} = useQuery(ENEMY_STATS, {
     variables: {username}
   })
-  const [playerAnimation, setPlayerAnimation] = useState<Animation | undefined>('attackOrDie')
-  const [enemyAnimation, setEnemyAnimation] = useState<Animation | undefined >('onHit')
+  const [playerAnimation, setPlayerAnimation] = useState<Animation | undefined>('idle')
+  const [enemyAnimation, setEnemyAnimation] = useState<Animation | undefined >('idle')
   const playerAnimationFinished = useCallback(() => {
     setEnemyAnimation('idle')
     setEnemyAnimation('onHit')

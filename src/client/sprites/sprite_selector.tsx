@@ -9,7 +9,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
   const [rows, setRows] = useState<number>(3);
   const [cols, setCols] = useState<number>(8);
   const [height, setHeight] = useState(250);
-  const [animationLengths, setAnimationLengths] = useState({ idle: 8, onHit: 4, dieOrAttack: 8 });
+  const [animationLengths, setAnimationLengths] = useState({ idle: 8, onHit: 4, attackOrDie: 8 });
   const [leftShift, setLeftShift] = useState(0);
 
   //if we have animations to complete then complete one from the queue or otherwise idle
@@ -19,9 +19,11 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
       if (currentAnimation) {
         ref.current.play({
           type: currentAnimation,
-          fps: 8,
+          fps: animationLengths.attackOrDie,
           onFinish: () => {
-            if (animationFinished) animationFinished();
+            if (animationFinished) {
+              animationFinished();
+            }
           },
         });
       }
@@ -33,7 +35,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
         });
       }
     }
-  }, [source, currentAnimation]);
+  }, [source, currentAnimation, animationLengths]);
 
   useEffect(() => {
     if (spriteName) {
@@ -42,7 +44,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
           setSource(require("../assets/cropped_sprites/noob.png"));
           setRows(3);
           setCols(4);
-          setAnimationLengths({ idle: 4, onHit: 4, dieOrAttack: 4 });
+          setAnimationLengths({ idle: 4, onHit: 4, attackOrDie: 4 });
           setLeftShift(12);
           break;
         case "novice":
@@ -50,7 +52,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
           setRows(3);
           setCols(4);
           setLeftShift(17);
-          setAnimationLengths({ idle: 4, onHit: 4, dieOrAttack: 4 });
+          setAnimationLengths({ idle: 4, onHit: 4, attackOrDie: 4 });
           break;
         case "apprentice":
           setSource(require("../assets/cropped_sprites/apprentice.png"));
@@ -58,11 +60,11 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
           setCols(4);
           setHeight(400);
           setLeftShift(5);
-          setAnimationLengths({ idle: 4, onHit: 4, dieOrAttack: 4 });
+          setAnimationLengths({ idle: 4, onHit: 4, attackOrDie: 4 });
           break;
         case "intermediate":
           setSource(require("../assets/cropped_sprites/intermediate.png"));
-          setAnimationLengths({ idle: 8, onHit: 3, dieOrAttack: 8 });
+          setAnimationLengths({ idle: 8, onHit: 3, attackOrDie: 8 });
           setHeight(450);
           setLeftShift(20);
           break;
@@ -71,14 +73,14 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
           setRows(3);
           setCols(10);
           setHeight(380);
-          setAnimationLengths({ idle: 8, onHit: 4, dieOrAttack: 10 });
+          setAnimationLengths({ idle: 8, onHit: 4, attackOrDie: 10 });
           break;
         case "elite":
           setSource(require("../assets/cropped_sprites/elite.png"));
           setRows(3);
           setCols(10);
           setHeight(500);
-          setAnimationLengths({ idle: 10, onHit: 3, dieOrAttack: 10 });
+          setAnimationLengths({ idle: 10, onHit: 3, attackOrDie: 10 });
           break;
         case "Mudcrab":
           setSource(require("../assets/cropped_sprites/crab.png"));
@@ -87,14 +89,14 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
           break;
         case "Fire Devil":
           setSource(require("../assets/cropped_sprites/fire.png"));
-          setAnimationLengths({ idle: 8, onHit: 3, dieOrAttack: 7 });
+          setAnimationLengths({ idle: 8, onHit: 3, attackOrDie: 7 });
           setHeight(300);
           setLeftShift(18);
           break;
         case "Earth Golem":
           setSource(require("../assets/cropped_sprites/earth.png"));
           setLeftShift(-3);
-          setAnimationLengths({ idle: 8, onHit: 3, dieOrAttack: 5 });
+          setAnimationLengths({ idle: 8, onHit: 3, attackOrDie: 5 });
           break;
         case "Frogman, King of Deadlift Leverages":
           setSource(require("../assets/cropped_sprites/frog_man.png"));
@@ -105,7 +107,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
           setSource(require("../assets/cropped_sprites/ice.png"));
           setHeight(220);
           setLeftShift(-5);
-          setAnimationLengths({ idle: 8, onHit: 3, dieOrAttack: 5 });
+          setAnimationLengths({ idle: 8, onHit: 3, attackOrDie: 5 });
           break;
         case "Minotaur":
           setSource(require("../assets/cropped_sprites/minotaur.png"));
@@ -117,7 +119,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
           break;
         case "Defender on the Air Temple":
           setSource(require("../assets/cropped_sprites/wind.png"));
-          setAnimationLengths({ idle: 8, onHit: 3, dieOrAttack: 5 });
+          setAnimationLengths({ idle: 8, onHit: 3, attackOrDie: 5 });
           setHeight(280);
           setLeftShift(-15);
           break;
@@ -137,11 +139,10 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
         columns={cols}
         rows={rows}
         height={aspectRatio ? aspectRatio * height : height}
-        imageStyle={{ left: `${leftShift}%` }}
         animations={{
           idle: Array.from({ length: animationLengths.idle }, (v, i) => i),
           onHit: Array.from({ length: animationLengths.onHit }, (v, i) => i + cols),
-          attackOrDie: Array.from({ length: animationLengths.dieOrAttack }, (v, i) => i + 2 * cols),
+          attackOrDie: Array.from({ length: animationLengths.attackOrDie }, (v, i) => i + 2 * cols),
         }}
       />
     </Suspense>
