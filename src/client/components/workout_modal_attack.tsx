@@ -48,7 +48,7 @@ const WorkoutModalAttack: React.FC<{hits: number, skillTitle: string, username: 
   return (
     <View style={styles.sprites}>
       <View style={{...styles.sprite, backgroundColor: 'blue'}}>
-        <SpriteSelector aspectRatio={0.7} spriteName={skillTitle} animationsToComplete = {[]}/>
+        <SpriteSelector aspectRatio={0.7} spriteName={skillTitle} animationsToComplete = {[["dieOrAttack", hits]]}/>
       </View>
       <View style={styles.sprite}>
         <SpriteSelector aspectRatio={0.7} spriteName={data.user.groupByGroupname.battlesByGroupnameAndBattleNumber.nodes[0].enemyByEnemyLevel.name} />

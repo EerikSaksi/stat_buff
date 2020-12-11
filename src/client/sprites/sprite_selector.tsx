@@ -3,7 +3,8 @@ import Loading from "../util_components/loading";
 import SpriteSheet from "rn-sprite-sheet";
 
 type Animation = "idle" | "onHit" | "dieOrAttack";
-const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: number; animationsToComplete?: [Animation] }> = ({ spriteName, aspectRatio, animationsToComplete }) => {
+type AnimationQueue = [Animation, number][];
+const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: number; animationsToComplete?: AnimationQueue; }> = ({ spriteName, aspectRatio, animationsToComplete, }) => {
   var ref = useRef<SpriteSheet>(null);
   const [source, setSource] = useState<number | undefined>(undefined);
   const [rows, setRows] = useState<number>(3);
@@ -12,26 +13,46 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
   const [animationLengths, setAnimationLengths] = useState({ idle: 8, onHit: 4, dieOrAttack: 8 });
   const [leftShift, setLeftShift] = useState(0);
 
-  const [animationQueue, setAnimationQueue] = useState<Animation[] | []>([]);
+  const [animationQueue, setAnimationQueue] = useState<AnimationQueue>([]);
 
   //when a parent assigns animations to complete, initialize the local queue with them
   useEffect(() => {
-    if (animationsToComplete){
+    if (animationsToComplete) {
       setAnimationQueue(animationsToComplete);
     }
   }, [animationsToComplete]);
 
   //if we have animations to complete then complete one from the queue or otherwise idle
   useEffect(() => {
-    if (animationQueue.length) {
+    if (animationQueue[0]) {
+      const currentAnimation = animationQueue[0][0];
       ref.current?.play({
         fps: 10,
-        type: animationQueue[0],
+        type: currentAnimation,
         //remove the first animation
-        onFinish: () => setAnimationQueue(animationQueue.filter((_, i) => i !== 0)),
+        onFinish: () => {
+          setAnimationQueue(() => {
+            //if we still have left over animations of this type then reduce the count of the first element
+            if (animationQueue[0][1]) {
+              return animationQueue.map((animation, i) => {
+                if (!i) {
+                  return [animation[0], animation[1] - 1];
+                }
+                return animation;
+              });
+            }
+            //otherwise remove it from the queue
+            return animationQueue.filter((animation, i) => {
+              if (!i) {
+                return false;
+              }
+              return true;
+            });
+          });
+        },
       });
     } else {
-      ref.current?.play({ fps: 10, type: "idle", loop: true });
+      ref.current?.play({ fps: animationLengths.dieOrAttack, type: "idle", loop: true });
     }
   }, [source, animationQueue]);
 
