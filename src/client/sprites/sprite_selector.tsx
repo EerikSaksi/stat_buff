@@ -2,9 +2,9 @@ import React, { lazy, useRef, useState, useEffect, Suspense } from "react";
 import Loading from "../util_components/loading";
 import SpriteSheet from "rn-sprite-sheet";
 
-type Animation = "idle" | "onHit" | "dieOrAttack";
+type Animation = "idle" | "onHit" | "attackOrDie";
 type AnimationQueue = [Animation, number][];
-const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: number; animationsToComplete?: AnimationQueue; }> = ({ spriteName, aspectRatio, animationsToComplete, }) => {
+const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: number; animationsToComplete?: AnimationQueue; parentFinishedCallback?: () => void }> = ({ spriteName, aspectRatio, animationsToComplete, parentFinishedCallback }) => {
   var ref = useRef<SpriteSheet>(null);
   const [source, setSource] = useState<number | undefined>(undefined);
   const [rows, setRows] = useState<number>(3);
@@ -17,6 +17,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
 
   //when a parent assigns animations to complete, initialize the local queue with them
   useEffect(() => {
+    console.log('ran')
     if (animationsToComplete) {
       setAnimationQueue(animationsToComplete);
     }
@@ -30,7 +31,8 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
         fps: 10,
         type: currentAnimation,
         //remove the first animation
-        onFinish: () => {
+        onFinish: async () => {
+          if (parentFinishedCallback) parentFinishedCallback();
           setAnimationQueue(() => {
             //if we still have left over animations of this type then reduce the count of the first element
             if (animationQueue[0][1]) {
@@ -52,7 +54,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
         },
       });
     } else {
-      ref.current?.play({ fps: animationLengths.dieOrAttack, type: "idle", loop: true });
+      ref.current?.play({ fps: 10, type: "idle", loop: true });
     }
   }, [source, animationQueue]);
 
@@ -161,8 +163,8 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
         imageStyle={{ left: `${leftShift}%` }}
         animations={{
           idle: Array.from({ length: animationLengths.idle }, (v, i) => i),
-          onHit: Array.from({ length: animationLengths.onHit }, (v, i) => i + rows),
-          attackOrDie: Array.from({ length: animationLengths.dieOrAttack }, (v, i) => i + 2 * rows),
+          onHit: Array.from({ length: animationLengths.onHit }, (v, i) => i + cols),
+          attackOrDie: Array.from({ length: animationLengths.dieOrAttack }, (v, i) => i + 2 * cols),
         }}
       />
     </Suspense>
