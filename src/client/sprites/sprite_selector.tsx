@@ -1,4 +1,4 @@
-import React, { lazy, useRef, useState, useEffect, Suspense } from "react";
+import React, { lazy, useRef, useState, useEffect, Suspense, useCallback } from "react";
 import Loading from "../util_components/loading";
 import SpriteSheet from "rn-sprite-sheet";
 
@@ -23,12 +23,13 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
     }
   }, [animationsToComplete]);
 
+
   //if we have animations to complete then complete one from the queue or otherwise idle
   useEffect(() => {
     if (animationQueue[0]) {
       const currentAnimation = animationQueue[0][0];
       ref.current?.play({
-        fps: 10,
+        fps: 8,
         type: currentAnimation,
         //remove the first animation
         onFinish: async () => {
@@ -56,7 +57,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
     } else {
       ref.current?.play({ fps: 10, type: "idle", loop: true });
     }
-  }, [source, animationQueue]);
+  }, [source, animationQueue, animationLengths]);
 
   useEffect(() => {
     if (spriteName) {
