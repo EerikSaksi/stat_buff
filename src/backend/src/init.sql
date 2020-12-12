@@ -3,10 +3,8 @@ create schema public;
 
 create table "group" (
   name varchar(32) not null primary key,
-  battle_number integer default 1,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  unique(name, battle_number)
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 create table "user" (
   username varchar(32) primary key not null,
@@ -27,16 +25,23 @@ create table "enemy" (
 );
 create table "battle" (
   enemy_level integer REFERENCES "enemy" default 1 not null,
-  groupName varchar(32) not null,
+  groupName varchar(32) not null references "group",
   battle_number integer not null default 1,   
   current_health integer not null default 200,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  primary key(battle_number, groupName),
-  FOREIGN KEY (groupName, battle_number) REFERENCES "group"(name, battle_number) on delete cascade
+  primary key (groupName, battle_number)
 );
-create index on "battle"(groupName, battle_number);
+create index on "battle"(groupName);
 create index on "battle" (enemy_level);
+
+alter table "group"
+add column "battle_number" integer; 
+
+alter table "group"
+add FOREIGN KEY (name, battle_number) REFERENCES "battle"(groupName, battle_number) on delete set null;
+
+create index on "group"(name, battle_number);
 
 create table "bodystat" (
   username varchar(32) not null REFERENCES "user" ON DELETE cascade not null,
@@ -67,15 +72,12 @@ create table "exercise" (
 create table "user_exercise" (
   slug_name varchar(32) not null REFERENCES "exercise" ON DELETE cascade not null,
   username varchar(32) not null  REFERENCES "user" ON DELETE cascade not null,
-  gri
   repetitions integer not null,
   liftmass float not null,
   strongerPercentage integer not null,
   primary key(slug_name, username),
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-  primary key(slug_name, username, ),
-  FOREIGN KEY (groupName, battle_number) REFERENCES "group"(name, battle_number) on delete cascade
 
 );
 create index on "user_exercise" (slug_name);
