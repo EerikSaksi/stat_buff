@@ -4,6 +4,7 @@ import { Text, View, StyleSheet } from "react-native";
 import SpriteSelector from "../../../sprites/sprite_selector";
 import Loading from "../../../util_components/loading";
 import TimeAgo from "react-timeago";
+import SpriteHealthBar from "../../../sprites/sprite_health_bar";
 
 const ENEMY_STATS = gql`
   query($groupname: String!) {
@@ -87,11 +88,11 @@ const EnemyView: React.FC<{ route: NavigationProps }> = ({ route }) => {
         <Text style={styles.heading}>{`Level ${enemyLevel}: ${enemyByEnemyLevel.name}`}</Text>
       </View>
       <View style={styles.sprite}>
+        <SpriteHealthBar currentHealth={currentHealth} maxHealth={enemyByEnemyLevel.maxHealth} />
         <SpriteSelector spriteName={enemyByEnemyLevel.name} />
       </View>
       <View style={styles.container}>
-        <Text style={styles.subheading}>{`Health: ${currentHealth} / ${enemyByEnemyLevel.maxHealth}`}</Text>
-        <View style = { styles.row }>
+        <View style={styles.row}>
           <Text>Resets </Text>
           {displayDate ? <TimeAgo date={displayDate!} component={Text} /> : undefined}
           <Text> (if not yet killed)</Text>

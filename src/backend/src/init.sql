@@ -77,3 +77,10 @@ create table "user_exercise" (
 );
 create index on "user_exercise" (slug_name);
 create index on "user_exercise" (username);
+
+create table "strength_stats" (
+  username varchar(32) not null REFERENCES "user" ON DELETE cascade not null,
+  battle_number 
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);

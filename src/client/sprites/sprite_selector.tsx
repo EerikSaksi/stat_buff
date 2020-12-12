@@ -21,7 +21,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
           type: currentAnimation,
           fps: animationLengths.attackOrDie,
           onFinish: () => {
-            if (animationFinished) {
+            if (animationFinished && currentAnimation !== "idle") {
               animationFinished();
             }
           },
@@ -31,7 +31,8 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
       else {
         ref.current.play({
           type: "idle",
-          fps: 6,
+          fps: 8,
+          loop: true
         });
       }
     }
@@ -84,7 +85,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
           break;
         case "Mudcrab":
           setSource(require("../assets/cropped_sprites/crab.png"));
-          setHeight(200);
+          setHeight(100);
           setLeftShift(-3);
           break;
         case "Fire Devil":
@@ -95,7 +96,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
           break;
         case "Earth Golem":
           setSource(require("../assets/cropped_sprites/earth.png"));
-          setLeftShift(-3);
+          setLeftShift(-10);
           setAnimationLengths({ idle: 8, onHit: 3, attackOrDie: 5 });
           break;
         case "Frogman, King of Deadlift Leverages":
@@ -138,6 +139,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
         source={source}
         columns={cols}
         rows={rows}
+        imageStyle = {{left: `${leftShift}%`}}
         height={aspectRatio ? aspectRatio * height : height}
         animations={{
           idle: Array.from({ length: animationLengths.idle }, (v, i) => i),

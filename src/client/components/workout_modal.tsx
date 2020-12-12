@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
 });
-const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (val: boolean) => void, skillTitle: string | undefined }> = ({ username, visible, setVisible, skillTitle }) => {
+const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (val: boolean) => void, skillTitle: string | undefined,  }> = ({ username, visible, setVisible, skillTitle }) => {
   const [rir, setRir] = useState<number | undefined>(2);
   const [sets, setSets] = useState<number | undefined>(15);
   const [createWorkout, { data }] = useMutation(CREATE_WORKOUT, {
@@ -61,7 +61,7 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
     <Modal visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"} transparent={true}>
       {data ? (
         <View style={styles.modal}>
-          <WorkoutModalAttack username = {username} hits = {data.createWorkout.workout.hits} skillTitle = {skillTitle}/>
+          <WorkoutModalAttack username = {username} hits = {data.createWorkout.workout.hits} skillTitle = {skillTitle} setVisible = {setVisible}/>
         </View>
       ) : (
         <View style={styles.modal}>
