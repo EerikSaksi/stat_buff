@@ -6,7 +6,6 @@ create table "group" (
   battle_number integer default 1,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  unique(name),
   unique(name, battle_number)
 );
 create table "user" (
@@ -33,7 +32,7 @@ create table "battle" (
   current_health integer not null default 200,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  unique(battle_number, groupName),
+  primary key(battle_number, groupName),
   FOREIGN KEY (groupName, battle_number) REFERENCES "group"(name, battle_number) on delete cascade
 );
 create index on "battle"(groupName, battle_number);
@@ -68,19 +67,17 @@ create table "exercise" (
 create table "user_exercise" (
   slug_name varchar(32) not null REFERENCES "exercise" ON DELETE cascade not null,
   username varchar(32) not null  REFERENCES "user" ON DELETE cascade not null,
+  gri
   repetitions integer not null,
   liftmass float not null,
   strongerPercentage integer not null,
   primary key(slug_name, username),
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  primary key(slug_name, username, ),
+  FOREIGN KEY (groupName, battle_number) REFERENCES "group"(name, battle_number) on delete cascade
+
 );
 create index on "user_exercise" (slug_name);
 create index on "user_exercise" (username);
 
-create table "strength_stats" (
-  username varchar(32) not null REFERENCES "user" ON DELETE cascade not null,
-  battle_number 
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-);
