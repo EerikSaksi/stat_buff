@@ -9,16 +9,14 @@ import SpriteHealthBar from "../../../sprites/sprite_health_bar";
 const ENEMY_STATS = gql`
   query($groupname: String!) {
     group(name: $groupname) {
-      battlesByGroupnameAndBattleNumber {
-        nodes {
-          enemyLevel
-          battleNumber
-          currentHealth
-          createdAt
-          enemyByEnemyLevel {
-            maxHealth
-            name
-          }
+      battleByNameAndBattleNumber{
+        enemyLevel
+        battleNumber
+        currentHealth
+        createdAt
+        enemyByEnemyLevel {
+          maxHealth
+          name
         }
       }
     }
@@ -73,7 +71,7 @@ const EnemyView: React.FC<{ route: NavigationProps }> = ({ route }) => {
   const { data } = useQuery(ENEMY_STATS, {
     variables: { groupname },
     onCompleted: () => {
-      var expiry = new Date(data.group.battlesByGroupnameAndBattleNumber.nodes[0].createdAt);
+      var expiry = new Date(data.group.battleByNameAndBattleNumber.createdAt);
       expiry.setDate(expiry.getDate() + 7);
       setDisplayDate(expiry);
     },
@@ -81,7 +79,7 @@ const EnemyView: React.FC<{ route: NavigationProps }> = ({ route }) => {
   if (!data) {
     return <Loading />;
   }
-  const { currentHealth, enemyLevel, enemyByEnemyLevel } = data.group.battlesByGroupnameAndBattleNumber.nodes[0];
+  const { currentHealth, enemyLevel, enemyByEnemyLevel } = data.group.battleByNameAndBattleNumber;
   return (
     <View style={styles.container}>
       <View style={styles.row}>

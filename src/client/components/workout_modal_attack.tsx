@@ -29,16 +29,14 @@ const ENEMY_STATS = gql`
   query($username: String!) {
     user(username: $username) {
       groupByGroupname {
-        battlesByGroupnameAndBattleNumber {
-          nodes {
-            enemyLevel
-            battleNumber
-            currentHealth
-            createdAt
-            enemyByEnemyLevel {
-              name
-              maxHealth
-            }
+        battleByNameAndBattleNumber {
+          enemyLevel
+          battleNumber
+          currentHealth
+          createdAt
+          enemyByEnemyLevel {
+            name
+            maxHealth
           }
         }
       }
@@ -110,7 +108,7 @@ const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefine
           <SpriteSelector aspectRatio={0.7} spriteName={skillTitle} currentAnimation={playerAnimation} animationFinished={playerAnimationFinished} />
         </View>
         <View style={styles.sprite}>
-          <SpriteHealthBar maxHealth={data.user.groupByGroupname.battlesByGroupnameAndBattleNumber.nodes[0].enemyByEnemyLevel.maxHealth} currentHealth={data.user.groupByGroupname.battlesByGroupnameAndBattleNumber.nodes[0].currentHealth - totalDamage} style = {{width: '70%' }} />
+          <SpriteHealthBar maxHealth={data.user.groupByGroupname.battleByNameAndBattleNumber.enemyByEnemyLevel.maxHealth} currentHealth={data.user.groupByGroupname.battleByNameAndBattleNumber.currentHealth - totalDamage} style = {{width: '70%' }} />
           <SpriteSelector aspectRatio={0.7} spriteName={"Earth Golem"} currentAnimation={enemyAnimation} animationFinished={enemyAnimationFinished} />
         </View>
       </View>
