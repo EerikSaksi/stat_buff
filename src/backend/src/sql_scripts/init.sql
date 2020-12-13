@@ -59,6 +59,7 @@ create table "workout" (
   battle_number integer not null,
   sets integer not null,
   hits integer GENERATED ALWAYS as ((10 - average_rir) / 10.0 * sets) stored,
+  totalDamage integer not null,
   username varchar(32) not null references "user" on delete cascade,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
