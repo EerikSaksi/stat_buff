@@ -260,3 +260,15 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - Should strength be rewarded? Yes long term, people see the progress
 - Should workouts and strength exercises be tracked together
 - Chat 
+
+## Dec 8 (4 hours)
+- Started working on the workout animations
+
+
+## Dec 12 (3 hours)
+- Finished workout animations
+
+## Dec 13 (6 hours)
+- Trying to make workouts save values to the database so that progress isn't just local
+- On a side note, I tried to get some database functions working again, as they had some reusable logic that I could use to save the damage dealt by an enemy. 
+- I realized that the reason that my functions hadn't been working was because I declared them as immutable, which meant that the compiler assumes that same args -> same output, which isn't suitable for a function that queries the database (as these values might change).

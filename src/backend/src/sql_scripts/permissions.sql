@@ -36,9 +36,6 @@ Alter table "battle" enable row level security;
 Alter table "workout" enable row level security;
 
 
-CREATE FUNCTION active_user() RETURNS "user" AS $$
-  select * from "user" where googleID = current_setting('user.googleID')
-$$ LANGUAGE sql IMMUTABLE STRICT;
 --comment on function "current_user" is E'@omit';
 
 CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));

@@ -59,7 +59,6 @@ create table "workout" (
   battle_number integer not null,
   sets integer not null,
   hits integer GENERATED ALWAYS as ((10 - average_rir) / 10.0 * sets) stored,
-  totalDamage integer not null,
   username varchar(32) not null references "user" on delete cascade,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -91,3 +90,27 @@ create table "user_exercise" (
 create index on "user_exercise" (slug_name);
 create index on "user_exercise" (username);
 create index on "user_exercise" (groupName, battle_number);
+
+CREATE FUNCTION active_user() RETURNS "user" AS $$
+  select * from "user" where googleID = current_setting('user.googleID')
+$$ LANGUAGE sql stable STRICT;
+
+
+CREATE TYPE strengthStats AS (
+  stronger_percentage numeric,
+  num_exercises numeric,
+  DPH numeric
+);
+
+CREATE OR REPLACE FUNCTION calculate_strength_stats(schoolid int)
+  RETURNS strengthStats AS $$
+DECLARE
+ result strengthStats;
+BEGIN
+  select avg(strongerpercentage) as stronger_percentage, count (*) as num_exercises into result from "user_exercise" 
+                    where username = (select username from active_user());
+  select result.stronger_percentage / 100 * result.num_exercises into result.DPH;
+  return result;
+END
+$$ language plpgsql stable;
+

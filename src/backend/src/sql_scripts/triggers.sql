@@ -35,19 +35,19 @@ EXECUTE PROCEDURE create_battle();
 
 --updates the current battle and group for the users workout/exercise log
 CREATE FUNCTION update_battle_to_current()
-RETURNS TRIGGER AS 
-$BODY$
-DECLARE
-gn   character varying(32);
-bn   integer;
-BEGIN
-  select groupName into gn from "user" where username = username;
-  select battle_number into bn from "group" where name = gn;
-  NEW.groupName = gn;
-  NEW.battle_number = bn;
-  return NEW;
-END;
-$BODY$
+  RETURNS TRIGGER AS 
+  $BODY$
+  DECLARE
+  gn   character varying(32);
+  bn   integer;
+  BEGIN
+    select groupName into gn from "user" where username = username;
+    select battle_number into bn from "group" where name = gn;
+    NEW.groupName = gn;
+    NEW.battle_number = bn;
+    return NEW;
+  END;
+  $BODY$
 LANGUAGE plpgsql;
 
 CREATE TRIGGER update_workout_to_current_battle
