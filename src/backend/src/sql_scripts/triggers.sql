@@ -7,12 +7,12 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
 --health is set whenever a battle is created
 CREATE TRIGGER init_stats_on_create
 before insert ON "battle"
 FOR EACH ROW
 EXECUTE PROCEDURE init_health();
-
 
 
 

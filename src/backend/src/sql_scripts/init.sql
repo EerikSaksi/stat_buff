@@ -66,6 +66,7 @@ create table "workout" (
 );
 
 create index on "workout" (username);
+create index on "workout" (groupName, battle_number);
 
 CREATE INDEX ON "bodystat" (username);
 create table "exercise" (
@@ -88,3 +89,4 @@ create table "user_exercise" (
 );
 create index on "user_exercise" (slug_name);
 create index on "user_exercise" (username);
+create index on "user_exercise" (groupName, battle_number);

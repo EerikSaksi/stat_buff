@@ -23,6 +23,10 @@ comment on table "user" is E'@omit create';
 comment on table "group" is E'@omit update';
 comment on table "bodystat" is E'@omit all';
 comment on table "battle" is E'@omit create, update, insert, all';
+comment on column "workout".groupName is E'@omit create, update, insert';
+comment on column "workout".battle_number is E'@omit create, update, insert';
+comment on column "user_exercise".groupName is E'@omit create, update, insert';
+comment on column "user_exercise".battle_number is E'@omit create, update, insert';
 
 Alter table "user" enable row level security;
 Alter table "group" enable row level security;

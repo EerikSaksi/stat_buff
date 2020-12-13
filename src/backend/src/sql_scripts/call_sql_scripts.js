@@ -42,7 +42,7 @@ async function init_enemies(client) {
       insert into
         "enemy" (level, max_health, name)
       values
-        (${level}, ${150 + level * 50}, '${enemy}');
+        (${level}, ${10 +  5 * level }, '${enemy}');
     `);
   }
 }

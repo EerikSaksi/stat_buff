@@ -54,37 +54,54 @@ const STRENGTH = gql`
 
 type Animation = "idle" | "onHit" | "attackOrDie";
 const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefined; username: string; setVisible: (val: boolean) => void }> = ({ hits, skillTitle, username, setVisible }) => {
+
+  //fetch enemy stats. If we also loaded player strength stats, then start hitting
   const { data } = useQuery(ENEMY_STATS, {
     variables: { username },
+    onCompleted: () => {if (strengthData) enemyAnimationFinished()}
   });
-  const { data: strengthData } = useQuery(STRENGTH);
+
+
+  //fetch strength stats. If we also loaded enemy starts, then start hitting
+  const { data: strengthData } = useQuery(STRENGTH, {
+    onCompleted: () => {if (data) enemyAnimationFinished()}
+  });
   const [deliveredHits, setDeliveredHits] = useState(0);
   const [totalDamage, setTotalDamage] = useState(0);
+
+  //store total dealt damage (updated whenever the user hits)
   useEffect(() => {
     if (strengthData && strengthData.strengthStats) {
       setTotalDamage(deliveredHits * strengthData.strengthStats.DPH);
     }
   }, [deliveredHits, strengthData]);
 
+
+  //these denote the current animation that the sprite should perform
   const [playerAnimation, setPlayerAnimation] = useState<Animation | undefined>("idle");
   const [enemyAnimation, setEnemyAnimation] = useState<Animation | undefined>("idle");
+
+  //the onFinish hook of the enemy sprite calls this
   const playerAnimationFinished = useCallback(() => {
-    if (deliveredHits < hits) {
+    if (data && data.user &&  data.user.groupByGroupname.battleByNameAndBattleNumber.currentHealth < totalDamage){
+      setEnemyAnimation("attackOrDie")
+    }
+    else if (deliveredHits < hits) {
+      //set toi idle and back to the animation in order to trigger a state change
       setEnemyAnimation("idle");
       setEnemyAnimation("onHit");
       setDeliveredHits((deliveredHits) => deliveredHits < hits ? deliveredHits + 1 : deliveredHits );
     }
   }, [hits, deliveredHits]);
 
+
+  //the onFinish hook of the player sprite calls this. This results in a loop where the sprites wait for each others animations to finish
   const enemyAnimationFinished = useCallback(() => {
     setPlayerAnimation("idle");
     setPlayerAnimation("attackOrDie");
     setEnemyAnimation("idle");
   }, []);
 
-  useEffect(() => {
-    enemyAnimationFinished();
-  }, []);
 
   if (!data || !strengthData) {
     return <Loading />;
