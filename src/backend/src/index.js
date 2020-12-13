@@ -3,7 +3,7 @@ const {postgraphile} = require('postgraphile');
 const MyPlugins = require('./postgraphile_plugins')
 const PostGraphileConnectionFilterPlugin = require('postgraphile-plugin-connection-filter');
 const PostGraphileFulltextFilterPlugin = require('postgraphile-plugin-fulltext-filter');
-const run_all_sql_scripts = require('./call_sql_scripts')
+const run_all_sql_scripts = require('./sql_scripts/call_sql_scripts')
 require('dotenv').config();
 
 const postgraphileOptions = {
