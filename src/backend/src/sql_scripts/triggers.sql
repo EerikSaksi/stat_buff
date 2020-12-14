@@ -1,10 +1,15 @@
 --initializes the health of the battle to be the hardcoded enemy max health
-CREATE FUNCTION init_health()
-RETURNS TRIGGER AS $$
-BEGIN
-  NEW.current_health = (select max_health from "enemy" where level = NEW.enemy_level);
-  return NEW;
-END;
+CREATE FUNCTION init_battle_stats()
+  RETURNS TRIGGER AS 
+  $BODY$
+  DECLARE
+  current_enemy_level integer;
+  BEGIN
+
+    NEW.current_health = (select max_health from "enemy" where level = NEW.enemy_level);
+    return NEW;
+  END;
+$BODY$
 $$ LANGUAGE plpgsql;
 
 
@@ -12,7 +17,10 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER init_stats_on_create
 before insert ON "battle"
 FOR EACH ROW
-EXECUTE PROCEDURE init_health();
+EXECUTE PROCEDURE init_battle_stats();
+
+
+
 
 
 
@@ -20,7 +28,7 @@ EXECUTE PROCEDURE init_health();
 CREATE FUNCTION create_battle()
 RETURNS TRIGGER AS $$
 BEGIN
-  insert into "battle"(enemy_level, groupName, battle_number) values (1, NEW.name, NEW.battle_number);
+  insert into "battle"(groupName, battle_number) values (name, NEW.battle_number);
   return NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -30,6 +38,9 @@ CREATE TRIGGER create_battle_on_update
 before UPDATE of battle_number on "group"
 FOR EACH ROW 
 EXECUTE PROCEDURE create_battle();
+
+
+
 
 
 
@@ -62,7 +73,10 @@ EXECUTE PROCEDURE update_battle_to_current();
 
 
 
---updates the current battle and group for the users workout/exercise log
+
+
+
+--calculates how much damage this workout dealt based on the users current damage and the difficulty (which is calculated to hits) 
 CREATE FUNCTION calculate_total_damage()
   RETURNS TRIGGER AS 
   $BODY$
@@ -70,7 +84,7 @@ CREATE FUNCTION calculate_total_damage()
   hits integer;
   BEGIN
     hits =  ((10 - NEW.average_rir) / 10.0 * NEW.sets);
-    NEW.total_damage = (select dph from calculate_strength_stats(NEW.username)) * hits;
+    NEW.total_damage = (select dph from calculate_strength_stats(NEW.username)) * hits; 
     return NEW;
   END;
   $BODY$
@@ -80,3 +94,38 @@ CREATE TRIGGER insert_total_damage
 before insert on "workout"
 FOR EACH ROW 
 EXECUTE PROCEDURE calculate_total_damage();
+
+
+
+
+
+
+--subtracts the total damage from the group's current battle whenever a workout is created
+CREATE FUNCTION subtract_workout_damage()
+  RETURNS TRIGGER AS 
+  $BODY$
+  DECLARE
+  new_health integer;
+BEGIN
+  --subtract health from the current battle 
+  update "battle"
+  set current_health = (current_health - NEW.total_damage) 
+  where battle_number = NEW.battle_number and groupName = NEW.groupName;
+
+  --set the battle number to be greater than one if the health is negative (this enemy was defeated)
+  update "group"
+  set battle_number = battle_number + 1
+  where battle_number = NEW.battle_number and name = NEW.groupName
+  and (
+    select current_health from "battle"
+    where battle_number = NEW.battle_number and groupName = NEW.groupName
+  ) <= 0;
+  return NEW;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER subtract_workout_damage_on_workout_create
+after insert on "workout"
+FOR EACH ROW 
+EXECUTE PROCEDURE subtract_workout_damage();

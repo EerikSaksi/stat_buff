@@ -26,8 +26,8 @@ const USER = gql`
   }
 `;
 const STRENGTH = gql`
-  query {
-    calculateStrengthStats {
+  query($username: String) {
+    calculateStrengthStats(inputUsername: $username) {
       averageStrength 
       numExercises
       dph

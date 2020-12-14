@@ -59,7 +59,7 @@ create table "workout" (
   battle_number integer not null,
   sets integer not null,
   hits integer GENERATED ALWAYS as ((10 - average_rir) / 10.0 * sets) stored,
-  total_damage integer not null,
+  total_damage float not null,
   username varchar(32) not null references "user" on delete cascade,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -103,13 +103,13 @@ CREATE TYPE strengthStats AS (
   DPH numeric
 );
 
-CREATE OR REPLACE FUNCTION calculate_strength_stats(varchar(32))
+CREATE OR REPLACE FUNCTION calculate_strength_stats(input_username varchar(32))
   RETURNS strengthStats AS $$
 DECLARE
  result strengthStats;
 BEGIN
   select round(avg(strongerpercentage), 2) as average_strength, count (*) as num_exercises into result from "user_exercise" 
-                    where username = $1;
+                    where "user_exercise".username = input_username;
   select round(result.average_strength / 100 * result.num_exercises, 2) into result.DPH;
   return result;
 END

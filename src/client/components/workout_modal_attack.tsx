@@ -45,8 +45,8 @@ const ENEMY_STATS = gql`
 `;
 
 const STRENGTH = gql`
-  query {
-    calculateStrengthStats {
+  query($username: String) {
+    calculateStrengthStats(inputUsername: $username){
       dph
     }
   }
@@ -64,6 +64,7 @@ const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefine
 
   //fetch strength stats. If we also loaded enemy starts, then start hitting
   const { data: strengthData } = useQuery(STRENGTH, {
+    variables: {username},
     onCompleted: () => {
       if (data) setPlayerAnimation("attackOrDie");
     },
