@@ -37,3 +37,4 @@ const app = express();
   app.use(postgraphile("postgres://query_sender:restrictedPermissions@localhost:5432/rpgym", postgraphileOptions));
 })();
 app.listen(process.env.PORT || 4000);
+

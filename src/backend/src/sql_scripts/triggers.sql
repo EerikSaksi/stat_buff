@@ -62,14 +62,19 @@ EXECUTE PROCEDURE update_battle_to_current();
 
 
 
---sets the total damage that was dealt by the workout
+--updates the current battle and group for the users workout/exercise log
 CREATE FUNCTION calculate_total_damage()
-RETURNS TRIGGER AS $$
-BEGIN
-  new.total_damage = 8;
-  return NEW;
-END;
-$$ LANGUAGE plpgsql;
+  RETURNS TRIGGER AS 
+  $BODY$
+  DECLARE
+  hits integer;
+  BEGIN
+    hits =  ((10 - NEW.average_rir) / 10.0 * NEW.sets);
+    NEW.total_damage = (select dph from calculate_strength_stats(NEW.username)) * hits;
+    return NEW;
+  END;
+  $BODY$
+LANGUAGE plpgsql;
 
 CREATE TRIGGER insert_total_damage
 before insert on "workout"

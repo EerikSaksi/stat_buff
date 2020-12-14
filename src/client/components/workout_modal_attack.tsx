@@ -77,6 +77,10 @@ const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefine
     if (data && strengthData && strengthData.calculateStrengthStats) {
       setTotalDamage(() => {
         const newDamage = deliveredHits * strengthData.calculateStrengthStats.dph;
+        //if we killed the enemy just skip to the end
+        if (data.user.groupByGroupname.battleByNameAndBattleNumber.currentHealth < newDamage) {
+          setDeliveredHits(hits)
+        }
         return newDamage;
       });
     }
@@ -90,12 +94,14 @@ const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefine
   const playerAnimationFinished = useCallback(async () => {
     setEnemyAnimation("onHit");
     setDeliveredHits((hits) => hits + 1);
-  }, []);
+  }, [totalDamage, data, strengthData]);
   const enemyAnimationFinished = useCallback(async () => {
+    //setting the animation to undefined and back to attack triggers a state change
     setPlayerAnimation(undefined);
     setPlayerAnimation("attackOrDie");
+    //we only want to trigger an animation repeatedly if the enemy is not doing a dying animation
     setEnemyAnimation(undefined);
-  }, []);
+  }, [totalDamage, data]);
 
   if (!data || !strengthData) {
     return <Loading />;
@@ -112,7 +118,7 @@ const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefine
         </View>
         <View style={styles.sprite}>
           <SpriteHealthBar maxHealth={data.user.groupByGroupname.battleByNameAndBattleNumber.enemyByEnemyLevel.maxHealth} currentHealth={data.user.groupByGroupname.battleByNameAndBattleNumber.currentHealth - totalDamage} style={{ width: "70%" }} />
-          <SpriteSelector aspectRatio={0.7} spriteName={"Earth Golem"} currentAnimation={enemyAnimation} animationFinished={deliveredHits < hits - 1 ? enemyAnimationFinished : undefined} />
+          <SpriteSelector aspectRatio={0.7} spriteName={"Earth Golem"} currentAnimation={totalDamage < data.user.groupByGroupname.battleByNameAndBattleNumber.currentHealth ? enemyAnimation  : 'attackOrDie'} animationFinished={deliveredHits < hits - 1 ? enemyAnimationFinished : undefined} />
         </View>
       </View>
     </React.Fragment>

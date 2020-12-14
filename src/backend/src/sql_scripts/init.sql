@@ -103,13 +103,13 @@ CREATE TYPE strengthStats AS (
   DPH numeric
 );
 
-CREATE OR REPLACE FUNCTION calculate_strength_stats()
+CREATE OR REPLACE FUNCTION calculate_strength_stats(varchar(32))
   RETURNS strengthStats AS $$
 DECLARE
  result strengthStats;
 BEGIN
   select round(avg(strongerpercentage), 2) as average_strength, count (*) as num_exercises into result from "user_exercise" 
-                    where username = (select username from active_user());
+                    where username = $1;
   select round(result.average_strength / 100 * result.num_exercises, 2) into result.DPH;
   return result;
 END
