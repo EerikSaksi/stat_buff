@@ -3,18 +3,28 @@ CREATE FUNCTION init_battle_stats()
   RETURNS TRIGGER AS 
   $BODY$
   DECLARE
-  current_enemy_level integer;
+  previous_battle battle;
   BEGIN
+    --last battle had battle_number - 1
+    previous_battle = * from "battle" where battle_number = NEW.battle_number - 1 and groupName = NEW.groupName;
 
-    NEW.current_health = (select max_health from "enemy" where level = NEW.enemy_level);
+    --if the last battle was won (enemy has 0 or less current_health) then increment enemy_level
+    NEW.enemy_level = CASE 
+      WHEN (
+        previous_battle.current_health  <= 0
+      ) 
+      THEN previous_battle.enemy_level + 1
+      ELSE previous_battle.enemy_level
+    END;
+    NEW.current_health = max_health from "enemy" where level = NEW.enemy_level;
     return NEW;
   END;
 $BODY$
-$$ LANGUAGE plpgsql;
+ LANGUAGE plpgsql;
 
 
 --health is set whenever a battle is created
-CREATE TRIGGER init_stats_on_create
+CREATE TRIGGER init_battle_stats_on_create
 before insert ON "battle"
 FOR EACH ROW
 EXECUTE PROCEDURE init_battle_stats();
@@ -28,7 +38,7 @@ EXECUTE PROCEDURE init_battle_stats();
 CREATE FUNCTION create_battle()
 RETURNS TRIGGER AS $$
 BEGIN
-  insert into "battle"(groupName, battle_number) values (name, NEW.battle_number);
+  insert into "battle"(groupName, battle_number) values (NEW.name, NEW.battle_number);
   return NEW;
 END;
 $$ LANGUAGE plpgsql;
