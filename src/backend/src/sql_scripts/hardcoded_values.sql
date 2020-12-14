@@ -3,6 +3,7 @@ insert into
 values
   (1, 10, 'Earth Golem');
 
+
 insert into
   "user" (username, googleID)
 values
@@ -269,6 +270,7 @@ values
   ('front-squat', 'orek', 12, 140, 90);
 
 --we want to change the updated at times, but changing the update times triggers the set update time trigger. Oh the irony
+
 ALTER TABLE "user_exercise" DISABLE TRIGGER set_timestamp;
 update "user_exercise"
 set updated_at = '2020-12-03'

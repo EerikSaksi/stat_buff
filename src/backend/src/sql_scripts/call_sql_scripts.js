@@ -56,8 +56,8 @@ async function run_all_sql_scripts() {
   await exec_file("triggers.sql", client);
   await exec_file("timestamp_triggers.sql", client);
   await exec_file("permissions.sql", client);
-  await exec_file("hardcoded_values.sql", client);
   await init_enemies(client);
+  await exec_file("hardcoded_values.sql", client);
   await client.end().catch((err) => console.log(err));
 }
 module.exports = run_all_sql_scripts;

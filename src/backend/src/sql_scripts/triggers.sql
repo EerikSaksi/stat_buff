@@ -1,47 +1,32 @@
---initializes the health of the battle to be the hardcoded enemy max health
-CREATE FUNCTION init_battle_stats()
-  RETURNS TRIGGER AS 
+--creates a battle with whatever group name and battle number that the groups was set to 
+CREATE FUNCTION create_battle()
+RETURNS TRIGGER AS 
   $BODY$
   DECLARE
-  previous_battle battle;
+  previous_battle "battle";
+  new_current_health integer;
+  new_enemy_level integer;
   BEGIN
-    --last battle had battle_number - 1
-    previous_battle = * from "battle" where battle_number = NEW.battle_number - 1 and groupName = NEW.groupName;
+    raise notice 'NEW.battle_number %d', NEW.battle_number;
+    if NEW.battle_number = 1 then 
+      insert into "battle"(groupName, battle_number, enemy_level, current_health) values (NEW.name, NEW.battle_number, 1, 10);
+      return new;
+    end if;
 
-    --if the last battle was won (enemy has 0 or less current_health) then increment enemy_level
-    NEW.enemy_level = CASE 
-      WHEN (
-        previous_battle.current_health  <= 0
-      ) 
-      THEN previous_battle.enemy_level + 1
-      ELSE previous_battle.enemy_level
-    END;
-    NEW.current_health = max_health from "enemy" where level = NEW.enemy_level;
+
+    select enemy_level, current_health into new_enemy_level, new_current_health
+      from "battle" 
+      where battle_number = OLD.battle_number and groupName = NEW.name;
+    if new_current_health <= 0 then
+      new_enemy_level = new_enemy_level + 1;
+    end if;
+
+    select max_health into new_current_health from "enemy" where level = new_enemy_level;
+    insert into "battle"(groupName, battle_number, enemy_level, current_health) values (NEW.name, NEW.battle_number, new_enemy_level, new_current_health);
     return NEW;
   END;
 $BODY$
  LANGUAGE plpgsql;
-
-
---health is set whenever a battle is created
-CREATE TRIGGER init_battle_stats_on_create
-before insert ON "battle"
-FOR EACH ROW
-EXECUTE PROCEDURE init_battle_stats();
-
-
-
-
-
-
---creates a battle with whatever group name and battle number that the groups was set to 
-CREATE FUNCTION create_battle()
-RETURNS TRIGGER AS $$
-BEGIN
-  insert into "battle"(groupName, battle_number) values (NEW.name, NEW.battle_number);
-  return NEW;
-END;
-$$ LANGUAGE plpgsql;
 
 --creates that battle whenever the battle number is updated
 CREATE TRIGGER create_battle_on_update 
@@ -62,7 +47,7 @@ CREATE FUNCTION update_battle_to_current()
   gn   character varying(32);
   bn   integer;
   BEGIN
-    select groupName into gn from "user" where username = username;
+    select groupName into gn from "user" where username = NEW.username;
     select battle_number into bn from "group" where name = gn;
     NEW.groupName = gn;
     NEW.battle_number = bn;
@@ -121,15 +106,11 @@ BEGIN
   update "battle"
   set current_health = (current_health - NEW.total_damage) 
   where battle_number = NEW.battle_number and groupName = NEW.groupName;
-
-  --set the battle number to be greater than one if the health is negative (this enemy was defeated)
-  update "group"
-  set battle_number = battle_number + 1
-  where battle_number = NEW.battle_number and name = NEW.groupName
-  and (
-    select current_health from "battle"
-    where battle_number = NEW.battle_number and groupName = NEW.groupName
-  ) <= 0;
+  if (select current_health from "battle" where battle_number = NEW.battle_number and groupName = NEW.groupName) <= 0 then
+    update "group"
+    set battle_number = battle_number + 1
+    where battle_number = NEW.battle_number and name = NEW.groupName;
+  end if;
   return NEW;
 END;
 $BODY$

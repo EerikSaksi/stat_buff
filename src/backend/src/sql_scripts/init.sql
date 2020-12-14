@@ -28,7 +28,7 @@ create table "battle" (
   enemy_level integer not null REFERENCES "enemy",
   groupName varchar(32) not null references "group",
   battle_number integer not null, 
-  current_health integer not null default 200,
+  current_health integer not null,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   primary key (groupName, battle_number)
