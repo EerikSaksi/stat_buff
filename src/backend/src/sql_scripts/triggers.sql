@@ -62,12 +62,16 @@ EXECUTE PROCEDURE update_battle_to_current();
 
 
 
-
---initializes the health of the battle to be the hardcoded enemy max health
+--sets the total damage that was dealt by the workout
 CREATE FUNCTION calculate_total_damage()
 RETURNS TRIGGER AS $$
 BEGIN
-  NEW.current_health = (select max_health from "enemy" where level = NEW.enemy_level);
+  new.total_damage = 8;
   return NEW;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE TRIGGER insert_total_damage
+before insert on "workout"
+FOR EACH ROW 
+EXECUTE PROCEDURE calculate_total_damage();

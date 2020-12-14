@@ -17,12 +17,15 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
     if (ref.current) {
       //if passed animation then play the animation, and then call the parent listener function (if exists)
       if (currentAnimation) {
+        const resetAfterFinish = currentAnimation !== "attackOrDie";
         ref.current.play({
           type: currentAnimation,
           fps: animationLengths.attackOrDie,
+          resetAfterFinish,
           onFinish: () => {
-            if (animationFinished && currentAnimation !== "idle") {
-              animationFinished();
+            if(animationFinished){
+              console.log(`${spriteName}: ${currentAnimation}`)
+              animationFinished()
             }
           },
         });
@@ -32,7 +35,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
         ref.current.play({
           type: "idle",
           fps: 8,
-          loop: true
+          loop: true,
         });
       }
     }
@@ -139,7 +142,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
         source={source}
         columns={cols}
         rows={rows}
-        imageStyle = {{left: `${leftShift}%`}}
+        imageStyle={{ left: `${leftShift}%` }}
         height={aspectRatio ? aspectRatio * height : height}
         animations={{
           idle: Array.from({ length: animationLengths.idle }, (v, i) => i),

@@ -42,6 +42,7 @@ values
   (3, 21, 'orek');
 update "workout"
 
+
 set created_at = '2020-12-05'
 where username = 'orek';
 
@@ -271,7 +272,18 @@ insert into
   "user_exercise" 
   (slug_name,  username,  repetitions,  liftmass,  strongerPercentage)
 values
-  ('shoulder-press', 'eerik', 12, 45, 52);
+  ('shoulder-press', 'eerik', 8, 50, 52);
+
+insert into
+  "user_exercise" 
+  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage)
+values
+  ('deadlift', 'orek', 12, 180, 80);
+insert into
+  "user_exercise" 
+  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage)
+values
+  ('front-squat', 'orek', 12, 140, 90);
 
 --we want to change the updated at times, but changing the update times triggers the set update time trigger. Oh the irony
 ALTER TABLE "user_exercise" DISABLE TRIGGER set_timestamp;

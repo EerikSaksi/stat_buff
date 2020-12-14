@@ -27,10 +27,10 @@ const USER = gql`
 `;
 const STRENGTH = gql`
   query {
-    strengthStats {
-      averageStrength
+    calculateStrengthStats {
+      averageStrength 
       numExercises
-      DPH
+      dph
     }
   }
 `;
@@ -60,8 +60,8 @@ const User: React.FC = () => {
     fetchBodyStats();
     fetchStrength();
   }, []);
-  //const { skillTitle } = useSkillTitle(exerciseData && exerciseData.strengthStats ? exerciseData.strengthStats.DPH : undefined);
-  const skillTitle = "advanced"
+  //const { skillTitle } = useSkillTitle(exerciseData && exerciseData.calculateStrengthStats ? exerciseData.calculateStrengthStats.dph : undefined);
+  const skillTitle = "advanced";
   if (!data) {
     return <Loading />;
   }
@@ -87,19 +87,19 @@ const User: React.FC = () => {
       </View>
       <View style={{ flex: 1 }}>
         <Text style={{ fontSize: 30, textAlign: "center" }}> {`Welcome back, ${username}.`} </Text>
-        {exerciseData && exerciseData.strengthStats ? (
+        {exerciseData && exerciseData.calculateStrengthStats ? (
           <View>
-            <Text style={{ textAlign: "center", fontSize: 20 }}>{`Your character has DPH: ${exerciseData.strengthStats.DPH}`}</Text>
-            <Text style={{ textAlign: "center", fontSize: 12, overflow: "scroll" }}>{`Damage Per Hit = Stronger than ${exerciseData.strengthStats.averageStrength}% * ${exerciseData.strengthStats.numExercises} exercise${exerciseData.strengthStats.numExercises === 1 ? "" : "'s"} tracked`}</Text>
+            <Text style={{ textAlign: "center", fontSize: 20 }}>{`Your character has DPH: ${exerciseData.calculateStrengthStats.dph}`}</Text>
+            <Text style={{ textAlign: "center", fontSize: 12, overflow: "scroll" }}>{`Damage Per Hit = Stronger than ${exerciseData.calculateStrengthStats.averageStrength}% * ${exerciseData.calculateStrengthStats.numExercises} exercise${exerciseData.calculateStrengthStats.numExercises === 1 ? "" : "'s"} tracked`}</Text>
           </View>
         ) : null}
       </View>
       <ExerciseModal visible={strengthModalVisible} setVisible={setStrengthModalVisible} username={username} refetchParent={fetchStrength} />
       <BodyStatsModal visible={bodystatsModalVisible} setVisible={setBodystatsModalVisible} username={username} refetchParent={fetchBodyStats} />
-      <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username} skillTitle = {skillTitle}/>
-      <View style={{ flex: 5, justifyContent: "flex-end", alignItems: 'center',zIndex: -1 }}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={skillTitle} /> : <Loading />}</View>
+      <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username} skillTitle={skillTitle} />
+      <View style={{ flex: 5, justifyContent: "flex-end", alignItems: "center", zIndex: -1 }}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={skillTitle} /> : <Loading />}</View>
       <View style={{ flex: 1, width: "30%" }}>
-        <Button disabled={!(exerciseData && exerciseData.strengthStats)} title="Log workout" onPress={() => setWorkoutModalVisible(true)} />
+        <Button disabled={!(exerciseData && exerciseData.calculateStrengthStats)} title="Log workout" onPress={() => setWorkoutModalVisible(true)} />
       </View>
     </View>
   );

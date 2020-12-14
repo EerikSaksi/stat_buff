@@ -46,62 +46,56 @@ const ENEMY_STATS = gql`
 
 const STRENGTH = gql`
   query {
-    strengthStats {
-      DPH
+    calculateStrengthStats {
+      dph
     }
   }
 `;
 
 type Animation = "idle" | "onHit" | "attackOrDie";
 const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefined; username: string; setVisible: (val: boolean) => void }> = ({ hits, skillTitle, username, setVisible }) => {
-
   //fetch enemy stats. If we also loaded player strength stats, then start hitting
   const { data } = useQuery(ENEMY_STATS, {
     variables: { username },
-    onCompleted: () => {if (strengthData) enemyAnimationFinished()}
+    onCompleted: () => {
+      if (strengthData) setPlayerAnimation("attackOrDie");
+    },
   });
-
 
   //fetch strength stats. If we also loaded enemy starts, then start hitting
   const { data: strengthData } = useQuery(STRENGTH, {
-    onCompleted: () => {if (data) enemyAnimationFinished()}
+    onCompleted: () => {
+      if (data) setPlayerAnimation("attackOrDie");
+    },
   });
+
   const [deliveredHits, setDeliveredHits] = useState(0);
   const [totalDamage, setTotalDamage] = useState(0);
 
   //store total dealt damage (updated whenever the user hits)
   useEffect(() => {
-    if (strengthData && strengthData.strengthStats) {
-      setTotalDamage(deliveredHits * strengthData.strengthStats.DPH);
+    if (data && strengthData && strengthData.calculateStrengthStats) {
+      setTotalDamage(() => {
+        const newDamage = deliveredHits * strengthData.calculateStrengthStats.dph;
+        return newDamage;
+      });
     }
   }, [deliveredHits, strengthData]);
 
-
   //these denote the current animation that the sprite should perform
-  const [playerAnimation, setPlayerAnimation] = useState<Animation | undefined>("idle");
-  const [enemyAnimation, setEnemyAnimation] = useState<Animation | undefined>("idle");
-
-  //the onFinish hook of the enemy sprite calls this
-  const playerAnimationFinished = useCallback(() => {
-    if (data && data.user &&  data.user.groupByGroupname.battleByNameAndBattleNumber.currentHealth < totalDamage){
-      setEnemyAnimation("attackOrDie")
-    }
-    else if (deliveredHits < hits) {
-      //set toi idle and back to the animation in order to trigger a state change
-      setEnemyAnimation("idle");
-      setEnemyAnimation("onHit");
-      setDeliveredHits((deliveredHits) => deliveredHits < hits ? deliveredHits + 1 : deliveredHits );
-    }
-  }, [hits, deliveredHits]);
-
+  const [playerAnimation, setPlayerAnimation] = useState<Animation | undefined>(undefined);
+  const [enemyAnimation, setEnemyAnimation] = useState<Animation | undefined>(undefined);
 
   //the onFinish hook of the player sprite calls this. This results in a loop where the sprites wait for each others animations to finish
-  const enemyAnimationFinished = useCallback(() => {
-    setPlayerAnimation("idle");
-    setPlayerAnimation("attackOrDie");
-    setEnemyAnimation("idle");
+  const playerAnimationFinished = useCallback(async () => {
+    setEnemyAnimation("onHit");
+    setDeliveredHits((hits) => hits + 1);
   }, []);
-
+  const enemyAnimationFinished = useCallback(async () => {
+    setPlayerAnimation(undefined);
+    setPlayerAnimation("attackOrDie");
+    setEnemyAnimation(undefined);
+  }, []);
 
   if (!data || !strengthData) {
     return <Loading />;
@@ -111,22 +105,14 @@ const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefine
       <View style={styles.textView}>
         <Text style={styles.text}>{`${deliveredHits} hit${deliveredHits > 1 ? "s" : ""}: ${totalDamage.toFixed(2)} total damage.`}</Text>
       </View>
-      <View style={styles.textView}>
-        {
-          hits === deliveredHits
-          ?
-          <Button title="Close" onPress={() => setVisible(false)} />
-          :
-          <Button title="Skip animations" onPress={() => setDeliveredHits(hits)} />
-        }
-      </View>
+      <View style={styles.textView}>{hits === deliveredHits ? <Button title="Close" onPress={() => setVisible(false)} /> : <Button title="Skip animations" onPress={() => setDeliveredHits(hits)} />}</View>
       <View style={styles.sprites}>
         <View style={styles.sprite}>
-          <SpriteSelector aspectRatio={0.7} spriteName={skillTitle} currentAnimation={playerAnimation} animationFinished={playerAnimationFinished} />
+          <SpriteSelector aspectRatio={0.7} spriteName={skillTitle} currentAnimation={playerAnimation} animationFinished={deliveredHits < hits ? playerAnimationFinished : undefined} />
         </View>
         <View style={styles.sprite}>
-          <SpriteHealthBar maxHealth={data.user.groupByGroupname.battleByNameAndBattleNumber.enemyByEnemyLevel.maxHealth} currentHealth={data.user.groupByGroupname.battleByNameAndBattleNumber.currentHealth - totalDamage} style = {{width: '70%' }} />
-          <SpriteSelector aspectRatio={0.7} spriteName={"Earth Golem"} currentAnimation={enemyAnimation} animationFinished={enemyAnimationFinished} />
+          <SpriteHealthBar maxHealth={data.user.groupByGroupname.battleByNameAndBattleNumber.enemyByEnemyLevel.maxHealth} currentHealth={data.user.groupByGroupname.battleByNameAndBattleNumber.currentHealth - totalDamage} style={{ width: "70%" }} />
+          <SpriteSelector aspectRatio={0.7} spriteName={"Earth Golem"} currentAnimation={enemyAnimation} animationFinished={deliveredHits < hits - 1 ? enemyAnimationFinished : undefined} />
         </View>
       </View>
     </React.Fragment>

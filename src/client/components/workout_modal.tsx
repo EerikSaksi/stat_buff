@@ -7,8 +7,8 @@ import { generateShadow } from "react-native-shadow-generator";
 import WorkoutModalAttack from "./workout_modal_attack";
 const STRENGTH = gql`
   query {
-    strengthStats {
-      DPH
+    calculateStrengthStats{
+      dph
     }
   }
 `;
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 });
 const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (val: boolean) => void, skillTitle: string | undefined,  }> = ({ username, visible, setVisible, skillTitle }) => {
   const [rir, setRir] = useState<number | undefined>(2);
-  const [sets, setSets] = useState<number | undefined>(15);
+  const [sets, setSets] = useState<number | undefined>(10);
   const [createWorkout, { data }] = useMutation(CREATE_WORKOUT, {
     variables: { username, rir, sets },
   });

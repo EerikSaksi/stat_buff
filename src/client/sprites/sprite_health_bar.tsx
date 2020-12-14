@@ -18,10 +18,10 @@ const SpriteHealthBar: React.FC<{ currentHealth: number; maxHealth: number, styl
   return (
     <View style = {style}>
       <Text style = { styles.text }>
-        {`${currentHealth}/${maxHealth}`}
+        {`${currentHealth.toFixed(2)}/${maxHealth.toFixed(2)}`}
       </Text>
       <View style={styles.outline}>
-        <View style = {{ backgroundColor: 'red', width: `${currentHealth / maxHealth * 100}%`, height: '100%' }}>
+        <View style = {{ backgroundColor: 'red', width: `${Math.max(currentHealth / maxHealth * 100, 0)}%`, height: '100%' }}>
         </View>
       </View>
     </View>
