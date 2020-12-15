@@ -243,28 +243,28 @@ values
   (203, 'barbell-power-shrug'),
   (204, 'bent-arm-barbell-pullover');
 
---insert into
---  "user_exercise" 
---  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage, groupName, battle_number)
---values
---  ('bench-press', 'orek', 8, 80, 52, 'Dream Team', 1);
+insert into
+  "user_exercise" 
+  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage, groupName, battle_number)
+values
+  ('bench-press', 'orek', 8, 80, 52, 'Dream Team', 1);
 
---insert into
---  "user_exercise" 
---  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage)
---values
---  ('shoulder-press', 'eerik', 8, 50, 52);
---
---insert into
---  "user_exercise" 
---  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage)
---values
---  ('deadlift', 'orek', 12, 180, 80);
---insert into
---  "user_exercise" 
---  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage)
---values
---  ('front-squat', 'orek', 12, 140, 90);
+insert into
+  "user_exercise" 
+  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage)
+values
+  ('shoulder-press', 'eerik', 8, 50, 52);
+
+insert into
+  "user_exercise" 
+  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage)
+values
+  ('deadlift', 'orek', 12, 180, 80);
+insert into
+  "user_exercise" 
+  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage)
+values
+  ('front-squat', 'orek', 12, 140, 90);
 
 --we want to change the updated at times, but changing the update times triggers the set update time trigger. Oh the irony
 

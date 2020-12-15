@@ -3,7 +3,9 @@ CREATE FUNCTION update_battle_to_current()
   RETURNS TRIGGER AS $$
   BEGIN
     select groupName into NEW.groupName from "user" where username = NEW.username;
-    new.groupName = 'Dream Team';
+    raise notice 'groupName %',  (select groupName from "user" where username = NEW.username);
+    raise notice 'NEW.groupName %',  NEW.groupName;
+    select battle_number into NEW.battle_number from "group" where name = 'Dream Team';
     return NEW;
   END;
 $$ LANGUAGE plpgsql;
@@ -26,10 +28,10 @@ CREATE FUNCTION check_member_count()
       --count members
       select count(*) into num_members from "user" where groupName = new.groupName;
 
-      raise notice 'Count: %', num_members;
       --if at least two members initialize default battle for this group
       if 2 <= num_members then  
         insert into "battle"(groupName) values (new.groupName);
+        update "group" set battle_number = 1 where name = new.groupName;
       end if; 
     end if;
     return NEW;
