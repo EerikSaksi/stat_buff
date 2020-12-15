@@ -50,7 +50,7 @@ const STRENGTH = gql`
       dph
     }
   }
-`;
+`
 
 type Animation = "idle" | "onHit" | "attackOrDie";
 const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefined; username: string; setVisible: (val: boolean) => void }> = ({ hits, skillTitle, username, setVisible }) => {
@@ -60,6 +60,7 @@ const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefine
     onCompleted: () => {
       if (strengthData) setPlayerAnimation("attackOrDie");
     },
+    fetchPolicy: "network-only"
   });
 
   //fetch strength stats. If we also loaded enemy starts, then start hitting
@@ -119,7 +120,7 @@ const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefine
         </View>
         <View style={styles.sprite}>
           <SpriteHealthBar maxHealth={data.user.groupByGroupname.battleByNameAndBattleNumber.enemyByEnemyLevel.maxHealth} currentHealth={data.user.groupByGroupname.battleByNameAndBattleNumber.currentHealth - totalDamage} style={{ width: "70%" }} />
-          <SpriteSelector aspectRatio={0.7} spriteName={"Earth Golem"} currentAnimation={totalDamage < data.user.groupByGroupname.battleByNameAndBattleNumber.currentHealth ? enemyAnimation  : 'attackOrDie'} animationFinished={deliveredHits < hits - 1 ? enemyAnimationFinished : undefined} />
+          <SpriteSelector aspectRatio={0.7} spriteName={data.user.groupByGroupname.battleByNameAndBattleNumber.enemyByEnemyLevel.name} currentAnimation={totalDamage < data.user.groupByGroupname.battleByNameAndBattleNumber.currentHealth ? enemyAnimation  : 'attackOrDie'} animationFinished={deliveredHits < hits - 1 ? enemyAnimationFinished : undefined} />
         </View>
       </View>
     </React.Fragment>

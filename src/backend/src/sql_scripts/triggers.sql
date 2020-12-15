@@ -7,7 +7,6 @@ RETURNS TRIGGER AS
   new_current_health integer;
   new_enemy_level integer;
   BEGIN
-    raise notice 'NEW.battle_number %d', NEW.battle_number;
     if NEW.battle_number = 1 then 
       insert into "battle"(groupName, battle_number, enemy_level, current_health) values (NEW.name, NEW.battle_number, 1, 10);
       return new;
@@ -78,6 +77,7 @@ CREATE FUNCTION calculate_total_damage()
   DECLARE
   hits integer;
   BEGIN
+    raise notice 'calculate_total_damage %d', NEW.sets;
     hits =  ((10 - NEW.average_rir) / 10.0 * NEW.sets);
     NEW.total_damage = (select dph from calculate_strength_stats(NEW.username)) * hits; 
     return NEW;
@@ -94,7 +94,6 @@ EXECUTE PROCEDURE calculate_total_damage();
 
 
 
-
 --subtracts the total damage from the group's current battle whenever a workout is created
 CREATE FUNCTION subtract_workout_damage()
   RETURNS TRIGGER AS 
@@ -103,9 +102,11 @@ CREATE FUNCTION subtract_workout_damage()
   new_health integer;
 BEGIN
   --subtract health from the current battle 
+  raise notice 'subtract_workout_damage %d', NEW.total_damage;
   update "battle"
   set current_health = (current_health - NEW.total_damage) 
   where battle_number = NEW.battle_number and groupName = NEW.groupName;
+
   if (select current_health from "battle" where battle_number = NEW.battle_number and groupName = NEW.groupName) <= 0 then
     update "group"
     set battle_number = battle_number + 1

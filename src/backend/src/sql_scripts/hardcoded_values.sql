@@ -286,16 +286,15 @@ insert into
   "workout" (average_rir, sets, username)
 values
   (3, 21, 'orek');
+
 update "workout"
-
-
 set created_at = '2020-12-05'
 where username = 'orek';
 
-insert into
-  "workout" (average_rir, sets, username)
-values
-  (6, 9, 'eerik');
-update "workout"
-set created_at = '2020-12-02'
-where username = 'eerik';
+--insert into
+--  "workout" (average_rir, sets, username)
+--values
+--  (6, 9, 'eerik');
+--update "workout"
+--set created_at = '2020-12-02'
+--where username = 'eerik';

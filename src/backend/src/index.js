@@ -13,7 +13,6 @@ const postgraphileOptions = {
   setofFunctionsContainNulls: false,
   ignoreRBAC: false,
   ignoreIndexes: false,
-  handleErrors: (error) => console.log(error),
   appendPlugins: [require("@graphile-contrib/pg-simplify-inflector"), MyPlugins, PostGraphileConnectionFilterPlugin, PostGraphileFulltextFilterPlugin],
   exportGqlSchemaPath: "schema.graphql",
   graphiql: true,
@@ -37,4 +36,3 @@ const app = express();
   app.use(postgraphile("postgres://query_sender:restrictedPermissions@localhost:5432/rpgym", postgraphileOptions));
 })();
 app.listen(process.env.PORT || 4000);
-

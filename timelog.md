@@ -272,3 +272,14 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - Trying to make workouts save values to the database so that progress isn't just local
 - On a side note, I tried to get some database functions working again, as they had some reusable logic that I could use to save the damage dealt by an enemy. 
 - I realized that the reason that my functions hadn't been working was because I declared them as immutable, which meant that the compiler assumes that same args -> same output, which isn't suitable for a function that queries the database (as these values might change).
+
+## Dec 14 
+
+- Workouts now deal damage that is reflected in the view
+- Finally finished the animation of dealing damage to the enemy
+- Weird bug: the damage dealt by a workout is the last workouts damage, and not the current?
+- Had meeting
+- We dicussed whether leftover damage should be spilled over to the next enemy or if it simply wasted?
+- Could be annoying, but also encourages cooperation (someone with a shorter workout could track first)
+- What notifications or updates should users receive about their team and their team killing enemies
+

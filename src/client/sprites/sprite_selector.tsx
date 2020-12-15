@@ -24,7 +24,6 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
           resetAfterFinish,
           onFinish: () => {
             if(animationFinished){
-              console.log(`${spriteName}: ${currentAnimation}`)
               animationFinished()
             }
           },
@@ -94,7 +93,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
         case "Fire Devil":
           setSource(require("../assets/cropped_sprites/fire.png"));
           setAnimationLengths({ idle: 8, onHit: 3, attackOrDie: 7 });
-          setHeight(300);
+          setHeight(250);
           setLeftShift(18);
           break;
         case "Earth Golem":
@@ -115,7 +114,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
           break;
         case "Minotaur":
           setSource(require("../assets/cropped_sprites/minotaur.png"));
-          setHeight(300);
+          setHeight(250);
           setLeftShift(20);
           break;
         case "Queen of Scorpions":

@@ -20,7 +20,7 @@ add column creator_username varchar(32) not null unique REFERENCES "user" ON DEL
 
 create table "enemy" (
   level integer primary key,
-  max_health integer,
+  max_health float,
   name varchar(64)
 );
 
@@ -28,7 +28,7 @@ create table "battle" (
   enemy_level integer not null REFERENCES "enemy",
   groupName varchar(32) not null references "group",
   battle_number integer not null, 
-  current_health integer not null,
+  current_health float not null,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   primary key (groupName, battle_number)

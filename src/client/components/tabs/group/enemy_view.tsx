@@ -1,10 +1,11 @@
-import { gql, useQuery } from "@apollo/client";
-import React, { useState, useEffect } from "react";
+import { gql, useLazyQuery, useQuery } from "@apollo/client";
+import React, { useState, useEffect, useCallback } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import SpriteSelector from "../../../sprites/sprite_selector";
 import Loading from "../../../util_components/loading";
 import TimeAgo from "react-timeago";
 import SpriteHealthBar from "../../../sprites/sprite_health_bar";
+import { useFocusEffect } from '@react-navigation/native';
 
 const ENEMY_STATS = gql`
   query($groupname: String!) {
@@ -38,6 +39,7 @@ const styles = StyleSheet.create({
   sprite: {
     flex: 2,
     justifyContent: "flex-end",
+    textAlign: 'center'
   },
   heading: {
     fontSize: 30,
@@ -50,32 +52,27 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-const pad = (val: number): string => {
-  if (val < 10) {
-    return "0" + val.toString();
-  }
-  return val.toString();
-};
 
 type NavigationProps = { params: { groupname: string } };
 const EnemyView: React.FC<{ route: NavigationProps }> = ({ route }) => {
+  
+  useFocusEffect(
+    useCallback(() => {
+      fetchEnemyStats()
+    }, [])
+  );
   const { groupname } = route.params;
-  const [seconds, setSeconds] = useState<number | undefined>(undefined);
   const [displayDate, setDisplayDate] = useState<Date | undefined>(undefined);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSeconds((seconds) => (seconds ? seconds - 1 : undefined));
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-  const { data } = useQuery(ENEMY_STATS, {
+  const [fetchEnemyStats, { data }] = useLazyQuery(ENEMY_STATS, {
     variables: { groupname },
     onCompleted: () => {
       var expiry = new Date(data.group.battleByNameAndBattleNumber.createdAt);
       expiry.setDate(expiry.getDate() + 7);
       setDisplayDate(expiry);
     },
+    fetchPolicy: 'network-only'
   });
+
   if (!data) {
     return <Loading />;
   }
