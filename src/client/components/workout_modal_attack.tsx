@@ -95,8 +95,8 @@ const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefine
   //the onFinish hook of the player sprite calls this. This results in a loop where the sprites wait for each others animations to finish
   const playerAnimationFinished = useCallback(async () => {
     setEnemyAnimation("onHit");
-    setDeliveredHits((hits) => hits + 1);
-  }, [totalDamage, data, strengthData]);
+    setDeliveredHits((deliveredHits) => deliveredHits < hits ? deliveredHits + 1 : deliveredHits);
+  }, [totalDamage, data, strengthData, hits]);
   const enemyAnimationFinished = useCallback(async () => {
     //setting the animation to undefined and back to attack triggers a state change
     setPlayerAnimation(undefined);

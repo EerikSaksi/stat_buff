@@ -256,24 +256,26 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - Added new changes to ER diagram
 - Finished first prototype of group events feed
 - Added workout tracking
-- Had meeting. We had a long discussion about whether tracking workouts and tracking exercises should be a separate action, or a simultaneous one. My supervisor had a good argument that you need to workout to track exercises, and that it is confusing to do both at the same time. My argument was that I want the user to realize that their contribution is based on both their strength but also how hard they workout (rewarding performance but also effort). I also want the action of tracking workouts to be as easy as possible as this is done frequently. 
+- Had meeting. We had a long discussion about whether tracking workouts and tracking exercises should be a separate action, or a simultaneous one. My supervisor had a good argument that you need to workout to track exercises, and that it is confusing to do both at the same time. My argument was that I want the user to realize that their contribution is based on both their strength but also how hard they workout (rewarding performance but also effort). I also want the action of tracking workouts to be as easy as possible as this is done frequently.
 - Should strength be rewarded? Yes long term, people see the progress
 - Should workouts and strength exercises be tracked together
-- Chat 
+- Chat
 
 ## Dec 8 (4 hours)
+
 - Started working on the workout animations
 
-
 ## Dec 12 (3 hours)
+
 - Finished workout animations
 
 ## Dec 13 (6 hours)
+
 - Trying to make workouts save values to the database so that progress isn't just local
-- On a side note, I tried to get some database functions working again, as they had some reusable logic that I could use to save the damage dealt by an enemy. 
+- On a side note, I tried to get some database functions working again, as they had some reusable logic that I could use to save the damage dealt by an enemy.
 - I realized that the reason that my functions hadn't been working was because I declared them as immutable, which meant that the compiler assumes that same args -> same output, which isn't suitable for a function that queries the database (as these values might change).
 
-## Dec 14 
+## Dec 14 (6 hours)
 
 - Workouts now deal damage that is reflected in the view
 - Finally finished the animation of dealing damage to the enemy
@@ -283,3 +285,7 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - Could be annoying, but also encourages cooperation (someone with a shorter workout could track first)
 - What notifications or updates should users receive about their team and their team killing enemies
 
+## Dec (5 hours)
+
+- Fixed the afformentioned bug where workouts would deal damage delayed. I think this was caused by an accidental race condition as I had two database triggers that triggered before inserting a workout. This is now one trigger.
+- I needed some way of creating a default level 1 battle for a group. The way that I got this working was by creating a trigger that is triggered after a user changes group. The trigger checks if the group doesn't have a battle, in which case it also checks if the team has at least 2 members. In this case, the team is large enough to start. I will probably also use this trigger to scale the max health of enemies higher or lower when a member joins or leaves to make any sized team viable.

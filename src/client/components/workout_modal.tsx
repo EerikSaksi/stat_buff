@@ -5,13 +5,6 @@ import { Modal, TextInput, View, StyleSheet, Text } from "react-native";
 import { Button } from "react-native-elements";
 import { generateShadow } from "react-native-shadow-generator";
 import WorkoutModalAttack from "./workout_modal_attack";
-const STRENGTH = gql`
-  query {
-    calculateStrengthStats{
-      dph
-    }
-  }
-`;
 
 const CREATE_WORKOUT = gql`
   mutation($rir: Int!, $sets: Int!, $username: String!) {
@@ -58,7 +51,7 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
     variables: { username, rir, sets },
   });
   useEffect(() => {
-    createWorkout() 
+    //createWorkout() 
   }, [])
   return (
     <Modal visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"} transparent={true}>
