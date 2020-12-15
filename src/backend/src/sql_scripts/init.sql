@@ -25,7 +25,7 @@ create table "enemy" (
 );
 
 create table "battle" (
-  enemy_level integer not null REFERENCES "enemy",
+  enemy_level integer not null REFERENCES "enemy" default 1,
   groupName varchar(32) not null references "group",
   battle_number integer not null default 1, 
   current_health float not null default 10,
@@ -38,6 +38,7 @@ create index on "battle"(enemy_level);
 
 alter table "group"
 add column "battle_number" integer; 
+
 alter table "group"
 add FOREIGN KEY (name, battle_number) REFERENCES "battle"(groupName, battle_number) on delete set null;
 
@@ -103,7 +104,7 @@ CREATE TYPE strengthStats AS (
   DPH numeric
 );
 
-CREATE OR REPLACE FUNCTION calculate_strength_stats(input_username varchar(32))
+CREATE FUNCTION calculate_strength_stats(input_username varchar(32))
   RETURNS strengthStats AS $$
 DECLARE
  result strengthStats;

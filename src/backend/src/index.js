@@ -31,7 +31,7 @@ const postgraphileOptions = {
   ownerConnectionString: "postgres://eerik:postGrizzly@localhost:5432/rpgym"
 }
 const app = express();
-async () => {
+(async () => {
   await run_all_sql_scripts()
   app.use(postgraphile("postgres://query_sender:restrictedPermissions@localhost:5432/rpgym", postgraphileOptions));
 })();
