@@ -10,6 +10,7 @@ import { useFocusEffect } from '@react-navigation/native';
 const ENEMY_STATS = gql`
   query($groupname: String!) {
     group(name: $groupname) {
+      name
       battleByNameAndBattleNumber{
         enemyLevel
         battleNumber
@@ -70,7 +71,6 @@ const EnemyView: React.FC<{ route: NavigationProps }> = ({ route }) => {
       expiry.setDate(expiry.getDate() + 7);
       setDisplayDate(expiry);
     },
-    fetchPolicy: 'network-only'
   });
 
   if (!data) {
