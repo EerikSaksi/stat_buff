@@ -15,6 +15,7 @@ const postgraphileOptions = {
   ignoreIndexes: false,
   appendPlugins: [require("@graphile-contrib/pg-simplify-inflector"), MyPlugins, PostGraphileConnectionFilterPlugin, PostGraphileFulltextFilterPlugin],
   exportGqlSchemaPath: "schema.graphql",
+  handleErrors: (error) => console.log(error),
   graphiql: true,
   enhanceGraphiql: true,
   enableQueryBatching: true,

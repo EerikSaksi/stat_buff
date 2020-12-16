@@ -1,36 +1,43 @@
-import React, { useState } from "react";
-import { gql, useQuery } from "@apollo/client";
+import React, { useCallback, useState } from "react";
+import { gql, useLazyQuery, useQuery } from "@apollo/client";
 import { FlatList, Text, StyleSheet, View } from "react-native";
 import TimeAgo from "react-timeago";
 import { generateShadow } from "react-native-shadow-generator";
 import { unslugify } from "../../../util_components/slug";
+import { Picker } from "@react-native-picker/picker";
+import Loading from "../../../util_components/loading";
+import { useFocusEffect } from "@react-navigation/native";
 
 const STATS = gql`
-  query($groupname: String!) {
-    group(name: $groupname) {
-      usersByGroupname {
+  query($groupname: String!, $battleNumber: Int!) {
+    battle(groupname: $groupname, battleNumber: $battleNumber) {
+      workoutsByGroupnameAndBattleNumber {
         nodes {
-          workoutsByUsername {
-            nodes {
-              createdAt
-              averageRir
-              sets
-              username
-              hits
-            }
-          }
-          userExercisesByUsername {
-            nodes {
-              username
-              slugName
-              updatedAt
-              repetitions
-              liftmass
-              strongerpercentage
-            }
-          }
+          createdAt
+          averageRir
+          sets
+          username
+          hits
+          totalDamage
         }
       }
+      userExercisesByGroupnameAndBattleNumber {
+        nodes {
+          username
+          slugName
+          createdAt
+          repetitions
+          liftmass
+          strongerpercentage
+        }
+      }
+    }
+  }
+`;
+const BATTLE_NUMBER = gql`
+  query($groupname: String!) {
+    group(name: $groupname) {
+      battleNumber
     }
   }
 `;
@@ -57,79 +64,105 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   listTitle: {
-    fontSize: 18,
+    fontSize: 16,
   },
 });
 
 function sort_by_date(a, b) {
-  const time_a = a.createdAt ? new Date(a.createdAt).getTime() : new Date(a.updatedAt).getTime();
-  const time_b = b.createdAt ? new Date(b.createdAt).getTime() : new Date(b.updatedAt).getTime();
-  return time_b - time_a;
+  return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
 }
 
 type NavigationProps = { params: { groupname: string } };
 const Statistics: React.FC<{ route: NavigationProps }> = ({ route }) => {
   const [statsList, setStatsList] = useState<any[]>([]);
+  const [battleNumber, setBattleNumber] = useState<undefined | number>();
   const { groupname } = route.params;
-  useQuery(STATS, {
+
+  //get the current battle number
+  const [fetchBattleNumber, { data }] = useLazyQuery(BATTLE_NUMBER, {
     variables: { groupname },
+    onCompleted: ({ group }) => {
+      //we want to trigger a refetch of stats, regardless of if the battle number changes.
+      setBattleNumber(undefined);
+      setBattleNumber(group.battleNumber);
+    },
+  });
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchBattleNumber();
+    }, [])
+  );
+
+  const { loading } = useQuery(STATS, {
+    variables: { groupname, battleNumber },
     //we need to sort the data with respect to updatedAt or createdAt
     onCompleted: (data) => {
-      //sort the workout entries and user exercise entries with respect to themselves
-      //iterate over all users
-      const allStats = data.group.usersByGroupname.nodes
-        .map((user) => {
-          return user.workoutsByUsername.nodes.concat(user.userExercisesByUsername.nodes);
-        })
-        .flat();
+      console.log(data);
+      const allStats = data.battle.userExercisesByGroupnameAndBattleNumber.nodes.concat(data.battle.workoutsByGroupnameAndBattleNumber.nodes);
       allStats.sort(sort_by_date);
       setStatsList(allStats);
     },
+    skip: !battleNumber,
   });
+  if (!data) {
+    return <Loading />;
+  }
   return (
-    <FlatList
-      data={statsList}
-      keyExtractor={(item, index) => index.toString()}
-      renderItem={({ item }) =>
-        item["__typename"] === "Workout" ? (
-          <View style={styles.container}>
-            <View style={styles.row}>
-              <Text style={styles.listTitle}>{`Workout by ${item.username} `}</Text>
-              <TimeAgo date={item.createdAt} component={Text} style={styles.listTitle} />
-            </View>
-            <View style={styles.row}>
-              <View style={styles.col}>
-                <Text style={styles.centeredText}>{`${item.averageRir} reps in reserve`} </Text>
+    <React.Fragment>
+      <Picker
+        selectedValue={battleNumber}
+        onValueChange={(v) => {
+          if (typeof v === "number") setBattleNumber(v);
+        }}
+        mode="dropdown"
+      >
+        {Array.from({ length: data.group.battleNumber }, (v, i) => i + 1).map((battleNumber) => (
+          <Picker.Item key={battleNumber} label={`Battle ${battleNumber}`} value={battleNumber} />
+        ))}
+      </Picker>
+      {loading ? (
+        <Loading />
+      ) : (
+        <FlatList
+          data={statsList}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) =>
+            item["__typename"] === "Workout" ? (
+              <View style={styles.container}>
+                <View style={styles.row}>
+                  <Text style={styles.listTitle}>{`${item.username} dealt ${item.totalDamage} damage `}</Text>
+                  {/*@ts-ignore*/}
+                  <TimeAgo date={item.createdAt} component={Text} style={styles.listTitle} />
+                </View>
+                <View style={styles.row}>
+                  {[`${item.averageRir} reps in reserve`, `${item.sets} sets`, `${item.hits} enemy hits`].map((text, i) => (
+                    <View key={i} style={styles.col}>
+                      <Text style={styles.centeredText}>{text}</Text>
+                    </View>
+                  ))}
+                </View>
               </View>
-              <View style={styles.col}>
-                <Text style={styles.centeredText}>{`${item.sets} sets`} </Text>
+            ) : (
+              <View style={styles.container}>
+                <View style={styles.row}>
+                  <Text style={styles.listTitle}>{`${unslugify(item.slugName)} updated by ${item.username} `}</Text>
+                  {/*@ts-ignore*/}
+                  <TimeAgo date={item.createdAt} component={Text} style={styles.listTitle} />
+                </View>
+                <View style={styles.row}>
+                  {[`Stronger than ${item.strongerpercentage}%`, `${item.liftmass}kg`, `${item.repetitions} reps`].map((text, i) => (
+                    <View key={i} style={styles.col}>
+                      <Text style={styles.centeredText}>{text}</Text>
+                    </View>
+                  ))}
+                </View>
               </View>
-              <View style={styles.col}>
-                <Text style={styles.centeredText}>{`${item.hits} enemy hits`} </Text>
-              </View>
-            </View>
-          </View>
-        ) : (
-          <View style={styles.container}>
-            <View style={styles.row}>
-              <Text style={styles.listTitle}>{`Exercise update by ${item.username} `}</Text>
-              <TimeAgo date={item.updatedAt} component={Text} style={styles.listTitle} />
-            </View>
-            <View style={styles.row}>
-              <View style={styles.col}>
-                <Text style={styles.centeredText}>{`${unslugify(item.slugName)}`} </Text>
-              </View>
-              <View style={styles.col}>
-                <Text style={styles.centeredText}>{`${item.liftmass}kg`} </Text>
-              </View>
-              <View style={styles.col}>
-                <Text style={styles.centeredText}>{`${item.repetitions} reps`} </Text>
-              </View>
-            </View>
-          </View>
-        )
-      }
-    />
+            )
+          }
+        />
+      )}
+    </React.Fragment>
   );
 };
 export default Statistics;

@@ -9,7 +9,6 @@ const App: React.FC = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-
         <Tab.Screen name="User" component={User}  />
         <Tab.Screen name="Group" component={Group} />
       </Tab.Navigator>

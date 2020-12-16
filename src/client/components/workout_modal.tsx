@@ -1,4 +1,4 @@
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import { Modal, TextInput, View, StyleSheet, Text } from "react-native";
@@ -12,8 +12,24 @@ const CREATE_WORKOUT = gql`
       workout {
         hits
       }
-      battleByGroupnameAndBattleNumber{
-        currentHealth
+    }
+  }
+`;
+
+const ENEMY_STATS = gql`
+  query($username: String!) {
+    user(username: $username) {
+      groupByGroupname {
+        battleByNameAndBattleNumber {
+          enemyLevel
+          battleNumber
+          currentHealth
+          createdAt
+          enemyByEnemyLevel {
+            name
+            maxHealth
+          }
+        }
       }
     }
   }
@@ -47,17 +63,27 @@ const styles = StyleSheet.create({
 const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (val: boolean) => void, skillTitle: string | undefined,  }> = ({ username, visible, setVisible, skillTitle }) => {
   const [rir, setRir] = useState<number | undefined>(2);
   const [sets, setSets] = useState<number | undefined>(10);
-  const [createWorkout, { data }] = useMutation(CREATE_WORKOUT, {
+  const [createWorkout, { data: mutationData }] = useMutation(CREATE_WORKOUT, {
     variables: { username, rir, sets },
   });
+  useEffect(() => {
+    createWorkout()
+  }, [])
+
+
+  //we want to fetch the enemy data before we call the createWorkout mutation, otherwise we might show them data after the attack
+  const { data } = useQuery(ENEMY_STATS, {
+    variables: { username },
+  });
+
   useEffect(() => {
     //createWorkout() 
   }, [])
   return (
     <Modal visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"} transparent={true}>
-      {data ? (
+      {mutationData ? (
         <View style={styles.modal}>
-          <WorkoutModalAttack username = {username} hits = {data.createWorkout.workout.hits} skillTitle = {skillTitle} setVisible = {setVisible}/>
+          <WorkoutModalAttack username = {username} hits = {mutationData.createWorkout.workout.hits} skillTitle = {skillTitle} setVisible = {setVisible} data = {data}/>
         </View>
       ) : (
         <View style={styles.modal}>
@@ -69,7 +95,7 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
             <TextInput style={styles.input} value={sets?.toString()} onChangeText={(v) => (v.length ? setSets(parseInt(v)) : setSets(undefined))} placeholder="Number of Sets Completed" keyboardType={"numeric"} />
           </View>
           <View style={styles.row}>
-            <Button disabled={!rir || !sets} title="Save Workout" style={styles.row} onPress={() => createWorkout()} />
+            <Button disabled={!rir || !sets || !data} title="Save Workout" style={styles.row} onPress={() => createWorkout()} />
           </View>
         </View>
       )}

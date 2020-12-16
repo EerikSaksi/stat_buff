@@ -89,6 +89,7 @@ create table "user_exercise" (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   FOREIGN KEY (groupName, battle_number) REFERENCES "battle"(groupName, battle_number) on delete set null
 );
+
 create index on "user_exercise" (slug_name);
 create index on "user_exercise" (username);
 create index on "user_exercise" (groupName, battle_number);

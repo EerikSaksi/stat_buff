@@ -26,20 +26,8 @@ const authLink = setContext(async (_, {headers}) => {
 const options: ApolloClientOptions<unknown> = {
   link: authLink.concat(httpLink),
   cache,
-  //REMOVE!
-  defaultOptions: {
-    watchQuery: {
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'ignore',
-    },
-    query: {
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all',
-    },
-  }
-
   //uri: 'http://localhost:4000/graphql'
 }
-const client = new ApolloClient(options);
+export const client = new ApolloClient(options);
 const index: React.FC = () => <ApolloProvider client={client}><Authenticator /></ApolloProvider>
 registerRootComponent(index);

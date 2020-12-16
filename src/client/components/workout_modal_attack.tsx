@@ -25,24 +25,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const ENEMY_STATS = gql`
-  query($username: String!) {
-    user(username: $username) {
-      groupByGroupname {
-        battleByNameAndBattleNumber {
-          enemyLevel
-          battleNumber
-          currentHealth
-          createdAt
-          enemyByEnemyLevel {
-            name
-            maxHealth
-          }
-        }
-      }
-    }
-  }
-`;
 
 const STRENGTH = gql`
   query($username: String) {
@@ -53,21 +35,14 @@ const STRENGTH = gql`
 `
 
 type Animation = "idle" | "onHit" | "attackOrDie";
-const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefined; username: string; setVisible: (val: boolean) => void }> = ({ hits, skillTitle, username, setVisible }) => {
+const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefined; username: string; setVisible: (val: boolean) => void, data: any}> = ({ hits, skillTitle, username, setVisible, data }) => {
   //fetch enemy stats. If we also loaded player strength stats, then start hitting
-  const { data } = useQuery(ENEMY_STATS, {
-    variables: { username },
-    onCompleted: () => {
-      if (strengthData) setPlayerAnimation("attackOrDie");
-    },
-    fetchPolicy: "network-only"
-  });
 
   //fetch strength stats. If we also loaded enemy starts, then start hitting
   const { data: strengthData } = useQuery(STRENGTH, {
     variables: {username},
     onCompleted: () => {
-      if (data) setPlayerAnimation("attackOrDie");
+      setPlayerAnimation("attackOrDie");
     },
   });
 
