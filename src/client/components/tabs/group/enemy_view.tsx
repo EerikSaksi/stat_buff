@@ -1,4 +1,4 @@
-import { gql, useLazyQuery, useQuery } from "@apollo/client";
+import { gql, useLazyQuery, useQuery, } from "@apollo/client";
 import React, { useState, useEffect, useCallback } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import SpriteSelector from "../../../sprites/sprite_selector";
@@ -62,6 +62,7 @@ const EnemyView: React.FC<{ route: NavigationProps }> = ({ route }) => {
   
   useFocusEffect(
     useCallback(() => {
+      console.log('fetched')
       fetchEnemyStats()
     }, [])
   );

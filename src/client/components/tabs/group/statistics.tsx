@@ -84,6 +84,7 @@ const Statistics: React.FC<{ route: NavigationProps }> = ({ route }) => {
     },
     skip: !battleNumber,
   });
+  console.log(battleNumber)
   return (
     <React.Fragment>
       <BattlePicker battleNumber = {battleNumber} setBattleNumber = {setBattleNumber} groupname = {groupname}/>

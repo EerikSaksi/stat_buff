@@ -3,7 +3,7 @@ import App from "../App";
 import React from 'react';
 import {setContext} from '@apollo/client/link/context';
 import {getCurrentUserAsync} from 'expo-google-sign-in'
-import {ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink, makeVar} from '@apollo/client'
+import {ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink} from '@apollo/client'
 import {cache} from './cache'
 import Authenticator from '../authenticator';
 
@@ -26,7 +26,14 @@ const authLink = setContext(async (_, {headers}) => {
 const options: ApolloClientOptions<unknown> = {
   link: authLink.concat(httpLink),
   cache,
-  //uri: 'http://localhost:4000/graphql'
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'cache-and-network',
+    },
+    query: {
+      fetchPolicy: 'cache-first',
+    },
+  },
 }
 export const client = new ApolloClient(options);
 const index: React.FC = () => <ApolloProvider client={client}><Authenticator /></ApolloProvider>

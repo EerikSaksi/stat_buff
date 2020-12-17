@@ -133,10 +133,10 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
   if (!source) {
     return <Loading />;
   }
-
   return (
     <Suspense fallback={<Loading />}>
       <SpriteSheet
+        key = {source}
         ref={ref}
         source={source}
         columns={cols}

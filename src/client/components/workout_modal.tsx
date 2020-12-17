@@ -70,9 +70,6 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
   const [createWorkout, { data: mutationData }] = useMutation(CREATE_WORKOUT, {
     variables: { username, rir, sets },
   });
-  useEffect(() => {
-    createWorkout()
-  }, [])
 
 
   //we want to fetch the enemy data before we call the createWorkout mutation, otherwise we might show them data after the attack

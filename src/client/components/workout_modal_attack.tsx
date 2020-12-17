@@ -44,6 +44,7 @@ const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefine
     onCompleted: () => {
       setPlayerAnimation("attackOrDie");
     },
+    fetchPolicy: 'no-cache'
   });
 
   const [deliveredHits, setDeliveredHits] = useState(0);
