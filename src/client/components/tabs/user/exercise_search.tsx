@@ -18,6 +18,7 @@ const USER_EXERCISE_SEARCH = gql`query($username: String!){
     nodeId
     userExercisesByUsername{
       nodes{
+        nodeId
         slugName
       }
     }

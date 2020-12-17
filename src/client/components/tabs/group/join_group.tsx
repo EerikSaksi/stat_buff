@@ -8,6 +8,7 @@ import {usernameVar} from '../../../apollo/cache'
 const SEARCH_GROUPS = gql`query search_groups($query: String!){
   groups(filter: {name:{startsWithInsensitive: $query}}, first: 5){
   	nodes{
+      nodeId
       name
   	}
   }

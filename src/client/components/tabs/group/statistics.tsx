@@ -13,6 +13,7 @@ const STATS = gql`
       nodeId
       workoutsByGroupnameAndBattleNumber {
         nodes {
+          nodeId
           createdAt
           averageRir
           sets
@@ -23,6 +24,7 @@ const STATS = gql`
       }
       userExercisesByGroupnameAndBattleNumber {
         nodes {
+          nodeId
           username
           slugName
           createdAt

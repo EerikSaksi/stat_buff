@@ -12,11 +12,13 @@ const ENEMY_STATS = gql`
     group(name: $groupname) {
       nodeId
       battleByNameAndBattleNumber{
+        nodeId
         enemyLevel
         battleNumber
         currentHealth
         createdAt
         enemyByEnemyLevel {
+          nodeId
           maxHealth
           name
         }
