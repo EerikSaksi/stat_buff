@@ -22,6 +22,7 @@ const USER = gql`
   query user_query($username: String!) {
     user(username: $username) {
       username
+      nodeID
     }
   }
 `;
@@ -39,7 +40,7 @@ const User: React.FC = () => {
   const username = useReactiveVar(usernameVar);
   const [strengthModalVisible, setStrengthModalVisible] = useState(false);
   const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false);
-  const [workoutModalVisible, setWorkoutModalVisible] = useState(true);
+  const [workoutModalVisible, setWorkoutModalVisible] = useState(false);
   const { data } = useQuery(USER, {
     variables: { username },
   });

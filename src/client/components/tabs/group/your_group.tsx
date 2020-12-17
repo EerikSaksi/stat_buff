@@ -17,13 +17,13 @@ const YourGroup: React.FC<{ groupname: string }> = ({ groupname }) => {
       </View>
       <Tab.Navigator style={{ flex: 10 }} tabBarOptions = {{style: {borderTopColor: colors.primary, borderTopWidth: 1, }}} >
         <Tab.Screen
-          name="Statistics"
-          component={Statistics}
+          name="Enemy"
+          component={EnemyView}
           initialParams={{ groupname: groupname }}
         />
         <Tab.Screen
-          name="Enemy"
-          component={EnemyView}
+          name="Statistics"
+          component={Statistics}
           initialParams={{ groupname: groupname }}
         />
       </Tab.Navigator>

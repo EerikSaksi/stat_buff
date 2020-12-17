@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 30,
     zIndex: 1,
+    textAlign: 'center'
   },
   subheading: {
     fontSize: 20,

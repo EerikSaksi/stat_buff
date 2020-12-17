@@ -1,12 +1,11 @@
-import React, { useCallback, useState } from "react";
-import { gql, useLazyQuery, useQuery } from "@apollo/client";
+import React, { useState } from "react";
+import { gql, useQuery } from "@apollo/client";
 import { FlatList, Text, StyleSheet, View } from "react-native";
 import TimeAgo from "react-timeago";
 import { generateShadow } from "react-native-shadow-generator";
 import { unslugify } from "../../../util_components/slug";
-import { Picker } from "@react-native-picker/picker";
 import Loading from "../../../util_components/loading";
-import { useFocusEffect } from "@react-navigation/native";
+import BattlePicker from "./battle_selector";
 
 const STATS = gql`
   query($groupname: String!, $battleNumber: Int!) {
@@ -31,13 +30,6 @@ const STATS = gql`
           strongerpercentage
         }
       }
-    }
-  }
-`;
-const BATTLE_NUMBER = gql`
-  query($groupname: String!) {
-    group(name: $groupname) {
-      battleNumber
     }
   }
 `;
@@ -74,53 +66,24 @@ function sort_by_date(a, b) {
 
 type NavigationProps = { params: { groupname: string } };
 const Statistics: React.FC<{ route: NavigationProps }> = ({ route }) => {
-  const [statsList, setStatsList] = useState<any[]>([]);
-  const [battleNumber, setBattleNumber] = useState<undefined | number>();
   const { groupname } = route.params;
 
-  //get the current battle number
-  const [fetchBattleNumber, { data }] = useLazyQuery(BATTLE_NUMBER, {
-    variables: { groupname },
-    onCompleted: ({ group }) => {
-      //we want to trigger a refetch of stats, regardless of if the battle number changes.
-      setBattleNumber(undefined);
-      setBattleNumber(group.battleNumber);
-    },
-  });
-
-  useFocusEffect(
-    useCallback(() => {
-      fetchBattleNumber();
-    }, [])
-  );
+  const [statsList, setStatsList] = useState<any[]>([]);
+  const [battleNumber, setBattleNumber] = useState<undefined | number>();
 
   const { loading } = useQuery(STATS, {
     variables: { groupname, battleNumber },
     //we need to sort the data with respect to updatedAt or createdAt
     onCompleted: (data) => {
-      console.log(data);
       const allStats = data.battle.userExercisesByGroupnameAndBattleNumber.nodes.concat(data.battle.workoutsByGroupnameAndBattleNumber.nodes);
       allStats.sort(sort_by_date);
       setStatsList(allStats);
     },
     skip: !battleNumber,
   });
-  if (!data) {
-    return <Loading />;
-  }
   return (
     <React.Fragment>
-      <Picker
-        selectedValue={battleNumber}
-        onValueChange={(v) => {
-          if (typeof v === "number") setBattleNumber(v);
-        }}
-        mode="dropdown"
-      >
-        {Array.from({ length: data.group.battleNumber }, (v, i) => i + 1).map((battleNumber) => (
-          <Picker.Item key={battleNumber} label={`Battle ${battleNumber}`} value={battleNumber} />
-        ))}
-      </Picker>
+      <BattlePicker battleNumber = {battleNumber} setBattleNumber = {setBattleNumber} groupname = {groupname}/>
       {loading ? (
         <Loading />
       ) : (
