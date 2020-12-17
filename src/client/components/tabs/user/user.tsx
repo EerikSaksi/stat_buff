@@ -13,6 +13,7 @@ import WorkoutModal from "../../workout_modal";
 const USER_BODY_STATS = gql`
   query($username: String!) {
     bodystat(username: $username) {
+      nodeId
       ismale
     }
   }
@@ -22,7 +23,7 @@ const USER = gql`
   query user_query($username: String!) {
     user(username: $username) {
       username
-      nodeID
+      nodeId
     }
   }
 `;

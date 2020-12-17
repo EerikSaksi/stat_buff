@@ -19,7 +19,7 @@ const CREATE_WORKOUT = gql`
 const ENEMY_STATS = gql`
   query($username: String!) {
     user(username: $username) {
-      username
+      nodeId
       groupByGroupname {
         battleByNameAndBattleNumber {
           enemyLevel

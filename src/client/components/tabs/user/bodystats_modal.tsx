@@ -21,6 +21,7 @@ const UPDATE_BODY_STAT = gql`mutation ($username: String!, $ismale: Boolean!, $b
 }`
 const FETCH_BODY_STAT = gql`query($username: String!){
     bodystat(username: $username){
+      nodeId
       ismale
       bodymass
     }

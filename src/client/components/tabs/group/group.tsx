@@ -10,6 +10,7 @@ const JoinGroup = lazy(() => import("./join_group"));
 const GROUP_INFO = gql`
   query group_info($username: String!) {
     user(username: $username) {
+      nodeId
       groupname
     }
   }

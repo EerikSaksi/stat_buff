@@ -11,6 +11,7 @@ const CALCULATE_STRENGTH = gql`query($liftmass: Float!, $exerciseSlug: String!, 
 
 const USER_EXERCISE = gql`query($exerciseSlug: String!, $username: String!){
   userExercise(slugName: $exerciseSlug, username: $username){
+    nodeId
     repetitions
     liftmass
     strongerpercentage

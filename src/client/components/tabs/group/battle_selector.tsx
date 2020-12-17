@@ -7,6 +7,7 @@ import React, {useCallback} from "react";
 const BATTLE_NUMBER = gql`
   query($groupname: String!) {
     group(name: $groupname) {
+      nodeId
       name
       battleNumber
     }

@@ -10,7 +10,7 @@ import { useFocusEffect } from '@react-navigation/native';
 const ENEMY_STATS = gql`
   query($groupname: String!) {
     group(name: $groupname) {
-      name
+      nodeId
       battleByNameAndBattleNumber{
         enemyLevel
         battleNumber

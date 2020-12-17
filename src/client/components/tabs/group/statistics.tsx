@@ -10,6 +10,7 @@ import BattlePicker from "./battle_selector";
 const STATS = gql`
   query($groupname: String!, $battleNumber: Int!) {
     battle(groupname: $groupname, battleNumber: $battleNumber) {
+      nodeId
       workoutsByGroupnameAndBattleNumber {
         nodes {
           createdAt

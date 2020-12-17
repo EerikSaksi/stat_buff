@@ -5,12 +5,15 @@ import CenteredView from '../util_components/centered_view'
 import {generateShadow} from 'react-native-shadow-generator'
 
 const CREATE_USER = gql`mutation createuser($username: String!){
-  createUser(username: $username)
+  createUser(username: $username){
+    clientMutationId
+  }
 }`
 
 
 const USER = gql`query user($username: String!){
   user(username: $username){
+    nodeId
     username
   }
 }`
