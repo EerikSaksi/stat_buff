@@ -62,7 +62,6 @@ const EnemyView: React.FC<{ route: NavigationProps }> = ({ route }) => {
   
   useFocusEffect(
     useCallback(() => {
-      console.log('fetched')
       fetchEnemyStats()
     }, [])
   );

@@ -285,7 +285,12 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - Could be annoying, but also encourages cooperation (someone with a shorter workout could track first)
 - What notifications or updates should users receive about their team and their team killing enemies
 
-## Dec (5 hours)
+## Dec 15 (5 hours)
 
 - Fixed the afformentioned bug where workouts would deal damage delayed. I think this was caused by an accidental race condition as I had two database triggers that triggered before inserting a workout. This is now one trigger.
 - I needed some way of creating a default level 1 battle for a group. The way that I got this working was by creating a trigger that is triggered after a user changes group. The trigger checks if the group doesn't have a battle, in which case it also checks if the team has at least 2 members. In this case, the team is large enough to start. I will probably also use this trigger to scale the max health of enemies higher or lower when a member joins or leaves to make any sized team viable.
+
+# Dec 17 (4 hours)
+- You can now view history for all battles, and not just current
+- Figured out how to trigger data refresh for new workouts and new damage dealt to the enemy whenever the screen is loaded. This is also done efficiently with caching.
+- My query client was complaining about caching, so I did some research and understood that I had to tell my client what the unique identifier(s) for each type (such as a group or user) are. Luckily, postgraphile ships with globally unique attributes called nodeId's for all tables, so  all I had to do was append nodeId to all attribute I already fetched, and specify to my query client that the nodeId is the unique identifier.  This has cut down on the amount of queries that my client is making. It's also good, because whenever a refresh is triggered, the cached data is shown until the new is loaded. 

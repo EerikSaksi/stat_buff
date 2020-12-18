@@ -136,7 +136,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
   return (
     <Suspense fallback={<Loading />}>
       <SpriteSheet
-        key = {source}
+        key = {rows + '' + cols + '' + height}
         ref={ref}
         source={source}
         columns={cols}

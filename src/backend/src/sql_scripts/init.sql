@@ -67,6 +67,25 @@ create table "workout" (
   FOREIGN KEY (groupName, battle_number) REFERENCES "battle"(groupName, battle_number) on delete set null
 );
 
+
+CREATE TYPE summed_damage AS (
+  username varchar(32),
+  summed_damage integer
+);
+CREATE FUNCTION ordered_damage_by_battle(input_groupname varchar(32), input_battle_number integer)
+  RETURNS summed_damage AS $$
+  BEGIN
+    select username, sum(total_damage) as summed_damage 
+    from "workout" 
+    where groupname = input_groupname
+    -- -1 implies fetch all, otherwise fetch by specific battle number
+    and (
+      case when battle_number = -1 then true
+      else battle_number = input_battle_number end
+    );
+  END
+$$ language plpgsql stable;
+
 create index on "workout" (username);
 create index on "workout" (groupName, battle_number);
 

@@ -26,8 +26,7 @@ const BattlePicker: React.FC<{ battleNumber: number | undefined; setBattleNumber
   });
   useFocusEffect(
     useCallback(() => {
-      console.log('fetched')
-      fetchBattleNumber();
+      fetchBattleNumber()
     }, [])
   );
   if (!data){
@@ -37,7 +36,6 @@ const BattlePicker: React.FC<{ battleNumber: number | undefined; setBattleNumber
     <Picker
       selectedValue={battleNumber}
       onValueChange={(v) => {
-        console.log({v})
         if (typeof v === "number") setBattleNumber(v);
       }}
       mode="dropdown"

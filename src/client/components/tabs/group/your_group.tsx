@@ -4,6 +4,7 @@ import { Text, View } from "react-native";
 import EnemyView from "./enemy_view";
 import {useTheme} from "@react-navigation/native";
 import Statistics from "./statistics";
+import Members from "./members";
 const Tab = createMaterialTopTabNavigator();
 const YourGroup: React.FC<{ groupname: string }> = ({ groupname }) => {
   const {colors} = useTheme()
@@ -17,15 +18,21 @@ const YourGroup: React.FC<{ groupname: string }> = ({ groupname }) => {
       </View>
       <Tab.Navigator style={{ flex: 10 }} tabBarOptions = {{style: {borderTopColor: colors.primary, borderTopWidth: 1, }}} >
         <Tab.Screen
-          name="Enemy"
-          component={EnemyView}
-          initialParams={{ groupname: groupname }}
+          name="Members"
+          component={Members}
+          initialParams={{ groupname}}
         />
         <Tab.Screen
           name="Statistics"
           component={Statistics}
-          initialParams={{ groupname: groupname }}
+          initialParams={{ groupname}}
         />
+        <Tab.Screen
+          name="Enemy"
+          component={EnemyView}
+          initialParams={{ groupname}}
+        />
+
       </Tab.Navigator>
     </View>
   );

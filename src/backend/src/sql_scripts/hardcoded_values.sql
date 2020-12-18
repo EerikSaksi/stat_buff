@@ -282,17 +282,10 @@ ALTER TABLE "user_exercise" enable TRIGGER set_timestamp;
 insert into
   "workout" (average_rir, sets, username)
 values
-  (8, 2, 'orek');
-
-insert into
-  "workout" (average_rir, sets, username)
-values
-  (9, 5, 'orek');
-
-insert into
-  "workout" (average_rir, sets, username)
-values
-  (1, 20, 'orek');
+  (8, 2, 'orek'),
+  (7, 2, 'eerik'),
+  (9, 5, 'orek'),
+  (9, 5, 'eerik');
 
 update "workout"
 set created_at = '2020-12-14'

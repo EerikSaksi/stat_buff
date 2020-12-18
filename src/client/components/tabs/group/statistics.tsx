@@ -83,8 +83,8 @@ const Statistics: React.FC<{ route: NavigationProps }> = ({ route }) => {
       setStatsList(allStats);
     },
     skip: !battleNumber,
+    fetchPolicy: 'cache-and-network'
   });
-  console.log(battleNumber)
   return (
     <React.Fragment>
       <BattlePicker battleNumber = {battleNumber} setBattleNumber = {setBattleNumber} groupname = {groupname}/>
