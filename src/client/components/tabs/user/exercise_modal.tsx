@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, Switch, View, Modal, TextInput } from "react-native";
+import { Text, Switch, View, Modal, TextInput, KeyboardAvoidingView } from "react-native";
 import ExerciseSearch from "./exercise_search";
 import { Ionicons } from "@expo/vector-icons";
 const ExerciseModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => void; username: string; refetchParent: () => void }> = ({ visible, setVisible, username, refetchParent }) => {
@@ -14,12 +14,12 @@ const ExerciseModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => vo
           <Switch value={onlyShowTracked} onValueChange={(v) => setOnlyShowTracked(v)} />
         </View>
       </View>
-      <View style={{ flex: 10, justifyContent: "center", alignItems: "center" }}>
+      <KeyboardAvoidingView style={{ flex: 10, justifyContent: "center", alignItems: "center" }}>
         <View>
           <TextInput value={exerciseInput} onChangeText={(t) => setExerciseInput(t)} placeholder="Search for exercises" />
         </View>
         <ExerciseSearch refetchParent={refetchParent} input={exerciseInput} username={username} onlyShowTracked={onlyShowTracked} />
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 };

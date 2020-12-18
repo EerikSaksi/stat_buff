@@ -25,6 +25,19 @@ const ALL_WORKOUTS = gql`
     }
   }
 `;
+const MEMBERS = gql`
+  query($groupname: String!) {
+    group(name: $groupname){
+      nodeId
+      usersByGroupname{
+        nodes{
+          nodeId
+          username
+        }
+      }
+    }
+  }
+`;
 const WORKOUTS_BY_BATTLE = gql`
   query($groupname: String!, $battleNumber: Int!) {
     battle(groupname: $groupname, battleNumber: $battleNumber) {
@@ -78,15 +91,17 @@ const styles = StyleSheet.create({
 
 //convert all passed workout nodes to [username, totalDamage] pairs ordered by totalDamage
 type workoutNode = { username: string; totalDamage: number };
-const sortByTotalDamage = (data: any) => {
+const sortByTotalDamage = (data: any, members: string[]) => {
   var dict = {};
+  //initialize all members to 0 damage
+  members.forEach((username) => dict[username] = 0);
   //accumulate damage
   data.forEach((node: workoutNode) => {
-    dict[node.username] ? (dict[node.username] += node.totalDamage) : (dict[node.username] = node.totalDamage);
+    dict[node.username] += node.totalDamage
   });
   // Create items array
   var asArray = Object.keys(dict).map((username): [string, number] => {
-    return [username, dict[username]];
+    return [username, dict[username].toFixed(2)];
   });
   //sort descending by total damage
   asArray.sort((a, b) => b[1] - a[1]);
@@ -103,24 +118,33 @@ const Members: React.FC<{ route: NavigationProps }> = ({ route }) => {
   //fetch the workouts by current battle by default
   const [fetchWorkoutsByBattle] = useLazyQuery(WORKOUTS_BY_BATTLE, {
     variables: { groupname, battleNumber: battleNumber },
-    onCompleted: (data) => setUsersOrderedByDamage(sortByTotalDamage(data.battle.workoutsByGroupnameAndBattleNumber.nodes)),
+    onCompleted: (data) => {
+      const memberUsernames = memberData.group.usersByGroupname.nodes.map((node) => node.username);
+      setUsersOrderedByDamage(sortByTotalDamage(data.battle.workoutsByGroupnameAndBattleNumber.nodes, memberUsernames))
+    }
   });
   const [fetchAllWorkouts] = useLazyQuery(ALL_WORKOUTS, {
     variables: { groupname, battleNumber },
     onCompleted: (data) => {
       const allWorkouts = data.group.battlesByGroupname.nodes.flatMap((node) => node.workoutsByGroupnameAndBattleNumber.nodes);
-      setUsersOrderedByDamage(sortByTotalDamage(allWorkouts));
+      const memberUsernames = memberData.group.usersByGroupname.nodes.map((node) => node.username);
+      setUsersOrderedByDamage(sortByTotalDamage(allWorkouts, memberUsernames));
     },
+  });
+  const { data: memberData } = useQuery(MEMBERS, {
+    variables: { groupname },
   });
   useFocusEffect(
     useCallback(() => {
-      //if we have a valid battleNumber and we want stats on that battle
-      if (battleNumber && !showAllStats) {
-        fetchWorkoutsByBattle();
-      } else if (showAllStats) {
-        fetchAllWorkouts();
+      if (memberData) {
+        //if we have a valid battleNumber and we want stats on that battle
+        if (battleNumber && !showAllStats) {
+          fetchWorkoutsByBattle();
+        } else if (showAllStats) {
+          fetchAllWorkouts();
+        }
       }
-    }, [battleNumber, showAllStats])
+    }, [battleNumber, showAllStats, memberData])
   );
 
   return (
@@ -136,7 +160,7 @@ const Members: React.FC<{ route: NavigationProps }> = ({ route }) => {
             </View>
           </View>
         </View>
-        <View style = { styles.picker }>
+        <View style={styles.picker}>
           <BattlePicker battleNumber={battleNumber} setBattleNumber={setBattleNumber} groupname={groupname} />
         </View>
       </View>
