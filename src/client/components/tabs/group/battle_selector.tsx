@@ -14,7 +14,7 @@ const BATTLE_NUMBER = gql`
     }
   }
 `;
-const BattlePicker: React.FC<{ battleNumber: number | undefined; setBattleNumber: (val: number | undefined) => void; groupname: string }> = ({ battleNumber, setBattleNumber, groupname }) => {
+const BattlePicker: React.FC<{ battleNumber: number | undefined; setBattleNumber: (val: number | undefined) => void; groupname: string, }> = ({ battleNumber, setBattleNumber, groupname}) => {
   //get the current battle number
   const [fetchBattleNumber, { data }] = useLazyQuery(BATTLE_NUMBER, {
     variables: { groupname },
