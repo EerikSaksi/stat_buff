@@ -4,6 +4,7 @@ import {Text, FlatList} from 'react-native';
 import Loading from '../../../util_components/loading';
 import {slugify} from '../../../util_components/slug';
 import ExerciseSearchResult from './exercise_search_result';
+import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view'
 
 const EXERCISE_SEARCH = gql`query($input: String!){
   exercises(filter: {slugName: {includesInsensitive: $input}}, orderBy: POPULARITY_RANKING_ASC, first: 8){
@@ -68,11 +69,11 @@ const ExerciseSearch: React.FC<{input: string, username: string, onlyShowTracked
           Most popular searches
           </Text>
         : undefined}
-        <FlatList data={exercises} style={{width: '100%'}} keyExtractor = {(item) => item}
+        <KeyboardAwareFlatList data={exercises} style={{width: '100%'}} keyExtractor = {(item) => item}
         renderItem={({item}) => <ExerciseSearchResult  exerciseSlug={item} username={username} refetchParent = {refetchParent} />
         }
       >
-      </FlatList>
+      </KeyboardAwareFlatList>
     </React.Fragment>
   );
 };
