@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { gql, useQuery } from "@apollo/client";
+import React, { useCallback, useState } from "react";
+import { gql, useLazyQuery, useQuery } from "@apollo/client";
 import BattlePicker from "./battle_selector";
 import { FlatList } from "react-native-gesture-handler";
 import { View, StyleSheet, Text, Switch } from "react-native";
 import { generateShadow } from "react-native-shadow-generator";
+import { useFocusEffect } from "@react-navigation/native";
 
 const ALL_WORKOUTS = gql`
   query($groupname: String!) {
@@ -44,10 +45,15 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "flex-start",
+    alignItems: "center",
   },
   col: {
-    flex: 1
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  picker: {
+    flex: 2,
   },
   container: {
     flex: 1,
@@ -57,10 +63,8 @@ const styles = StyleSheet.create({
     ...generateShadow(10),
     margin: "2%",
   },
-  parentContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+  listContainer: {
+    flex: 10,
   },
   listText: {
     fontSize: 20,
@@ -97,41 +101,61 @@ const Members: React.FC<{ route: NavigationProps }> = ({ route }) => {
   const [usersOrderedByDamage, setUsersOrderedByDamage] = useState<[string, number][]>();
 
   //fetch the workouts by current battle by default
-  useQuery(WORKOUTS_BY_BATTLE, {
+  const [fetchWorkoutsByBattle] = useLazyQuery(WORKOUTS_BY_BATTLE, {
     variables: { groupname, battleNumber: battleNumber },
-    skip: !battleNumber || showAllStats,
     onCompleted: (data) => setUsersOrderedByDamage(sortByTotalDamage(data.battle.workoutsByGroupnameAndBattleNumber.nodes)),
   });
-
-  useQuery(ALL_WORKOUTS, {
+  const [fetchAllWorkouts] = useLazyQuery(ALL_WORKOUTS, {
     variables: { groupname, battleNumber },
-    skip: !showAllStats,
     onCompleted: (data) => {
       const allWorkouts = data.group.battlesByGroupname.nodes.flatMap((node) => node.workoutsByGroupnameAndBattleNumber.nodes);
       setUsersOrderedByDamage(sortByTotalDamage(allWorkouts));
     },
   });
+  useFocusEffect(
+    useCallback(() => {
+      //if we have a valid battleNumber and we want stats on that battle
+      if (battleNumber && !showAllStats) {
+        fetchWorkoutsByBattle();
+      } else if (showAllStats) {
+        fetchAllWorkouts();
+      }
+    }, [battleNumber, showAllStats])
+  );
+
   return (
-    <View style={styles.parentContainer}>
+    <View style={{ flex: 1 }}>
       <View style={styles.row}>
-        <View style = {styles.col}>
+        <View style={styles.col}>
+          <View style={styles.row}>
+            <View style={styles.col}>
+              <Text>All battles</Text>
+            </View>
+            <View style={styles.col}>
+              <Switch value={showAllStats} onValueChange={(v) => setShowAllStats(v)} />
+            </View>
+          </View>
+        </View>
+        <View style = { styles.picker }>
           <BattlePicker battleNumber={battleNumber} setBattleNumber={setBattleNumber} groupname={groupname} />
         </View>
       </View>
-      <FlatList
-        data={usersOrderedByDamage}
-        keyExtractor={(item, index) => item[0] + item[1].toString()}
-        renderItem={({ item }) => (
-          <View style={styles.container}>
-            <View style={styles.row}>
-              <Text style={styles.listHeading}>{`${item[0]}`}</Text>
+      <View style={styles.listContainer}>
+        <FlatList
+          data={usersOrderedByDamage}
+          keyExtractor={(item, index) => item[0] + item[1].toString()}
+          renderItem={({ item }) => (
+            <View style={styles.container}>
+              <View style={styles.row}>
+                <Text style={styles.listHeading}>{`${item[0]}`}</Text>
+              </View>
+              <View style={styles.row}>
+                <Text style={styles.listText}>{`${item[1]} damage in ${showAllStats ? "all battles" : "Battle " + battleNumber} `}</Text>
+              </View>
             </View>
-            <View style={styles.row}>
-              <Text style={styles.listText}>{`${item[1]} damage in ${showAllStats ? 'all battles' : 'Battle ' + battleNumber } `}</Text>
-            </View>
-          </View>
-        )}
-      />
+          )}
+        />
+      </View>
     </View>
   );
 };
