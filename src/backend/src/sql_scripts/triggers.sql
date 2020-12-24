@@ -3,8 +3,6 @@ CREATE FUNCTION update_battle_to_current()
   RETURNS TRIGGER AS $$
   BEGIN
     select groupName into NEW.groupName from "user" where username = NEW.username;
-    raise notice 'groupName %',  (select groupName from "user" where username = NEW.username);
-    raise notice 'NEW.groupName %',  NEW.groupName;
     select battle_number into NEW.battle_number from "group" where name = 'Dream Team';
     return NEW;
   END;
@@ -23,17 +21,34 @@ CREATE FUNCTION check_member_count()
   DECLARE
   num_members integer;
   BEGIN
-    --check if this group has a battle yet
-    if not exists(select 1 from "battle" where battle_number = 1 and groupName = new.groupName) then
-      --count members
-      select count(*) into num_members from "user" where groupName = new.groupName;
-
-      --if at least two members initialize default battle for this group
-      if 2 <= num_members then  
-        insert into "battle"(groupName) values (new.groupName);
-        update "group" set battle_number = 1 where name = new.groupName;
-      end if; 
+    --user left group
+    if OLD.groupName != null then
+      --count members in old group
+      select count(*) into num_members from "user" where groupName = OLD.groupName;
+      --scale the health down (4 to 3 members means scale by 3/4)
+      update "battle" 
+      set current_health =  current_health * ((num_members - 1) / num_members),
+      max_health = max_health * ((num_members - 1) / (num_members))
+      where groupName = NEW.groupName and battle_number = (select battle_number from "group" where name = NEW.groupName);
     end if;
+
+    --count members
+    select count(*) into num_members from "user" where groupName = new.groupName;
+
+    --should have battle
+    if 2 <= num_members then  
+      --check if this group has a battle yet, if not create one
+      if not exists(select 1 from "battle" where battle_number = 1 and groupName = new.groupName) then
+        insert into "battle"(groupName) values (new.groupName);
+        raise notice 'update "group" set battle_number = 1 where name = NEW.groupName;';
+        update "group" set battle_number = 1 where name = NEW.groupName;
+      end if;
+      --scale the health of the current enemy (if we went from 3 to 4 members then scale by 4/3)
+      update "battle" 
+      set current_health =  current_health * (num_members / (num_members - 1)),
+      max_health = max_health * (num_members / (num_members - 1))
+      where groupName = NEW.groupName and battle_number = (select battle_number from "group" where name = NEW.groupName);
+    end if; 
     return NEW;
   END;
   $BODY$

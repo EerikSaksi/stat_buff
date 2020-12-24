@@ -29,6 +29,7 @@ create table "battle" (
   groupName varchar(32) not null references "group",
   battle_number integer not null default 1, 
   current_health float not null default 10,
+  max_health float not null default 10,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   primary key (groupName, battle_number)

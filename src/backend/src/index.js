@@ -29,7 +29,7 @@ const postgraphileOptions = {
     };
     //}
   },
-  ownerConnectionString: "postgres://eerik:postGrizzly@localhost:5432/rpgym"
+  ownerConnectionString: "postgres://eerik:Postgrizzly@localhost:5432/rpgym"
 }
 const app = express();
 (async () => {

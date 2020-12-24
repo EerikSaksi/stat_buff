@@ -49,7 +49,7 @@ async function init_enemies(client) {
 
 async function run_all_sql_scripts() {
   const client = new Client(
-    "postgres://eerik:postGrizzly@localhost:5432/rpgym"
+    "postgres://eerik:Postgrizzly@localhost:5432/rpgym"
   );
   await client.connect();
   await exec_file("init.sql", client);
