@@ -96,7 +96,8 @@ CREATE FUNCTION calculate_total_damage()
 
     --calculate hits and thus the damage that this dealt
     hits =  ((10 - NEW.average_rir) / 10.0 * NEW.sets);
-    NEW.total_damage = (select dph from calculate_strength_stats(NEW.username)) * hits; 
+    raise notice 'hits %', hits; 
+    NEW.total_damage = (select DPH from calculate_strength_stats(NEW.username)) * hits; 
 
     --subtract the dealt damage from the group's current battle
     update "battle"

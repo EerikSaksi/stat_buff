@@ -102,9 +102,6 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
       }
     },
   })
-  useEffect(() => {
-    joinRandomPublicGroup()
-  }, [])
   return (
     <View style={styles.container}>
       <TopView>
