@@ -33,6 +33,11 @@ const JOIN_GROUP = gql`
     }
   }
 `;
+const JOIN_RANDOM_PUBLIC_GROUP = gql`mutation{
+    joinRandomPublicGroup(input: {clientMutationId: null}){
+      boolean
+    }
+}`;
 
 const styles = StyleSheet.create({
   container: {
@@ -83,12 +88,23 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
     onCompleted: (data) => {
       if (data.joinGroup.boolean) {
         refetchParentGroup();
-      }
-      else {
-        alert("Incorrect password.")
+      } else {
+        alert("Incorrect password.");
       }
     },
   });
+  const [joinRandomPublicGroup] = useMutation(JOIN_RANDOM_PUBLIC_GROUP, {
+    onCompleted: (data) => {
+      if (data.joinRandomPublicGroup.boolean) {
+        refetchParentGroup();
+      } else {
+        alert("No groups found.")
+      }
+    },
+  })
+  useEffect(() => {
+    joinRandomPublicGroup()
+  }, [])
   return (
     <View style={styles.container}>
       <TopView>
@@ -138,7 +154,7 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
             <Button title="Create Team" />
           </View>
         ) : (
-          <Button onPress={() => ref.current?.focus()} style={styles.button} title="Join Random Public Team" />
+          <Button onPress={() => joinRandomPublicGroup()} style={styles.button} title="Join Random Public Team" />
         )
       ) : undefined}
     </View>

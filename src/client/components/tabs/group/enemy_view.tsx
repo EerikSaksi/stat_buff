@@ -17,9 +17,9 @@ const ENEMY_STATS = gql`
         battleNumber
         currentHealth
         createdAt
+        maxHealth
         enemyByEnemyLevel {
           nodeId
-          maxHealth
           name
         }
       }
@@ -87,14 +87,14 @@ const EnemyView: React.FC<{ route: NavigationProps }> = ({ route }) => {
       </View>
     );
   }
-  const { currentHealth, enemyLevel, enemyByEnemyLevel } = data.group.battleByNameAndBattleNumber;
+  const { currentHealth, enemyLevel, enemyByEnemyLevel, maxHealth } = data.group.battleByNameAndBattleNumber;
   return (
     <View style={styles.container}>
       <View style={styles.row}>
         <Text style={styles.heading}>{`Level ${enemyLevel}: ${enemyByEnemyLevel.name}`}</Text>
       </View>
       <View style={styles.sprite}>
-        <SpriteHealthBar currentHealth={currentHealth} maxHealth={enemyByEnemyLevel.maxHealth} />
+        <SpriteHealthBar currentHealth={currentHealth} maxHealth={maxHealth} />
         <SpriteSelector spriteName={enemyByEnemyLevel.name} />
       </View>
       <View style={styles.container}>

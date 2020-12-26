@@ -124,19 +124,30 @@ end
 $$ LANGUAGE plpgsql volatile;
 
 
+
+--sets current users group 
+CREATE FUNCTION join_random_public_group() RETURNS boolean as 
+$BODY$
+declare
+chosen_group_name varchar(32);
 begin
+  --finds the group with the least members, and breaks ties by taking the older one
+  SELECT "group".name into chosen_group_name
+  FROM "group" inner join "user" on "user".groupName = "group".name 
+  where not "group".is_password_protected
+  group by "group".name
+  order by count("user"), "group".created_at DESC
+  limit 1;
+
+  if chosen_group_name is NULL then 
+    return false;
+  end if ;
   update "user"
-  set groupName = (
-    --we select the team with the least members, breaking ties on which group is the oldest (minimize max waiting time for teams to fill up)
-    SELECT count(u) as num_members, u.name as groupName
-    FROM "group" as g join "user" as u on groupName
-    group by num_members
-    order by num_members
-    order by g.createdAt 
-  ).groupName 
-  where username (select username from active_user());
+  set groupName = chosen_group_name
+  where username = (select username from active_user());
+  return true;
 end
-$$ LANGUAGE plpgsql volatile;
+$BODY$ LANGUAGE plpgsql volatile;
 
 CREATE TYPE strengthStats AS (
   average_strength numeric,

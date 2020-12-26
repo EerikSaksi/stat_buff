@@ -294,3 +294,10 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - You can now view history for all battles, and not just current
 - Figured out how to trigger data refresh for new workouts and new damage dealt to the enemy whenever the screen is loaded. This is also done efficiently with caching.
 - My query client was complaining about caching, so I did some research and understood that I had to tell my client what the unique identifier(s) for each type (such as a group or user) are. Luckily, postgraphile ships with globally unique attributes called nodeId's for all tables, so  all I had to do was append nodeId to all attribute I already fetched, and specify to my query client that the nodeId is the unique identifier.  This has cut down on the amount of queries that my client is making. It's also good, because whenever a refresh is triggered, the cached data is shown until the new is loaded. 
+
+# Dec 25 (4 hours)
+- Worked on setting up password protections for groups
+- I use the pgcrypto library with a salt and compare the encrypted passwords together
+- I initially wanted to do public/invite only groups, but I realized that another user would need to change a users group, which would need to bypass row level security with a security definer function, which seems like bad practice.
+- Also set up joining public groups
+- Public groups have a simple join button but password protected ones also have a password field.
