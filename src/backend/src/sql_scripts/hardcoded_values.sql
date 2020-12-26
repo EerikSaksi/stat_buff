@@ -4,23 +4,27 @@ values
   (1, 10, 'Earth Golem');
 
 
+SELECT set_config('user.googleID', 'uh oh', false);
 insert into
   "user" (username, googleID)
 values
   ('orek', 'uh oh'),
   ('eerik', 'stinky'),
+  ('private_team_creator', 'private_team_creator'),
   ('no team', 'no team');
-  
 
 insert into
-  "group" (name, creator_username, password)
+  "group" (name, password)
 values
-  ('Team Public', 'orek', null),
-  ('Team With Password', 'eerik', '123');
+  ('Team Public', null);
 
-update "user"
-  set groupName = 'Team Public' 
-  where username = 'orek';
+
+--only one user can be a creator
+SELECT set_config('user.googleID', 'private_team_creator', false);
+insert into
+  "group" (name, password)
+values
+  ('Team With Password', '123');
 
 update "user"
   set groupName = 'Team Public' 

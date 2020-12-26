@@ -13,9 +13,16 @@ before insert on "user_exercise"
 FOR EACH ROW 
 EXECUTE PROCEDURE update_battle_to_current();
 
+
+
+
+
+
 --encrypts supplied password
 CREATE FUNCTION encrypt_password_and_set_creator()
-  RETURNS TRIGGER AS $$
+  RETURNS TRIGGER AS $BODY$
+  declare 
+  active_user_username varchar(32);
   BEGIN
     NEW.creator_username = (select username from active_user());
     if NEW.password is not null then
@@ -23,12 +30,33 @@ CREATE FUNCTION encrypt_password_and_set_creator()
     end if; 
     return NEW;
   END;
-$$ LANGUAGE plpgsql;
+$BODY$ LANGUAGE plpgsql;
 
-CREATE TRIGGER encrypt_password_and_set_creator_on_insert
+CREATE TRIGGER encrypt_password_and_set_creator_on_group_create
 before insert on "group"
 FOR EACH ROW 
 EXECUTE PROCEDURE encrypt_password_and_set_creator();
+
+
+
+
+
+--the creator should join the group
+CREATE FUNCTION creator_joins_group()
+  RETURNS TRIGGER AS $$
+  BEGIN
+    update "user" set groupName = NEW.name where username = NEW.creator_username;
+    return NEW;
+  END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER creator_joins_group_after_group_create
+after insert on "group" 
+FOR EACH ROW 
+EXECUTE PROCEDURE creator_joins_group();
+
+
+
 
 
 --check if there exist at least 2 members, in which case we initialize the first battle
@@ -127,8 +155,6 @@ CREATE TRIGGER insert_total_damage
 before insert on "workout"
 FOR EACH ROW 
 EXECUTE PROCEDURE calculate_total_damage();
-
-
 
 --updates the current battle and group for the users workout/exercise log
 CREATE FUNCTION set_creator_username()

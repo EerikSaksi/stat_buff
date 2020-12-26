@@ -19,19 +19,6 @@ grant all on table "workout" to query_sender;
 
 GRANT USAGE, SELECT ON SEQUENCE workout_id_seq TO query_sender;
 
---timestamps are all managed manually
-comment on column "user".created_at is E'@omit create, update, insert'; 
-comment on column "group".created_at is E'@omit create, update, insert'; 
-comment on column "bodystat".created_at is E'@omit create, update, insert'; 
-comment on column "user_exercise".created_at is E'@omit create, update, insert'; 
-comment on column "battle".created_at is E'@omit create, update, insert'; 
-comment on column "workout".created_at is E'@omit create, update, insert'; 
-comment on column "user".updated_at is E'@omit create, update, insert'; 
-comment on column "group".updated_at is E'@omit create, update, insert'; 
-comment on column "bodystat".updated_at is E'@omit create, update, insert'; 
-comment on column "user_exercise".updated_at is E'@omit create, update, insert'; 
-comment on column "battle".updated_at is E'@omit create, update, insert'; 
-comment on column "workout".updated_at is E'@omit create, update, insert'; 
 
 --google ids are only used internally to identify users 
 comment on column "user".googleID is E'@omit';
@@ -92,4 +79,3 @@ CREATE POLICY workout_update ON "workout" FOR update to query_sender USING (user
 CREATE POLICY workout_delete ON "workout" FOR delete to query_sender USING (username = (select username from active_user()));
 CREATE POLICY workout_create ON "workout" FOR insert to query_sender with check (true);
 CREATE POLICY workout_select ON "workout" FOR select to query_sender using (true);
-
