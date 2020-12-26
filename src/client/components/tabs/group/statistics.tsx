@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import { FlatList, Text, StyleSheet, View } from "react-native";
 import TimeAgo from "react-timeago";
-import { generateShadow } from "react-native-shadow-generator";
 import { unslugify } from "../../../util_components/slug";
 import Loading from "../../../util_components/loading";
 import BattlePicker from "./battle_selector";
-
+import ListItemContainer from "../../list_item_container";
 const STATS = gql`
   query($groupname: String!, $battleNumber: Int!) {
     battle(groupname: $groupname, battleNumber: $battleNumber) {
@@ -44,14 +43,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-    ...generateShadow(10),
-    margin: "2%",
-  },
   col: {
     flex: 1,
   },
@@ -83,11 +74,11 @@ const Statistics: React.FC<{ route: NavigationProps }> = ({ route }) => {
       setStatsList(allStats);
     },
     skip: !battleNumber,
-    fetchPolicy: 'cache-and-network'
+    fetchPolicy: "cache-and-network",
   });
   return (
     <React.Fragment>
-      <BattlePicker battleNumber = {battleNumber} setBattleNumber = {setBattleNumber} groupname = {groupname}/>
+      <BattlePicker battleNumber={battleNumber} setBattleNumber={setBattleNumber} groupname={groupname} />
       {loading ? (
         <Loading />
       ) : (
@@ -96,7 +87,7 @@ const Statistics: React.FC<{ route: NavigationProps }> = ({ route }) => {
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) =>
             item["__typename"] === "Workout" ? (
-              <View style={styles.container}>
+              <ListItemContainer>
                 <View style={styles.row}>
                   <Text style={styles.listTitle}>{`${item.username} dealt ${item.totalDamage} damage `}</Text>
                   {/*@ts-ignore*/}
@@ -109,9 +100,9 @@ const Statistics: React.FC<{ route: NavigationProps }> = ({ route }) => {
                     </View>
                   ))}
                 </View>
-              </View>
+              </ListItemContainer>
             ) : (
-              <View style={styles.container}>
+              <ListItemContainer>
                 <View style={styles.row}>
                   <Text style={styles.listTitle}>{`${unslugify(item.slugName)} updated by ${item.username} `}</Text>
                   {/*@ts-ignore*/}
@@ -124,7 +115,7 @@ const Statistics: React.FC<{ route: NavigationProps }> = ({ route }) => {
                     </View>
                   ))}
                 </View>
-              </View>
+              </ListItemContainer>
             )
           }
         />

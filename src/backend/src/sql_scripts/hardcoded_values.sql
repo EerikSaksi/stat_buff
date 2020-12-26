@@ -8,32 +8,30 @@ insert into
   "user" (username, googleID)
 values
   ('orek', 'uh oh'),
-  ('eerik', 'stinky');
+  ('eerik', 'stinky'),
+  ('no team', 'no team');
+  
 
 insert into
-  "group" (name, creator_username)
+  "group" (name, creator_username, password)
 values
-  ('Dream Team', 'orek'),
-  ('Team Rocket', 'eerik');
+  ('Team Public', 'orek', null),
+  ('Team With Password', 'eerik', '123');
 
 update "user"
-  set groupName = 'Dream Team' 
+  set groupName = 'Team Public' 
   where username = 'orek';
 
 update "user"
-  set groupName = 'Dream Team' 
+  set groupName = 'Team Public' 
   where username = 'eerik';
 
 insert into
   "bodystat" (bodymass, isMale, username)
 values
-  (85, true, 'orek');
-
-insert into
-  "bodystat" (bodymass, isMale, username)
-values
-  (69, false, 'eerik');
-
+  (85, true, 'orek'),
+  (69, false, 'eerik'),
+  (70, true, 'no team');
 
 insert into
   "exercise" (popularity_ranking, slug_name)

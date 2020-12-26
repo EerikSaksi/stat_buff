@@ -13,23 +13,39 @@ before insert on "user_exercise"
 FOR EACH ROW 
 EXECUTE PROCEDURE update_battle_to_current();
 
+--encrypts supplied password
+CREATE FUNCTION encrypt_password()
+  RETURNS TRIGGER AS $$
+  BEGIN
+    if NEW.password is not null then
+      NEW.password = crypt(NEW.password, gen_salt('bf'));
+    end if; 
+    return NEW;
+  END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER encrypt_password_on_insert
+before insert on "group"
+FOR EACH ROW 
+EXECUTE PROCEDURE encrypt_password();
+
 
 --check if there exist at least 2 members, in which case we initialize the first battle
-CREATE FUNCTION check_member_count()
+CREATE FUNCTION scale_health()
   RETURNS TRIGGER AS 
   $BODY$
   DECLARE
   num_members integer;
   BEGIN
     --user left group
-    if OLD.groupName != null then
+    if OLD.groupName is not null then
       --count members in old group
       select count(*) into num_members from "user" where groupName = OLD.groupName;
-      --scale the health down (4 to 3 members means scale by 3/4)
+      raise notice 'num_members %', num_members;
       update "battle" 
-      set current_health =  current_health * ((num_members - 1) / num_members),
-      max_health = max_health * ((num_members - 1) / (num_members))
-      where groupName = NEW.groupName and battle_number = (select battle_number from "group" where name = NEW.groupName);
+      set current_health =  current_health * (1.0 * num_members / (num_members + 1)),
+      max_health = max_health * (1.0 * num_members / (num_members + 1))
+      where groupName = OLD.groupName and battle_number = (select battle_number from "group" where name = OLD.groupName);
     end if;
 
     --count members
@@ -40,13 +56,12 @@ CREATE FUNCTION check_member_count()
       --check if this group has a battle yet, if not create one
       if not exists(select 1 from "battle" where battle_number = 1 and groupName = new.groupName) then
         insert into "battle"(groupName) values (new.groupName);
-        raise notice 'update "group" set battle_number = 1 where name = NEW.groupName;';
         update "group" set battle_number = 1 where name = NEW.groupName;
       end if;
       --scale the health of the current enemy (if we went from 3 to 4 members then scale by 4/3)
       update "battle" 
-      set current_health =  current_health * (num_members / (num_members - 1)),
-      max_health = max_health * (num_members / (num_members - 1))
+      set current_health =  current_health * (1.0 * num_members / (num_members - 1)),
+      max_health = max_health * (1.0 * num_members / (num_members - 1))
       where groupName = NEW.groupName and battle_number = (select battle_number from "group" where name = NEW.groupName);
     end if; 
     return NEW;
@@ -54,10 +69,12 @@ CREATE FUNCTION check_member_count()
   $BODY$
 LANGUAGE plpgsql;
 
-CREATE TRIGGER check_member_count_on_user_join
+CREATE TRIGGER scale_health_on_groupname_change
 after update of groupName on "user"
 FOR EACH ROW 
-EXECUTE PROCEDURE check_member_count();
+EXECUTE PROCEDURE scale_health();
+
+
 
 
 --calculates how much damage this workout dealt based on the users current damage and the difficulty (which is calculated to hits) 
@@ -65,7 +82,6 @@ CREATE FUNCTION calculate_total_damage()
   RETURNS TRIGGER AS 
   $BODY$
   DECLARE
-  
   hits integer;
   gn character varying(32);
   bn integer;

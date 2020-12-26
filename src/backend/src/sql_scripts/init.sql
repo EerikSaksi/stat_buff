@@ -4,8 +4,11 @@ create schema public;
 create table "group" (
   name varchar(32) not null primary key,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  password TEXT,
+  is_password_protected boolean GENERATED ALWAYS as (password is not null) stored
 );
+
 create table "user" (
   username varchar(32) primary key not null,
   groupName varchar(32) REFERENCES "group" ON DELETE set null,
@@ -13,6 +16,8 @@ create table "user" (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+
 CREATE INDEX ON "user" (groupName);
 
 alter table "group"
@@ -99,6 +104,39 @@ CREATE FUNCTION active_user() RETURNS "user" AS $$
   select * from "user" where googleID = current_setting('user.googleID')
 $$ LANGUAGE sql stable STRICT;
 
+CREATE EXTENSION pgcrypto;
+CREATE FUNCTION join_group(input_groupname varchar(32), input_password TEXT) RETURNS boolean as $$
+declare
+succeeded integer;
+begin
+  select 1 into succeeded from "group" where name = input_groupname 
+    and (
+    password is null
+    or password = crypt(input_password, password)
+  );
+  if succeeded then
+    update "user"
+    set groupName = input_groupname
+    where username = (select username from active_user());
+  end if;
+  return succeeded;
+end
+$$ LANGUAGE plpgsql volatile;
+
+
+begin
+  update "user"
+  set groupName = (
+    --we select the team with the least members, breaking ties on which group is the oldest (minimize max waiting time for teams to fill up)
+    SELECT count(u) as num_members, u.name as groupName
+    FROM "group" as g join "user" as u on groupName
+    group by num_members
+    order by num_members
+    order by g.createdAt 
+  ).groupName 
+  where username (select username from active_user());
+end
+$$ LANGUAGE plpgsql volatile;
 
 CREATE TYPE strengthStats AS (
   average_strength numeric,

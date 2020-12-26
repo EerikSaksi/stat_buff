@@ -28,7 +28,7 @@ const MainView: React.FC = () => {
   if (!data) {
     return <Loading />;
   }
-  if (data.user) {
+  if (data.user.groupname) {
     return (
       <Suspense fallback={<Loading />}>
         <YourGroup groupname = {data.user.groupname}/>

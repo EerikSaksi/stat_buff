@@ -2,7 +2,6 @@ const express = require('express');
 const {postgraphile} = require('postgraphile');
 const MyPlugins = require('./postgraphile_plugins')
 const PostGraphileConnectionFilterPlugin = require('postgraphile-plugin-connection-filter');
-const PostGraphileFulltextFilterPlugin = require('postgraphile-plugin-fulltext-filter');
 const run_all_sql_scripts = require('./sql_scripts/call_sql_scripts')
 require('dotenv').config();
 
@@ -13,7 +12,7 @@ const postgraphileOptions = {
   setofFunctionsContainNulls: false,
   ignoreRBAC: false,
   ignoreIndexes: false,
-  appendPlugins: [require("@graphile-contrib/pg-simplify-inflector"), MyPlugins, PostGraphileConnectionFilterPlugin, PostGraphileFulltextFilterPlugin],
+  appendPlugins: [require("@graphile-contrib/pg-simplify-inflector"), MyPlugins, PostGraphileConnectionFilterPlugin],
   exportGqlSchemaPath: "schema.graphql",
   handleErrors: (error) => console.log(error),
   graphiql: true,
@@ -25,9 +24,8 @@ const postgraphileOptions = {
     //if (req && req && req.headers && req.headers.authorization) {
     //const googleID = await tokenToGoogleID(req.headers.authorization)
     return {
-      'user.googleID': 'uh oh'
+      'user.googleID': 'no team'
     };
-    //}
   },
   ownerConnectionString: "postgres://eerik:Postgrizzly@localhost:5432/rpgym"
 }

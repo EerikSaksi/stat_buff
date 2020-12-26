@@ -18,6 +18,11 @@ const YourGroup: React.FC<{ groupname: string }> = ({ groupname }) => {
       </View>
       <Tab.Navigator style={{ flex: 10 }} tabBarOptions = {{style: {borderTopColor: colors.primary, borderTopWidth: 1, }}} >
         <Tab.Screen
+          name="Enemy"
+          component={EnemyView}
+          initialParams={{ groupname}}
+        />
+        <Tab.Screen
           name="Members"
           component={Members}
           initialParams={{ groupname}}
@@ -25,11 +30,6 @@ const YourGroup: React.FC<{ groupname: string }> = ({ groupname }) => {
         <Tab.Screen
           name="Statistics"
           component={Statistics}
-          initialParams={{ groupname}}
-        />
-        <Tab.Screen
-          name="Enemy"
-          component={EnemyView}
           initialParams={{ groupname}}
         />
 

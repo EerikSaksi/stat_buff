@@ -1,17 +1,17 @@
-import { gql, useLazyQuery, useQuery, } from "@apollo/client";
+import { gql, useLazyQuery, useQuery } from "@apollo/client";
 import React, { useState, useEffect, useCallback } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import SpriteSelector from "../../../sprites/sprite_selector";
 import Loading from "../../../util_components/loading";
 import TimeAgo from "react-timeago";
 import SpriteHealthBar from "../../../sprites/sprite_health_bar";
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect } from "@react-navigation/native";
 
 const ENEMY_STATS = gql`
   query($groupname: String!) {
     group(name: $groupname) {
       nodeId
-      battleByNameAndBattleNumber{
+      battleByNameAndBattleNumber {
         nodeId
         enemyLevel
         battleNumber
@@ -42,12 +42,12 @@ const styles = StyleSheet.create({
   sprite: {
     flex: 2,
     justifyContent: "flex-end",
-    textAlign: 'center'
+    textAlign: "center",
   },
   heading: {
     fontSize: 30,
     zIndex: 1,
-    textAlign: 'center'
+    textAlign: "center",
   },
   subheading: {
     fontSize: 20,
@@ -59,10 +59,9 @@ const styles = StyleSheet.create({
 
 type NavigationProps = { params: { groupname: string } };
 const EnemyView: React.FC<{ route: NavigationProps }> = ({ route }) => {
-  
   useFocusEffect(
     useCallback(() => {
-      fetchEnemyStats()
+      fetchEnemyStats();
     }, [])
   );
   const { groupname } = route.params;
@@ -70,14 +69,23 @@ const EnemyView: React.FC<{ route: NavigationProps }> = ({ route }) => {
   const [fetchEnemyStats, { data }] = useLazyQuery(ENEMY_STATS, {
     variables: { groupname },
     onCompleted: () => {
-      var expiry = new Date(data.group.battleByNameAndBattleNumber.createdAt);
-      expiry.setDate(expiry.getDate() + 7);
-      setDisplayDate(expiry);
+      if (data.group.battleByNameAndBattleNumber) {
+        var expiry = new Date(data.group.battleByNameAndBattleNumber.createdAt);
+        expiry.setDate(expiry.getDate() + 7);
+        setDisplayDate(expiry);
+      }
     },
   });
 
   if (!data) {
     return <Loading />;
+  }
+  if (!data.group.battleByNameAndBattleNumber) {
+    return (
+      <View style={styles.container}>
+        <Text>You need at least two members to start a battle.</Text>
+      </View>
+    );
   }
   const { currentHealth, enemyLevel, enemyByEnemyLevel } = data.group.battleByNameAndBattleNumber;
   return (
