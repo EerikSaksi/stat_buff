@@ -7,6 +7,7 @@ import { Button } from "react-native-elements";
 import ListItemContainer from "../../list_item_container";
 import { Alert } from "react-native";
 import PasswordProtectedGroup from "./password_protected_group";
+import CreateGroup from "./create_group";
 
 const SEARCH_GROUPS = gql`
   query search_groups($query: String!) {
@@ -33,11 +34,13 @@ const JOIN_GROUP = gql`
     }
   }
 `;
-const JOIN_RANDOM_PUBLIC_GROUP = gql`mutation{
-    joinRandomPublicGroup(input: {clientMutationId: null}){
+const JOIN_RANDOM_PUBLIC_GROUP = gql`
+  mutation {
+    joinRandomPublicGroup(input: { clientMutationId: null }) {
       boolean
     }
-}`;
+  }
+`;
 
 const styles = StyleSheet.create({
   container: {
@@ -73,8 +76,9 @@ const styles = StyleSheet.create({
   },
 });
 const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParentGroup }) => {
-  const [query, setQuery] = useState("Team");
-  const [showJoinCreate, setShowJoinCreate] = useState(true);
+  const [query, setQuery] = useState("");
+  const [showJoinCreate, setShowJoinCreate] = useState(false);
+  const [createGroupVisible, setCreateGroupVisible] = useState(true);
   const username = useReactiveVar(usernameVar);
   const ref = useRef<TextInput | null>(null);
 
@@ -98,17 +102,18 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
       if (data.joinRandomPublicGroup.boolean) {
         refetchParentGroup();
       } else {
-        alert("No groups found.")
+        alert("No groups found.");
       }
     },
-  })
+  });
   return (
     <View style={styles.container}>
+      <CreateGroup visible = {createGroupVisible} setVisible = {setCreateGroupVisible}/>
       <TopView>
         <TextInput
           onEndEditing={() => ref.current?.blur()}
           onFocus={() => setShowJoinCreate(false)}
-          onBlur={() => setShowJoinCreate(false)}
+          onBlur={() => setShowJoinCreate(true)}
           ref={ref}
           placeholder="Search for teams"
           value={query}
@@ -143,16 +148,16 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
         />
       </TopView>
       {query === "" ? (
-        showJoinCreate ? (
-          <View style={{ ...styles.container }}>
-            <View style={styles.button}>
+        <View style={{ ...styles.container }}>
+          <View style={styles.button}>
+            {showJoinCreate ? (
               <Button onPress={() => ref.current?.focus()} style={styles.button} title="Join Team" />
-            </View>
-            <Button title="Create Team" />
+            ) : (
+              <Button onPress={() => joinRandomPublicGroup()} style={styles.button} title="Join Random Public Team" />
+            )}
           </View>
-        ) : (
-          <Button onPress={() => joinRandomPublicGroup()} style={styles.button} title="Join Random Public Team" />
-        )
+          <Button title="Create Team" onPress = {() => setCreateGroupVisible(true)} />
+        </View>
       ) : undefined}
     </View>
   );

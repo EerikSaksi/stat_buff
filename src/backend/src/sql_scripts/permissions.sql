@@ -19,12 +19,27 @@ grant all on table "workout" to query_sender;
 
 GRANT USAGE, SELECT ON SEQUENCE workout_id_seq TO query_sender;
 
+--timestamps are all managed manually
+comment on column "user".created_at is E'@omit create, update, insert'; 
+comment on column "group".created_at is E'@omit create, update, insert'; 
+comment on column "bodystat".created_at is E'@omit create, update, insert'; 
+comment on column "user_exercise".created_at is E'@omit create, update, insert'; 
+comment on column "battle".created_at is E'@omit create, update, insert'; 
+comment on column "workout".created_at is E'@omit create, update, insert'; 
+comment on column "user".updated_at is E'@omit create, update, insert'; 
+comment on column "group".updated_at is E'@omit create, update, insert'; 
+comment on column "bodystat".updated_at is E'@omit create, update, insert'; 
+comment on column "user_exercise".updated_at is E'@omit create, update, insert'; 
+comment on column "battle".updated_at is E'@omit create, update, insert'; 
+comment on column "workout".updated_at is E'@omit create, update, insert'; 
+
 --google ids are only used internally to identify users 
 comment on column "user".googleID is E'@omit';
 --handled by plugin function
 comment on table "user" is E'@omit create';
 --groupname updates must go through a custom function that performs password checks for protected groups
 comment on column "user".groupName is E'@omit update';
+comment on column "group".creator_username is E'@omit create, update, insert';
 comment on table "group" is E'@omit update';
 comment on column "group".password is E'@omit';
 comment on table "bodystat" is E'@omit all';
@@ -45,8 +60,6 @@ Alter table "bodystat" enable row level security;
 Alter table "user_exercise" enable row level security;
 Alter table "battle" enable row level security;
 Alter table "workout" enable row level security;
-
-
 
 CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));
 CREATE POLICY user_delete ON "user" FOR delete to query_sender USING (googleID = current_setting('user.googleID'));

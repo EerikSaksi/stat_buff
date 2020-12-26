@@ -301,3 +301,9 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - I initially wanted to do public/invite only groups, but I realized that another user would need to change a users group, which would need to bypass row level security with a security definer function, which seems like bad practice.
 - Also set up joining public groups
 - Public groups have a simple join button but password protected ones also have a password field.
+
+# Dec 26 (3 hours)
+- Started making a create group view
+- Trying to track a workout without a team will now navigate the user to join one
+- Creating a team will not start a battle, and will tell the user that they need another member
+- Users can join a "random" team. In reality, this will put the user in a public team with the least members, breaking ties by taking the oldest one. This should help prevent huge teams and should prevent a user with no friends that want to play with them from having to wait too long for a stranger to join.
