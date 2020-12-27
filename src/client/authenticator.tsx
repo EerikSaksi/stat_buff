@@ -9,6 +9,7 @@ import {generateShadow} from 'react-native-shadow-generator';
 //const App = lazy(() => import('./App'))
 import App from './App'
 import {usernameVar} from './apollo/cache';
+import AppDemo from './components/app_demo';
 const CenteredView = lazy(() => import('./util_components/centered_view'))
 const CreateUser = lazy(() => import('./components/create_user'))
 
@@ -26,6 +27,7 @@ const styles = StyleSheet.create({
 })
 
 export default function Authenticator() {
+  return (<AppDemo/>)
   const [googleID, setGoogleID] = useState<string | undefined>('wowa')
 
   //try fetch the current user if we have a token (if not logged in google first we need to sign in)
@@ -71,7 +73,10 @@ export default function Authenticator() {
     else {
       //user signed in to google, but don't have a username in the database, so provide interface to create one.
       if (!data.username) {
-        content = <Suspense fallback={<Loading />}><CreateUser refetchUser={refetch} /></Suspense>
+        content = 
+          <Suspense fallback={<Loading />}>
+            <CreateUser refetchUser={refetch} />
+          </Suspense>
       }
       else {
         usernameVar(data.username)

@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
 });
 const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParentGroup }) => {
   const [query, setQuery] = useState("");
-  const [showJoinCreate, setShowJoinCreate] = useState(false);
+  const [showJoinCreate, setShowJoinCreate] = useState(true);
   const [createGroupVisible, setCreateGroupVisible] = useState(true);
   const username = useReactiveVar(usernameVar);
   const ref = useRef<TextInput | null>(null);
@@ -108,7 +108,7 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
   });
   return (
     <View style={styles.container}>
-      <CreateGroup visible = {createGroupVisible} setVisible = {setCreateGroupVisible}/>
+      <CreateGroup visible = {createGroupVisible} setVisible = {setCreateGroupVisible} refetchParentGroup = {refetchParentGroup}/>
       <TopView>
         <TextInput
           onEndEditing={() => ref.current?.blur()}

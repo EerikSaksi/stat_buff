@@ -30,7 +30,7 @@ const USER = gql`
 const STRENGTH = gql`
   query($username: String) {
     calculateStrengthStats(inputUsername: $username) {
-      averageStrength 
+      averageStrength
       numExercises
       dph
     }
@@ -40,7 +40,7 @@ const STRENGTH = gql`
 const User: React.FC = () => {
   const username = useReactiveVar(usernameVar);
   const [strengthModalVisible, setStrengthModalVisible] = useState(false);
-  const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false);
+  const [bodystatsModalVisible, setBodystatsModalVisible] = useState(true);
   const [workoutModalVisible, setWorkoutModalVisible] = useState(false);
   const { data } = useQuery(USER, {
     variables: { username },
@@ -92,14 +92,18 @@ const User: React.FC = () => {
         {exerciseData && exerciseData.calculateStrengthStats ? (
           <View>
             <Text style={{ textAlign: "center", fontSize: 20 }}>{`Your character has DPH: ${exerciseData.calculateStrengthStats.dph}`}</Text>
-            <Text style={{ textAlign: "center", fontSize: 12, overflow: "scroll" }}>{`Damage Per Hit = Stronger than ${exerciseData.calculateStrengthStats.averageStrength}% * ${exerciseData.calculateStrengthStats.numExercises} exercise${exerciseData.calculateStrengthStats.numExercises === 1 ? "" : "'s"} tracked`}</Text>
+            <Text style={{ textAlign: "center", fontSize: 12, overflow: "scroll" }}>{`Damage Per Hit = Stronger than ${exerciseData.calculateStrengthStats.averageStrength}% * ${
+              exerciseData.calculateStrengthStats.numExercises
+            } exercise${exerciseData.calculateStrengthStats.numExercises === 1 ? "" : "'s"} tracked`}</Text>
           </View>
         ) : null}
       </View>
       <ExerciseModal visible={strengthModalVisible} setVisible={setStrengthModalVisible} username={username} refetchParent={fetchStrength} />
       <BodyStatsModal visible={bodystatsModalVisible} setVisible={setBodystatsModalVisible} username={username} refetchParent={fetchBodyStats} />
       <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username} skillTitle={skillTitle} />
-      <View style={{ flex: 5, justifyContent: "flex-end", alignItems: "center", zIndex: -1 }}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={skillTitle} /> : <Loading />}</View>
+      <View style={{ flex: 5, justifyContent: "flex-end", alignItems: "center", zIndex: -1 }}>
+        {(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={skillTitle} /> : <Loading />}
+      </View>
       <View style={{ flex: 1, width: "30%" }}>
         <Button disabled={!(exerciseData && exerciseData.calculateStrengthStats)} title="Log workout" onPress={() => setWorkoutModalVisible(true)} />
       </View>

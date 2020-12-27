@@ -3,10 +3,8 @@ import { gql } from "@apollo/client";
 import { useMutation } from "@apollo/client/react";
 import { useQuery } from "@apollo/client/react/hooks/useQuery";
 import { useState } from "react";
-import { Text, Switch, View, Modal, TextInput } from "react-native";
+import { Text, Switch, View, StyleSheet, TextInput } from "react-native";
 import { Button, Divider } from "react-native-elements";
-import { Ionicons } from "@expo/vector-icons";
-import { generateShadow } from "react-native-shadow-generator";
 import CustomModal from "../../../util_components/custom_modal";
 
 const CREATE_BODY_STAT = gql`
@@ -33,6 +31,23 @@ const FETCH_BODY_STAT = gql`
     }
   }
 `;
+const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+  },
+  modalStyles: {
+    marginTop: "20%",
+    marginBottom: "20%",
+    justifyContent: "flex-start",
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+});
 
 const BodyStatsModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => void; username: string; refetchParent: () => void }> = ({ visible, setVisible, username, refetchParent }) => {
   const [bodymass, setBodymass] = useState<number | undefined>(undefined);
@@ -75,30 +90,23 @@ const BodyStatsModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => v
     );
 
   return (
-    <CustomModal visible={visible} setVisible={setVisible}>
-      <View style={{ flex: 2, flexDirection: "row", justifyContent: "flex-end", alignItems: "center" }}>
-        <View style={{ alignItems: "center", justifyContent: "center" }}>
-          <View style={{ flex: 1 }}>
-            <Text>Weight (kg)</Text>
-          </View>
-          <TextInput
-            style={{ textAlign: "center", flex: 1 }}
-            value={bodymass ? bodymass.toString() : undefined}
-            placeholder="Bodyweight (kg)"
-            onChangeText={(text) => setBodymass(parseInt(text))}
-            keyboardType={"numeric"}
-          />
-        </View>
+    <CustomModal style = {styles.modalStyles} visible={visible} setVisible={setVisible} style={styles.modalStyles}>
+      <View style={styles.container}>
+        <TextInput
+          style={{ textAlign: "center", flex: 1 }}
+          value={bodymass ? bodymass.toString() : undefined}
+          placeholder="Bodyweight (kg)"
+          onChangeText={(text) => setBodymass(parseInt(text))}
+          keyboardType={"numeric"}
+        />
       </View>
-      <View style={{ flex: 1, justifyContent: "flex-end", alignItems: "center" }}>
-        <Text>Which dataset would you like to use?</Text>
-      </View>
-      <View style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end", alignItems: "center" }}>
+      <Text>Which dataset would you like to use?</Text>
+      <View style={styles.row}>
         <Text>Male</Text>
         <Switch value={!isMale} thumbColor={"white"} trackColor={{ false: "blue", true: "pink" }} onValueChange={(value) => setIsMale(!value)}></Switch>
         <Text>Female</Text>
       </View>
-      <View style={{ alignItems: "center", flex: 8, justifyContent: "flex-start" }}>
+      <View style={styles.container}>
         <Text style={{ textAlign: "center" }}>This data is private (needed for strength calculations)</Text>
         {bodyStatButton}
         <Divider style={{ backgroundColor: "black" }} />
