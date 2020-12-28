@@ -1,5 +1,5 @@
 import { InMemoryCache, makeVar } from "@apollo/client/cache";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persistCache, AsyncStorageWrapper } from "apollo3-cache-persist";
 export const usernameVar = makeVar("");
 var cache;
