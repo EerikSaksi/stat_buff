@@ -16,7 +16,10 @@ const STRENGTH = gql`
 const styles = StyleSheet.create({
   textView: {
     flex: 1,
-    textAlign: "center",
+  },
+  text: {
+    fontSize: 30,
+    textAlign: 'center'
   },
 });
 const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefined; username: string; setVisible: (val: boolean) => void; data: any }> = ({
@@ -37,6 +40,7 @@ const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefine
   }
   return (
     <React.Fragment>
+      <Text style={styles.text}>{`${deliveredHits} hit${deliveredHits > 1 ? "s" : ""}: ${strengthData.calculateStrengthStats.dph * deliveredHits} total damage.`}</Text>
       <SpriteBattle deliveredHits = {deliveredHits} setDeliveredHits = {setDeliveredHits} skillTitle = {skillTitle} dph = {strengthData.calculateStrengthStats.dph} currentHealth = {data.user.groupByGroupname.battleByNameAndBattleNumber.currentHealth}  maxHealth = {data.user.groupByGroupname.battleByNameAndBattleNumber.maxHealth} enemyName = {data.user.groupByGroupname.battleByNameAndBattleNumber.enemyByEnemyLevel.name} hits = {hits}/>
       <View style={styles.textView}>
         {hits === deliveredHits ? <Button title="Close" onPress={() => setVisible(false)} /> : <Button title="Skip animations" onPress={() => setDeliveredHits(hits)} />}

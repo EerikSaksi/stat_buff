@@ -4,14 +4,6 @@ import SpriteHealthBar from "./sprite_health_bar";
 import SpriteSelector from "./sprite_selector";
 
 const styles = StyleSheet.create({
-  textView: {
-    flex: 1,
-    textAlign: "center",
-  },
-  text: {
-    fontSize: 30,
-    textAlign: 'center'
-  },
   sprites: {
     flexDirection: "row",
     flex: 3,
@@ -64,9 +56,6 @@ const SpriteBattle: React.FC<{
 
   return (
     <React.Fragment>
-      <View style={styles.textView}>
-        <Text style={styles.text}>{`${deliveredHits} hit${deliveredHits > 1 ? "s" : ""}: ${totalDamage.toFixed(2)} total damage.`}</Text>
-      </View>
       <View style={styles.sprites}>
         <View style={styles.sprite}>
           <SpriteSelector aspectRatio={0.7} spriteName={skillTitle} currentAnimation={playerAnimation} animationFinished={deliveredHits < hits ? playerAnimationFinished : undefined} />

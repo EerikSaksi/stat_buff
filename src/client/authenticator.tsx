@@ -1,5 +1,4 @@
 import React, {useState, Suspense, lazy, useEffect} from 'react';
-import {initAsync, GoogleSignInAuthResult, signInAsync, getCurrentUserAsync, isSignedInAsync} from 'expo-google-sign-in'
 import {SocialIcon} from 'react-native-elements'
 import Loading from './util_components/loading'
 import {useQuery} from '@apollo/client/react/hooks';
@@ -9,7 +8,7 @@ import {generateShadow} from 'react-native-shadow-generator';
 //const App = lazy(() => import('./App'))
 import App from './App'
 import {usernameVar} from './apollo/cache';
-import AppDemo from './components/app_demo';
+import AppDemo from './components/app_demo/app_demo';
 const CenteredView = lazy(() => import('./util_components/centered_view'))
 const CreateUser = lazy(() => import('./components/create_user'))
 
@@ -27,28 +26,8 @@ const styles = StyleSheet.create({
 })
 
 export default function Authenticator() {
-  //return (<AppDemo/>)
-  const [googleID, setGoogleID] = useState<string | undefined>('wowa')
+  return (<AppDemo/>)
 
-  //try fetch the current user if we have a token (if not logged in google first we need to sign in)
-  const {data, loading, refetch} = useQuery(USERNAME, {
-    skip: !googleID,
-    fetchPolicy: 'network-only'
-  })
-
-
-  //when starting try check if user logged in and fetch their token
-  useEffect(() => {
-    //const tryGetToken = async () => {
-    //  await initAsync()
-    //  if (await isSignedInAsync()) {
-    //    const result = await getCurrent
-    //    UserAsync()
-    //    setGoogleID(result?.uid)
-    //  }
-    //}
-    //tryGetToken()
-  }, [])
   var content = <Loading />
 
   if (!loading) {
