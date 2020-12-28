@@ -12,17 +12,17 @@ const AppDemo: React.FC = () => {
   const [scrollOffset, setScrollOffset] = useState(0)
   return (
     <ScrollView
-      onScroll = {({nativeEvent}) => setScrollOffset(nativeEvent.contentOffset.x - width )}
+      onScroll = {({nativeEvent}) => setScrollOffset(nativeEvent.contentOffset.x)}
       horizontal={true}
       decelerationRate={0}
-      snapToInterval={width} //your element width
+      snapToInterval={width} 
       snapToAlignment={"center"}
     >
       <View style={styles.view}>
         <AttackingCharacters inView = {scrollOffset < width}/>
       </View>
       <View style={styles.view} >
-        <StrongerCharacter inView = {scrollOffset < width}/>
+        <StrongerCharacter inView = {width <= scrollOffset}/>
       </View>
     </ScrollView>
   );

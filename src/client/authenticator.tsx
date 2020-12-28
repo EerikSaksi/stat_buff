@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 })
 
 export default function Authenticator() {
-  return (<AppDemo/>)
+  //return (<AppDemo/>)
   const [googleID, setGoogleID] = useState<string | undefined>('wowa')
 
   //try fetch the current user if we have a token (if not logged in google first we need to sign in)

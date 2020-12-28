@@ -13,6 +13,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
+  spriteAlignedEnd:{
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "flex-end",
+    flexDirection: "row",
+  },
   topContainer: {
     width: "100%",
     top: StatusBar.currentHeight,
@@ -43,17 +49,18 @@ const AttackingCharacters: React.FC<{ inView: boolean }> = ({ inView }) => {
   return (
     <React.Fragment>
       <View style={styles.topContainer}>
-        <Text style={styles.heading}>Join a team and attack the enemy whenever you track a workout!</Text>
+        <Text style={styles.heading}>Join a team track workouts to deal damage to your teams' enemy</Text>
       </View>
-      <View style={styles.threeCharacters}>
-        <View style={styles.spriteContainer}>
+      <View style={styles.threeCharacters }> 
+        <View style={styles.spriteAlignedEnd}>
+          <SpriteSelector currentAnimation = {'attackOrDie'} aspectRatio={0.5} spriteName={"novice"} />
+          <SpriteSelector aspectRatio={0.5} spriteName={"Fire Devil"} />
+        </View>
+        <View style={styles.spriteContainer }>
           <SpriteSelector aspectRatio={0.5} spriteName={"apprentice"} />
         </View>
-        <View style={styles.spriteContainer}>
-          <SpriteSelector aspectRatio={0.5} spriteName={"novice"} />
-        </View>
-        <View style={styles.spriteContainer}>
-          <SpriteSelector aspectRatio={0.5} spriteName={"intermediate"} />
+        <View style={styles.spriteAlignedEnd}>
+          <SpriteSelector aspectRatio={0.5} spriteName={"noob"} />
         </View>
       </View>
     </React.Fragment>

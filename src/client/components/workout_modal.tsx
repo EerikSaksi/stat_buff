@@ -71,59 +71,62 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
   const { data } = useQuery(ENEMY_STATS, {
     variables: { username },
   });
+  useEffect(() => {
+    createWorkout()
+  }, [])
 
-  var content: undefined | React.ReactNode = undefined
+  var content: undefined | React.ReactNode = undefined;
   if (mutationData) {
-      content =  <View style={styles.modal}>
+    content = (
+      <View style={styles.modal}>
         <WorkoutModalAttack username={username} hits={mutationData.createWorkout.workout.hits} skillTitle={skillTitle} setVisible={setVisible} data={data} />
       </View>
-  }
-  
-  else if (data){
+    );
+  } else if (data) {
     //query finished but no group
-    if (!data.user.groupByGroupname){
-      content = 
+    if (!data.user.groupByGroupname) {
+      content = (
         <View style={styles.modal}>
-          <Text style={styles.heading}>You need to be a part of a team before you track a workout.</Text> 
+          <Text style={styles.heading}>You need to be a part of a team before you track a workout.</Text>
           <Button title="Join Group" onPress={() => navigation.navigate("Group")} />
         </View>
+      );
     }
     //no battle so lacking members
-    else if (!data.user.groupByGroupname.battleByNameAndBattleNumber){
-      content =
+    else if (!data.user.groupByGroupname.battleByNameAndBattleNumber) {
+      content = (
         <View style={styles.modal}>
           <Text style={styles.heading}>You need at least two members before you can track workouts</Text>
         </View>
+      );
+    } else {
+      content = (
+        <View style={styles.modal}>
+          <View style={styles.row}>
+            <TextInput
+              style={styles.input}
+              value={rir?.toString()}
+              onChangeText={(v) => (v.length ? setRir(parseInt(v)) : setRir(undefined))}
+              placeholder="Average Reps in Reserve"
+              keyboardType={"numeric"}
+            />
+          </View>
+          <View style={styles.row}>
+            <TextInput
+              style={styles.input}
+              value={sets?.toString()}
+              onChangeText={(v) => (v.length ? setSets(parseInt(v)) : setSets(undefined))}
+              placeholder="Number of Sets Completed"
+              keyboardType={"numeric"}
+            />
+          </View>
+          <View style={styles.row}>
+            <Button disabled={!rir || !sets || !data} title="Save Workout" style={styles.row} onPress={() => createWorkout()} />
+          </View>
+        </View>
+      );
     }
   }
-
-  else {
-    content = 
-      <View style={styles.modal}>
-        <View style={styles.row}>
-          <TextInput
-            style={styles.input}
-            value={rir?.toString()}
-            onChangeText={(v) => (v.length ? setRir(parseInt(v)) : setRir(undefined))}
-            placeholder="Average Reps in Reserve"
-            keyboardType={"numeric"}
-          />
-        </View>
-        <View style={styles.row}>
-          <TextInput
-            style={styles.input}
-            value={sets?.toString()}
-            onChangeText={(v) => (v.length ? setSets(parseInt(v)) : setSets(undefined))}
-            placeholder="Number of Sets Completed"
-            keyboardType={"numeric"}
-          />
-        </View>
-        <View style={styles.row}>
-          <Button disabled={!rir || !sets || !data} title="Save Workout" style={styles.row} onPress={() => createWorkout()} />
-        </View>
-      </View>
-  }
-  
   return (
     <CustomModal visible={visible} setVisible={setVisible}>
       {content}

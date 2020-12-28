@@ -61,7 +61,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
           setSource(require("../assets/cropped_sprites/apprentice.png"));
           setRows(3);
           setCols(4);
-          setHeight(400);
+          setHeight(450);
           setLeftShift(10);
           setAnimationLengths({ idle: 4, onHit: 4, attackOrDie: 4 });
           break;

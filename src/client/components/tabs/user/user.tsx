@@ -40,8 +40,8 @@ const STRENGTH = gql`
 const User: React.FC = () => {
   const username = useReactiveVar(usernameVar);
   const [strengthModalVisible, setStrengthModalVisible] = useState(false);
-  const [bodystatsModalVisible, setBodystatsModalVisible] = useState(true);
-  const [workoutModalVisible, setWorkoutModalVisible] = useState(false);
+  const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false);
+  const [workoutModalVisible, setWorkoutModalVisible] = useState(true);
   const { data } = useQuery(USER, {
     variables: { username },
   });
