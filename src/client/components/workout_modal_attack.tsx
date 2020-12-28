@@ -1,10 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useState} from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Button } from "react-native-elements";
 import SpriteBattle from "../sprites/sprite_battle";
-import SpriteHealthBar from "../sprites/sprite_health_bar";
-import SpriteSelector from "../sprites/sprite_selector";
 import Loading from "../util_components/loading";
 
 const STRENGTH = gql`
@@ -39,7 +37,7 @@ const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefine
   }
   return (
     <React.Fragment>
-      <SpriteBattle deliveredHits = {deliveredHits} setDeliveredHits = {setDeliveredHits} skillTitle = {skillTitle} dph = {strengthData.calculateStrengthStats.dph} currentHealth = {data.user.groupByGroupname.battleByNameAndBattleNumber.currentHealth}  maxHealth = {data.user.groupByGroupname.battleByNameAndBattleNumber.enemyByEnemyLevel.maxHealth} enemyName = {data.user.groupByGroupname.battleByNameAndBattleNumber.enemyByEnemyLevel.name} hits = {hits}/>
+      <SpriteBattle deliveredHits = {deliveredHits} setDeliveredHits = {setDeliveredHits} skillTitle = {skillTitle} dph = {strengthData.calculateStrengthStats.dph} currentHealth = {data.user.groupByGroupname.battleByNameAndBattleNumber.currentHealth}  maxHealth = {data.user.groupByGroupname.battleByNameAndBattleNumber.maxHealth} enemyName = {data.user.groupByGroupname.battleByNameAndBattleNumber.enemyByEnemyLevel.name} hits = {hits}/>
       <View style={styles.textView}>
         {hits === deliveredHits ? <Button title="Close" onPress={() => setVisible(false)} /> : <Button title="Skip animations" onPress={() => setDeliveredHits(hits)} />}
       </View>

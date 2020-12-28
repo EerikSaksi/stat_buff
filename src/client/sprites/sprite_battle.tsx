@@ -36,16 +36,14 @@ const SpriteBattle: React.FC<{
   const [totalDamage, setTotalDamage] = useState(0);
   //store total dealt damage (updated whenever the user hits)
   useEffect(() => {
-    if (dph) {
-      setTotalDamage(() => {
-        const newDamage = deliveredHits * dph;
-        //if we killed the enemy just skip to the end
-        if (currentHealth < newDamage) {
-          setDeliveredHits(deliveredHits < hits ? deliveredHits + 1 : deliveredHits);
-        }
-        return newDamage;
-      });
-    }
+    setTotalDamage(() => {
+      const newDamage = deliveredHits * dph;
+      //if we killed the enemy just skip to the end
+      if (currentHealth < newDamage) {
+        setDeliveredHits(hits);
+      }
+      return newDamage;
+    });
   }, [deliveredHits]);
   //these denote the current animation that the sprite should perform
   const [playerAnimation, setPlayerAnimation] = useState<Animation | undefined>('attackOrDie');
@@ -54,7 +52,7 @@ const SpriteBattle: React.FC<{
   //the onFinish hook of the player sprite calls this. This results in a loop where the sprites wait for each others animations to finish
   const playerAnimationFinished = useCallback(async () => {
     setEnemyAnimation("onHit");
-    setDeliveredHits((deliveredHits: number) => deliveredHits + 1);
+    setDeliveredHits((deliveredHits) => deliveredHits < hits ? deliveredHits + 1 : deliveredHits);
   }, [totalDamage, hits]);
   const enemyAnimationFinished = useCallback(async () => {
     //setting the animation to undefined and back to attack triggers a state change
@@ -64,7 +62,6 @@ const SpriteBattle: React.FC<{
     setEnemyAnimation(undefined);
   }, [totalDamage]);
 
-  console.log({currentHealth})
   return (
     <React.Fragment>
       <View style={styles.textView}>

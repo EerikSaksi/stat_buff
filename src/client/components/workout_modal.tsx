@@ -30,10 +30,10 @@ const ENEMY_STATS = gql`
           battleNumber
           currentHealth
           createdAt
+          maxHealth
           enemyByEnemyLevel {
             nodeId
             name
-            maxHealth
           }
         }
       }

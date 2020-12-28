@@ -116,6 +116,7 @@ CREATE FUNCTION calculate_total_damage()
   bn integer;
   new_current_health integer;
   new_enemy_level integer;
+  num_members integer;
   BEGIN
     --load group and battle info to this table (so we can select when this battle was created)
     select groupName into gn from "user" where username = NEW.username;
@@ -143,7 +144,8 @@ CREATE FUNCTION calculate_total_damage()
       new_enemy_level = new_enemy_level + 1;
       bn = bn + 1;
       select max_health into new_current_health from "enemy" where level = new_enemy_level;
-      insert into "battle"(groupName, battle_number, enemy_level, current_health) values (gn, bn, new_enemy_level, new_current_health);
+      select count(*) into num_members from "user" where groupName = gn;
+      insert into "battle"(groupName, battle_number, enemy_level, current_health, max_health) values (gn, bn, new_enemy_level, new_current_health * num_members, new_current_health * num_members);
       update "group" set battle_number = battle_number + 1 where name = gn;
     end if;
     return NEW;
