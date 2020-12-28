@@ -62,7 +62,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
           setRows(3);
           setCols(4);
           setHeight(400);
-          setLeftShift(5);
+          setLeftShift(10);
           setAnimationLengths({ idle: 4, onHit: 4, attackOrDie: 4 });
           break;
         case "intermediate":
@@ -141,7 +141,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
         source={source}
         columns={cols}
         rows={rows}
-        imageStyle={{ left: `${leftShift}%` }}
+        imageStyle={{ left: `${leftShift}%`  }}
         height={aspectRatio ? aspectRatio * height : height}
         animations={{
           idle: Array.from({ length: animationLengths.idle }, (v, i) => i),
