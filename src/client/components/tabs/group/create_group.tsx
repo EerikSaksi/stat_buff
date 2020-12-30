@@ -10,7 +10,8 @@ const styles = StyleSheet.create({
   row: {
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: 'row',
+    flexDirection: "row",
+    width: "60%",
   },
 });
 const GROUP_TAKEN = gql`
@@ -38,14 +39,16 @@ const CreateGroup: React.FC<{ visible: boolean; setVisible: (arg: boolean) => vo
   });
   return (
     <CustomModal visible={visible} setVisible={setVisible}>
-      <Input style={styles.input} placeholder="Team Name" value={newGroupName} onChangeText={(v) => setNewGroupName(v)} />
       <View style={styles.row}>
-        <Text>
-          Requires password?
-        </Text>
+        <Input style={styles.input} placeholder="Team Name" value={newGroupName} onChangeText={(v) => setNewGroupName(v)} />
+      </View>
+      <View style={styles.row}>
+        <Text>Requires password?</Text>
         <Switch value={isPasswordProtected} onValueChange={(v) => setIsPasswordProtected(v)} />
       </View>
-      <Input style={styles.input} disabled={!isPasswordProtected} placeholder="Password" value={password} onChangeText={(v) => setPassword(v)} secureTextEntry={true} textContentType="password" />
+      <View style={styles.row}>
+        <Input style={styles.input} disabled={!isPasswordProtected} placeholder="Password" value={password} onChangeText={(v) => setPassword(v)} secureTextEntry={true} textContentType="password" />
+      </View>
       <Button disabled={newGroupName === "" || (isPasswordProtected && password === "")} title="Create Team" onPress={() => createGroup()} />
     </CustomModal>
   );

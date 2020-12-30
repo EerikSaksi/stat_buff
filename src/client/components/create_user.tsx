@@ -47,7 +47,7 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
   setGoogleID,
   inView,
 }) => {
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("auto_runs");
   const [error, setError] = useState("");
   const greenPixelValue = useRef<Animated.Value>(new Animated.Value(0)).current;
   const ref = useRef<Input | null>();
@@ -55,7 +55,11 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
     if (ref.current) {
       inView ? ref.current.focus() : ref.current.blur();
     }
-  }, [ref, inView]);
+    if (googleID){
+      createUser()
+    }
+  }, [ref, inView, googleID]);
+
 
   //if succesfully created then user data exists for the current google user
   const [createUser] = useMutation(CREATE_USER, {
@@ -111,31 +115,32 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
           inputRange: [0, 1, 2],
           outputRange: ["white", "lime", "red"],
         });
-  const content = googleID ? (
+  const content = 
+     googleID ? (
     <CenteredView >
       <Text style={styles.text}>{error}</Text>
       <AnimatedInput style = {{backgroundColor}} ref={ref} onEndEditing={submit} value={username} placeholder="Enter username" onChangeText={(e) => setUsername(e)} />
       <Button title = "Submit" disabled={error.length !== 0 || username.length === 0} onPress={submit} />
     </CenteredView>
-  ) : (
-    <CenteredView >
-      <SocialIcon
-        type="google"
-        title={"Sign in with Google"}
-        button
-        style={{ width: "50%", ...generateShadow(24) }}
-        onPress={async () => {
-          setGoogleID("dne");
-          refetchUser();
-          //initAsync()
-          ////get the token id and fetch data with it
-          //const result: GoogleSignInAuthResult = await signInAsync();
-          //setGoogleID(result.user!.uid)
-        }}
-      />
-    </CenteredView>
-  );
-
+    )
+      : (
+      <CenteredView >
+        <SocialIcon
+          type="google"
+          title={"Sign in with Google"}
+          button
+          style={{ width: "50%", ...generateShadow(24) }}
+          onPress={async () => {
+            setGoogleID("dne");
+            refetchUser();
+            //initAsync()
+            ////get the token id and fetch data with it
+            //const result: GoogleSignInAuthResult = await signInAsync();
+            //setGoogleID(result.user!.uid)
+          }}
+        />
+      </CenteredView>
+    );
   return (
     <ImageBackground imageStyle={{ zIndex: -1 }} style={styles.image} source={require("../assets/squat.jpeg")}>
       {content}

@@ -1,11 +1,9 @@
-import React, { useState, Suspense, useEffect, useCallback } from "react";
+import React, { useState, Suspense, useEffect, lazy } from "react";
 import { initAsync, GoogleSignInAuthResult, signInAsync, getCurrentUserAsync, isSignedInAsync } from "expo-google-sign-in";
 import Loading from "./util_components/loading";
 import { gql, useLazyQuery } from "@apollo/client";
-import { StyleSheet, Text } from "react-native";
-//const App = lazy(() => import('./App'))
-import App from "./App";
-import AppDemo from "./components/app_demo/app_demo";
+const App = lazy(() => import("./App"));
+const AppDemo = lazy(() => import("./components/app_demo/app_demo"));
 
 const USERNAME = gql`
   query {
@@ -13,20 +11,16 @@ const USERNAME = gql`
   }
 `;
 
-const styles = StyleSheet.create({});
 
 export default function Authenticator() {
-  const [googleID, setGoogleID] = useState<string | undefined>();
+  const [googleID, setGoogleID] = useState<string | undefined>("new user");
 
   //try fetch the current user if we have a token (if not logged in google first we need to sign in)
-  const [refetchUser, { data }] = useLazyQuery(USERNAME, {
-    fetchPolicy: "network-only",
-  });
-
+  const [refetchUser, { data }] = useLazyQuery(USERNAME);
 
   //when starting try check if user logged in and fetch their token
   useEffect(() => {
-    refetchUser()
+    refetchUser();
     //const tryGetToken = async () => {
     //  await initAsync()
     //  if (await isSignedInAsync()) {
@@ -37,16 +31,19 @@ export default function Authenticator() {
     //}
     //tryGetToken()
   }, []);
-
   if (!data) {
-    return <Loading />;
+    return null;
   }
-  if (!googleID || !data.username) {
+  if (!data.username) {
     return (
       <Suspense fallback={<Loading />}>
-        <AppDemo refetchUser={refetchUser} googleID = {googleID} setGoogleID = {setGoogleID} />
+        <AppDemo refetchUser={refetchUser} googleID={googleID} setGoogleID={setGoogleID} />
       </Suspense>
     );
   }
-  return <App username={data.username} />;
+  return (
+    <Suspense fallback={<Loading />}>
+      <App username={data.username} />
+    </Suspense>
+  );
 }

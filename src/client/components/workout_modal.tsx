@@ -1,10 +1,8 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Modal, TextInput, View, StyleSheet, Text } from "react-native";
+import { TextInput, View, StyleSheet, Text } from "react-native";
 import { Button } from "react-native-elements";
-import { generateShadow } from "react-native-shadow-generator";
 import CustomModal from "../util_components/custom_modal";
 import WorkoutModalAttack from "./workout_modal_attack";
 
@@ -41,15 +39,11 @@ const ENEMY_STATS = gql`
   }
 `;
 const styles = StyleSheet.create({
-  modal: {
-    margin: "3%",
-  },
   row: {
     textAlign: "center",
     justifyContent: "center",
     alignItems: "center",
     textAlignVertical: "center",
-    flex: 1,
   },
   input: {
     textAlign: "center",
@@ -70,6 +64,7 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
   //we want to fetch the enemy data before we call the createWorkout mutation, otherwise we might show them data after the attack
   const { data } = useQuery(ENEMY_STATS, {
     variables: { username },
+    fetchPolicy: 'cache-and-network'
   });
   useEffect(() => {
     createWorkout()
@@ -78,30 +73,26 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
   var content: undefined | React.ReactNode = undefined;
   if (mutationData) {
     content = (
-      <View style={styles.modal}>
         <WorkoutModalAttack username={username} hits={mutationData.createWorkout.workout.hits} skillTitle={skillTitle} setVisible={setVisible} data={data} />
-      </View>
     );
-  } else if (data) {
+  } else if (data && data.user) {
     //query finished but no group
     if (!data.user.groupByGroupname) {
       content = (
-        <View style={styles.modal}>
+        <React.Fragment>
           <Text style={styles.heading}>You need to be a part of a team before you track a workout.</Text>
           <Button title="Join Group" onPress={() => navigation.navigate("Group")} />
-        </View>
+        </React.Fragment>
       );
     }
     //no battle so lacking members
     else if (!data.user.groupByGroupname.battleByNameAndBattleNumber) {
       content = (
-        <View style={styles.modal}>
           <Text style={styles.heading}>You need at least two members before you can track workouts</Text>
-        </View>
       );
     } else {
       content = (
-        <View style={styles.modal}>
+        <React.Fragment>
           <View style={styles.row}>
             <TextInput
               style={styles.input}
@@ -123,9 +114,10 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
           <View style={styles.row}>
             <Button disabled={!rir || !sets || !data} title="Save Workout" style={styles.row} onPress={() => createWorkout()} />
           </View>
-        </View>
+        </React.Fragment>
       );
     }
+
   }
   return (
     <CustomModal visible={visible} setVisible={setVisible}>

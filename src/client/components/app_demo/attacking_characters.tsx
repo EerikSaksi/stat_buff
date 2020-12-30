@@ -66,7 +66,7 @@ const AttackingCharacters: React.FC<{ inView: boolean }> = ({ inView }) => {
   return (
     <React.Fragment>
       <View style={styles.topContainer}>
-        <Text style={styles.heading}>Join a team and track workouts to fight your team's enemy.</Text>
+        <Text style={styles.heading}>Join a team and track workouts to fight your team's enemy!</Text>
       </View>
       <View style={styles.spriteContainer}>
         <View style={styles.spriteAlignedEnd}>

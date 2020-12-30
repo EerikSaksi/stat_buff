@@ -17,7 +17,7 @@ const CREATE_BODY_STAT = gql`
 
 const UPDATE_BODY_STAT = gql`
   mutation($username: String!, $ismale: Boolean!, $bodymass: Int!) {
-    updateBodystatByUsername(input: { username: $username, patch: { ismale: $ismale, bodymass: $bodymass } }) {
+    updateBodystat(input: { username: $username, patch: { ismale: $ismale, bodymass: $bodymass } }) {
       clientMutationId
     }
   }
@@ -32,20 +32,15 @@ const FETCH_BODY_STAT = gql`
   }
 `;
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
-  },
-  modalStyles: {
-    marginTop: "20%",
-    marginBottom: "20%",
-    justifyContent: "flex-start",
-  },
   row: {
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "center",
     alignItems: "center",
+    margin: '1%'
+  },
+  text: {
+    textAlign: "center",
+    margin: '1%'
   },
 });
 
@@ -57,7 +52,7 @@ const BodyStatsModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => v
   const { data, loading, refetch } = useQuery(FETCH_BODY_STAT, {
     variables: { username },
     onCompleted: ({ bodystat }) => {
-      if (bodystat.ismale) {
+      if (bodystat) {
         setIsMale(bodystat.ismale);
         setBodymass(bodystat.bodymass);
       }
@@ -84,33 +79,23 @@ const BodyStatsModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => v
     loading || !bodymass ? (
       <Button title={loading ? "Loading" : "Enter a weight"} raised={true} disabled={true} />
     ) : data && data.bodystat ? (
-      <Button title="Update body stats" raised={true} onPress={() => updateBodyStats()} />
+      <Button title="Update" raised={true} onPress={() => updateBodyStats()} />
     ) : (
-      <Button title="Create body stats" raised={true} onPress={() => createBodyStats()} />
+      <Button title="Create" raised={true} onPress={() => createBodyStats()} />
     );
 
   return (
-    <CustomModal style = {styles.modalStyles} visible={visible} setVisible={setVisible} style={styles.modalStyles}>
-      <View style={styles.container}>
-        <TextInput
-          style={{ textAlign: "center", flex: 1 }}
-          value={bodymass ? bodymass.toString() : undefined}
-          placeholder="Bodyweight (kg)"
-          onChangeText={(text) => setBodymass(parseInt(text))}
-          keyboardType={"numeric"}
-        />
-      </View>
-      <Text>Which dataset would you like to use?</Text>
+    <CustomModal visible={visible} setVisible={setVisible}>
+      <TextInput style={styles.text} value={bodymass ? bodymass.toString() : undefined} placeholder="Bodyweight (kg)" onChangeText={(text) => setBodymass(parseInt(text))} keyboardType={"numeric"} />
+      <Text style={styles.text}>Which dataset would you like to use?</Text>
       <View style={styles.row}>
         <Text>Male</Text>
         <Switch value={!isMale} thumbColor={"white"} trackColor={{ false: "blue", true: "pink" }} onValueChange={(value) => setIsMale(!value)}></Switch>
         <Text>Female</Text>
       </View>
-      <View style={styles.container}>
-        <Text style={{ textAlign: "center" }}>This data is private (needed for strength calculations)</Text>
-        {bodyStatButton}
-        <Divider style={{ backgroundColor: "black" }} />
-      </View>
+      <Text style={styles.text}>This data is private (needed for strength calculations)</Text>
+      {bodyStatButton}
+      <Divider style={{ backgroundColor: "black" }} />
     </CustomModal>
   );
 };

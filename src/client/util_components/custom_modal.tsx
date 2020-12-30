@@ -1,17 +1,13 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { StyleSheet, Modal, View, ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
+import { Overlay } from "react-native-elements";
 import { generateShadow } from "react-native-shadow-generator";
 const styles = StyleSheet.create({
   innerContainer: {
-    margin: "10%",
-    marginTop: "30%",
-    marginBottom: "30%",
-    flex: 1,
-    backgroundColor: "white",
-    ...generateShadow(24),
     justifyContent: "center",
     alignItems: "center",
+    zIndex: -1,
   },
   arrow: {
     color: "black",
@@ -19,6 +15,7 @@ const styles = StyleSheet.create({
     left: "2%",
     position: "absolute",
     top: 0,
+    zIndex: 1
   },
   image: {
     flex: 1,
@@ -28,12 +25,12 @@ const styles = StyleSheet.create({
 });
 const CustomModal: React.FC<{ visible: boolean; setVisible: (bool: boolean) => void; children: React.ReactNode; style?: ViewStyle }> = ({ visible, setVisible, children, style }) => {
   return (
-    <Modal visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"} transparent={true}>
-      <View style={{ ...styles.innerContainer, ...style }}>
+    <Overlay isVisible={visible} onDismiss={() => setVisible(false)} onBackdropPress={() => setVisible(false)}>
+      <React.Fragment>
         <Ionicons style={styles.arrow} onPress={() => setVisible(false)} name="ios-arrow-round-back" />
         {children}
-      </View>
-    </Modal>
+      </React.Fragment>
+    </Overlay>
   );
 };
 export default CustomModal;

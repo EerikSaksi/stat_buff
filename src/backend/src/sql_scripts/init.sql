@@ -159,9 +159,9 @@ CREATE FUNCTION calculate_strength_stats(input_username varchar(32))
 DECLARE
  result strengthStats;
 BEGIN
-  select round(avg(strongerpercentage), 2) as average_strength, count (*) as num_exercises into result from "user_exercise" 
+  select coalesce(round(avg(strongerpercentage), 2), 0) as average_strength, count (*) as num_exercises into result from "user_exercise" 
                     where "user_exercise".username = input_username;
-  select round(result.average_strength / 100 * result.num_exercises, 2) into result.DPH;
+  select coalesce(round(result.average_strength / 100 * result.num_exercises, 2), 0) into result.DPH;
   return result;
 END
 $$ language plpgsql stable;

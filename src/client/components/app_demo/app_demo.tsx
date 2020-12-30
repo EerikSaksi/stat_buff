@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
 
 const AppDemo: React.FC<{ refetchUser: () => void; googleID: string | undefined; setGoogleID: (arg: string | undefined) => void }> = ({ refetchUser, googleID, setGoogleID }) => {
   const [scrollOffset, setScrollOffset] = useState(0);
-  console.log(scrollOffset)
   return (
     <ScrollView onScroll={({ nativeEvent }) => setScrollOffset(nativeEvent.contentOffset.x)} horizontal={true} decelerationRate={0} snapToInterval={width} snapToAlignment={"center"}>
       <View style={styles.view}>
