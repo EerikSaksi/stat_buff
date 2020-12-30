@@ -1,15 +1,11 @@
 import React, { useState, Suspense, lazy, useEffect } from "react";
 import { initAsync, GoogleSignInAuthResult, signInAsync, getCurrentUserAsync, isSignedInAsync } from "expo-google-sign-in";
-import { SocialIcon } from "react-native-elements";
 import Loading from "./util_components/loading";
 import { gql, useLazyQuery } from "@apollo/client";
-import { ImageBackground, StyleSheet } from "react-native";
-import { generateShadow } from "react-native-shadow-generator";
+import { StyleSheet, Text } from "react-native";
 //const App = lazy(() => import('./App'))
 import App from "./App";
 import AppDemo from "./components/app_demo/app_demo";
-const CenteredView = lazy(() => import("./util_components/centered_view"));
-const CreateUser = lazy(() => import("./components/create_user"));
 
 const USERNAME = gql`
   query {
@@ -20,11 +16,10 @@ const USERNAME = gql`
 const styles = StyleSheet.create({});
 
 export default function Authenticator() {
-  return <AppDemo />;
   const [googleID, setGoogleID] = useState<string | undefined>("wowa");
 
   //try fetch the current user if we have a token (if not logged in google first we need to sign in)
-  const [fetchUsername, { data }] = useLazyQuery(USERNAME, {
+  const [refetchUser, { data }] = useLazyQuery(USERNAME, {
     fetchPolicy: "network-only",
   });
 
@@ -47,7 +42,7 @@ export default function Authenticator() {
   if (!googleID || !data.username) {
     return (
       <Suspense fallback={<Loading />}>
-        <CreateUser refetchUser={fetchUsername} googleID = {googleID} setGoogleID = {setGoogleID} />
+        <AppDemo refetchUser={refetchUser} googleID = {googleID} setGoogleID = {setGoogleID} />
       </Suspense>
     );
   }
