@@ -13,7 +13,7 @@ const USERNAME = gql`
 
 
 export default function Authenticator() {
-  const [googleID, setGoogleID] = useState<string | undefined>("new user");
+  const [googleID, setGoogleID] = useState<string | undefined>();
 
   //try fetch the current user if we have a token (if not logged in google first we need to sign in)
   const [refetchUser, { data }] = useLazyQuery(USERNAME);

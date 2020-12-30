@@ -311,3 +311,12 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 
 # Dec 27 (3 hours)
 - Started working on the welcome view, where you can see a brief demo of how the app works
+
+# Dec 28 (4 hours)
+- Finished the demo component. If the user does not have an account, I show them the basic idea of the app (a character changing and getting stronger as their input strength increases) and then two users fighting the same enemy together.
+
+# Dec 30 (3 hours)
+- Did a lot of small tasks that needed to be done. Improved a lot of components such as search bars with prebuilt components, and managed to make overlays work better.
+- Fixed some bugs that were occuring (some data fetches cause problems when a user first creates their account, as the cache still thinks the user doesnt exist, so I made the cache policy less strict
+- I now should save email addresses when a user creates an account. This will help to get in contact with different users, and to associate data with accounts (by default Google recommends associating profile IDs to accounts as emails can change)
+- Fixed bug where signing in with google would take you back to the start of the app demo component that is shown for new users. 

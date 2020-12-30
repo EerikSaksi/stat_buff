@@ -9,7 +9,7 @@ const MyPlugins = makeExtendSchemaPlugin((build) => {
   return {
     typeDefs: gql`
       extend type Mutation {
-        createUser(username: String!): Boolean
+        createUser(username: String!, IdToken: String!): Boolean
       }
       type StrengthStats {
         averageStrength: Int!
@@ -30,11 +30,12 @@ const MyPlugins = makeExtendSchemaPlugin((build) => {
           if (username.match(/^[a-zA-Z0-9._]+$/) == null || username.length >= 20 || username.length === 0) {
             return null;
           }
+          const {email} = tokenToGoogleID(args.tokenId)
 
-          ////no need to ensure if already exists because of unique clause for googleID
-          const { rows } = await context.pgClient.query(
-            `insert into "user" (username, googleid)
-             values ('${username}', current_setting('user.googleID'))`
+          //no need to ensure if already exists because of unique clause for googleID
+          await context.pgClient.query(
+            `insert into "user" (username, googleid, email)
+             values ('${username}', current_setting('user.googleID'), ${email})`
           );
           return true;
         },

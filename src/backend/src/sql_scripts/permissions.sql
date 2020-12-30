@@ -22,6 +22,7 @@ GRANT USAGE, SELECT ON SEQUENCE workout_id_seq TO query_sender;
 
 --google ids are only used internally to identify users 
 comment on column "user".googleID is E'@omit';
+comment on column "user".email is E'@omit';
 --handled by plugin function
 comment on table "user" is E'@omit create';
 --groupname updates must go through a custom function that performs password checks for protected groups

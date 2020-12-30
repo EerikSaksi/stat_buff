@@ -4,6 +4,7 @@ import { Text, StyleSheet, Animated, ImageBackground } from "react-native";
 import CenteredView from "../util_components/centered_view";
 import { generateShadow } from "react-native-shadow-generator";
 import { Button, Input, SocialIcon } from "react-native-elements";
+import {getCurrentUser} from "expo-google-sign-in";
 
 const CREATE_USER = gql`
   mutation createuser($username: String!) {
@@ -47,7 +48,7 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
   setGoogleID,
   inView,
 }) => {
-  const [username, setUsername] = useState("auto_runs");
+  const [username, setUsername] = useState("coolioman");
   const [error, setError] = useState("");
   const greenPixelValue = useRef<Animated.Value>(new Animated.Value(0)).current;
   const ref = useRef<Input | null>();
@@ -55,15 +56,12 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
     if (ref.current) {
       inView ? ref.current.focus() : ref.current.blur();
     }
-    if (googleID){
-      createUser()
-    }
   }, [ref, inView, googleID]);
 
 
   //if succesfully created then user data exists for the current google user
   const [createUser] = useMutation(CREATE_USER, {
-    variables: { username },
+    variables: { username, idToken: getCurrentUser()?.auth?.idToken},
     onCompleted: (data) => {
       if (data.createUser) {
         refetchUser();

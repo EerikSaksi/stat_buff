@@ -12,6 +12,7 @@ create table "user" (
   username varchar(32) primary key not null,
   groupName varchar(32) REFERENCES "group" ON DELETE set null,
   googleID varchar(64) not null unique,
+  email varchar(256) not null unique,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

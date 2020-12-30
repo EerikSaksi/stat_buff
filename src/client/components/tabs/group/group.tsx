@@ -2,8 +2,6 @@ import React, { lazy, Suspense, useEffect } from "react";
 
 import { gql, useLazyQuery} from "@apollo/client";
 import Loading from "../../../util_components/loading";
-import { usernameVar } from "../../../apollo/cache";
-
 const YourGroup = lazy(() => import("./your_group"));
 const JoinGroup = lazy(() => import("./join_group"));
 
@@ -22,6 +20,7 @@ const Group: React.FC <{route: NavigationProps}> = ({route}) => {
   const {username} = route.params
   const [checkGroupStatus, { data }] = useLazyQuery(GROUP_INFO, {
     variables: { username },
+    fetchPolicy: 'cache-and-network'
   });
   useEffect(() => {
     checkGroupStatus();
@@ -30,6 +29,7 @@ const Group: React.FC <{route: NavigationProps}> = ({route}) => {
   if (!data) {
     return <Loading />;
   }
+  console.log({throwsException: data})
   if (data.user.groupname) {
     return (
       <Suspense fallback={<Loading />}>
