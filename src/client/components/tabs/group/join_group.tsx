@@ -1,8 +1,8 @@
 import React, {  useRef, useState } from "react";
 import { gql, useMutation, useQuery} from "@apollo/client";
-import { Text, TextInput, View, FlatList, StyleSheet, ScrollView } from "react-native";
+import { Text, TextInput, View, FlatList, StyleSheet} from "react-native";
 import TopView from "../../../util_components/top_view";
-import { Button } from "react-native-elements";
+import { Button, SearchBar } from "react-native-elements";
 import ListItemContainer from "../../list_item_container";
 import PasswordProtectedGroup from "./password_protected_group";
 import CreateGroup from "./create_group";
@@ -16,6 +16,9 @@ const SEARCH_GROUPS = gql`
         isPasswordProtected
         usersByGroupname {
           totalCount
+          nodes {
+            nodeId
+          }
         }
         battleByNameAndBattleNumber {
           nodeId
@@ -72,12 +75,15 @@ const styles = StyleSheet.create({
   flatList: {
     width: "100%",
   },
+  searchBar: {
+    width: '100%',
+  }
 });
 const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParentGroup }) => {
   const [query, setQuery] = useState("");
   const [showJoinCreate, setShowJoinCreate] = useState(true);
   const [createGroupVisible, setCreateGroupVisible] = useState(true);
-  const ref = useRef<TextInput | null>(null);
+  const ref = useRef<SearchBar | null>(null);
 
   //used to search for groups (don't search if no query)
   const { data: searchData } = useQuery(SEARCH_GROUPS, {
@@ -107,14 +113,16 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
     <View style={styles.container}>
       <CreateGroup visible = {createGroupVisible} setVisible = {setCreateGroupVisible} refetchParentGroup = {refetchParentGroup}/>
       <TopView>
-        <TextInput
-          onEndEditing={() => ref.current?.blur()}
+        <SearchBar
           onFocus={() => setShowJoinCreate(false)}
           onBlur={() => setShowJoinCreate(true)}
+          lightTheme = {true}
           ref={ref}
           placeholder="Search for teams"
+          round = {true}
           value={query}
           onChangeText={(t) => setQuery(t)}
+          containerStyle = {styles.searchBar}
         />
         <FlatList
           data={searchData ? searchData.groups.nodes : []}
@@ -126,8 +134,8 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
                 <View style={styles.col}>
                   <Text style={styles.listItemText}>{group.name}</Text>
                   <View style={styles.row}>
-                    <Text style={styles.memberCount}>{group.usersByGroupname.totalCount} members</Text>
-                    {group.battleByNameAndBattleNumber ? <Text style={styles.memberCount}>, level {group.battleByNameAndBattleNumber.enemyLevel}</Text> : undefined}
+                    <Text style={styles.memberCount}>{group.usersByGroupname.totalCount} Members</Text>
+                    {group.battleByNameAndBattleNumber ? <Text style={styles.memberCount}>, Level {group.battleByNameAndBattleNumber.enemyLevel}</Text> : undefined}
                   </View>
                 </View>
                 <View style={styles.col}>

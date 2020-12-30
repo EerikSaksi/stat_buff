@@ -66,9 +66,6 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
     variables: { username },
     fetchPolicy: 'cache-and-network'
   });
-  useEffect(() => {
-    createWorkout()
-  }, [])
 
   var content: undefined | React.ReactNode = undefined;
   if (mutationData) {

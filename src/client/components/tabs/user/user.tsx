@@ -42,7 +42,7 @@ const User: React.FC<{route: NavigationProps}> = ({route}) => {
   const {username} = route.params
   const [strengthModalVisible, setStrengthModalVisible] = useState(false);
   const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false);
-  const [workoutModalVisible, setWorkoutModalVisible] = useState(true);
+  const [workoutModalVisible, setWorkoutModalVisible] = useState(false);
   const { data } = useQuery(USER, {
     variables: { username },
   });
