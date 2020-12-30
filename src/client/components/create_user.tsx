@@ -1,13 +1,12 @@
 import React, {useState, useEffect, useRef} from 'react'
 import {gql, useMutation, useQuery} from '@apollo/client'
-import {TextInput, Text, StyleSheet, TouchableOpacity, Animated} from 'react-native'
+import {TextInput, Text, StyleSheet, TouchableOpacity, Animated, ImageBackground} from 'react-native'
 import CenteredView from '../util_components/centered_view'
 import {generateShadow} from 'react-native-shadow-generator'
+import {SocialIcon} from 'react-native-elements'
 
 const CREATE_USER = gql`mutation createuser($username: String!){
-  createUser(username: $username){
-    clientMutationId
-  }
+  createUser(username: $username)
 }`
 
 
@@ -35,12 +34,17 @@ var styles = StyleSheet.create({
     ...generateShadow(24),
     backgroundColor: "#DDDDDD",
     width: '50%',
+  },
+  image: {
+    flex: 1,
+    position: 'relative',
+    resizeMode: 'cover',
   }
 })
 
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
-const CreateUser: React.FC<{refetchUser: () => void}> = ({refetchUser}) => {
+const CreateUser: React.FC<{refetchUser: () => void, googleID: string | undefined, setGoogleID: (arg: string | undefined) => void}> = ({refetchUser, googleID, setGoogleID}) => {
   const [username, setUsername] = useState("")
   const [error, setError] = useState("")
   const greenPixelValue = useRef<Animated.Value>(new Animated.Value(0)).current;
@@ -102,19 +106,44 @@ const CreateUser: React.FC<{refetchUser: () => void}> = ({refetchUser}) => {
       outputRange: ['white', 'lime', 'red']
     }
   )
-  return (
-    <CenteredView>
-      <Text style={styles.text}>
-        {error}
-      </Text>
-      <AnimatedTextInput autoFocus = {true} onEndEditing={submit} style={[styles.input, {backgroundColor}]} value={username} placeholder="Enter username" onChangeText={(e) => setUsername(e)}>
-      </AnimatedTextInput>
-      <TouchableOpacity style={styles.button} disabled={error.length !== 0 || username.length === 0} onPress={submit} >
-        <Text>
-          Submit
+  const content = googleID 
+    ?
+      <CenteredView>
+        <Text style={styles.text}>
+          {error}
         </Text>
-      </TouchableOpacity>
-    </CenteredView>
+        <AnimatedTextInput autoFocus = {true} onEndEditing={submit} style={[styles.input, {backgroundColor}]} value={username} placeholder="Enter username" onChangeText={(e) => setUsername(e)}>
+        </AnimatedTextInput>
+        <TouchableOpacity style={styles.button} disabled={error.length !== 0 || username.length === 0} onPress={submit} >
+          <Text>
+            Submit
+          </Text>
+        </TouchableOpacity>
+      </CenteredView>
+    :
+      <CenteredView>
+        <SocialIcon
+          type="google"
+          title={"Sign in with Google"}
+          button
+          style={{ width: "50%", ...generateShadow(24) }}
+          onPress={async () => {
+            setGoogleID("dne");
+            refetchUser();
+            //initAsync()
+            ////get the token id and fetch data with it
+            //const result: GoogleSignInAuthResult = await signInAsync();
+            //setGoogleID(result.user!.uid)
+          }}
+        />
+      </CenteredView>
+
+  return (
+    <ImageBackground imageStyle={{ zIndex: -1 }} style={styles.image}  source={require("./assets/squat.jpeg")}>
+      <CenteredView>
+        {content}
+      </CenteredView>
+    </ImageBackground>
   )
 }
 export default CreateUser

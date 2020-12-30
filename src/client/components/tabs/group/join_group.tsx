@@ -1,11 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { gql, useLazyQuery, useMutation, useQuery, useReactiveVar } from "@apollo/client";
+import React, {  useRef, useState } from "react";
+import { gql, useMutation, useQuery} from "@apollo/client";
 import { Text, TextInput, View, FlatList, StyleSheet, ScrollView } from "react-native";
 import TopView from "../../../util_components/top_view";
-import { usernameVar } from "../../../apollo/cache";
 import { Button } from "react-native-elements";
 import ListItemContainer from "../../list_item_container";
-import { Alert } from "react-native";
 import PasswordProtectedGroup from "./password_protected_group";
 import CreateGroup from "./create_group";
 
@@ -79,7 +77,6 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
   const [query, setQuery] = useState("");
   const [showJoinCreate, setShowJoinCreate] = useState(true);
   const [createGroupVisible, setCreateGroupVisible] = useState(true);
-  const username = useReactiveVar(usernameVar);
   const ref = useRef<TextInput | null>(null);
 
   //used to search for groups (don't search if no query)

@@ -1,40 +1,32 @@
-import React, {useState, Suspense, lazy, useEffect} from 'react';
-import {initAsync, GoogleSignInAuthResult, signInAsync, getCurrentUserAsync, isSignedInAsync} from 'expo-google-sign-in'
-import {SocialIcon} from 'react-native-elements'
-import Loading from './util_components/loading'
-import {useQuery} from '@apollo/client/react/hooks';
-import {gql} from '@apollo/client';
-import {ImageBackground, StyleSheet, View} from 'react-native';
-import {generateShadow} from 'react-native-shadow-generator';
+import React, { useState, Suspense, lazy, useEffect } from "react";
+import { initAsync, GoogleSignInAuthResult, signInAsync, getCurrentUserAsync, isSignedInAsync } from "expo-google-sign-in";
+import { SocialIcon } from "react-native-elements";
+import Loading from "./util_components/loading";
+import { gql, useLazyQuery } from "@apollo/client";
+import { ImageBackground, StyleSheet } from "react-native";
+import { generateShadow } from "react-native-shadow-generator";
 //const App = lazy(() => import('./App'))
-import App from './App'
-import {usernameVar} from './apollo/cache';
-import AppDemo from './components/app_demo/app_demo';
-const CenteredView = lazy(() => import('./util_components/centered_view'))
-const CreateUser = lazy(() => import('./components/create_user'))
+import App from "./App";
+import AppDemo from "./components/app_demo/app_demo";
+const CenteredView = lazy(() => import("./util_components/centered_view"));
+const CreateUser = lazy(() => import("./components/create_user"));
 
-
-const USERNAME = gql`query{
-  username
-}`
-
-const styles = StyleSheet.create({
-  image: {
-    flex: 1,
-    position: 'relative',
-    resizeMode: 'cover',
+const USERNAME = gql`
+  query {
+    username
   }
-})
+`;
+
+const styles = StyleSheet.create({});
 
 export default function Authenticator() {
-  const [googleID, setGoogleID] = useState<string | undefined>('wowa')
+  return <AppDemo />;
+  const [googleID, setGoogleID] = useState<string | undefined>("wowa");
 
   //try fetch the current user if we have a token (if not logged in google first we need to sign in)
-  const {data, loading, refetch} = useQuery(USERNAME, {
-    skip: !googleID,
-    fetchPolicy: 'network-only'
-  })
-
+  const [fetchUsername, { data }] = useLazyQuery(USERNAME, {
+    fetchPolicy: "network-only",
+  });
 
   //when starting try check if user logged in and fetch their token
   useEffect(() => {
@@ -47,46 +39,17 @@ export default function Authenticator() {
     //  }
     //}
     //tryGetToken()
-  }, [])
+  }, []);
 
-  if (!data){
-    return (<Loading/>)
+  if (!data) {
+    return <Loading />;
   }
-  if (!loading) {
-    //if tokenID is undefined then isSignedInAsync returned false so provide button to login to google
-    if (!googleID) {
-      return(
-        <Suspense fallback={<Loading />}>
-          <ImageBackground imageStyle={{zIndex: -1}} style={styles.image} blurRadius={1.5} source={require('./assets/squat.jpeg')}>
-            <CenteredView>
-              <SocialIcon type='google' title={'Sign in with Google'} button
-                style={{width: '50%', ...generateShadow(24)}}
-                onPress={async () => {
-                  setGoogleID('dne')
-                  //initAsync()
-                  ////get the token id and fetch data with it
-                  //const result: GoogleSignInAuthResult = await signInAsync();
-                  //setGoogleID(result.user!.uid)
-                }
-                } />
-            </CenteredView>
-          </ImageBackground>
-        </Suspense>
-      )
-    }
-    else {
-      //user signed in to google, but don't have a username in the database, so provide interface to create one.
-      if (!data.username) {
-        return(
-          <Suspense fallback={<Loading />}>
-            <ImageBackground imageStyle={{zIndex: -1}} style={styles.image} blurRadius={1.5} source={require('./assets/squat.jpeg')}>
-  mageBackground
-              <CreateUser refetchUser={refetch} />
-            </ImageBackground>
-          </Suspense>
-        )
-      }
-    }
+  if (!googleID || !data.username) {
+    return (
+      <Suspense fallback={<Loading />}>
+        <CreateUser refetchUser={fetchUsername} googleID = {googleID} setGoogleID = {setGoogleID} />
+      </Suspense>
+    );
   }
-  return (<App/>)
+  return <App username={data.username} />;
 }

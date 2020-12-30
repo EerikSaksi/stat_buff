@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { gql, useLazyQuery, useQuery, useReactiveVar } from "@apollo/client";
+import { gql, useLazyQuery, useQuery} from "@apollo/client";
 import { Text, View, StatusBar } from "react-native";
 import Loading from "../../../util_components/loading";
 import ExerciseModal from "./exercise_modal";
-import { usernameVar } from "../../../apollo/cache";
 import SpriteSelector from "../../../sprites/sprite_selector";
 import BodyStatsModal from "./bodystats_modal";
 import { Button } from "react-native-elements";
@@ -37,8 +36,10 @@ const STRENGTH = gql`
   }
 `;
 
-const User: React.FC = () => {
-  const username = useReactiveVar(usernameVar);
+
+type NavigationProps = { params: { username: string } };
+const User: React.FC<{route: NavigationProps}> = ({route}) => {
+  const {username} = route.params
   const [strengthModalVisible, setStrengthModalVisible] = useState(false);
   const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false);
   const [workoutModalVisible, setWorkoutModalVisible] = useState(true);

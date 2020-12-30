@@ -20,6 +20,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
   },
+  image: {
+    flex: 1,
+    position: "relative",
+    resizeMode: "cover",
+  },
 });
 const CustomModal: React.FC<{ visible: boolean; setVisible: (bool: boolean) => void; children: React.ReactNode; style?: ViewStyle }> = ({ visible, setVisible, children, style }) => {
   return (

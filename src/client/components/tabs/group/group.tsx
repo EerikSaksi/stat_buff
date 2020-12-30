@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useEffect } from "react";
 
-import { gql, useLazyQuery, useReactiveVar } from "@apollo/client";
+import { gql, useLazyQuery} from "@apollo/client";
 import Loading from "../../../util_components/loading";
 import { usernameVar } from "../../../apollo/cache";
 
@@ -14,10 +14,12 @@ const GROUP_INFO = gql`
       groupname
     }
   }
+
 `;
 
-const MainView: React.FC = () => {
-  const username = useReactiveVar(usernameVar);
+type NavigationProps = { params: { username: string } };
+const Group: React.FC <{route: NavigationProps}> = ({route}) => {
+  const {username} = route.params
   const [checkGroupStatus, { data }] = useLazyQuery(GROUP_INFO, {
     variables: { username },
   });
@@ -41,4 +43,4 @@ const MainView: React.FC = () => {
     </Suspense>
   );
 };
-export default MainView;
+export default Group;
