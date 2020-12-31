@@ -5,15 +5,11 @@ CREATE FUNCTION notify_message_inserted()
       'postgraphile:message',
       json_build_object(
         '__node__', json_build_array(
-          'user', 
-          NEW.id,
-          NEW.username,
-          NEW.text_content,
-          NEW.created_at
+          'chat_messages', 
+          NEW.id
         )
       )::text
-    );
-    raise notice 'trigger ran';
+    ); 
     return new;
   END;
 $$ LANGUAGE plpgsql;
