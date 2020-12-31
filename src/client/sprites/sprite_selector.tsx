@@ -62,13 +62,13 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
           setRows(3);
           setCols(4);
           setHeight(450);
-          setLeftShift(10);
+          setLeftShift(7);
           setAnimationLengths({ idle: 4, onHit: 4, attackOrDie: 4 });
           break;
         case "intermediate":
           setSource(require("../assets/cropped_sprites/intermediate.png"));
           setAnimationLengths({ idle: 8, onHit: 3, attackOrDie: 8 });
-          setHeight(450);
+          setHeight(500);
           setLeftShift(20);
           break;
         case "advanced":

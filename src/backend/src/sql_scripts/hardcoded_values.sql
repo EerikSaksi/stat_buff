@@ -6,12 +6,12 @@ values
 
 SELECT set_config('user.googleID', 'uh oh', false);
 insert into
-  "user" (username, googleID)
+  "user" (username, googleID, email)
 values
-  ('orek', 'uh oh'),
-  ('eerik', 'stinky'),
-  ('private_team_creator', 'private_team_creator'),
-  ('no team', 'no team');
+  ('orek', 'uh oh', 'a@a.com'),
+  ('eerik', 'stinky', 'b@a.com'),
+  ('private_team_creator', 'private_team_creator', 'c@a.com'),
+  ('no team', 'no team', 'd@a.com');
 
 insert into
   "group" (name, password)
@@ -292,4 +292,7 @@ values
 update "workout"
 set created_at = '2020-12-14'
 where username = 'orek';
+
+insert into chat_message (username, text_content)
+values ('orek', 'Good day today, right?');
 

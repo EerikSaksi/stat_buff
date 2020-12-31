@@ -71,9 +71,9 @@ const AttackingCharacters: React.FC<{ inView: boolean }> = ({ inView }) => {
       <View style={styles.spriteContainer}>
         <View style={styles.spriteAlignedEnd}>
           {noviceAttacking ? (
-            <SpriteBattle deliveredHits={deliveredHits} dph={1.8} enemyName="Fire Devil" maxHealth={10} currentHealth={10} skillTitle="apprentice" setDeliveredHits={setDeliveredHits} hits={4} />
+            <SpriteBattle deliveredHits={deliveredHits} dph={1.8} enemyName="Fire Devil" maxHealth={10} currentHealth={10} skillTitle="advanced" setDeliveredHits={setDeliveredHits} hits={4} />
           ) : (
-            <SpriteSelector aspectRatio={0.7} spriteName={"apprentice"} />
+            <SpriteSelector aspectRatio={0.7} spriteName={"advanced"} />
           )}
         </View>
         <View style={styles.spriteAlignedEnd}>

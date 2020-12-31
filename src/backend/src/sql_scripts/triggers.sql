@@ -70,7 +70,6 @@ CREATE FUNCTION scale_health()
     if OLD.groupName is not null then
       --count members in old group
       select count(*) into num_members from "user" where groupName = OLD.groupName;
-      raise notice 'num_members %', num_members;
       update "battle" 
       set current_health =  current_health * (1.0 * num_members / (num_members + 1)),
       max_health = max_health * (1.0 * num_members / (num_members + 1))
@@ -126,7 +125,6 @@ CREATE FUNCTION calculate_total_damage()
 
     --calculate hits and thus the damage that this dealt
     hits =  ((10 - NEW.average_rir) / 10.0 * NEW.sets);
-    raise notice 'hits %', hits; 
     NEW.total_damage = (select DPH from calculate_strength_stats(NEW.username)) * hits; 
 
     --subtract the dealt damage from the group's current battle
@@ -166,3 +164,16 @@ CREATE FUNCTION set_creator_username()
   END;
 $$ LANGUAGE plpgsql;
 
+--updates the current battle and group for the users workout/exercise log
+CREATE FUNCTION load_groupName()
+  RETURNS TRIGGER AS $$
+  BEGIN
+    new.groupName = (select groupName from "user" where username = NEW.username);
+    return new;
+  END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER load_groupName_to_chat_message
+before insert on chat_message
+FOR EACH ROW 
+EXECUTE PROCEDURE load_groupName();

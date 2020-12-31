@@ -36,6 +36,11 @@ BEFORE UPDATE ON "workout"
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
+CREATE TRIGGER set_timestamp
+BEFORE UPDATE ON "chat_message"
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_timestamp();
+
 --timestamps are all managed manually
 comment on column "user".created_at is E'@omit create, update, insert'; 
 comment on column "group".created_at is E'@omit create, update, insert'; 
@@ -43,9 +48,12 @@ comment on column "bodystat".created_at is E'@omit create, update, insert';
 comment on column "user_exercise".created_at is E'@omit create, update, insert'; 
 comment on column "battle".created_at is E'@omit create, update, insert'; 
 comment on column "workout".created_at is E'@omit create, update, insert'; 
+comment on column "chat_message".created_at is E'@omit create, update, insert'; 
+
 comment on column "user".updated_at is E'@omit create, update, insert'; 
 comment on column "group".updated_at is E'@omit create, update, insert'; 
 comment on column "bodystat".updated_at is E'@omit create, update, insert'; 
 comment on column "user_exercise".updated_at is E'@omit create, update, insert'; 
 comment on column "battle".updated_at is E'@omit create, update, insert'; 
 comment on column "workout".updated_at is E'@omit create, update, insert'; 
+comment on column "chat_message".updated_at is E'@omit create, update, insert'; 

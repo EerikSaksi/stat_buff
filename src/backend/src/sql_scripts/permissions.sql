@@ -16,8 +16,10 @@ grant all on table "bodystat" to query_sender;
 grant all on table "user_exercise" to query_sender;
 grant all on table "battle" to query_sender;
 grant all on table "workout" to query_sender;
+grant all on table "chat_message" to query_sender;
 
 GRANT USAGE, SELECT ON SEQUENCE workout_id_seq TO query_sender;
+GRANT USAGE, SELECT ON SEQUENCE chat_message_id_seq TO query_sender;
 
 
 --google ids are only used internally to identify users 
@@ -48,6 +50,7 @@ Alter table "bodystat" enable row level security;
 Alter table "user_exercise" enable row level security;
 Alter table "battle" enable row level security;
 Alter table "workout" enable row level security;
+Alter table "chat_message" enable row level security;
 
 CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));
 CREATE POLICY user_delete ON "user" FOR delete to query_sender USING (googleID = current_setting('user.googleID'));
@@ -80,3 +83,9 @@ CREATE POLICY workout_update ON "workout" FOR update to query_sender USING (user
 CREATE POLICY workout_delete ON "workout" FOR delete to query_sender USING (username = (select username from active_user()));
 CREATE POLICY workout_create ON "workout" FOR insert to query_sender with check (true);
 CREATE POLICY workout_select ON "workout" FOR select to query_sender using (true);
+
+--chat messages are only between groups, but only the user themselves can edit them
+CREATE POLICY chat_message_update ON "chat_message" FOR update to query_sender USING (username = (select username from active_user()));
+CREATE POLICY chat_message_delete ON "chat_message" FOR delete to query_sender USING (username = (select username from active_user()));
+CREATE POLICY chat_message_create ON "chat_message" FOR insert to query_sender with check (username = (select username from active_user()) and groupName = (select groupName from active_user()));
+CREATE POLICY chat_message_select ON "chat_message" FOR select to query_sender using (groupName = (select groupName from active_user()));

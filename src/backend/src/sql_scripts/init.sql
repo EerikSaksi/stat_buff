@@ -95,10 +95,20 @@ create table "user_exercise" (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   FOREIGN KEY (groupName, battle_number) REFERENCES "battle"(groupName, battle_number) on delete set null
 );
-
 create index on "user_exercise" (slug_name);
 create index on "user_exercise" (username);
 create index on "user_exercise" (groupName, battle_number);
+
+create table "chat_message" (
+  id serial primary key,
+  username varchar(32) not null references "user",
+  text_content varchar(255) not null,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  groupName varchar(32) not null references "group"
+);
+create index on "chat_message" (username);
+create index on "chat_message" (groupName);
 
 CREATE FUNCTION active_user() RETURNS "user" AS $$
   select * from "user" where googleID = current_setting('user.googleID')
