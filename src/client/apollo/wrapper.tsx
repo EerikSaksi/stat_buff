@@ -6,11 +6,20 @@ import {getCurrentUserAsync} from 'expo-google-sign-in'
 import {ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink} from '@apollo/client'
 import {cache} from './cache'
 import Authenticator from '../authenticator';
+import { split } from '@apollo/client';
+import {getMainDefinition} from '@apollo/client/utilities';
+import { WebSocketLink } from '@apollo/client/link/ws';
+
+const wsLink = new WebSocketLink({
+  uri: `ws://localhost:4000/graphql`,
+  options: {
+    reconnect: true
+  }
+});
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
 });
-
 
 const authLink = setContext(async (_, {headers}) => {
   //const user = await getCurrentUserAsync()  
@@ -23,8 +32,21 @@ const authLink = setContext(async (_, {headers}) => {
     }
   }
 });
+
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    );
+  },
+  wsLink,
+  authLink.concat(httpLink),
+);
+
 const options: ApolloClientOptions<unknown> = {
-  link: authLink.concat(httpLink),
+  link: splitLink,
   cache,
   defaultOptions: {
     watchQuery: {

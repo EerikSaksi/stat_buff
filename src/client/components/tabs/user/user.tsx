@@ -40,7 +40,7 @@ const STRENGTH = gql`
 type NavigationProps = { params: { username: string } };
 const User: React.FC<{route: NavigationProps}> = ({route}) => {
   const {username} = route.params
-  const [strengthModalVisible, setStrengthModalVisible] = useState(true);
+  const [strengthModalVisible, setStrengthModalVisible] = useState(false);
   const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false);
   const [workoutModalVisible, setWorkoutModalVisible] = useState(false);
   const { data } = useQuery(USER, {

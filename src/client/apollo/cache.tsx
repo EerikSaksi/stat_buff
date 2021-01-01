@@ -1,7 +1,10 @@
 import { InMemoryCache} from "@apollo/client/cache";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persistCache, AsyncStorageWrapper } from "apollo3-cache-persist";
+import { makeVar } from '@apollo/client';
+const chatWindowOpen = makeVar(false)
 var cache;
+
 (async () => {
   cache = new InMemoryCache({
     dataIdFromObject: (object) => object.nodeId,
@@ -12,4 +15,4 @@ var cache;
     storage: new AsyncStorageWrapper(AsyncStorage),
   });
 })();
-export { cache };
+export { cache, chatWindowOpen };

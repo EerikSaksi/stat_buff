@@ -29,7 +29,6 @@ const Group: React.FC <{route: NavigationProps}> = ({route}) => {
   if (!data) {
     return <Loading />;
   }
-  console.log({throwsException: data})
   if (data.user.groupname) {
     return (
       <Suspense fallback={<Loading />}>
