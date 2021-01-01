@@ -35,16 +35,16 @@ const styles = StyleSheet.create({
     flex: 3,
   },
 });
-const YourGroup: React.FC<{ groupname: string }> = ({ groupname }) => {
+const YourGroup: React.FC<{ groupname: string, username: string }> = ({ groupname, username }) => {
   const {colors} = useTheme();
-  const [chatModalVisible, setChatModalVisible] = useState(false)
+  const [chatModalVisible, setChatModalVisible] = useState(true)
   return (
     <View style={styles.root}>
       <View style={{ ...styles.topRow, borderBottomColor: colors.primary }}>
         <Text style={{ fontSize: 25, textAlign: "center", color: colors.text  }}>{groupname}</Text>
         <MaterialIcons onPress = {() => setChatModalVisible(true)} style = {{ position: 'absolute', right: 0}} name="message" size={30} color="black" />
       </View>
-      <ChatModal groupname = {groupname} visible = {chatModalVisible} setVisible = {setChatModalVisible} />
+      <ChatModal groupname = {groupname} visible = {chatModalVisible} setVisible = {setChatModalVisible} username = {username} />
       <Tab.Navigator style={{ flex: 10 }} tabBarOptions={{ style: { borderTopColor: colors.primary, borderTopWidth: 1 } }}>
         <Tab.Screen name="Enemy" component={EnemyView} initialParams={{ groupname }} />
         <Tab.Screen name="Members" component={Members} initialParams={{ groupname }} />
