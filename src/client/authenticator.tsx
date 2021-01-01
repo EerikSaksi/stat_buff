@@ -2,15 +2,14 @@ import React, { useState, Suspense, useEffect, lazy } from "react";
 import { initAsync, GoogleSignInAuthResult, signInAsync, getCurrentUserAsync, isSignedInAsync } from "expo-google-sign-in";
 import Loading from "./util_components/loading";
 import { gql, useLazyQuery } from "@apollo/client";
-const App = lazy(() => import("./App"));
-const AppDemo = lazy(() => import("./components/app_demo/app_demo"));
+import App from "./App";
+import AppDemo from "./components/app_demo/app_demo";
 
 const USERNAME = gql`
   query {
     username
   }
 `;
-
 
 export default function Authenticator() {
   const [googleID, setGoogleID] = useState<string | undefined>();
@@ -35,15 +34,7 @@ export default function Authenticator() {
     return null;
   }
   if (!data.username) {
-    return (
-      <Suspense fallback={<Loading />}>
-        <AppDemo refetchUser={refetchUser} googleID={googleID} setGoogleID={setGoogleID} />
-      </Suspense>
-    );
+    return <AppDemo refetchUser={refetchUser} googleID={googleID} setGoogleID={setGoogleID} />;
   }
-  return (
-    <Suspense fallback={<Loading />}>
-      <App username={data.username} />
-    </Suspense>
-  );
+  return <App username={data.username} />;
 }
