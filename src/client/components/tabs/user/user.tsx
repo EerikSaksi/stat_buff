@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { gql, useLazyQuery, useQuery} from "@apollo/client";
+import { ApolloProvider, gql, useApolloClient, useLazyQuery, useQuery } from "@apollo/client";
 import { Text, View, StatusBar } from "react-native";
 import Loading from "../../../util_components/loading";
 import ExerciseModal from "./exercise_modal";
@@ -36,19 +36,21 @@ const STRENGTH = gql`
   }
 `;
 
-
 type NavigationProps = { params: { username: string } };
-const User: React.FC<{route: NavigationProps}> = ({route}) => {
-  const {username} = route.params
+const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
+  const client = useApolloClient()
+  const { username } = route.params;
   const [strengthModalVisible, setStrengthModalVisible] = useState(false);
   const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false);
   const [workoutModalVisible, setWorkoutModalVisible] = useState(false);
   const { data } = useQuery(USER, {
     variables: { username },
+    client
   });
 
   const [fetchStrength, { data: exerciseData, loading }] = useLazyQuery(STRENGTH, {
     variables: { username },
+    client
   });
   const [fetchBodyStats, { data: userBodyStats }] = useLazyQuery(USER_BODY_STATS, {
     variables: { username },
@@ -58,6 +60,7 @@ const User: React.FC<{route: NavigationProps}> = ({route}) => {
         setBodystatsModalVisible(true);
       }
     },
+    client
   });
   useEffect(() => {
     fetchBodyStats();
@@ -69,46 +72,48 @@ const User: React.FC<{route: NavigationProps}> = ({route}) => {
     return <Loading />;
   }
   return (
-    <View
-      style={{
-        justifyContent: "center",
-        flex: 10,
-        alignItems: "center",
-        top: StatusBar.currentHeight,
-      }}
-    >
+    <ApolloProvider client = {client}>
       <View
         style={{
-          flex: 1,
-          flexDirection: "row",
-          justifyContent: "space-evenly",
-          width: "100%",
+          justifyContent: "center",
+          flex: 10,
+          alignItems: "center",
+          top: StatusBar.currentHeight,
         }}
       >
-        <Button style={{ flex: 1, zIndex: 100 }} title="Update Body Stats" onPress={() => setBodystatsModalVisible(true)} />
-        <Button style={{ flex: 1 }} disabled={!(userBodyStats && userBodyStats.bodystat)} title="Update Lifts" onPress={() => setStrengthModalVisible(true)} />
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            width: "100%",
+          }}
+        >
+          <Button style={{ flex: 1, zIndex: 100 }} title="Update Body Stats" onPress={() => setBodystatsModalVisible(true)} />
+          <Button style={{ flex: 1 }} disabled={!(userBodyStats && userBodyStats.bodystat)} title="Update Lifts" onPress={() => setStrengthModalVisible(true)} />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={{ fontSize: 30, textAlign: "center" }}> {`Welcome back, ${username}.`} </Text>
+          {exerciseData && exerciseData.calculateStrengthStats ? (
+            <View>
+              <Text style={{ textAlign: "center", fontSize: 20 }}>{`Your character has DPH: ${exerciseData.calculateStrengthStats.dph}`}</Text>
+              <Text style={{ textAlign: "center", fontSize: 12, overflow: "scroll" }}>{`Damage Per Hit = Stronger than ${exerciseData.calculateStrengthStats.averageStrength}% * ${
+                exerciseData.calculateStrengthStats.numExercises
+              } exercise${exerciseData.calculateStrengthStats.numExercises === 1 ? "" : "'s"} tracked`}</Text>
+            </View>
+          ) : null}
+        </View>
+        <ExerciseModal visible={strengthModalVisible} setVisible={setStrengthModalVisible} username={username} refetchParent={fetchStrength} />
+        <BodyStatsModal visible={bodystatsModalVisible} setVisible={setBodystatsModalVisible} username={username} refetchParent={fetchBodyStats} />
+        <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username} skillTitle={skillTitle} />
+        <View style={{ flex: 5, justifyContent: "flex-end", alignItems: "center", zIndex: -1 }}>
+          {(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={skillTitle} /> : <Loading />}
+        </View>
+        <View style={{ flex: 1, width: "30%" }}>
+          <Button disabled={!(exerciseData && exerciseData.calculateStrengthStats)} title="Log workout" onPress={() => setWorkoutModalVisible(true)} />
+        </View>
       </View>
-      <View style={{ flex: 1 }}>
-        <Text style={{ fontSize: 30, textAlign: "center" }}> {`Welcome back, ${username}.`} </Text>
-        {exerciseData && exerciseData.calculateStrengthStats ? (
-          <View>
-            <Text style={{ textAlign: "center", fontSize: 20 }}>{`Your character has DPH: ${exerciseData.calculateStrengthStats.dph}`}</Text>
-            <Text style={{ textAlign: "center", fontSize: 12, overflow: "scroll" }}>{`Damage Per Hit = Stronger than ${exerciseData.calculateStrengthStats.averageStrength}% * ${
-              exerciseData.calculateStrengthStats.numExercises
-            } exercise${exerciseData.calculateStrengthStats.numExercises === 1 ? "" : "'s"} tracked`}</Text>
-          </View>
-        ) : null}
-      </View>
-      <ExerciseModal visible={strengthModalVisible} setVisible={setStrengthModalVisible} username={username} refetchParent={fetchStrength} />
-      <BodyStatsModal visible={bodystatsModalVisible} setVisible={setBodystatsModalVisible} username={username} refetchParent={fetchBodyStats} />
-      <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username} skillTitle={skillTitle} />
-      <View style={{ flex: 5, justifyContent: "flex-end", alignItems: "center", zIndex: -1 }}>
-        {(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={skillTitle} /> : <Loading />}
-      </View>
-      <View style={{ flex: 1, width: "30%" }}>
-        <Button disabled={!(exerciseData && exerciseData.calculateStrengthStats)} title="Log workout" onPress={() => setWorkoutModalVisible(true)} />
-      </View>
-    </View>
+    </ApolloProvider>
   );
 };
 export default User;

@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useEffect } from "react";
 
-import { gql, useLazyQuery} from "@apollo/client";
+import { gql, useLazyQuery } from "@apollo/client";
 import Loading from "../../../util_components/loading";
 const YourGroup = lazy(() => import("./your_group"));
 const JoinGroup = lazy(() => import("./join_group"));
@@ -12,27 +12,26 @@ const GROUP_INFO = gql`
       groupname
     }
   }
-
 `;
 
 type NavigationProps = { params: { username: string } };
-const Group: React.FC <{route: NavigationProps}> = ({route}) => {
-  const {username} = route.params
+const Group: React.FC<{ route: NavigationProps }> = ({ route }) => {
+  const { username } = route.params;
   const [checkGroupStatus, { data }] = useLazyQuery(GROUP_INFO, {
     variables: { username },
-    fetchPolicy: 'cache-and-network'
+    fetchPolicy: "cache-and-network",
   });
   useEffect(() => {
     checkGroupStatus();
   }, []);
 
-  if (!data) {
+  if (!data || !data.user) {
     return <Loading />;
   }
   if (data.user.groupname) {
     return (
       <Suspense fallback={<Loading />}>
-        <YourGroup groupname = {data.user.groupname} username = {username}/>
+        <YourGroup groupname={data.user.groupname} username={username} />
       </Suspense>
     );
   }

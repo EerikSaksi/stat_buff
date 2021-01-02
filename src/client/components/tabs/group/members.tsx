@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
-import { gql, useLazyQuery, useQuery } from "@apollo/client";
-import BattlePicker from "./battle_selector";
+import { gql, useLazyQuery, useQuery} from "@apollo/client";
+import BattlePicker from "./battle_picker";
 import { FlatList } from "react-native-gesture-handler";
 import { View, StyleSheet, Text, Switch } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";

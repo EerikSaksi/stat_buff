@@ -1,6 +1,6 @@
 import React from "react";
 import { gql } from "@apollo/client";
-import { useMutation } from "@apollo/client/react";
+import { useMutation, useApolloClient } from "@apollo/client/react";
 import { useQuery } from "@apollo/client/react/hooks/useQuery";
 import { useState } from "react";
 import { Text, Switch, View, StyleSheet, TextInput } from "react-native";
@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
 const BodyStatsModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => void; username: string; refetchParent: () => void }> = ({ visible, setVisible, username, refetchParent }) => {
   const [bodymass, setBodymass] = useState<number | undefined>(undefined);
   const [isMale, setIsMale] = useState(true);
+  const client = useApolloClient()
 
   //check if the user has created body stats before (and in that case prefill the inputs)
   const { data, loading, refetch } = useQuery(FETCH_BODY_STAT, {
@@ -57,6 +58,7 @@ const BodyStatsModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => v
         setBodymass(bodystat.bodymass);
       }
     },
+    client
   });
 
   const [updateBodyStats] = useMutation(UPDATE_BODY_STAT, {

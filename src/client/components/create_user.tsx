@@ -7,8 +7,8 @@ import { Button, Input, SocialIcon } from "react-native-elements";
 import {getCurrentUser} from "expo-google-sign-in";
 
 const CREATE_USER = gql`
-  mutation createuser($username: String!) {
-    createUser(username: $username)
+  mutation createuser($username: String!, $idToken: String!) {
+    createUser(username: $username, idToken: $idToken)
   }
 `;
 
@@ -61,7 +61,7 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
 
   //if succesfully created then user data exists for the current google user
   const [createUser] = useMutation(CREATE_USER, {
-    variables: { username, idToken: getCurrentUser()?.auth?.idToken},
+    variables: { username, idToken: ''},
     onCompleted: (data) => {
       if (data.createUser) {
         refetchUser();

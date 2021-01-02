@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql, useApolloClient } from "@apollo/client";
 import { useLazyQuery } from "@apollo/client/react/hooks/useLazyQuery";
 import {Picker} from "@react-native-picker/picker";
 import {useFocusEffect} from "@react-navigation/native";
@@ -15,6 +15,7 @@ const BATTLE_NUMBER = gql`
   }
 `;
 const BattlePicker: React.FC<{ battleNumber: number | undefined; setBattleNumber: (val: number | undefined) => void; groupname: string, }> = ({ battleNumber, setBattleNumber, groupname}) => {
+  const client = useApolloClient()
   //get the current battle number
   const [fetchBattleNumber, { data }] = useLazyQuery(BATTLE_NUMBER, {
     variables: { groupname },
@@ -23,6 +24,7 @@ const BattlePicker: React.FC<{ battleNumber: number | undefined; setBattleNumber
       setBattleNumber(undefined);
       setBattleNumber(group.battleNumber);
     },
+    client 
   });
   useFocusEffect(
     useCallback(() => {

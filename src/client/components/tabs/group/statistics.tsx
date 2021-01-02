@@ -4,7 +4,7 @@ import { FlatList, Text, StyleSheet, View } from "react-native";
 import TimeAgo from "react-timeago";
 import { unslugify } from "../../../util_components/slug";
 import Loading from "../../../util_components/loading";
-import BattlePicker from "./battle_selector";
+import BattlePicker from "./battle_picker";
 import ListItemContainer from "../../list_item_container";
 const STATS = gql`
   query($groupname: String!, $battleNumber: Int!) {

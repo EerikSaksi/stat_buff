@@ -66,7 +66,7 @@ const EnemyView: React.FC<{ route: NavigationProps }> = ({ route }) => {
   );
   const { groupname } = route.params;
   const [displayDate, setDisplayDate] = useState<Date | undefined>(undefined);
-  const [fetchEnemyStats, { data }] = useLazyQuery(ENEMY_STATS, {
+  const [fetchEnemyStats, { data, client }] = useLazyQuery(ENEMY_STATS, {
     variables: { groupname },
     onCompleted: () => {
       if (data.group.battleByNameAndBattleNumber) {
@@ -76,7 +76,6 @@ const EnemyView: React.FC<{ route: NavigationProps }> = ({ route }) => {
       }
     },
   });
-
   if (!data) {
     return <Loading />;
   }

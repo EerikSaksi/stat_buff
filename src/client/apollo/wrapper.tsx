@@ -1,10 +1,9 @@
 import registerRootComponent from 'expo/build/launch/registerRootComponent';
-import App from "../App";
+import App from "../Main_App";
 import React from 'react';
 import {setContext} from '@apollo/client/link/context';
 import {getCurrentUserAsync} from 'expo-google-sign-in'
-import {ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink} from '@apollo/client'
-import {cache} from './cache'
+import {ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink, InMemoryCache} from '@apollo/client'
 import Authenticator from '../authenticator';
 import { split } from '@apollo/client';
 import {getMainDefinition} from '@apollo/client/utilities';
@@ -47,7 +46,7 @@ const splitLink = split(
 
 const options: ApolloClientOptions<unknown> = {
   link: splitLink,
-  cache,
+  cache: new InMemoryCache(),
   defaultOptions: {
     watchQuery: {
       fetchPolicy: 'cache-and-network',
@@ -57,6 +56,6 @@ const options: ApolloClientOptions<unknown> = {
     },
   },
 }
-export const client = new ApolloClient(options);
-const index: React.FC = () => <ApolloProvider client={client}><Authenticator /></ApolloProvider>
+export const client = new ApolloClient(options)
+const index: React.FC = () => <ApolloProvider client={client}><Authenticator/></ApolloProvider>
 registerRootComponent(index);
