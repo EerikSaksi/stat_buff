@@ -26,10 +26,12 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz",
     "react-native-elements": "^3.0.0-alpha.1",
-    "react-native-gesture-handler": "~1.7.0",
+<<<<<<< Updated upstream
+=======
+    "react-native-gifted-chat": "^0.16.3",
+>>>>>>> Stashed changes
     "react-native-reanimated": "~1.13.0",
     "react-native-redash": "^16.0.2",
-    "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
     "react-native-shadow-generator": "^1.1.2",
     "react-native-status-bar-height": "^2.6.0",
@@ -37,7 +39,8 @@
     "react-native-tab-view": "^2.15.2",
     "react-timeago": "^5.2.0",
     "rn-sprite-sheet": "^1.1.12",
-    "subscriptions-transport-ws": "^0.9.18"
+    "subscriptions-transport-ws": "^0.9.18",
+    "react-native-gesture-handler": "~1.7.0"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.12.7",

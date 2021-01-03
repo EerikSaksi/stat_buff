@@ -1,7 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CustomModal from "../../../util_components/custom_modal";
-import { Text, ScrollView, StyleSheet, View } from "react-native";
-import { gql, useSubscription, useLazyQuery } from "@apollo/client";
+import { StyleSheet, View } from "react-native";
+import { gql, useSubscription, useLazyQuery, useMutation } from "@apollo/client";
+import { GiftedChat, IMessage } from "react-native-gifted-chat/lib/GiftedChat";
+import Loading from "../../../util_components/loading";
+import { Modal } from "react-native";
+import {Ionicons} from "@expo/vector-icons";
 
 const MESSAGE_SUBSCRIPTION = gql`
   subscription($topic: String!) {
@@ -33,20 +37,39 @@ const MESSAGES = gql`
     }
   }
 `;
+const SEND_MESSAGE = gql`
+  mutation($username: String!, $messageInput: String!) {
+    createChatMessage(input: { chatMessage: { username: $username, textContent: $messageInput } }) {
+      clientMutationId
+    }
+  }
+`;
 const styles = StyleSheet.create({
-  row: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-  },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+  arrow: {
+    color: "black",
+    fontSize: 40,
+    left: "2%",
+    position: "absolute",
+    top: 0,
+    zIndex: 1
   },
 });
-const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void; groupname: string; username: string }> = ({ visible, setVisible, groupname, username }) => {
+const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void; groupname: string; username: string, setNewMessages: (arg: number) => void }> = ({ visible, setVisible, groupname, username, setNewMessages }) => {
+  const [messageInput, setMessageInput] = useState("");
+  const [messages, setMessages] = useState<IMessage[]>([])
+  const [sendMessage, {client}] = useMutation(SEND_MESSAGE, {
+    variables: { username, messageInput },
+  });
+
+  //get the number of cached messages by running the messages query against the 
+  const [numCachedMessages, setNumCachedMessages] = useState<undefined | number>(undefined)
+
+  useEffect(() => {
+    const {group} = client.readQuery({query: MESSAGES, variables: {groupname}})
+    setNumCachedMessages(group.chatMessagesByGroupname.nodes.length)
+  }, [])
+
+  //doesn't need to fetch data. querying a message adds the node id to our cache, which will then be visible in fetchAllMessages when run with cache-only
   useSubscription(MESSAGE_SUBSCRIPTION, {
     variables: { topic: `message_${groupname}` },
     onSubscriptionData: () => fetchAllMessages(),
@@ -55,22 +78,43 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
   //initially fetch messages from network, but subsequent fetches will be gotten from the subscriptions cache
   const [fetchAllMessages, { data }] = useLazyQuery(MESSAGES, {
     variables: { groupname },
+    onCompleted: (data) => {
+      setNewMessages(data.group.chatMessagesByGroupname.nodes.length - numCachedMessages!)
+      setMessages(
+        data.group.chatMessagesByGroupname.nodes    .map((node) => {
+        return { user: { name: node.username, _id: node.username }, _id: node.nodeId, createdAt: node.createdAt, text: node.textContent };
+        })
+        .reverse()
+      )
+    },
     fetchPolicy: "cache-and-network",
     nextFetchPolicy: "cache-only",
   });
+
   useEffect(() => {
-    fetchAllMessages();
-  }, []);
+    //only fetch new messages once we know how many cached messages, otherwise we might have a race condition
+    if (numCachedMessages){
+      fetchAllMessages();
+    }
+  }, [numCachedMessages]);
+
+  if (!data) {
+    return <Loading />;
+  }
   return (
-    <CustomModal visible={visible} setVisible={setVisible}>
-        {data
-          ? data.group.chatMessagesByGroupname.nodes.map((node) => (
-              <Text>
-                {node.username}: {node.textContent}
-              </Text>
-            ))
-          : undefined}
-    </CustomModal>
+    <Modal visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"}>
+      <Ionicons style={styles.arrow} onPress={() => setVisible(false)} name="ios-arrow-round-back" />
+      <GiftedChat
+        placeholder={`Send a message to "${groupname}"`}
+        onInputTextChanged={(v) => setMessageInput(v)}
+        user = {{name: username, _id: username}}
+        onSend={() => {
+          sendMessage();
+        }}
+        renderUsernameOnMessage
+        messages={messages}
+      ></GiftedChat>
+    </Modal>
   );
 };
 export default ChatModal;

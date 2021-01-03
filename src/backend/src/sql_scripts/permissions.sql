@@ -43,7 +43,6 @@ comment on column "workout".groupName is E'@omit create, update, insert';
 comment on column "workout".battle_number is E'@omit create, update, insert';
 comment on column "workout".total_damage is E'@omit create, update, insert';
 
-
 Alter table "user" enable row level security;
 Alter table "group" enable row level security;
 Alter table "bodystat" enable row level security;
@@ -51,6 +50,8 @@ Alter table "user_exercise" enable row level security;
 Alter table "battle" enable row level security;
 Alter table "workout" enable row level security;
 Alter table "chat_message" enable row level security;
+comment on column "chat_message".groupName is E'@omit create, update, insert';
+comment on column "chat_message".id is E'@omit create, update, insert';
 
 CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));
 CREATE POLICY user_delete ON "user" FOR delete to query_sender USING (googleID = current_setting('user.googleID'));

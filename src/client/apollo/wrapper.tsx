@@ -8,6 +8,7 @@ import Authenticator from '../authenticator';
 import { split } from '@apollo/client';
 import {getMainDefinition} from '@apollo/client/utilities';
 import { WebSocketLink } from '@apollo/client/link/ws';
+import {cache} from './cache';
 
 const wsLink = new WebSocketLink({
   uri: `ws://localhost:4000/graphql`,
@@ -46,7 +47,7 @@ const splitLink = split(
 
 const options: ApolloClientOptions<unknown> = {
   link: splitLink,
-  cache: new InMemoryCache(),
+  cache,
   defaultOptions: {
     watchQuery: {
       fetchPolicy: 'cache-and-network',
