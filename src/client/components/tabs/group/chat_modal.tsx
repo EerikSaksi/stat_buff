@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import CustomModal from "../../../util_components/custom_modal";
 import { StyleSheet, View } from "react-native";
 import { gql, useSubscription, useLazyQuery, useMutation } from "@apollo/client";
-import { GiftedChat, IMessage } from "react-native-gifted-chat/lib/GiftedChat";
 import Loading from "../../../util_components/loading";
 import { Modal } from "react-native";
 import {Ionicons} from "@expo/vector-icons";
+import {IMessage} from "react-native-gifted-chat/lib/Models";
+import {GiftedChat} from "react-native-gifted-chat/lib/GiftedChat";
 
 const MESSAGE_SUBSCRIPTION = gql`
   subscription($topic: String!) {
