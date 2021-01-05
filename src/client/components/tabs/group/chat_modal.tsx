@@ -105,8 +105,9 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
   useEffect(() => {
     if (visible){
       setNewMessages(0)
+      setNumCachedMessages(data.group.chatMessagesByGroupname.nodes.length)
     }
-  }, [visible])
+  }, [visible, data])
 
   if (!data) {
     return <Loading />;
