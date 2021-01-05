@@ -7,7 +7,7 @@ import Statistics from "./statistics";
 import Members from "./members";
 import { MaterialIcons } from "@expo/vector-icons";
 import ChatModal from "./chat_modal";
-import { Badge, withBadge } from "react-native-elements";
+import { Badge } from "react-native-elements";
 const Tab = createMaterialTopTabNavigator();
 
 const styles = StyleSheet.create({
@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
     flex: 3,
   },
 });
-const BadgedMaterialIcons = withBadge(1)(MaterialIcons)
 const YourGroup: React.FC<{ groupname: string; username: string }> = ({ groupname, username }) => {
   const { colors } = useTheme();
   const [chatModalVisible, setChatModalVisible] = useState(false);
@@ -45,8 +44,9 @@ const YourGroup: React.FC<{ groupname: string; username: string }> = ({ groupnam
     <View style={styles.root}>
       <View style={{ ...styles.topRow, borderBottomColor: colors.primary }}>
         <Text style={{ fontSize: 25, textAlign: "center", color: colors.text }}>{groupname}</Text>
-        <View style={{ position: "absolute", right: '5%' }}>
-          <BadgedMaterialIcons onPress={() => setChatModalVisible(true)} name="message" size={30} color="black"/>
+        <View style={{ position: "absolute", right: "5%" }}>
+          <MaterialIcons onPress={() => setChatModalVisible(true)} name="message" size={30} color="black" />
+          <Badge value = {newMessages} status="error" containerStyle={{ position: "absolute", top: -4, right: -4 }} />
         </View>
       </View>
       <ChatModal groupname={groupname} visible={chatModalVisible} setVisible={setChatModalVisible} username={username} setNewMessages={setNewMessages} />

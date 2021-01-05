@@ -291,11 +291,13 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - I needed some way of creating a default level 1 battle for a group. The way that I got this working was by creating a trigger that is triggered after a user changes group. The trigger checks if the group doesn't have a battle, in which case it also checks if the team has at least 2 members. In this case, the team is large enough to start. I will probably also use this trigger to scale the max health of enemies higher or lower when a member joins or leaves to make any sized team viable.
 
 # Dec 17 (4 hours)
+
 - You can now view history for all battles, and not just current
 - Figured out how to trigger data refresh for new workouts and new damage dealt to the enemy whenever the screen is loaded. This is also done efficiently with caching.
-- My query client was complaining about caching, so I did some research and understood that I had to tell my client what the unique identifier(s) for each type (such as a group or user) are. Luckily, postgraphile ships with globally unique attributes called nodeId's for all tables, so  all I had to do was append nodeId to all attribute I already fetched, and specify to my query client that the nodeId is the unique identifier.  This has cut down on the amount of queries that my client is making. It's also good, because whenever a refresh is triggered, the cached data is shown until the new is loaded. 
+- My query client was complaining about caching, so I did some research and understood that I had to tell my client what the unique identifier(s) for each type (such as a group or user) are. Luckily, postgraphile ships with globally unique attributes called nodeId's for all tables, so all I had to do was append nodeId to all attribute I already fetched, and specify to my query client that the nodeId is the unique identifier. This has cut down on the amount of queries that my client is making. It's also good, because whenever a refresh is triggered, the cached data is shown until the new is loaded.
 
 # Dec 25 (4 hours)
+
 - Worked on setting up password protections for groups
 - I use the pgcrypto library with a salt and compare the encrypted passwords together
 - I initially wanted to do public/invite only groups, but I realized that another user would need to change a users group, which would need to bypass row level security with a security definer function, which seems like bad practice.
@@ -303,20 +305,34 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - Public groups have a simple join button but password protected ones also have a password field.
 
 # Dec 26 (6 hours)
+
 - Started making a create group view
 - Trying to track a workout without a team will now navigate the user to join one
 - Creating a team will not start a battle, and will tell the user that they need another member
 - Users can join a "random" team. In reality, this will put the user in a public team with the least members, breaking ties by taking the oldest one. This should help prevent huge teams and should prevent a user with no friends that want to play with them from having to wait too long for a stranger to join.
-- Creating a team is now fully working. You can choose to include the password. You are also automatically placed in that team when you create it, and set as the creator 
+- Creating a team is now fully working. You can choose to include the password. You are also automatically placed in that team when you create it, and set as the creator
 
 # Dec 27 (3 hours)
+
 - Started working on the welcome view, where you can see a brief demo of how the app works
 
 # Dec 28 (4 hours)
+
 - Finished the demo component. If the user does not have an account, I show them the basic idea of the app (a character changing and getting stronger as their input strength increases) and then two users fighting the same enemy together.
 
 # Dec 30 (3 hours)
+
 - Did a lot of small tasks that needed to be done. Improved a lot of components such as search bars with prebuilt components, and managed to make overlays work better.
 - Fixed some bugs that were occuring (some data fetches cause problems when a user first creates their account, as the cache still thinks the user doesnt exist, so I made the cache policy less strict
 - I now should save email addresses when a user creates an account. This will help to get in contact with different users, and to associate data with accounts (by default Google recommends associating profile IDs to accounts as emails can change)
-- Fixed bug where signing in with google would take you back to the start of the app demo component that is shown for new users. 
+- Fixed bug where signing in with google would take you back to the start of the app demo component that is shown for new users.
+
+# 2 Jan - 5 Jan (12 hours)
+
+- Didn't commit to this timeline during this time because I was busy digging over past commits trying to figure out a bug that I was suffering from.
+- Eventually I managed to solve it. It took a while to identify the commit that caused the bug, because the bug seemed to persist even when I went 15 commits back. Eventually I realized that my android emulator was caching libraries that were causing the issues (which didn't go away even when reinstalling node_modules), so the older commits started working when I built the app with no cache.
+- I managed to narrow down which commit started causing the issues. I slowly narrowed replaced files until the breaking commit was fixed.
+- Interestingly, the file difference that caused the bug was package-lock.json (which has all dependecies and all transitive dependecies), even though package.json hadn't changed.
+- I was initially focused on the different transitive dependecies of react-navigation (as this was the library that was throwing the error) but after doing more research the library that caused React Navigation to throw the error was react-native-safe-area-context.
+- After searching my lock file for react-native-safe-area-context, I realized that react-native-elements, a component library that I use upgraded it's react-native-safe-area-context from 3.1.4 to 3.1.9, even though Expo can only support 3.1.4. This lead to React Navigation importing an incompatible react-native-safe-area-context, so it seemed like React Navigation was the issue.
+- I resolved it by switching from npm to yarn, as it has an option to force transitive dependency versions.

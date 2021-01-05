@@ -65,10 +65,6 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
   //get the number of cached messages by running the messages query against the 
   const [numCachedMessages, setNumCachedMessages] = useState<undefined | number>(undefined)
 
-  useEffect(() => {
-    const {group} = client.readQuery({query: MESSAGES, variables: {groupname}})
-    setNumCachedMessages(group.chatMessagesByGroupname.nodes.length)
-  }, [])
 
   //doesn't need to fetch data. querying a message adds the node id to our cache, which will then be visible in fetchAllMessages when run with cache-only
   useSubscription(MESSAGE_SUBSCRIPTION, {
@@ -80,6 +76,7 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
   const [fetchAllMessages, { data }] = useLazyQuery(MESSAGES, {
     variables: { groupname },
     onCompleted: (data) => {
+      //the number of new messages is the number of messages in the database subtracted by the numer of cached messages (before the database fetch)
       setNewMessages(data.group.chatMessagesByGroupname.nodes.length - numCachedMessages!)
       setMessages(
         data.group.chatMessagesByGroupname.nodes    .map((node) => {
@@ -93,11 +90,23 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
   });
 
   useEffect(() => {
+    const {group} = client.readQuery({query: MESSAGES, variables: {groupname}})
+    setNumCachedMessages(group.chatMessagesByGroupname.nodes.length)
+  }, [])
+
+  useEffect(() => {
     //only fetch new messages once we know how many cached messages, otherwise we might have a race condition
     if (numCachedMessages){
       fetchAllMessages();
     }
   }, [numCachedMessages]);
+
+  //if the user opens the chat set the number of new messages to 0
+  useEffect(() => {
+    if (visible){
+      setNewMessages(0)
+    }
+  }, [visible])
 
   if (!data) {
     return <Loading />;
