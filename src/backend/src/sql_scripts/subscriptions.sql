@@ -22,6 +22,7 @@ EXECUTE PROCEDURE notify_message_inserted();
 CREATE FUNCTION notify_workout_inserted()
   RETURNS TRIGGER AS $$
   BEGIN
+    raise notice '%', format('postgraphile:event_%s', NEW.groupName);
     perform pg_notify(
       format('postgraphile:event_%s', NEW.groupName),
       json_build_object(
@@ -35,7 +36,7 @@ CREATE FUNCTION notify_workout_inserted()
   END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER notify_workout inserted_on_insert
+CREATE TRIGGER notify_workout_inserted_on_insert
 after insert on "workout"
 FOR EACH ROW 
 EXECUTE PROCEDURE notify_workout_inserted();
@@ -56,7 +57,7 @@ CREATE FUNCTION notify_user_exercise_inserted()
   END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER notify_user_exercise inserted_on_insert
+CREATE TRIGGER notify_user_exercise_inserted_on_insert
 after insert on "user_exercise"
 FOR EACH ROW 
 EXECUTE PROCEDURE notify_user_exercise_inserted();
