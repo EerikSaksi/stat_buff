@@ -49,7 +49,8 @@ CREATE FUNCTION notify_user_exercise_inserted()
       json_build_object(
         '__node__', json_build_array(
           'user_exercises', 
-          json_build_array(NEW.slug_name, NEW.username)
+          NEW.slug_name, 
+          NEW.username
         )
       )::text
     ); 

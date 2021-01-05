@@ -18,6 +18,19 @@ const MESSAGE_SUBSCRIPTION = gql`
           textContent
           createdAt
         }
+        ... on Workout{
+          nodeId
+          reps
+          averageRir
+          totalDamage
+        }
+        ... on UserExercise{
+          nodeId
+          slugName
+          repetitions
+          liftmass
+          strongerPercentage
+        }
       }
     }
   }
@@ -68,7 +81,7 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
 
   //doesn't need to fetch data. querying a message adds the node id to our cache, which will then be visible in fetchAllMessages when run with cache-only
   useSubscription(MESSAGE_SUBSCRIPTION, {
-    variables: { topic: `message_${groupname}` },
+    variables: { topic: `event_${groupname}` },
     onSubscriptionData: () => fetchAllMessages(),
   });
 

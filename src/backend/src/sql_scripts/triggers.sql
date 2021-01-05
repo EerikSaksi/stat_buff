@@ -3,7 +3,7 @@ CREATE FUNCTION update_battle_to_current()
   RETURNS TRIGGER AS $$
   BEGIN
     select groupName into NEW.groupName from "user" where username = NEW.username;
-    select battle_number into NEW.battle_number from "group" where name = 'Dream Team';
+    select battle_number into NEW.battle_number from "group" where name = NEW.groupName;
     return NEW;
   END;
 $$ LANGUAGE plpgsql;
@@ -36,10 +36,6 @@ CREATE TRIGGER encrypt_password_and_set_creator_on_group_create
 before insert on "group"
 FOR EACH ROW 
 EXECUTE PROCEDURE encrypt_password_and_set_creator();
-
-
-
-
 
 --the creator should join the group
 CREATE FUNCTION creator_joins_group()
