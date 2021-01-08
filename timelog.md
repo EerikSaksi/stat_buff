@@ -327,7 +327,7 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - I now should save email addresses when a user creates an account. This will help to get in contact with different users, and to associate data with accounts (by default Google recommends associating profile IDs to accounts as emails can change)
 - Fixed bug where signing in with google would take you back to the start of the app demo component that is shown for new users.
 
-# 2 Jan - 5 Jan (12 hours)
+# 2 Jan - 4 Jan (12 hours)
 
 - Didn't commit to this timeline during this time because I was busy digging over past commits trying to figure out a bug that I was suffering from.
 - Eventually I managed to solve it. It took a while to identify the commit that caused the bug, because the bug seemed to persist even when I went 15 commits back. Eventually I realized that my android emulator was caching libraries that were causing the issues (which didn't go away even when reinstalling node_modules), so the older commits started working when I built the app with no cache.
@@ -336,3 +336,12 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - I was initially focused on the different transitive dependecies of react-navigation (as this was the library that was throwing the error) but after doing more research the library that caused React Navigation to throw the error was react-native-safe-area-context.
 - After searching my lock file for react-native-safe-area-context, I realized that react-native-elements, a component library that I use upgraded it's react-native-safe-area-context from 3.1.4 to 3.1.9, even though Expo can only support 3.1.4. This lead to React Navigation importing an incompatible react-native-safe-area-context, so it seemed like React Navigation was the issue.
 - I resolved it by switching from npm to yarn, as it has an option to force transitive dependency versions.
+
+# 5 Jan (5 hours)
+
+- Before I had a top tab in the group that contained a timeline of different user events. This includes workouts and new PR's. I decided to integrate this into my new chat, so now all user events are visible from one neat chat interface.
+
+# 6 Jan (0.5 hours)
+
+- Had meeting and discussed new features that were added over the past two weeks
+

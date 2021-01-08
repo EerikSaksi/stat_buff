@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
 const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParentGroup }) => {
   const [query, setQuery] = useState("");
   const [showJoinCreate, setShowJoinCreate] = useState(true);
-  const [createGroupVisible, setCreateGroupVisible] = useState(true);
+  const [createGroupVisible, setCreateGroupVisible] = useState(false);
   const ref = useRef<SearchBar | null>(null);
 
   //used to search for groups (don't search if no query)

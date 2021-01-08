@@ -48,7 +48,7 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
   setGoogleID,
   inView,
 }) => {
-  const [username, setUsername] = useState("coolioman");
+  const [username, setUsername] = useState('');
   const [error, setError] = useState("");
   const greenPixelValue = useRef<Animated.Value>(new Animated.Value(0)).current;
   const ref = useRef<Input | null>();

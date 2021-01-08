@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 });
 const YourGroup: React.FC<{ groupname: string; username: string }> = ({ groupname, username }) => {
   const { colors } = useTheme();
-  const [chatModalVisible, setChatModalVisible] = useState(false);
+  const [chatModalVisible, setChatModalVisible] = useState(true);
   const [newMessages, setNewMessages] = useState(0);
   return (
     <View style={styles.root}>
@@ -53,7 +53,6 @@ const YourGroup: React.FC<{ groupname: string; username: string }> = ({ groupnam
       <Tab.Navigator style={{ flex: 10 }} tabBarOptions={{ style: { borderTopColor: colors.primary, borderTopWidth: 1 } }}>
         <Tab.Screen name="Enemy" component={EnemyView} initialParams={{ groupname }} />
         <Tab.Screen name="Members" component={Members} initialParams={{ groupname }} />
-        <Tab.Screen name="Statistics" component={Statistics} initialParams={{ groupname }} />
       </Tab.Navigator>
     </View>
   );
