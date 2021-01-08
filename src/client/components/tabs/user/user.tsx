@@ -27,8 +27,8 @@ const USER = gql`
   }
 `;
 const STRENGTH = gql`
-  query($username: String) {
-    calculateStrengthStats(inputUsername: $username) {
+  query {
+    calculateStrengthStats {
       averageStrength
       numExercises
       dph
@@ -49,7 +49,6 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
   });
 
   const [fetchStrength, { data: exerciseData, loading }] = useLazyQuery(STRENGTH, {
-    variables: { username },
     client
   });
   const [fetchBodyStats, { data: userBodyStats }] = useLazyQuery(USER_BODY_STATS, {

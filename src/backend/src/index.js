@@ -28,7 +28,7 @@ const postgraphileOptions = {
     //if (req && req && req.headers && req.headers.authorization) {
     //const {id} = await tokenToID(req.headers.authorization)
     return {
-      'user.googleID': 'uh oh'
+      'user.googleID': 'private_team_creator'
     };
   },
   ownerConnectionString: "postgres://eerik:Postgrizzly@localhost:5432/rpgym"

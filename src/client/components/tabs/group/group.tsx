@@ -31,7 +31,7 @@ const Group: React.FC<{ route: NavigationProps }> = ({ route }) => {
   if (data.user.groupname) {
     return (
       <Suspense fallback={<Loading />}>
-        <YourGroup groupname={data.user.groupname} username={username} />
+        <YourGroup groupname={data.user.groupname} username={username} refetchParentGroup = {checkGroupStatus} />
       </Suspense>
     );
   }

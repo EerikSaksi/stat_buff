@@ -165,14 +165,29 @@ CREATE TYPE strengthStats AS (
   DPH numeric
 );
 
-CREATE FUNCTION calculate_strength_stats(input_username varchar(32))
+CREATE FUNCTION calculate_strength_stats()
   RETURNS strengthStats AS $$
 DECLARE
  result strengthStats;
 BEGIN
   select coalesce(round(avg(strongerpercentage), 2), 0) as average_strength, count (*) as num_exercises into result from "user_exercise" 
-                    where "user_exercise".username = input_username;
+                    where "user_exercise".username = (select username from active_user());
   select coalesce(round(result.average_strength / 100 * result.num_exercises, 2), 0) into result.DPH;
   return result;
 END
 $$ language plpgsql stable;
+
+create function nullify_group()
+ returns void as $$
+declare
+  old_groupName varchar(32);
+begin
+  --get the old group
+  select groupName into old_groupName from "user" where username = (select username from active_user());
+  update "user" set groupName = null where username = (select username from active_user());
+
+  --if no more users left then delete group
+  if (select count(*) from "user" where groupName = old_groupName) = 0 then
+    delete from "group" where name = old_groupName;
+  end if;
+end $$ language plpgsql volatile;
