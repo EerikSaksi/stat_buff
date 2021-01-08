@@ -153,14 +153,6 @@ FOR EACH ROW
 EXECUTE PROCEDURE calculate_total_damage();
 
 --updates the current battle and group for the users workout/exercise log
-CREATE FUNCTION set_creator_username()
-  RETURNS TRIGGER AS $$
-  BEGIN
-    return NEW;
-  END;
-$$ LANGUAGE plpgsql;
-
---updates the current battle and group for the users workout/exercise log
 CREATE FUNCTION load_groupName()
   RETURNS TRIGGER AS $$
   BEGIN
@@ -173,3 +165,27 @@ CREATE TRIGGER load_groupName_to_chat_message
 before insert on chat_message
 FOR EACH ROW 
 EXECUTE PROCEDURE load_groupName();
+
+create function get_battle_and_check_expiry()
+  begin
+    declare 
+    enemy_level integer;
+    battle_number integer;
+    max_health integer;
+    groupName varchar;
+  returns "battle" as $$
+    --get current group and the battle of the active user
+    select "group".name into groupName, "group".battle_number into battle_number
+      from "user" inner join "group" on "user".groupName = "group".name 
+        where "user".username = (select username from active_user());
+
+    select enemy_level into enemy_level, max_health into max_health from "battle" where battle_number = battle_number and groupName = groupName;
+    --battle started 7 days or longer ago
+    if select DATEDIFF((select created_at from current_battle), NOW()) >= 7 then
+      --insert new battle with everything the same and reset, but battle_number + 1
+      insert into "battle"(groupName, battle_number, enemy_level, current_health, max_health) 
+      values (groupName, battle_number + 1, enemy_level, max_health, max_health);
+    end if;
+  end
+$$ LANGUAGE plpgsql volatile;
+
