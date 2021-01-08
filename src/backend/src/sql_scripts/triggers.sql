@@ -167,17 +167,17 @@ FOR EACH ROW
 EXECUTE PROCEDURE load_groupName();
 
 create function get_battle_and_check_expiry()
-  begin
-    declare 
-    enemy_level integer;
-    battle_number integer;
-    max_health integer;
-    groupName varchar;
   returns "battle" as $$
+  BEGIN
+  DECLARE 
+  enemy_level integer;
+  battle_number integer;
+  max_health integer;
+  groupName varchar;
     --get current group and the battle of the active user
-    select "group".name into groupName, "group".battle_number into battle_number
-      from "user" inner join "group" on "user".groupName = "group".name 
-        where "user".username = (select username from active_user());
+    select *
+      from "user"
+          and "user".username = (select username from active_user());
 
     select enemy_level into enemy_level, max_health into max_health from "battle" where battle_number = battle_number and groupName = groupName;
     --battle started 7 days or longer ago
@@ -185,7 +185,15 @@ create function get_battle_and_check_expiry()
       --insert new battle with everything the same and reset, but battle_number + 1
       insert into "battle"(groupName, battle_number, enemy_level, current_health, max_health) 
       values (groupName, battle_number + 1, enemy_level, max_health, max_health);
+
+      --new battle is the newly created one
+      update "group" set battle_number = battle_number where name = groupName;
+
+      --return is the new created battle
+      return (select * from "battle" where groupName = groupName and battle_number = battle_number + 1);
     end if;
-  end
+    --old batle
+    return (select * from "battle" where groupName = groupName and battle_number = battle_number);
+  END
 $$ LANGUAGE plpgsql volatile;
 
