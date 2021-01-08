@@ -36,6 +36,13 @@ const ENEMY_STATS = gql`
         }
       }
     }
+    workouts(filter: {username: {equalTo: "orek"}}, last: 1){
+      nodes{
+        nodeId
+        sets
+        averageRir
+      }
+    }
   }
 `;
 const styles = StyleSheet.create({
@@ -64,13 +71,20 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
   //we want to fetch the enemy data before we call the createWorkout mutation, otherwise we might show them data after the attack
   const { data } = useQuery(ENEMY_STATS, {
     variables: { username },
-    fetchPolicy: 'cache-and-network'
+    fetchPolicy: 'cache-and-network',
+    onCompleted: (data) => {
+      //user has tracked a workout, so we set the rir and sets to the most recent values
+      if (data.workouts.nodes.length){
+        setRir(data.workouts.nodes[0].averageRir)
+        setSets(data.workouts.nodes[0].sets)
+      }
+    }
   });
 
   var content: undefined | React.ReactNode = undefined;
   if (mutationData) {
     content = (
-        <WorkoutModalAttack username={username} hits={mutationData.createWorkout.workout.hits} skillTitle={skillTitle} setVisible={setVisible} data={data} />
+        <WorkoutModalAttack hits={mutationData.createWorkout.workout.hits} skillTitle={skillTitle} setVisible={setVisible} data={data} />
     );
   } else if (data && data.user) {
     //query finished but no group

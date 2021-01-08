@@ -6,8 +6,8 @@ import SpriteBattle from "../sprites/sprite_battle";
 import Loading from "../util_components/loading";
 
 const STRENGTH = gql`
-  query($username: String) {
-    calculateStrengthStats(inputUsername: $username) {
+  query {
+    calculateStrengthStats {
       dph
     }
   }
@@ -20,16 +20,14 @@ const styles = StyleSheet.create({
     width: '80%'
   },
 });
-const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefined; username: string; setVisible: (val: boolean) => void; data: any }> = ({
+const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefined;  setVisible: (val: boolean) => void; data: any }> = ({
   hits,
   skillTitle,
-  username,
   setVisible,
   data,
 }) => {
   //fetch strength stats. If we also loaded enemy starts, then start hitting
   const { data: strengthData } = useQuery(STRENGTH, {
-    variables: { username },
     fetchPolicy: "no-cache",
   });
   const [deliveredHits, setDeliveredHits] = useState(0);
