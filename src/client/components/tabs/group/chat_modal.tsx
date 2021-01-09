@@ -134,7 +134,6 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
     variables: { username, messageInput },
   });
 
-
   //initially fetch messages from network, but subsequent fetches will be gotten from the subscriptions cache
   const { data } = useQuery(MESSAGES, {
     variables: { groupname },

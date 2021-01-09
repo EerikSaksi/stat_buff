@@ -17,33 +17,33 @@ const CREATE_WORKOUT = gql`
 `;
 
 const ENEMY_STATS = gql`
-  query($username: String!) {
-    user(username: $username) {
-      nodeId
-      groupByGroupname {
+  mutation {
+    getBattleAndCheckExpiry(input: {}) {
+      battle {
         nodeId
-        battleByNameAndBattleNumber {
+        enemyLevel
+        battleNumber
+        currentHealth
+        createdAt
+        maxHealth
+        enemyByEnemyLevel {
           nodeId
-          enemyLevel
-          battleNumber
-          currentHealth
-          createdAt
-          maxHealth
-          enemyByEnemyLevel {
-            nodeId
-            name
-          }
+          name
         }
       }
     }
-    workouts(filter: {username: {equalTo: "orek"}}, last: 1){
-      nodes{
+  }
+`;
+const WORKOUTS = gql`
+  query ($username: String!){
+    workouts(filter: { username: { equalTo: $username } }, last: 1) {
+      nodes {
         nodeId
         sets
         averageRir
       }
     }
-  }
+    }
 `;
 const styles = StyleSheet.create({
   row: {
@@ -69,26 +69,27 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
   const navigation = useNavigation();
 
   //we want to fetch the enemy data before we call the createWorkout mutation, otherwise we might show them data after the attack
-  const { data } = useQuery(ENEMY_STATS, {
+  useQuery(WORKOUTS, {
     variables: { username },
-    fetchPolicy: 'cache-and-network',
     onCompleted: (data) => {
       //user has tracked a workout, so we set the rir and sets to the most recent values
-      if (data.workouts.nodes.length){
-        setRir(data.workouts.nodes[0].averageRir)
-        setSets(data.workouts.nodes[0].sets)
+      if (data.workouts.nodes.length) {
+        setRir(data.workouts.nodes[0].averageRir);
+        setSets(data.workouts.nodes[0].sets);
       }
-    }
+    },
   });
+  const [fetchEnemyStats, { data }] = useMutation(ENEMY_STATS);
+  useEffect(() => {
+    fetchEnemyStats();
+  }, []);
 
   var content: undefined | React.ReactNode = undefined;
   if (mutationData) {
-    content = (
-        <WorkoutModalAttack hits={mutationData.createWorkout.workout.hits} skillTitle={skillTitle} setVisible={setVisible} data={data} />
-    );
-  } else if (data && data.user) {
+    content = <WorkoutModalAttack hits={mutationData.createWorkout.workout.hits} skillTitle={skillTitle} setVisible={setVisible} data={data} />;
+  } else if (data) {
     //query finished but no group
-    if (!data.user.groupByGroupname) {
+    if (!data.getBattleAndCheckExpiry.battle) {
       content = (
         <React.Fragment>
           <Text style={styles.heading}>You need to be a part of a team before you track a workout.</Text>
@@ -97,10 +98,8 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
       );
     }
     //no battle so lacking members
-    else if (!data.user.groupByGroupname.battleByNameAndBattleNumber) {
-      content = (
-          <Text style={styles.heading}>You need at least two members before you can track workouts</Text>
-      );
+    else if (!data.getBattleAndCheckExpiry.battle) {
+      content = <Text style={styles.heading}>You need at least two members before you can track workouts</Text>;
     } else {
       content = (
         <React.Fragment>
@@ -128,7 +127,6 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
         </React.Fragment>
       );
     }
-
   }
   return (
     <CustomModal visible={visible} setVisible={setVisible}>

@@ -2,7 +2,7 @@ import React, { useState, Suspense, useEffect, lazy } from "react";
 import { initAsync, GoogleSignInAuthResult, signInAsync, getCurrentUserAsync, isSignedInAsync } from "expo-google-sign-in";
 import Loading from "./util_components/loading";
 import { gql, useLazyQuery } from "@apollo/client";
-import App from "./Main_App";
+import App from "./App";
 import AppDemo from "./components/app_demo/app_demo";
 
 const USERNAME = gql`

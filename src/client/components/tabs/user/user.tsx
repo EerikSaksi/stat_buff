@@ -119,7 +119,7 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
       </View>
       <View style={styles.row}>
         <Text style={{ textAlign: "center", color: 'black' }}>
-          If you have any question related to the app or the study (eg. to withdraw) don't hesitate to contact me:{" "}
+          If you have any question related to the app or the study (e.g. to withdraw) don't hesitate to contact me:{" "}
           <Text style={{ color: "blue", textAlign: "center" }} onPress={() => Linking.openURL("mailto:saksi.eerik@gmail.com")}>
             saksi.eerik@gmail.com
           </Text>
