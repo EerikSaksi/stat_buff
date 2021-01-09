@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { gql, useLazyQuery, useQuery } from "@apollo/client";
-import { Text, View, StatusBar, StyleSheet } from "react-native";
+import { Text, View, StatusBar, StyleSheet, Linking } from "react-native";
 import Loading from "../../../util_components/loading";
 import ExerciseModal from "./exercise_modal";
 import SpriteSelector from "../../../sprites/sprite_selector";
@@ -91,7 +91,7 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
   });
   const [fetchStrength, { data: exerciseData, loading }] = useLazyQuery(STRENGTH);
   const [fetchBodyStats, { data: userBodyStats }] = useLazyQuery(USER_BODY_STATS, {
-    variables: {username}
+    variables: { username },
   });
   useEffect(() => {
     fetchBodyStats();
@@ -110,16 +110,24 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
       <View style={styles.flexOne}>
         {exerciseData && exerciseData.calculateStrengthStats ? (
           <View>
-            <Text style={styles.dph}>{`Your character has DPH: ${exerciseData.calculateStrengthStats.dph} (${skillTitle})`}</Text>
+            <Text style={styles.dph}>{`${username} has DPH: ${exerciseData.calculateStrengthStats.dph} (${skillTitle})`}</Text>
             <Text style={styles.explanation}>{`Damage Per Hit = Stronger than ${exerciseData.calculateStrengthStats.averageStrength}% * ${exerciseData.calculateStrengthStats.numExercises} exercise${
               exerciseData.calculateStrengthStats.numExercises === 1 ? "" : "'s"
             } tracked`}</Text>
           </View>
         ) : null}
       </View>
+      <View style={styles.row}>
+        <Text style={{ textAlign: "center", color: 'black' }}>
+          If you have any question related to the app or the study (eg. to withdraw) don't hesitate to contact me:{" "}
+          <Text style={{ color: "blue", textAlign: "center" }} onPress={() => Linking.openURL("mailto:saksi.eerik@gmail.com")}>
+            saksi.eerik@gmail.com
+          </Text>
+        </Text>
+      </View>
       <ExerciseModal visible={strengthModalVisible} setVisible={setStrengthModalVisible} username={username} refetchParent={fetchStrength} />
       <BodyStatsModal visible={bodystatsModalVisible} setVisible={setBodystatsModalVisible} username={username} refetchParent={fetchBodyStats} />
-      <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username}         skillTitle={skillTitle} />
+      <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username} skillTitle={skillTitle} />
       <View style={styles.sprite}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={skillTitle} /> : <Loading />}</View>
       <View style={styles.trackWorkout}>
         <Button disabled={!(exerciseData && exerciseData.calculateStrengthStats)} title="Log workout" onPress={() => setWorkoutModalVisible(true)} />
