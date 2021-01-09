@@ -168,32 +168,37 @@ EXECUTE PROCEDURE load_groupName();
 
 create function get_battle_and_check_expiry()
   returns "battle" as $$
-  BEGIN
   DECLARE 
-  enemy_level integer;
-  battle_number integer;
-  max_health integer;
-  groupName varchar;
+  old_enemy_level integer;
+  old_battle_number integer;
+  old_max_health integer;
+  old_groupName varchar;
+  old_createdAt TIMESTAMPTZ;
+  to_return "battle";
+  BEGIN
     --get current group and the battle of the active user
-    select *
-      from "user"
-          and "user".username = (select username from active_user());
+    select name, battle_number into old_groupName, old_battle_number
+      from "user" inner join "group" on "user".groupName = "group".name
+        where "user".username = (select username from active_user());
 
-    select enemy_level into enemy_level, max_health into max_health from "battle" where battle_number = battle_number and groupName = groupName;
+    select enemy_level, max_health, created_at into old_enemy_level, old_max_health, old_createdAt 
+      from "battle" 
+        where battle_number = old_battle_number and groupName = old_groupName;
+
     --battle started 7 days or longer ago
-    if select DATEDIFF((select created_at from current_battle), NOW()) >= 7 then
-      --insert new battle with everything the same and reset, but battle_number + 1
+    if (select DATE_PART('day', NOW() - old_createdAt) >= 7) then
+      --insert new battle with everything the same and reset, but old_battle_number + 1
       insert into "battle"(groupName, battle_number, enemy_level, current_health, max_health) 
-      values (groupName, battle_number + 1, enemy_level, max_health, max_health);
+      values (old_groupName, old_battle_number + 1, old_enemy_level, old_max_health, old_max_health);
 
       --new battle is the newly created one
-      update "group" set battle_number = battle_number where name = groupName;
+      update "group" set battle_number = old_battle_number + 1 where name = old_groupName;
 
-      --return is the new created battle
-      return (select * from "battle" where groupName = groupName and battle_number = battle_number + 1);
+      select * into to_return from "battle" where groupName = old_groupName and battle_number = old_battle_number + 1;
+      return to_return;
     end if;
-    --old batle
-    return (select * from "battle" where groupName = groupName and battle_number = battle_number);
+    select * into to_return from "battle" where groupName = old_groupName and battle_number = old_battle_number;
+    return to_return;
   END
 $$ LANGUAGE plpgsql volatile;
 
