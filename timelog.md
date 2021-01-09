@@ -344,4 +344,11 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 # 6 Jan (0.5 hours)
 
 - Had meeting and discussed new features that were added over the past two weeks
+- Talked about new features that should be added. We came to the conclusion that I should implement the key features that are required for the pilot study that will start next week (which are essentially that the app is available, the server is running and I collect analytics)
 
+# 8 Jan (4 hours)
+- You can now leave groups
+- The workout inputs for sets and average reps in reserve are now autofilled
+- Interestingly, realized that I have not implemented a key feature: enemies should reset and a new battle should be created from square one when you run out of time. Started implementing this feature
+
+# 9 Jan ()

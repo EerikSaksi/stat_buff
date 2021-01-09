@@ -29,6 +29,9 @@ values
 update "user"
   set groupName = 'Team Public' 
   where username = 'eerik';
+update "battle"
+ set created_at = NOW() -  interval '7 days'
+  where groupName = 'Team Public';
 
 insert into
   "bodystat" (bodymass, isMale, username)

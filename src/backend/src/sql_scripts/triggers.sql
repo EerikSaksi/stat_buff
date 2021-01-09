@@ -166,6 +166,7 @@ before insert on chat_message
 FOR EACH ROW 
 EXECUTE PROCEDURE load_groupName();
 
+-- we create a special function that you can access active users current battle. Before we send the current battle, we check whether or not it has expired, in which case we create a new battle with the same parameters (other than the battle_number) and return that instead. This is efficient as we only check if a battle has expired once a user requests it (does a tree make a sound if no one sees it == has a battle not expired if no one has requested it)
 create function get_battle_and_check_expiry()
   returns "battle" as $$
   DECLARE 
@@ -184,8 +185,6 @@ create function get_battle_and_check_expiry()
     select enemy_level, max_health, created_at into old_enemy_level, old_max_health, old_createdAt 
       from "battle" 
         where battle_number = old_battle_number and groupName = old_groupName;
-
-    --battle started 7 days or longer ago
     if (select DATE_PART('day', NOW() - old_createdAt) >= 7) then
       --insert new battle with everything the same and reset, but old_battle_number + 1
       insert into "battle"(groupName, battle_number, enemy_level, current_health, max_health) 
@@ -193,12 +192,12 @@ create function get_battle_and_check_expiry()
 
       --new battle is the newly created one
       update "group" set battle_number = old_battle_number + 1 where name = old_groupName;
-
       select * into to_return from "battle" where groupName = old_groupName and battle_number = old_battle_number + 1;
+      raise notice 'to_return %', to_return;
       return to_return;
     end if;
+    raise notice 'didnt run';
     select * into to_return from "battle" where groupName = old_groupName and battle_number = old_battle_number;
     return to_return;
   END
 $$ LANGUAGE plpgsql volatile;
-
