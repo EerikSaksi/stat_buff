@@ -134,11 +134,33 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
     variables: { username, messageInput },
   });
 
+
+  //initially fetch messages from network, but subsequent fetches will be gotten from the subscriptions cache
+  const { data } = useQuery(MESSAGES, {
+    variables: { groupname },
+    onCompleted: (data) => {
+      const chatMessages = data.group.chatMessagesByGroupname.nodes.map((node) => chatNodeToImessage(node)).reverse();
+      const workouts =
+        //flatten all workouts from all battles in to a one dimensional array
+        data.group.battlesByGroupname.nodes
+          .flatMap((battle) => battle.workoutsByGroupnameAndBattleNumber.nodes)
+          //map each workout to a message
+          .map((workout) => workoutNodeToImessage(workout));
+      const userExercises =
+      //same as above for workouts
+        data.group.battlesByGroupname.nodes.flatMap((battle) => battle.userExercisesByGroupnameAndBattleNumber.nodes).map((exercise) => userExerciseNodeToImessage(exercise));
+      //combine all messages sorted by date
+      setMessages(chatMessages.concat(workouts).concat(userExercises).sort(sort_by_date));
+    },
+    fetchPolicy: "cache-and-network",
+  });
+
   //listen for new events
   useSubscription(MESSAGE_SUBSCRIPTION, {
     variables: { topic: `event_${groupname}` },
     onSubscriptionData: ({ subscriptionData }) => {
       const node = subscriptionData.data.listen.relatedNode;
+      console.log('subscriptionData')
       var newMessage;
 
       //depending on the type of raised event, we want to render them message difFerently, so switch over the typename
@@ -156,26 +178,7 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
       //append the new message as the most recent one
       setMessages((oldMessages) => [newMessage, ...oldMessages]);
     },
-  });
-
-  //initially fetch messages from network, but subsequent fetches will be gotten from the subscriptions cache
-  const { data } = useQuery(MESSAGES, {
-    variables: { groupname },
-    onCompleted: (data) => {
-      const chatMessages = data.group.chatMessagesByGroupname.nodes.map((node) => chatNodeToImessage(node)).reverse();
-      const workouts =
-        //flatten all workouts from all battles in to a one dimensional array
-        data.group.battlesByGroupname.nodes
-          .flatMap((battle) => battle.workoutsByGroupnameAndBattleNumber.nodes)
-          //map each workout to a message
-          .map((workout) => workoutNodeToImessage(workout));
-      const userExercises =
-        //same as above for workouts
-        data.group.battlesByGroupname.nodes.flatMap((battle) => battle.userExercisesByGroupnameAndBattleNumber.nodes).map((exercise) => userExerciseNodeToImessage(exercise));
-      //combine all messages sorted by date
-      setMessages(chatMessages.concat(workouts).concat(userExercises).sort(sort_by_date));
-    },
-    fetchPolicy: "cache-and-network",
+    skip: !messages.length
   });
 
   //when we open our messages, we checked our messages now

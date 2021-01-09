@@ -351,4 +351,7 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - The workout inputs for sets and average reps in reserve are now autofilled
 - Interestingly, realized that I have not implemented a key feature: enemies should reset and a new battle should be created from square one when you run out of time. Started implementing this feature
 
-# 9 Jan ()
+# 9 Jan (6 hours)
+- Finished the enemy expiry function I checked yesterday. This function also sends a message to your chat from an admin account that tells you that you ran out of time on your current battle
+- As I was testing the admin message I realized that the unread number of messages was really broken, as it only took into account chats not workouts or PR's, and unread messages were assumed to be the difference in number of messages from the initial fetch to the new initial fetch. Now I have a cached timestamp, that is updated to the current time whenever you open your chats, and unread messages is simply how many messages is older than this amount.
+
