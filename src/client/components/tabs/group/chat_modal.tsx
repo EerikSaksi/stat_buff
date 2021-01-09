@@ -181,36 +181,37 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
   //when we open our messages, we checked our messages now
   useEffect(() => {
     if (visible) {
-      client.writeFragment({
-        id: "Message:0",
-        fragment: gql`
-          fragment writeMessageData on Message  {
+      client.writeQuery({
+        query: gql`
+          query {
             messagesLastOpened
-          }`,
-        data: { messagesLastOpened: true },
+          }
+        `,
+        data: { messagesLastOpened: Date.now() },
       });
+      setNewMessages(0)
     }
   }, [visible]);
   useEffect(() => {
-    const fragment  = client.readFragment({
-      id: "Message:0",
-      fragment: gql`
-        fragment readMessageData on Message{
+    const fragment = client.readQuery({ //if messages have never been opened set really far back date so all have been opened
+      query: gql`
+        query {
           messagesLastOpened
-        }`,
+        }
+      `,
     });
     //if messages have never been opened set really far back date so all have been opened
-    const lastOpened = fragment.messagesLastOpened ? fragment.messagesLastOpened : new Date('1970-01-01')
+    console.log({ fragment });
+    const lastOpened = fragment ? fragment.messagesLastOpened : new Date("1970-01-01");
 
     //check how many messages are older than when we last checked our messages
-    var unopenedMessages = 0
-    messages.forEach(message => {
-      console.log({lastOpened, createdAt: message.createdAt})
-      if (lastOpened < new Date(message.createdAt)){
+    var unopenedMessages = 0;
+    messages.forEach((message) => {
+      if (lastOpened < new Date(message.createdAt)) {
         unopenedMessages++;
       }
-    })
-    setNewMessages(unopenedMessages)
+    });
+    setNewMessages(unopenedMessages);
   }, [messages]);
 
   if (!data) {
