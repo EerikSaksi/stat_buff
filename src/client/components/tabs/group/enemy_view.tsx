@@ -1,5 +1,5 @@
-import { gql, useLazyQuery, useQuery } from "@apollo/client";
-import React, { useState, useEffect, useCallback } from "react";
+import { gql, useMutation } from "@apollo/client";
+import React, { useState, useCallback } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import SpriteSelector from "../../../sprites/sprite_selector";
 import Loading from "../../../util_components/loading";
@@ -8,10 +8,9 @@ import SpriteHealthBar from "../../../sprites/sprite_health_bar";
 import { useFocusEffect } from "@react-navigation/native";
 
 const ENEMY_STATS = gql`
-  query($groupname: String!) {
-    group(name: $groupname) {
-      nodeId
-      battleByNameAndBattleNumber {
+  mutation {
+    getBattleAndCheckExpiry(input: {}) {
+      battle{
         nodeId
         enemyLevel
         battleNumber
@@ -57,20 +56,17 @@ const styles = StyleSheet.create({
   },
 });
 
-type NavigationProps = { params: { groupname: string } };
-const EnemyView: React.FC<{ route: NavigationProps }> = ({ route }) => {
+const EnemyView: React.FC = () => {
   useFocusEffect(
     useCallback(() => {
       fetchEnemyStats();
     }, [])
   );
-  const { groupname } = route.params;
   const [displayDate, setDisplayDate] = useState<Date | undefined>(undefined);
-  const [fetchEnemyStats, { data, client }] = useLazyQuery(ENEMY_STATS, {
-    variables: { groupname },
-    onCompleted: () => {
-      if (data.group.battleByNameAndBattleNumber) {
-        var expiry = new Date(data.group.battleByNameAndBattleNumber.createdAt);
+  const [fetchEnemyStats, { data }] = useMutation(ENEMY_STATS, {
+    onCompleted: (data) => {
+      if (data.getBattleAndCheckExpiry.battle) {
+        var expiry = new Date(data.getBattleAndCheckExpiry.battle.createdAt);
         expiry.setDate(expiry.getDate() + 7);
         setDisplayDate(expiry);
       }
@@ -79,14 +75,14 @@ const EnemyView: React.FC<{ route: NavigationProps }> = ({ route }) => {
   if (!data) {
     return <Loading />;
   }
-  if (!data.group.battleByNameAndBattleNumber) {
+  if (!data.getBattleAndCheckExpiry.battle) {
     return (
       <View style={styles.container}>
         <Text>You need at least two members to start a battle.</Text>
       </View>
     );
   }
-  const { currentHealth, enemyLevel, enemyByEnemyLevel, maxHealth } = data.group.battleByNameAndBattleNumber;
+  const { currentHealth, enemyLevel, enemyByEnemyLevel, maxHealth } = data.getBattleAndCheckExpiry.battle;
   return (
     <View style={styles.container}>
       <View style={styles.row}>

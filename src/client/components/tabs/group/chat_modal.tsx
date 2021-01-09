@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import CustomModal from "../../../util_components/custom_modal";
-import { StyleSheet, View } from "react-native";
-import { gql, useSubscription, useLazyQuery, useMutation } from "@apollo/client";
-import Loading from "../../../util_components/loading";
+import React, { useState } from "react";
+import { StyleSheet } from "react-native";
+import { gql, useSubscription, useMutation, useQuery } from "@apollo/client";
 import { Modal } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { IMessage } from "react-native-gifted-chat/lib/Models";
 import { GiftedChat } from "react-native-gifted-chat/lib/GiftedChat";
+import { useEffect } from "react";
 
 const MESSAGE_SUBSCRIPTION = gql`
   subscription($topic: String!) {
@@ -88,6 +87,7 @@ const SEND_MESSAGE = gql`
     }
   }
 `;
+
 const styles = StyleSheet.create({
   arrow: {
     color: "black",
@@ -134,14 +134,14 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
     variables: { username, messageInput },
   });
 
-  //get the number of cached messages by running the messages query against the
-  const [numCachedMessages, setNumCachedMessages] = useState<undefined | number>(undefined);
-
+  //listen for new events
   useSubscription(MESSAGE_SUBSCRIPTION, {
     variables: { topic: `event_${groupname}` },
     onSubscriptionData: ({ subscriptionData }) => {
       const node = subscriptionData.data.listen.relatedNode;
       var newMessage;
+
+      //depending on the type of raised event, we want to render them message difFerently, so switch over the typename
       switch (node.__typename) {
         case "ChatMessage":
           newMessage = chatNodeToImessage(node);
@@ -150,17 +150,18 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
           newMessage = workoutNodeToImessage(node);
           break;
         case "UserExercise":
-          newMessage = userExerciseNodeToImessage(node)
-          break
+          newMessage = userExerciseNodeToImessage(node);
+          break;
       }
+      //append the new message as the most recent one
       setMessages((oldMessages) => [newMessage, ...oldMessages]);
     },
   });
+
   //initially fetch messages from network, but subsequent fetches will be gotten from the subscriptions cache
-  const [fetchAllMessages, { data }] = useLazyQuery(MESSAGES, {
+  const { data } = useQuery(MESSAGES, {
     variables: { groupname },
     onCompleted: (data) => {
-      setNewMessages(data.group.chatMessagesByGroupname.nodes.length - numCachedMessages!);
       const chatMessages = data.group.chatMessagesByGroupname.nodes.map((node) => chatNodeToImessage(node)).reverse();
       const workouts =
         //flatten all workouts from all battles in to a one dimensional array
@@ -175,32 +176,42 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
       setMessages(chatMessages.concat(workouts).concat(userExercises).sort(sort_by_date));
     },
     fetchPolicy: "cache-and-network",
-    nextFetchPolicy: "cache-only",
   });
-  useEffect(() => {
-    const query = client.readQuery({ query: MESSAGES, variables: { groupname } });
-    if (query) {
-      setNumCachedMessages(query.group.chatMessagesByGroupname.nodes.length);
-    } else {
-      setNumCachedMessages(0);
-    }
-  }, []);
 
-  useEffect(() => {
-    if (numCachedMessages !== undefined && !data) {
-      fetchAllMessages();
-    }
-  }, [numCachedMessages]);
-
-  //if the user opens the chat set the number of new messages to 0
+  //when we open our messages, we checked our messages now
   useEffect(() => {
     if (visible) {
-      setNewMessages(0);
-      if (data) {
-        setNumCachedMessages(data.group.chatMessagesByGroupname.nodes.length);
-      }
+      client.writeFragment({
+        id: "Message:0",
+        fragment: gql`
+          fragment writeMessageData on Message  {
+            messagesLastOpened
+          }`,
+        data: { messagesLastOpened: true },
+      });
     }
-  }, [visible, data]);
+  }, [visible]);
+  useEffect(() => {
+    const fragment  = client.readFragment({
+      id: "Message:0",
+      fragment: gql`
+        fragment readMessageData on Message{
+          messagesLastOpened
+        }`,
+    });
+    //if messages have never been opened set really far back date so all have been opened
+    const lastOpened = fragment.messagesLastOpened ? fragment.messagesLastOpened : new Date('1970-01-01')
+
+    //check how many messages are older than when we last checked our messages
+    var unopenedMessages = 0
+    messages.forEach(message => {
+      console.log({lastOpened, createdAt: message.createdAt})
+      if (lastOpened < new Date(message.createdAt)){
+        unopenedMessages++;
+      }
+    })
+    setNewMessages(unopenedMessages)
+  }, [messages]);
 
   if (!data) {
     return null;

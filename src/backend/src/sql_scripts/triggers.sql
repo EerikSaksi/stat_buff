@@ -192,12 +192,20 @@ create function get_battle_and_check_expiry()
 
       --new battle is the newly created one
       update "group" set battle_number = old_battle_number + 1 where name = old_groupName;
+
+      
+      -- we want this chat message to go to this group, and not be set back to Event Notices group
+      ALTER TABLE "chat_message" disable TRIGGER load_groupName_to_chat_message;
+
+      --create message that explains why the enemy reset
+      insert into "chat_message"(username, groupName, text_content) 
+      values ('Event Notice', old_groupName, 'You ran out of time to defeat the enemy, so it has been reset.');
+      ALTER TABLE "chat_message" enable TRIGGER load_groupName_to_chat_message;
       select * into to_return from "battle" where groupName = old_groupName and battle_number = old_battle_number + 1;
-      raise notice 'to_return %', to_return;
       return to_return;
     end if;
     raise notice 'didnt run';
     select * into to_return from "battle" where groupName = old_groupName and battle_number = old_battle_number;
     return to_return;
   END
-$$ LANGUAGE plpgsql volatile;
+$$ LANGUAGE plpgsql volatile security definer;

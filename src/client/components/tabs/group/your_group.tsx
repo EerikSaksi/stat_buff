@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     position: "absolute",
     right: "3%",
-    bottom: '2%'
+    bottom: "2%",
   },
   badgeContainer: {
     position: "absolute",
@@ -101,7 +101,7 @@ const YourGroup: React.FC<{ groupname: string; username: string; refetchParentGr
       </View>
       <ChatModal groupname={groupname} visible={chatModalVisible} setVisible={setChatModalVisible} username={username} setNewMessages={setNewMessages} />
       <Tab.Navigator style={styles.tabNavigator} tabBarOptions={{ style: { borderTopColor: colors.primary, borderTopWidth: 1 } }}>
-        <Tab.Screen name="Enemy" component={EnemyView} initialParams={{ groupname }} />
+        <Tab.Screen name="Enemy" component={EnemyView} />
         <Tab.Screen name="Members" component={Members} initialParams={{ groupname }} />
       </Tab.Navigator>
     </View>

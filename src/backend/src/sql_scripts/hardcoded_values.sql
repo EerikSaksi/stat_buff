@@ -11,7 +11,8 @@ values
   ('orek', 'uh oh', 'a@a.com'),
   ('eerik', 'stinky', 'b@a.com'),
   ('private_team_creator', 'private_team_creator', 'c@a.com'),
-  ('no team', 'no team', 'd@a.com');
+  ('no team', 'no team', 'd@a.com'),
+  ('Event Notice', '', '');
 
 insert into
   "group" (name, password)
@@ -29,9 +30,6 @@ values
 update "user"
   set groupName = 'Team Public' 
   where username = 'eerik';
-update "battle"
- set created_at = NOW() -  interval '7 days'
-  where groupName = 'Team Public';
 
 insert into
   "bodystat" (bodymass, isMale, username)
