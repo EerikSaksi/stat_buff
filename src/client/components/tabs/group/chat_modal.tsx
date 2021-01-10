@@ -202,8 +202,6 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
         }
       `,
     });
-    //if messages have never been opened set really far back date so all have been opened
-    console.log({ fragment });
     const lastOpened = fragment ? fragment.messagesLastOpened : new Date("1970-01-01");
 
     //check how many messages are older than when we last checked our messages

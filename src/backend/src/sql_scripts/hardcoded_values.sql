@@ -297,3 +297,4 @@ where username = 'orek';
 insert into chat_message (username, text_content)
 values ('orek', 'Good day today, right?');
 
+SELECT set_config('user.googleID', null, false);

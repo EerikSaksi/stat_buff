@@ -30,9 +30,8 @@ const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefine
     return <Loading />;
   }
   return (
-    <React.Fragment>
-      <View style={{ justifyContent: "center", alignItems: "center", width: "80%", height: "80%" }}>
-        <Text style={styles.text}>{`${deliveredHits} hit${deliveredHits === 1 ? "" : "s"}: ${(strengthData.calculateStrengthStats.dph * deliveredHits).toFixed(2)} total damage.`}</Text>
+    <View style={{ justifyContent: "center", alignItems: "center" }}>
+      <Text style={styles.text}>{`${deliveredHits} hit${deliveredHits === 1 ? "" : "s"}: ${(strengthData.calculateStrengthStats.dph * deliveredHits).toFixed(2)} total damage.`}</Text>
         <SpriteBattle
           deliveredHits={deliveredHits}
           setDeliveredHits={setDeliveredHits}
@@ -42,10 +41,10 @@ const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefine
           maxHealth={data.getBattleAndCheckExpiry.battle.maxHealth}
           enemyName={data.getBattleAndCheckExpiry.battle.enemyByEnemyLevel.name}
           hits={hits}
+          removeFlex
         />
-        {hits === deliveredHits ? <Button title="Close" onPress={() => setVisible(false)} /> : <Button title="Skip animations" onPress={() => setDeliveredHits(hits)} />}
-      </View>
-    </React.Fragment>
+      {hits === deliveredHits ? <Button title="Close" onPress={() => setVisible(false)} /> : <Button title="Skip animations" onPress={() => setDeliveredHits(hits)} />}
+    </View>
   );
 };
 export default WorkoutModalAttack;

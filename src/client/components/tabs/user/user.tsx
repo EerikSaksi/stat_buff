@@ -85,7 +85,7 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
   const { username } = route.params;
   const [strengthModalVisible, setStrengthModalVisible] = useState(false);
   const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false);
-  const [workoutModalVisible, setWorkoutModalVisible] = useState(false);
+  const [workoutModalVisible, setWorkoutModalVisible] = useState(true);
   const { data } = useQuery(USER, {
     variables: { username },
   });
@@ -127,7 +127,7 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
       </View>
       <ExerciseModal visible={strengthModalVisible} setVisible={setStrengthModalVisible} username={username} refetchParent={fetchStrength} />
       <BodyStatsModal visible={bodystatsModalVisible} setVisible={setBodystatsModalVisible} username={username} refetchParent={fetchBodyStats} />
-      <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username} skillTitle={skillTitle} />
+      <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username} skillTitle={'noob'} />
       <View style={styles.sprite}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={skillTitle} /> : <Loading />}</View>
       <View style={styles.trackWorkout}>
         <Button disabled={!(exerciseData && exerciseData.calculateStrengthStats)} title="Log workout" onPress={() => setWorkoutModalVisible(true)} />

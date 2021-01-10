@@ -25,11 +25,12 @@ const postgraphileOptions = {
   legacyRelations: "omit",
   disableDefaultMutations: false,
   pgSettings: async req => {
-    //if (req && req && req.headers && req.headers.authorization) {
-    //const {id} = await tokenToID(req.headers.authorization)
-    return {
-      'user.googleID': 'uh oh'
-    };
+    if (req && req && req.headers && req.headers.authorization) {
+      const {id} = await tokenToID(req.headers.authorization)
+      return {
+        'user.googleID': id
+      };
+    }
   },
   ownerConnectionString: "postgres://eerik:Postgrizzly@localhost:5432/rpgym"
 }
