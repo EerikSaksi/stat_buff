@@ -1,4 +1,4 @@
-CREATE FUNCTION notify_message_inserted()
+cREATE FUNCTION notify_message_inserted()
   RETURNS TRIGGER AS $$
   BEGIN
     raise notice 'message inserted';

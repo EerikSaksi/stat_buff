@@ -27,9 +27,6 @@ const postgraphileOptions = {
   disableDefaultMutations: false,
   graphqlRoute: '/graphql',
   pgSettings: async req => {
-    return {
-      'user.googleID': 'uh oh'
-    };
     if (req && req && req.headers && req.headers.authorization) {
       const {id} = await tokenToID(req.headers.authorization)
       return {
