@@ -19,14 +19,17 @@ const postgraphileOptions = {
   ignoreIndexes: false,
   appendPlugins: [require("@graphile-contrib/pg-simplify-inflector"), MyPlugins, PostGraphileConnectionFilterPlugin],
   exportGqlSchemaPath: "schema.graphql",
-  handleErrors: (error) => console.log(error),
   extendedErrors: ["errcode"],
-  graphiql: false,
+  graphiql: true,
   enableQueryBatching: true,
   disableQueryLog: true, 
   legacyRelations: "omit",
   disableDefaultMutations: false,
+  graphqlRoute: '/graphql',
   pgSettings: async req => {
+    return {
+      'user.googleID': 'uh oh'
+    };
     if (req && req && req.headers && req.headers.authorization) {
       const {id} = await tokenToID(req.headers.authorization)
       return {
