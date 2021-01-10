@@ -10,6 +10,7 @@ const pluginHook = makePluginHook([PgPubsub]);
 const postgraphileOptions = {
   pluginHook,
   subscriptions: true,
+  retryOnInitFail: true,
   simpleSubscriptions: true,
   watchPg: true,
   dynamicJson: true,
@@ -19,9 +20,10 @@ const postgraphileOptions = {
   appendPlugins: [require("@graphile-contrib/pg-simplify-inflector"), MyPlugins, PostGraphileConnectionFilterPlugin],
   exportGqlSchemaPath: "schema.graphql",
   handleErrors: (error) => console.log(error),
-  graphiql: true,
-  enhanceGraphiql: true,
+  extendedErrors: ["errcode"],
+  graphiql: false,
   enableQueryBatching: true,
+  disableQueryLog: true, 
   legacyRelations: "omit",
   disableDefaultMutations: false,
   pgSettings: async req => {
