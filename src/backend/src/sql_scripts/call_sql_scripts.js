@@ -1,6 +1,7 @@
 const { Client } = require("pg");
 const fs = require("fs");
 const path = require("path");
+require('dotenv').config();
 
 async function exec_file(fileName, client) {
   const sql = fs.readFileSync(path.resolve(__dirname, fileName), "UTF-8");
@@ -49,7 +50,7 @@ async function init_enemies(client) {
 
 async function run_all_sql_scripts() {
   const client = new Client(
-    "postgres://eerik:Postgrizzly@localhost:5432/rpgym"
+    process.env.DATABASE_URL
   );
   await client.connect();
   await exec_file("init.sql", client);
