@@ -2,7 +2,6 @@ const { Client } = require("pg");
 const fs = require("fs");
 const path = require("path");
 require('dotenv').config();
-
 async function exec_file(fileName, client) {
   const sql = fs.readFileSync(path.resolve(__dirname, fileName), "UTF-8");
   await client.query(sql);
