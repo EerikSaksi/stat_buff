@@ -1,4 +1,3 @@
-grant all on database rpgym to PUBLIC;
 grant all on schema public to PUBLIC;
 grant select on table "exercise" to PUBLIC;
 grant select on table "enemy" to PUBLIC;
