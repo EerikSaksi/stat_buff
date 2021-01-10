@@ -354,4 +354,7 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 # 9 Jan (6 hours)
 - Finished the enemy expiry function I checked yesterday. This function also sends a message to your chat from an admin account that tells you that you ran out of time on your current battle
 - As I was testing the admin message I realized that the unread number of messages was really broken, as it only took into account chats not workouts or PR's, and unread messages were assumed to be the difference in number of messages from the initial fetch to the new initial fetch. Now I have a cached timestamp, that is updated to the current time whenever you open your chats, and unread messages is simply how many messages is older than this amount.
-
+- Subscriptions are now a lot faster. I always sent the new event whenever it happened, but I was accidentally refetching all the messages which made me think I was doing everything properly. Now, it is much faster. This is how messages are now fetched:
+Show cached messages on device -> show all fetched messages -> on subscription, append to start of all fetched messages
+- Added email contact to the user page. Added space for this by removing hello "user" and replacing "Your character has x DPH" with "username has x DPH". 
+- Fixed some miscellaneous issues like the workout popup being broken, npm issues, and such
