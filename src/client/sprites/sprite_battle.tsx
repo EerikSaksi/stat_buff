@@ -6,11 +6,9 @@ import SpriteSelector from "./sprite_selector";
 const styles = StyleSheet.create({
   sprites: {
     flexDirection: "row",
-    flex: 3,
     alignItems: "flex-end",
   },
   sprite: {
-    flex: 1,
     justifyContent: "center",
   },
 });
@@ -24,7 +22,8 @@ const SpriteBattle: React.FC<{
   hits: number;
   maxHealth: number;
   enemyName: string;
-}> = ({ deliveredHits, setDeliveredHits, skillTitle, dph, currentHealth, hits, maxHealth, enemyName }) => {
+  removeFlex?: boolean;
+}> = ({ deliveredHits, setDeliveredHits, skillTitle, dph, currentHealth, hits, maxHealth, enemyName, removeFlex }) => {
   const [totalDamage, setTotalDamage] = useState(0);
   //store total dealt damage (updated whenever the user hits)
   useEffect(() => {
@@ -38,13 +37,13 @@ const SpriteBattle: React.FC<{
     });
   }, [deliveredHits]);
   //these denote the current animation that the sprite should perform
-  const [playerAnimation, setPlayerAnimation] = useState<Animation | undefined>('attackOrDie');
+  const [playerAnimation, setPlayerAnimation] = useState<Animation | undefined>("attackOrDie");
   const [enemyAnimation, setEnemyAnimation] = useState<Animation | undefined>(undefined);
 
   //the onFinish hook of the player sprite calls this. This results in a loop where the sprites wait for each others animations to finish
   const playerAnimationFinished = useCallback(async () => {
     setEnemyAnimation("onHit");
-    setDeliveredHits((deliveredHits) => deliveredHits < hits ? deliveredHits + 1 : deliveredHits);
+    setDeliveredHits((deliveredHits) => (deliveredHits < hits ? deliveredHits + 1 : deliveredHits));
   }, [totalDamage, hits]);
   const enemyAnimationFinished = useCallback(async () => {
     //setting the animation to undefined and back to attack triggers a state change
@@ -56,11 +55,11 @@ const SpriteBattle: React.FC<{
 
   return (
     <React.Fragment>
-      <View style={styles.sprites}>
-        <View style={styles.sprite}>
+      <View style={{ ...styles.sprites, flex: removeFlex ? undefined : 3, }}>
+        <View style={{ ...styles.sprite, flex: removeFlex ? undefined : 1 }}>
           <SpriteSelector aspectRatio={0.7} spriteName={skillTitle} currentAnimation={playerAnimation} animationFinished={deliveredHits < hits ? playerAnimationFinished : undefined} />
         </View>
-        <View style={styles.sprite}>
+        <View style={{ ...styles.sprite, flex: removeFlex ? undefined : 1 }}>
           <SpriteHealthBar maxHealth={maxHealth} currentHealth={currentHealth - totalDamage} style={{ width: "70%" }} />
           <SpriteSelector
             aspectRatio={0.7}

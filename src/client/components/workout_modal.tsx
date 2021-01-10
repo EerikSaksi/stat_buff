@@ -35,7 +35,7 @@ const ENEMY_STATS = gql`
   }
 `;
 const WORKOUTS = gql`
-  query ($username: String!){
+  query($username: String!) {
     workouts(filter: { username: { equalTo: $username } }, last: 1) {
       nodes {
         nodeId
@@ -43,7 +43,7 @@ const WORKOUTS = gql`
         averageRir
       }
     }
-    }
+  }
 `;
 const styles = StyleSheet.create({
   row: {
@@ -129,7 +129,7 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
     }
   }
   return (
-    <CustomModal visible={visible} setVisible={setVisible}>
+    <CustomModal visible={visible} setVisible={setVisible} >
       {content}
     </CustomModal>
   );

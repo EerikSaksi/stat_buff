@@ -4,7 +4,7 @@ import { Text, StyleSheet, Animated, ImageBackground } from "react-native";
 import CenteredView from "../util_components/centered_view";
 import { generateShadow } from "react-native-shadow-generator";
 import { Button, Input, SocialIcon } from "react-native-elements";
-import {getCurrentUser} from "expo-google-sign-in";
+import { getCurrentUser } from "expo-google-sign-in";
 
 const CREATE_USER = gql`
   mutation createuser($username: String!, $idToken: String!) {
@@ -23,7 +23,6 @@ const USER = gql`
 
 var styles = StyleSheet.create({
   input: {
-    //backgroundColor: "white",
     width: "50%",
     textAlign: "center",
     marginBottom: "2%",
@@ -48,7 +47,7 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
   setGoogleID,
   inView,
 }) => {
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
   const [error, setError] = useState("");
   const greenPixelValue = useRef<Animated.Value>(new Animated.Value(0)).current;
   const ref = useRef<Input | null>();
@@ -58,10 +57,9 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
     }
   }, [ref, inView, googleID]);
 
-
   //if succesfully created then user data exists for the current google user
   const [createUser] = useMutation(CREATE_USER, {
-    variables: { username, idToken: ''},
+    variables: { username, idToken: '' },
     onCompleted: (data) => {
       if (data.createUser) {
         refetchUser();
@@ -113,32 +111,29 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
           inputRange: [0, 1, 2],
           outputRange: ["white", "lime", "red"],
         });
-  const content = 
-     googleID ? (
-    <CenteredView >
+  const content = googleID ? (
+    <CenteredView>
       <Text style={styles.text}>{error}</Text>
-      <AnimatedInput style = {{backgroundColor}} ref={ref} onEndEditing={submit} value={username} placeholder="Enter username" onChangeText={(e) => setUsername(e)} />
-      <Button title = "Submit" disabled={error.length !== 0 || username.length === 0} onPress={submit} />
+      <AnimatedInput style={{ backgroundColor }} ref={ref} onEndEditing={submit} value={username} placeholder="Enter username" onChangeText={(e) => setUsername(e)} />
+      <Button title="Submit" disabled={error.length !== 0 || username.length === 0} onPress={submit} />
     </CenteredView>
-    )
-      : (
-      <CenteredView >
-        <SocialIcon
-          type="google"
-          title={"Sign in with Google"}
-          button
-          style={{ width: "50%", ...generateShadow(24) }}
-          onPress={async () => {
-            setGoogleID("dne");
-            refetchUser();
-            //initAsync()
-            ////get the token id and fetch data with it
-            //const result: GoogleSignInAuthResult = await signInAsync();
-            //setGoogleID(result.user!.uid)
-          }}
-        />
-      </CenteredView>
-    );
+  ) : (
+    <CenteredView>
+      <SocialIcon
+        type="google"
+        title={"Sign in with Google"}
+        button
+        style={{ width: "50%", ...generateShadow(24) }}
+        onPress={async () => {
+          //initAsync()
+          ////get the token id and fetch data with it
+          //const result: GoogleSignInAuthResult = await signInAsync();
+          //setGoogleID(result.user!.uid)
+          //refetchUser();
+        }}
+      />
+    </CenteredView>
+  );
   return (
     <ImageBackground imageStyle={{ zIndex: -1 }} style={styles.image} source={require("../assets/squat.jpeg")}>
       {content}

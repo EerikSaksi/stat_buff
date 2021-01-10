@@ -141,7 +141,7 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
         source={source}
         columns={cols}
         rows={rows}
-        imageStyle={{ left: `${leftShift}%`  }}
+        imageStyle={{ left: `${leftShift}%`, }}
         height={aspectRatio ? aspectRatio * height : height}
         animations={{
           idle: Array.from({ length: animationLengths.idle }, (v, i) => i),
