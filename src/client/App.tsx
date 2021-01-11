@@ -1,26 +1,19 @@
-import React, { useRef, useState } from "react";
+import React, { useRef} from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import User from "./components/tabs/user/user";
 import Group from "./components/tabs/group/group";
-import useAnalytics from "./hooks/use_analytics";
+import { visibleSection } from "./apollo/cache";
 
 const Tab = createBottomTabNavigator();
 const App: React.FC<{ username: string }> = ({ username }) => {
-  //our top level listener can identify when each of these becomes visible
-  const [tabs, setTabs] = useState({ User: false, Group: false, Enemy: false, Members: false });
-
-  //feed these values to the analytics hook
-  useAnalytics(tabs);
+  const navigationRef = useRef<any>();
   return (
     <NavigationContainer
       ref={navigationRef}
       onStateChange={() => {
-        setTabs(() => {
-          var newTabs = { User: false, Group: false, Enemy: false, Members: false };
-          newTabs[navigationRef.current.getCurrentRoute().name] = true;
-          return newTabs;
-        });
+        const tab = navigationRef.current.getCurrentRoute().name;
+        if (tab !== "Group") visibleSection(tab);
       }}
     >
       <Tab.Navigator>

@@ -8,7 +8,7 @@ import BodyStatsModal from "./bodystats_modal";
 import { Button } from "react-native-elements";
 import useSkillTitle from "../../../hooks/use_skill_title";
 import WorkoutModal from "../../workout_modal";
-import useAnalytics from "../../../hooks/use_analytics";
+import useUserAnalytics from "../../../hooks/analytics/use_user_analytics";
 
 const USER_BODY_STATS = gql`
   query($username: String!) {
@@ -87,7 +87,7 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
   const [strengthModalVisible, setStrengthModalVisible] = useState(false);
   const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false);
   const [workoutModalVisible, setWorkoutModalVisible] = useState(true);
-  useAnalytics({ strengthModalVisible, bodystatsModalVisible, workoutModalVisible });
+  useUserAnalytics({ strengthModalVisible, bodystatsModalVisible, workoutModalVisible });
 
   const { data } = useQuery(USER, {
     variables: { username },
