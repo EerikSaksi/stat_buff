@@ -1,8 +1,8 @@
-import { InMemoryCache} from "@apollo/client/cache";
+import { InMemoryCache } from "@apollo/client/cache";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persistCache, AsyncStorageWrapper } from "apollo3-cache-persist";
-import { makeVar } from '@apollo/client';
-const chatWindowOpen = makeVar(false)
+import { makeVar } from "@apollo/client";
+const visibleSection = makeVar("user");
 var cache;
 
 (async () => {
@@ -15,4 +15,4 @@ var cache;
     storage: new AsyncStorageWrapper(AsyncStorage),
   });
 })();
-export { cache, chatWindowOpen };
+export { cache, visibleSection };

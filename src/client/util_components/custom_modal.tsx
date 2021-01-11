@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     left: "2%",
     position: "absolute",
     top: 0,
-    zIndex: 1
+    zIndex: 1,
   },
   image: {
     flex: 1,
@@ -23,11 +23,11 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
 });
-const CustomModal: React.FC<{ visible: boolean; setVisible: (bool: boolean) => void; children: React.ReactNode; }> = ({ visible, setVisible, children}) => {
+const CustomModal: React.FC<{ visible: boolean; setVisible: (bool: boolean) => void; children: React.ReactNode }> = ({ visible, setVisible, children }) => {
   return (
-    <Overlay  isVisible={visible} onDismiss={() => setVisible(false)} onBackdropPress={() => setVisible(false)}>
+    <Overlay isVisible={visible} onDismiss={() => setVisible(false)} onBackdropPress={() => setVisible(false)}>
       <React.Fragment>
-        <Ionicons style={styles.arrow} onPress={() => setVisible(false)} name="ios-arrow-round-back" />
+        <Ionicons style={styles.arrow} onPress={() => setVisible(false)} name="arrow-back-sharp" />
         {children}
       </React.Fragment>
     </Overlay>

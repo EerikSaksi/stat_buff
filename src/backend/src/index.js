@@ -5,7 +5,6 @@ const PostGraphileConnectionFilterPlugin = require('postgraphile-plugin-connecti
 const run_all_sql_scripts = require('./sql_scripts/call_sql_scripts')
 const { default: PgPubsub } = require("@graphile/pg-pubsub"); 
 require('dotenv').config();
-
 const pluginHook = makePluginHook([PgPubsub]);
 const postgraphileOptions = {
   pluginHook,

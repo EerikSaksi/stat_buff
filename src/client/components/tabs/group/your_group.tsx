@@ -8,6 +8,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import ChatModal from "./chat_modal";
 import { Badge, Button } from "react-native-elements";
 import { gql, useMutation } from "@apollo/client";
+import useAnalytics from "../../../hooks/use_analytics";
 const Tab = createMaterialTopTabNavigator();
 const NULLIFY_GROUP = gql`
   mutation {
@@ -66,6 +67,9 @@ const YourGroup: React.FC<{ groupname: string; username: string; refetchParentGr
   const { colors } = useTheme();
   const [chatModalVisible, setChatModalVisible] = useState(false);
   const [newMessages, setNewMessages] = useState(0);
+
+  //listen to ChatModal being Visible
+  useAnalytics({chatModalVisible})
 
   //resets group, and fetches the parent so that we go back to join team view
   const [nullifyGroup] = useMutation(NULLIFY_GROUP, {
