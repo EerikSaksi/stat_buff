@@ -17,10 +17,12 @@ grant all on table "user_exercise" to query_sender;
 grant all on table "battle" to query_sender;
 grant all on table "workout" to query_sender;
 grant all on table "chat_message" to query_sender;
+grant all on table "session_analytics" to query_sender;
 
+--these are necessary for auto increment ids to work
 GRANT USAGE, SELECT ON SEQUENCE workout_id_seq TO query_sender;
 GRANT USAGE, SELECT ON SEQUENCE chat_message_id_seq TO query_sender;
-
+GRANT USAGE, SELECT ON SEQUENCE session_analytics_id_seq TO query_sender;
 
 --google ids are only used internally to identify users 
 comment on column "user".googleID is E'@omit';
@@ -42,6 +44,7 @@ comment on table "battle" is E'@omit create, update, insert, all';
 comment on column "workout".groupName is E'@omit create, update, insert';
 comment on column "workout".battle_number is E'@omit create, update, insert';
 comment on column "workout".total_damage is E'@omit create, update, insert';
+comment on column "workout".total_damage is E'@omit select, all, update';
 
 Alter table "user" enable row level security;
 Alter table "group" enable row level security;
@@ -52,6 +55,7 @@ Alter table "workout" enable row level security;
 Alter table "chat_message" enable row level security;
 comment on column "chat_message".groupName is E'@omit create, update, insert';
 comment on column "chat_message".id is E'@omit create, update, insert';
+comment on column "session_analytics".id is E'@omit create, update, insert';
 
 CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));
 CREATE POLICY user_delete ON "user" FOR delete to query_sender USING (googleID = current_setting('user.googleID'));
@@ -90,3 +94,9 @@ CREATE POLICY chat_message_update ON "chat_message" FOR update to query_sender U
 CREATE POLICY chat_message_delete ON "chat_message" FOR delete to query_sender USING (username = (select username from active_user()));
 CREATE POLICY chat_message_create ON "chat_message" FOR insert to query_sender with check (username = (select username from active_user()) and groupName = (select groupName from active_user()));
 CREATE POLICY chat_message_select ON "chat_message" FOR select to query_sender using (groupName = (select groupName from active_user()));
+
+--analytics are just out of reach for everyone but the user themselves
+CREATE POLICY session_analytics_update ON "session_analytics" FOR update to query_sender USING (username = (select username from active_user()));
+CREATE POLICY session_analytics_delete ON "session_analytics" FOR delete to query_sender USING (username = (select username from active_user()));
+CREATE POLICY session_analytics_create ON "session_analytics" FOR insert to query_sender with check (username = (select username from active_user()));
+CREATE POLICY session_analytics_select ON "session_analytics" FOR select to query_sender using (username = (select username from active_user()));

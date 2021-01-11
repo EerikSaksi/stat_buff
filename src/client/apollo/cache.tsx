@@ -2,7 +2,7 @@ import { InMemoryCache } from "@apollo/client/cache";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persistCache, AsyncStorageWrapper } from "apollo3-cache-persist";
 import { makeVar } from "@apollo/client";
-const visibleSection = makeVar("User");
+const visibleSection = makeVar("UserTab");
 var cache;
 
 (async () => {

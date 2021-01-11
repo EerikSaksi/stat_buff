@@ -13,7 +13,7 @@ const useUserAnalytics: React.FC<{ workoutModalVisible: boolean; strengthModalVi
     } else if (bodystatsModalVisible) {
       visibleSection("bodystatsModalVisible");
     } else {
-      visibleSection("User");
+      visibleSection("UserTab");
     }
   }, [workoutModalVisible, strengthModalVisible, bodystatsModalVisible]);
   return null;

@@ -12,13 +12,15 @@ const App: React.FC<{ username: string }> = ({ username }) => {
   const navigationRef = useRef<any>();
 
   //init the analytics tracker and sender
-  useAnalyticsSender()
+  useAnalyticsSender(username)
   return (
     <NavigationContainer
       ref={navigationRef}
       onStateChange={() => {
         const tab = navigationRef.current.getCurrentRoute().name;
-        if (tab !== "Group") visibleSection(tab);
+        //set the tab as the visible section 
+        //group is never set as opening group will also open enemy or members. I'm adding "tab" because postgres doesnt like "user" as a variable name
+        if (tab !== "Group") visibleSection(tab + "Tab");
       }}
     >
       <Tab.Navigator>

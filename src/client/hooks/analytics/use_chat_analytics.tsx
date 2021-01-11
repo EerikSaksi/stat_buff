@@ -6,11 +6,11 @@ const useChatAnalytics: React.FC<{chatModalVisible: boolean}> = ({chatModalVisib
   //we need to store the last group tab we were on, as we need to set it back if we close the chat
   const [lastGroupTab, setLastGroupTab] = useState<undefined | string>()
   useEffect(() => {
-    if (vs === "Enemy"){
-      setLastGroupTab("Enemy")
+    if (vs === "EnemyTab"){
+      setLastGroupTab("EnemyTab")
     } 
-    else if ( vs === "Members") {
-      setLastGroupTab("Members")
+    else if ( vs === "MembersTab") {
+      setLastGroupTab("MembersTab")
     }
   }, [vs])
 
