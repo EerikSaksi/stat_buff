@@ -3,6 +3,7 @@ const {postgraphile, makePluginHook} = require('postgraphile');
 const MyPlugins = require('./postgraphile_plugins')
 const PostGraphileConnectionFilterPlugin = require('postgraphile-plugin-connection-filter');
 const run_all_sql_scripts = require('./sql_scripts/call_sql_scripts')
+const tokenToGoogleID = require("./google_auth");
 const { default: PgPubsub } = require("@graphile/pg-pubsub"); 
 require('dotenv').config();
 
@@ -28,7 +29,7 @@ const postgraphileOptions = {
   graphqlRoute: '/graphql',
   pgSettings: async req => {
     if (req && req && req.headers && req.headers.authorization) {
-      const {id} = await tokenToID(req.headers.authorization)
+      const {id} = await tokenToGoogleID(req.headers.authorization)
       return {
         'user.googleID': id
       };
