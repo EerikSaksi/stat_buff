@@ -106,6 +106,17 @@ create table "chat_message" (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   groupName varchar(32) not null references "group"
 );
+create table "session_analytics" (
+  id serial primary key,
+  username varchar(32) not null references "user",
+  strengthModalVisible float not null,
+  bodystatsModalVisible float not null,
+  workoutModalVisiblefloat float not null,
+  chatModalVisible float not null,
+  User float not null,
+  Members float not null,
+  Enemy float not null
+)
 create index on "chat_message" (username);
 create index on "chat_message" (groupName);
 
