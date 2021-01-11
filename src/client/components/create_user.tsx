@@ -4,7 +4,7 @@ import { Text, StyleSheet, Animated, ImageBackground } from "react-native";
 import CenteredView from "../util_components/centered_view";
 import { generateShadow } from "react-native-shadow-generator";
 import { Button, Input, SocialIcon } from "react-native-elements";
-import { getCurrentUser } from "expo-google-sign-in";
+import { getCurrentUser, signInAsync } from "expo-google-sign-in";
 
 const CREATE_USER = gql`
   mutation createuser($username: String!, $idToken: String!) {
@@ -37,6 +37,13 @@ var styles = StyleSheet.create({
     position: "relative",
     resizeMode: "cover",
   },
+  socialIcon: {
+    width: "50%",
+    ...generateShadow(24),
+  },
+  imageBackground: {
+    zIndex: -1,
+  },
 });
 
 const AnimatedInput = Animated.createAnimatedComponent(Input);
@@ -48,8 +55,8 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
   inView,
 }) => {
   const [username, setUsername] = useState("");
-  const [error, setError] = useState("");
   const greenPixelValue = useRef<Animated.Value>(new Animated.Value(0)).current;
+  const [error, setError] = useState("No error yet");
   const ref = useRef<Input | null>();
   useEffect(() => {
     if (ref.current) {
@@ -59,7 +66,7 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
 
   //if succesfully created then user data exists for the current google user
   const [createUser] = useMutation(CREATE_USER, {
-    variables: { username, idToken: getCurrentUser()?.uid },
+    variables: { username, idToken: getCurrentUser()?.auth?.idToken },
     onCompleted: (data) => {
       if (data.createUser) {
         refetchUser();
@@ -123,19 +130,20 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
         type="google"
         title={"Sign in with Google"}
         button
-        style={{ width: "50%", ...generateShadow(24) }}
+        style={styles.socialIcon}
         onPress={async () => {
-          initAsync()
           //get the token id and fetch data with it
-          const result: GoogleSignInAuthResult = await signInAsync();
-          setGoogleID(result.user!.uid)
+          const result = await signInAsync();
+          setError(JSON.stringify(result));
+          setGoogleID(result.user?.uid);
           refetchUser();
         }}
       />
+      <Text>{error}</Text>
     </CenteredView>
   );
   return (
-    <ImageBackground imageStyle={{ zIndex: -1 }} style={styles.image} source={require("../assets/squat.jpeg")}>
+    <ImageBackground imageStyle={styles.imageBackground} style={styles.image} source={require("../assets/squat.jpeg")}>
       {content}
     </ImageBackground>
   );

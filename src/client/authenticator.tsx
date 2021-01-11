@@ -1,4 +1,4 @@
-import React, { useState, Suspense, useEffect, lazy } from "react";
+import React, { useEffect, useState } from "react";
 import { initAsync, getCurrentUserAsync, isSignedInAsync } from "expo-google-sign-in";
 import { gql, useLazyQuery } from "@apollo/client";
 import App from "./App";
@@ -18,13 +18,13 @@ export default function Authenticator() {
 
   //when starting try check if user logged in and fetch their token
   useEffect(() => {
-    refetchUser();
     const tryGetToken = async () => {
       await initAsync()
       if (await isSignedInAsync()) {
         const result = await getCurrentUserAsync()
         setGoogleID(result?.uid)
       }
+      refetchUser();
     }
     tryGetToken()
   }, []);

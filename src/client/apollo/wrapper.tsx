@@ -1,9 +1,8 @@
 import registerRootComponent from 'expo/build/launch/registerRootComponent';
-import App from "../Main_App";
 import React from 'react';
 import {setContext} from '@apollo/client/link/context';
 import {getCurrentUserAsync} from 'expo-google-sign-in'
-import {ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink, InMemoryCache} from '@apollo/client'
+import {ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink} from '@apollo/client'
 import Authenticator from '../authenticator';
 import { split } from '@apollo/client';
 import {getMainDefinition} from '@apollo/client/utilities';
@@ -22,12 +21,22 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext(async (_, {headers}) => {
-  const user = await getCurrentUserAsync()  
-  const token = user?.auth?.idToken
+  var user = await getCurrentUserAsync()  
+  //have token
+  if (user && user.auth && user.auth.idTokenExpirationDate){
+    //expired
+    if (user.auth.idTokenExpirationDate < new Date().getTime()){
+      await user.refreshAuth()
+      user = await getCurrentUserAsync()
+    }
+  }
+  else {
+    return {headers}
+  }
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
+      authorization:  `Bearer ${user!.auth?.idToken}` 
     }
   }
 });
