@@ -30,7 +30,7 @@ const MyPlugins = makeExtendSchemaPlugin((build) => {
           if (username.match(/^[a-zA-Z0-9._]+$/) == null || username.length >= 20 || username.length === 0) {
             return null;
           }
-          const {email} = tokenToGoogleID(args.idToken)
+          const {email} = tokenToGoogleID(`Bearer ${args.idToken}`)
           console.log(email)
           //no need to ensure if already exists because of unique clause for googleID
           await context.pgClient.query(
