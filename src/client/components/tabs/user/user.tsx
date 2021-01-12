@@ -8,6 +8,7 @@ import BodyStatsModal from "./bodystats_modal";
 import { Button } from "react-native-elements";
 import useSkillTitle from "../../../hooks/use_skill_title";
 import WorkoutModal from "../../workout_modal";
+import useUserAnalytics from "../../../hooks/analytics/use_user_analytics";
 
 const USER_BODY_STATS = gql`
   query($username: String!) {
@@ -85,7 +86,9 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
   const { username } = route.params;
   const [strengthModalVisible, setStrengthModalVisible] = useState(false);
   const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false);
-  const [workoutModalVisible, setWorkoutModalVisible] = useState(false);
+  const [workoutModalVisible, setWorkoutModalVisible] = useState(true);
+  useUserAnalytics({ strengthModalVisible, bodystatsModalVisible, workoutModalVisible });
+
   const { data } = useQuery(USER, {
     variables: { username },
   });
@@ -118,7 +121,7 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
         ) : null}
       </View>
       <View style={styles.row}>
-        <Text style={{ textAlign: "center", color: 'black' }}>
+        <Text style={{ textAlign: "center", color: "black" }}>
           If you have any question related to the app or the study (e.g. to withdraw) don't hesitate to contact me:{" "}
           <Text style={{ color: "blue", textAlign: "center" }} onPress={() => Linking.openURL("mailto:saksi.eerik@gmail.com")}>
             saksi.eerik@gmail.com
@@ -127,7 +130,7 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
       </View>
       <ExerciseModal visible={strengthModalVisible} setVisible={setStrengthModalVisible} username={username} refetchParent={fetchStrength} />
       <BodyStatsModal visible={bodystatsModalVisible} setVisible={setBodystatsModalVisible} username={username} refetchParent={fetchBodyStats} />
-      <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username} skillTitle={'noob'} />
+      <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username} skillTitle={skillTitle} />
       <View style={styles.sprite}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={skillTitle} /> : <Loading />}</View>
       <View style={styles.trackWorkout}>
         <Button disabled={!(exerciseData && exerciseData.calculateStrengthStats)} title="Log workout" onPress={() => setWorkoutModalVisible(true)} />

@@ -109,6 +109,19 @@ create table "chat_message" (
 create index on "chat_message" (username);
 create index on "chat_message" (groupName);
 
+create table "session_analytics" (
+  id serial primary key,
+  username varchar(32) not null references "user",
+  strengthModalVisible float not null,
+  bodystatsModalVisible float not null,
+  workoutModalVisible float not null,
+  chatModalVisible float not null,
+  UserTab float not null,
+  MembersTab float not null,
+  EnemyTab float not null
+);
+create index on "session_analytics" (username);
+
 CREATE FUNCTION active_user() RETURNS "user" AS $$
   select * from "user" where googleID = current_setting('user.googleID')
 $$ LANGUAGE sql stable STRICT;

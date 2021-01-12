@@ -19,14 +19,14 @@ export default function Authenticator() {
   //when starting try check if user logged in and fetch their token
   useEffect(() => {
     const tryGetToken = async () => {
-      await initAsync()
+      await initAsync();
       if (await isSignedInAsync()) {
-        const result = await getCurrentUserAsync()
-        setGoogleID(result?.uid)
+        const result = await getCurrentUserAsync();
+        setGoogleID(result?.uid);
       }
       refetchUser();
-    }
-    tryGetToken()
+    };
+    tryGetToken();
   }, []);
   if (!data) {
     return null;

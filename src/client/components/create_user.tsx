@@ -5,7 +5,6 @@ import CenteredView from "../util_components/centered_view";
 import { generateShadow } from "react-native-shadow-generator";
 import { Button, Input, SocialIcon } from "react-native-elements";
 import { getCurrentUser, signInAsync } from "expo-google-sign-in";
-
 const CREATE_USER = gql`
   mutation createuser($username: String!, $idToken: String!) {
     createUser(username: $username, idToken: $idToken)
@@ -134,12 +133,10 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
         onPress={async () => {
           //get the token id and fetch data with it
           const result = await signInAsync();
-          setError(JSON.stringify(result));
           setGoogleID(result.user?.uid);
           refetchUser();
         }}
       />
-      <Text>{error}</Text>
     </CenteredView>
   );
   return (

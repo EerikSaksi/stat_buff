@@ -12,12 +12,12 @@ import {cache} from './cache';
 const wsLink = new WebSocketLink({
   uri: `ws://localhost:4000/graphql`,
   options: {
-    reconnect: true
-  }
+    reconnect: true,
+  },
 });
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: "http://localhost:4000/graphql",
 });
 
 const authLink = setContext(async (_, {headers}) => {
@@ -37,18 +37,15 @@ const authLink = setContext(async (_, {headers}) => {
     }
   }
   return {headers}
-});
+})
 
 const splitLink = split(
   ({ query }) => {
     const definition = getMainDefinition(query);
-    return (
-      definition.kind === 'OperationDefinition' &&
-      definition.operation === 'subscription'
-    );
+    return definition.kind === "OperationDefinition" && definition.operation === "subscription";
   },
   wsLink,
-  authLink.concat(httpLink),
+  authLink.concat(httpLink)
 );
 
 const options: ApolloClientOptions<unknown> = {
@@ -56,13 +53,17 @@ const options: ApolloClientOptions<unknown> = {
   cache,
   defaultOptions: {
     watchQuery: {
-      fetchPolicy: 'cache-and-network',
+      fetchPolicy: "cache-and-network",
     },
     query: {
-      fetchPolicy: 'cache-first',
+      fetchPolicy: "cache-first",
     },
   },
-}
-export const client = new ApolloClient(options)
-const index: React.FC = () => <ApolloProvider client={client}><Authenticator/></ApolloProvider>
+};
+export const client = new ApolloClient(options);
+const index: React.FC = () => (
+  <ApolloProvider client={client}>
+    <Authenticator />
+  </ApolloProvider>
+);
 registerRootComponent(index);
