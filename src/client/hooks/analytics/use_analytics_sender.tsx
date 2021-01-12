@@ -66,6 +66,11 @@ export default function useAnalyticsSender(username: string) {
     //if the user is about to go inactive, then we send the analytics
     const sendAnalyticsOnExitApp = (nextAppState) => {
       if (nextAppState === "inactive" || nextAppState === "background") {
+        //add final used section before we send it off
+        if (lastSectionData.current) {
+          analytics.current[lastSectionData.current.name] += (Date.now() - lastSectionData.current.time.getTime()) / 1000;
+          console.log(analytics)
+        }
         sendAnalytics();
       }
     };
