@@ -10,7 +10,7 @@ async function tokenToGoogleID(headerAuth) {
   const payload = ticket.getPayload();
   return {
     id: payload["sub"],
-    email: payload["email"],
+    email: payload.email
   }
 }
 module.exports = tokenToGoogleID;
