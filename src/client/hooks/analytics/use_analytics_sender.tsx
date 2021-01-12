@@ -31,34 +31,18 @@ const SEND_ANALYTICS = gql`
     }
   }
 `;
-
+type AppSection = "strengthModalVisible" | "bodystatsModalVisible" | "workoutModalVisible" | "chatModalVisible" | "UserTab" | "MembersTab" | "EnemyTab";
 export default function useAnalyticsSender(username: string) {
   const vs = useReactiveVar(visibleSection);
 
   //initially there is no last section
-  const lastSectionData = useRef<{ name: string; time: Date } | undefined>();
-  const analytics = useRef({
-    strengthModalVisible: 0.0,
-    bodystatsModalVisible: 0.0,
-    workoutModalVisible: 0.0,
-    chatModalVisible: 0.0,
-    UserTab: 0.0,
-    MembersTab: 0.0,
-    EnemyTab: 0.0,
-  });
+  const lastSectionData = useRef<{ name: AppSection; time: Date } | undefined>();
+  const analytics = useRef<[section: AppSection, timeSpent: number][]>([]);
   const [sendAnalytics] = useMutation(SEND_ANALYTICS, {
     variables: { ...analytics.current, username },
     //after we send the session we reset the analytics to avoid accidentally sending them twice
     onCompleted: () => {
-      analytics.current = {
-        strengthModalVisible: 0.0,
-        bodystatsModalVisible: 0.0,
-        workoutModalVisible: 0.0,
-        chatModalVisible: 0.0,
-        UserTab: 0.0,
-        MembersTab: 0.0,
-        EnemyTab: 0.0,
-      };
+      analytics.current = []
       lastSectionData.current = undefined;
     },
   });
@@ -68,8 +52,7 @@ export default function useAnalyticsSender(username: string) {
       if (nextAppState === "inactive" || nextAppState === "background") {
         //add final used section before we send it off
         if (lastSectionData.current) {
-          analytics.current[lastSectionData.current.name] += (Date.now() - lastSectionData.current.time.getTime()) / 1000;
-          console.log(analytics)
+          analytics.current.push([lastSectionData.current.name, (Date.now() - lastSectionData.current.time.getTime()) / 1000])
         }
         sendAnalytics();
       }
@@ -81,11 +64,10 @@ export default function useAnalyticsSender(username: string) {
     const now = new Date();
     //the time that we spent on the last section is equal to time elapsed since we first opened it until now
     if (lastSectionData.current) {
-      analytics.current[lastSectionData.current.name] += (now.getTime() - lastSectionData.current.time.getTime()) / 1000;
+      analytics.current.push([lastSectionData.current.name, (now.getTime() - lastSectionData.current.time.getTime()) / 1000]) 
     }
-
     //the last section now becomes the current section, and its use starts now
-    lastSectionData.current = { name: vs, time: now };
+    lastSectionData.current = { name: (vs as AppSection), time: now };
     console.log(analytics)
   }, [vs]);
 }

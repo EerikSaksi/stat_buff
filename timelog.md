@@ -347,14 +347,37 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - Talked about new features that should be added. We came to the conclusion that I should implement the key features that are required for the pilot study that will start next week (which are essentially that the app is available, the server is running and I collect analytics)
 
 # 8 Jan (4 hours)
+
 - You can now leave groups
 - The workout inputs for sets and average reps in reserve are now autofilled
 - Interestingly, realized that I have not implemented a key feature: enemies should reset and a new battle should be created from square one when you run out of time. Started implementing this feature
 
 # 9 Jan (6 hours)
+
 - Finished the enemy expiry function I checked yesterday. This function also sends a message to your chat from an admin account that tells you that you ran out of time on your current battle
 - As I was testing the admin message I realized that the unread number of messages was really broken, as it only took into account chats not workouts or PR's, and unread messages were assumed to be the difference in number of messages from the initial fetch to the new initial fetch. Now I have a cached timestamp, that is updated to the current time whenever you open your chats, and unread messages is simply how many messages is older than this amount.
 - Subscriptions are now a lot faster. I always sent the new event whenever it happened, but I was accidentally refetching all the messages which made me think I was doing everything properly. Now, it is much faster. This is how messages are now fetched:
-Show cached messages on device -> show all fetched messages -> on subscription, append to start of all fetched messages
-- Added email contact to the user page. Added space for this by removing hello "user" and replacing "Your character has x DPH" with "username has x DPH". 
+  Show cached messages on device -> show all fetched messages -> on subscription, append to start of all fetched messages
+- Added email contact to the user page. Added space for this by removing hello "user" and replacing "Your character has x DPH" with "username has x DPH".
 - Fixed some miscellaneous issues like the workout popup being broken, npm issues, and such
+
+# 10 Jan (7 hours)
+
+- Today was mostly dedicated to getting the production app working.
+- I got the server up on Heroku, but it is a bit problematic, as Heroku doesn't let you add database roles. My whole security policy is based on creating a new user who has restricted access to tables and rows (such as only being able to update and delete their own data). The default user is the super user that can bypass the policies and rules. Currently, anyone querying my server has superuser privileges, which isn't an issue for the pilot study, as the restrictions are in place to protect from malicious actors writing custom queries.
+- Postgraphile recommends deploying to AWS lambda, as they allow multiple users. I tried to register today, and kept getting infinite captchas (I probably completed 20 before I gave up). After refreshing I was banned from even trying to submit the create account form. I got in contact with support, so deploying there has to wait until then.
+- I also started building the app. I didn't have to change much, but I did have to reenable Google login, as these are not available in non-build apps. This is a bit annoying, as building the app takes a while, as it needs to do some magic on Expo's cloud which has a queue. And if it fails, I have to change something and rebuild again. Other than that, there shouldn't be anything that should break on the build. I tried the client with a user that had already authenticated (so I could bypass the Google auth), and everything seemed to work fine, as was more responsive than the test client, which was nice.
+- So hopefully I should have a working client that I and a friend or two could download and start testing by early next week. The server is already up, and hopefully Google authentication is the only thing standing between me launching the app on app stores.
+
+# 11 Jan (8 hours)
+
+- Finished analytics tracking entirely on both client side and server side.
+- It's very efficient on both, as the time tracking is only updated whenever the user changes screens, and only sends the session analytics when the app goes in to the background or is closed
+- Got the Google auth working, but it is sending outdated tokens, so that needs some work
+
+# 12 Jan (3 hours)
+
+- Merged the analytics from the master branch to production
+- Figured out my Google authentication issue: I was calling a method that returned the cached credentials, and I assumed that this method also checked expiries. I manually log the user back in silently in the background if they are not, so the cached credentials become valid again. This was really annoying to fix, but luckily I remembered about the "alert" React Native method, which allowed me to display internal data on the build.
+- Created a script that won't let my browser launch if my hosts doesn't block distracting sites such as YouTube.
+- Had meeting, we discussed the analytics and how they should be list of events instead of just raw total times spent
