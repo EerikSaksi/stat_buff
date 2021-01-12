@@ -1,7 +1,7 @@
 import registerRootComponent from 'expo/build/launch/registerRootComponent';
 import React from 'react';
 import {setContext} from '@apollo/client/link/context';
-import {getCurrentUserAsync} from 'expo-google-sign-in'
+import {getCurrentUserAsync, signInSilentlyAsync} from 'expo-google-sign-in'
 import {ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink} from '@apollo/client'
 import Authenticator from '../authenticator';
 import { split } from '@apollo/client';
@@ -24,21 +24,19 @@ const authLink = setContext(async (_, {headers}) => {
   var user = await getCurrentUserAsync()  
   //have token
   if (user && user.auth && user.auth.idTokenExpirationDate){
-    //expired
+    //expired so sign in again and then get a new token
     if (user.auth.idTokenExpirationDate < new Date().getTime()){
-      await user.refreshAuth()
+      await signInSilentlyAsync()
       user = await getCurrentUserAsync()
     }
-  }
-  else {
-    return {headers}
-  }
-  return {
-    headers: {
-      ...headers,
-      authorization:  `Bearer ${user!.auth?.idToken}` 
+    return {
+      headers: {
+        ...headers,
+        authorization: `Bearer ${user!.auth?.idToken}` 
+      }
     }
   }
+  return {headers}
 });
 
 const splitLink = split(
