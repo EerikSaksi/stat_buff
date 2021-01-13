@@ -375,11 +375,10 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - It's very efficient on both, as the time tracking is only updated whenever the user changes screens, and only sends the session analytics when the app goes in to the background or is closed
 - Got the Google auth working, but it is sending outdated tokens, so that needs some work
 
-# 12 (3 hours)
-
+# 12 Jan (3 hours)
 - Merged the analytics from the master branch to production
 - Figured out my Google authentication issue: I was calling a method that returned the cached credentials, and I assumed that this method also checked expiries. I manually log the user back in silently in the background if they are not, so the cached credentials become valid again. This was really annoying to fix, but luckily I remembered about the "alert" React Native method, which allowed me to display internal data on the build.
 - Created a script that won't let my browser launch if my hosts doesn't block distracting sites such as YouTube.
-- Had meeting, we discussed the analytics and how they should be list of events instead of just raw total times spent
-- 
-
+- Had meeting, we discussed the analytics and how they should be list of events instead of just raw total times spent. Luckily I had implemented my analytics in a way where I fixed this within an hour or so. This data is better as it can be used to see what routes the user takes around the app
+- I also added time stamps, so that the analytics can be used to find out when the user opens the app and how often
+- We also discussed the ethics consent sheet, and agreed that I should have some informed consent sheet at the start of the app.

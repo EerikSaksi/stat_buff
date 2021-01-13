@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect, } from "react";
 import { initAsync, getCurrentUserAsync, isSignedInAsync } from "expo-google-sign-in";
 import { gql, useLazyQuery } from "@apollo/client";
 import App from "./App";

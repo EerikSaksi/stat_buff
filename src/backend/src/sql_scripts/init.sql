@@ -94,6 +94,7 @@ create table "user_exercise" (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   FOREIGN KEY (groupName, battle_number) REFERENCES "battle"(groupName, battle_number) on delete set null
 );
+
 create index on "user_exercise" (slug_name);
 create index on "user_exercise" (username);
 create index on "user_exercise" (groupName, battle_number);
@@ -109,16 +110,15 @@ create table "chat_message" (
 create index on "chat_message" (username);
 create index on "chat_message" (groupName);
 
+create type section_and_time_spent as (
+  section varchar,
+  time_spent float
+);
 create table "session_analytics" (
   id serial primary key,
   username varchar(32) not null references "user",
-  strengthModalVisible float not null,
-  bodystatsModalVisible float not null,
-  workoutModalVisible float not null,
-  chatModalVisible float not null,
-  UserTab float not null,
-  MembersTab float not null,
-  EnemyTab float not null
+  analytics section_and_time_spent[] not null,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 create index on "session_analytics" (username);
 
