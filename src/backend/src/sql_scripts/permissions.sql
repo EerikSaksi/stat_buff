@@ -7,9 +7,6 @@ grant all on table "user_exercise" to PUBLIC;
 grant all on table "battle" to PUBLIC;
 grant all on table "workout" to PUBLIC;
 grant all on table "chat_message" to PUBLIC;
-
-grant all on database rpgym to public;
-grant all on schema public to public;
 grant select on table "exercise" to public;
 grant select on table "enemy" to public;
 
