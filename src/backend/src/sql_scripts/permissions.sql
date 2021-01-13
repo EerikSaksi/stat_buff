@@ -8,24 +8,24 @@ grant all on table "battle" to PUBLIC;
 grant all on table "workout" to PUBLIC;
 grant all on table "chat_message" to PUBLIC;
 
-grant all on database rpgym to query_sender;
-grant all on schema public to query_sender;
-grant select on table "exercise" to query_sender;
-grant select on table "enemy" to query_sender;
+grant all on database rpgym to public;
+grant all on schema public to public;
+grant select on table "exercise" to public;
+grant select on table "enemy" to public;
 
-grant all on table "user" to query_sender;
-grant all on table "group" to query_sender;
-grant all on table "bodystat" to query_sender;
-grant all on table "user_exercise" to query_sender;
-grant all on table "battle" to query_sender;
-grant all on table "workout" to query_sender;
-grant all on table "chat_message" to query_sender;
-grant all on table "session_analytics" to query_sender;
+grant all on table "user" to public;
+grant all on table "group" to public;
+grant all on table "bodystat" to public;
+grant all on table "user_exercise" to public;
+grant all on table "battle" to public;
+grant all on table "workout" to public;
+grant all on table "chat_message" to public;
+grant all on table "session_analytics" to public;
 
 --these are necessary for auto increment ids to work
-GRANT USAGE, SELECT ON SEQUENCE workout_id_seq TO query_sender;
-GRANT USAGE, SELECT ON SEQUENCE chat_message_id_seq TO query_sender;
-GRANT USAGE, SELECT ON SEQUENCE session_analytics_id_seq TO query_sender;
+GRANT USAGE, SELECT ON SEQUENCE workout_id_seq TO public;
+GRANT USAGE, SELECT ON SEQUENCE chat_message_id_seq TO public;
+GRANT USAGE, SELECT ON SEQUENCE session_analytics_id_seq TO public;
 
 --google ids are only used internally to identify users 
 comment on column "user".googleID is E'@omit';
@@ -92,13 +92,13 @@ CREATE POLICY workout_delete ON "workout" FOR delete to PUBLIC USING (username =
 CREATE POLICY workout_create ON "workout" FOR insert to PUBLIC with check (true);
 CREATE POLICY workout_select ON "workout" FOR select to PUBLIC using (true);
 
-CREATE POLICY chat_message_update ON "chat_message" FOR update to query_sender USING (username = (select username from active_user()));
-CREATE POLICY chat_message_delete ON "chat_message" FOR delete to query_sender USING (username = (select username from active_user()));
-CREATE POLICY chat_message_create ON "chat_message" FOR insert to query_sender with check (username = (select username from active_user()) and groupName = (select groupName from active_user()));
-CREATE POLICY chat_message_select ON "chat_message" FOR select to query_sender using (groupName = (select groupName from active_user()));
+CREATE POLICY chat_message_update ON "chat_message" FOR update to public USING (username = (select username from active_user()));
+CREATE POLICY chat_message_delete ON "chat_message" FOR delete to public USING (username = (select username from active_user()));
+CREATE POLICY chat_message_create ON "chat_message" FOR insert to public with check (username = (select username from active_user()) and groupName = (select groupName from active_user()));
+CREATE POLICY chat_message_select ON "chat_message" FOR select to public using (groupName = (select groupName from active_user()));
 
 --analytics are just out of reach for everyone but the user themselves
-CREATE POLICY session_analytics_update ON "session_analytics" FOR update to query_sender USING (username = (select username from active_user()));
-CREATE POLICY session_analytics_delete ON "session_analytics" FOR delete to query_sender USING (username = (select username from active_user()));
-CREATE POLICY session_analytics_create ON "session_analytics" FOR insert to query_sender with check (username = (select username from active_user()));
-CREATE POLICY session_analytics_select ON "session_analytics" FOR select to query_sender using (username = (select username from active_user()));
+CREATE POLICY session_analytics_update ON "session_analytics" FOR update to public USING (username = (select username from active_user()));
+CREATE POLICY session_analytics_delete ON "session_analytics" FOR delete to public USING (username = (select username from active_user()));
+CREATE POLICY session_analytics_create ON "session_analytics" FOR insert to public with check (username = (select username from active_user()));
+CREATE POLICY session_analytics_select ON "session_analytics" FOR select to public using (username = (select username from active_user()));
