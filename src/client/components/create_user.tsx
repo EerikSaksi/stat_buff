@@ -5,6 +5,7 @@ import CenteredView from "../util_components/centered_view";
 import { generateShadow } from "react-native-shadow-generator";
 import { Button, Input, SocialIcon } from "react-native-elements";
 import { getCurrentUser, signInAsync } from "expo-google-sign-in";
+import CheckBoxes from "./check_boxes";
 const CREATE_USER = gql`
   mutation createuser($username: String!, $idToken: String!) {
     createUser(username: $username, idToken: $idToken)
@@ -54,6 +55,7 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
   inView,
 }) => {
   const [username, setUsername] = useState("");
+  const [allChecksFilled, setAllChecksFilled] = useState(false);
   const greenPixelValue = useRef<Animated.Value>(new Animated.Value(0)).current;
   const [error, setError] = useState("No error yet");
   const ref = useRef<Input | null>();
@@ -117,13 +119,15 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
           inputRange: [0, 1, 2],
           outputRange: ["white", "lime", "red"],
         });
-  const content = googleID ? (
-    <CenteredView>
-      <Text style={styles.text}>{error}</Text>
-      <AnimatedInput style={{ backgroundColor }} ref={ref} onEndEditing={submit} value={username} placeholder="Enter username" onChangeText={(e) => setUsername(e)} />
-      <Button title="Submit" disabled={error.length !== 0 || username.length === 0} onPress={submit} />
-    </CenteredView>
-  ) : (
+
+  const content = allChecksFilled ? (
+    googleID ? (
+      <CenteredView>
+        <Text style={styles.text}>{error}</Text>
+        <AnimatedInput style={{ backgroundColor }} ref={ref} onEndEditing={submit} value={username} placeholder="Enter username" onChangeText={(e) => setUsername(e)} />
+        <Button title="Submit" disabled={error.length !== 0 || username.length === 0} onPress={submit} />
+      </CenteredView>
+    ) : (
     <CenteredView>
       <SocialIcon
         type="google"
@@ -139,9 +143,12 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
         }}
       />
     </CenteredView>
-  );
+    )
+  ) : (
+    <CheckBoxes setAllChecksFilled={setAllChecksFilled} />
+  )
   return (
-    <ImageBackground imageStyle={styles.imageBackground} style={styles.image} source={require("../assets/squat.jpeg")}>
+    <ImageBackground imageStyle={{ zIndex: -1 }} blurRadius = {allChecksFilled ? 1.5 : 3} style={styles.image} source={require("../assets/squat.jpeg")}>
       {content}
     </ImageBackground>
   );

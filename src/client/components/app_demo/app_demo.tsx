@@ -12,8 +12,20 @@ const styles = StyleSheet.create({
 
 const AppDemo: React.FC<{ refetchUser: () => void; googleID: string | undefined; setGoogleID: (arg: string | undefined) => void }> = ({ refetchUser, googleID, setGoogleID }) => {
   const [scrollOffset, setScrollOffset] = useState(0);
+  //return (
+  //  <View style={styles.view}>
+  //    <CreateUser refetchUser={refetchUser} googleID={googleID} setGoogleID={setGoogleID} inView={width * 1.8 <= scrollOffset} />
+  //  </View>
+  //);
   return (
-    <ScrollView onScroll={({ nativeEvent }) => setScrollOffset(nativeEvent.contentOffset.x)} horizontal={true} decelerationRate={0} snapToInterval={width} snapToAlignment={"center"}>
+    <ScrollView
+      onScroll={({ nativeEvent }) => setScrollOffset(nativeEvent.contentOffset.x)}
+      horizontal={true}
+      decelerationRate={0}
+      snapToInterval={width}
+      snapToAlignment={"center"}
+      persistentScrollbar
+    >
       <View style={styles.view}>
         <StrongerCharacter inView={scrollOffset < width} />
       </View>
