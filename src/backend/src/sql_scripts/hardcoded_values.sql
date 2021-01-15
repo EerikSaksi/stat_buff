@@ -296,4 +296,7 @@ where username = 'orek';
 
 insert into chat_message (username, text_content)
 values ('orek', 'Good day today, right?');
+insert into chat_message (username, text_content)
+values ('eerik', 'Yup, love this chat feature on my favourite app Stat Buff, this is a normal human conversation.');
+
 

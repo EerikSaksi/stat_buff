@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { IMessage } from "react-native-gifted-chat/lib/Models";
 import { GiftedChat } from "react-native-gifted-chat/lib/GiftedChat";
 import { useEffect } from "react";
+import {unslugify} from "../../../util_components/slug";
 
 const MESSAGE_SUBSCRIPTION = gql`
   subscription($topic: String!) {
@@ -117,7 +118,7 @@ function userExerciseNodeToImessage(exercise) {
     user: { name: exercise.username, _id: exercise.username },
     _id: exercise.nodeId,
     createdAt: exercise.createdAt,
-    text: `Hit a new PR: ${exercise.liftmass}kg x ${exercise.repetitions} (stronger than ${exercise.strongerpercentage}%)`,
+    text: `Hit a new PR: ${exercise.liftmass}kg x ${exercise.repetitions} on ${unslugify(exercise.slugName)} (stronger than ${exercise.strongerpercentage}%)`,
   };
 }
 
