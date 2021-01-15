@@ -159,7 +159,6 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
     variables: { topic: `event_${groupname}` },
     onSubscriptionData: ({ subscriptionData }) => {
       const node = subscriptionData.data.listen.relatedNode;
-      console.log('subscriptionData')
       var newMessage;
 
       //depending on the type of raised event, we want to render them message difFerently, so switch over the typename

@@ -125,11 +125,7 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
         button
         style={{ width: "50%", ...generateShadow(24) }}
         onPress={async () => {
-          //initAsync()
-          ////get the token id and fetch data with it
-          //const result: GoogleSignInAuthResult = await signInAsync();
-          //setGoogleID(result.user!.uid)
-          //refetchUser();
+          setGoogleID('uh oh')
         }}
       />
     </CenteredView>

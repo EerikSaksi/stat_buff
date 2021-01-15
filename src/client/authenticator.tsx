@@ -15,19 +15,9 @@ export default function Authenticator() {
 
   //try fetch the current user if we have a token (if not logged in google first we need to sign in)
   const [refetchUser, { data }] = useLazyQuery(USERNAME);
-
-  //when starting try check if user logged in and fetch their token
   useEffect(() => {
-    refetchUser();
-    const tryGetToken = async () => {
-      //await initAsync()
-      //if (await isSignedInAsync()) {
-      //  const result = await getCurrentUserAsync()
-      //  setGoogleID(result?.uid)
-      //}
-    }
-    tryGetToken()
-  }, []);
+    refetchUser()
+  }, [])
   if (!data) {
     return null;
   }

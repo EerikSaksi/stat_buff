@@ -48,6 +48,5 @@ export default function useAnalyticsSender(username: string) {
     }
     //the last section now becomes the current section, and its use starts now
     lastSectionData.current = { name: vs as AppSection, time: now };
-    console.log(analytics)
   }, [vs]);
 }
