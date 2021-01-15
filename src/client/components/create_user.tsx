@@ -133,6 +133,7 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
         onPress={async () => {
           //get the token id and fetch data with it
           const result = await signInAsync();
+          alert ("inside onPress: " + JSON.stringify(result))
           setGoogleID(result.user?.uid);
           refetchUser();
         }}
