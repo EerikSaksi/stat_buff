@@ -21,15 +21,8 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext(async (_, {headers}) => {
-  //get last user and token
-  var user = await getCurrentUserAsync()  
-
-  //if expired sign in again
-  if (!await isSignedInAsync()){
-    user = await signInSilentlyAsync()
-  }
-
-  //if sign in failed no auth
+  var user =  await isSignedInAsync() ? await getCurrentUserAsync() : await signInSilentlyAsync()
+  alert(user)
   if (!user){
     return {headers}
   }
