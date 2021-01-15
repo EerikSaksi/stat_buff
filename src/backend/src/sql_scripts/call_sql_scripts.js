@@ -62,3 +62,4 @@ async function run_all_sql_scripts() {
   await client.end().catch((err) => console.log(err));
 }
 module.exports = run_all_sql_scripts;
+//\i init.sql;  \i triggers.sql;  \i subscriptions.sql;  \i timestamp_triggers.sql;  \i permissions.sql;  \i hardcoded_values.sql;
