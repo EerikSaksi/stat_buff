@@ -54,13 +54,10 @@ async function run_all_sql_scripts() {
   await exec_file("triggers.sql", client);
   await exec_file("subscriptions.sql", client);
   await exec_file("timestamp_triggers.sql", client);
-  client.query(
-    `await exec_file("permissions.sql", client);
-    drop owned by query_sender;
-    drop role query_sender;
-    create role query_sender;
+  client.query(`
+    drop owned by query_sender
     alter role query_sender with login;
-    alter user query_sender with password ${process.env.DATABASE_USER_PASSWORD};`
+    alter user query_sender with password '${process.env.DATABASE_USER_PASSWORD}';`
   );
   await init_enemies(client);
   await exec_file("permissions.sql", client);
