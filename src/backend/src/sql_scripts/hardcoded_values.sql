@@ -1,3 +1,4 @@
+
 insert into
   "enemy" (level, max_health, name)
 values
