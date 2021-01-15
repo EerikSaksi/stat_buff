@@ -31,8 +31,9 @@ const CheckBoxes: React.FC = () => {
         )}
       />
       </View>
+      )
     }
   </View>
   )
 }
-export default 
+export default CheckBoxes
