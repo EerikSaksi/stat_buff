@@ -1,7 +1,7 @@
 const { Client } = require("pg");
 const fs = require("fs");
 const path = require("path");
-require('dotenv').config();
+require("dotenv").config();
 async function exec_file(fileName, client) {
   const sql = fs.readFileSync(path.resolve(__dirname, fileName), "UTF-8");
   await client.query(sql);
@@ -42,22 +42,28 @@ async function init_enemies(client) {
       insert into
         "enemy" (level, max_health, name)
       values
-        (${level}, ${10 +  5 * level }, '${enemy}');
+        (${level}, ${10 + 5 * level}, '${enemy}');
     `);
   }
 }
 
 async function run_all_sql_scripts() {
-  const client = new Client(
-    process.env.DATABASE_URL
-  );
+  const client = new Client(process.env.DATABASE_URL);
   await client.connect();
   await exec_file("init.sql", client);
   await exec_file("triggers.sql", client);
   await exec_file("subscriptions.sql", client);
   await exec_file("timestamp_triggers.sql", client);
-  await exec_file("permissions.sql", client);
+  client.query(
+    `await exec_file("permissions.sql", client);
+    drop owned by query_sender;
+    drop role query_sender;
+    create role query_sender;
+    alter role query_sender with login;
+    alter user query_sender with password ${process.env.DATABASE_USER_PASSWORD};`
+  );
   await init_enemies(client);
+  await exec_file("permissions.sql", client);
   await exec_file("hardcoded_values.sql", client);
   await client.end().catch((err) => console.log(err));
 }

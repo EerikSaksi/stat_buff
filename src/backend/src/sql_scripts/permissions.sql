@@ -1,10 +1,3 @@
---ensure no privileges that were set before exist
-drop owned by query_sender;
-drop role query_sender;
-create role query_sender;
-alter role query_sender with login;
-alter user query_sender with password 'restrictedPermissions';
-
 grant all on database rpgym to query_sender;
 grant all on schema public to query_sender;
 grant select on table "exercise" to query_sender;
