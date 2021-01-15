@@ -21,8 +21,8 @@ const postgraphileOptions = {
   appendPlugins: [require("@graphile-contrib/pg-simplify-inflector"), MyPlugins, PostGraphileConnectionFilterPlugin],
   exportGqlSchemaPath: "schema.graphql",
   handleErrors: (error) => console.log(error),
-  graphiql: true,
   enableQueryBatching: true,
+  graphiql: true,
   disableQueryLog: false,
   legacyRelations: "omit",
   disableDefaultMutations: false,
@@ -39,6 +39,7 @@ const postgraphileOptions = {
 const app = express();
 (async () => {
   await run_all_sql_scripts();
-  app.use(postgraphile(process.env.DATABASE_URL, postgraphileOptions));
+  app.use(postgraphile(process.env.DATABASE_USER_URL, postgraphileOptions));
 })();
 app.listen(process.env.PORT || 4000);
+console.log('App running on localhost:4000')

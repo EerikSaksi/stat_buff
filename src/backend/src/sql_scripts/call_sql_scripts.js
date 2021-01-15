@@ -1,7 +1,6 @@
 const { Client } = require("pg");
 const fs = require("fs");
 const path = require("path");
-require("dotenv").config();
 async function exec_file(fileName, client) {
   const sql = fs.readFileSync(path.resolve(__dirname, fileName), "UTF-8");
   await client.query(sql);
@@ -55,7 +54,7 @@ async function run_all_sql_scripts() {
   await exec_file("subscriptions.sql", client);
   await exec_file("timestamp_triggers.sql", client);
   client.query(`
-    drop owned by query_sender
+    revoke all on database stat_buff from query_sender;
     alter role query_sender with login;
     alter user query_sender with password '${process.env.DATABASE_USER_PASSWORD}';`
   );

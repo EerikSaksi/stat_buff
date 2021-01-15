@@ -1,4 +1,4 @@
-grant all on database rpgym to query_sender;
+grant all on database stat_buff to query_sender;
 grant all on schema public to query_sender;
 grant select on table "exercise" to query_sender;
 grant select on table "enemy" to query_sender;
