@@ -22,7 +22,6 @@ const httpLink = createHttpLink({
 
 const authLink = setContext(async (_, {headers}) => {
   var user =  await isSignedInAsync() ? await getCurrentUserAsync() : await signInSilentlyAsync()
-  alert(user)
   if (!user){
     return {headers}
   }

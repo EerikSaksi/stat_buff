@@ -65,6 +65,7 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; s
     }
   }, [ref, inView, googleLoggedIn]);
 
+  
   //if succesfully created then user data exists for the current google user
   const [createUser] = useMutation(CREATE_USER, {
     variables: { username, idToken: getCurrentUser()?.auth?.idToken },
