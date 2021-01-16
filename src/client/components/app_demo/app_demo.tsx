@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const AppDemo: React.FC<{ refetchUser: () => void; googleID: string | undefined; setGoogleID: (arg: string | undefined) => void }> = ({ refetchUser, googleID, setGoogleID }) => {
+const AppDemo: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; setGoogleLoggedIn: (arg: boolean) => void }> = ({ refetchUser, googleLoggedIn, setGoogleLoggedIn }) => {
   const [scrollOffset, setScrollOffset] = useState(0);
   //return (
   //  <View style={styles.view}>
@@ -33,7 +33,7 @@ const AppDemo: React.FC<{ refetchUser: () => void; googleID: string | undefined;
         <AttackingCharacters inView={width * 0.05 <= scrollOffset && scrollOffset <= width * 1.95} />
       </View>
       <View style={styles.view}>
-        <CreateUser refetchUser={refetchUser} googleID={googleID} setGoogleID={setGoogleID} inView={width * 1.8 <= scrollOffset} />
+        <CreateUser refetchUser={refetchUser} googleLoggedIn={googleLoggedIn} setGoogleLoggedIn={setGoogleLoggedIn} inView={width * 1.8 <= scrollOffset} />
       </View>
     </ScrollView>
   );

@@ -48,10 +48,10 @@ var styles = StyleSheet.create({
 
 const AnimatedInput = Animated.createAnimatedComponent(Input);
 
-const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefined; setGoogleID: (arg: string | undefined) => void; inView: boolean }> = ({
+const CreateUser: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; setGoogleLoggedIn: (arg: boolean) => void; inView: boolean }> = ({
   refetchUser,
-  googleID,
-  setGoogleID,
+  googleLoggedIn,
+  setGoogleLoggedIn,
   inView,
 }) => {
   const [username, setUsername] = useState("");
@@ -63,7 +63,7 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
     if (ref.current) {
       inView ? ref.current.focus() : ref.current.blur();
     }
-  }, [ref, inView, googleID]);
+  }, [ref, inView, googleLoggedIn]);
 
   //if succesfully created then user data exists for the current google user
   const [createUser] = useMutation(CREATE_USER, {
@@ -121,34 +121,36 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
         });
 
   const content = allChecksFilled ? (
-    googleID ? (
+    googleLoggedIn ? (
       <CenteredView>
         <Text style={styles.text}>{error}</Text>
         <AnimatedInput style={{ backgroundColor }} ref={ref} onEndEditing={submit} value={username} placeholder="Enter username" onChangeText={(e) => setUsername(e)} />
         <Button title="Submit" disabled={error.length !== 0 || username.length === 0} onPress={submit} />
       </CenteredView>
     ) : (
-    <CenteredView>
-      <SocialIcon
-        type="google"
-        title={"Sign in with Google"}
-        button
-        style={styles.socialIcon}
-        onPress={async () => {
-          //get the token id and fetch data with it
-          const result = await signInAsync();
-          alert ("inside onPress: " + JSON.stringify(result))
-          setGoogleID(result.user?.uid);
-          refetchUser();
-        }}
-      />
-    </CenteredView>
+      <CenteredView>
+        <SocialIcon
+          type="google"
+          title={"Sign in with Google"}
+          button
+          style={styles.socialIcon}
+          onPress={async () => {
+            //try sign in, on success
+            await signInAsync()
+              .then(() => {
+                setGoogleLoggedIn(true);
+                refetchUser();
+              })
+              .catch((error) => alert(error));
+          }}
+        />
+      </CenteredView>
     )
   ) : (
     <CheckBoxes setAllChecksFilled={setAllChecksFilled} />
-  )
+  );
   return (
-    <ImageBackground imageStyle={{ zIndex: -1 }} blurRadius = {allChecksFilled ? 1.5 : 3} style={styles.image} source={require("../assets/squat.jpeg")}>
+    <ImageBackground imageStyle={{ zIndex: -1 }} blurRadius={allChecksFilled ? 1.5 : 3} style={styles.image} source={require("../assets/squat.jpeg")}>
       {content}
     </ImageBackground>
   );
