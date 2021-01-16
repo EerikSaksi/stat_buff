@@ -8,8 +8,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    textAlign: 'center',
-    color: 'white',
+    textAlign: "center",
+    color: "white",
   },
 });
 const questions = [
@@ -28,9 +28,9 @@ const CheckBoxes: React.FC<{ setAllChecksFilled: (arg: boolean) => void }> = ({ 
     }
   }, [checks]);
   return (
-    <View style = {styles.row}>
+    <View style={styles.row}>
       {questions.map((question, index) => (
-        <View style={styles.row}>
+        <View style={styles.row} key={index}>
           <Text style={styles.text}>{question}</Text>
           <CheckBox
             checked={checks[index]}
