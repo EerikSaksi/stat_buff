@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CheckBox, Card } from "react-native-elements";
+import { CheckBox } from "react-native-elements";
 import { StyleSheet, View, Text } from "react-native";
 const styles = StyleSheet.create({
   row: {

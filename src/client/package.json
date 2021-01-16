@@ -50,10 +50,14 @@
     "@types/react-timeago": "^4.1.1",
     "jest-expo": "^40.0.1",
     "react-test-renderer": "^17.0.1",
+    "ts-jest": "^26.4.4",
     "typescript": "~3.9.5"
   },
   "private": true,
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*|react-native-elements)"
+    ]
   }
 }
