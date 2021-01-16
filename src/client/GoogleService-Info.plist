@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>761460499269-d2rtp3aican3tehif8uuucvsftadie62.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.761460499269-d2rtp3aican3tehif8uuucvsftadie62</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>761460499269-3h0u33t1i94v647r905r38eqa6uf7b3i.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB_qool14EsXwWWfvd_UZ8I5cM5QX6BOwk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>761460499269</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.statbuff</string>
+	<key>PROJECT_ID</key>
+	<string>rpgym-292308</string>
+	<key>STORAGE_BUCKET</key>
+	<string>rpgym-292308.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:761460499269:ios:4ff0de320504b52eac142c</string>
+	<key>DATABASE_URL</key>
+	<string>https://rpgym-292308.firebaseio.com</string>
+</dict>
+</plist>

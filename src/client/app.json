@@ -28,7 +28,9 @@
     },
     "android": {
       "package": "com.statbuff",
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "versionCode": 2
+
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -1,0 +1,246 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Checkboxes /> has 1 child 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "white",
+          "textAlign": "center",
+        }
+      }
+    >
+      I understand that this app is being used to investigate the effectiveness of collaborativeness in activity trackers
+    </Text>
+    <View
+      accessibilityRole="checkbox"
+      accessibilityState={
+        Object {
+          "checked": false,
+        }
+      }
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "margin": 5,
+          "marginLeft": 10,
+          "marginRight": 10,
+          "opacity": 1,
+          "padding": 10,
+        }
+      }
+      testID="checkbox"
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+          }
+        }
+      >
+        <Text />
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "white",
+          "textAlign": "center",
+        }
+      }
+    >
+      I consent to my data being used as a part of the study, and that I can request to delete this data and withdraw from the study for any reason by contacting saksi.eerik@gmail.com
+    </Text>
+    <View
+      accessibilityRole="checkbox"
+      accessibilityState={
+        Object {
+          "checked": false,
+        }
+      }
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "margin": 5,
+          "marginLeft": 10,
+          "marginRight": 10,
+          "opacity": 1,
+          "padding": 10,
+        }
+      }
+      testID="checkbox"
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+          }
+        }
+      >
+        <Text />
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "white",
+          "textAlign": "center",
+        }
+      }
+    >
+      I am over the age of 16
+    </Text>
+    <View
+      accessibilityRole="checkbox"
+      accessibilityState={
+        Object {
+          "checked": false,
+        }
+      }
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "margin": 5,
+          "marginLeft": 10,
+          "marginRight": 10,
+          "opacity": 1,
+          "padding": 10,
+        }
+      }
+      testID="checkbox"
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+          }
+        }
+      >
+        <Text />
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "white",
+          "textAlign": "center",
+        }
+      }
+    >
+      I will consult a medical professional before making any changes in my exercise habits
+    </Text>
+    <View
+      accessibilityRole="checkbox"
+      accessibilityState={
+        Object {
+          "checked": false,
+        }
+      }
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "margin": 5,
+          "marginLeft": 10,
+          "marginRight": 10,
+          "opacity": 1,
+          "padding": 10,
+        }
+      }
+      testID="checkbox"
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+          }
+        }
+      >
+        <Text />
+      </View>
+    </View>
+  </View>
+</View>
+`;
