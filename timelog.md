@@ -394,3 +394,6 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 # 16 Jan (6 hours)
 - Fixed new Google issues that arised. These came from me changing the package and the app name. Configured firebase and redownloaded config files from there to fix it.
 - Added SSL to the database connections.
+
+-
+

@@ -159,6 +159,7 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
   useSubscription(MESSAGE_SUBSCRIPTION, {
     variables: { topic: `event_${groupname}` },
     onSubscriptionData: ({ subscriptionData }) => {
+      alert(JSON.stringify(subscriptionData))
       const node = subscriptionData.data.listen.relatedNode;
       var newMessage;
 
