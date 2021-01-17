@@ -34,6 +34,5 @@ const app = express();
 (async () => {
   await run_all_sql_scripts()
   app.use(postgraphile("postgres://query_sender:restrictedPermissions@localhost:5432/rpgym", postgraphileOptions))
-
 })();
 app.listen(process.env.PORT || 4000);
