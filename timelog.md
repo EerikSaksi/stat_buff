@@ -383,3 +383,18 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - Had meeting, we discussed the analytics and how they should be list of events instead of just raw total times spent. Luckily I had implemented my analytics in a way where I fixed this within an hour or so. This data is better as it can be used to see what routes the user takes around the app
 - I also added time stamps, so that the analytics can be used to find out when the user opens the app and how often
 - We also discussed the ethics consent sheet, and agreed that I should have some informed consent sheet at the start of the app.
+
+# 15 Jan (5 hours)
+
+- Added bulletpoints before registering that should be filled before creating an account (corresponding to ethics guidelines by the university)
+- Got Amazon RDS working, so permissions works correctly 
+
+# 16 Jan (4 hours)
+
+- Tried to get jest snapshot testing client side but you know how typescript is like 
+
+# 17 Jan (3 hours)
+
+- App is in review for google play
+- Started review study
+
