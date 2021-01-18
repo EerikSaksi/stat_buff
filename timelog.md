@@ -398,3 +398,7 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - App is in review for google play
 - Started pilot study
 - Tested app a bit: very slow launch time, because I haven't included any code splitting (loading screens and components only when they are needed) as they suppress errors in development. Also, subscriptions are broken in production. otherwise things look good
+
+# 18 Jan (2 hours)
+
+

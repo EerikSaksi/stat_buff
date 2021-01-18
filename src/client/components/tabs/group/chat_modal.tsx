@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { gql, useSubscription, useMutation, useQuery } from "@apollo/client";
 import { Modal } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -146,7 +146,7 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
           //map each workout to a message
           .map((workout) => workoutNodeToImessage(workout));
       const userExercises =
-      //same as above for workouts
+        //same as above for workouts
         data.group.battlesByGroupname.nodes.flatMap((battle) => battle.userExercisesByGroupnameAndBattleNumber.nodes).map((exercise) => userExerciseNodeToImessage(exercise));
       //combine all messages sorted by date
       setMessages(chatMessages.concat(workouts).concat(userExercises).sort(sort_by_date));
@@ -176,7 +176,7 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
       //append the new message as the most recent one
       setMessages((oldMessages) => [newMessage, ...oldMessages]);
     },
-    skip: !messages.length
+    skip: !messages.length,
   });
 
   //when we open our messages, we checked our messages now
@@ -190,11 +190,12 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
         `,
         data: { messagesLastOpened: Date.now() },
       });
-      setNewMessages(0)
+      setNewMessages(0);
     }
   }, [visible]);
   useEffect(() => {
-    const fragment = client.readQuery({ //if messages have never been opened set really far back date so all have been opened
+    const fragment = client.readQuery({
+      //if messages have never been opened set really far back date so all have been opened
       query: gql`
         query {
           messagesLastOpened
@@ -218,7 +219,9 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
   }
   return (
     <Modal visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"}>
-      <Ionicons style={styles.arrow} onPress={() => setVisible(false)} name="arrow-back-sharp" />
+      <TouchableOpacity style = { { backgroundColor: 'blue'}} onPress={() => setVisible(false)}>
+        <Ionicons style={styles.arrow} name="arrow-back-sharp" />
+      </TouchableOpacity>
       <GiftedChat
         placeholder={`Send a message to "${groupname}"`}
         onInputTextChanged={(v) => setMessageInput(v)}
