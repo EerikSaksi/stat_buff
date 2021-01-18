@@ -401,4 +401,13 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 
 # 18 Jan (2 hours)
 
+- Big questions that we want to want to answer 
+- Log data 
+- Survey
+- Split into groups
+
+- What kinds of teams form from this 
+- Gaant chart
+- Interview questions (how specific)
+- What do I want to find out 
 
