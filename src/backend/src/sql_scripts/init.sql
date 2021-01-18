@@ -1,5 +1,3 @@
-drop schema public cascade;
-create schema public;
 create table "group" (
   name varchar(32) not null primary key,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
