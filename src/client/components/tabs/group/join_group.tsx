@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import React, { Suspense, useRef, useState } from "react";
-=======
-import React, { useRef, useState } from "react";
->>>>>>> master
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Text, View, FlatList, StyleSheet } from "react-native";
 import TopView from "../../../util_components/top_view";

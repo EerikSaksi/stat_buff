@@ -409,3 +409,7 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - Gaant chart
 - Interview questions (how specific)
 - What do I want to find out 
+
+# 19 Jan (5 hours)
+
+- Got a lot of feedback from my friend today on the app. A lot of the features were broken, unclear or just poorly designed. I took notes on my phone and fixed all of them, except one which is very strange and I'm investigating now (in the real build, tapping the non header section of the group crashes the app). I created another empty tab and I will check if that also crashes to identify if the issues is tab specific or a problem for the whole tab view).
