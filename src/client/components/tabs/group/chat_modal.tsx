@@ -219,7 +219,7 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
   }
   return (
     <Modal visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"}>
-      <Ionicons onPress = {() => setVisible(false)} style={styles.arrow} name="arrow-back-sharp" />
+      <Ionicons  onPress = {() => setVisible(false)} style={styles.arrow} name="arrow-back-sharp" />
       <GiftedChat
         placeholder={`Send a message to "${groupname}"`}
         onInputTextChanged={(v) => setMessageInput(v)}

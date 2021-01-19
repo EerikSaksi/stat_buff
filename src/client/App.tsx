@@ -5,6 +5,7 @@ import User from "./components/tabs/user/user";
 import Group from "./components/tabs/group/group";
 import { visibleSection } from "./apollo/cache";
 import useAnalyticsSender from "./hooks/analytics/use_analytics_sender";
+import {View} from "react-native";
 
 const Tab = createBottomTabNavigator();
 
@@ -24,8 +25,9 @@ const App: React.FC<{ username: string }> = ({ username }) => {
       }}
     >
       <Tab.Navigator>
+        <Tab.Screen name="NOview" component={Group} initialParams={{ username }} />
         <Tab.Screen name="User" component={User} initialParams={{ username }} />
-        <Tab.Screen name="Group" component={Group} initialParams={{ username }} />
+        <Tab.Screen name="Group" component={View} />
       </Tab.Navigator>
     </NavigationContainer>
   );

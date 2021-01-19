@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { Text, View, StyleSheet, StatusBar, Alert } from "react-native";
+import { Text, View, StyleSheet, StatusBar, Alert, TouchableOpacity } from "react-native";
 import EnemyView from "./enemy_view";
 import { useTheme } from "@react-navigation/native";
 import Members from "./members";
@@ -68,7 +68,7 @@ const YourGroup: React.FC<{ groupname: string; username: string; refetchParentGr
   const [chatModalVisible, setChatModalVisible] = useState(false);
   const [newMessages, setNewMessages] = useState(0);
 
-  useChatAnalytics({chatModalVisible})
+  useChatAnalytics({ chatModalVisible });
   //resets group, and fetches the parent so that we go back to join team view
   const [nullifyGroup] = useMutation(NULLIFY_GROUP, {
     onCompleted: () => refetchParentGroup(),
@@ -96,7 +96,9 @@ const YourGroup: React.FC<{ groupname: string; username: string; refetchParentGr
       <View style={{ ...styles.topRow, borderBottomColor: colors.primary }}>
         <Text style={{ fontSize: 25, textAlign: "center", color: colors.text }}>{groupname}</Text>
         <View style={styles.chatContainer}>
-          <MaterialIcons onPress={() => setChatModalVisible(true)} name="message" size={30} color="black" />
+          <TouchableOpacity onPress={() => setChatModalVisible(true)}>
+            <MaterialIcons name="message" size={30} color="black" />
+          </TouchableOpacity>
           <Badge value={newMessages} status="error" containerStyle={styles.badgeContainer} />
         </View>
         <Button containerStyle={styles.buttonContainer} buttonStyle={styles.leaveButton} titleStyle={{ fontSize: 10 }} title="Leave" onPress={confirmLeave} />
