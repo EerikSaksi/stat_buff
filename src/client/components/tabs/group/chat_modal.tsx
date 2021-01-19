@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     zIndex: 1,
-    backgroundColor: 'blue'
   },
 });
 function sort_by_date(a: IMessage, b: IMessage) {

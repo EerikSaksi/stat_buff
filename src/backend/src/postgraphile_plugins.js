@@ -40,15 +40,11 @@ const MyPlugins = makeExtendSchemaPlugin((build) => {
           return true;
         },
         createChatMessage: async (parent, args, context, resolveInfo) => {
-          const { username, textContent } = args.input;
-          await context.pgClient.query(
-            `insert into "chat_message" (username, text_content)
-              values($1, $2)
-              where username = $1
-              and username = (select username from active_user())
-          `,
-            [username, textContent]
-          );
+          const { username, textContent } = args;
+          await context.pgClient.query(`
+              insert into "chat_message" (username, text_content)
+              values ('${username}', '${textContent}');
+          `);
         },
       },
       Query: {

@@ -24,7 +24,7 @@ const GROUP_TAKEN = gql`
   }
 `;
 const CreateGroup: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void; refetchParentGroup: () => void }> = ({ visible, setVisible, refetchParentGroup }) => {
-  const [newGroupName, setNewGroupName] = useState("aa");
+  const [newGroupName, setNewGroupName] = useState("");
   const [isPasswordProtected, setIsPasswordProtected] = useState(false);
   const [password, setPassword] = useState("");
   const [createGroup] = useMutation(GROUP_TAKEN, {
