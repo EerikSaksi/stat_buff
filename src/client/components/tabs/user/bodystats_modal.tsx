@@ -66,6 +66,7 @@ const BodyStatsModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => v
     onCompleted: () => {
       refetch();
       refetchParent();
+      setVisible(false)
     },
   });
   const [createBodyStats] = useMutation(CREATE_BODY_STAT, {
@@ -73,6 +74,7 @@ const BodyStatsModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => v
     onCompleted: () => {
       refetch();
       refetchParent();
+      setVisible(false)
     },
   });
 

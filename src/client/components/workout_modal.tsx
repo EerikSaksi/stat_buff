@@ -1,8 +1,8 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { TextInput, View, StyleSheet, Text } from "react-native";
-import { Button } from "react-native-elements";
+import { View, StyleSheet, Text } from "react-native";
+import { Button, Input } from "react-native-elements";
 import CustomModal from "../util_components/custom_modal";
 import WorkoutModalAttack from "./workout_modal_attack";
 
@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     textAlignVertical: "center",
+    marginBottom: '5%'
   },
   input: {
     textAlign: "center",
@@ -59,14 +60,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 30,
   },
+  text: {
+    textAlign: 'center'
+  }
 });
 const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (val: boolean) => void; skillTitle: string | undefined }> = ({ username, visible, setVisible, skillTitle }) => {
-  const [rir, setRir] = useState<number | undefined>(2);
-  const [sets, setSets] = useState<number | undefined>(10);
+  const [rir, setRir] = useState<number | undefined>();
+  const [sets, setSets] = useState<number | undefined>();
   const [createWorkout, { data: mutationData }] = useMutation(CREATE_WORKOUT, {
     variables: { username, rir, sets },
   });
   const navigation = useNavigation();
+
 
   //we want to fetch the enemy data before we call the createWorkout mutation, otherwise we might show them data after the attack
   useQuery(WORKOUTS, {
@@ -81,8 +86,10 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
   });
   const [fetchEnemyStats, { data }] = useMutation(ENEMY_STATS);
   useEffect(() => {
-    fetchEnemyStats();
-  }, []);
+    if (visible){
+      fetchEnemyStats();
+    }
+  }, [visible]);
 
   var content: undefined | React.ReactNode = undefined;
   if (mutationData) {
@@ -102,29 +109,35 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
       content = <Text style={styles.heading}>You need at least two members before you can track workouts</Text>;
     } else {
       content = (
-        <React.Fragment>
+        <View style = {{padding: '5%'}}>
           <View style={styles.row}>
-            <TextInput
+            <Text style = { styles.text }>
+              How many sets did you complete in total (for all exercises in your entire workout, not including warmup sets.)
+            </Text>
+            <Input
               style={styles.input}
-              value={rir?.toString()}
-              onChangeText={(v) => (v.length ? setRir(parseInt(v)) : setRir(undefined))}
-              placeholder="Average Reps in Reserve"
+              value={sets?.toString()}
+              onChangeText={(v) => (v.length ? setSets(parseInt(v)) : setSets(undefined))}
+              placeholder="Sets"
               keyboardType={"numeric"}
             />
           </View>
           <View style={styles.row}>
-            <TextInput
+            <Text style = { styles.text }>
+              How many more reps do you think you could have done on average over all your sets?
+            </Text>
+            <Input
               style={styles.input}
-              value={sets?.toString()}
-              onChangeText={(v) => (v.length ? setSets(parseInt(v)) : setSets(undefined))}
-              placeholder="Number of Sets Completed"
+              value={rir?.toString()}
+              onChangeText={(v) => (v.length ? setRir(parseInt(v)) : setRir(undefined))}
+              placeholder="Average Reps Left"
               keyboardType={"numeric"}
             />
           </View>
           <View style={styles.row}>
             <Button disabled={!rir || !sets || !data} title="Save Workout" style={styles.row} onPress={() => createWorkout()} />
           </View>
-        </React.Fragment>
+        </View>
       );
     }
   }

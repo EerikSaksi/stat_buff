@@ -20,7 +20,8 @@ create table "user" (
 CREATE INDEX ON "user" (groupName);
 
 alter table "group"
-add column creator_username varchar(32) not null unique REFERENCES "user" ON DELETE set null;
+add column creator_username varchar(32) REFERENCES "user" ON DELETE set null;
+CREATE INDEX ON "group" (creator_username);
 
 create table "enemy" (
   level integer primary key,

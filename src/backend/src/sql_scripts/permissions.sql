@@ -48,6 +48,7 @@ Alter table "workout" enable row level security;
 Alter table "chat_message" enable row level security;
 comment on column "chat_message".groupName is E'@omit create, update, insert';
 comment on column "chat_message".id is E'@omit create, update, insert';
+comment on column "chat_message".id is E'@omit create, update, insert';
 comment on column "session_analytics".id is E'@omit create, update, insert';
 
 CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));

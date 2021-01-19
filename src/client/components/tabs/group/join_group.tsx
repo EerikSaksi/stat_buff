@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { Suspense, useRef, useState } from "react";
+=======
+import React, { useRef, useState } from "react";
+>>>>>>> master
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Text, View, FlatList, StyleSheet } from "react-native";
 import TopView from "../../../util_components/top_view";
@@ -17,6 +21,9 @@ const SEARCH_GROUPS = gql`
         isPasswordProtected
         usersByGroupname {
           totalCount
+          nodes {
+            nodeId
+          }
         }
         battleByNameAndBattleNumber {
           nodeId
@@ -68,7 +75,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    marginBottom: "1%",
+    margin: "1%",
   },
   flatList: {
     width: "100%",
@@ -79,7 +86,6 @@ const styles = StyleSheet.create({
 });
 const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParentGroup }) => {
   const [query, setQuery] = useState("");
-  const [showJoinCreate, setShowJoinCreate] = useState(true);
   const [createGroupVisible, setCreateGroupVisible] = useState(false);
   const ref = useRef<SearchBar | null>(null);
 
@@ -116,8 +122,6 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
       ) : undefined}
       <TopView>
         <SearchBar
-          onFocus={() => setShowJoinCreate(false)}
-          onBlur={() => setShowJoinCreate(true)}
           lightTheme={true}
           ref={ref}
           placeholder="Search for teams"
@@ -153,19 +157,15 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
             </ListItemContainer>
           )}
         />
-      </TopView>
       {query === "" ? (
         <View style={{ ...styles.container }}>
           <View style={styles.button}>
-            {showJoinCreate ? (
-              <Button onPress={() => ref.current?.focus()} style={styles.button} title="Join Team" />
-            ) : (
               <Button onPress={() => joinRandomPublicGroup()} style={styles.button} title="Join Random Public Team" />
-            )}
           </View>
           <Button title="Create Team" onPress={() => setCreateGroupVisible(true)} />
         </View>
       ) : undefined}
+      </TopView>
     </View>
   );
 };

@@ -95,6 +95,11 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
   const [fetchStrength, { data: exerciseData, loading }] = useLazyQuery(STRENGTH);
   const [fetchBodyStats, { data: userBodyStats }] = useLazyQuery(USER_BODY_STATS, {
     variables: { username },
+    onCompleted: (data) => {
+      if (!data.bodystat){
+        setBodystatsModalVisible(true)
+      }
+    }
   });
   useEffect(() => {
     fetchBodyStats();

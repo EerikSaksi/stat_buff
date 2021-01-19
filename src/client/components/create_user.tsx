@@ -125,7 +125,7 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; s
     googleLoggedIn ? (
       <CenteredView>
         <Text style={styles.text}>{error}</Text>
-        <AnimatedInput style={{ backgroundColor }} ref={ref} onEndEditing={submit} value={username} placeholder="Enter username" onChangeText={(e) => setUsername(e)} />
+        <AnimatedInput  onSubmitEditing={submit} style={{ backgroundColor }} ref={ref}  value={username} placeholder="Enter username" onChangeText={(e) => setUsername(e)} />
         <Button title="Submit" disabled={error.length !== 0 || username.length === 0} onPress={submit} />
       </CenteredView>
     ) : (

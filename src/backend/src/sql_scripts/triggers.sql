@@ -14,10 +14,6 @@ FOR EACH ROW
 EXECUTE PROCEDURE update_battle_to_current();
 
 
-
-
-
-
 --encrypts supplied password
 CREATE FUNCTION encrypt_password_and_set_creator()
   RETURNS TRIGGER AS $BODY$
@@ -204,7 +200,6 @@ create function get_battle_and_check_expiry()
       select * into to_return from "battle" where groupName = old_groupName and battle_number = old_battle_number + 1;
       return to_return;
     end if;
-    raise notice 'didnt run';
     select * into to_return from "battle" where groupName = old_groupName and battle_number = old_battle_number;
     return to_return;
   END

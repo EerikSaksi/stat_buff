@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { ScrollView, StyleSheet, View, Dimensions, FlatList, TouchableOpacity } from "react-native";
+import { ScrollView, StyleSheet, View, Dimensions, TouchableOpacity } from "react-native";
 import AttackingCharacters from "./attacking_characters";
 import StrongerCharacter from "./stronger_character";
 import CreateUser from "../create_user";

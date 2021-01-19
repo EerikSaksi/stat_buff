@@ -1,7 +1,7 @@
 cREATE FUNCTION notify_message_inserted()
   RETURNS TRIGGER AS $$
   BEGIN
-    raise notice 'message inserted';
+    raise notice '%', NEW;
     perform pg_notify(
       format('postgraphile:event_%s', NEW.groupName),
       json_build_object(

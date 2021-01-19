@@ -30,7 +30,7 @@ const WorkoutModalAttack: React.FC<{ hits: number; skillTitle: string | undefine
     return <Loading />;
   }
   return (
-    <View style={{ justifyContent: "center", alignItems: "center" }}>
+    <View style={{ justifyContent: "center", alignItems: "center", }}>
       <Text style={styles.text}>{`${deliveredHits} hit${deliveredHits === 1 ? "" : "s"}: ${(strengthData.calculateStrengthStats.dph * deliveredHits).toFixed(2)} total damage.`}</Text>
         <SpriteBattle
           deliveredHits={deliveredHits}
