@@ -55,6 +55,7 @@ Alter table "workout" enable row level security;
 Alter table "chat_message" enable row level security;
 comment on column "chat_message".groupName is E'@omit create, update, insert';
 comment on column "chat_message".id is E'@omit create, update, insert';
+comment on column "chat_message".id is E'@omit create, update, insert';
 comment on column "session_analytics".id is E'@omit create, update, insert';
 
 CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));
@@ -93,7 +94,7 @@ CREATE POLICY workout_select ON "workout" FOR select to query_sender using (true
 CREATE POLICY chat_message_update ON "chat_message" FOR update to query_sender USING (username = (select username from active_user()));
 CREATE POLICY chat_message_delete ON "chat_message" FOR delete to query_sender USING (username = (select username from active_user()));
 CREATE POLICY chat_message_create ON "chat_message" FOR insert to query_sender with check (username = (select username from active_user()) and groupName = (select groupName from active_user()));
-CREATE POLICY chat_message_select ON "chat_message" FOR select to query_sender using (groupName = (select groupName from active_user()));
+CREATE POLICY chat_message_select ON "chat_message" FOR select to query_sender using (true);
 
 --analytics are just out of reach for everyone but the user themselves
 CREATE POLICY session_analytics_update ON "session_analytics" FOR update to query_sender USING (username = (select username from active_user()));
