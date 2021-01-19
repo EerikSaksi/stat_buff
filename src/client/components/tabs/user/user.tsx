@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { gql, useLazyQuery, useQuery } from "@apollo/client";
 import { Text, View, StatusBar, StyleSheet, Linking } from "react-native";
 import Loading from "../../../util_components/loading";
-import ExerciseModal from "./exercise_modal";
 import SpriteSelector from "../../../sprites/sprite_selector";
-import BodyStatsModal from "./bodystats_modal";
 import { Button } from "react-native-elements";
 import useSkillTitle from "../../../hooks/use_skill_title";
-import WorkoutModal from "../../workout_modal";
 import useUserAnalytics from "../../../hooks/analytics/use_user_analytics";
+const ExerciseModal = React.lazy(() => import("./exercise_modal"));
+const WorkoutModal = React.lazy(() => import("../../workout_modal"));
+const BodyStatsModal = React.lazy(() => import("./bodystats_modal"));
 
 const USER_BODY_STATS = gql`
   query($username: String!) {
@@ -128,9 +128,21 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
           </Text>
         </Text>
       </View>
-      <ExerciseModal visible={strengthModalVisible} setVisible={setStrengthModalVisible} username={username} refetchParent={fetchStrength} />
-      <BodyStatsModal visible={bodystatsModalVisible} setVisible={setBodystatsModalVisible} username={username} refetchParent={fetchBodyStats} />
-      <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username} skillTitle={skillTitle} />
+      {strengthModalVisible ? (
+        <Suspense fallback={<Loading />}>
+          <ExerciseModal visible={strengthModalVisible} setVisible={setStrengthModalVisible} username={username} refetchParent={fetchStrength} />
+        </Suspense>
+      ) : undefined}
+      {bodystatsModalVisible ? (
+        <Suspense fallback={<Loading />}>
+          <BodyStatsModal visible={bodystatsModalVisible} setVisible={setBodystatsModalVisible} username={username} refetchParent={fetchBodyStats} />
+        </Suspense>
+      ) : undefined}
+      {workoutModalVisible ? (
+        <Suspense fallback={<Loading />}>
+          <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username} skillTitle={skillTitle} />
+        </Suspense>
+      ) : undefined}
       <View style={styles.sprite}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={skillTitle} /> : <Loading />}</View>
       <View style={styles.trackWorkout}>
         <Button disabled={!(exerciseData && exerciseData.calculateStrengthStats)} title="Log workout" onPress={() => setWorkoutModalVisible(true)} />
