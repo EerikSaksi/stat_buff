@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CheckBox, Card } from "react-native-elements";
+import { CheckBox } from "react-native-elements";
 import { StyleSheet, View, Text } from "react-native";
 const styles = StyleSheet.create({
   row: {
@@ -8,8 +8,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    textAlign: 'center',
-    color: 'white',
+    textAlign: "center",
+    color: "white",
   },
 });
 const questions = [
@@ -27,10 +27,11 @@ const CheckBoxes: React.FC<{ setAllChecksFilled: (arg: boolean) => void }> = ({ 
       setAllChecksFilled(true);
     }
   }, [checks]);
+  console.log(({CheckBox}))
   return (
-    <View style = {styles.row}>
+    <View style={styles.row}>
       {questions.map((question, index) => (
-        <View style={styles.row}>
+        <View style={styles.row} key={index}>
           <Text style={styles.text}>{question}</Text>
           <CheckBox
             checked={checks[index]}

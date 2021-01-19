@@ -383,17 +383,30 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - I also added time stamps, so that the analytics can be used to find out when the user opens the app and how often
 - We also discussed the ethics consent sheet, and agreed that I should have some informed consent sheet at the start of the app.
 
-# 14 Jan (3 hours)
-- Tried to get AWS RDS working, but have been struggling. 
-# 15 Jan (4 hours)
-- Added ethics consent checkmarks which requires the user to check of on all things that the user is required to know and agree on for the purpose of the study
-- Finally got AWS RDS postgres working. AWS' postgres allows for creating another role outside of the super user. This role is subject to the security checks that I added. I'm still hosting the server on Heroku, because AWS serverless doesn't support Websocket subscriptions (or it does but the guides and examples explicitly state that Postgraphile doesn't support serverless subscriptions yet).
-- Also realized that the auto generated messages that I made didn't include what exercise the user got a PR in, which has been added in.
-- I need to implement SSL for the requests to make the requests more secure.
+# 15 Jan (5 hours)
 
-# 16 Jan (6 hours)
-- Fixed new Google issues that arised. These came from me changing the package and the app name. Configured firebase and redownloaded config files from there to fix it.
-- Added SSL to the database connections.
+- Added bulletpoints before registering that should be filled before creating an account (corresponding to ethics guidelines by the university)
+- Got Amazon RDS working, so permissions works correctly 
 
--
+# 16 Jan (4 hours)
+
+- Tried to get jest snapshot testing client side but you know how typescript is like 
+
+# 17 Jan (3 hours)
+
+- App is in review for google play
+- Started pilot study
+- Tested app a bit: very slow launch time, because I haven't included any code splitting (loading screens and components only when they are needed) as they suppress errors in development. Also, subscriptions are broken in production. otherwise things look good
+
+# 18 Jan (2 hours)
+
+- Big questions that we want to want to answer 
+- Log data 
+- Survey
+- Split into groups
+
+- What kinds of teams form from this 
+- Gaant chart
+- Interview questions (how specific)
+- What do I want to find out 
 
