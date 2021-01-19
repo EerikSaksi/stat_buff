@@ -41,16 +41,16 @@ const MESSAGE_SUBSCRIPTION = gql`
 
 const MESSAGES = gql`
   query($groupname: String!) {
-    chatMessagesByGroupname {
-      nodes {
-        nodeId
-        username
-        textContent
-        createdAt
-      }
-    }
     group(name: $groupname) {
       nodeId
+      chatMessagesByGroupname {
+        nodes {
+          nodeId
+          username
+          textContent
+          createdAt
+        }
+      }
       battlesByGroupname(last: 2) {
         nodes {
           nodeId
@@ -82,7 +82,9 @@ const MESSAGES = gql`
 `;
 const SEND_MESSAGE = gql`
   mutation($username: String!, $messageInput: String!) {
-    createChatMessage(username: $username, textContent: $messageInput)
+    createChatMessage(input: { chatMessage: { username: $username, textContent: $messageInput } }) {
+      clientMutationId
+    }
   }
 `;
 
@@ -136,7 +138,7 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
   const { data } = useQuery(MESSAGES, {
     variables: { groupname },
     onCompleted: (data) => {
-      const chatMessages = data.chatMessagesByGroupname.nodes.map((node) => chatNodeToImessage(node)).reverse();
+      const chatMessages = data.group.chatMessagesByGroupname.nodes.map((node) => chatNodeToImessage(node)).reverse();
       const workouts =
         //flatten all workouts from all battles in to a one dimensional array
         data.group.battlesByGroupname.nodes
