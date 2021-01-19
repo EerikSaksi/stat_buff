@@ -29,9 +29,6 @@
       "googleServicesFile": "./google-services.json",
       "versionCode": 4,
       "permissions": []
-      "package": "com.rpgym",
-      "googleServicesFile": "./google-services.json",
-      "versionCode": 3
     },
     "web": {
       "favicon": "./assets/favicon.png"

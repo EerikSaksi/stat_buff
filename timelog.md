@@ -87,7 +87,7 @@ This video explains it quite well: https://youtu.be/uHlAM4ICi1s
 
 ## Nov 11 (3 hours)
 
-- Separated the initial app launch in to various parts depending on the user query (user existence hasn't been fethced (null) which prompts login if automatic login doesn't work) and true and false if it does or doesn't exist. I conditionally render the rest of the app or a username picker. This username picker runs regex on the username making sure it's valid (which is also done in the backend aswell) and also calls the automatically generated user query, which allows me to query users by username. If the result is non null prevent creation.
+- Separated the initial app launch in to various parts depending on the user query (user existence hasn't been fetched (null) which prompts login if automatic login doesn't work) and true and false if it does or doesn't exist. I conditionally render the rest of the app or a username picker. This username picker runs regex on the username making sure it's valid (which is also done in the backend aswell) and also calls the automatically generated user query, which allows me to query users by username. If the result is non null prevent creation.
 - I realized that the google auth library I'm using has a very neat and handy getCurrentUser() which gives you a tokenID along with other information, which can be used to call methods that get/set sensitive info, as the backend will validate and connect who sent the token.
 - I have come to realize that UI design will be a bigger barrier than I initially thought. I consider myself reasonably good in web dev, but mobile development is a different beast.
 - I have now contacted strengthlevel.com, which is very similar to symmetricstrength.com
@@ -400,13 +400,12 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 
 # 18 Jan (2 hours)
 
-- Big questions that we want to want to answer 
-- Log data 
-- Survey
-- Split into groups
-
+- Had an advisor meeting today, discussed the details of the evaluation
+- I should consider things like the big question I want to answer
+- How I will use the log data?
+- How will I use survey data
+- How are users split into groups (I'm probably thinking organically)
 - What kinds of teams form from this 
 - Gaant chart
 - Interview questions (how specific)
 - What do I want to find out 
-

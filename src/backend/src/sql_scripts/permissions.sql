@@ -86,7 +86,7 @@ CREATE POLICY workout_select ON "workout" FOR select to query_sender using (true
 CREATE POLICY chat_message_update ON "chat_message" FOR update to query_sender USING (username = (select username from active_user()));
 CREATE POLICY chat_message_delete ON "chat_message" FOR delete to query_sender USING (username = (select username from active_user()));
 CREATE POLICY chat_message_create ON "chat_message" FOR insert to query_sender with check (username = (select username from active_user()) and groupName = (select groupName from active_user()));
-CREATE POLICY chat_message_select ON "chat_message" FOR select to query_sender using (groupName = (select groupName from active_user()));
+CREATE POLICY chat_message_select ON "chat_message" FOR select to query_sender using (true);
 
 --analytics are just out of reach for everyone but the user themselves
 CREATE POLICY session_analytics_update ON "session_analytics" FOR update to query_sender USING (username = (select username from active_user()));
