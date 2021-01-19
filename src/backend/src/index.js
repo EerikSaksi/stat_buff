@@ -25,7 +25,7 @@ const postgraphileOptions = {
   disableDefaultMutations: false,
   pgSettings: async req => {
    return {
-      'user.googleID': 'uh oh'
+      'user.googleID': 'no team'
     };
   },
   ownerConnectionString: "postgres://eerik:Postgrizzly@localhost:5432/rpgym"

@@ -203,3 +203,10 @@ begin
     delete from "group" where name = old_groupName;
   end if;
 end $$ language plpgsql volatile;
+
+create function chat_messages_by_groupName()
+returns setof "chat_message" as $$
+  begin
+    return query select * from "chat_message" where groupName = (select groupName from active_user());
+  end
+$$ language plpgsql stable;

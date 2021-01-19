@@ -86,7 +86,7 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
   const { username } = route.params;
   const [strengthModalVisible, setStrengthModalVisible] = useState(false);
   const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false);
-  const [workoutModalVisible, setWorkoutModalVisible] = useState(true);
+  const [workoutModalVisible, setWorkoutModalVisible] = useState(false);
   useUserAnalytics({ strengthModalVisible, bodystatsModalVisible, workoutModalVisible });
 
   const { data } = useQuery(USER, {
@@ -95,6 +95,11 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
   const [fetchStrength, { data: exerciseData, loading }] = useLazyQuery(STRENGTH);
   const [fetchBodyStats, { data: userBodyStats }] = useLazyQuery(USER_BODY_STATS, {
     variables: { username },
+    onCompleted: (data) => {
+      if (!data.bodystat){
+        setBodystatsModalVisible(true)
+      }
+    }
   });
   useEffect(() => {
     fetchBodyStats();

@@ -10,6 +10,7 @@ const MyPlugins = makeExtendSchemaPlugin((build) => {
     typeDefs: gql`
       extend type Mutation {
         createUser(username: String!, idToken: String!): Boolean
+        createChatMessage(username: String!, textContent: String!): Boolean
       }
       type StrengthStats {
         averageStrength: Int!
@@ -30,13 +31,24 @@ const MyPlugins = makeExtendSchemaPlugin((build) => {
           if (username.match(/^[a-zA-Z0-9._]+$/) == null || username.length >= 20 || username.length === 0) {
             return null;
           }
-          const email = "asdfasdfasdfas"
+          const email = "asdfasdfasdfas";
           //no need to ensure if already exists because of unique clause for googleID
           await context.pgClient.query(
             `insert into "user" (username, googleid, email)
              values ('${username}', current_setting('user.googleID'), '${email}')`
           );
           return true;
+        },
+        createChatMessage: async (parent, args, context, resolveInfo) => {
+          const { username, textContent } = args.input;
+          await context.pgClient.query(
+            `insert into "chat_message" (username, text_content)
+              values($1, $2)
+              where username = $1
+              and username = (select username from active_user())
+          `,
+            [username, textContent]
+          );
         },
       },
       Query: {

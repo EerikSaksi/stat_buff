@@ -1,6 +1,6 @@
 import React, {  useRef, useState } from "react";
 import { gql, useMutation, useQuery} from "@apollo/client";
-import { Text, TextInput, View, FlatList, StyleSheet} from "react-native";
+import { Text, View, FlatList, StyleSheet} from "react-native";
 import TopView from "../../../util_components/top_view";
 import { Button, SearchBar } from "react-native-elements";
 import ListItemContainer from "../../list_item_container";
