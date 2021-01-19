@@ -72,6 +72,7 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
   });
   const navigation = useNavigation();
 
+
   //we want to fetch the enemy data before we call the createWorkout mutation, otherwise we might show them data after the attack
   useQuery(WORKOUTS, {
     variables: { username },
@@ -85,8 +86,10 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
   });
   const [fetchEnemyStats, { data }] = useMutation(ENEMY_STATS);
   useEffect(() => {
-    fetchEnemyStats();
-  }, []);
+    if (visible){
+      fetchEnemyStats();
+    }
+  }, [visible]);
 
   var content: undefined | React.ReactNode = undefined;
   if (mutationData) {

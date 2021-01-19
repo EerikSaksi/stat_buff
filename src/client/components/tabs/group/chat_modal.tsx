@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet} from "react-native";
 import { gql, useSubscription, useMutation, useQuery } from "@apollo/client";
 import { Modal } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -42,7 +42,7 @@ const MESSAGE_SUBSCRIPTION = gql`
 const MESSAGES = gql`
   query($groupname: String!) {
     chatMessagesByGroupname {
-      nodes{
+      nodes {
         nodeId
         username
         textContent
@@ -82,7 +82,7 @@ const MESSAGES = gql`
 `;
 const SEND_MESSAGE = gql`
   mutation($username: String!, $messageInput: String!) {
-    createChatMessage(username: $username, textContent: $messageInput) 
+    createChatMessage(username: $username, textContent: $messageInput)
   }
 `;
 
@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     zIndex: 1,
+    backgroundColor: 'blue'
   },
 });
 function sort_by_date(a: IMessage, b: IMessage) {
@@ -217,9 +218,7 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
   }
   return (
     <Modal visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"}>
-      <TouchableOpacity style = { { backgroundColor: 'blue'}} onPress={() => setVisible(false)}>
-        <Ionicons style={styles.arrow} name="arrow-back-sharp" />
-      </TouchableOpacity>
+      <Ionicons onPress = {() => setVisible(false)} style={styles.arrow} name="arrow-back-sharp" />
       <GiftedChat
         placeholder={`Send a message to "${groupname}"`}
         onInputTextChanged={(v) => setMessageInput(v)}

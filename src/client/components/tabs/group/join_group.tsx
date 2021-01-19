@@ -16,6 +16,9 @@ const SEARCH_GROUPS = gql`
         isPasswordProtected
         usersByGroupname {
           totalCount
+          nodes{
+            nodeId
+          }
         }
         battleByNameAndBattleNumber {
           nodeId

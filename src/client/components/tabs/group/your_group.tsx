@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
 });
 const YourGroup: React.FC<{ groupname: string; username: string; refetchParentGroup: () => void }> = ({ groupname, username, refetchParentGroup }) => {
   const { colors } = useTheme();
-  const [chatModalVisible, setChatModalVisible] = useState(false);
+  const [chatModalVisible, setChatModalVisible] = useState(true);
   const [newMessages, setNewMessages] = useState(0);
 
   useChatAnalytics({chatModalVisible})
