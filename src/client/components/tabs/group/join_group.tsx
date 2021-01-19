@@ -1,11 +1,12 @@
-import React, {  useRef, useState } from "react";
-import { gql, useMutation, useQuery} from "@apollo/client";
-import { Text, TextInput, View, FlatList, StyleSheet} from "react-native";
+import React, { Suspense, useRef, useState } from "react";
+import { gql, useMutation, useQuery } from "@apollo/client";
+import { Text, View, FlatList, StyleSheet } from "react-native";
 import TopView from "../../../util_components/top_view";
 import { Button, SearchBar } from "react-native-elements";
 import ListItemContainer from "../../list_item_container";
 import PasswordProtectedGroup from "./password_protected_group";
-import CreateGroup from "./create_group";
+import Loading from "../../../util_components/loading";
+const CreateGroup = React.lazy(() => import("./create_group"));
 
 const SEARCH_GROUPS = gql`
   query search_groups($query: String!) {
@@ -73,8 +74,8 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   searchBar: {
-    width: '100%',
-  }
+    width: "100%",
+  },
 });
 const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParentGroup }) => {
   const [query, setQuery] = useState("");
@@ -108,18 +109,22 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
   });
   return (
     <View style={styles.container}>
-      <CreateGroup visible = {createGroupVisible} setVisible = {setCreateGroupVisible} refetchParentGroup = {refetchParentGroup}/>
+      {createGroupVisible ? (
+        <Suspense fallback={<Loading />}>
+          <CreateGroup visible={createGroupVisible} setVisible={setCreateGroupVisible} refetchParentGroup={refetchParentGroup} />
+        </Suspense>
+      ) : undefined}
       <TopView>
         <SearchBar
           onFocus={() => setShowJoinCreate(false)}
           onBlur={() => setShowJoinCreate(true)}
-          lightTheme = {true}
+          lightTheme={true}
           ref={ref}
           placeholder="Search for teams"
-          round = {true}
+          round={true}
           value={query}
           onChangeText={(t) => setQuery(t)}
-          containerStyle = {styles.searchBar}
+          containerStyle={styles.searchBar}
         />
         <FlatList
           data={searchData ? searchData.groups.nodes : []}
@@ -158,7 +163,7 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
               <Button onPress={() => joinRandomPublicGroup()} style={styles.button} title="Join Random Public Team" />
             )}
           </View>
-          <Button title="Create Team" onPress = {() => setCreateGroupVisible(true)} />
+          <Button title="Create Team" onPress={() => setCreateGroupVisible(true)} />
         </View>
       ) : undefined}
     </View>
