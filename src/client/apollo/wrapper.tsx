@@ -57,7 +57,7 @@ const options: ApolloClientOptions<unknown> = {
     },
   },
 };
-export const client = new ApolloClient(options);
+const client = new ApolloClient(options);
 const index: React.FC = () => (
   <ApolloProvider client={client}>
     <Authenticator />

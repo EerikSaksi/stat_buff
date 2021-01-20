@@ -13,7 +13,7 @@ const BATTLE_NUMBER = gql`
       battleNumber
     }
   }
-`;
+`
 const BattlePicker: React.FC<{ battleNumber: number | undefined; setBattleNumber: (val: number | undefined) => void; groupname: string, }> = ({ battleNumber, setBattleNumber, groupname}) => {
   const client = useApolloClient()
   //get the current battle number

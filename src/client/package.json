@@ -48,6 +48,7 @@
     "@types/react-native": "~0.63.2",
     "@types/react-test-renderer": "^17.0.0",
     "@types/react-timeago": "^4.1.1",
+    "cross-fetch": "^3.0.6",
     "jest-expo": "^40.0.1",
     "react-test-renderer": "^17.0.1",
     "ts-jest": "^26.4.4",
@@ -57,7 +58,10 @@
   "jest": {
     "preset": "jest-expo",
     "transformIgnorePatterns": [
-      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*|react-native-elements)"
+      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*|rn-sprite-sheet|@apollo/client|subscriptions-transport-ws)"
+    ],
+    "setupFiles": [
+      "./tests/jest_mocks.js"
     ]
   }
 }
