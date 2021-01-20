@@ -78,6 +78,9 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: "center",
   },
+  centerText: {
+    textAlign: 'center'
+  }
 });
 
 //convert all passed workout nodes to [username, totalDamage] pairs ordered by totalDamage
@@ -144,7 +147,7 @@ const Members: React.FC<{ route: NavigationProps }> = ({ route }) => {
         <View style={styles.col}>
           <View style={styles.row}>
             <View style={styles.col}>
-              <Text>All battles</Text>
+              <Text style = { styles.centerText}>All battles</Text>
             </View>
             <View style={styles.col}>
               <Switch value={showAllStats} onValueChange={(v) => setShowAllStats(v)} />
