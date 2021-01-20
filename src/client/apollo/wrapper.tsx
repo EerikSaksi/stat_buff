@@ -27,6 +27,7 @@ const authLink = setContext(async (_, {headers}) => {
   if (!user){
     return {headers}
   }
+  alert(JSON.stringify(user!.auth?.idToken))
   return {
     headers: {
       ...headers,
