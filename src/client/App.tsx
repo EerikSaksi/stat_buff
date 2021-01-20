@@ -25,7 +25,6 @@ const App: React.FC<{ username: string }> = ({ username }) => {
       }}
     >
       <Tab.Navigator>
-        <Tab.Screen name="NOview" component={Group} initialParams={{ username }} />
         <Tab.Screen name="User" component={User} initialParams={{ username }} />
         <Tab.Screen name="Group" component={View} />
       </Tab.Navigator>

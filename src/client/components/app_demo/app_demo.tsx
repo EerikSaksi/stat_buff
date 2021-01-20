@@ -24,6 +24,7 @@ const AppDemo: React.FC<{ refetchUser: () => void; googleID: string | undefined;
       ref={scrollViewRef}
       onScroll={({ nativeEvent }) => setScrollOffset(nativeEvent.contentOffset.x)}
       horizontal={true}
+      decelerationRate={0}
       snapToInterval={width}
       snapToAlignment={"center"}
       persistentScrollbar
