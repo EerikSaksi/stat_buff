@@ -405,7 +405,6 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - Log data 
 - Survey
 - Split into groups
-
 - What kinds of teams form from this 
 - Gaant chart
 - Interview questions (how specific)
