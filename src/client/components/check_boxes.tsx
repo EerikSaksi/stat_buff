@@ -27,7 +27,6 @@ const CheckBoxes: React.FC<{ setAllChecksFilled: (arg: boolean) => void }> = ({ 
       setAllChecksFilled(true);
     }
   }, [checks]);
-  console.log({elements})
   return (
     <View style={styles.row}>
       {questions.map((question, index) => (
