@@ -159,24 +159,23 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
   useSubscription(MESSAGE_SUBSCRIPTION, {
     variables: { topic: `event_${groupname}` },
     onSubscriptionData: ({ subscriptionData }) => {
-      alert(JSON.stringify(subscriptionData))
-      //const node = subscriptionData.data.listen.relatedNode;
-      //var newMessage;
+      const node = subscriptionData.data.listen.relatedNode;
+      var newMessage;
 
-      ////depending on the type of raised event, we want to render them message difFerently, so switch over the typename
-      //switch (node.__typename) {
-      //  case "ChatMessage":
-      //    newMessage = chatNodeToImessage(node);
-      //    break;
-      //  case "Workout":
-      //    newMessage = workoutNodeToImessage(node);
-      //    break;
-      //  case "UserExercise":
-      //    newMessage = userExerciseNodeToImessage(node);
-      //    break;
-      //}
-      ////append the new message as the most recent one
-      //setMessages((oldMessages) => [newMessage, ...oldMessages]);
+      //depending on the type of raised event, we want to render them message difFerently, so switch over the typename
+      switch (node.__typename) {
+        case "ChatMessage":
+          newMessage = chatNodeToImessage(node);
+          break;
+        case "Workout":
+          newMessage = workoutNodeToImessage(node);
+          break;
+        case "UserExercise":
+          newMessage = userExerciseNodeToImessage(node);
+          break;
+      }
+      //append the new message as the most recent one
+      setMessages((oldMessages) => [newMessage, ...oldMessages]);
     },
     skip: !messages.length,
   });

@@ -1,7 +1,7 @@
 import registerRootComponent from 'expo/build/launch/registerRootComponent';
 import React from 'react';
 import {setContext} from '@apollo/client/link/context';
-import {getCurrentUserAsync, isSignedInAsync, signInSilentlyAsync} from 'expo-google-sign-in'
+import {getCurrentUserAsync, isConnectedAsync, isSignedInAsync, signInSilentlyAsync} from 'expo-google-sign-in'
 import {ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink} from '@apollo/client'
 import Authenticator from '../authenticator';
 import { split } from '@apollo/client';
@@ -23,11 +23,10 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext(async (_, {headers}) => {
-  var user =  await isSignedInAsync() ? await getCurrentUserAsync() : await signInSilentlyAsync()
+  var user =  await isConnectedAsync() ? await getCurrentUserAsync() : await signInSilentlyAsync()
   if (!user){
     return {headers}
   }
-  alert(JSON.stringify(user!.auth))
   return {
     headers: {
       ...headers,

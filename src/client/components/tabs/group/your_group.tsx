@@ -92,7 +92,7 @@ const YourGroup: React.FC<{ groupname: string; username: string; refetchParentGr
     []
   );
   return (
-    <React.Fragment>
+    <View>
       <View style={{ ...styles.topRow, borderBottomColor: colors.primary }}>
         <Text style={{ fontSize: 25, textAlign: "center", color: colors.text }}>{groupname}</Text>
         <View style={styles.chatContainer}>
@@ -105,11 +105,10 @@ const YourGroup: React.FC<{ groupname: string; username: string; refetchParentGr
       </View>
       <ChatModal groupname={groupname} visible={chatModalVisible} setVisible={setChatModalVisible} username={username} setNewMessages={setNewMessages} />
       <Tab.Navigator style={styles.tabNavigator} tabBarOptions={{ style: { borderTopColor: colors.primary, borderTopWidth: 1 } }}>
-        <Tab.Screen name="Just View" component={View} />
         <Tab.Screen name="Enemy" component={EnemyView} />
         <Tab.Screen name="Members" component={Members} initialParams={{ groupname }} />
       </Tab.Navigator>
-    </React.Fragment>
+    </View>
   );
 };
 export default YourGroup;
