@@ -36,18 +36,22 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    margin: '1%'
+    margin: "1%",
   },
   text: {
     textAlign: "center",
-    margin: '1%'
+    margin: "1%",
+  },
+  modalPadding: {
+    padding: "5%",
+    paddingBottom: 0
   },
 });
 
 const BodyStatsModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => void; username: string; refetchParent: () => void }> = ({ visible, setVisible, username, refetchParent }) => {
   const [bodymass, setBodymass] = useState<number | undefined>(undefined);
   const [isMale, setIsMale] = useState(true);
-  const client = useApolloClient()
+  const client = useApolloClient();
 
   //check if the user has created body stats before (and in that case prefill the inputs)
   const { data, loading, refetch } = useQuery(FETCH_BODY_STAT, {
@@ -58,7 +62,7 @@ const BodyStatsModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => v
         setBodymass(bodystat.bodymass);
       }
     },
-    client
+    client,
   });
 
   const [updateBodyStats] = useMutation(UPDATE_BODY_STAT, {
@@ -66,7 +70,7 @@ const BodyStatsModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => v
     onCompleted: () => {
       refetch();
       refetchParent();
-      setVisible(false)
+      setVisible(false);
     },
   });
   const [createBodyStats] = useMutation(CREATE_BODY_STAT, {
@@ -74,7 +78,7 @@ const BodyStatsModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => v
     onCompleted: () => {
       refetch();
       refetchParent();
-      setVisible(false)
+      setVisible(false);
     },
   });
 
@@ -90,16 +94,18 @@ const BodyStatsModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => v
 
   return (
     <CustomModal visible={visible} setVisible={setVisible}>
-      <TextInput style={styles.text} value={bodymass ? bodymass.toString() : undefined} placeholder="Bodyweight (kg)" onChangeText={(text) => setBodymass(parseInt(text))} keyboardType={"numeric"} />
-      <Text style={styles.text}>Which dataset would you like to use?</Text>
-      <View style={styles.row}>
-        <Text>Male</Text>
-        <Switch value={!isMale} thumbColor={"white"} trackColor={{ false: "blue", true: "pink" }} onValueChange={(value) => setIsMale(!value)}></Switch>
-        <Text>Female</Text>
+      <View style={styles.modalPadding}>
+        <Text style={styles.text}>This data is private (needed for strength calculations)</Text>
+        <TextInput style={styles.text} value={bodymass ? bodymass.toString() : undefined} placeholder="Bodyweight (kg)" onChangeText={(text) => setBodymass(parseInt(text))} keyboardType={"numeric"} />
+        <Text style={styles.text}>Which dataset would you like to use?</Text>
+        <View style={styles.row}>
+          <Text>Male</Text>
+          <Switch value={!isMale} thumbColor={"white"} trackColor={{ false: "blue", true: "pink" }} onValueChange={(value) => setIsMale(!value)}></Switch>
+          <Text>Female</Text>
+        </View>
+        {bodyStatButton}
+        <Divider style={{ backgroundColor: "black" }} />
       </View>
-      <Text style={styles.text}>This data is private (needed for strength calculations)</Text>
-      {bodyStatButton}
-      <Divider style={{ backgroundColor: "black" }} />
     </CustomModal>
   );
 };

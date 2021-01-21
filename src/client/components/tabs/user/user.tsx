@@ -9,6 +9,7 @@ import { Button } from "react-native-elements";
 import useSkillTitle from "../../../hooks/use_skill_title";
 import WorkoutModal from "../../workout_modal";
 import useUserAnalytics from "../../../hooks/analytics/use_user_analytics";
+import { Ionicons } from "@expo/vector-icons";
 
 const USER_BODY_STATS = gql`
   query($username: String!) {
@@ -48,11 +49,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-evenly",
+    alignItems: "center",
     width: "100%",
-  },
-  updateBodyStats: {
-    flex: 1,
-    zIndex: 100,
   },
   flexOne: {
     flex: 1,
@@ -85,7 +83,7 @@ type NavigationProps = { params: { username: string } };
 const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
   const { username } = route.params;
   const [strengthModalVisible, setStrengthModalVisible] = useState(false);
-  const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false);
+  const [bodystatsModalVisible, setBodystatsModalVisible] = useState(true);
   const [workoutModalVisible, setWorkoutModalVisible] = useState(false);
   useUserAnalytics({ strengthModalVisible, bodystatsModalVisible, workoutModalVisible });
 
@@ -96,10 +94,10 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
   const [fetchBodyStats, { data: userBodyStats }] = useLazyQuery(USER_BODY_STATS, {
     variables: { username },
     onCompleted: (data) => {
-      if (!data.bodystat){
-        setBodystatsModalVisible(true)
+      if (!data.bodystat) {
+        setBodystatsModalVisible(true);
       }
-    }
+    },
   });
   useEffect(() => {
     fetchBodyStats();
@@ -111,9 +109,10 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
   }
   return (
     <View style={styles.root}>
+      <Ionicons style = {{ position: 'absolute', right: '1%', top: '1%'}} onPress = {() => setBodystatsModalVisible(true)} size = {25} name="settings-sharp" />
       <View style={styles.row}>
-        <Button style={styles.updateBodyStats} title="Update Body Stats" onPress={() => setBodystatsModalVisible(true)} />
-        <Button style={styles.flexOne} disabled={!(userBodyStats && userBodyStats.bodystat)} title="Update Lifts" onPress={() => setStrengthModalVisible(true)} />
+        <Button style={styles.flexOne} disabled={!(userBodyStats && userBodyStats.bodystat)} title="Strengthen Character" onPress={() => setStrengthModalVisible(true)} />
+        <Button disabled={!(exerciseData && exerciseData.calculateStrengthStats)} title="Deal Damage" onPress={() => setWorkoutModalVisible(true)} />
       </View>
       <View style={styles.flexOne}>
         {exerciseData && exerciseData.calculateStrengthStats ? (
@@ -137,9 +136,6 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
       <BodyStatsModal visible={bodystatsModalVisible} setVisible={setBodystatsModalVisible} username={username} refetchParent={fetchBodyStats} />
       <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username} skillTitle={"noob"} />
       <View style={styles.sprite}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={skillTitle} /> : <Loading />}</View>
-      <View style={styles.trackWorkout}>
-        <Button disabled={!(exerciseData && exerciseData.calculateStrengthStats)} title="Log workout" onPress={() => setWorkoutModalVisible(true)} />
-      </View>
     </View>
   );
 };
