@@ -37,6 +37,9 @@ const ENEMY_STATS = gql`
 `;
 const WORKOUTS = gql`
   query($username: String!) {
+    calculateStrengthStats {
+      dph
+    }
     workouts(filter: { username: { equalTo: $username } }, last: 1) {
       nodes {
         nodeId
@@ -52,7 +55,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     textAlignVertical: "center",
-    marginBottom: '5%'
+    marginBottom: "5%",
   },
   heading: {
     textAlign: "center",
@@ -67,9 +70,8 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
   });
   const navigation = useNavigation();
 
-
   //we want to fetch the enemy data before we call the createWorkout mutation, otherwise we might show them data after the attack
-  useQuery(WORKOUTS, {
+  const { data: dphData } = useQuery(WORKOUTS, {
     variables: { username },
     onCompleted: (data) => {
       //user has tracked a workout, so we set the rir and sets to the most recent values
@@ -81,14 +83,14 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
   });
   const [fetchEnemyStats, { data }] = useMutation(ENEMY_STATS);
   useEffect(() => {
-    if (visible){
+    if (visible) {
       fetchEnemyStats();
     }
   }, [visible]);
 
   var content: undefined | React.ReactNode = undefined;
   if (mutationData) {
-    content = <WorkoutModalAttack hits={mutationData.createWorkout.workout.hits} skillTitle={skillTitle} setVisible={setVisible} data={data} />;
+    content = <WorkoutModalAttack dph={data.calculateStrengthStats.dph} hits={mutationData.createWorkout.workout.hits} skillTitle={skillTitle} setVisible={setVisible} data={data} />;
   } else if (data) {
     //query finished but no group
     if (!data.getBattleAndCheckExpiry.battle) {
@@ -103,24 +105,29 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
     else if (!data.getBattleAndCheckExpiry.battle) {
       content = <Text style={styles.heading}>You need at least two members before you can track workouts</Text>;
     } else {
-      content = (
-        <View style = {{padding: '5%'}}>
+      var numAttacksText: undefined | React.ReactNode;
+      console.log(data);
+      if (dphData && dphData.calculateStrengthStats) {
+        const rirOrZero = rir ? rir : 0;
+        const setsOrZero = sets ? sets : 0;
+        const hits = Math.floor(((10 - rirOrZero) / 10.0) * setsOrZero);
+        numAttacksText = (
           <View style={styles.row}>
-            <Text style = { globalStyles.text }>
-              How many sets did you complete in total (for all exercises in your entire workout, not including warmup sets.)
+            <Text style={globalStyles.text}>
+              {`${hits} attacks (${hits} attacks * ${dphData.calculateStrengthStats.dph} damage per attack = ${Math.floor(
+                hits * dphData.calculateStrengthStats.dph)}) damage`}
             </Text>
-            <Input
-              style={globalStyles.text}
-              value={sets?.toString()}
-              onChangeText={(v) => (v.length ? setSets(parseInt(v)) : setSets(undefined))}
-              placeholder="Sets"
-              keyboardType={"numeric"}
-            />
+          </View>
+        );
+      }
+      content = (
+        <View style={{ padding: "5%" }}>
+          <View style={styles.row}>
+            <Text style={globalStyles.text}>How many sets did you complete in total (for all exercises in your entire workout, not including warmup sets.)</Text>
+            <Input style={globalStyles.text} value={sets?.toString()} onChangeText={(v) => (v.length ? setSets(parseInt(v)) : setSets(undefined))} placeholder="Sets" keyboardType={"numeric"} />
           </View>
           <View style={styles.row}>
-            <Text style = { globalStyles.text }>
-              If you were to try your hardest, how many more reps would you have been able to do on average over your sets?
-            </Text>
+            <Text style={globalStyles.text}>If you were to try your hardest, how many more reps would you have been able to do on average?</Text>
             <Input
               style={globalStyles.text}
               value={rir?.toString()}
@@ -129,6 +136,7 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
               keyboardType={"numeric"}
             />
           </View>
+          {numAttacksText}
           <View style={styles.row}>
             <Button disabled={!rir || !sets || !data} title="Save Workout" style={styles.row} onPress={() => createWorkout()} />
           </View>
@@ -137,7 +145,7 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
     }
   }
   return (
-    <CustomModal visible={visible} setVisible={setVisible} >
+    <CustomModal visible={visible} setVisible={setVisible}>
       {content}
     </CustomModal>
   );
