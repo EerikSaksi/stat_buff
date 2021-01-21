@@ -114,14 +114,14 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
         numAttacksText = (
           <View style={styles.row}>
             <Text style={globalStyles.text}>
-              {`${hits} attacks (${hits} attacks * ${dphData.calculateStrengthStats.dph} damage per attack = ${Math.floor(
-                hits * dphData.calculateStrengthStats.dph)}) damage`}
+              {`${(dphData.calculateStrengthStats.dph * hits).toFixed(2)} damage (${hits} attack${hits === 1 ? "" : "s"} * ${dphData.calculateStrengthStats.dph} damage per attack)`}
             </Text>
           </View>
         );
       }
       content = (
-        <View style={{ padding: "5%" }}>
+        <View style
+          ={{ padding: "5%" }}>
           <View style={styles.row}>
             <Text style={globalStyles.text}>How many sets did you complete in total (for all exercises in your entire workout, not including warmup sets.)</Text>
             <Input style={globalStyles.text} value={sets?.toString()} onChangeText={(v) => (v.length ? setSets(parseInt(v)) : setSets(undefined))} placeholder="Sets" keyboardType={"numeric"} />
