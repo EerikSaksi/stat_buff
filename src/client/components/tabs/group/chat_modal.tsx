@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet} from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { gql, useSubscription, useMutation, useQuery } from "@apollo/client";
 import { Modal } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -117,7 +117,7 @@ function userExerciseNodeToImessage(exercise) {
     user: { name: exercise.username, _id: exercise.username },
     _id: exercise.nodeId,
     createdAt: exercise.createdAt,
-    text: `Hit a new PR: ${exercise.liftmass}kg x ${exercise.repetitions} (stronger than ${exercise.strongerpercentage}%)`,
+    text: `Hit a new PR: ${exercise.liftmass}kg x ${exercise.repetitions} on ${exercise.slugName} (stronger than ${exercise.strongerpercentage}%)`,
   };
 }
 
@@ -219,7 +219,7 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
   }
   return (
     <Modal visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"}>
-      <Ionicons  onPress = {() => setVisible(false)} style={styles.arrow} name="arrow-back-sharp" />
+      <Ionicons onPress = {() => setVisible(false)} style={styles.arrow} name="arrow-back-sharp" />
       <GiftedChat
         placeholder={`Send a message to "${groupname}"`}
         onInputTextChanged={(v) => setMessageInput(v)}

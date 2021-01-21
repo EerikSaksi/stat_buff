@@ -92,7 +92,7 @@ const YourGroup: React.FC<{ groupname: string; username: string; refetchParentGr
     []
   );
   return (
-    <React.Fragment>
+    <View style = {{ height: '100%' }}>
       <View style={{ ...styles.topRow, borderBottomColor: colors.primary }}>
         <Text style={{ fontSize: 25, textAlign: "center", color: colors.text }}>{groupname}</Text>
         <View style={styles.chatContainer}>
@@ -108,7 +108,7 @@ const YourGroup: React.FC<{ groupname: string; username: string; refetchParentGr
         <Tab.Screen name="Enemy" component={EnemyView} />
         <Tab.Screen name="Members" component={Members} initialParams={{ groupname }} />
       </Tab.Navigator>
-    </React.Fragment>
+    </View>
   );
 };
 export default YourGroup;
