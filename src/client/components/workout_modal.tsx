@@ -124,7 +124,7 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
           </View>
           <View style={styles.row}>
             <Text style = { styles.text }>
-              How many more reps do you think you could have done on average over all your sets?
+              If you were to try your hardest, how many more reps would you have been able to do on average over your sets?
             </Text>
             <Input
               style={styles.input}

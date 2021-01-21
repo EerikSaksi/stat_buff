@@ -113,7 +113,7 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
     <View style={styles.root}>
       <View style={styles.row}>
         <Button style={styles.updateBodyStats} title="Update Body Stats" onPress={() => setBodystatsModalVisible(true)} />
-        <Button style={styles.flexOne} disabled={!(userBodyStats && userBodyStats.bodystat)} title="Update Lifts" onPress={() => setStrengthModalVisible(true)} />
+        <Button style={styles.flexOne} disabled={!(userBodyStats && userBodyStats.bodystat)} title="Strengthen" onPress={() => setStrengthModalVisible(true)} />
       </View>
       <View style={styles.flexOne}>
         {exerciseData && exerciseData.calculateStrengthStats ? (
@@ -150,7 +150,7 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
       ) : undefined}
       <View style={styles.sprite}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={skillTitle} /> : <Loading />}</View>
       <View style={styles.trackWorkout}>
-        <Button disabled={!(exerciseData && exerciseData.calculateStrengthStats)} title="Log workout" onPress={() => setWorkoutModalVisible(true)} />
+        <Button disabled={!(exerciseData && exerciseData.calculateStrengthStats)} title="Deal damage" onPress={() => setWorkoutModalVisible(true)} />
       </View>
     </View>
   );
