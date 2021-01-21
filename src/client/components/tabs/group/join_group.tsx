@@ -6,6 +6,7 @@ import { Button, SearchBar } from "react-native-elements";
 import ListItemContainer from "../../list_item_container";
 import PasswordProtectedGroup from "./password_protected_group";
 import CreateGroup from "./create_group";
+import globalStyles from "../../../style/global";
 
 const SEARCH_GROUPS = gql`
   query search_groups($query: String!) {
@@ -44,11 +45,6 @@ const JOIN_RANDOM_PUBLIC_GROUP = gql`
 `;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   row: {
     flex: 1,
     flexDirection: "row",
@@ -63,11 +59,6 @@ const styles = StyleSheet.create({
   memberCount: {
     textAlign: "center",
     fontSize: 12,
-  },
-  col: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
   button: {
     margin: "1%",
@@ -109,7 +100,7 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
     },
   });
   return (
-    <View style={styles.container}>
+    <View style={globalStyles.container}>
       <CreateGroup visible={createGroupVisible} setVisible={setCreateGroupVisible} refetchParentGroup={refetchParentGroup} />
       <TopView>
         <SearchBar
@@ -128,14 +119,14 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
           renderItem={({ item: group }) => (
             <ListItemContainer>
               <View style={styles.row}>
-                <View style={styles.col}>
+                <View style={globalStyles.container}>
                   <Text style={styles.listItemText}>{group.name}</Text>
                   <View style={styles.row}>
                     <Text style={styles.memberCount}>{group.usersByGroupname.totalCount} Members</Text>
                     {group.battleByNameAndBattleNumber ? <Text style={styles.memberCount}>, Level {group.battleByNameAndBattleNumber.enemyLevel}</Text> : undefined}
                   </View>
                 </View>
-                <View style={styles.col}>
+                <View style={globalStyles.container}>
                   {group.isPasswordProtected ? (
                     <View style={styles.row}>
                       <PasswordProtectedGroup joinGroup={joinGroup} groupName={group.name} />
@@ -149,7 +140,7 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
           )}
         />
       {query === "" ? (
-        <View style={{ ...styles.container }}>
+        <View style={ globalStyles.container }>
           <View style={styles.button}>
               <Button onPress={() => joinRandomPublicGroup()} style={styles.button} title="Join Random Public Team" />
           </View>
