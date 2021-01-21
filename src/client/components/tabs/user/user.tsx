@@ -83,8 +83,8 @@ type NavigationProps = { params: { username: string } };
 const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
   const { username } = route.params;
   const [strengthModalVisible, setStrengthModalVisible] = useState(false);
-  const [bodystatsModalVisible, setBodystatsModalVisible] = useState(true);
-  const [workoutModalVisible, setWorkoutModalVisible] = useState(true);
+  const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false);
+  const [workoutModalVisible, setWorkoutModalVisible] = useState(false);
   useUserAnalytics({ strengthModalVisible, bodystatsModalVisible, workoutModalVisible });
 
   const { data } = useQuery(USER, {
@@ -135,7 +135,7 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
       <ExerciseModal visible={strengthModalVisible} setVisible={setStrengthModalVisible} username={username} refetchParent={fetchStrength} />
       <BodyStatsModal visible={bodystatsModalVisible} setVisible={setBodystatsModalVisible} username={username} refetchParent={fetchBodyStats} />
       <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username} skillTitle={"noob"} />
-      <View style={styles.sprite}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={skillTitle} /> : <Loading />}</View>
+      <View style={styles.sprite}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector aspectRatio = {1.2} spriteName={skillTitle} /> : <Loading />}</View>
     </View>
   );
 };

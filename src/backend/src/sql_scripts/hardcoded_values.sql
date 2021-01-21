@@ -61,7 +61,7 @@ values
   (18, 'hex-bar-deadlift'),
   (19, 'lat-pulldown'),
   (20, 'incline-dumbbell-bench-press'),
-  (21, 'chin-ups'),
+  (21, 'weighted-chin-ups'),
   (22, 'horizontal-leg-press'),
   (23, 'dumbbell-lateral-raise'),
   (24, 'dumbbell-row'),
@@ -246,6 +246,92 @@ values
   (203, 'barbell-power-shrug'),
   (204, 'bent-arm-barbell-pullover');
 
+update "exercise"
+set bodyweight = true 
+where slug_name = 'pull-ups';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'push-ups';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'dips';
+
+  update "exercise" 
+  set bodyweight = true 
+  where slug_name = 'weighted-chin-ups';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'dumbbell-lunge';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'sit-ups';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'muscle-ups';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'bodyweight-squat';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'crunches';
+update "exercise" 
+  set bodyweight = true 
+  where slug_name = 'one-arm-push-ups';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'handstand-push-ups';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'burpees';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'diamond-push-ups';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'one-arm-pull-ups';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'neutral-grip-pull-ups';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'hanging-leg-raise';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'russian-twist';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'glute-bridge';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'inverted-row';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'back-extension';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'toes-to-bar';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'glute-ham-raise';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'barbell-reverse-lunge';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'pistol-squat';
+update "exercise"
+set bodyweight = true
+where slug_name = 'bench-dips';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'hanging-knee-raise';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'australian-pull-ups';
+update "exercise"
+set bodyweight = true 
+where slug_name = 'ring-muscle-ups';
+
 insert into
   "user_exercise" 
   (slug_name,  username,  repetitions,  liftmass,  strongerPercentage, groupName, battle_number)
@@ -296,4 +382,3 @@ where username = 'orek';
 
 insert into chat_message (username, text_content)
 values ('orek', 'Good day today, right?');
-

@@ -90,7 +90,7 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
 
   var content: undefined | React.ReactNode = undefined;
   if (mutationData) {
-    content = <WorkoutModalAttack dph={data.calculateStrengthStats.dph} hits={mutationData.createWorkout.workout.hits} skillTitle={skillTitle} setVisible={setVisible} data={data} />;
+    content = <WorkoutModalAttack dph={dphData.calculateStrengthStats.dph} hits={mutationData.createWorkout.workout.hits} skillTitle={skillTitle} setVisible={setVisible} data={data} />;
   } else if (data) {
     //query finished but no group
     if (!data.getBattleAndCheckExpiry.battle) {
