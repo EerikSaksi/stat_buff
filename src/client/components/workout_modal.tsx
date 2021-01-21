@@ -5,6 +5,7 @@ import { View, StyleSheet, Text } from "react-native";
 import { Button, Input } from "react-native-elements";
 import CustomModal from "../util_components/custom_modal";
 import WorkoutModalAttack from "./workout_modal_attack";
+import globalStyles from "../style/global";
 
 const CREATE_WORKOUT = gql`
   mutation($rir: Int!, $sets: Int!, $username: String!) {
@@ -53,16 +54,10 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
     marginBottom: '5%'
   },
-  input: {
-    textAlign: "center",
-  },
   heading: {
     textAlign: "center",
     fontSize: 30,
   },
-  text: {
-    textAlign: 'center'
-  }
 });
 const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (val: boolean) => void; skillTitle: string | undefined }> = ({ username, visible, setVisible, skillTitle }) => {
   const [rir, setRir] = useState<number | undefined>();
@@ -111,11 +106,11 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
       content = (
         <View style = {{padding: '5%'}}>
           <View style={styles.row}>
-            <Text style = { styles.text }>
+            <Text style = { globalStyles.text }>
               How many sets did you complete in total (for all exercises in your entire workout, not including warmup sets.)
             </Text>
             <Input
-              style={styles.input}
+              style={globalStyles.text}
               value={sets?.toString()}
               onChangeText={(v) => (v.length ? setSets(parseInt(v)) : setSets(undefined))}
               placeholder="Sets"
@@ -123,11 +118,11 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
             />
           </View>
           <View style={styles.row}>
-            <Text style = { styles.text }>
+            <Text style = { globalStyles.text }>
               If you were to try your hardest, how many more reps would you have been able to do on average over your sets?
             </Text>
             <Input
-              style={styles.input}
+              style={globalStyles.text}
               value={rir?.toString()}
               onChangeText={(v) => (v.length ? setRir(parseInt(v)) : setRir(undefined))}
               placeholder="Average Reps Left"

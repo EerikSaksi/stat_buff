@@ -6,6 +6,7 @@ import Loading from "../../../util_components/loading";
 import TimeAgo from "react-timeago";
 import SpriteHealthBar from "../../../sprites/sprite_health_bar";
 import { useFocusEffect } from "@react-navigation/native";
+import globalStyles from "../../../style/global";
 
 const ENEMY_STATS = gql`
   mutation {
@@ -31,12 +32,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  row: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
   },
   sprite: {
     flex: 2,
@@ -85,7 +80,7 @@ const EnemyView: React.FC = () => {
   const { currentHealth, enemyLevel, enemyByEnemyLevel, maxHealth } = data.getBattleAndCheckExpiry.battle;
   return (
     <View style={styles.container}>
-      <View style={styles.row}>
+      <View style={globalStyles.row}>
         <Text style={styles.heading}>{`Level ${enemyLevel}: ${enemyByEnemyLevel.name}`}</Text>
       </View>
       <View style={styles.sprite}>
@@ -93,7 +88,7 @@ const EnemyView: React.FC = () => {
         <SpriteSelector spriteName={enemyByEnemyLevel.name} />
       </View>
       <View style={styles.container}>
-        <View style={styles.row}>
+        <View style={globalStyles.row}>
           <Text>Resets </Text>
           {displayDate ? <TimeAgo date={displayDate!} component={Text} /> : undefined}
           <Text> (if not yet killed)</Text>
