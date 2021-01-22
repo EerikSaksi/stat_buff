@@ -61,7 +61,7 @@ values
   (18, 'hex-bar-deadlift'),
   (19, 'lat-pulldown'),
   (20, 'incline-dumbbell-bench-press'),
-  (21, 'weighted-chin-ups'),
+  (21, 'chin-ups'),
   (22, 'horizontal-leg-press'),
   (23, 'dumbbell-lateral-raise'),
   (24, 'dumbbell-row'),
@@ -255,10 +255,9 @@ where slug_name = 'push-ups';
 update "exercise"
 set bodyweight = true 
 where slug_name = 'dips';
-
-  update "exercise" 
-  set bodyweight = true 
-  where slug_name = 'chin-ups';
+update "exercise" 
+set bodyweight = true 
+where slug_name = 'chin-ups';
 update "exercise"
 set bodyweight = true 
 where slug_name = 'dumbbell-lunge';

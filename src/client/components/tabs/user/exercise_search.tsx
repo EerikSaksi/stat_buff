@@ -6,8 +6,8 @@ import { slugify } from "../../../util_components/slug";
 import ExerciseSearchResult from "./exercise_search_result";
 
 const EXERCISE_SEARCH = gql`
-  query($input: String!) {
-    exercises(filter: { slugName: { includesInsensitive: $input } }, orderBy: POPULARITY_RANKING_ASC, first: 8) {
+  query($input: String!, $bodyweightFilter: BooleanFilter) {
+    exercises(filter: { slugName: { includesInsensitive: $input }, bodyweight:  $bodyweightFilter }, orderBy: POPULARITY_RANKING_ASC, first: 8) {
       nodes {
         slugName
         bodyweight
@@ -30,7 +30,33 @@ const USER_EXERCISE_SEARCH = gql`
   }
 `;
 
-const ExerciseSearch: React.FC<{ input: string; username: string; onlyShowTracked: boolean; refetchParent: () => void }> = ({ input, username, onlyShowTracked, refetchParent }) => {
+const popularExercises = [
+  { slugName: "bench-press", bodyweight: false },
+  { slugName: "deadlift", bodyweight: false },
+  { slugName: "squat", bodyweight: false },
+  { slugName: "shoulder-press", bodyweight: false },
+  { slugName: "pull-ups", bodyweight: true },
+  { slugName: "dumbbell-bench-press", bodyweight: false },
+  { slugName: "barbell-curl", bodyweight: false },
+  { slugName: "dumbbell-curl", bodyweight: false},
+];
+const popularBodyweightExercises = [
+  { slugName: "pull-ups", bodyweight: true },
+  { slugName: "push-ups", bodyweight: true },
+  { slugName: "dips", bodyweight: true },
+  { slugName: "chin-ups", bodyweight: true },
+  { slugName: "dumbbell-lunge", bodyweight: true },
+  { slugName: "sit-ups", bodyweight: true },
+  { slugName: "muscle-ups", bodyweight: true },
+  { slugName: "bodyweight-squat", bodyweight: true },
+];
+const ExerciseSearch: React.FC<{ input: string; username: string; onlyShowTracked: boolean; refetchParent: () => void; onlyBodyweight: boolean }> = ({
+  input,
+  username,
+  onlyShowTracked,
+  refetchParent,
+  onlyBodyweight,
+}) => {
   //the user will enter search normally, so slugify their input to be compatible with the slugged exercises
   const [sluggedInput, setSluggedInput] = useState("");
   useEffect(() => {
@@ -43,7 +69,7 @@ const ExerciseSearch: React.FC<{ input: string; username: string; onlyShowTracke
   });
 
   const { data: userData } = useQuery(USER_EXERCISE_SEARCH, {
-    variables: { username, input: sluggedInput },
+    variables: { username, input: sluggedInput, bodyweightFilter: { equalTo: true } },
     skip: !onlyShowTracked,
   });
 
@@ -56,29 +82,20 @@ const ExerciseSearch: React.FC<{ input: string; username: string; onlyShowTracke
   const exercises = onlyShowTracked
     ? userData.user.userExercisesByUsername.nodes
     : input === ""
-    ? [
-        { slugName: "bench-press", bodyweight: false },
-        { slugName: "deadlift", bodyweight: false },
-        { slugName: "squat", bodyweight: false },
-        { slugName: "shoulder-press", bodyweight: false },
-        { slugName: "pull-ups", bodyweight: true },
-        { slugName: "dumbbell-bench-press", bodyweight: false },
-        { slugName: "barbell-curl", bodyweight: false },
-        { slugName: "dumbbell-curl" },
-      ]
+    ? onlyBodyweight
+      ? popularBodyweightExercises
+      : popularExercises
     : //map the search that the user wants
-      data.exercises.nodes.map;
-
-  //const exercises = ["bench-press"]
+      data.exercises.nodes;
 
   return (
     <React.Fragment>
-      {!onlyShowTracked && input === "" ? <Text style={{ fontSize: 2,  textAlign: "center" }}>Most popular searches</Text> : undefined}
+      {!onlyShowTracked && input === "" ? <Text style={{ fontSize: 2, textAlign: "center" }}>Most popular searches</Text> : undefined}
       <FlatList
         data={exercises}
         style={{ width: "100%" }}
-        keyExtractor={(item) => item}
-        renderItem={({ item }) => <ExerciseSearchResult exerciseSlug = {item.slugName} bodyweight = {item.bodyweight} username={username} refetchParent={refetchParent} />}
+        keyExtractor={(item) => item.slugName}
+        renderItem={({ item }) => <ExerciseSearchResult exerciseSlug={item.slugName} bodyweight={item.bodyweight} username={username} refetchParent={refetchParent} />}
       ></FlatList>
     </React.Fragment>
   );

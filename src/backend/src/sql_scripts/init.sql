@@ -82,6 +82,7 @@ create table "exercise" (
   popularity_ranking integer unique,
   bodyweight boolean default false
 );
+create index on "exercise" (bodyweight);
 
 create table "user_exercise" (
   slug_name varchar(32) not null REFERENCES "exercise" ON DELETE cascade not null,
