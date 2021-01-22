@@ -163,7 +163,6 @@ begin
   group by "group".name
   order by count("user"), "group".created_at DESC
   limit 1;
-
   if chosen_group_name is NULL then 
     return false;
   end if ;

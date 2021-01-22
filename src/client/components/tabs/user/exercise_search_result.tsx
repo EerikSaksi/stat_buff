@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { View, TextInput, Text, StyleSheet, Alert } from "react-native";
 import { unslugify } from "../../../util_components/slug";
 import { Button } from "react-native-elements";
@@ -79,12 +79,17 @@ const styles = StyleSheet.create({
   },
 });
 const ExerciseSearchResult: React.FC<{ exerciseSlug: string; username: string; refetchParent: () => void; bodyweight: boolean }> = ({ exerciseSlug, bodyweight, username, refetchParent }) => {
+  //these are set by saved data (as they might have been filled before) and also by the user inputs in case the user wants to change them
   const [liftmass, setLiftmass] = useState<undefined | string>(undefined);
   const [repetitions, setRepetitions] = useState<undefined | number>(undefined);
+
   const [percentage, setPercentage] = useState<undefined | number>(undefined);
   const [askingConfirmation, setAskingConfirmation] = useState(false);
+
+  //this is set to the current values before they are updated so that we can compare them
+  const oldUserExerice = useRef({ strongerpercentage: 0, updatedAt: new Date() });
   const [fetchCalculateStrength, { data, loading }] = useLazyQuery(CALCULATE_STRENGTH, {
-    variables: { liftmass: parseFloat(liftmass!), exerciseSlug, repetitions },
+    variables: { liftmass: liftmass ? parseFloat(liftmass) : 0.0, exerciseSlug, repetitions },
     onCompleted: (data) => {
       setPercentage(data.calculateStrength);
       setAskingConfirmation(true);
@@ -107,6 +112,7 @@ const ExerciseSearchResult: React.FC<{ exerciseSlug: string; username: string; r
   const [createUserExercise] = useMutation(CREATE_USER_EXERCISE, {
     variables: { exerciseSlug, username, repetitions, percentage, liftmass: parseFloat(liftmass!) },
     onCompleted: () => {
+      setAskingConfirmation(false);
       refetch();
       refetchParent();
     },
@@ -114,24 +120,25 @@ const ExerciseSearchResult: React.FC<{ exerciseSlug: string; username: string; r
   const [updateUserExercise] = useMutation(UPDATE_USER_EXERCISE, {
     variables: { exerciseSlug, username, repetitions, percentage, liftmass: parseFloat(liftmass!) },
     onCompleted: (data) => {
+      setAskingConfirmation(false);
       //we have not yet refetched so we can extract the old values
-      const { strongerpercentage: old_strongerpercentage, updatedAt: old_updatedAt } = savedData.userExercise;
-
+      const { strongerpercentage: old_strongerpercentage, updatedAt: old_updatedAt } = oldUserExerice.current;
       const { strongerpercentage, updatedAt } = data.updateUserExercise.userExercise;
 
       //trigger refetches as we no longer need savedData
       refetch();
       refetchParent();
 
-      const hourDiff = new Date(updatedAt).getHours() - new Date(old_updatedAt).getHours();
-      const percentageDiff = strongerpercentage - old_strongerpercentage
+      console.log({updatedAt, old_updatedAt})
+      const hourDiff = (new Date(updatedAt).getTime() - new Date(old_updatedAt).getTime()) / 36e5;
+      const percentageDiff = strongerpercentage - old_strongerpercentage;
 
-      ////we want atleast 12 hours difference to prevent alerts from wrong values that are later fixed
+      //we want atleast 12 hours difference to prevent alerts from wrong values that are later fixed
       if (12 < hourDiff) {
         //if the user has passed 3%/day threshold
-        if (percentageDiff / (hourDiff / 24) <= 3) {
+        if (percentageDiff / (hourDiff * 24) <= 5) {
           Alert.alert(
-            `You've improved ${percentageDiff} over just ${hourDiff} hours.`,
+            `You've improved your percentile by ${percentageDiff}% over just ${hourDiff} hours.`,
             "Weight shouldn't be added at the expense of form. Would you like a video on technique?",
             [
               {
@@ -148,12 +155,12 @@ const ExerciseSearchResult: React.FC<{ exerciseSlug: string; username: string; r
     },
   });
   const [deleteUserExercise] = useMutation(DELETE_USER_EXERCISE, {
-    variables: {exerciseSlug, username},
+    variables: { exerciseSlug, username },
     onCompleted: () => {
-      refetch()
-      refetchParent()
-    }
-  })
+      refetch();
+      refetchParent();
+    },
+  });
 
   var button: React.ReactNode;
 
@@ -168,6 +175,8 @@ const ExerciseSearchResult: React.FC<{ exerciseSlug: string; username: string; r
         title={`Stronger than ${data.calculateStrength}%. Tap to save.`}
         onPress={() => {
           if (savedData.userExercise) {
+            //cache the old results so that we can compare them once we get the new data
+            oldUserExerice.current = savedData.userExercise;
             updateUserExercise();
           } else {
             createUserExercise();
@@ -190,7 +199,7 @@ const ExerciseSearchResult: React.FC<{ exerciseSlug: string; username: string; r
           }}
           containerStyle={styles.recalculate}
         />
-        <Button icon={<Ionicons name="md-trash" size={24} />} buttonStyle={styles.deleteButton} containerStyle={styles.flexOne} onPress = {() => deleteUserExercise()} />
+        <Button icon={<Ionicons name="md-trash" size={24} />} buttonStyle={styles.deleteButton} containerStyle={styles.flexOne} onPress={() => deleteUserExercise()} />
       </View>
     );
   }
