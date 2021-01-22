@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   }
 
 });
-const ExerciseSearchResult: React.FC<{ exerciseSlug: string; username: string; refetchParent: () => void }> = ({ exerciseSlug, username, refetchParent }) => {
+const ExerciseSearchResult: React.FC<{ exerciseSlug: string; username: string; refetchParent: () => void, bodyweight: boolean }> = ({ exerciseSlug, bodyweight,  username, refetchParent }) => {
   const [liftmass, setLiftmass] = useState<undefined | string>(undefined);
   const [repetitions, setRepetitions] = useState<undefined | number>(undefined);
   const [percentage, setPercentage] = useState<undefined | number>(undefined);
@@ -169,7 +169,7 @@ const ExerciseSearchResult: React.FC<{ exerciseSlug: string; username: string; r
         <View style={styles.flexOne}>
           <Text>{unslugify(exerciseSlug)}</Text>
         </View>
-        <TextInput onChangeText={(t) => setLiftmass(t)} keyboardType="numeric" value={liftmass} style={styles.textInput} placeholder={"Weight (kg)"} />
+        <TextInput onChangeText={(t) => setLiftmass(t)} keyboardType="numeric" value={liftmass} style={styles.textInput} placeholder={bodyweight ? "Additional Weight (kg)" : "Weight (kg)"} />
         <TextInput onChangeText={(t) => setRepetitions(parseInt(t))} keyboardType="numeric" value={repetitions ? repetitions.toString() : undefined} style={styles.textInput} placeholder={"Reps"} />
       </View>
       <View style={styles.row}>

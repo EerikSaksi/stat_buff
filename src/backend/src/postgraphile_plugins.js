@@ -44,21 +44,22 @@ const MyPlugins = makeExtendSchemaPlugin((build) => {
           const { exercise, liftmass, repetitions } = args;
 
           //validate input
-          if (repetitions <= 0 || liftmass <= 0) {
+          if (repetitions <= 0) {
             return null;
           }
 
-          //check the exercise exists
-          const { rows } = await context.pgClient.query('select count(*) from "exercise" where slug_name = $1', [exercise]);
+          //get if its a bodyweight exercise
+          const { rows } = await context.pgClient.query('select bodyweight from "exercise" where slug_name = $1', [exercise]);
+          console.log({rows})
+          //also validate exercise exists
           if (!rows.length) {
             return null;
           }
-
           //get the users bodyStats
           const { rows: bodyStatRows } = await context.pgClient.query('select * from "bodystat" where username = (select username from active_user())');
           const { ismale, bodymass } = bodyStatRows[0];
           const gender = ismale ? "male" : "female";
-          const val = await statsToPercentageVal(gender, bodymass, exercise, liftmass, repetitions);
+          const val = await statsToPercentageVal(gender, bodymass, exercise, liftmass, repetitions, rows[0].bodyweight);
           return val;
         },
         username: async (parent, args, context, resolveInfo) => {

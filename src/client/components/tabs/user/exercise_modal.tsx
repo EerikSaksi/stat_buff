@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, Switch, View, Modal, TextInput} from "react-native";
+import { Text, Switch, View, Modal, TextInput } from "react-native";
 import ExerciseSearch from "./exercise_search";
 import { Ionicons } from "@expo/vector-icons";
 const ExerciseModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => void; username: string; refetchParent: () => void }> = ({ visible, setVisible, username, refetchParent }) => {

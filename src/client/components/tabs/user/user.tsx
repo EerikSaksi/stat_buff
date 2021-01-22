@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 type NavigationProps = { params: { username: string } };
 const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
   const { username } = route.params;
-  const [strengthModalVisible, setStrengthModalVisible] = useState(false);
+  const [strengthModalVisible, setStrengthModalVisible] = useState(true);
   const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false);
   const [workoutModalVisible, setWorkoutModalVisible] = useState(false);
   useUserAnalytics({ strengthModalVisible, bodystatsModalVisible, workoutModalVisible });

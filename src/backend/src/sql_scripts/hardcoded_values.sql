@@ -258,7 +258,7 @@ where slug_name = 'dips';
 
   update "exercise" 
   set bodyweight = true 
-  where slug_name = 'weighted-chin-ups';
+  where slug_name = 'chin-ups';
 update "exercise"
 set bodyweight = true 
 where slug_name = 'dumbbell-lunge';
