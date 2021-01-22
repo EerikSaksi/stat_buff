@@ -7,7 +7,6 @@ const httpsAgent = new https.Agent({ca: rootCas});
 const cheerio = require('cheerio')
 
 async function statsToPercentageVal(gender, bodymass, exercise, liftmass, repetitions, bodyweight) {
-  console.log({gender, bodymass, exercise, liftmass, repetitions, bodyweight})
   const liftmassParameter= 
     bodyweight 
     ?

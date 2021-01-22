@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TextInput, Text, StyleSheet } from "react-native";
+import { View, TextInput, Text, StyleSheet, Alert } from "react-native";
 import { unslugify } from "../../../util_components/slug";
 import { Button } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
@@ -19,6 +19,7 @@ const USER_EXERCISE = gql`
       repetitions
       liftmass
       strongerpercentage
+      updatedAt
     }
   }
 `;
@@ -34,15 +35,23 @@ const CREATE_USER_EXERCISE = gql`
 const UPDATE_USER_EXERCISE = gql`
   mutation($exerciseSlug: String!, $username: String!, $repetitions: Int!, $percentage: Int!, $liftmass: Float!) {
     updateUserExercise(input: { slugName: $exerciseSlug, username: $username, patch: { repetitions: $repetitions, strongerpercentage: $percentage, liftmass: $liftmass } }) {
+      userExercise {
+        nodeId
+        repetitions
+        liftmass
+        strongerpercentage
+        updatedAt
+      }
+    }
+  }
+`;
+const DELETE_USER_EXERCISE = gql`
+  mutation($exerciseSlug: String!, $username: String!) {
+    deleteUserExercise(input: { slugName: $exerciseSlug, username: $username }) {
       clientMutationId
     }
   }
 `;
-const DELETE_USER_EXERCISE = gql `mutation($exerciseSlug: String!, $username: String!){
-  deleteUserExercise(input: {slugName: $exerciseSlug, username: $username}){
-    clientMutationId
-  }
-}`
 const styles = StyleSheet.create({
   root: {
     flex: 1,
@@ -66,11 +75,10 @@ const styles = StyleSheet.create({
     flex: 9,
   },
   deleteButton: {
-    backgroundColor: "red" 
-  }
-
+    backgroundColor: "red",
+  },
 });
-const ExerciseSearchResult: React.FC<{ exerciseSlug: string; username: string; refetchParent: () => void, bodyweight: boolean }> = ({ exerciseSlug, bodyweight,  username, refetchParent }) => {
+const ExerciseSearchResult: React.FC<{ exerciseSlug: string; username: string; refetchParent: () => void; bodyweight: boolean }> = ({ exerciseSlug, bodyweight, username, refetchParent }) => {
   const [liftmass, setLiftmass] = useState<undefined | string>(undefined);
   const [repetitions, setRepetitions] = useState<undefined | number>(undefined);
   const [percentage, setPercentage] = useState<undefined | number>(undefined);
@@ -105,9 +113,39 @@ const ExerciseSearchResult: React.FC<{ exerciseSlug: string; username: string; r
   });
   const [updateUserExercise] = useMutation(UPDATE_USER_EXERCISE, {
     variables: { exerciseSlug, username, repetitions, percentage, liftmass: parseFloat(liftmass!) },
-    onCompleted: () => {
+    onCompleted: (data) => {
+      //we have not yet refetched so we can extract the old values
+      const { strongerpercentage: old_strongerpercentage, updatedAt: old_updatedAt } = savedData.userExercise;
+
+      const { strongerpercentage, updatedAt } = data.updateUserExercise.userExercise;
+
+
+      //trigger refetches as we no longer need savedData
       refetch();
       refetchParent();
+
+      const hourDiff = new Date(updatedAt).getHours() - new Date(old_updatedAt).getHours();
+      const percentageDiff = strongerpercentage - old_strongerpercentage
+
+      //we want atleast 12 hours difference to prevent alerts from wrong values that are later fixed
+      if (12 < hourDiff) {
+        //if the user has passed 3%/day threshold
+        if (percentageDiff / (hourDiff / 24) <= 3) {
+          Alert.alert(
+            `You've improved ${percentageDiff} over just ${hourDiff} hours.`,
+            "Weight shouldn't be added at the expense of form. Would you like a video on technique?",
+            [
+              {
+                text: "I know what I'm doing!",
+              },
+              {
+                text: "Sure",
+              },
+            ],
+            { cancelable: true }
+          );
+        }
+      }
     },
   });
   const [deleteUserExercise] = useMutation(DELETE_USER_EXERCISE, {
