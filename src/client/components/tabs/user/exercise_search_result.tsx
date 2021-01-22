@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { View, TextInput, Text, StyleSheet, Alert } from "react-native";
+import { View, TextInput, Text, StyleSheet, Alert, Linking } from "react-native";
 import { unslugify } from "../../../util_components/slug";
 import { Button } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
@@ -120,25 +120,25 @@ const ExerciseSearchResult: React.FC<{ exerciseSlug: string; username: string; r
   const [updateUserExercise] = useMutation(UPDATE_USER_EXERCISE, {
     variables: { exerciseSlug, username, repetitions, percentage, liftmass: parseFloat(liftmass!) },
     onCompleted: (data) => {
+      //trigger refetches as we no longer need savedData
+      refetch();
+      refetchParent();
       setAskingConfirmation(false);
+
       //we have not yet refetched so we can extract the old values
       const { strongerpercentage: old_strongerpercentage, updatedAt: old_updatedAt } = oldUserExerice.current;
       const { strongerpercentage, updatedAt } = data.updateUserExercise.userExercise;
 
-      //trigger refetches as we no longer need savedData
-      refetch();
-      refetchParent();
 
-      console.log({updatedAt, old_updatedAt})
-      const hourDiff = (new Date(updatedAt).getTime() - new Date(old_updatedAt).getTime()) / 36e5;
+      const hourDiff = (new Date(updatedAt).getTime() - new Date(old_updatedAt).getTime()) / 3600000;
       const percentageDiff = strongerpercentage - old_strongerpercentage;
 
       //we want atleast 12 hours difference to prevent alerts from wrong values that are later fixed
       if (12 < hourDiff) {
         //if the user has passed 3%/day threshold
-        if (percentageDiff / (hourDiff * 24) <= 5) {
+        if (3 <= percentageDiff / (hourDiff / 24)) {
           Alert.alert(
-            `You've improved your percentile by ${percentageDiff}% over just ${hourDiff} hours.`,
+            `You've improved your percentile by ${percentageDiff}% over just ${Math.floor(hourDiff)} hours.`,
             "Weight shouldn't be added at the expense of form. Would you like a video on technique?",
             [
               {
@@ -146,6 +146,18 @@ const ExerciseSearchResult: React.FC<{ exerciseSlug: string; username: string; r
               },
               {
                 text: "Sure",
+                onPress: () => {
+                  //as youtube treats + as space, replace - with spaces so bench-press becomes bench+press. also append + form so we get relevant videos
+                  const searchTerm = exerciseSlug.replace('-', '+') + "+form"
+                  const url = `https://www.youtube.com/results?search_query=${searchTerm}`
+                  Linking.canOpenURL(url).then((supported) => {
+                    if (supported) {
+                      Linking.openURL(url);
+                    } else {
+                      alert("Can't open URL")
+                    }
+                  });
+                },
               },
             ],
             { cancelable: true }
