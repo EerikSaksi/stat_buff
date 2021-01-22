@@ -119,7 +119,6 @@ const ExerciseSearchResult: React.FC<{ exerciseSlug: string; username: string; r
 
       const { strongerpercentage, updatedAt } = data.updateUserExercise.userExercise;
 
-
       //trigger refetches as we no longer need savedData
       refetch();
       refetchParent();
@@ -127,7 +126,7 @@ const ExerciseSearchResult: React.FC<{ exerciseSlug: string; username: string; r
       const hourDiff = new Date(updatedAt).getHours() - new Date(old_updatedAt).getHours();
       const percentageDiff = strongerpercentage - old_strongerpercentage
 
-      //we want atleast 12 hours difference to prevent alerts from wrong values that are later fixed
+      ////we want atleast 12 hours difference to prevent alerts from wrong values that are later fixed
       if (12 < hourDiff) {
         //if the user has passed 3%/day threshold
         if (percentageDiff / (hourDiff / 24) <= 3) {
