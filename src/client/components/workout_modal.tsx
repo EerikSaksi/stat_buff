@@ -6,6 +6,7 @@ import { Button, Input } from "react-native-elements";
 import CustomModal from "../util_components/custom_modal";
 import WorkoutModalAttack from "./workout_modal_attack";
 import globalStyles from "../style/global";
+import SpriteHealthBar from "../sprites/sprite_health_bar";
 
 const CREATE_WORKOUT = gql`
   mutation($rir: Int!, $sets: Int!, $username: String!) {
@@ -61,6 +62,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 30,
   },
+  justBottomMargin: {
+    marginBottom: "5%",
+  }
 });
 const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (val: boolean) => void; skillTitle: string | undefined }> = ({ username, visible, setVisible, skillTitle }) => {
   const [rir, setRir] = useState<number | undefined>();
@@ -105,20 +109,15 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
     else if (!data.getBattleAndCheckExpiry.battle) {
       content = <Text style={styles.heading}>You need at least two members before you can track workouts</Text>;
     } else {
-      var numAttacksText: undefined | React.ReactNode;
-      console.log(data);
-      if (dphData && dphData.calculateStrengthStats) {
-        const rirOrZero = rir ? rir : 0;
-        const setsOrZero = sets ? sets : 0;
-        const hits = Math.floor(((10 - rirOrZero) / 10.0) * setsOrZero);
-        numAttacksText = (
-          <View style={styles.row}>
-            <Text style={globalStyles.text}>
-              {`${(dphData.calculateStrengthStats.dph * hits).toFixed(2)} damage (${hits} attack${hits === 1 ? "" : "s"} * ${dphData.calculateStrengthStats.dph} damage per attack)`}
-            </Text>
-          </View>
-        );
-      }
+      //these values might be undefined, so we want them to be zero if they are (dont subtract any health)
+      const rirOrZero = rir === undefined ? 10 : rir;
+      const setsOrZero = sets ? sets : 0;
+      const dphOrZero = dphData ? dphData.calculateStrengthStats.dph : 0 
+
+      const hits = Math.floor(((10 - rirOrZero) / 10.0) * setsOrZero);
+
+      //take the current health minus the calculated damage. This health can at least be 0
+      const newCurrentHealth = Math.max(0, data.getBattleAndCheckExpiry.battle.currentHealth - (hits * dphOrZero) )
       content = (
         <View style
           ={{ padding: "5%" }}>
@@ -136,7 +135,7 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
               keyboardType={"numeric"}
             />
           </View>
-          {numAttacksText}
+          <View style = { styles.justBottomMargin }><SpriteHealthBar maxHealth = {data.getBattleAndCheckExpiry.battle.maxHealth} currentHealth = {newCurrentHealth}/></View>
           <View style={styles.row}>
             <Button disabled={!rir || !sets || !data} title="Save Workout" style={styles.row} onPress={() => createWorkout()} />
           </View>
