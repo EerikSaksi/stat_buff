@@ -79,8 +79,10 @@ create index on "workout" (groupName, battle_number);
 CREATE INDEX ON "bodystat" (username);
 create table "exercise" (
   slug_name varchar(32) not null primary key,
-  popularity_ranking integer unique
+  popularity_ranking integer unique,
+  bodyweight boolean default false
 );
+create index on "exercise" (bodyweight);
 
 create table "user_exercise" (
   slug_name varchar(32) not null REFERENCES "exercise" ON DELETE cascade not null,
@@ -161,7 +163,6 @@ begin
   group by "group".name
   order by count("user"), "group".created_at DESC
   limit 1;
-
   if chosen_group_name is NULL then 
     return false;
   end if ;

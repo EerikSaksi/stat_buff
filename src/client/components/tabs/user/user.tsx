@@ -6,6 +6,7 @@ import SpriteSelector from "../../../sprites/sprite_selector";
 import { Button } from "react-native-elements";
 import useSkillTitle from "../../../hooks/use_skill_title";
 import useUserAnalytics from "../../../hooks/analytics/use_user_analytics";
+import { Ionicons } from "@expo/vector-icons";
 const ExerciseModal = React.lazy(() => import("./exercise_modal"));
 const WorkoutModal = React.lazy(() => import("../../workout_modal"));
 const BodyStatsModal = React.lazy(() => import("./bodystats_modal"));
@@ -48,11 +49,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-evenly",
+    alignItems: "center",
     width: "100%",
-  },
-  updateBodyStats: {
-    flex: 1,
-    zIndex: 100,
   },
   flexOne: {
     flex: 1,
@@ -84,7 +82,7 @@ const styles = StyleSheet.create({
 type NavigationProps = { params: { username: string } };
 const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
   const { username } = route.params;
-  const [strengthModalVisible, setStrengthModalVisible] = useState(false);
+  const [strengthModalVisible, setStrengthModalVisible] = useState(true);
   const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false);
   const [workoutModalVisible, setWorkoutModalVisible] = useState(false);
   useUserAnalytics({ strengthModalVisible, bodystatsModalVisible, workoutModalVisible });
@@ -96,10 +94,10 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
   const [fetchBodyStats, { data: userBodyStats }] = useLazyQuery(USER_BODY_STATS, {
     variables: { username },
     onCompleted: (data) => {
-      if (!data.bodystat){
-        setBodystatsModalVisible(true)
+      if (!data.bodystat) {
+        setBodystatsModalVisible(true);
       }
-    }
+    },
   });
   useEffect(() => {
     fetchBodyStats();
@@ -111,9 +109,10 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
   }
   return (
     <View style={styles.root}>
+      <Ionicons style={{ position: "absolute", right: "1%", top: "1%" }} onPress={() => setBodystatsModalVisible(true)} size={25} name="settings-sharp" />
       <View style={styles.row}>
-        <Button style={styles.updateBodyStats} title="Update Body Stats" onPress={() => setBodystatsModalVisible(true)} />
-        <Button style={styles.flexOne} disabled={!(userBodyStats && userBodyStats.bodystat)} title="Strengthen" onPress={() => setStrengthModalVisible(true)} />
+        <Button style={styles.flexOne} disabled={!(userBodyStats && userBodyStats.bodystat)} title="Strengthen Character" onPress={() => setStrengthModalVisible(true)} />
+        <Button disabled={!(exerciseData && exerciseData.calculateStrengthStats)} title="Deal Damage" onPress={() => setWorkoutModalVisible(true)} />
       </View>
       <View style={styles.flexOne}>
         {exerciseData && exerciseData.calculateStrengthStats ? (
@@ -148,7 +147,7 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
           <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username} skillTitle={skillTitle} />
         </Suspense>
       ) : undefined}
-      <View style={styles.sprite}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector spriteName={skillTitle} /> : <Loading />}</View>
+      <View style={styles.sprite}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector aspectRatio={1.2} spriteName={skillTitle} /> : <Loading />}</View>
       <View style={styles.trackWorkout}>
         <Button disabled={!(exerciseData && exerciseData.calculateStrengthStats)} title="Deal damage" onPress={() => setWorkoutModalVisible(true)} />
       </View>

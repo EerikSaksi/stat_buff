@@ -4,6 +4,7 @@ import BattlePicker from "./battle_picker";
 import { View, StyleSheet, Text, Switch, FlatList } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import ListItemContainer from "../../list_item_container";
+import globalStyles from "../../../style/global";
 
 const ALL_WORKOUTS = gql`
   query($groupname: String!) {
@@ -53,17 +54,6 @@ const WORKOUTS_BY_BATTLE = gql`
 `;
 
 const styles = StyleSheet.create({
-  row: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  col: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   picker: {
     flex: 2,
   },
@@ -78,9 +68,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: "center",
   },
-  centerText: {
-    textAlign: 'center'
-  }
 });
 
 //convert all passed workout nodes to [username, totalDamage] pairs ordered by totalDamage
@@ -143,13 +130,13 @@ const Members: React.FC<{ route: NavigationProps }> = ({ route }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={styles.row}>
-        <View style={styles.col}>
-          <View style={styles.row}>
-            <View style={styles.col}>
-              <Text style = { styles.centerText}>All battles</Text>
+      <View style={globalStyles.row}>
+        <View style={globalStyles.container}>
+          <View style={globalStyles.row}>
+            <View style={globalStyles.container}>
+              <Text style = { globalStyles.text}>All battles</Text>
             </View>
-            <View style={styles.col}>
+            <View style={globalStyles.container}>
               <Switch value={showAllStats} onValueChange={(v) => setShowAllStats(v)} />
             </View>
           </View>
@@ -161,13 +148,13 @@ const Members: React.FC<{ route: NavigationProps }> = ({ route }) => {
       <View style={styles.listContainer}>
         <FlatList
           data={usersOrderedByDamage}
-          keyExtractor={(item, index) => item[0] + item[1].toString()}
+          keyExtractor={(item) => item[0] + item[1].toString()}
           renderItem={({ item }) => (
             <ListItemContainer>
-              <View style={styles.row}>
+              <View style={globalStyles.row}>
                 <Text style={styles.listHeading}>{`${item[0]}`}</Text>
               </View>
-              <View style={styles.row}>
+              <View style={globalStyles.row}>
                 <Text style={styles.listText}>{`${item[1]} damage in ${showAllStats ? "all battles" : "Battle " + battleNumber} `}</Text>
               </View>
             </ListItemContainer>

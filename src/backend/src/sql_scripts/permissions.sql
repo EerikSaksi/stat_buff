@@ -37,7 +37,6 @@ comment on table "battle" is E'@omit create, update, insert, all';
 comment on column "workout".groupName is E'@omit create, update, insert';
 comment on column "workout".battle_number is E'@omit create, update, insert';
 comment on column "workout".total_damage is E'@omit create, update, insert';
-comment on column "workout".total_damage is E'@omit select, all, update';
 
 Alter table "user" enable row level security;
 Alter table "group" enable row level security;

@@ -188,7 +188,6 @@ create function get_battle_and_check_expiry()
 
       --new battle is the newly created one
       update "group" set battle_number = old_battle_number + 1 where name = old_groupName;
-
       
       -- we want this chat message to go to this group, and not be set back to Event Notices group
       ALTER TABLE "chat_message" disable TRIGGER load_groupName_to_chat_message;

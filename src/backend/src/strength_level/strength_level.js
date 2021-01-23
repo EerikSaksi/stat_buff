@@ -6,7 +6,20 @@ rootCas.addFile(path.resolve(__dirname, 'intermediate.pem'));
 const httpsAgent = new https.Agent({ca: rootCas});
 const cheerio = require('cheerio')
 
-async function statsToPercentageVal(gender, bodymass, exercise, liftmass, repetitions) {
+async function statsToPercentageVal(gender, bodymass, exercise, liftmass, repetitions, bodyweight) {
+  const liftmassParameter= 
+    bodyweight 
+    ?
+      //bodyweight exercise with no additional weight is a bodyweight variation
+      liftmass
+      ?
+        //weighted bodyweight exercise
+        `variation=weighted&extramass=${liftmass}`
+        :
+        "variation=bodyweight"
+      //not bodyweight, pass liftmass as it is
+      : `liftmass=${liftmass}`
+console.log(`gender=${gender}&age=20.5&bodymass=${bodymass}&bodymassunit=kg&exercise=${exercise}&${liftmassParameter}&liftmassunit=kg&repetitions=${repetitions}&timezone=2&source=homepage`)
   return await fetch("https://strengthlevel.com/", {
     "agent": httpsAgent,
     "headers": {
@@ -22,7 +35,7 @@ async function statsToPercentageVal(gender, bodymass, exercise, liftmass, repeti
     },
     "referrer": "https://strengthlevel.com/",
     "referrerPolicy": "no-referrer-when-downgrade",
-    "body": `gender=${gender}&age=20.5&bodymass=${bodymass}&bodymassunit=kg&exercise=${exercise}&liftmass=${liftmass}&liftmassunit=kg&repetitions=${repetitions}&timezone=2&source=homepage`,
+    "body": `gender=${gender}&age=20.5&bodymass=${bodymass}&bodymassunit=kg&exercise=${exercise}&${liftmassParameter}&liftmassunit=kg&repetitions=${repetitions}&timezone=2&source=homepage`,
     "method": "POST",
     "mode": "cors",
     "credentials": "include",
