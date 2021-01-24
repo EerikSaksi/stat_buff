@@ -1,6 +1,3 @@
-drop schema public cascade;
-create schema public;
-
 
 SELECT set_config('user.googleID', 'uh oh', false);
 insert into
