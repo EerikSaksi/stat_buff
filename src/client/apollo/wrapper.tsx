@@ -22,14 +22,13 @@ const httpLink = createHttpLink({
 
 const authLink = setContext(async (_, {headers}) => {
   var user = getCurrentUser()
-  console.log(alert(JSON.stringify(user)))
   if (!user || !user.auth?.idToken){
     return {headers}
   }
   return {
     headers: {
       ...headers,
-      authorization: `Bearer ${user!.auth?.idToken}` 
+      authorization: `Bearer ${user!.auth.idToken}` 
     }
   }
 })
