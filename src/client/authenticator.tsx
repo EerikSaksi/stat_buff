@@ -23,7 +23,6 @@ export default function Authenticator() {
       if (await isSignedInAsync()) {
         setGoogleLoggedIn(true);
       }
-      alert(user)
       refetchUser();
     };
 
