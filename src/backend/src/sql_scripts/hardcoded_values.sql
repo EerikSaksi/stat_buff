@@ -1,4 +1,5 @@
-
+drop schema public cascade;
+create schema public;
 insert into
   "enemy" (level, max_health, name)
 values
