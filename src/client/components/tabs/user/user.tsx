@@ -112,7 +112,7 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
       <Ionicons style={{ position: "absolute", right: "1%", top: "1%" }} onPress={() => setBodystatsModalVisible(true)} size={25} name="settings-sharp" />
       <View style={styles.row}>
         <Button style={styles.flexOne} disabled={!(userBodyStats && userBodyStats.bodystat)} title="Strengthen Character" onPress={() => setStrengthModalVisible(true)} />
-        <Button disabled={(exerciseData && !exerciseData.calculateStrengthStats.dph)} title="Deal Damage" onPress={() => setWorkoutModalVisible(true)} />
+        <Button disabled={!(userBodyStats && userBodyStats.bodystat)} title="Deal Damage" onPress={() => setWorkoutModalVisible(true)} />
       </View>
       <View style={styles.flexOne}>
         {exerciseData && exerciseData.calculateStrengthStats ? (
