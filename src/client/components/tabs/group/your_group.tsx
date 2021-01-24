@@ -92,7 +92,7 @@ const YourGroup: React.FC<{ groupname: string; username: string; refetchParentGr
     []
   );
   return (
-    <View style = {{ height: '100%' }}>
+    <View style={{ height: "100%" }}>
       <View style={{ ...styles.topRow, borderBottomColor: colors.primary }}>
         <Text style={{ fontSize: 25, textAlign: "center", color: colors.text }}>{groupname}</Text>
         <View style={styles.chatContainer}>
