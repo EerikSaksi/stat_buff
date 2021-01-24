@@ -1,9 +1,5 @@
 drop schema public cascade;
 create schema public;
-insert into
-  "enemy" (level, max_health, name)
-values
-  (1, 10, 'Earth Golem');
 
 
 SELECT set_config('user.googleID', 'uh oh', false);
