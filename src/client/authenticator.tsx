@@ -28,10 +28,6 @@ export default function Authenticator() {
 
     tryGetToken();
     //reauthenticate the user every 50 minutes or so (tokens expire every hour)
-    const interval = setInterval(() => {
-      signInSilentlyAsync()
-    }, 3000000);
-    return () => clearInterval(interval)
   }, []);
   if (!data) {
     return null;

@@ -38,6 +38,7 @@ const postgraphileOptions = {
 };
 const app = express();
 (async () => {
+  await run_all_sql_scripts()
   app.use(postgraphile(process.env.DATABASE_USER_URL, postgraphileOptions));
 })();
 app.listen(process.env.PORT || 4000);
