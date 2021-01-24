@@ -7,6 +7,7 @@ import { Button } from "react-native-elements";
 import useSkillTitle from "../../../hooks/use_skill_title";
 import useUserAnalytics from "../../../hooks/analytics/use_user_analytics";
 import { Ionicons } from "@expo/vector-icons";
+import globalStyles from "../../../style/global";
 const ExerciseModal = React.lazy(() => import("./exercise_modal"));
 const WorkoutModal = React.lazy(() => import("../../workout_modal"));
 const BodyStatsModal = React.lazy(() => import("./bodystats_modal"));
@@ -78,6 +79,15 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "30%",
   },
+  icon: {
+    position: "absolute",
+    right: "1%",
+    top: "1%",
+  },
+  emailText: {
+    color: "blue",
+    textAlign: "center",
+  },
 });
 type NavigationProps = { params: { username: string } };
 const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
@@ -110,6 +120,7 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
   return (
     <View style={styles.root}>
       <Ionicons style={{ position: "absolute", right: "1%", top: "1%" }} onPress={() => setBodystatsModalVisible(true)} size={25} name="settings-sharp" />
+      <Ionicons style={styles.icon} onPress={() => setBodystatsModalVisible(true)} size={25} name="settings-sharp" />
       <View style={styles.row}>
         <Button style={styles.flexOne} disabled={!(userBodyStats && userBodyStats.bodystat)} title="Strengthen Character" onPress={() => setStrengthModalVisible(true)} />
         <Button disabled={!(userBodyStats && userBodyStats.bodystat)} title="Deal Damage" onPress={() => setWorkoutModalVisible(true)} />
@@ -125,9 +136,9 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
         ) : null}
       </View>
       <View style={styles.row}>
-        <Text style={{ textAlign: "center", color: "black" }}>
+        <Text style={globalStyles.text}>
           If you have any question related to the app or the study (e.g. to withdraw) don't hesitate to contact me:{" "}
-          <Text style={{ color: "blue", textAlign: "center" }} onPress={() => Linking.openURL("mailto:saksi.eerik@gmail.com")}>
+          <Text style={styles.emailText} onPress={() => Linking.openURL("mailto:saksi.eerik@gmail.com")}>
             saksi.eerik@gmail.com
           </Text>
         </Text>
