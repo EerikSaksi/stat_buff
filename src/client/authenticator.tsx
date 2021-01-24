@@ -21,11 +21,11 @@ export default function Authenticator() {
       await initAsync();
       await signInSilentlyAsync();
       if (await isSignedInAsync()) {
-        alert('is signed in')
         setGoogleLoggedIn(true);
-        refetchUser();
       }
+      refetchUser();
     };
+
     tryGetToken();
     //reauthenticate the user every 50 minutes or so (tokens expire every hour)
     const interval = setInterval(() => {
