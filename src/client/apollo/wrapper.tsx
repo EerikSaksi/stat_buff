@@ -1,7 +1,7 @@
 import registerRootComponent from 'expo/build/launch/registerRootComponent';
 import React from 'react';
 import {setContext} from '@apollo/client/link/context';
-import {getCurrentUserAsync, isConnectedAsync, isSignedInAsync, signInSilentlyAsync} from 'expo-google-sign-in'
+import {getCurrentUser} from 'expo-google-sign-in'
 import {ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink} from '@apollo/client'
 import Authenticator from '../authenticator';
 import { split } from '@apollo/client';
@@ -13,8 +13,6 @@ const wsLink = new WebSocketLink({
   uri: `ws://stat-buff.herokuapp.com/graphql`,
   options: {
     reconnect: true,
-    connectionParams: {
-    }
   },
 });
 
@@ -23,8 +21,9 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext(async (_, {headers}) => {
-  var user =  await isConnectedAsync() ? await getCurrentUserAsync() : await signInSilentlyAsync()
-  if (!user){
+  var user = getCurrentUser()
+  console.log(alert(JSON.stringify(user)))
+  if (!user || !user.auth?.idToken){
     return {headers}
   }
   return {

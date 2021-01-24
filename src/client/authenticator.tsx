@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Suspense } from "react";
-import { initAsync, isSignedInAsync, signInSilentlyAsync } from "expo-google-sign-in";
+import { initAsync, isSignedInAsync, signInSilentlyAsync, } from "expo-google-sign-in";
 import { gql, useLazyQuery } from "@apollo/client";
 import Loading from "./util_components/loading";
 const App = React.lazy(() => import("./App"));
@@ -21,11 +21,17 @@ export default function Authenticator() {
       await initAsync();
       await signInSilentlyAsync();
       if (await isSignedInAsync()) {
+        alert('is signed in')
         setGoogleLoggedIn(true);
+        refetchUser();
       }
-      refetchUser();
     };
     tryGetToken();
+    //reauthenticate the user every 50 minutes or so (tokens expire every hour)
+    const interval = setInterval(() => {
+      signInSilentlyAsync()
+    }, 3000000);
+    return () => clearInterval(interval)
   }, []);
   if (!data) {
     return null;
