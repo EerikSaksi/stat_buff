@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 type NavigationProps = { params: { username: string } };
 const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
   const { username } = route.params;
-  const [strengthModalVisible, setStrengthModalVisible] = useState(true);
+  const [strengthModalVisible, setStrengthModalVisible] = useState(false);
   const [bodystatsModalVisible, setBodystatsModalVisible] = useState(false);
   const [workoutModalVisible, setWorkoutModalVisible] = useState(false);
   useUserAnalytics({ strengthModalVisible, bodystatsModalVisible, workoutModalVisible });
@@ -112,7 +112,7 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
       <Ionicons style={{ position: "absolute", right: "1%", top: "1%" }} onPress={() => setBodystatsModalVisible(true)} size={25} name="settings-sharp" />
       <View style={styles.row}>
         <Button style={styles.flexOne} disabled={!(userBodyStats && userBodyStats.bodystat)} title="Strengthen Character" onPress={() => setStrengthModalVisible(true)} />
-        <Button disabled={!(exerciseData && exerciseData.calculateStrengthStats)} title="Deal Damage" onPress={() => setWorkoutModalVisible(true)} />
+        <Button disabled={(exerciseData && !exerciseData.calculateStrengthStats.dph)} title="Deal Damage" onPress={() => setWorkoutModalVisible(true)} />
       </View>
       <View style={styles.flexOne}>
         {exerciseData && exerciseData.calculateStrengthStats ? (
@@ -148,9 +148,6 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
         </Suspense>
       ) : undefined}
       <View style={styles.sprite}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector aspectRatio={1.2} spriteName={skillTitle} /> : <Loading />}</View>
-      <View style={styles.trackWorkout}>
-        <Button disabled={!(exerciseData && exerciseData.calculateStrengthStats)} title="Deal damage" onPress={() => setWorkoutModalVisible(true)} />
-      </View>
     </View>
   );
 };

@@ -104,7 +104,7 @@ const YourGroup: React.FC<{ groupname: string; username: string; refetchParentGr
         <Button containerStyle={styles.buttonContainer} buttonStyle={styles.leaveButton} titleStyle={{ fontSize: 10 }} title="Leave" onPress={confirmLeave} />
       </View>
       <ChatModal groupname={groupname} visible={chatModalVisible} setVisible={setChatModalVisible} username={username} setNewMessages={setNewMessages} />
-      <Tab.Navigator style={styles.tabNavigator} >
+      <Tab.Navigator style={styles.tabNavigator} tabBarOptions={{ style: { borderTopColor: colors.primary, borderTopWidth: 1 } }}>
         <Tab.Screen name="Enemy" component={EnemyView} />
         <Tab.Screen name="Members" component={Members} initialParams={{ groupname }} />
       </Tab.Navigator>
