@@ -66,7 +66,9 @@ const MyPlugins = makeExtendSchemaPlugin((build) => {
           {
             //check the exercise exists
             const { rows } = await context.pgClient.query(`select username from "user" where googleID = current_setting('user.googleID', 't')`);
-            return rows[0].username;
+            if (rows[0]){
+              return rows[0].username;
+            }
           }
         },
       },
