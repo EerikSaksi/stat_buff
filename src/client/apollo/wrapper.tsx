@@ -8,6 +8,7 @@ import { split } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { cache } from "./cache";
+import 'react-native-gesture-handler'
 
 const wsLink = new WebSocketLink({
   uri: `ws://localhost:4000/graphql`,
