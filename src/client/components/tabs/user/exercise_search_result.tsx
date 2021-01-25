@@ -128,7 +128,7 @@ const ExerciseSearchResult: React.FC<{ exerciseSlug: string; username: string; r
       //we have not yet refetched so we can extract the old values
       const { strongerpercentage: old_strongerpercentage, updatedAt: old_updatedAt } = oldUserExerice.current;
       const { strongerpercentage, updatedAt } = data.updateUserExercise.userExercise;
-
+      console.log({old_updatedAt, updatedAt})
 
       const hourDiff = (new Date(updatedAt).getTime() - new Date(old_updatedAt).getTime()) / 3600000;
       const percentageDiff = strongerpercentage - old_strongerpercentage;
