@@ -17,7 +17,9 @@
     - Did you like getting a cooler looking character, and increasing their strength (personal motivation)
     - How would you describe your teams atmosphere? Were you more supportive of one another, or more competitive?
     - Did you feel obligated to do your part towards your team, and look down on members that didn't?
+    - Did they get warning on adding too much weight and did click video?
     - What additional features or changes would you suggest?
+    - What would make you use it longer/if features were present would you use?
 
 - In order to analyze this data, I will hopefully analyze responses and place users on a x/y axis, where the x axis is a continium from "complete self centered motivation" -> "complete collaborative motation", and the y axis goes from "the app was not motivating at all" -> "the app was extrememly motivating." This should provide me with a graph, which shows me how motivated users were, were they driven by standard personal motivation or collaborative motivation, and whether personal or collabative motivation lead to more training motivation.
 
