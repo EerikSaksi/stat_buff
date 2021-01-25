@@ -8,6 +8,10 @@
 - My primary data will points will be interviews/surveys with users after they have used the app for about 2 weeks. I will get in contact via email, as I can see registered users through Google's sign in API.
   - Some questions that I should ask in interviews/survey
     - Did you experience technical difficulties/did you have any issues with the app (although not relevant to the study, this will hopefully remove technical issues from the rest of the answers)
+    - Have you used any of these apps before/have you used any of these games?
+    - How much to do you train baseline
+    - Public/friend team
+    - Age/gender/location
     - Did you find yourself more motivated to train than usually? (broad overall effectiveness response, allows us to branch out in to specifics)
     - Were you motivated to strengthen your character/workout? If so, was it because you wanted to improve your character or because you wanted to help your team?
     - Did you like getting a cooler looking character, and increasing their strength (personal motivation)

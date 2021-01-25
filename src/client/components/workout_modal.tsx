@@ -137,7 +137,7 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
           </View>
           <View style = { styles.justBottomMargin }><SpriteHealthBar maxHealth = {data.getBattleAndCheckExpiry.battle.maxHealth} currentHealth = {newCurrentHealth}/></View>
           <View style={styles.row}>
-            <Button disabled={!rir || !sets || !data} title="Save Workout" style={styles.row} onPress={() => createWorkout()} />
+            <Button disabled={rir === undefined || !sets || !data} title="Save Workout" style={styles.row} onPress={() => createWorkout()} />
           </View>
         </View>
       );

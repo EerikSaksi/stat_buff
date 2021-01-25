@@ -429,3 +429,13 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 # 23 Jan (1 hour)
 
 - Added current enemy health bar, which changes with prospective damage as the user inputs values. I hope that this makes the user understand the connection with workout difficulty and dealing more damage 
+
+# 24 Jan (3 hours)
+
+- Finally managed to fix the crash on click for groups. This means I can upload to iOS (hopefully) as my app should be mostly bug free
+- Did some small bug fixing in the production branch. Although I merged changes, I wasn't running the database scripts on reset
+
+# 25 Jan (1 hour)
+ 
+- Had meeting with supervisor
+- Downloaded XCode, created iOS build
