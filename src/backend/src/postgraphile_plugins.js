@@ -31,6 +31,7 @@ const MyPlugins = makeExtendSchemaPlugin((build) => {
             return null;
           }
           const {email, id} = await tokenToGoogleID(`Bearer ${args.idToken}`);
+
           //no need to ensure if already exists because of unique clause for googleID
           await context.pgClient.query(
             `insert into "user" (username, googleid, email)
