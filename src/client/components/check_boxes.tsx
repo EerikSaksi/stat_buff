@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 });
 const questions = [
   "I understand that this app is being used to investigate the effectiveness of collaborativeness in activity trackers",
-  "I consent to my data being used as a part of the study, and that I can request to delete this data and withdraw from the study for any reason by contacting saksi.eerik@gmail.com",
+  "I consent to my data being used as a part of the study (including chat messages), and that I can request to delete this data and withdraw from the study for any reason by contacting saksi.eerik@gmail.com",
   "I am over the age of 16",
   "I will consult a medical professional before making any changes in my exercise habits",
 ];
