@@ -8,12 +8,18 @@
 - My primary data will points will be interviews/surveys with users after they have used the app for about 2 weeks. I will get in contact via email, as I can see registered users through Google's sign in API.
   - Some questions that I should ask in interviews/survey
     - Did you experience technical difficulties/did you have any issues with the app (although not relevant to the study, this will hopefully remove technical issues from the rest of the answers)
+    - Have you used any of these apps before/have you used any of these games?
+    - How much to do you train baseline
+    - Public/friend team
+    - Age/gender/location
     - Did you find yourself more motivated to train than usually? (broad overall effectiveness response, allows us to branch out in to specifics)
     - Were you motivated to strengthen your character/workout? If so, was it because you wanted to improve your character or because you wanted to help your team?
     - Did you like getting a cooler looking character, and increasing their strength (personal motivation)
     - How would you describe your teams atmosphere? Were you more supportive of one another, or more competitive?
     - Did you feel obligated to do your part towards your team, and look down on members that didn't?
+    - Did they get warning on adding too much weight and did click video?
     - What additional features or changes would you suggest?
+    - What would make you use it longer/if features were present would you use?
 
 - In order to analyze this data, I will hopefully analyze responses and place users on a x/y axis, where the x axis is a continium from "complete self centered motivation" -> "complete collaborative motation", and the y axis goes from "the app was not motivating at all" -> "the app was extrememly motivating." This should provide me with a graph, which shows me how motivated users were, were they driven by standard personal motivation or collaborative motivation, and whether personal or collabative motivation lead to more training motivation.
 
