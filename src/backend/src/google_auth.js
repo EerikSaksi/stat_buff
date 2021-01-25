@@ -5,7 +5,7 @@ require("https").globalAgent.options.ca = require("ssl-root-cas").create();
 async function tokenToGoogleID(headerAuth) {
   const ticket = await client.verifyIdToken({
     idToken: headerAuth.split(" ")[1],
-    audience: [process.env.GOOGLE_AUTH_ANDROID_CLIENT, process.env.GOOGLE_AUTH_IOS_CLIENT]
+    audience: [process.env.GOOGLE_AUTH_CLIENT, process.env.GOOGLE_AUTH_ANDROID_CLIENT, process.env.GOOGLE_AUTH_IOS_CLIENT]
   });
   const payload = ticket.getPayload();
   return {
