@@ -5,6 +5,7 @@ async function tokenToGoogleID(headerAuth){
   const client = new OAuth2Client(process.env.GOOGLE_AUTH_CLIENT);
   const ticket = await client.verifyIdToken({
     idToken: headerAuth.split(" ")[1],
+    audience: [process.env.GOOGLE_AUTH_ANDROID_CLIENT, process.env.GOOGLE_AUTH_IOS_CLIENT]
   });
   const payload = ticket.getPayload();
   return {id: payload['sub'], email: payload['email']};
