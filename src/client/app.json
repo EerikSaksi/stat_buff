@@ -22,16 +22,19 @@
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.761460499269-d2rtp3aican3tehif8uuucvsftadie62"
         }
-      }
+      },
     },
     "android": {
       "package": "com.statbuff",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 4,
+      "versionCode": 7,
       "permissions": []
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "assetBundlePatterns": [
+      "assets/cropped_sprites/*"
+    ],
   }
 }
