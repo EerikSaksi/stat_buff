@@ -7,6 +7,7 @@ import ListItemContainer from "../../list_item_container";
 import PasswordProtectedGroup from "./password_protected_group";
 import CreateGroup from "./create_group";
 import globalStyles from "../../../style/global";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SEARCH_GROUPS = gql`
   query search_groups($query: String!) {
@@ -100,7 +101,7 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
     },
   });
   return (
-    <View style={globalStyles.container}>
+    <SafeAreaView style={globalStyles.container}>
       <CreateGroup visible={createGroupVisible} setVisible={setCreateGroupVisible} refetchParentGroup={refetchParentGroup} />
       <TopView>
         <SearchBar
@@ -148,7 +149,7 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
         </View>
       ) : undefined}
       </TopView>
-    </View>
+    </SafeAreaView>
   );
 };
 export default JoinGroup;

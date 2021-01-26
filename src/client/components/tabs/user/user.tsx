@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { gql, useLazyQuery, useQuery } from "@apollo/client";
-import { Text, View, StatusBar, StyleSheet, Linking, SafeAreaView } from "react-native";
+import { Text, View, StyleSheet, Linking} from "react-native";
 import Loading from "../../../util_components/loading";
 import ExerciseModal from "./exercise_modal";
 import SpriteSelector from "../../../sprites/sprite_selector";
@@ -11,6 +11,7 @@ import WorkoutModal from "../../workout_modal";
 import useUserAnalytics from "../../../hooks/analytics/use_user_analytics";
 import { Ionicons } from "@expo/vector-icons";
 import globalStyles from "../../../style/global";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const USER_BODY_STATS = gql`
   query($username: String!) {
@@ -44,7 +45,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 10,
     alignItems: "center",
-    marginTop: '5%'
   },
   row: {
     flex: 1,
@@ -119,10 +119,10 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
   }
   return (
     <SafeAreaView style={styles.root}>
-      <Ionicons style={styles.icon} onPress={() => setBodystatsModalVisible(true)} size={25} name="settings-sharp" />
       <View style={styles.row}>
         <Button style={styles.flexOne} disabled={!(userBodyStats && userBodyStats.bodystat)} title="Strengthen Character" onPress={() => setStrengthModalVisible(true)} />
         <Button disabled={!(userBodyStats && userBodyStats.bodystat)} title="Deal Damage" onPress={() => setWorkoutModalVisible(true)} />
+        <Ionicons style={styles.icon} onPress={() => setBodystatsModalVisible(true)} size={25} name="settings-sharp" />
       </View>
       <View style={styles.flexOne}>
         {exerciseData && exerciseData.calculateStrengthStats ? (
