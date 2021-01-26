@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { gql, useLazyQuery, useQuery } from "@apollo/client";
-import { Text, View, StatusBar, StyleSheet, Linking } from "react-native";
+import { Text, View, StatusBar, StyleSheet, Linking, SafeAreaView } from "react-native";
 import Loading from "../../../util_components/loading";
 import ExerciseModal from "./exercise_modal";
 import SpriteSelector from "../../../sprites/sprite_selector";
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 10,
     alignItems: "center",
-    top: StatusBar.currentHeight,
+    marginTop: '5%'
   },
   row: {
     flex: 1,
@@ -118,7 +118,7 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
     return <Loading />;
   }
   return (
-    <View style={styles.root}>
+    <SafeAreaView style={styles.root}>
       <Ionicons style={styles.icon} onPress={() => setBodystatsModalVisible(true)} size={25} name="settings-sharp" />
       <View style={styles.row}>
         <Button style={styles.flexOne} disabled={!(userBodyStats && userBodyStats.bodystat)} title="Strengthen Character" onPress={() => setStrengthModalVisible(true)} />
@@ -146,7 +146,7 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
       <BodyStatsModal visible={bodystatsModalVisible} setVisible={setBodystatsModalVisible} username={username} refetchParent={fetchBodyStats} />
       <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username} skillTitle={"noob"} />
       <View style={styles.sprite}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector aspectRatio={1.2} spriteName={skillTitle} /> : <Loading />}</View>
-    </View>
+    </SafeAreaView>
   );
 };
 export default User;

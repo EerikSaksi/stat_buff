@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, View, Dimensions, TouchableOpacity } from "reac
 import AttackingCharacters from "./attacking_characters";
 import CreateUser from "../create_user";
 import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from 'react-native-safe-area-context';
 const StrongerCharacter = React.lazy(() => import("./stronger_character"));
 const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
@@ -29,13 +30,13 @@ const AppDemo: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; setG
       snapToAlignment={"center"}
       persistentScrollbar
     >
-      <View style={styles.view}>
+      <SafeAreaView style={styles.view}>
         <StrongerCharacter inView={scrollOffset < width} />
         <TouchableOpacity style={styles.arrow} onPress={() => scrollViewRef?.current?.scrollTo({ x: scrollOffset + width, animated: true })}>
           <Ionicons size={40} name="arrow-forward-sharp" />
         </TouchableOpacity>
-      </View>
-      <View style={styles.view}>
+      </SafeAreaView>
+      <SafeAreaView style={styles.view}>
         {width * 0.05 <= scrollOffset && scrollOffset <= width * 1.95 ? (
           <Suspense fallback={emptyWidthView}>
             <AttackingCharacters />
@@ -47,8 +48,8 @@ const AppDemo: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; setG
         <TouchableOpacity style={styles.arrow} onPress={() => scrollViewRef?.current?.scrollTo({ x: scrollOffset + width, animated: true })}>
           <Ionicons size={40} name="arrow-forward-sharp" />
         </TouchableOpacity>
-      </View>
-      <View style={styles.view}>
+      </SafeAreaView>
+      <SafeAreaView style={styles.view}>
         {1.8 * width  <= scrollOffset ? (
           <Suspense fallback={emptyWidthView}>
             <CreateUser refetchUser={refetchUser} googleLoggedIn={googleLoggedIn} setGoogleLoggedIn={setGoogleLoggedIn} />
@@ -56,7 +57,7 @@ const AppDemo: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; setG
         ) : (
           emptyWidthView
         )}
-      </View>
+      </SafeAreaView>
     </ScrollView>
   );
 };
