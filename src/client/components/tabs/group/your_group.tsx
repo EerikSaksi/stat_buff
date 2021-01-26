@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { Text, View, StyleSheet, StatusBar, Alert, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, Alert, TouchableOpacity } from "react-native";
 import EnemyView from "./enemy_view";
 import { useTheme } from "@react-navigation/native";
 import Members from "./members";

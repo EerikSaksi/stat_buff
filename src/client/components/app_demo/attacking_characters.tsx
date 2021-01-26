@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text, StatusBar } from "react-native";
+import { View, StyleSheet, Text} from "react-native";
 import SpriteSelector from "../../sprites/sprite_selector";
 import SpriteBattle from "../../sprites/sprite_battle";
 const styles = StyleSheet.create({
@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     width: "100%",
-    top: StatusBar.currentHeight,
     alignItems: "flex-start",
     justifyContent: "center",
     flex: 1,

@@ -441,4 +441,6 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - Discussed evaluation plan along with some new features
 - Downloaded XCode, created iOS build
 
+# 26 Jan (3 hours) 
 
+- In the process of testing my iOS build I noticed that Google auth was a broken. I had to add both client ID's for it to work. As I was testing with Android and iOS I realized that each query was generating new tokens, which easily went above my quota. I just made a janky solution where whenever a token is generated I store the date and check if it's about 50 minutes since then. I'm frustrated with this library: It doesn't provide automatically reauthenticate the cached user, or provide token expiries to let me do it myself.
