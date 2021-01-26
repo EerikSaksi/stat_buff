@@ -23,12 +23,17 @@ const httpLink = createHttpLink({
 
 var lastSignIn = new Date("1970-01-01");
 const authLink = setContext(async (_, { headers }) => {
+
+  //get cached user
   var userPromise = getCurrentUserAsync();
+
   //check if about 50 minutes since last token request
   if (Date.now() - lastSignIn.getTime() < 3000000) {
     userPromise = signInSilentlyAsync();
     lastSignIn = new Date()
   }
+  
+  //wait for cached user or sign in
   const user = await userPromise;
   if (user && user.auth && user.auth.idToken) {
     return {
