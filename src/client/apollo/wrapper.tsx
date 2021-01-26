@@ -2,20 +2,20 @@ import registerRootComponent from "expo/build/launch/registerRootComponent";
 import React from "react";
 import { setContext } from "@apollo/client/link/context";
 import { getCurrentUserAsync } from "expo-google-sign-in";
-import { ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink} from "@apollo/client";
+import { ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink } from "@apollo/client";
 import Authenticator from "../authenticator";
 import { split } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { cache } from "./cache";
-import 'react-native-gesture-handler'
+import "react-native-gesture-handler";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const wsLink = new WebSocketLink({
   uri: `ws://localhost:4000/graphql`,
   options: {
     reconnect: true,
-    connectionParams: {
-    }
+    connectionParams: {},
   },
 });
 
@@ -59,7 +59,9 @@ const options: ApolloClientOptions<unknown> = {
 const client = new ApolloClient(options);
 const index: React.FC = () => (
   <ApolloProvider client={client}>
-    <Authenticator />
+    <SafeAreaProvider>
+      <Authenticator />
+    </SafeAreaProvider>
   </ApolloProvider>
 );
 registerRootComponent(index);

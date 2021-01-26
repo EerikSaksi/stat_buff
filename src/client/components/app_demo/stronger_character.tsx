@@ -24,6 +24,10 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: "center",
   },
+  lifts: {
+    fontSize: 20,
+    textAlign: "center",
+  },
   sprite: {
     flex: 2,
     justifyContent: "center",
@@ -58,16 +62,16 @@ const StrongerCharacter: React.FC<{ inView: boolean }> = ({ inView }) => {
       </View>
       <View style={styles.row}>
         <View style={styles.container}>
-          <Text>Squat</Text>
-          <Text>{40 + liftIndex * 25}kg x 8</Text>
+          <Text style = { styles.lifts }>Squat</Text>
+          <Text style = { styles.lifts }>{40 + liftIndex * 25}kg x 8</Text>
         </View>
         <View style={styles.container}>
-          <Text>Bench Press</Text>
-          <Text>{20 + liftIndex * 20}kg x 8</Text>
+          <Text style = { styles.lifts }>Bench Press</Text>
+          <Text style = { styles.lifts }>{20 + liftIndex * 20}kg x 8</Text>
         </View>
         <View style={styles.container}>
-          <Text>Deadlift</Text>
-          <Text>{50 + liftIndex * 30}kg x 8</Text>
+          <Text style = { styles.lifts }>Deadlift</Text>
+          <Text style = { styles.lifts }>{50 + liftIndex * 30}kg x 8</Text>
         </View>
       </View>
       <View style={styles.sprite}>
