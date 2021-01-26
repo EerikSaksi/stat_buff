@@ -9,6 +9,7 @@ async function tokenToGoogleID(headerAuth) {
   .then(text => console.log(text))
   const ticket = await client.verifyIdToken({
     idToken: headerAuth.split(" ")[1],
+    audience: [process.env.GOOGLE_AUTH_ANDROID_CLIENT]
   });
   const payload = ticket.getPayload();
   console.log(payload)
