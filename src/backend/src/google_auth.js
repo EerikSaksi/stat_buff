@@ -7,10 +7,10 @@ async function tokenToGoogleID(headerAuth) {
   await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${headerAuth.split(" ")[1]}`)
     .then((response) => response.json())
     .then((json) => {
-      console.log({aud: json.aud, azd: json.azd, android: process.env.GOOGLE_AUTH_ANDROID_CLIENT})
+      console.log({aud: json.aud, azp: json.azp, android: process.env.GOOGLE_AUTH_ANDROID_CLIENT})
       console.log({
         "json.aud === process.env.GOOGLE_AUTH_ANDROID_CLIENT,": json.aud === process.env.GOOGLE_AUTH_ANDROID_CLIENT,
-        "json.azd === process.env.GOOGLE_AUTH_ANDROID_CLIENT,": json.azd === process.env.GOOGLE_AUTH_ANDROID_CLIENT,
+        "json.azp === process.env.GOOGLE_AUTH_ANDROID_CLIENT,": json.azp === process.env.GOOGLE_AUTH_ANDROID_CLIENT,
       });
     });
   const ticket = await client.verifyIdToken({
