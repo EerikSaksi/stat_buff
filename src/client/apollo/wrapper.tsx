@@ -1,14 +1,14 @@
-import registerRootComponent from 'expo/build/launch/registerRootComponent';
-import React from 'react';
-import {setContext} from '@apollo/client/link/context';
-import {signInSilentlyAsync} from 'expo-google-sign-in'
-import {ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink} from '@apollo/client'
-import Authenticator from '../authenticator';
-import { split } from '@apollo/client';
-import {getMainDefinition} from '@apollo/client/utilities';
-import { WebSocketLink } from '@apollo/client/link/ws';
-import {cache} from './cache';
-import 'react-native-gesture-handler'
+import registerRootComponent from "expo/build/launch/registerRootComponent";
+import React from "react";
+import { setContext } from "@apollo/client/link/context";
+import { getCurrentUserAsync, signInSilentlyAsync } from "expo-google-sign-in";
+import { ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink } from "@apollo/client";
+import Authenticator from "../authenticator";
+import { split } from "@apollo/client";
+import { getMainDefinition } from "@apollo/client/utilities";
+import { WebSocketLink } from "@apollo/client/link/ws";
+import { cache } from "./cache";
+import "react-native-gesture-handler";
 
 const wsLink = new WebSocketLink({
   uri: `ws://stat-buff.herokuapp.com/graphql`,
@@ -21,18 +21,27 @@ const httpLink = createHttpLink({
   uri: "https://stat-buff.herokuapp.com/graphql",
 });
 
-const authLink = setContext(async (_, {headers}) => {
-  var user = signInSilentlyAsync()
-  if (!user || !user.auth?.idToken){
-    return {headers}
+var lastSignIn = new Date("1970-01-01");
+const authLink = setContext(async (_, { headers }) => {
+  var userPromise = getCurrentUserAsync();
+  //check if about 50 minutes since last token request
+  if (Date.now() - lastSignIn.getTime() < 3000000) {
+    userPromise = signInSilentlyAsync();
+    lastSignIn = new Date()
+  }
+  const user = await userPromise;
+  if (user && user.auth && user.auth.idToken) {
+    return {
+      headers: {
+        ...headers,
+        authorization: `Bearer ${user!.auth.idToken}`,
+      },
+    };
   }
   return {
-    headers: {
-      ...headers,
-      authorization: `Bearer ${user!.auth.idToken}` 
-    }
-  }
-})
+    headers,
+  };
+});
 
 const splitLink = split(
   ({ query }) => {

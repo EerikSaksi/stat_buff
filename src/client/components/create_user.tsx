@@ -48,12 +48,7 @@ var styles = StyleSheet.create({
 
 const AnimatedInput = Animated.createAnimatedComponent(Input);
 
-const CreateUser: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; setGoogleLoggedIn: (arg: boolean) => void; inView: boolean }> = ({
-  refetchUser,
-  googleLoggedIn,
-  setGoogleLoggedIn,
-  inView,
-}) => {
+const CreateUser: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; setGoogleLoggedIn: (arg: boolean) => void }> = ({ refetchUser, googleLoggedIn, setGoogleLoggedIn }) => {
   const [username, setUsername] = useState("");
   const [allChecksFilled, setAllChecksFilled] = useState(false);
   const greenPixelValue = useRef<Animated.Value>(new Animated.Value(0)).current;
@@ -61,9 +56,9 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; s
   const ref = useRef<Input | null>();
   useEffect(() => {
     if (ref.current) {
-      inView ? ref.current.focus() : ref.current.blur();
+      ref.current.focus();
     }
-  }, [ref, inView, googleLoggedIn]);
+  }, [ref, googleLoggedIn]);
 
   
   //if succesfully created then user data exists for the current google user
@@ -125,7 +120,7 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; s
     googleLoggedIn ? (
       <CenteredView>
         <Text style={styles.text}>{error}</Text>
-        <AnimatedInput  onSubmitEditing={submit} style={{ backgroundColor }} ref={ref}  value={username} placeholder="Enter username" onChangeText={(e) => setUsername(e)} />
+        <AnimatedInput onSubmitEditing={submit} style={{ backgroundColor }} ref={ref} value={username} placeholder="Enter username" onChangeText={(e) => setUsername(e)} />
         <Button title="Submit" disabled={error.length !== 0 || username.length === 0} onPress={submit} />
       </CenteredView>
     ) : (

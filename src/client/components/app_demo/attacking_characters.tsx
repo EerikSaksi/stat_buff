@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 });
-const AttackingCharacters: React.FC<{ inView: boolean }> = ({ inView }) => {
+const AttackingCharacters: React.FC = () => {
   const [noviceAttacking, setNoviceAttacking] = useState<boolean | undefined>(true);
   const [deliveredHits, setDeliveredHits] = useState(0);
   //this is the main driver for transitions. It activates the current transition with a switch statement and then sets the transition to next
@@ -60,9 +60,6 @@ const AttackingCharacters: React.FC<{ inView: boolean }> = ({ inView }) => {
     };
     swapAttacker();
   }, [deliveredHits, noviceAttacking]);
-  if (!inView) {
-    return null;
-  }
   return (
     <React.Fragment>
       <View style={styles.topContainer}>

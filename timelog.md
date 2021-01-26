@@ -438,4 +438,7 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 # 25 Jan (1 hour)
  
 - Had meeting with supervisor
+- Discussed evaluation plan along with some new features
 - Downloaded XCode, created iOS build
+
+

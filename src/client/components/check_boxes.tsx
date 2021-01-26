@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
+import {CheckBox} from "react-native-elements";
 import { StyleSheet, View, Text } from "react-native";
-import {CheckBox} from "react-native-elements"
 const styles = StyleSheet.create({
   row: {
     flex: 1,
