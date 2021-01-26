@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     width: "100%",
-    top: StatusBar.currentHeight,
     flex: 1,
     alignItems: "center",
     justifyContent: "center",

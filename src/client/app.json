@@ -18,7 +18,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.rpgym",
+      "bundleIdentifier": "com.statbuff",
       "googleServicesFile": "./GoogleService-Info.plist",
       "config": {
         "googleSignIn": {
@@ -27,7 +27,7 @@
       }
     },
     "android": {
-      "package": "com.rpgym",
+      "package": "com.statbuff",
       "googleServicesFile": "./google-services.json",
       "versionCode": 2
     },

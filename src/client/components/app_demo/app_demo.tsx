@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     top: "50%",
   },
 });
-const emptyWidthView = () => <View style={styles.view} />;
+const EmptyWidthView = () => <View style={styles.view} />;
 const AppDemo: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; setGoogleLoggedIn: (arg: boolean) => void }> = ({ refetchUser, googleLoggedIn, setGoogleLoggedIn }) => {
   const [scrollOffset, setScrollOffset] = useState(0);
   const scrollViewRef = useRef<ScrollView | null>(null);
@@ -38,26 +38,26 @@ const AppDemo: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; setG
       </SafeAreaView>
       <SafeAreaView style={styles.view}>
         {width * 0.05 <= scrollOffset && scrollOffset <= width * 1.95 ? (
-          <Suspense fallback={emptyWidthView}>
+          <Suspense fallback={EmptyWidthView}>
             <AttackingCharacters />
           </Suspense>
         ) : (
-          emptyWidthView
+          <EmptyWidthView/>
         )}
 
         <TouchableOpacity style={styles.arrow} onPress={() => scrollViewRef?.current?.scrollTo({ x: scrollOffset + width, animated: true })}>
           <Ionicons size={40} name="arrow-forward-sharp" />
         </TouchableOpacity>
       </SafeAreaView>
-      <SafeAreaView style={styles.view}>
+      <View style={styles.view}>
         {1.8 * width  <= scrollOffset ? (
-          <Suspense fallback={emptyWidthView}>
+          <Suspense fallback={EmptyWidthView}>
             <CreateUser refetchUser={refetchUser} googleLoggedIn={googleLoggedIn} setGoogleLoggedIn={setGoogleLoggedIn} />
           </Suspense>
         ) : (
-          emptyWidthView
+          <EmptyWidthView/>
         )}
-      </SafeAreaView>
+      </View>
     </ScrollView>
   );
 };
