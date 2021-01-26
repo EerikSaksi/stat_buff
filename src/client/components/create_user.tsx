@@ -4,9 +4,7 @@ import { Text, StyleSheet, Animated, ImageBackground } from "react-native";
 import CenteredView from "../util_components/centered_view";
 import { generateShadow } from "react-native-shadow-generator";
 import { Button, Input, SocialIcon } from "react-native-elements";
-import { getCurrentUser } from "expo-google-sign-in";
 import CheckBoxes from "./check_boxes";
-
 const CREATE_USER = gql`
   mutation createuser($username: String!, $idToken: String!) {
     createUser(username: $username, idToken: $idToken)
@@ -38,26 +36,28 @@ var styles = StyleSheet.create({
     position: "relative",
     resizeMode: "cover",
   },
+  socialIcon: {
+    width: "50%",
+    ...generateShadow(24),
+  },
+  imageBackground: {
+    zIndex: -1,
+  },
 });
 
 const AnimatedInput = Animated.createAnimatedComponent(Input);
 
-const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefined; setGoogleID: (arg: string | undefined) => void; inView: boolean }> = ({
-  refetchUser,
-  googleID,
-  setGoogleID,
-  inView,
-}) => {
+const CreateUser: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; setGoogleLoggedIn: (arg: boolean) => void }> = ({ refetchUser, googleLoggedIn, setGoogleLoggedIn }) => {
   const [username, setUsername] = useState("");
-  const [error, setError] = useState("");
   const [allChecksFilled, setAllChecksFilled] = useState(false);
   const greenPixelValue = useRef<Animated.Value>(new Animated.Value(0)).current;
+  const [error, setError] = useState("No error yet");
   const ref = useRef<Input | null>();
   useEffect(() => {
     if (ref.current) {
-      inView ? ref.current.focus() : ref.current.blur();
+      ref.current.focus();
     }
-  }, [ref, inView, googleID]);
+  }, [ref, googleLoggedIn]);
 
   //if succesfully created then user data exists for the current google user
   const [createUser] = useMutation(CREATE_USER, {
@@ -115,10 +115,10 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
         });
 
   const content = allChecksFilled ? (
-    googleID ? (
+    googleLoggedIn ? (
       <CenteredView>
         <Text style={styles.text}>{error}</Text>
-        <AnimatedInput  onSubmitEditing={submit} style={{ backgroundColor }} ref={ref}  value={username} placeholder="Enter username" onChangeText={(e) => setUsername(e)} />
+        <AnimatedInput onSubmitEditing={submit} style={{ backgroundColor }} ref={ref} value={username} placeholder="Enter username" onChangeText={(e) => setUsername(e)} />
         <Button title="Submit" disabled={error.length !== 0 || username.length === 0} onPress={submit} />
       </CenteredView>
     ) : (
@@ -127,9 +127,10 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
           type="google"
           title={"Sign in with Google"}
           button
-          style={{ width: "50%", ...generateShadow(24) }}
+          style={styles.socialIcon}
           onPress={async () => {
-            setGoogleID("uh oh");
+            setGoogleLoggedIn(true);
+            refetchUser();
           }}
         />
       </CenteredView>
@@ -138,7 +139,7 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleID: string | undefin
     <CheckBoxes setAllChecksFilled={setAllChecksFilled} />
   );
   return (
-    <ImageBackground imageStyle={{ zIndex: -1 }} blurRadius = {allChecksFilled ? 1.5 : 3} style={styles.image} source={require("../assets/squat.jpeg")}>
+    <ImageBackground imageStyle={{ zIndex: -1 }} blurRadius={allChecksFilled ? 1.5 : 3} style={styles.image} source={require("../assets/squat.jpeg")}>
       {content}
     </ImageBackground>
   );

@@ -1,8 +1,8 @@
-import React, { useState, useEffect, } from "react";
-import { initAsync, getCurrentUserAsync, isSignedInAsync } from "expo-google-sign-in";
+import React, { useState, useEffect, Suspense } from "react";
 import { gql, useLazyQuery } from "@apollo/client";
-import App from "./App";
-import AppDemo from "./components/app_demo/app_demo";
+import Loading from "./util_components/loading";
+const App = React.lazy(() => import("./App"));
+const AppDemo = React.lazy(() => import("./components/app_demo/app_demo"));
 
 const USERNAME = gql`
   query {
@@ -11,7 +11,7 @@ const USERNAME = gql`
 `;
 
 export default function Authenticator() {
-  const [googleID, setGoogleID] = useState<string | undefined>('asdfasdf');
+  const [googleLoggedIn, setGoogleLoggedIn] = useState(false);
 
   //try fetch the current user if we have a token (if not logged in google first we need to sign in)
   const [refetchUser, { data }] = useLazyQuery(USERNAME);
@@ -22,7 +22,16 @@ export default function Authenticator() {
     return null;
   }
   if (!data.username) {
-    return <AppDemo refetchUser={refetchUser} googleID={googleID} setGoogleID={setGoogleID} />;
+    return (
+      <Suspense fallback={<Loading />}>
+        <AppDemo refetchUser={refetchUser} googleLoggedIn={googleLoggedIn} setGoogleLoggedIn={setGoogleLoggedIn} />
+      </Suspense>
+    );
   }
-  return <App username={data.username} />;
+  return (
+    <Suspense fallback={<Loading />}>
+      <App username={data.username} />
+    </Suspense>
+  );
+
 }

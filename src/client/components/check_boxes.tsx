@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import elements from "react-native-elements";
+import {CheckBox} from "react-native-elements";
 import { StyleSheet, View, Text } from "react-native";
 const styles = StyleSheet.create({
   row: {
@@ -32,7 +32,7 @@ const CheckBoxes: React.FC<{ setAllChecksFilled: (arg: boolean) => void }> = ({ 
       {questions.map((question, index) => (
         <View style={styles.row} key={index}>
           <Text style={styles.text}>{question}</Text>
-          <elements.CheckBox
+          <CheckBox
             checked={checks[index]}
             onPress={() =>
               setChecks(() => {
