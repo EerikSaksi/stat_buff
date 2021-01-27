@@ -23,7 +23,7 @@ const postgraphileOptions = {
   enableQueryBatching: true,
   legacyRelations: "omit",
   disableDefaultMutations: false,
-  pgSettings: async req => {
+  pgSettings: async () => {
    return {
       'user.googleID': 'nonexistent'
     };
