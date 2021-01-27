@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Text, Switch, View, Modal, TextInput, StyleSheet, StatusBar, SafeAreaView } from "react-native";
+import React, { useState } from "react";
+import { Text, Switch, View, Modal, TextInput, StyleSheet, SafeAreaView } from "react-native";
 import ExerciseSearch from "./exercise_search";
 import { Ionicons } from "@expo/vector-icons";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import globalStyles from "../../../style/global";
 const styles = StyleSheet.create({
   paddingWrap: { paddingTop: "10%", flex: 1 },
