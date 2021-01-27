@@ -5,8 +5,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import globalStyles from "../../../style/global";
 const styles = StyleSheet.create({
-  paddingWrap: { paddingTop: "5%", flex: 1 },
-  arrow: { color: "black", fontSize: 40, left: 0, position: "absolute" },
+  paddingWrap: { paddingTop: "10%", flex: 1 },
+  arrow: { color: "black", fontSize: 40, left: 0, position: "absolute", top: "2%" },
   text: { marginRight: "2%" },
   listContainer: { flex: 10, justifyContent: "center", alignItems: "center" },
   safeArea: { height: "100%" },
