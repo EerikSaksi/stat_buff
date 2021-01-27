@@ -376,6 +376,7 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - Got the Google auth working, but it is sending outdated tokens, so that needs some work
 
 # 12 Jan (3 hours)
+
 - Merged the analytics from the master branch to production
 - Figured out my Google authentication issue: I was calling a method that returned the cached credentials, and I assumed that this method also checked expiries. I manually log the user back in silently in the background if they are not, so the cached credentials become valid again. This was really annoying to fix, but luckily I remembered about the "alert" React Native method, which allowed me to display internal data on the build.
 - Created a script that won't let my browser launch if my hosts doesn't block distracting sites such as YouTube.
@@ -386,11 +387,11 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 # 15 Jan (5 hours)
 
 - Added bulletpoints before registering that should be filled before creating an account (corresponding to ethics guidelines by the university)
-- Got Amazon RDS working, so permissions works correctly 
+- Got Amazon RDS working, so permissions works correctly
 
 # 16 Jan (4 hours)
 
-- Tried to get jest snapshot testing client side but you know how typescript is like 
+- Tried to get jest snapshot testing client side but you know how typescript is like
 
 # 17 Jan (3 hours)
 
@@ -405,10 +406,10 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - How I will use the log data?
 - How will I use survey data
 - How are users split into groups (I'm probably thinking organically)
-- What kinds of teams form from this 
+- What kinds of teams form from this
 - Gaant chart
 - Interview questions (how specific)
-- What do I want to find out 
+- What do I want to find out
 
 # 19 Jan (5 hours)
 
@@ -419,7 +420,6 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - Managed to get snapshot testing working
 - Still investigating why the group view is crashing. I added another blank tab and that crashed too, so I know that it isn't the screens themselves.
 
-
 # 22 Jan (5 hours)
 
 - I realized that bodyweight exercise requests are calculated differently than regular exercises. I needed to fix this login in the backend, but I also added some features to the frontend (additional weight instead of weight for all bodyweight exercises, and only show bodyweight exercises). This bug fix felt killing two birds with one stone, as we had discussed adding bodyweight exercise filter because of the COVID epidemic and closing of gyms, and I also got rid of a bug aswell
@@ -428,7 +428,7 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 
 # 23 Jan (1 hour)
 
-- Added current enemy health bar, which changes with prospective damage as the user inputs values. I hope that this makes the user understand the connection with workout difficulty and dealing more damage 
+- Added current enemy health bar, which changes with prospective damage as the user inputs values. I hope that this makes the user understand the connection with workout difficulty and dealing more damage
 
 # 24 Jan (3 hours)
 
@@ -436,11 +436,13 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - Did some small bug fixing in the production branch. Although I merged changes, I wasn't running the database scripts on reset
 
 # 25 Jan (1 hour)
- 
+
 - Had meeting with supervisor
 - Discussed evaluation plan along with some new features
 - Downloaded XCode, created iOS build
 
-# 26 Jan (3 hours) 
+# 26 Jan (3 hours)
 
 - In the process of testing my iOS build I noticed that Google auth was a broken. I had to add both client ID's for it to work. As I was testing with Android and iOS I realized that each query was generating new tokens, which easily went above my quota. I just made a janky solution where whenever a token is generated I store the date and check if it's about 50 minutes since then. I'm frustrated with this library: It doesn't provide automatically reauthenticate the cached user, or provide token expiries to let me do it myself.
+
+
