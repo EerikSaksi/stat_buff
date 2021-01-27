@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Text, Switch, View, Modal, TextInput, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Text, Switch, View, Modal, TextInput, StyleSheet, StatusBar } from "react-native";
 import ExerciseSearch from "./exercise_search";
 import { Ionicons } from "@expo/vector-icons";
 import globalStyles from "../../../style/global";
@@ -13,6 +13,11 @@ const ExerciseModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => vo
   const [exerciseInput, setExerciseInput] = useState("");
   const [onlyShowTracked, setOnlyShowTracked] = useState(false);
   const [onlyBodyweight, setOnlyBodyweight] = useState(false);
+
+  //hide the status bar when this modal is visible (overlaps on ios)
+  useEffect(() => {
+    StatusBar.setHidden(visible)
+  }, [visible])
   return (
     <Modal visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"}>
       <Ionicons onPress={() => setVisible(false)} name="arrow-back-sharp" style={styles.arrow} />
