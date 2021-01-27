@@ -27,7 +27,7 @@
     "android": {
       "package": "com.statbuff",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 7,
+      "versionCode": 8,
       "permissions": []
     },
     "web": {

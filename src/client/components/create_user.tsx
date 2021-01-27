@@ -60,7 +60,6 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; s
     }
   }, [ref, googleLoggedIn]);
 
-  
   //if succesfully created then user data exists for the current google user
   const [createUser] = useMutation(CREATE_USER, {
     variables: { username, idToken: getCurrentUser()?.auth?.idToken },
@@ -133,9 +132,11 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; s
           onPress={async () => {
             //try sign in, on success
             await signInAsync()
-              .then(() => {
-                setGoogleLoggedIn(true);
-                refetchUser();
+              .then((result) => {
+                if (result.type === "success") {
+                  setGoogleLoggedIn(true);
+                  refetchUser();
+                }
               })
               .catch((error) => alert(error));
           }}
