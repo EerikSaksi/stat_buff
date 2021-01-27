@@ -1,8 +1,12 @@
 import React, { useRef, useState, useEffect, Suspense } from "react";
 import Loading from "../util_components/loading";
 import SpriteSheet from "rn-sprite-sheet";
-
+import {Dimensions} from "react-native";
 type Animation = "idle" | "onHit" | "attackOrDie";
+
+//I designed the sprites to fit on a 700 pixel high phone, so ideally this scales the sprite up or down based on phone size
+const { height: deviceHeight } = Dimensions.get("window");
+const deviceScale = (deviceHeight / 700)
 const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: number; currentAnimation?: Animation; animationFinished?: () => void }> = ({ spriteName, aspectRatio, currentAnimation, animationFinished }) => {
   var ref = useRef<SpriteSheet>(null);
   const [source, setSource] = useState<number | undefined>(undefined);
@@ -142,11 +146,11 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
         columns={cols}
         rows={rows}
         imageStyle={{ left: `${leftShift}%`, }}
-        height={aspectRatio ? aspectRatio * height : height}
+        height={aspectRatio ? aspectRatio * height * deviceScale : height * deviceScale}
         animations={{
-          idle: Array.from({ length: animationLengths.idle }, (v, i) => i),
-          onHit: Array.from({ length: animationLengths.onHit }, (v, i) => i + cols),
-          attackOrDie: Array.from({ length: animationLengths.attackOrDie }, (v, i) => i + 2 * cols),
+          idle: Array.from({ length: animationLengths.idle }, (_, i) => i),
+          onHit: Array.from({ length: animationLengths.onHit }, (_, i) => i + cols),
+          attackOrDie: Array.from({ length: animationLengths.attackOrDie }, (_, i) => i + 2 * cols),
         }}
       />
     </Suspense>

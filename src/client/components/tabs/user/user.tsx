@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { gql, useLazyQuery, useQuery } from "@apollo/client";
-import { Text, View, StyleSheet, Linking} from "react-native";
+import { Text, View, StyleSheet, Linking } from "react-native";
 import Loading from "../../../util_components/loading";
 import SpriteSelector from "../../../sprites/sprite_selector";
 import { Button } from "react-native-elements";
@@ -8,7 +8,7 @@ import useSkillTitle from "../../../hooks/use_skill_title";
 import useUserAnalytics from "../../../hooks/analytics/use_user_analytics";
 import { Ionicons } from "@expo/vector-icons";
 import globalStyles from "../../../style/global";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from "react-native-safe-area-context";
 const ExerciseModal = React.lazy(() => import("./exercise_modal"));
 const WorkoutModal = React.lazy(() => import("../../workout_modal"));
 const BodyStatsModal = React.lazy(() => import("./bodystats_modal"));
