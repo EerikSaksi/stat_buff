@@ -3,6 +3,7 @@ import { Text, Switch, View, Modal, TextInput, StyleSheet } from "react-native";
 import ExerciseSearch from "./exercise_search";
 import { Ionicons } from "@expo/vector-icons";
 import globalStyles from "../../../style/global";
+import { SafeAreaView } from 'react-native-safe-area-context';
 const styles = StyleSheet.create({
   paddingWrap: { paddingTop: "5%", flex: 1 },
   arrow: { color: "black", fontSize: 40, left: 0, position: "absolute" },
@@ -14,6 +15,7 @@ const ExerciseModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => vo
   const [onlyShowTracked, setOnlyShowTracked] = useState(false);
   const [onlyBodyweight, setOnlyBodyweight] = useState(false);
   return (
+    <SafeAreaView>
     <Modal visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"}>
       <Ionicons onPress={() => setVisible(false)} name="arrow-back-sharp" style={styles.arrow} />
       <View style={styles.paddingWrap}>
@@ -37,6 +39,7 @@ const ExerciseModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => vo
         </View>
       </View>
     </Modal>
+  </SafeAreaView>
   );
 };
 export default ExerciseModal;
