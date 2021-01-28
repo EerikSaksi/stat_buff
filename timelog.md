@@ -387,11 +387,11 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 # 15 Jan (5 hours)
 
 - Added bulletpoints before registering that should be filled before creating an account (corresponding to ethics guidelines by the university)
-- Got Amazon RDS working, so permissions works correctly 
+- Got Amazon RDS working, so permissions works correctly
 
 # 16 Jan (4 hours)
 
-- Tried to get jest snapshot testing client side but you know how typescript is like 
+- Tried to get jest snapshot testing client side but you know how typescript is like
 
 # 17 Jan (3 hours)
 
@@ -401,14 +401,14 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 
 # 18 Jan (2 hours)
 
-- Big questions that we want to want to answer 
-- Log data 
+- Big questions that we want to want to answer
+- Log data
 - Survey
 - Split into groups
-- What kinds of teams form from this 
+- What kinds of teams form from this
 - Gaant chart
 - Interview questions (how specific)
-- What do I want to find out 
+- What do I want to find out
 
 # 19 Jan (5 hours)
 
@@ -419,7 +419,6 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - Managed to get snapshot testing working
 - Still investigating why the group view is crashing. I added another blank tab and that crashed too, so I know that it isn't the screens themselves.
 
-
 # 22 Jan (5 hours)
 
 - I realized that bodyweight exercise requests are calculated differently than regular exercises. I needed to fix this login in the backend, but I also added some features to the frontend (additional weight instead of weight for all bodyweight exercises, and only show bodyweight exercises). This bug fix felt killing two birds with one stone, as we had discussed adding bodyweight exercise filter because of the COVID epidemic and closing of gyms, and I also got rid of a bug aswell
@@ -428,7 +427,7 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 
 # 23 Jan (1 hour)
 
-- Added current enemy health bar, which changes with prospective damage as the user inputs values. I hope that this makes the user understand the connection with workout difficulty and dealing more damage 
+- Added current enemy health bar, which changes with prospective damage as the user inputs values. I hope that this makes the user understand the connection with workout difficulty and dealing more damage
 
 # 24 Jan (3 hours)
 
@@ -436,10 +435,19 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - Did some small bug fixing in the production branch. Although I merged changes, I wasn't running the database scripts on reset
 
 # 25 Jan (1 hour)
- 
+
 - Had meeting with supervisor
 - Downloaded XCode, created iOS build
 
-# 26 Jan (3 hours) 
+# 26 Jan (3 hours)
 
 - In the process of testing my iOS build I noticed that Google auth was a broken. I had to add both client ID's for it to work. As I was testing with Android and iOS I realized that each query was generating new tokens, which easily went above my quota. I just made a janky solution where whenever a token is generated I store the date and check if it's about 50 minutes since then. I'm frustrated with this library: It doesn't provide automatically reauthenticate the cached user, or provide token expiries to let me do it myself.
+
+# 27 Jan (5 hours)
+
+- Had some weird hijinks that needed to be fixed on the iOS build. I tested on the Pro Max 12, which is larger than my current emulator and physical device. Text that was small was really way too small on this device, which has been adjusted. My sprites (player models and enemies) can only be absolutely sized (pixel values) in the library that I use. I got the height of my test device for which I fit the characters, and I divide the active devices height and multiply the height. This way if a device is 1.5 times larger, the sprite will be 1.5 times larger. Other than that I've mostly used good practices (flex, % margins and sizing, etc) so it seems to work well on all devices.
+- Content was being displayed outside of safe views on iOS (statusbars for instance). I fixed this with a Safe Area View.
+- Google sign in callbacks didn't check if they failed. On Android they really can't fail without entering a catch block, as you can't leave the embedded sign in popup without triggering an error. 
+- Created an android production build. I honestly don't know if this means that it's visible? I'll have to see.
+- Tried to register an Apple Developer account. Got a generic error message after filling the form and accepting the user agreement. Tried incognito, my phone, switching from Linux to Mac , but it persisted. Honestly for all the hate that I have amassed for Apple over this dev process, they sure do make it hard for me to give them money. This is a really bad setback as I am already behind on deploying but now something out of my control is slowing me down. I got in contact with support.
+
