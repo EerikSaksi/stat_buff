@@ -25,7 +25,6 @@ export default function Authenticator() {
       }
       refetchUser();
     };
-
     tryGetToken();
     //reauthenticate the user every 50 minutes or so (tokens expire every hour)
   }, []);
