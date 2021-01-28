@@ -1,38 +1,7 @@
-
-SELECT set_config('user.googleID', 'uh oh', false);
 insert into
   "user" (username, googleID, email)
 values
-  ('orek', 'uh oh', 'a@a.com'),
-  ('eerik', 'stinky', 'b@a.com'),
-  ('private_team_creator', 'private_team_creator', 'c@a.com'),
-  ('no team', 'no team', 'd@a.com'),
   ('Event Notice', '', '');
-
-insert into
-  "group" (name, password)
-values
-  ('Team Public', null);
-
-
---only one user can be a creator
-SELECT set_config('user.googleID', 'private_team_creator', false);
-insert into
-  "group" (name, password)
-values
-  ('Team With Password', '123');
-
-update "user"
-  set groupName = 'Team Public' 
-  where username = 'eerik';
-
-insert into
-  "bodystat" (bodymass, isMale, username)
-values
-  (85, true, 'orek'),
-  (69, false, 'eerik'),
-  (70, true, 'no team');
-
 insert into
   "exercise" (popularity_ranking, slug_name)
 values
@@ -325,57 +294,3 @@ where slug_name = 'australian-pull-ups';
 update "exercise"
 set bodyweight = true 
 where slug_name = 'ring-muscle-ups';
-
-insert into
-  "user_exercise" 
-  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage, groupName, battle_number)
-values
-  ('bench-press', 'orek', 8, 80, 52, 'Dream Team', 1);
-
-insert into
-  "user_exercise" 
-  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage)
-values
-  ('shoulder-press', 'eerik', 8, 50, 52);
-
-insert into
-  "user_exercise" 
-  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage)
-values
-  ('deadlift', 'orek', 12, 180, 80);
-insert into
-  "user_exercise" 
-  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage)
-values
-  ('front-squat', 'orek', 12, 140, 90);
-
---we want to change the updated at times, but changing the update times triggers the set update time trigger. Oh the irony
-
-ALTER TABLE "user_exercise" DISABLE TRIGGER set_timestamp;
-update "user_exercise"
-set updated_at = '2020-12-03'
-where username = 'orek';
-
-update "user_exercise"
-set updated_at = '2020-12-04'
-where username = 'eerik';
-ALTER TABLE "user_exercise" enable TRIGGER set_timestamp;
-
-
-insert into
-  "workout" (average_rir, sets, username)
-values
-  (8, 2, 'orek'),
-  (7, 2, 'eerik'),
-  (9, 5, 'orek'),
-  (9, 5, 'eerik');
-
-update "workout"
-set created_at = '2020-12-14'
-where username = 'orek';
-
-insert into chat_message (username, text_content)
-values ('orek', 'Good day today, right?');
-insert into chat_message (username, text_content)
-values ('eerik', 'Yup, love this chat feature on my favourite app Stat Buff, this is a normal human conversation.');
-
