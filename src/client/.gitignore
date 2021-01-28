@@ -8,8 +8,8 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-
-# macOS
+google-services.json 
+GoogleService-Info.plist
 .DS_Store
 .env
 tests/__snapshots__
