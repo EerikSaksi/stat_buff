@@ -19,7 +19,7 @@ export default function Authenticator() {
   useEffect(() => {
     const tryGetToken = async () => {
       await initAsync();
-      const user = await signInSilentlyAsync();
+      await signInSilentlyAsync();
       if (await isSignedInAsync()) {
         setGoogleLoggedIn(true);
       }
