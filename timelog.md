@@ -401,11 +401,18 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 
 # 18 Jan (2 hours)
 
+<<<<<<< HEAD
 - Had an advisor meeting today, discussed the details of the evaluation
 - I should consider things like the big question I want to answer
 - How I will use the log data?
 - How will I use survey data
 - How are users split into groups (I'm probably thinking organically)
+=======
+- Big questions that we want to want to answer
+- Log data
+- Survey
+- Split into groups
+>>>>>>> master
 - What kinds of teams form from this
 - Gaant chart
 - Interview questions (how specific)
@@ -445,22 +452,12 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 
 - In the process of testing my iOS build I noticed that Google auth was a broken. I had to add both client ID's for it to work. As I was testing with Android and iOS I realized that each query was generating new tokens, which easily went above my quota. I just made a janky solution where whenever a token is generated I store the date and check if it's about 50 minutes since then. I'm frustrated with this library: It doesn't provide automatically reauthenticate the cached user, or provide token expiries to let me do it myself.
 
-# 27 Jan (1 hour)
+# 27 Jan (5 hours)
 
-- "Dear Eerik,
-
-Thanks for contacting us.
-
-For one or more reasons, your enrollment in the Apple Developer Program could not be completed. We are unable to continue with your enrollment at this time.
-
-You can still take advantage of great content using your Apple ID in Xcode to develop and test apps on your own device. Learn more about Xcode development. 
-
-Thank you for your co-operation and understanding.
-
-Your case number is 101308838463.
-
-Kind regards,
-
-Kane 
-Apple Inc."
+- Had some weird hijinks that needed to be fixed on the iOS build. I tested on the Pro Max 12, which is larger than my current emulator and physical device. Text that was small was really way too small on this device, which has been adjusted. My sprites (player models and enemies) can only be absolutely sized (pixel values) in the library that I use. I got the height of my test device for which I fit the characters, and I divide the active devices height and multiply the height. This way if a device is 1.5 times larger, the sprite will be 1.5 times larger. Other than that I've mostly used good practices (flex, % margins and sizing, etc) so it seems to work well on all devices.
+- Content was being displayed outside of safe views on iOS (statusbars for instance). I fixed this with a Safe Area View.
+- Google sign in callbacks didn't check if they failed. On Android they really can't fail without entering a catch block, as you can't leave the embedded sign in popup without triggering an error. 
+- Created an android production build. I honestly don't know if this means that it's visible? I'll have to see.
+- Tried to register an Apple Developer account. Got a generic error message after filling the form and accepting the user agreement. Tried incognito, my phone, switching from Linux to Mac , but it persisted. Honestly for all the hate that I have amassed for Apple over this dev process, they sure do make it hard for me to give them money. This is a really bad setback as I am already behind on deploying but now something out of my control is slowing me down. I got in contact with support.
+>>>>>>> master
 

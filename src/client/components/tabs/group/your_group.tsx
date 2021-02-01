@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { Text, View, StyleSheet, Alert, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, Alert, TouchableOpacity, StatusBar } from "react-native";
 import EnemyView from "./enemy_view";
 import { useTheme } from "@react-navigation/native";
 import Members from "./members";
@@ -9,6 +9,7 @@ import ChatModal from "./chat_modal";
 import { Badge, Button } from "react-native-elements";
 import { gql, useMutation } from "@apollo/client";
 import useChatAnalytics from "../../../hooks/analytics/use_chat_analytics";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 const Tab = createMaterialTopTabNavigator();
 const NULLIFY_GROUP = gql`
   mutation {
@@ -27,6 +28,7 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     justifyContent: "center",
+    marginTop: StatusBar.currentHeight,
   },
   topRow: {
     flex: 1,
@@ -62,10 +64,11 @@ const styles = StyleSheet.create({
   leaveButton: {
     backgroundColor: "red",
   },
+  whiteAboveSafeView: { bottom: 0, backgroundColor: "white", width: "100%", top: 0, position: "absolute" },
 });
 const YourGroup: React.FC<{ groupname: string; username: string; refetchParentGroup: () => void }> = ({ groupname, username, refetchParentGroup }) => {
   const { colors } = useTheme();
-  const [chatModalVisible, setChatModalVisible] = useState(false);
+  const [chatModalVisible, setChatModalVisible] = useState(true);
   const [newMessages, setNewMessages] = useState(0);
 
   useChatAnalytics({ chatModalVisible });
@@ -73,6 +76,7 @@ const YourGroup: React.FC<{ groupname: string; username: string; refetchParentGr
   const [nullifyGroup] = useMutation(NULLIFY_GROUP, {
     onCompleted: () => refetchParentGroup(),
   });
+  const { top } = useSafeAreaInsets();
   const confirmLeave = useCallback(
     () =>
       Alert.alert(
@@ -92,7 +96,9 @@ const YourGroup: React.FC<{ groupname: string; username: string; refetchParentGr
     []
   );
   return (
-    <View style={{ height: "100%" }}>
+    <React.Fragment>
+      <ChatModal groupname={groupname} visible={chatModalVisible} setVisible={setChatModalVisible} username={username} setNewMessages={setNewMessages} />
+      <View style={{ backgroundColor: "white", height: top / 2 }} />
       <View style={{ ...styles.topRow, borderBottomColor: colors.primary }}>
         <Text style={{ fontSize: 25, textAlign: "center", color: colors.text }}>{groupname}</Text>
         <View style={styles.chatContainer}>
@@ -103,12 +109,11 @@ const YourGroup: React.FC<{ groupname: string; username: string; refetchParentGr
         </View>
         <Button containerStyle={styles.buttonContainer} buttonStyle={styles.leaveButton} titleStyle={{ fontSize: 10 }} title="Leave" onPress={confirmLeave} />
       </View>
-      <ChatModal groupname={groupname} visible={chatModalVisible} setVisible={setChatModalVisible} username={username} setNewMessages={setNewMessages} />
       <Tab.Navigator style={styles.tabNavigator} tabBarOptions={{ style: { borderTopColor: colors.primary, borderTopWidth: 1 } }}>
         <Tab.Screen name="Enemy" component={EnemyView} />
         <Tab.Screen name="Members" component={Members} initialParams={{ groupname }} />
       </Tab.Navigator>
-    </View>
+    </React.Fragment>
   );
 };
 export default YourGroup;

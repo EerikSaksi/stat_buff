@@ -8,12 +8,11 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-
-# macOS
+google-services.json 
+GoogleService-Info.plist
 .DS_Store
 .env
 pc-api-6666232843318496031-23-cb3fc956a13c.json
-util_components
 tests/__snapshots__
 google-services.json
 GoogleService-Info.plist

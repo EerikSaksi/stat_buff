@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Text, Switch, View, Modal, TextInput, StyleSheet, SafeAreaView } from "react-native";
+import { Text, Switch, View, Modal, TextInput, StyleSheet, SafeAreaView, Platform } from "react-native";
 import ExerciseSearch from "./exercise_search";
 import { Ionicons } from "@expo/vector-icons";
 import globalStyles from "../../../style/global";
 
 const styles = StyleSheet.create({
-  paddingWrap: { paddingTop: "10%", flex: 1 },
-  arrow: { color: "black", fontSize: 40, left: 0, position: "absolute", top: "2%" },
+  paddingWrap: { paddingTop: Platform.OS == "ios" ? "20%" : "10%"  , flex: 1 },
+  arrow: { color: "black", fontSize: 40, left: 0, position: "absolute", top:  Platform.OS == "ios" ? "12%" : "2%" },
   text: { marginRight: "2%" },
   listContainer: { flex: 10, justifyContent: "center", alignItems: "center" },
   safeArea: { height: "100%" },
@@ -18,8 +18,8 @@ const ExerciseModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => vo
   return (
     <Modal visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"}>
       <SafeAreaView style = { styles.safeArea }>
-        <Ionicons onPress={() => setVisible(false)} name="arrow-back-sharp" style={styles.arrow} />
         <View style={styles.paddingWrap}>
+          <Ionicons onPress={() => setVisible(false)} name="arrow-back-sharp" style={styles.arrow} />
           <View style={globalStyles.row}>
             <View style={globalStyles.row}>
               <View style={globalStyles.container}>

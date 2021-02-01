@@ -1,13 +1,11 @@
 import React, { Suspense, useRef, useState } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { Text, View, FlatList, StyleSheet } from "react-native";
+import { Text, View, FlatList, StyleSheet} from "react-native";
 import { Button, SearchBar } from "react-native-elements";
 import ListItemContainer from "../../list_item_container";
 import PasswordProtectedGroup from "./password_protected_group";
 import Loading from "../../../util_components/loading";
 import globalStyles from "../../../style/global";
-import { SafeAreaView } from "react-native-safe-area-context";
-const CreateGroup = React.lazy(() => import("./create_group"));
 
 const SEARCH_GROUPS = gql`
   query search_groups($query: String!) {
@@ -107,7 +105,7 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
     },
   });
   return (
-    <SafeAreaView style={globalStyles.container}>
+    <React.Fragment>
       <CreateGroup visible={createGroupVisible} setVisible={setCreateGroupVisible} refetchParentGroup={refetchParentGroup} />
       <View style={styles.root}>
         <SearchBar lightTheme={true} ref={ref} placeholder="Search for teams" round={true} value={query} onChangeText={(t) => setQuery(t)} containerStyle={styles.searchBar} />
@@ -147,7 +145,7 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
           )}
         />
       </View>
-    </SafeAreaView>
+    </React.Fragment>
   );
 };
 export default JoinGroup;
