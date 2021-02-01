@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import React, { useState,useEffect  } from "react";
+import { StyleSheet} from "react-native";
 import { gql, useSubscription, useMutation, useQuery } from "@apollo/client";
 import { Modal } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { IMessage } from "react-native-gifted-chat/lib/Models";
 import { GiftedChat } from "react-native-gifted-chat/lib/GiftedChat";
-import { useEffect } from "react";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const MESSAGE_SUBSCRIPTION = gql`
   subscription($topic: String!) {
@@ -154,6 +154,8 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
     fetchPolicy: "cache-and-network",
   });
 
+  const dimensions = useSafeAreaInsets();
+
   //listen for new events
   useSubscription(MESSAGE_SUBSCRIPTION, {
     variables: { topic: `event_${groupname}` },
@@ -218,7 +220,7 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
     return null;
   }
   return (
-    <Modal visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"}>
+    <Modal style = { {height: '100%'} } visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"}>
       <Ionicons onPress = {() => setVisible(false)} style={styles.arrow} name="arrow-back-sharp" />
       <GiftedChat
         placeholder={`Send a message to "${groupname}"`}

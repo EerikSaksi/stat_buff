@@ -33,5 +33,4 @@ export default function Authenticator() {
       <App username={data.username} />
     </Suspense>
   );
-
 }
