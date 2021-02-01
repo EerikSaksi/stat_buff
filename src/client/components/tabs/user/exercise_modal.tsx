@@ -17,6 +17,7 @@ const ExerciseModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => vo
   return (
     <Modal visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"}>
       <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style = { styles.safeArea }>
         <View style={styles.paddingWrap}>
           <Ionicons onPress={() => setVisible(false)} name="arrow-back-sharp" style={styles.arrow} />
           <View style={globalStyles.row}>

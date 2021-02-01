@@ -5,7 +5,7 @@ import { Modal } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { IMessage } from "react-native-gifted-chat/lib/Models";
 import { GiftedChat } from "react-native-gifted-chat/lib/GiftedChat";
-import {unslugify} from "../../../util_components/slug";
+import { unslugify } from "../../../util_components/slug";
 
 const MESSAGE_SUBSCRIPTION = gql`
   subscription($topic: String!) {
@@ -99,6 +99,10 @@ const styles = StyleSheet.create({
     paddingTop: "10%",
     flex: 1,
   },
+  paddingWrap: {
+    paddingTop: "10%",
+    flex: 1,
+  },
 });
 function sort_by_date(a: IMessage, b: IMessage) {
   return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
@@ -155,7 +159,6 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
     },
     fetchPolicy: "cache-and-network",
   });
-
 
   //listen for new events
   useSubscription(MESSAGE_SUBSCRIPTION, {
