@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "You built dev idiot",
+    "slug": "stat-buff",
+    "version": "1.0.2",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.statbuff",
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.850460049838-kdmp621dt6t3e589uia4u57bg03rnb6d"
+        }
+      }
+    },
+    "android": {
+      "package": "com.statbuff",
+      "googleServicesFile": "./google-services.json",
+      "versionCode": 13,
+      "permissions": []
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "assetBundlePatterns": [
+      "assets/cropped_sprites/*"
+    ]
+  }
+}
