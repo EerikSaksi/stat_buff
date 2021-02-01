@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import globalStyles from "../../../style/global";
 
 const styles = StyleSheet.create({
-  paddingWrap: { paddingTop: Platform.OS == "ios" ? "20%" : "10%"  , flex: 1 },
+  paddingWrap: { paddingTop: Platform.OS == "ios" ? "20%" : "10%" , flex: 1 },
   arrow: { color: "black", fontSize: 40, left: 0, position: "absolute", top:  Platform.OS == "ios" ? "12%" : "2%" },
   text: { marginRight: "2%" },
   listContainer: { flex: 10, justifyContent: "center", alignItems: "center" },

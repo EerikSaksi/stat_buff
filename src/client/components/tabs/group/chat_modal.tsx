@@ -5,7 +5,6 @@ import { Modal } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { IMessage } from "react-native-gifted-chat/lib/Models";
 import { GiftedChat } from "react-native-gifted-chat/lib/GiftedChat";
-import { useEffect } from "react";
 import {unslugify} from "../../../util_components/slug";
 
 const MESSAGE_SUBSCRIPTION = gql`
