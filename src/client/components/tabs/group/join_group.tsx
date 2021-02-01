@@ -1,11 +1,12 @@
 import React, { useRef, useState } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { Text, View, FlatList, StyleSheet, SafeAreaView } from "react-native";
+import { Text, View, FlatList, StyleSheet} from "react-native";
 import { Button, SearchBar } from "react-native-elements";
 import ListItemContainer from "../../list_item_container";
 import PasswordProtectedGroup from "./password_protected_group";
 import CreateGroup from "./create_group";
 import globalStyles from "../../../style/global";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SEARCH_GROUPS = gql`
   query search_groups($query: String!) {
@@ -74,6 +75,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  safeArea: {
+    height: '100%',
+    width: '100%'
+  }
 });
 const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParentGroup }) => {
   const [query, setQuery] = useState("");
@@ -105,7 +110,7 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
     },
   });
   return (
-    <React.Fragment>
+    <SafeAreaView style = { styles.safeArea }>
       <CreateGroup visible={createGroupVisible} setVisible={setCreateGroupVisible} refetchParentGroup={refetchParentGroup} />
       <View style={styles.root}>
         <SearchBar lightTheme={true} ref={ref} placeholder="Search for teams" round={true} value={query} onChangeText={(t) => setQuery(t)} containerStyle={styles.searchBar} />
@@ -145,7 +150,7 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
           )}
         />
       </View>
-    </React.Fragment>
+    </SafeAreaView>
   );
 };
 export default JoinGroup;
