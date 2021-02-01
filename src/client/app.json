@@ -16,7 +16,6 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.statbuff",
-      "googleServicesFile": "./GoogleService-Info.plist",
       "config": {
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.850460049838-kdmp621dt6t3e589uia4u57bg03rnb6d"
@@ -25,7 +24,6 @@
     },
     "android": {
       "package": "com.statbuff",
-      "googleServicesFile": "./google-services.json",
       "versionCode": 13,
       "permissions": []
     },
