@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import SpriteHealthBar from "./sprite_health_bar";
 import SpriteSelector from "./sprite_selector";
 
