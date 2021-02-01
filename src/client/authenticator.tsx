@@ -11,5 +11,6 @@ const USERNAME = gql`
 `;
 
 export default function Authenticator() {
-  return(<ExerciseModal username = "orek" visible = {true} setVisible = {(arg: boolean) => {}} refetchParent= {() => {}} />)
+  const [visible, setVisible] = useState(true)
+  return(<ExerciseModal username = "orek" visible = {visible} setVisible = {setVisible} refetchParent= {() => {}} />)
 }
