@@ -5,7 +5,7 @@ import { Overlay } from "react-native-elements";
 const styles = StyleSheet.create({
   arrow: {
     color: "black",
-    fontSize: 40,
+    fontSize: 38,
     left: "2%",
     position: "absolute",
     top: 0,

@@ -1,5 +1,5 @@
-import React, { useState,useEffect  } from "react";
-import { StyleSheet} from "react-native";
+import React, { useState, useEffect } from "react";
+import { Platform, StyleSheet, View } from "react-native";
 import { gql, useSubscription, useMutation, useQuery } from "@apollo/client";
 import { Modal } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -92,11 +92,11 @@ const styles = StyleSheet.create({
   arrow: {
     color: "black",
     fontSize: 40,
-    left: "2%",
     position: "absolute",
-    top: 0,
     zIndex: 1,
+    top: Platform.OS == "ios" ? "10%" : "0%",
   },
+  paddingWrap: { paddingTop: Platform.OS == "ios" ? "20%" : "10%", flex: 1 },
 });
 function sort_by_date(a: IMessage, b: IMessage) {
   return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
@@ -220,18 +220,20 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
     return null;
   }
   return (
-    <Modal style = { {height: '100%'} } visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"}>
-      <Ionicons onPress = {() => setVisible(false)} style={styles.arrow} name="arrow-back-sharp" />
-      <GiftedChat
-        placeholder={`Send a message to "${groupname}"`}
-        onInputTextChanged={(v) => setMessageInput(v)}
-        user={{ name: username, _id: username }}
-        onSend={() => {
-          sendMessage();
-        }}
-        renderUsernameOnMessage
-        messages={messages}
-      ></GiftedChat>
+    <Modal style={{ height: "100%" }} visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"}>
+      <Ionicons onPress={() => setVisible(false)} style={styles.arrow} name="arrow-back-sharp" />
+      <View style={styles.paddingWrap}>
+        <GiftedChat
+          placeholder={`Send a message to "${groupname}"`}
+          onInputTextChanged={(v) => setMessageInput(v)}
+          user={{ name: username, _id: username }}
+          onSend={() => {
+            sendMessage();
+          }}
+          renderUsernameOnMessage
+          messages={messages}
+        ></GiftedChat>
+      </View>
     </Modal>
   );
 };
