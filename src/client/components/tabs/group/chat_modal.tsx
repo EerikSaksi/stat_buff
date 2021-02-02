@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { IMessage } from "react-native-gifted-chat/lib/Models";
 import { GiftedChat } from "react-native-gifted-chat/lib/GiftedChat";
 import { unslugify } from "../../../util_components/slug";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const MESSAGE_SUBSCRIPTION = gql`
   subscription($topic: String!) {
@@ -98,6 +99,9 @@ const styles = StyleSheet.create({
   paddingWrap: {
     paddingTop: "10%",
     flex: 1,
+  },
+  safeArea: {
+    height: "100%",
   },
 });
 function sort_by_date(a: IMessage, b: IMessage) {
@@ -221,19 +225,21 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
   }
   return (
     <Modal style={{ height: "100%" }} visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"}>
-      <View style={styles.paddingWrap}>
-        <Ionicons onPress={() => setVisible(false)} style={styles.arrow} name="arrow-back-sharp" />
-        <GiftedChat
-          placeholder={`Send a message to "${groupname}"`}
-          onInputTextChanged={(v) => setMessageInput(v)}
-          user={{ name: username, _id: username }}
-          onSend={() => {
-            sendMessage();
-          }}
-          renderUsernameOnMessage
-          messages={messages}
-        ></GiftedChat>
-      </View>
+      <SafeAreaView style = { styles.safeArea }>
+        <View style={styles.paddingWrap}>
+          <Ionicons onPress={() => setVisible(false)} style={styles.arrow} name="arrow-back-sharp" />
+          <GiftedChat
+            placeholder={`Send a message to "${groupname}"`}
+            onInputTextChanged={(v) => setMessageInput(v)}
+            user={{ name: username, _id: username }}
+            onSend={() => {
+              sendMessage();
+            }}
+            renderUsernameOnMessage
+            messages={messages}
+          ></GiftedChat>
+        </View>
+      </SafeAreaView>
     </Modal>
   );
 };
