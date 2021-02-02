@@ -5,7 +5,7 @@ import { Modal } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { IMessage } from "react-native-gifted-chat/lib/Models";
 import { GiftedChat } from "react-native-gifted-chat/lib/GiftedChat";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const MESSAGE_SUBSCRIPTION = gql`
   subscription($topic: String!) {
@@ -99,9 +99,8 @@ const styles = StyleSheet.create({
     paddingTop: "10%",
     flex: 1,
   },
-  paddingWrap: {
-    paddingTop: "10%",
-    flex: 1,
+  safeArea: {
+    height: "100%",
   },
 });
 function sort_by_date(a: IMessage, b: IMessage) {
@@ -160,15 +159,12 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
     fetchPolicy: "cache-and-network",
   });
 
-  const dimensions = useSafeAreaInsets();
-
   //listen for new events
   useSubscription(MESSAGE_SUBSCRIPTION, {
     variables: { topic: `event_${groupname}` },
     onSubscriptionData: ({ subscriptionData }) => {
       const node = subscriptionData.data.listen.relatedNode;
       var newMessage;
-
       //depending on the type of raised event, we want to render them message difFerently, so switch over the typename
       switch (node.__typename) {
         case "ChatMessage":
@@ -184,7 +180,6 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
       //append the new message as the most recent one
       setMessages((oldMessages) => [newMessage, ...oldMessages]);
     },
-    skip: !messages.length,
   });
 
   //when we open our messages, we checked our messages now
@@ -227,19 +222,21 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
   }
   return (
     <Modal style={{ height: "100%" }} visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"}>
-      <View style={styles.paddingWrap}>
-        <Ionicons onPress={() => setVisible(false)} style={styles.arrow} name="arrow-back-sharp" />
-        <GiftedChat
-          placeholder={`Send a message to "${groupname}"`}
-          onInputTextChanged={(v) => setMessageInput(v)}
-          user={{ name: username, _id: username }}
-          onSend={() => {
-            sendMessage();
-          }}
-          renderUsernameOnMessage
-          messages={messages}
-        ></GiftedChat>
-      </View>
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.paddingWrap}>
+          <Ionicons onPress={() => setVisible(false)} style={styles.arrow} name="arrow-back-sharp" />
+          <GiftedChat
+            placeholder={`Send a message to "${groupname}"`}
+            onInputTextChanged={(v) => setMessageInput(v)}
+            user={{ name: username, _id: username }}
+            onSend={() => {
+              sendMessage();
+            }}
+            renderUsernameOnMessage
+            messages={messages}
+          ></GiftedChat>
+        </View>
+      </SafeAreaView>
     </Modal>
   );
 };
