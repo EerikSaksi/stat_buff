@@ -19,6 +19,7 @@ insert into
 values
   ('Team Public', null);
 
+
 insert into
   "exercise" (popularity_ranking, slug_name)
 values
