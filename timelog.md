@@ -461,3 +461,9 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - Tried to register an Apple Developer account. Got a generic error message after filling the form and accepting the user agreement. Tried incognito, my phone, switching from Linux to Mac , but it persisted. Honestly for all the hate that I have amassed for Apple over this dev process, they sure do make it hard for me to give them money. This is a really bad setback as I am already behind on deploying but now something out of my control is slowing me down. I got in contact with support.
 >>>>>>> master
 
+
+# 1 February (5 hours)
+- Finally got the developer account working, finalizing build. Was doing a final test and realized a before fixed feature is still broken
+
+
+
