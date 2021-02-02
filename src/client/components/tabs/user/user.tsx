@@ -124,7 +124,7 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
     <SafeAreaView style={styles.root}>
       <View style={styles.row}>
         <Button titleStyle={styles.button} style={styles.flexOne} disabled={!(userBodyStats && userBodyStats.bodystat)} title="Strengthen Character" onPress={() => setStrengthModalVisible(true)} />
-        <Button titleStyle={styles.button} disabled={!(userBodyStats && userBodyStats.bodystat)} title="Deal Damage" onPress={() => setWorkoutModalVisible(true)} />
+        <Button titleStyle={styles.button} style={styles.flexOne} disabled={!(userBodyStats && userBodyStats.bodystat)} title="Deal Damage" onPress={() => setWorkoutModalVisible(true)} />
         <Ionicons style={styles.icon} onPress={() => setBodystatsModalVisible(true)} size={25} name="settings-sharp" />
       </View>
       <View style={styles.flexOne}>
