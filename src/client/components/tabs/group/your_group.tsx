@@ -76,7 +76,7 @@ const YourGroup: React.FC<{ groupname: string; username: string; refetchParentGr
   const [nullifyGroup] = useMutation(NULLIFY_GROUP, {
     onCompleted: () => refetchParentGroup(),
   });
-  const dimensions = useSafeAreaInsets();
+  const { top } = useSafeAreaInsets();
   const confirmLeave = useCallback(
     () =>
       Alert.alert(
@@ -98,7 +98,8 @@ const YourGroup: React.FC<{ groupname: string; username: string; refetchParentGr
   return (
     <React.Fragment>
       <ChatModal groupname={groupname} visible={chatModalVisible} setVisible={setChatModalVisible} username={username} setNewMessages={setNewMessages} />
-      <View style={{ ...styles.topRow, borderBottomColor: colors.primary, marginTop: dimensions.top / 2,  }}>
+      <View style={{ backgroundColor: "white", height: top / 2 }} />
+      <View style={{ ...styles.topRow, borderBottomColor: colors.primary }}>
         <Text style={{ fontSize: 25, textAlign: "center", color: colors.text }}>{groupname}</Text>
         <View style={styles.chatContainer}>
           <TouchableOpacity onPress={() => setChatModalVisible(true)}>
