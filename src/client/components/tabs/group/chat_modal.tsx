@@ -99,10 +99,6 @@ const styles = StyleSheet.create({
     paddingTop: "10%",
     flex: 1,
   },
-  paddingWrap: {
-    paddingTop: "10%",
-    flex: 1,
-  },
 });
 function sort_by_date(a: IMessage, b: IMessage) {
   return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
