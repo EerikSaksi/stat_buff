@@ -1,7 +1,24 @@
 insert into
+  "enemy" (level, max_health, name)
+values
+  (1, 10, 'Earth Golem');
+
+
+SELECT set_config('user.googleID', 'uh oh', false);
+insert into
   "user" (username, googleID, email)
 values
+  ('orek', 'uh oh', 'a@a.com'),
+  ('eerik', 'stinky', 'b@a.com'),
+  ('private_team_creator', 'private_team_creator', 'c@a.com'),
+  ('no team', 'no team', 'd@a.com'),
   ('Event Notice', '', '');
+
+insert into
+  "group" (name, password)
+values
+  ('Team Public', null);
+
 insert into
   "exercise" (popularity_ranking, slug_name)
 values
