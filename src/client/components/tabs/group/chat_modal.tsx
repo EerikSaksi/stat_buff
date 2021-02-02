@@ -225,7 +225,7 @@ const ChatModal: React.FC<{ visible: boolean; setVisible: (arg: boolean) => void
   }
   return (
     <Modal style={{ height: "100%" }} visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"}>
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style = { styles.safeArea }>
         <View style={styles.paddingWrap}>
           <Ionicons onPress={() => setVisible(false)} style={styles.arrow} name="arrow-back-sharp" />
           <GiftedChat
