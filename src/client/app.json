@@ -2,7 +2,7 @@
   "expo": {
     "name": "Stat Buff",
     "slug": "stat-buff",
-    "version": "1.0.3",
+    "version": "1.0.5",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -14,10 +14,10 @@
       "fallbackToCacheTimeout": 0
     },
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.statbuff",
       "googleServicesFile": "./GoogleService-Info.plist",
-      "buildNumber": "1.0.3",
+      "buildNumber": "1.0.5",
       "config": {
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.850460049838-kdmp621dt6t3e589uia4u57bg03rnb6d"
