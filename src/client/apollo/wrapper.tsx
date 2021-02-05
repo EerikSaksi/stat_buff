@@ -58,10 +58,8 @@ const options: ApolloClientOptions<unknown> = {
 };
 const client = new ApolloClient(options);
 const index: React.FC = () => (
-  <ApolloProvider client={client}>
     <SafeAreaProvider>
       <Authenticator />
     </SafeAreaProvider>
-  </ApolloProvider>
 );
 registerRootComponent(index);
