@@ -3,8 +3,9 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { Text, StyleSheet, Animated, ImageBackground } from "react-native";
 import CenteredView from "../util_components/centered_view";
 import { generateShadow } from "react-native-shadow-generator";
-import { Button, Input, SocialIcon } from "react-native-elements";
+import { Button, Input, } from "react-native-elements";
 import CheckBoxes from "./check_boxes";
+import {AppleAuthenticationButton, signInAsync, AppleAuthenticationButtonType, AppleAuthenticationButtonStyle} from 'expo-apple-authentication'
 const CREATE_USER = gql`
   mutation createuser($username: String!, $idToken: String!) {
     createUser(username: $username, idToken: $idToken)
@@ -122,24 +123,13 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; s
         <Button title="Submit" disabled={error.length !== 0 || username.length === 0} onPress={submit} />
       </CenteredView>
     ) : (
-      <CenteredView>
-        <SocialIcon
-          type="google"
-          title={"Sign in with Google"}
-          button
-          style={styles.socialIcon}
-          onPress={async () => {
-            setGoogleLoggedIn(true);
-            refetchUser();
-          }}
-        />
-      </CenteredView>
+      <AppleAuthenticationButton onPress = {() => {signInAsync()}} buttonType = {AppleAuthenticationButtonType.SIGN_UP} buttonStyle = {AppleAuthenticationButtonStyle.WHITE_OUTLINE} />
     )
   ) : (
     <CheckBoxes setAllChecksFilled={setAllChecksFilled} />
   );
   return (
-    <ImageBackground imageStyle={{ zIndex: -1 }} blurRadius={allChecksFilled ? 1.5 : 3} style={styles.image} source={require("../assets/squat.jpeg")}>
+    <ImageBackground imageStyle={styles.imageBackground} blurRadius={allChecksFilled ? 1.5 : 3} style={styles.image} source={require("../assets/squat.jpeg")}>
       {content}
     </ImageBackground>
   );
