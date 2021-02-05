@@ -33,15 +33,6 @@ const styles = StyleSheet.create({
 export default function Authenticator() {
   console.log("ran");
   return (
-    <React.Fragment>
-      <Text style={{ fontSize: 40 }}>hello world</Text>
-      <AppleAuthenticationButton
-        onPress={() => {
-          signInAsync();
-        }}
-        buttonType={AppleAuthenticationButtonType.SIGN_UP}
-        buttonStyle={AppleAuthenticationButtonStyle.WHITE_OUTLINE}
-      />
-    </React.Fragment>
+    asdl;kfjas;kdlfjl;kasdfj;ksadkjfa
   );
 }
