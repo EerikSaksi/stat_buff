@@ -17,6 +17,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.statbuff",
       "googleServicesFile": "./GoogleService-Info.plist",
+      "usesAppleSignIn": true,
       "config": {
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.850460049838-kdmp621dt6t3e589uia4u57bg03rnb6d"
