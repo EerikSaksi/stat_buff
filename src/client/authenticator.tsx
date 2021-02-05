@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { gql } from "@apollo/client";
+import {Text} from 'react-native'
 import { GiftedChat } from "react-native-gifted-chat";
 import { Modal, View, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import CreateUser from "./components/create_user";
-import {AppleAuthenticationButton, signInAsync, AppleAuthenticationButtonType, AppleAuthenticationButtonStyle} from "expo-apple-authentication";
+import { AppleAuthenticationButton, signInAsync, AppleAuthenticationButtonType, AppleAuthenticationButtonStyle } from "expo-apple-authentication";
 const App = React.lazy(() => import("./App"));
 const AppDemo = React.lazy(() => import("./components/app_demo/app_demo"));
 
@@ -31,14 +31,17 @@ const styles = StyleSheet.create({
   },
 });
 export default function Authenticator() {
-  console.log('ran')
+  console.log("ran");
   return (
-    <AppleAuthenticationButton
-      onPress={() => {
-        signInAsync();
-      }}
-      buttonType={AppleAuthenticationButtonType.SIGN_UP}
-      buttonStyle={AppleAuthenticationButtonStyle.WHITE_OUTLINE}
-    />
+    <React.Fragment>
+      <Text style={{ fontSize: 40 }}>Test</Text>
+      <AppleAuthenticationButton
+        onPress={() => {
+          signInAsync();
+        }}
+        buttonType={AppleAuthenticationButtonType.SIGN_UP}
+        buttonStyle={AppleAuthenticationButtonStyle.WHITE_OUTLINE}
+      />
+    </React.Fragment>
   );
 }
