@@ -23,6 +23,7 @@ const postgraphileOptions = {
   enableQueryBatching: true,
   legacyRelations: "omit",
   disableDefaultMutations: false,
+  allowExplain: () => true,
   pgSettings: async () => {
    return {
       'user.googleID': 'private_team_creator'
