@@ -4,7 +4,7 @@ import { View} from "react-native";
 import { AppleAuthenticationButton, AppleAuthenticationButtonType, AppleAuthenticationButtonStyle, signInAsync, AppleAuthenticationScope, isAvailableAsync } from "expo-apple-authentication";
 const index: React.FC = () => {
   useEffect(() => {
-    isAvailableAsync().then((available) => alert({available}))
+    isAvailableAsync().then((available) => alert({available: available.valueOf()}))
   }, []);
   return (
     <View style={{ height: "100%", width: "100%", flex: 1, justifyContent: "center", alignItems: "center" }}>
