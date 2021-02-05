@@ -14,12 +14,14 @@ const styles = StyleSheet.create({
 });
 const questions = [
   "I understand that this app is being used to investigate the effectiveness of collaborativeness in activity trackers",
-  "I consent to my data being used as a part of the study (including chat messages), and that I can request to delete this data and withdraw from the study for any reason by contacting saksi.eerik@gmail.com",
+  "I understand that I will be asked to conduct a survey in two or so weeks (if I have not withdrawn)",
+  "I understand that exercise has inherent risks, and to mitigate this, I will conduct research from credible sources and/or consult a medical professional",
+  "I understand that I can request to delete my data and withdraw at any time, and ask any questions by emailing saksi.eerik@gmail.com",
+  "I consent to my data being used as a part of the study (including chat messages)",
   "I am over the age of 16",
-  "I will research credible sources before making changes to my exercise habits",
 ];
 const CheckBoxes: React.FC<{ setAllChecksFilled: (arg: boolean) => void }> = ({ setAllChecksFilled }) => {
-  const [checks, setChecks] = useState([false, false, false, false]);
+  const [checks, setChecks] = useState([false, false, false, false, false, false]);
 
   //check all are filled
   useEffect(() => {
