@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
   },
 });
 export default function Authenticator() {
+  console.log('ran')
   return (
     <AppleAuthenticationButton
       onPress={() => {
