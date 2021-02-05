@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
 });
+
 export default function Authenticator() {
   const [visible, setVisible] = useState(true)
   return (
