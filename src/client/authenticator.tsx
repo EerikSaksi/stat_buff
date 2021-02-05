@@ -33,6 +33,8 @@ const styles = StyleSheet.create({
 export default function Authenticator() {
   console.log("ran");
   return (
-    asdl;kfjas;kdlfjl;kasdfj;ksadkjfa
+    <Text>
+      Hewwo :3
+    </Text>
   );
 }
