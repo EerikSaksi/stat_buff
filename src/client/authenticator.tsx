@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
 });
+
 export default function Authenticator() {
   console.log("ran");
   return (
