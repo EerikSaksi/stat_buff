@@ -7,8 +7,9 @@ const index: React.FC = () => (
     <AppleAuthenticationButton
       style={{ width: "70%", height: "10%" }}
       onPress={async () => {
-        const user = await signInAsync();
-        alert(user);
+        await signInAsync()
+          .then((response) => alert(response.identityToken))
+          .catch((error) => console.log(error));
       }}
       buttonType={AppleAuthenticationButtonType.SIGN_UP}
       buttonStyle={AppleAuthenticationButtonStyle.WHITE_OUTLINE}
