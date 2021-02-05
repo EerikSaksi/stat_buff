@@ -19,7 +19,7 @@ const index: React.FC = () => {
             requestedScopes: [AppleAuthenticationScope.EMAIL],
           })
             .then((response) => alert(response.identityToken))
-            .catch((error) => console.log(error));
+            .catch((error) => alert(error));
         }}
         buttonType={AppleAuthenticationButtonType.SIGN_UP}
         buttonStyle={AppleAuthenticationButtonStyle.WHITE_OUTLINE}
