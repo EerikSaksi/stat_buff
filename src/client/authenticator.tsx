@@ -34,7 +34,7 @@ export default function Authenticator() {
   console.log("ran");
   return (
     <React.Fragment>
-      <Text style={{ fontSize: 40 }}>Test</Text>
+      <Text style={{ fontSize: 40 }}>hello world</Text>
       <AppleAuthenticationButton
         onPress={() => {
           signInAsync();
