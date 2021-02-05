@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { gql } from "@apollo/client";
-import {Text} from 'react-native'
 import { GiftedChat } from "react-native-gifted-chat";
 import { Modal, View, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -33,8 +32,6 @@ const styles = StyleSheet.create({
 export default function Authenticator() {
   console.log("ran");
   return (
-    <Text>
-      Hewwo :3
-    </Text>
+    <View style = {{ backgroundColor: 'blue', height: '100%', width: '100%'}}/>
   );
 }
