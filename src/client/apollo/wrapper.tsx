@@ -9,7 +9,7 @@ import { getMainDefinition } from "@apollo/client/utilities";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { cache } from "./cache";
 import "react-native-gesture-handler";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const wsLink = new WebSocketLink({
   uri: `ws://localhost:4000/graphql`,
@@ -58,8 +58,8 @@ const options: ApolloClientOptions<unknown> = {
 };
 const client = new ApolloClient(options);
 const index: React.FC = () => (
-    <SafeAreaProvider>
-      <Authenticator />
-    </SafeAreaProvider>
+  <SafeAreaProvider>
+    <Authenticator />
+  </SafeAreaProvider>
 );
 registerRootComponent(index);

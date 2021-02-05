@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { gql } from "@apollo/client";
-import { GiftedChat } from "react-native-gifted-chat";
-import { Modal, View, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import CreateUser from "./components/create_user";
-import { AppleAuthenticationButton, signInAsync, AppleAuthenticationButtonType, AppleAuthenticationButtonStyle } from "expo-apple-authentication";
+import ExerciseModal from "./components/tabs/user/exercise_modal";
+import {GiftedChat} from "react-native-gifted-chat";
+import {Modal, View, StyleSheet} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import {Ionicons} from "@expo/vector-icons";
 const App = React.lazy(() => import("./App"));
 const AppDemo = React.lazy(() => import("./components/app_demo/app_demo"));
 
@@ -30,8 +30,22 @@ const styles = StyleSheet.create({
   },
 });
 export default function Authenticator() {
-  console.log("ran");
+  const [visible, setVisible] = useState(true)
   return (
-    <View style = {{ backgroundColor: 'blue', height: '100%', width: '100%'}}/>
+    <Modal style={{ height: "100%" }} visible={visible} onDismiss={() => setVisible(false)} onRequestClose={() => setVisible(false)} animationType={"slide"}>
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.paddingWrap}>
+          <Ionicons onPress={() => setVisible(false)} style={styles.arrow} name="arrow-back-sharp" />
+          <GiftedChat
+            placeholder={`Send a message to "${'stinky'}"`}
+            user={{ name: 'orek', _id: 0}}
+            onSend={() => {
+            }}
+            renderUsernameOnMessage
+            messages={[]}
+          ></GiftedChat>
+        </View>
+      </SafeAreaView>
+    </Modal>
   );
 }
