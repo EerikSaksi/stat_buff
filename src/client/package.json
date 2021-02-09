@@ -18,6 +18,7 @@
     "@react-navigation/native": "^5.8.9",
     "apollo3-cache-persist": "^0.9.1",
     "expo": "^40.0.0",
+    "expo-apple-authentication": "~2.2.2",
     "expo-google-sign-in": "~8.4.0",
     "expo-progress": "0.0.2",
     "expo-status-bar": "~1.0.2",

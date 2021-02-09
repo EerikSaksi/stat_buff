@@ -1,7 +1,9 @@
 import registerRootComponent from "expo/build/launch/registerRootComponent";
 import React from "react";
+import { Platform } from "react-native";
 import { setContext } from "@apollo/client/link/context";
 import { getCurrentUserAsync, signInSilentlyAsync } from "expo-google-sign-in";
+import { getCredentialStateAsync } from "expo-apple-authentication";
 import { ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink } from "@apollo/client";
 import Authenticator from "../authenticator";
 import { split } from "@apollo/client";
@@ -9,8 +11,19 @@ import { getMainDefinition } from "@apollo/client/utilities";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { cache } from "./cache";
 import "react-native-gesture-handler";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
+
+const ios_user = client.readQuery({
+  //if messages have never been opened set really far back date so all have been opened
+  query: gql`
+    query {
+      user{
+        
+      }
+    }
+  `,
+});
 const wsLink = new WebSocketLink({
   uri: `ws://stat-buff.herokuapp.com/graphql`,
   options: {
@@ -23,24 +36,31 @@ const httpLink = createHttpLink({
 });
 
 var lastSignIn = new Date("1970-01-01");
+const getToken =
+  Platform.OS === "android"
+    ? async () => {
+        //get cached user
+        var userPromise = getCurrentUserAsync();
+
+        //check if about 50 minutes since last token request
+        if (Date.now() - lastSignIn.getTime() < 3000000) {
+          userPromise = signInSilentlyAsync();
+          lastSignIn = new Date();
+        }
+        const user = await userPromise;
+        return `Bearer ${user?.auth?.idToken}`;
+      }
+    : async () => {
+        const user = 
+      };
+
 const authLink = setContext(async (_, { headers }) => {
-
-  //get cached user
-  var userPromise = getCurrentUserAsync();
-
-  //check if about 50 minutes since last token request
-  if (Date.now() - lastSignIn.getTime() < 3000000) {
-    userPromise = signInSilentlyAsync();
-    lastSignIn = new Date()
-  }
-  
-  //wait for cached user or sign in
-  const user = await userPromise;
-  if (user && user.auth && user.auth.idToken) {
+  const authorization = await getToken();
+  if (token) {
     return {
       headers: {
         ...headers,
-        authorization: `Bearer ${user!.auth.idToken}`,
+        authorization
       },
     };
   }
