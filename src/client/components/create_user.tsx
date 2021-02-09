@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { Text, StyleSheet, Animated, ImageBackground, View } from "react-native";
+import { Text, StyleSheet, Animated, ImageBackground, View, Switch } from "react-native";
 import { generateShadow } from "react-native-shadow-generator";
 import { Button, Input } from "react-native-elements";
 import CheckBoxes from "./check_boxes";
 import globalStyles from "../style/global";
 const CREATE_USER = gql`
   mutation createUser($username: String!, $password: String!) {
-    createUser(input: {username: $username, password: $password}) {
+    createUser(input: { username: $username, password: $password }) {
       clientMutationId
     }
   }
@@ -59,6 +59,7 @@ const CreateUser: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
   const greenPixelValuePassword = useRef<Animated.Value>(new Animated.Value(0)).current;
   const ref = useRef<undefined | Input>();
   const [error, setError] = useState("");
+  const [signingIn, setSigningIn] = useState(false);
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
@@ -71,11 +72,11 @@ const CreateUser: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
     onCompleted: (data) => {
       //if succesful, authenticate the user
       if (data.createUser) {
-        fetchToken();
+        signIn();
       }
     },
   });
-  const [fetchToken, { client }] = useMutation(FETCH_TOKEN, {
+  const [signIn, { client }] = useMutation(FETCH_TOKEN, {
     variables: { inputPassword: password, inputUsername: username },
     //if succesful cache the data
     onCompleted: (serverData) => {
@@ -89,7 +90,7 @@ const CreateUser: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
           token: serverData.authenticate.jwtToken,
         },
       });
-      refetchUser()
+      refetchUser();
     },
   });
 
@@ -115,28 +116,30 @@ const CreateUser: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
   }, [username, userData]);
 
   const submit = async () => {
-    if (error.length === 0 && username.length !== 0) {
+    if (!signingIn && error.length === 0 && username.length !== 0) {
       createUser();
+    }
+    else if (signingIn){
+      signIn()
     }
   };
   useEffect(() => {
     //animate to red green or white depending on the current
     if (!username.length) {
       Animated.timing(greenPixelValue, { toValue: 0, useNativeDriver: false }).start();
-    } else if (error.length !== 0) {
+    } else if (error.length !== 0 && !signingIn) {
       Animated.timing(greenPixelValue, { toValue: 2, useNativeDriver: false }).start();
     } else {
       Animated.timing(greenPixelValue, { toValue: 1, useNativeDriver: false }).start();
     }
-  }, [error, username]);
+  }, [error, username, signingIn]);
   useEffect(() => {
-    if (password.length){
+    if (password.length) {
       Animated.timing(greenPixelValuePassword, { toValue: 1, useNativeDriver: false }).start();
-    }
-    else {
+    } else {
       Animated.timing(greenPixelValuePassword, { toValue: 0, useNativeDriver: false }).start();
     }
-  }, [password])
+  }, [password]);
 
   const backgroundColor =
     username.length === 0
@@ -155,14 +158,21 @@ const CreateUser: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
         });
 
   const content = allChecksFilled ? (
-    <Fragment>
-      <View style = { globalStyles.container }>
-        <Text style={styles.text}>{error}</Text>
-        <AnimatedInput style={{ backgroundColor, opacity: 0.8 }} ref={ref} value={username} placeholder="Username" onChangeText={(e) => setUsername(e)} />
-        <AnimatedInput style={{ backgroundColor: passwordBackgroundColor , opacity: 0.8 }} value={password} placeholder="Password" onChangeText={(e) => setPassword(e)} secureTextEntry={true} />
-        <Button title="Create User" disabled={error.length !== 0 || username.length === 0 || password.length === 0} onPress={submit} />
+    <View style={globalStyles.container}>
+      <View style={{ justifyContent: "center", alignItems: "center", flexDirection: "row" }}>
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <Text style={styles.text}>Sign up</Text>
+        </View>
+        <Switch style={{ opacity: 0.8 }} value={signingIn} onValueChange={(v) => setSigningIn(v)} trackColor={{ false: "white", true: "white" }} thumbColor="royalblue" />
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <Text style={styles.text}>Sign in</Text>
+        </View>
       </View>
-    </Fragment>
+      <Text style={styles.text}>{error}</Text>
+      <AnimatedInput style={{ backgroundColor, opacity: 0.8 }} ref={ref} value={username} placeholder="Username" onChangeText={(e) => setUsername(e)} />
+      <AnimatedInput style={{ backgroundColor: passwordBackgroundColor, opacity: 0.8 }} value={password} placeholder="Password" onChangeText={(e) => setPassword(e)} secureTextEntry={true} />
+      <Button title={`Sign ${signingIn? "in" : "up"}`} disabled={(error.length !== 0 && !signingIn) || username.length === 0 || password.length === 0} onPress={submit} />
+    </View>
   ) : (
     <CheckBoxes setAllChecksFilled={setAllChecksFilled} />
   );
