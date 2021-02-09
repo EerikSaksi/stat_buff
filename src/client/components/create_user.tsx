@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { Text, StyleSheet, Animated, ImageBackground, View } from "react-native";
+import { Text, StyleSheet, Animated, ImageBackground, View} from "react-native";
 import { generateShadow } from "react-native-shadow-generator";
-import { Button, Input } from "react-native-elements";
+import { Button, Input, Switch} from "react-native-elements";
 import CheckBoxes from "./check_boxes";
 import globalStyles from "../style/global";
 const CREATE_USER = gql`
@@ -59,6 +59,7 @@ const CreateUser: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
   const greenPixelValuePassword = useRef<Animated.Value>(new Animated.Value(0)).current;
   const ref = useRef<undefined | Input>();
   const [error, setError] = useState("");
+  const [signingUp, setSigningUp] = useState(false)
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
@@ -71,11 +72,11 @@ const CreateUser: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
     onCompleted: (data) => {
       //if succesful, authenticate the user
       if (data.createUser) {
-        fetchToken();
+        signIn();
       }
     },
   });
-  const [fetchToken, { client }] = useMutation(FETCH_TOKEN, {
+  const [signIn, { client }] = useMutation(FETCH_TOKEN, {
     variables: { inputPassword: password, inputUsername: username },
     //if succesful cache the data
     onCompleted: (serverData) => {
@@ -156,6 +157,7 @@ const CreateUser: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
 
   const content = allChecksFilled ? (
       <View style = { globalStyles.container }>
+        <Switch value = {}/>
         <Text style={styles.text}>{error}</Text>
         <AnimatedInput style={{ backgroundColor, opacity: 0.8 }} ref={ref} value={username} placeholder="Username" onChangeText={(e) => setUsername(e)} />
         <AnimatedInput style={{ backgroundColor: passwordBackgroundColor , opacity: 0.8 }} value={password} placeholder="Password" onChangeText={(e) => setPassword(e)} secureTextEntry={true} />
