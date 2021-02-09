@@ -6,7 +6,7 @@ async function exec_file(fileName, client) {
   await client.query(sql);
 }
 async function init_enemies(client) {
-  for (var level = 1; level < 300; level++) {
+  for (var level = 2; level < 300; level++) {
     //decide what the enemy name is (they simply rotate)
     var enemy = "";
     switch (level % 8) {
