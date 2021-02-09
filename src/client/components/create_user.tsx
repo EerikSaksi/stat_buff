@@ -36,10 +36,6 @@ var styles = StyleSheet.create({
     position: "relative",
     resizeMode: "cover",
   },
-  socialIcon: {
-    width: "50%",
-    ...generateShadow(24),
-  },
   imageBackground: {
     zIndex: -1,
   },
@@ -51,7 +47,8 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; s
   const [username, setUsername] = useState("");
   const [allChecksFilled, setAllChecksFilled] = useState(false);
   const greenPixelValue = useRef<Animated.Value>(new Animated.Value(0)).current;
-  const [error, setError] = useState("No error yet");
+  const tokenRef = useRef<undefined | string>()
+  const [error:] = useState()
   const ref = useRef<Input | null>();
   useEffect(() => {
     if (ref.current) {
@@ -121,20 +118,7 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; s
         <AnimatedInput onSubmitEditing={submit} style={{ backgroundColor, opacity: 0.8 }} ref={ref} value={username} placeholder="Enter username" onChangeText={(e) => setUsername(e)} />
         <Button title="Submit" disabled={error.length !== 0 || username.length === 0} onPress={submit} />
       </CenteredView>
-    ) : (
-      <CenteredView>
-        <SocialIcon
-          type="google"
-          title={"Sign in with Google"}
-          button
-          style={styles.socialIcon}
-          onPress={async () => {
-            setGoogleLoggedIn(true);
-            refetchUser();
-          }}
-        />
-      </CenteredView>
-    )
+    ) : 
   ) : (
     <CheckBoxes setAllChecksFilled={setAllChecksFilled} />
   );
