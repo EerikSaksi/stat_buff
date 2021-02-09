@@ -157,7 +157,6 @@ const CreateUser: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
 
   const content = allChecksFilled ? (
       <View style = { globalStyles.container }>
-        <Switch value = {}/>
         <Text style={styles.text}>{error}</Text>
         <AnimatedInput style={{ backgroundColor, opacity: 0.8 }} ref={ref} value={username} placeholder="Username" onChangeText={(e) => setUsername(e)} />
         <AnimatedInput style={{ backgroundColor: passwordBackgroundColor , opacity: 0.8 }} value={password} placeholder="Password" onChangeText={(e) => setPassword(e)} secureTextEntry={true} />
