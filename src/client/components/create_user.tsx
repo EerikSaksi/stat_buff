@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Text, StyleSheet, Animated, ImageBackground, View } from "react-native";
-import CenteredView from "../util_components/centered_view";
 import { generateShadow } from "react-native-shadow-generator";
 import { Button, Input } from "react-native-elements";
 import CheckBoxes from "./check_boxes";
