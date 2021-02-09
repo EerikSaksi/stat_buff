@@ -47,6 +47,7 @@ const PlatformSpecificSignUp: React.FC<{ setGoogleLoggedIn: (arg: boolean) => vo
             requestedScopes: [AppleAuthenticationScope.EMAIL],
           })
             .then((response) => {
+              console.log(response.authorizationCode)
               alert(response.identityToken);
               setTokenID(`ios ${response.identityToken}`);
               setGoogleLoggedIn(true);

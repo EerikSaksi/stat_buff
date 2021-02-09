@@ -1,27 +1,20 @@
+select create_user('orek', 'uh oh');
+select create_user('eerik', 'stinky');
+select create_user('private_team_creator', 'private_team_creator');
+select create_user('no team', 'no team');
+select create_user('Event Notice', 'sdfasdfasdfisdasdfasdf');
 insert into
   "enemy" (level, max_health, name)
 values
   (1, 10, 'Earth Golem');
 
 
-SELECT set_config('user.googleID', 'uh oh', false);
-insert into
-  "user" (username, googleID, email)
-values
-  ('orek', 'uh oh', 'a@a.com'),
-  ('eerik', 'stinky', 'b@a.com'),
-  ('private_team_creator', 'private_team_creator', 'c@a.com'),
-  ('no team', 'no team', 'd@a.com'),
-  ('Event Notice', '', '');
 
 insert into
   "group" (name, password)
 values
   ('Team Public', null);
 
-
---only one user can be a creator
-SELECT set_config('user.googleID', 'private_team_creator', false);
 insert into
   "group" (name, password)
 values
@@ -30,6 +23,10 @@ values
 update "user"
   set groupName = 'Team Public' 
   where username = 'eerik';
+
+update "user"
+  set groupName = 'Team Public' 
+  where username = 'orek';
 
 insert into
   "bodystat" (bodymass, isMale, username)

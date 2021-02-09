@@ -25,8 +25,7 @@ GRANT USAGE, SELECT ON SEQUENCE chat_message_id_seq TO query_sender;
 GRANT USAGE, SELECT ON SEQUENCE session_analytics_id_seq TO query_sender;
 
 --google ids are only used internally to identify users 
-comment on column "user".googleID is E'@omit';
-comment on column "user".email is E'@omit';
+comment on column "user".password is E'@omit';
 --handled by plugin function
 comment on table "user" is E'@omit create';
 --groupname updates must go through a custom function that performs password checks for protected groups
@@ -57,9 +56,9 @@ comment on column "chat_message".id is E'@omit create, update, insert';
 comment on column "chat_message".id is E'@omit create, update, insert';
 comment on column "session_analytics".id is E'@omit create, update, insert';
 
-CREATE POLICY user_update ON "user" FOR update to query_sender USING (googleID = current_setting('user.googleID'));
-CREATE POLICY user_delete ON "user" FOR delete to query_sender USING (googleID = current_setting('user.googleID'));
-CREATE POLICY user_create ON "user" FOR insert to query_sender with check (googleID = current_setting('user.googleID'));
+CREATE POLICY user_update ON "user" FOR update to query_sender USING (username = current_setting('jwt.claims.username'));
+CREATE POLICY user_delete ON "user" FOR delete to query_sender USING (username = current_setting('jwt.claims.username'));
+CREATE POLICY user_create ON "user" FOR insert to query_sender with check (username = current_setting('jwt.claims.username'));
 CREATE POLICY user_select ON "user" FOR select to query_sender using (true);
 
 --any user can update the group, but these mutations are omitted. The group updates are executed automatically, for example when a user deals damage to the enemy which triggers the next level.
