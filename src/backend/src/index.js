@@ -1,12 +1,9 @@
-const express = require("express");
-const { postgraphile, makePluginHook } = require("postgraphile");
-const MyPlugins = require("./postgraphile_plugins");
-const PostGraphileConnectionFilterPlugin = require("postgraphile-plugin-connection-filter");
-const run_all_sql_scripts = require("./sql_scripts/call_sql_scripts");
-const tokenToGoogleID = require("./google_auth");
-const { default: PgPubsub } = require("@graphile/pg-pubsub");
-require("dotenv").config();
-
+const express = require('express');
+const {postgraphile, makePluginHook} = require('postgraphile');
+const MyPlugins = require('./postgraphile_plugins')
+const PostGraphileConnectionFilterPlugin = require('postgraphile-plugin-connection-filter');
+const run_all_sql_scripts = require('./sql_scripts/call_sql_scripts')
+const { default: PgPubsub } = require("@graphile/pg-pubsub"); 
 const pluginHook = makePluginHook([PgPubsub]);
 const postgraphileOptions = {
   pluginHook,
@@ -26,16 +23,10 @@ const postgraphileOptions = {
   disableQueryLog: false,
   legacyRelations: "omit",
   disableDefaultMutations: false,
-  graphqlRoute: "/graphql",
-  pgSettings: async (req) => {
-    if (req && req && req.headers && req.headers.authorization) {
-      const { id } = await tokenToGoogleID(req.headers.authorization);
-      return {
-        "user.googleID": id,
-      };
-    }
-  },
-};
+  allowExplain: () => true,
+  jwtPgTypeIdentifier: 'public.jwt_token',
+  jwtSecret: process.env.JWT_SECRET,
+}
 const app = express();
 (async () => {
   app.use(postgraphile(process.env.DATABASE_USER_URL, postgraphileOptions));

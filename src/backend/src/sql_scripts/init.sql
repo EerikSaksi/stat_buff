@@ -11,9 +11,8 @@ create table "group" (
 
 create table "user" (
   username varchar(32) primary key not null,
+  password TEXT,
   groupName varchar(32) REFERENCES "group" ON DELETE set null,
-  googleID varchar(64) not null unique,
-  email varchar(256) not null unique,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -126,9 +125,9 @@ create table "session_analytics" (
 );
 create index on "session_analytics" (username);
 
-CREATE FUNCTION active_user() RETURNS "user" AS $$
-  select * from "user" where googleID = current_setting('user.googleID')
-$$ LANGUAGE sql stable STRICT;
+create function active_user() returns "user" as $$
+  select * from "user" where username = current_setting('jwt.claims.username', true);
+$$ language sql stable;
 
 CREATE EXTENSION pgcrypto;
 CREATE FUNCTION join_group(input_groupname varchar(32), input_password TEXT) RETURNS boolean as $$
@@ -206,3 +205,40 @@ begin
     delete from "group" where name = old_groupName;
   end if;
 end $$ language plpgsql volatile;
+
+
+create type public.jwt_token as (
+  exp integer,
+  username varchar
+);
+
+create function authenticate(
+  input_username text,
+  input_password text
+) returns jwt_token as $$
+declare
+  authenticated_user "user"; 
+begin
+  select u.* into authenticated_user
+    from "user" as u
+    where u.username = input_username;
+
+  if authenticated_user.password = crypt(input_password, authenticated_user.password) then
+    return (
+      extract(epoch from now() + interval '50 days'),
+      authenticated_user.username
+    )::jwt_token;
+  else
+    return null;
+  end if;
+end;
+$$ language plpgsql strict security definer;
+
+create function create_user(
+  username text,
+  password text
+) returns void as $$
+begin
+  insert into "user"(username, password) values (username, crypt(password, gen_salt('bf')));
+end;
+$$ language plpgsql strict security definer;

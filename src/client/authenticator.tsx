@@ -7,15 +7,15 @@ const AppDemo = React.lazy(() => import("./components/app_demo/app_demo"));
 
 const USERNAME = gql`
   query {
-    username
+    activeUser{
+      username
+    }
   }
 `;
 
 export default function Authenticator() {
-  const [googleLoggedIn, setGoogleLoggedIn] = useState(false);
-
   //try fetch the current user if we have a token (if not logged in google first we need to sign in)
-  const [refetchUser, { data }] = useLazyQuery(USERNAME);
+  const [refetchUser, { data}] = useLazyQuery(USERNAME);
   useEffect(() => {
     const tryGetToken = async () => {
       await initAsync();
@@ -31,16 +31,16 @@ export default function Authenticator() {
   if (!data) {
     return null;
   }
-  if (!data.username) {
+  if (!data.activeUser) {
     return (
       <Suspense fallback={<Loading />}>
-        <AppDemo refetchUser={refetchUser} googleLoggedIn={googleLoggedIn} setGoogleLoggedIn={setGoogleLoggedIn} />
+        <AppDemo refetchUser={refetchUser}/>
       </Suspense>
     );
   }
   return (
     <Suspense fallback={<Loading />}>
-      <App username={data.username} />
+      <App username={data.activeUser.username} />
     </Suspense>
   );
 }

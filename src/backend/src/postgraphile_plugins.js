@@ -8,9 +8,6 @@ const MyPlugins = makeExtendSchemaPlugin((build) => {
   const { pgSql: sql } = build;
   return {
     typeDefs: gql`
-      extend type Mutation {
-        createUser(username: String!, idToken: String!): Boolean
-      }
       type StrengthStats {
         averageStrength: Int!
         numExercises: Int!
@@ -18,28 +15,9 @@ const MyPlugins = makeExtendSchemaPlugin((build) => {
       }
       extend type Query {
         calculateStrength(exercise: String!, liftmass: Float!, repetitions: Int!): Int
-        username: String
       }
     `,
     resolvers: {
-      Mutation: {
-        //this is necessary because the "user" query data requires a username by default. The user needs to know their own username for them to know their own username (it's a bit silly, but that's how postgraphile interprets it)
-        createUser: async (parent, args, context, resolveInfo) => {
-          const { username } = args;
-          //contains disallowed characters, too long or too short
-          if (username.match(/^[a-zA-Z0-9._]+$/) == null || username.length >= 20 || username.length === 0) {
-            return null;
-          }
-          const {email, id} = await tokenToGoogleID(`Bearer ${args.idToken}`);
-
-          //no need to ensure if already exists because of unique clause for googleID
-          await context.pgClient.query(
-            `insert into "user" (username, googleid, email)
-             values ('${username}', ${id}, '${email}')`
-          );
-          return true;
-        },
-      },
       Query: {
         calculateStrength: async (parent, args, context, resolveInfo) => {
           const { exercise, liftmass, repetitions } = args;
@@ -62,15 +40,6 @@ const MyPlugins = makeExtendSchemaPlugin((build) => {
           const gender = ismale ? "male" : "female";
           const val = await statsToPercentageVal(gender, bodymass, exercise, liftmass, repetitions, rows[0].bodyweight);
           return val;
-        },
-        username: async (parent, args, context, resolveInfo) => {
-          {
-            //check the exercise exists
-            const { rows } = await context.pgClient.query(`select username from "user" where googleID = current_setting('user.googleID', 't')`);
-            if (rows[0]){
-              return rows[0].username;
-            }
-          }
         },
       },
     },

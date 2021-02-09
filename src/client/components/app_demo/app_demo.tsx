@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
 });
 const EmptyWidthView = () => <View style={styles.view} />;
-const AppDemo: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; setGoogleLoggedIn: (arg: boolean) => void }> = ({ refetchUser, googleLoggedIn, setGoogleLoggedIn }) => {
+const AppDemo: React.FC<{ refetchUser: () => void; }> = ({ refetchUser}) => {
   const [scrollOffset, setScrollOffset] = useState(0);
   const scrollViewRef = useRef<ScrollView | null>(null);
   return (
@@ -52,7 +52,7 @@ const AppDemo: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; setG
       <View style={styles.view}>
         {1.8 * width  <= scrollOffset ? (
           <Suspense fallback={EmptyWidthView}>
-            <CreateUser refetchUser={refetchUser} googleLoggedIn={googleLoggedIn} setGoogleLoggedIn={setGoogleLoggedIn} />
+            <CreateUser refetchUser={refetchUser} />
           </Suspense>
         ) : (
           <EmptyWidthView/>

@@ -2,9 +2,7 @@ import registerRootComponent from "expo/build/launch/registerRootComponent";
 import React from "react";
 import { Platform } from "react-native";
 import { setContext } from "@apollo/client/link/context";
-import { getCurrentUserAsync, signInSilentlyAsync } from "expo-google-sign-in";
-import { getCredentialStateAsync } from "expo-apple-authentication";
-import { ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink } from "@apollo/client";
+import { ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink, gql } from "@apollo/client";
 import Authenticator from "../authenticator";
 import { split } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
@@ -23,6 +21,27 @@ const ios_user = client.readQuery({
       }
     }
   `,
+
+//init a client with just a cache so that the function doesnt freak out
+var token = ""
+var client = new ApolloClient({cache})
+const authLink = setContext(async (_, { headers }) => {
+  if (!token) {
+    //fetch query into memory (if not loaded)
+    const result = client.readQuery({query: gql`query{token}`});
+    if (result){
+      token = result.token
+    }
+  }
+  if (!token){
+    return {headers}
+  }
+  return {
+    headers: {
+      ...headers,
+      authorization: `Bearer ${token}`,
+    },
+  };
 });
 const wsLink = new WebSocketLink({
   uri: `ws://stat-buff.herokuapp.com/graphql`,
@@ -33,40 +52,6 @@ const wsLink = new WebSocketLink({
 
 const httpLink = createHttpLink({
   uri: "https://stat-buff.herokuapp.com/graphql",
-});
-
-var lastSignIn = new Date("1970-01-01");
-const getToken =
-  Platform.OS === "android"
-    ? async () => {
-        //get cached user
-        var userPromise = getCurrentUserAsync();
-
-        //check if about 50 minutes since last token request
-        if (Date.now() - lastSignIn.getTime() < 3000000) {
-          userPromise = signInSilentlyAsync();
-          lastSignIn = new Date();
-        }
-        const user = await userPromise;
-        return `Bearer ${user?.auth?.idToken}`;
-      }
-    : async () => {
-        const user = 
-      };
-
-const authLink = setContext(async (_, { headers }) => {
-  const authorization = await getToken();
-  if (token) {
-    return {
-      headers: {
-        ...headers,
-        authorization
-      },
-    };
-  }
-  return {
-    headers,
-  };
 });
 
 const splitLink = split(
@@ -90,7 +75,7 @@ const options: ApolloClientOptions<unknown> = {
     },
   },
 };
-const client = new ApolloClient(options);
+client = new ApolloClient(options);
 const index: React.FC = () => (
   <ApolloProvider client={client}>
     <SafeAreaProvider>

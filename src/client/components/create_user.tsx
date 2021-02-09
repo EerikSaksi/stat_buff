@@ -1,17 +1,24 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { Text, StyleSheet, Animated, ImageBackground } from "react-native";
-import CenteredView from "../util_components/centered_view";
+import { Text, StyleSheet, Animated, ImageBackground, View } from "react-native";
 import { generateShadow } from "react-native-shadow-generator";
-import { Button, Input, SocialIcon } from "react-native-elements";
-import { getCurrentUser, signInAsync } from "expo-google-sign-in";
+import { Button, Input } from "react-native-elements";
 import CheckBoxes from "./check_boxes";
+import globalStyles from "../style/global";
 const CREATE_USER = gql`
-  mutation createuser($username: String!, $idToken: String!) {
-    createUser(username: $username, idToken: $idToken)
+  mutation createUser($username: String!, $password: String!) {
+    createUser(input: {username: $username, password: $password}) {
+      clientMutationId
+    }
   }
 `;
-
+const FETCH_TOKEN = gql`
+  mutation($inputUsername: String!, $inputPassword: String!) {
+    authenticate(input: { inputUsername: $inputUsername, inputPassword: $inputPassword }) {
+      jwtToken
+    }
+  }
+`;
 const USER = gql`
   query user($username: String!) {
     user(username: $username) {
@@ -37,10 +44,6 @@ var styles = StyleSheet.create({
     position: "relative",
     resizeMode: "cover",
   },
-  socialIcon: {
-    width: "50%",
-    ...generateShadow(24),
-  },
   imageBackground: {
     zIndex: -1,
   },
@@ -48,25 +51,45 @@ var styles = StyleSheet.create({
 
 const AnimatedInput = Animated.createAnimatedComponent(Input);
 
-const CreateUser: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; setGoogleLoggedIn: (arg: boolean) => void }> = ({ refetchUser, googleLoggedIn, setGoogleLoggedIn }) => {
+const CreateUser: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
   const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [allChecksFilled, setAllChecksFilled] = useState(false);
   const greenPixelValue = useRef<Animated.Value>(new Animated.Value(0)).current;
-  const [error, setError] = useState("No error yet");
-  const ref = useRef<Input | null>();
+  const greenPixelValuePassword = useRef<Animated.Value>(new Animated.Value(0)).current;
+  const ref = useRef<undefined | Input>();
+  const [error, setError] = useState("");
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
     }
-  }, [ref, googleLoggedIn]);
+  }, [ref]);
 
   //if succesfully created then user data exists for the current google user
   const [createUser] = useMutation(CREATE_USER, {
-    variables: { username, idToken: getCurrentUser()?.auth?.idToken },
+    variables: { username, password },
     onCompleted: (data) => {
+      //if succesful, authenticate the user
       if (data.createUser) {
-        refetchUser();
+        fetchToken();
       }
+    },
+  });
+  const [fetchToken, { client }] = useMutation(FETCH_TOKEN, {
+    variables: { inputPassword: password, inputUsername: username },
+    //if succesful cache the data
+    onCompleted: (serverData) => {
+      client.writeQuery({
+        query: gql`
+          query {
+            token
+          }
+        `,
+        data: {
+          token: serverData.authenticate.jwtToken,
+        },
+      });
+      refetchUser()
     },
   });
 
@@ -106,6 +129,14 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; s
       Animated.timing(greenPixelValue, { toValue: 1, useNativeDriver: false }).start();
     }
   }, [error, username]);
+  useEffect(() => {
+    if (password.length){
+      Animated.timing(greenPixelValuePassword, { toValue: 1, useNativeDriver: false }).start();
+    }
+    else {
+      Animated.timing(greenPixelValuePassword, { toValue: 0, useNativeDriver: false }).start();
+    }
+  }, [password])
 
   const backgroundColor =
     username.length === 0
@@ -115,34 +146,21 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; s
           outputRange: ["white", "lime", "red"],
         });
 
+  const passwordBackgroundColor =
+    password.length === 0
+      ? "white"
+      : greenPixelValuePassword.interpolate({
+          inputRange: [0, 1],
+          outputRange: ["white", "lime"],
+        });
+
   const content = allChecksFilled ? (
-    googleLoggedIn ? (
-      <CenteredView>
+      <View style = { globalStyles.container }>
         <Text style={styles.text}>{error}</Text>
-        <AnimatedInput onSubmitEditing={submit} style={{ backgroundColor, opacity: 0.8 }} ref={ref} value={username} placeholder="Enter username" onChangeText={(e) => setUsername(e)} />
-        <Button title="Submit" disabled={error.length !== 0 || username.length === 0} onPress={submit} />
-      </CenteredView>
-    ) : (
-      <CenteredView>
-        <SocialIcon
-          type="google"
-          title={"Sign in with Google"}
-          button
-          style={styles.socialIcon}
-          onPress={async () => {
-            //try sign in, on success
-            await signInAsync()
-              .then((result) => {
-                if (result.type === "success") {
-                  setGoogleLoggedIn(true);
-                  refetchUser();
-                }
-              })
-              .catch((error) => alert(error));
-          }}
-        />
-      </CenteredView>
-    )
+        <AnimatedInput style={{ backgroundColor, opacity: 0.8 }} ref={ref} value={username} placeholder="Username" onChangeText={(e) => setUsername(e)} />
+        <AnimatedInput style={{ backgroundColor: passwordBackgroundColor , opacity: 0.8 }} value={password} placeholder="Password" onChangeText={(e) => setPassword(e)} secureTextEntry={true} />
+        <Button title="Create User" disabled={error.length !== 0 || username.length === 0 || password.length === 0} onPress={submit} />
+      </View>
   ) : (
     <CheckBoxes setAllChecksFilled={setAllChecksFilled} />
   );
