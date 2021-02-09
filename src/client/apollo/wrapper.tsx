@@ -11,13 +11,13 @@ import "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 //init a client with just a cache so that the function doesnt freak out
-var client = new ApolloClient({ cache });
-var token;
+var token = ""
+var client = new ApolloClient({cache})
 const authLink = setContext(async (_, { headers }) => {
   if (!token) {
     //fetch query into memory (if not loaded)
     const result = client.readQuery({query: gql`query{token}`});
-    if (result.token){
+    if (result){
       token = result.token
     }
   }

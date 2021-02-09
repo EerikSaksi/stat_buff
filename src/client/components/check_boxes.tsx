@@ -21,7 +21,7 @@ const questions = [
   "I am over the age of 16",
 ];
 const CheckBoxes: React.FC<{ setAllChecksFilled: (arg: boolean) => void }> = ({ setAllChecksFilled }) => {
-  const [checks, setChecks] = useState([false, false, false, false, false]);
+  const [checks, setChecks] = useState([true, true, true, true, true]);
 
   //check all are filled
   useEffect(() => {

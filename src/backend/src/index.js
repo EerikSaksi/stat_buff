@@ -6,7 +6,6 @@ const run_all_sql_scripts = require('./sql_scripts/call_sql_scripts')
 const { default: PgPubsub } = require("@graphile/pg-pubsub"); 
 require('dotenv').config({path: '../.env'})
 const pluginHook = makePluginHook([PgPubsub]);
-console.log({JWT_SECRET:process.env.JWT_SECRET})
 const postgraphileOptions = {
   pluginHook,
   subscriptions: true,

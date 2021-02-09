@@ -13,10 +13,8 @@ const USERNAME = gql`
 `;
 
 export default function Authenticator() {
-  const [googleLoggedIn, setGoogleLoggedIn] = useState(false);
-
   //try fetch the current user if we have a token (if not logged in google first we need to sign in)
-  const [refetchUser, { data }] = useLazyQuery(USERNAME);
+  const [refetchUser, { data}] = useLazyQuery(USERNAME);
   useEffect(() => {
     refetchUser()
   }, [])
