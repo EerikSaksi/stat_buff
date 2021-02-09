@@ -33,4 +33,3 @@ const app = express();
   app.use(postgraphile(process.env.DATABASE_USER_URL, postgraphileOptions));
 })();
 app.listen(process.env.PORT || 4000);
-console.log("App running on localhost:4000");
