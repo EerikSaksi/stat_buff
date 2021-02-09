@@ -26,7 +26,7 @@ const postgraphileOptions = {
   allowExplain: () => true,
   pgSettings: async () => {
    return {
-      'user.googleID': 'private_team_creator'
+      'user.googleID': 'new user'
     };
   },
   ownerConnectionString: "postgres://eerik:Postgrizzly@localhost:5432/rpgym"

@@ -16,20 +16,27 @@ const styles = StyleSheet.create({
   },
 });
 const isAndroid = Platform.OS === "android";
-const PlatformSpecificSignUp: React.FC<{ setGoogleLoggedIn: (arg: boolean) => void; refetchUser: () => void }> = ({ setGoogleLoggedIn, refetchUser }) => {
+const PlatformSpecificSignUp: React.FC<{ setGoogleLoggedIn: (arg: boolean) => void; refetchUser: () => void; setTokenID: (arg: string) => void }> = ({
+  setGoogleLoggedIn,
+  refetchUser,
+  setTokenID
+}) => {
   if (isAndroid) {
-    <View style={styles.buttonWrapper}>
-      <SocialIcon
-        type="google"
-        title={"Sign in with Google"}
-        button
-        style={styles.socialIcon}
-        onPress={async () => {
-          setGoogleLoggedIn(true);
-          refetchUser();
-        }}
-      />
-    </View>;
+    return (
+      <View style={styles.buttonWrapper}>
+        <SocialIcon
+          type="google"
+          title={"Sign in with Google"}
+          button
+          style={styles.socialIcon}
+          onPress={async () => {
+            setGoogleLoggedIn(true);
+            refetchUser();
+            setTokenID("Bearer asdfasdfasdf");
+          }}
+        />
+      </View>
+    );
   }
   return (
     <View style={styles.buttonWrapper}>
@@ -41,7 +48,8 @@ const PlatformSpecificSignUp: React.FC<{ setGoogleLoggedIn: (arg: boolean) => vo
           })
             .then((response) => {
               alert(response.identityToken);
-              setGoogleLoggedIn(true)
+              setTokenID(`ios ${response.identityToken}`);
+              setGoogleLoggedIn(true);
             })
             .catch((error) => alert(error));
         }}

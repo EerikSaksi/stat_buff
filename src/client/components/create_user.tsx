@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { Text, StyleSheet, Animated, ImageBackground } from "react-native";
+import { Text, StyleSheet, Animated, ImageBackground, TextInput } from "react-native";
 import CenteredView from "../util_components/centered_view";
 import { generateShadow } from "react-native-shadow-generator";
 import { Button, Input, SocialIcon } from "react-native-elements";
 import CheckBoxes from "./check_boxes";
+import PlatformSpecificSignUp from "./platform_specific_sign_up";
 const CREATE_USER = gql`
   mutation createuser($username: String!, $idToken: String!) {
     createUser(username: $username, idToken: $idToken)
@@ -47,9 +48,9 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; s
   const [username, setUsername] = useState("");
   const [allChecksFilled, setAllChecksFilled] = useState(false);
   const greenPixelValue = useRef<Animated.Value>(new Animated.Value(0)).current;
-  const tokenRef = useRef<undefined | string>()
-  const [error:] = useState()
-  const ref = useRef<Input | null>();
+  const ref = useRef<undefined | Input>();
+  const [error, setError] = useState("");
+  const [tokenID, setTokenID] = useState<undefined | string>()
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
@@ -58,7 +59,7 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; s
 
   //if succesfully created then user data exists for the current google user
   const [createUser] = useMutation(CREATE_USER, {
-    variables: { username, idToken: "" },
+    variables: { username, idToken: tokenID},
     onCompleted: (data) => {
       if (data.createUser) {
         refetchUser();
@@ -118,7 +119,9 @@ const CreateUser: React.FC<{ refetchUser: () => void; googleLoggedIn: boolean; s
         <AnimatedInput onSubmitEditing={submit} style={{ backgroundColor, opacity: 0.8 }} ref={ref} value={username} placeholder="Enter username" onChangeText={(e) => setUsername(e)} />
         <Button title="Submit" disabled={error.length !== 0 || username.length === 0} onPress={submit} />
       </CenteredView>
-    ) : 
+    ) : (
+      <PlatformSpecificSignUp setTokenID = {setTokenID} refetchUser = {refetchUser} setGoogleLoggedIn = {setGoogleLoggedIn} />
+    )
   ) : (
     <CheckBoxes setAllChecksFilled={setAllChecksFilled} />
   );
