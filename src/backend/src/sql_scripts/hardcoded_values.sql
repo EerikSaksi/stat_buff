@@ -8,8 +8,6 @@ insert into
 values
   (1, 10, 'Earth Golem');
 
-
-
 insert into
   "group" (name, password)
 values

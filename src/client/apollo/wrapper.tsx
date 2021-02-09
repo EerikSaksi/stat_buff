@@ -1,38 +1,45 @@
 import registerRootComponent from "expo/build/launch/registerRootComponent";
 import React from "react";
 import { setContext } from "@apollo/client/link/context";
-import { getCurrentUserAsync } from "expo-google-sign-in";
-import { ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink } from "@apollo/client";
+import { ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink, gql } from "@apollo/client";
 import Authenticator from "../authenticator";
 import { split } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { cache } from "./cache";
 import "react-native-gesture-handler";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
+//init a client with just a cache so that the function doesnt freak out
+var client = new ApolloClient({ cache });
+var token;
+const authLink = setContext(async (_, { headers }) => {
+  if (!token) {
+    //fetch query into memory (if not loaded)
+    const result = client.readQuery({query: gql`query{token}`});
+    if (result.token){
+      token = result.token
+    }
+  }
+  if (!token){
+    return {headers}
+  }
+  return {
+    headers: {
+      ...headers,
+      authorization: `Bearer ${token}`,
+    },
+  };
+});
 const wsLink = new WebSocketLink({
   uri: `ws://localhost:4000/graphql`,
   options: {
     reconnect: true,
-    connectionParams: {},
   },
 });
 
 const httpLink = createHttpLink({
   uri: "http://localhost:4000/graphql",
-});
-
-const authLink = setContext(async (_, { headers }) => {
-  //const user = await getCurrentUserAsync()
-  //const token = user?.auth?.idToken
-  const token = "Stinky";
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : "",
-    },
-  };
 });
 
 const splitLink = split(
@@ -56,7 +63,7 @@ const options: ApolloClientOptions<unknown> = {
     },
   },
 };
-const client = new ApolloClient(options);
+client = new ApolloClient(options);
 const index: React.FC = () => (
   <ApolloProvider client={client}>
     <SafeAreaProvider>

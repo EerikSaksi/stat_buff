@@ -6,7 +6,9 @@ const AppDemo = React.lazy(() => import("./components/app_demo/app_demo"));
 
 const USERNAME = gql`
   query {
-    username
+    activeUser{
+      username
+    }
   }
 `;
 
@@ -21,16 +23,16 @@ export default function Authenticator() {
   if (!data) {
     return null;
   }
-  if (!data.username) {
+  if (!data.activeUser) {
     return (
       <Suspense fallback={<Loading />}>
-        <AppDemo refetchUser={refetchUser} googleLoggedIn={googleLoggedIn} setGoogleLoggedIn={setGoogleLoggedIn} />
+        <AppDemo refetchUser={refetchUser}/>
       </Suspense>
     );
   }
   return (
     <Suspense fallback={<Loading />}>
-      <App username={data.username} />
+      <App username={data.activeUser.username} />
     </Suspense>
   );
 }

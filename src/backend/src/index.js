@@ -29,11 +29,9 @@ const postgraphileOptions = {
   jwtSecret: process.env.JWT_SECRET,
   ownerConnectionString: "postgres://eerik:Postgrizzly@localhost:5432/rpgym"
 }
-console.log(postgraphileOptions)
 const app = express();
 (async () => {
   await run_all_sql_scripts()
   app.use(postgraphile("postgres://query_sender:restrictedPermissions@localhost:5432/rpgym", postgraphileOptions))
 })();
 app.listen(process.env.PORT || 4000);
-

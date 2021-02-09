@@ -225,7 +225,7 @@ begin
 
   if authenticated_user.password = crypt(input_password, authenticated_user.password) then
     return (
-      extract(epoch from now() + interval '30 days'),
+      extract(epoch from now() + interval '50 days'),
       authenticated_user.username
     )::jwt_token;
   else
