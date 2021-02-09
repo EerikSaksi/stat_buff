@@ -1,6 +1,5 @@
 import registerRootComponent from "expo/build/launch/registerRootComponent";
 import React from "react";
-import { Platform } from "react-native";
 import { setContext } from "@apollo/client/link/context";
 import { ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink, gql } from "@apollo/client";
 import Authenticator from "../authenticator";
