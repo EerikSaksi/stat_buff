@@ -12,18 +12,8 @@ import "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 
-const ios_user = client.readQuery({
-  //if messages have never been opened set really far back date so all have been opened
-  query: gql`
-    query {
-      user{
-        
-      }
-    }
-  `,
-
 //init a client with just a cache so that the function doesnt freak out
-var token = ""
+var token; 
 var client = new ApolloClient({cache})
 const authLink = setContext(async (_, { headers }) => {
   if (!token) {
