@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, Fragment } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Text, StyleSheet, Animated, ImageBackground, View, Switch } from "react-native";
 import { generateShadow } from "react-native-shadow-generator";
-import { Button, Input} from "react-native-elements";
+import { Button, Input } from "react-native-elements";
 import CheckBoxes from "./check_boxes";
 import globalStyles from "../style/global";
 const CREATE_USER = gql`
@@ -57,7 +57,7 @@ var styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
-  }
+  },
 });
 
 const AnimatedInput = Animated.createAnimatedComponent(Input);
@@ -170,7 +170,7 @@ const CreateUser: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
   const content = allChecksFilled ? (
     <View style={globalStyles.container}>
       <View style={styles.opacityContainer}>
-        <View style = { styles.container }>
+        <View style={styles.container}>
           <Text style={styles.text}>Sign up</Text>
         </View>
         <View style={styles.container}>
