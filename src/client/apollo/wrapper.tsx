@@ -22,10 +22,10 @@ const authLink = setContext(async (_, { headers }) => {
       token = result.token
     }
   }
+  console.log({apollo: token})
   if (!token){
     return {headers}
   }
-  console.log(token)
   return {
     headers: {
       ...headers,
