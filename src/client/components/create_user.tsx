@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { Text, StyleSheet, Animated, ImageBackground, View, Switch } from "react-native";
+import { Text, StyleSheet, Animated, ImageBackground, View, Switch, AsyncStorage } from "react-native";
 import { generateShadow } from "react-native-shadow-generator";
 import { Button, Input } from "react-native-elements";
 import CheckBoxes from "./check_boxes";
@@ -87,20 +87,22 @@ const CreateUser: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
       }
     },
   });
-  const [signIn, { client }] = useMutation(FETCH_TOKEN, {
+  const [signIn] = useMutation(FETCH_TOKEN, {
     variables: { inputPassword: password, inputUsername: username },
     //if succesful cache the data
-    onCompleted: (serverData) => {
-      client.writeQuery({
-        query: gql`
-          query {
-            token
-          }
-        `,
-        data: {
-          token: serverData.authenticate.jwtToken,
-        },
-      });
+    onCompleted: async (serverData) => {
+      console.log(
+        `await AsyncStorage.setItem(
+          'jwt_token',
+          ${serverData.authenticate.jwtToken},
+        );`
+      )
+      try {
+        await AsyncStorage.setItem(
+          'jwt_token',
+          serverData.authenticate.jwtToken,
+        );
+      } catch (error) { console.log(error)}
       refetchUser();
     },
   });

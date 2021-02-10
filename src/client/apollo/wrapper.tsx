@@ -9,22 +9,22 @@ import { WebSocketLink } from "@apollo/client/link/ws";
 import { cache } from "./cache";
 import "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-//init a client with just a cache so that the function doesnt freak out
-var token = ""
-var client = new ApolloClient({cache})
+var token;
 const authLink = setContext(async (_, { headers }) => {
   if (!token) {
-    //fetch query into memory (if not loaded)
-    const result = client.readQuery({query: gql`query{token}`});
-    if (result){
-      token = result.token
-    }
+    try {
+      const value = await AsyncStorage.getItem("jwt_token");
+      console.log({value})
+      if (value !== '') {
+        token = value;
+      }
+    } catch (error) {}
   }
-  if (!token){
-    return {headers}
+  if (!token) {
+    return { headers };
   }
-  console.log(token)
   return {
     headers: {
       ...headers,
