@@ -91,17 +91,19 @@ const CreateUser: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
     variables: { inputPassword: password, inputUsername: username },
     //if succesful cache the data
     onCompleted: (serverData) => {
-      client.writeQuery({
-        query: gql`
-          query {
-            token
-          }
-        `,
-        data: {
-          token: serverData.authenticate.jwtToken,
-        },
-      });
-      refetchUser();
+      if (serverData) {
+        client.writeQuery({
+          query: gql`
+            query {
+              token
+            }
+          `,
+          data: {
+            token: serverData.authenticate.jwtToken,
+          },
+        });
+        refetchUser();
+      }
     },
   });
 

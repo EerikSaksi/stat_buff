@@ -241,4 +241,4 @@ create function create_user(
 begin
   insert into "user"(username, password) values (username, crypt(password, gen_salt('bf')));
 end;
-$$ language plpgsql strict security definer;
+$$ language plpgsql strict stable;

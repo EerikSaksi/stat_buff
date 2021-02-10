@@ -39,7 +39,7 @@ const AppDemo: React.FC<{ refetchUser: () => void; }> = ({ refetchUser}) => {
       </SafeAreaView>
       <SafeAreaView style={styles.view}>
         {width * 0.05 <= scrollOffset && scrollOffset <= width * 1.95 ? (
-          <Suspense fallback={EmptyWidthView}>
+          <Suspense fallback={<EmptyWidthView/>}>
             <AttackingCharacters />
           </Suspense>
         ) : (
@@ -52,7 +52,7 @@ const AppDemo: React.FC<{ refetchUser: () => void; }> = ({ refetchUser}) => {
       </SafeAreaView>
       <View style={styles.view}>
         {1.8 * width  <= scrollOffset ? (
-          <Suspense fallback={EmptyWidthView}>
+          <Suspense fallback={<EmptyWidthView/>}>
             <CreateUser refetchUser={refetchUser} />
           </Suspense>
         ) : (

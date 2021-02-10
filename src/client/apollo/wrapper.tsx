@@ -31,7 +31,9 @@ const authLink = setContext(async (_, { headers }) => {
       authorization: `Bearer ${token}`,
     },
   };
-});
+  
+}
+);
 const wsLink = new WebSocketLink({
   uri: `ws://stat-buff.herokuapp.com/graphql`,
   options: {
