@@ -25,6 +25,7 @@ const authLink = setContext(async (_, { headers }) => {
   if (!token){
     return {headers}
   }
+  console.log(token)
   return {
     headers: {
       ...headers,
