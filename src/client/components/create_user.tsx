@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, Fragment } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Text, StyleSheet, Animated, ImageBackground, View, Switch, AsyncStorage } from "react-native";
 import { generateShadow } from "react-native-shadow-generator";
@@ -172,19 +172,19 @@ const CreateUser: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
   const content = allChecksFilled ? (
     <View style={globalStyles.container}>
       <View style={styles.opacityContainer}>
-        <View style = { styles.container }>
+        <View style={styles.container}>
           <Text style={styles.text}>Sign up</Text>
         </View>
         <View style={styles.container}>
-          <Switch style={{ opacity: 0.8 }} value={signingIn} onValueChange={(v) => setSigningIn(v)} trackColor={{ false: "white", true: "white" }} thumbColor="royalblue" />
+          <Switch style={{ opacity: 0.8 }} value={signingIn} onValueChange={(v) => setSigningIn(v)} trackColor={{ false: "white", true: "white" }} thumbColor="royalblue" ios_backgroundColor = {'white'} />
         </View>
         <View style={styles.container}>
           <Text style={styles.text}>Sign in</Text>
         </View>
       </View>
-      <Text style={styles.text}>{error}</Text>
-      <AnimatedInput style={{ backgroundColor, opacity: 0.8 }} ref={ref} value={username} placeholder="Username" onChangeText={(e) => setUsername(e)} />
-      <AnimatedInput style={{ backgroundColor: passwordBackgroundColor, opacity: 0.8 }} value={password} placeholder="Password" onChangeText={(e) => setPassword(e)} secureTextEntry={true} />
+      <Text style={styles.text}>{signingIn ? '' : error}</Text>
+      <AnimatedInput style={{ backgroundColor, opacity: 0.8 }} ref={ref} value={username} placeholder="Username" onChangeText={(e) => setUsername(e)} autoCapitalize = {"none"} />
+      <AnimatedInput style={{ backgroundColor: passwordBackgroundColor, opacity: 0.8 }} value={password} placeholder="Password" onChangeText={(e) => setPassword(e)} secureTextEntry={true} autoCapitalize = {"none"} />
       <Button title={`Sign ${signingIn ? "in" : "up"}`} disabled={(error.length !== 0 && !signingIn) || username.length === 0 || password.length === 0} onPress={submit} />
     </View>
   ) : (
