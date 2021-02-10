@@ -38,6 +38,7 @@ var styles = StyleSheet.create({
   text: {
     color: "white",
     marginBottom: "2%",
+    fontSize: 18,
   },
   image: {
     flex: 1,
@@ -47,6 +48,16 @@ var styles = StyleSheet.create({
   imageBackground: {
     zIndex: -1,
   },
+  opacityContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    opacity: 0.8,
+  },
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
+  }
 });
 
 const AnimatedInput = Animated.createAnimatedComponent(Input);
@@ -118,9 +129,8 @@ const CreateUser: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
   const submit = async () => {
     if (!signingIn && error.length === 0 && username.length !== 0) {
       createUser();
-    }
-    else if (signingIn){
-      signIn()
+    } else if (signingIn) {
+      signIn();
     }
   };
   useEffect(() => {
@@ -159,19 +169,21 @@ const CreateUser: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
 
   const content = allChecksFilled ? (
     <View style={globalStyles.container}>
-      <View style={{ justifyContent: "center", alignItems: "center", flexDirection: "row" }}>
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
+      <View style={styles.opacityContainer}>
+        <View style = { styles.container }>
           <Text style={styles.text}>Sign up</Text>
         </View>
-        <Switch style={{ opacity: 0.8 }} value={signingIn} onValueChange={(v) => setSigningIn(v)} trackColor={{ false: "white", true: "white" }} thumbColor="royalblue" />
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
+        <View style={styles.container}>
+          <Switch style={{ opacity: 0.8 }} value={signingIn} onValueChange={(v) => setSigningIn(v)} trackColor={{ false: "white", true: "white" }} thumbColor="royalblue" />
+        </View>
+        <View style={styles.container}>
           <Text style={styles.text}>Sign in</Text>
         </View>
       </View>
       <Text style={styles.text}>{error}</Text>
       <AnimatedInput style={{ backgroundColor, opacity: 0.8 }} ref={ref} value={username} placeholder="Username" onChangeText={(e) => setUsername(e)} />
       <AnimatedInput style={{ backgroundColor: passwordBackgroundColor, opacity: 0.8 }} value={password} placeholder="Password" onChangeText={(e) => setPassword(e)} secureTextEntry={true} />
-      <Button title={`Sign ${signingIn? "in" : "up"}`} disabled={(error.length !== 0 && !signingIn) || username.length === 0 || password.length === 0} onPress={submit} />
+      <Button title={`Sign ${signingIn ? "in" : "up"}`} disabled={(error.length !== 0 && !signingIn) || username.length === 0 || password.length === 0} onPress={submit} />
     </View>
   ) : (
     <CheckBoxes setAllChecksFilled={setAllChecksFilled} />
