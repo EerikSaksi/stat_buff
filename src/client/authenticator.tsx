@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useEffect, Suspense } from "react";
 import { gql, useLazyQuery } from "@apollo/client";
 import Loading from "./util_components/loading";
 import AsyncStorage from "@react-native-async-storage/async-storage";
