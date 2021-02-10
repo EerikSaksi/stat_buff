@@ -38,6 +38,7 @@ var styles = StyleSheet.create({
   text: {
     color: "white",
     marginBottom: "2%",
+    backgroundColor: 'black'
   },
   image: {
     flex: 1,

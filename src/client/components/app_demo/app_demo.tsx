@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, View, Dimensions, TouchableOpacity } from "reac
 import AttackingCharacters from "./attacking_characters";
 import CreateUser from "../create_user";
 import { Ionicons } from "@expo/vector-icons";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from "react-native-safe-area-context";
 const StrongerCharacter = React.lazy(() => import("./stronger_character"));
 const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
 });
 const EmptyWidthView = () => <View style={styles.view} />;
-const AppDemo: React.FC<{ refetchUser: () => void; }> = ({ refetchUser}) => {
+const AppDemo: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
   const [scrollOffset, setScrollOffset] = useState(0);
   const scrollViewRef = useRef<ScrollView | null>(null);
   return (
@@ -30,34 +30,7 @@ const AppDemo: React.FC<{ refetchUser: () => void; }> = ({ refetchUser}) => {
       snapToAlignment={"center"}
       persistentScrollbar
     >
-      <SafeAreaView style={styles.view}>
-        <StrongerCharacter inView={scrollOffset < width} />
-        <TouchableOpacity style={styles.arrow} onPress={() => scrollViewRef?.current?.scrollTo({ x: scrollOffset + width, animated: true })}>
-          <Ionicons size={40} name="arrow-forward-sharp" />
-        </TouchableOpacity>
-      </SafeAreaView>
-      <SafeAreaView style={styles.view}>
-        {width * 0.05 <= scrollOffset && scrollOffset <= width * 1.95 ? (
-          <Suspense fallback={EmptyWidthView}>
-            <AttackingCharacters />
-          </Suspense>
-        ) : (
-          <EmptyWidthView/>
-        )}
-
-        <TouchableOpacity style={styles.arrow} onPress={() => scrollViewRef?.current?.scrollTo({ x: scrollOffset + width, animated: true })}>
-          <Ionicons size={40} name="arrow-forward-sharp" />
-        </TouchableOpacity>
-      </SafeAreaView>
-      <View style={styles.view}>
-        {1.8 * width  <= scrollOffset ? (
-          <Suspense fallback={EmptyWidthView}>
-            <CreateUser refetchUser={refetchUser} />
-          </Suspense>
-        ) : (
-          <EmptyWidthView/>
-        )}
-      </View>
+      <CreateUser refetchUser={refetchUser} />
     </ScrollView>
   );
 };
