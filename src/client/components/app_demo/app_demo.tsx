@@ -30,7 +30,9 @@ const AppDemo: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
       snapToAlignment={"center"}
       persistentScrollbar
     >
-      <CreateUser refetchUser={refetchUser} />
+      <View style={styles.view}>
+        <CreateUser refetchUser={refetchUser} />
+      </View>
     </ScrollView>
   );
 };
