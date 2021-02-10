@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, Fragment } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Text, StyleSheet, Animated, ImageBackground, View, Switch } from "react-native";
 import { generateShadow } from "react-native-shadow-generator";
-import { Button, Input, Switch} from "react-native-elements";
+import { Button, Input} from "react-native-elements";
 import CheckBoxes from "./check_boxes";
 import globalStyles from "../style/global";
 const CREATE_USER = gql`
