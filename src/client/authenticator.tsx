@@ -22,6 +22,7 @@ export default function Authenticator() {
   if (!data) {
     return null;
   }
+  console.log({data})
   if (!data.activeUser) {
     return (
       <Suspense fallback={<Loading />}>
