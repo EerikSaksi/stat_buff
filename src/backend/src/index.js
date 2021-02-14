@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors')
+const path = require('path')
 const {postgraphile, makePluginHook} = require('postgraphile');
 const MyPlugins = require('./postgraphile_plugins')
 const PostGraphileConnectionFilterPlugin = require('postgraphile-plugin-connection-filter');
@@ -30,6 +31,11 @@ const postgraphileOptions = {
   ownerConnectionString: "postgres://eerik:Postgrizzly@localhost:5432/rpgym"
 }
 const app = express();
+app.use(express.static(path.join(__dirname, 'public')));
+app.get('/ethics', (req, res) => {
+  //res.send('hello world');
+  res.sendFile(path.join(__dirname,  'public', 'index.html'));
+});
 app.use(cors());
 (async () => {
   await run_all_sql_scripts()
