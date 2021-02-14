@@ -4,7 +4,7 @@ import { gql, useMutation } from "@apollo/client";
 import { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Card, Checkbox, Grid, Input, Typography } from "@material-ui/core";
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation, useParams, useHistory} from "react-router-dom";
 
 const CREATE_SIGNED_ETHICS_SHEET = gql`
   mutation ($username: String!){
@@ -72,11 +72,13 @@ const ethicsGuidelines = [
 function App() {
   const [username, setUsername] = useState("");
   const params = useParams<{username: string}>()
+  const history = useHistory()
   const [checkboxState, setCheckboxState] = useState(new Array(ethicsGuidelines.length).fill(false));
   const classes = useStyles();
   const [createSignedEthicsSheet,] = useMutation(CREATE_SIGNED_ETHICS_SHEET, {
     variables: { username },
     onCompleted: () => {
+      history.push('/success')
     }
   });
   useEffect(() => {
@@ -129,7 +131,7 @@ function App() {
       ))}
       <Grid style={{ paddingBottom: 50 }} className={classes.grid} container justify="center" alignItems="center">
         <Card className={classes.card}>
-          <Button onClick= {() => createSignedEthicsSheet()} disabled={!agreed} color="primary" variant="contained">
+          <Button onClick= {() => createSignedEthicsSheet()} disabled={!agreed || !username.length} color="primary" variant="contained">
             Submit ethics consent form
           </Button>
         </Card>
