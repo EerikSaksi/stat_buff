@@ -68,7 +68,7 @@ const ethicsGuidelines = [
     buttonText: "I am over 18",
   },
 ];
-function content() {
+function App() {
   const [username, setUsername] = useState("");
   const [checkboxState, setCheckboxState] = useState(new Array(ethicsGuidelines.length).fill(false));
   const classes = useStyles();
@@ -131,4 +131,4 @@ function content() {
   );
 }
 
-export default content;
+export default App;
