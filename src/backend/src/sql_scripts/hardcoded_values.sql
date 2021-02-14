@@ -1,3 +1,8 @@
+insert into "signed_ethics_sheet"(username) values('orek');
+insert into "signed_ethics_sheet"(username) values('eerik');
+insert into "signed_ethics_sheet"(username) values('private_team_creator');
+insert into "signed_ethics_sheet"(username) values('no team');
+insert into "signed_ethics_sheet"(username) values('Event Notice');
 select create_user('orek', 'uh oh');
 select create_user('eerik', 'stinky');
 select create_user('private_team_creator', 'private_team_creator');
