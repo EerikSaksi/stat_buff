@@ -38,7 +38,6 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname,  'public', 'index.html'));
 });
 (async () => {
-  await run_all_sql_scripts()
   app.use(postgraphile(process.env.DATABASE_USER_URL, postgraphileOptions));
 })();
 app.listen(process.env.PORT || 4000);
