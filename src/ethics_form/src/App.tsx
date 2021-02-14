@@ -4,7 +4,7 @@ import { gql, useMutation } from "@apollo/client";
 import { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Card, Checkbox, Grid, Input, Typography } from "@material-ui/core";
-import {useLocation, useParams, useHistory} from "react-router-dom";
+import {useParams} from "react-router-dom";
 
 const CREATE_SIGNED_ETHICS_SHEET = gql`
   mutation ($username: String!){
