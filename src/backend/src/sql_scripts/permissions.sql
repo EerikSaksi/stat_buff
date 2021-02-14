@@ -100,3 +100,9 @@ CREATE POLICY session_analytics_update ON "session_analytics" FOR update to quer
 CREATE POLICY session_analytics_delete ON "session_analytics" FOR delete to query_sender USING (username = (select username from active_user()));
 CREATE POLICY session_analytics_create ON "session_analytics" FOR insert to query_sender with check (username = (select username from active_user()));
 CREATE POLICY session_analytics_select ON "session_analytics" FOR select to query_sender using (username = (select username from active_user()));
+
+--no validation for selection or creation as this is done before the user registers, but we can limit updates and deletes
+CREATE POLICY session_analytics_update ON "session_analytics" FOR update to query_sender USING (false);
+CREATE POLICY session_analytics_delete ON "session_analytics" FOR delete to query_sender USING (false);
+CREATE POLICY session_analytics_create ON "session_analytics" FOR insert to query_sender with check (true);
+CREATE POLICY session_analytics_select ON "session_analytics" FOR select to query_sender using (true);
