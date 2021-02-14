@@ -18,7 +18,7 @@ export default function Authenticator() {
   const [refetchUser, { data }] = useLazyQuery(USERNAME, {
     onCompleted: async (data) => {
       if (!data.activeUser) {
-        console.log(`await AsyncStorage.setItem("jwt_token", '');`);
+        console.log(`await AsyncStorage.setItem("jwt_token", '';`);
         try {
           await AsyncStorage.setItem("jwt_token", "");
         } catch (error) {

@@ -16,7 +16,6 @@ const authLink = setContext(async (_, { headers }) => {
   if (!token) {
     try {
       const value = await AsyncStorage.getItem("jwt_token");
-      console.log({value})
       if (value !== '') {
         token = value;
       }
@@ -64,7 +63,7 @@ const options: ApolloClientOptions<unknown> = {
     },
   },
 };
-client = new ApolloClient(options);
+const client = new ApolloClient(options);
 const index: React.FC = () => (
   <ApolloProvider client={client}>
     <SafeAreaProvider>

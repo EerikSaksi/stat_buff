@@ -8,9 +8,6 @@ const UrlRouter: React.FC = () => (
       <Route path="/:username">
         <App/>
       </Route>
-      <Route path="/success">
-        <Success/>
-      </Route>
     </Switch>
   </BrowserRouter>
 );

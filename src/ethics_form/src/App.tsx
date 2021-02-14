@@ -70,15 +70,14 @@ const ethicsGuidelines = [
   },
 ];
 function App() {
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("asdfasdf");
   const params = useParams<{username: string}>()
-  const history = useHistory()
-  const [checkboxState, setCheckboxState] = useState(new Array(ethicsGuidelines.length).fill(false));
+  const [checkboxState, setCheckboxState] = useState(new Array(ethicsGuidelines.length).fill(true));
   const classes = useStyles();
   const [createSignedEthicsSheet,] = useMutation(CREATE_SIGNED_ETHICS_SHEET, {
     variables: { username },
     onCompleted: () => {
-      history.push('/success')
+      window.location.replace("exp://192.168.8.107:19000");
     }
   });
   useEffect(() => {
