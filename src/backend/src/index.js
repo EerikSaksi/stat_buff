@@ -1,9 +1,12 @@
 const express = require('express');
+const cors = require('cors')
+const path = require('path')
 const {postgraphile, makePluginHook} = require('postgraphile');
 const MyPlugins = require('./postgraphile_plugins')
 const PostGraphileConnectionFilterPlugin = require('postgraphile-plugin-connection-filter');
 const run_all_sql_scripts = require('./sql_scripts/call_sql_scripts')
 const { default: PgPubsub } = require("@graphile/pg-pubsub"); 
+require('dotenv').config({path: '../.env'})
 const pluginHook = makePluginHook([PgPubsub]);
 const postgraphileOptions = {
   pluginHook,
@@ -28,6 +31,12 @@ const postgraphileOptions = {
   jwtSecret: process.env.JWT_SECRET,
 }
 const app = express();
+app.use(cors());
+app.use(express.static(path.join(__dirname, 'public')));
+app.get('*', (req, res) => {
+  //res.send('hello world');
+  res.sendFile(path.join(__dirname,  'public', 'index.html'));
+});
 (async () => {
   await run_all_sql_scripts()
   app.use(postgraphile(process.env.DATABASE_USER_URL, postgraphileOptions));
