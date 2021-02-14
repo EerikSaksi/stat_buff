@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "fontsource-roboto";
 import { gql, useMutation } from "@apollo/client";
 import { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Card, Checkbox, Grid, Input, Typography } from "@material-ui/core";
+import {useParams} from "react-router-dom";
 
 const CREATE_SIGNED_ETHICS_SHEET = gql`
   mutation ($username: String!){
@@ -69,7 +70,13 @@ const ethicsGuidelines = [
   },
 ];
 function App() {
+  const params = useParams<{username: string | undefined}>()
   const [username, setUsername] = useState("");
+  useEffect(() => {
+    if (params && params.username){
+      setUsername(params.username)
+    }
+  }, [params])
   const [checkboxState, setCheckboxState] = useState(new Array(ethicsGuidelines.length).fill(false));
   const classes = useStyles();
   const [createSignedEthicsSheet,] = useMutation(CREATE_SIGNED_ETHICS_SHEET, {
