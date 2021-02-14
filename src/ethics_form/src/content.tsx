@@ -72,6 +72,7 @@ const ethicsGuidelines = [
 function App() {
   const params = useParams<{username: string | undefined}>()
   const [username, setUsername] = useState("");
+  console.log(params)
   useEffect(() => {
     if (params && params.username){
       setUsername(params.username)

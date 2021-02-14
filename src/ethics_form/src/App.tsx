@@ -5,7 +5,7 @@ import { createBrowserHistory } from "history";
 const App: React.FC = () => (
   <Router history = {createBrowserHistory()}>
     <Switch>
-      <Route path="/ethics">
+      <Route path="/ethics/:username">
         <Content />
       </Route>
     </Switch>
