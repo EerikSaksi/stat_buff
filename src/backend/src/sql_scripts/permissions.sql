@@ -102,7 +102,7 @@ CREATE POLICY session_analytics_create ON "session_analytics" FOR insert to quer
 CREATE POLICY session_analytics_select ON "session_analytics" FOR select to query_sender using (username = (select username from active_user()));
 
 --no validation for selection or creation as this is done before the user registers, but we can limit updates and deletes
-CREATE POLICY session_analytics_update ON "session_analytics" FOR update to query_sender USING (false);
-CREATE POLICY session_analytics_delete ON "session_analytics" FOR delete to query_sender USING (false);
-CREATE POLICY session_analytics_create ON "session_analytics" FOR insert to query_sender with check (true);
-CREATE POLICY session_analytics_select ON "session_analytics" FOR select to query_sender using (true);
+CREATE POLICY signed_ethics_sheet_update ON "signed_ethics_sheet" FOR update to query_sender USING (false);
+CREATE POLICY signed_ethics_sheet_delete ON "signed_ethics_sheet" FOR delete to query_sender USING (false);
+CREATE POLICY signed_ethics_sheet_create ON "signed_ethics_sheet" FOR insert to query_sender with check (true);
+CREATE POLICY signed_ethics_sheet_select ON "signed_ethics_sheet" FOR select to query_sender using (true);
