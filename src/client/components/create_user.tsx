@@ -233,4 +233,5 @@ const CreateUser: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
     </ImageBackground>
   );
 };
+
 export default CreateUser;
