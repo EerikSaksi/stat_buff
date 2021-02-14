@@ -465,5 +465,24 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 # 1 February (5 hours)
 - Finally got the developer account working, finalizing build. Was doing a final test and realized a before fixed feature is still broken
 
+# 3 February (3 hours)
+- Submitted build to Apple finallt
+
+# 5 February (4 hours)
+- Received feedback: Apple wanted more information about my project, aswell as Apple sign in since I use Google sign in
+
+# 8 February (2 hours)
+- Issues with Apple sign in. I decided with my supervisor that I should prioritize the dissertation more, and set a deadline for when the project needs to be finished
+
+# 9 February (7 hours)
+- Decided it would be easier to implement auth myself (as PostGraphile has built in support for JWT tokens). Implemented this server side, still need to get this working client side
+
+# 10 February (4 hours)
+- Implemented auth client side 
+
+# 11 February (2 hours)
+- Apple was happy with my description of the study, but failed to sign in. I realized that this was because my server restarts every day on Heroku, and I left a script that drops and restarts the database (for dev purposes) so the test account I created for them didn't work.
+
+
 
 

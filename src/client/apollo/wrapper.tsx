@@ -16,8 +16,7 @@ const authLink = setContext(async (_, { headers }) => {
   if (!token) {
     try {
       const value = await AsyncStorage.getItem("jwt_token");
-      console.log({ value });
-      if (value !== "") {
+      if (value !== '') {
         token = value;
       }
     } catch (error) {}

@@ -9,8 +9,12 @@ create table "group" (
   is_password_protected boolean GENERATED ALWAYS as (password is not null) stored
 );
 
+create table "signed_ethics_sheet" (
+  username varchar(32) primary key not null
+);
+
 create table "user" (
-  username varchar(32) primary key not null,
+  username varchar(32) primary key not null references "signed_ethics_sheet" on delete cascade,
   password TEXT,
   groupName varchar(32) REFERENCES "group" ON DELETE set null,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -18,6 +22,7 @@ create table "user" (
 );
 
 CREATE INDEX ON "user" (groupName);
+
 
 alter table "group"
 add column creator_username varchar(32) REFERENCES "user" ON DELETE set null;

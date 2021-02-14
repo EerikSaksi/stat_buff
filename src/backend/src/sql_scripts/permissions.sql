@@ -11,6 +11,7 @@ grant all on table "battle" to query_sender;
 grant all on table "workout" to query_sender;
 grant all on table "chat_message" to query_sender;
 grant all on table "session_analytics" to query_sender;
+grant all on table "signed_ethics_sheet" to query_sender;
 
 --these are necessary for auto increment ids to work
 GRANT USAGE, SELECT ON SEQUENCE workout_id_seq TO query_sender;
