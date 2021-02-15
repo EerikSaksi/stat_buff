@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "cd ./ethics_form; npm run build; mv build ../public; node src/index.js"
   },
   "author": "",
   "license": "ISC",
