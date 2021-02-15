@@ -70,7 +70,7 @@ const ethicsGuidelines = [
   },
 ];
 function App() {
-  const [username, setUsername] = useState("asdfasdf");
+  const [username, setUsername] = useState("");
   const params = useParams<{username: string}>()
   const [checkboxState, setCheckboxState] = useState(new Array(ethicsGuidelines.length).fill(true));
   const classes = useStyles();
