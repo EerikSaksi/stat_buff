@@ -94,8 +94,6 @@ CREATE POLICY session_analytics_delete ON "session_analytics" FOR delete to quer
 CREATE POLICY session_analytics_create ON "session_analytics" FOR insert to query_sender with check (username = (select username from active_user()));
 CREATE POLICY session_analytics_select ON "session_analytics" FOR select to query_sender using (username = (select username from active_user()));
 
-
---analytics are just out of reach for everyone but the user themselves
 CREATE POLICY signed_ethics_sheet_update ON "signed_ethics_sheet" FOR update to query_sender USING (false);
 CREATE POLICY signed_ethics_sheet_delete ON "signed_ethics_sheet" FOR delete to query_sender USING (false);
 CREATE POLICY signed_ethics_sheet_create ON "signed_ethics_sheet" FOR insert to query_sender with check (true);
