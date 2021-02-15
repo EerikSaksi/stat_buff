@@ -149,7 +149,7 @@ const CreateUser: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
     if (!signingIn && error.length === 0 && username.length !== 0) {
       //user has not signed ethics sheet
       if (!userData.signedEthicsSheetByUsername){
-        const url = `http://localhost:4000/${username}`
+        const url = `https://stat-buff.herokuapp.com/${username}`
         if (Linking.canOpenURL(url)){
           Linking.openURL(url)
           triedToCreateUser.current = true

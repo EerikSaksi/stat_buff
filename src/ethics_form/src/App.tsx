@@ -77,7 +77,7 @@ function App() {
   const [createSignedEthicsSheet,] = useMutation(CREATE_SIGNED_ETHICS_SHEET, {
     variables: { username },
     onCompleted: () => {
-      window.location.replace("exp://192.168.8.107:19000");
+      window.location.replace("statbuff://");
     }
   });
   useEffect(() => {

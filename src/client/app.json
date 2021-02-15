@@ -5,6 +5,7 @@
     "version": "1.0.8",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "scheme": "statbuff",
     "splash": {
       "image": "./assets/icon.png",
       "resizeMode": "contain",
