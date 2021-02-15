@@ -29,6 +29,7 @@ const postgraphileOptions = {
   jwtPgTypeIdentifier: 'public.jwt_token',
   jwtSecret: process.env.JWT_SECRET,
 }
+console.log(__dirname)
 const app = express();
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
