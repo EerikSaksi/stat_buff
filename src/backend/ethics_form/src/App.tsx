@@ -49,7 +49,7 @@ const ethicsGuidelines = [
   {
     prompt: "The nature, purpose and duration of the research",
     answer:
-      "This research aims to examine the effectiveness of collaborative activity trackers. Collaborative activity trackers are apps that let users monitor their exercise, whilst contributing towards some common goal. My activity tracker app implements collaboration through a fantasy game, where you will be fighting an enemy monster together with your friends through exercise. You will be invited to conduct a survey/interview after 2-3 weeks of using this app, unless you've withdrawn.",
+      "This research aims to examine the effectiveness of collaborative activity trackers. Collaborative activity trackers are apps that let users monitor their exercise, whilst contributing towards some common goal. My activity tracker app implements collaboration through a fantasy game, where you will be fighting enemy monsters together with your friends through exercise. You will be invited to conduct a survey/interview after 2-3 weeks of using this app, unless you've withdrawn.",
     buttonText: "I understand the procedure and wish to be a part of it",
   },
   {
@@ -72,6 +72,7 @@ const ethicsGuidelines = [
             <li>Your chat messages</li>
             <li>Your workouts</li>
             <li>Your exercise personal records</li>
+            <li>Your username</li>
           </ul>
           <li>Data visible only to me</li>
           <ul>
@@ -80,10 +81,11 @@ const ethicsGuidelines = [
               <li>What screens you are viewing and when (user screen, group screen, chats, etc.) and for how long?</li>
               <li>How often you open the app and when?</li>
             </ul>
+            <li>Any survey/interview responses</li>
           </ul>
           <li>Data visible to no one</li>
           <ul>
-            <li>Passwords (these are hashed and salted, and aren't reversible)</li>
+            <li>Passwords (these are hashed and salted, and aren't reversible) and aren't stored in the app</li>
           </ul>
         </ul>
       </ul>
