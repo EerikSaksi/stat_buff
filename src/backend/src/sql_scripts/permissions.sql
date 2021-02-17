@@ -68,7 +68,7 @@ create policy bodystats_all on "bodystat" FOR all to query_sender using (usernam
 CREATE POLICY user_exercise_update ON "user_exercise" FOR update to query_sender USING (username = (select username from active_user()));
 CREATE POLICY user_exercise_delete ON "user_exercise" FOR delete to query_sender USING (username = (select username from active_user()));
 CREATE POLICY user_exercise_create ON "user_exercise" FOR insert to query_sender with check (username = (select username from active_user()));
-CREATE POLICY user_exercise_select ON "user_exercise" FOR select to query_sender using (true);
+CREATE POLICY user_exercise_select ON "user_exercise" FOR select to query_sender using (groupName = (select groupName from active_user()));
 
 --only members of the group can update the state of the battle. Much like group updates, battle mutations are disabled as we don't want a malicious actor setting enemy health manually.
 CREATE POLICY battle_update ON "battle" FOR update to query_sender USING (groupName = (select groupName from active_user()));
@@ -76,11 +76,10 @@ CREATE POLICY battle_delete ON "battle" FOR delete to query_sender USING (groupN
 CREATE POLICY battle_create ON "battle" FOR insert to query_sender with check (groupName = (select groupName from active_user()));
 CREATE POLICY battle_select ON "battle" FOR select to query_sender using (true);
 
---much like user_exercise, only the user can mutate these, but these are visible to everyone
 CREATE POLICY workout_update ON "workout" FOR update to query_sender USING (username = (select username from active_user()));
 CREATE POLICY workout_delete ON "workout" FOR delete to query_sender USING (username = (select username from active_user()));
-CREATE POLICY workout_create ON "workout" FOR insert to query_sender with check (true);
-CREATE POLICY workout_select ON "workout" FOR select to query_sender using (true);
+CREATE POLICY workout_create ON "workout" FOR insert to query_sender with check (username = (select username from active_user()));
+CREATE POLICY workout_select ON "workout" FOR select to query_sender using (groupName = (select groupName from active_user()));
 
 --chat messages are only between groups, but only the user themselves can edit them
 CREATE POLICY chat_message_update ON "chat_message" FOR update to query_sender USING (username = (select username from active_user()));
