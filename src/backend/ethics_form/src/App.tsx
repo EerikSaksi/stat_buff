@@ -1,14 +1,14 @@
-import React, {useEffect}  from "react";
+import React, { useEffect } from "react";
 import "fontsource-roboto";
 import { gql, useMutation } from "@apollo/client";
 import { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Card, Checkbox, Grid, Input, Typography } from "@material-ui/core";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const CREATE_SIGNED_ETHICS_SHEET = gql`
-  mutation ($username: String!){
-    createSignedEthicsSheet(input: { signedEthicsSheet: { username: $username} }) {
+  mutation($username: String!) {
+    createSignedEthicsSheet(input: { signedEthicsSheet: { username: $username } }) {
       signedEthicsSheet {
         username
       }
@@ -54,14 +54,30 @@ const ethicsGuidelines = [
   {
     prompt: "Procedures, risks, and benefits to the participants",
     answer:
-      "By using this app you will track workouts and exercise performance. This app can be motivating to exercise, and motivate you to make change to your exercise habits. You should remember that exercise has inherent risks, and to mitigate this, you should conduct research from credible sources and/or consult a medical professional before making changes to my exercise habits.",
+      "By using this app you will track workouts and exercise performance. This app can be motivating to exercise, and motivate you to make change to your exercise habits. You should remember that exercise has inherent risks, and to mitigate this, you should conduct research from credible sources and/or consult a medical professional before making changes to your exercise habits.",
     buttonText: "I understand and will mitigate any risks",
   },
   {
     prompt: "Information about confidentiality and handling of data (including any sharing with third parties)",
     answer:
-      "Your app usage data and survey/interview answers will be used as a part of the study. You can request the deletion of your data and withdraw at any time, and ask any questions by emailing saksi.eerik@gmail.com. Your data is NOT shared with any third parties.",
-    buttonText: "I consent with my data being used and understand the withdrawal process",
+      "You can request the deletion of your data and withdraw at any time, and ask any questions by emailing saksi.eerik@gmail.com. Your data is NOT shared with any third parties. A user needs to be authenticated to make changes to their data.",
+    buttonText: "Data visibility policies",
+    answerBulletPoints: (
+      <ul>
+        <li>Data visibility policies</li>
+        <ul>
+          <li>Data visible to me and your group</li>
+          <ul>
+            <li>Your chat messages</li>
+            <li>Your workouts</li>
+            <li>Your exercise personal records</li>
+          </ul>
+          <ul>
+            <li>Data visible to me and your group</li>
+          </ul>
+        </ul>
+      </ul>
+    ),
   },
   {
     prompt: "Age policy",
@@ -71,20 +87,20 @@ const ethicsGuidelines = [
 ];
 function App() {
   const [username, setUsername] = useState("");
-  const params = useParams<{username: string}>()
+  const params = useParams<{ username: string }>();
   const [checkboxState, setCheckboxState] = useState(new Array(ethicsGuidelines.length).fill(true));
   const classes = useStyles();
-  const [createSignedEthicsSheet,] = useMutation(CREATE_SIGNED_ETHICS_SHEET, {
+  const [createSignedEthicsSheet] = useMutation(CREATE_SIGNED_ETHICS_SHEET, {
     variables: { username },
     onCompleted: () => {
       window.location.replace("exp://192.168.8.107:19000");
-    }
+    },
   });
   useEffect(() => {
-    if (params && params.username){
-      setUsername(params.username)
+    if (params && params.username) {
+      setUsername(params.username);
     }
-  }, [params])
+  }, [params]);
   const agreed = checkboxState.every((check) => check);
   return (
     <div className={classes.root}>
@@ -98,7 +114,7 @@ function App() {
       </Grid>
 
       {ethicsGuidelines.map((guideline, index) => (
-        <Grid key = {index} className={classes.grid} container justify="center" alignItems="center">
+        <Grid key={index} className={classes.grid} container justify="center" alignItems="center">
           <Card className={classes.card}>
             <Grid container justify="center" alignItems="center">
               <Typography className={classes.text} variant="h4">
@@ -130,7 +146,7 @@ function App() {
       ))}
       <Grid style={{ paddingBottom: 50 }} className={classes.grid} container justify="center" alignItems="center">
         <Card className={classes.card}>
-          <Button onClick= {() => createSignedEthicsSheet()} disabled={!agreed || !username.length} color="primary" variant="contained">
+          <Button onClick={() => createSignedEthicsSheet()} disabled={!agreed || !username.length} color="primary" variant="contained">
             Submit ethics consent form
           </Button>
         </Card>
