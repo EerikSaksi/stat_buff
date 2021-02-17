@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
   card: {
     boxShadow: theme.shadows[24],
     backgroundColor: "rgba(255, 255, 255, 0.6)",
+    padding: theme.spacing(2)
   },
   grid: {
     padding: 50,
@@ -48,7 +49,7 @@ const ethicsGuidelines = [
   {
     prompt: "The nature, purpose and duration of the research",
     answer:
-      "This research aims to examine the effectiveness of collaborative activity trackers. Collaborative activity trackers are apps that let users monitor their exercise, whilst contributing towards some common goal. My activity tracker app implements collaboration through a fantasy game, which you will using in order to test the effectiveness of collaborative activity trackers, and my implementation of it. You will be invited to conduct a survey/interview after 2-3 weeks of using this app, unless you've withdrawn.",
+      "This research aims to examine the effectiveness of collaborative activity trackers. Collaborative activity trackers are apps that let users monitor their exercise, whilst contributing towards some common goal. My activity tracker app implements collaboration through a fantasy game, where you will be fighting an enemy monster together with your friends through exercise. You will be invited to conduct a survey/interview after 2-3 weeks of using this app, unless you've withdrawn.",
     buttonText: "I understand the procedure and wish to be a part of it",
   },
   {
@@ -60,7 +61,7 @@ const ethicsGuidelines = [
   {
     prompt: "Information about confidentiality and handling of data (including any sharing with third parties)",
     answer:
-      "You can request the deletion of your data and withdraw at any time, and ask any questions by emailing saksi.eerik@gmail.com. Your data is NOT shared with any third parties. A user needs to be authenticated to make changes to their data.",
+      "You can request the deletion of your data and withdraw from the study at any time, and ask any questions by emailing saksi.eerik@gmail.com. Your data is NOT shared with any third parties. A user needs to be authenticated to make changes to their data.",
     buttonText: "I consent to how my data is used, and that I can withdraw my consent at any time",
     answerBulletPoints: (
       <ul style = { { fontSize: 20} }>
@@ -115,7 +116,7 @@ function App() {
     <div className={classes.root}>
       <Grid className={classes.grid} container justify="center" alignItems="center">
         <Card style={{ padding: 20 }} className={classes.card}>
-          <Typography>The username that you wish to use with Stat Buff</Typography>
+          <Typography className = {classes.text}>The username that you wish to use with Stat Buff</Typography>
           <Grid container justify="center" alignItems="center">
             <Input value={username} onChange={({ target }) => setUsername(target.value)} placeholder="Username" />
           </Grid>
@@ -125,18 +126,17 @@ function App() {
       {ethicsGuidelines.map((guideline, index) => (
         <Grid key={index} className={classes.grid} container justify="center" alignItems="center">
           <Card className={classes.card}>
-            <Grid container justify="flex-start" alignItems="center">
-              <Typography className={classes.text} variant="h4">
+              <Typography className = {classes.text} variant="h4">
                 {guideline.prompt}
               </Typography>
-            </Grid>
             <Grid container justify="flex-start" alignItems="center">
-              <Typography className={classes.text} variant="h5">
+              <Typography  variant="h5">
                 {guideline.answer}
               </Typography>
             </Grid>
+
+            {guideline.answerBulletPoints}
             <Grid className={classes.checkboxGrid} container justify="center" alignItems="center">
-              {guideline.answerBulletPoints}
               <Grid className={classes.checkboxGrid} container justify="center" alignItems="center" direction="row" >
                 <Typography className={classes.text} variant="h5">
                   {guideline.buttonText}
@@ -157,7 +157,7 @@ function App() {
         </Grid>
       ))}
       <Grid style={{ paddingBottom: 50 }} className={classes.grid} container justify="center" alignItems="center">
-        <Card className={classes.card}>
+        <Card >
           <Button onClick={() => createSignedEthicsSheet()} disabled={!agreed || !username.length} color="primary" variant="contained">
             Submit ethics consent form
           </Button>
