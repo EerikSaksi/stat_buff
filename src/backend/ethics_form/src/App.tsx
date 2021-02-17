@@ -61,9 +61,9 @@ const ethicsGuidelines = [
     prompt: "Information about confidentiality and handling of data (including any sharing with third parties)",
     answer:
       "You can request the deletion of your data and withdraw at any time, and ask any questions by emailing saksi.eerik@gmail.com. Your data is NOT shared with any third parties. A user needs to be authenticated to make changes to their data.",
-    buttonText: "Data visibility policies",
+    buttonText: "I consent to how my data is used, and that I can withdraw my consent at any time",
     answerBulletPoints: (
-      <ul>
+      <ul style = { { fontSize: 20} }>
         <li>Data visibility policies</li>
         <ul>
           <li>Data visible to me and your group</li>
@@ -72,8 +72,17 @@ const ethicsGuidelines = [
             <li>Your workouts</li>
             <li>Your exercise personal records</li>
           </ul>
+          <li>Data visible only to me</li>
           <ul>
-            <li>Data visible to me and your group</li>
+            <li>Analytics data</li>
+            <ul>
+              <li>What screens you are viewing and when (user screen, group screen, chats, etc.) and for how long?</li>
+              <li>How often you open the app and when?</li>
+            </ul>
+          </ul>
+          <li>Data visible to no one</li>
+          <ul>
+            <li>Passwords (these are hashed and salted, and aren't reversible)</li>
           </ul>
         </ul>
       </ul>
@@ -116,17 +125,23 @@ function App() {
       {ethicsGuidelines.map((guideline, index) => (
         <Grid key={index} className={classes.grid} container justify="center" alignItems="center">
           <Card className={classes.card}>
-            <Grid container justify="center" alignItems="center">
+            <Grid container justify="flex-start" alignItems="center">
               <Typography className={classes.text} variant="h4">
                 {guideline.prompt}
               </Typography>
             </Grid>
-            <Grid container justify="center" alignItems="center">
+            <Grid container justify="flex-start" alignItems="center">
               <Typography className={classes.text} variant="h5">
                 {guideline.answer}
               </Typography>
             </Grid>
             <Grid className={classes.checkboxGrid} container justify="center" alignItems="center">
+              {guideline.answerBulletPoints}
+              <Grid className={classes.checkboxGrid} container justify="center" alignItems="center" direction="row" >
+                <Typography className={classes.text} variant="h5">
+                  {guideline.buttonText}
+                </Typography>
+              </Grid>
               <Checkbox
                 value={checkboxState[index]}
                 onChange={({ target }) =>
@@ -137,9 +152,6 @@ function App() {
                   })
                 }
               />
-              <Typography className={classes.text} variant="h5">
-                {guideline.buttonText}
-              </Typography>
             </Grid>
           </Card>
         </Grid>
