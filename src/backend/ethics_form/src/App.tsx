@@ -61,7 +61,7 @@ const ethicsGuidelines = [
   {
     prompt: "Information about confidentiality and handling of data (including any sharing with third parties)",
     answer:
-      "You can request the deletion of your data and withdraw from the study at any time, and ask any questions by emailing saksi.eerik@gmail.com. Your data is NOT shared with any third parties. A user needs to be authenticated to make changes to their data.",
+    "You can request the deletion of your data and withdraw from the study at any time, and ask any questions by emailing saksi.eerik@gmail.com. Your data is NOT shared with any third parties. A user needs to be authenticated to make changes to their data. Your data is stored until all interviews/surveys have been completed (mid to late march).",
     buttonText: "I consent to how my data is used, and that I can withdraw my consent at any time",
     answerBulletPoints: (
       <ul style = { { fontSize: 20} }>
