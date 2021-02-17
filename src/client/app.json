@@ -2,7 +2,7 @@
   "expo": {
     "name": "Stat Buff",
     "slug": "stat-buff",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "statbuff",
@@ -17,11 +17,11 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.statbuff",
-      "buildNumber": "1.0.8",
+      "buildNumber": "1.0.9"
     },
     "android": {
       "package": "com.statbuff",
-      "versionCode": 13,
+      "versionCode": 14,
       "permissions": []
     },
     "web": {
