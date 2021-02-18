@@ -474,5 +474,9 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - Apple was happy with my description of the study, but failed to sign in. I realized that this was because my server restarts every day on Heroku, and I left a script that drops and restarts the database (for dev purposes) so the test account I created for them didn't work.
 
 
+# 14 February (2 hours)
+- Apple wants proof that my project has received ethical approval. I need to fill the form and get approval from my supervisor and Matthew.
+
+
 
 

@@ -30,6 +30,7 @@ comment on column "user".password is E'@omit';
 --handled by plugin function
 comment on table "user" is E'@omit create';
 --groupname updates must go through a custom function that performs password checks for protected groups
+
 comment on column "user".groupName is E'@omit update';
 comment on column "group".creator_username is E'@omit create, update, insert';
 comment on table "group" is E'@omit update';
