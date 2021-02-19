@@ -187,7 +187,7 @@ Design should cover the abstract design in such a way that someone else might be
 \subsection{Server/Database}
 The server is built with a technology called Postgraphile GraphQL. GraphQL is a query language similar to REST, except GraphQL requests require you to pass JSON keys which you require the values for. This is what a simple GraphQL request might look like: 
 
-\begin{lstlisting}[language=python, float, caption={An example GraphQL query fetching information about user "orek" and their messages }, label=lst:callahan]
+\begin{lstlisting}[language=python, caption={An example GraphQL query fetching information about user "orek" and their messages }, label=lst:callahan]
   query{
     user(username: "orek"){
       groupname
@@ -203,7 +203,7 @@ The server is built with a technology called Postgraphile GraphQL. GraphQL is a 
   }
 \end{lstlisting}
 
-\begin{lstlisting}[language=python, float, caption={Server response to the above query}, label=lst:callahan]
+\begin{lstlisting}[language=python, caption={Server response to the above query}, label=lst:callahan]
   {
     "data": {
       "user": {
@@ -234,12 +234,12 @@ I am used to implementing security logic in the middleware, and not the database
 
 Removing read/write queries from the GraphQL API for specific fields and tables is very simple:
 
-\begin{lstlisting}[language=SQL, float, caption={This comment tell Postgraphile to omit password fields}, label=lst:callahan]
+\begin{lstlisting}[language=SQL, caption={This comment tells Postgraphile to omit password fields}, label=lst:callahan]
 comment on column "user".password is E'@omit';
 \end{lstlisting}
 
 The difficult part was implementing per user security. When a user signs up, their username is stored along with their salted and hashed password. They receive a JWT token containing their username and a expiry date, which is symmetrically encrypted by a secret key (to prevent anyone from issuing access tokens). 
-\begin{figure}
+\begin{figure}[bp!]
     \centering
     \includegraphics[width=1.0\linewidth]{authentication.png}    
 
@@ -251,7 +251,7 @@ The difficult part was implementing per user security. When a user signs up, the
 Now that the database can authenticate users, it still needs to check whether or not a particular user has rights to perform an operation. This is implemented through row level security policies. Row level security policies only allow operations if the affected row(s) evaluate to true for the supplied boolean expression.
 
 
-\begin{lstlisting}[language=SQL, float, caption={Row level security policies for accessing chat messages}, label=lst:callahan]
+\begin{lstlisting}[language=SQL, caption={Row level security policies for accessing chat messages}, label=lst:callahan]
 CREATE POLICY chat_message_update ON "chat_message" FOR update to query_sender USING (username = (select username from active_user()));
 CREATE POLICY chat_message_delete ON "chat_message" FOR delete to query_sender USING (username = (select username from active_user()));
 CREATE POLICY chat_message_create ON "chat_message" FOR insert to query_sender with check (username = (select username from active_user()) and groupName = (select groupName from active_user()));
@@ -262,12 +262,12 @@ The following code only allows a user to delete or update their own messages. In
 
 Finally, I will discuss password management. When a user creates an account by sending an encrypted POST request, I hash and salt the password and store the username in plaintext.
 
-\begin{lstlisting}[language=SQL, float, caption={Hashing and salting done with pgcrypto}, label=lst:callahan]
+\begin{lstlisting}[language=SQL, caption={Hashing and salting done with pgcrypto}, label=lst:callahan]
 insert into "user"(username, password) values (username, crypt(password, gen_salt('bf')));
 \end{lstlisting}
 
 Then, when a user requests a JWT token, I simply hash their input password again, and compare it to the stored one:
-\begin{lstlisting}[language=SQL, float, caption={Hashing and salting done with pgcrypto}, label=lst:callahan]
+\begin{lstlisting}[language=SQL, caption={Hashing and salting done with pgcrypto}, label=lst:callahan]
 if authenticated_user.password = crypt(input_password, authenticated_user.password) then
   #grant JWT
   #...
@@ -277,7 +277,7 @@ if authenticated_user.password = crypt(input_password, authenticated_user.passwo
 With the current setup, we can execute simple authenticated rule-based CRUD operations. Usually we want more complex logic. One solution would be to replace the automatically generated queries and mutations with custom written ones that also include side effects. This would go against Postgraphile's philosophy of reducing the amount of source code that needs to be written. I found the best solution to introduce side effects was to use database triggers. Database triggers are functions that execute when rows are specified rows are modified. Triggers can alter the row that caused the trigger to row, as well as execute SQL that reads/writes from other tables/rows. 
 
 
-\begin{lstlisting}[language=SQL, float, caption={Definition of a trigger function which sets the rows' "updated\_at" column to be the current time, and a trigger which calls the function on a user whenever the user is updated.}, label=lst:callahan]
+\begin{lstlisting}[language=SQL, caption={Definition of a trigger function which sets the rows' "updated\_at" column to be the current time, and a trigger which calls the function on a user whenever the user is updated.}, label=lst:callahan]
 CREATE OR REPLACE FUNCTION trigger_set_timestamp()
 RETURNS TRIGGER AS $\dollar$$\dollar$ 
 BEGIN
@@ -300,11 +300,10 @@ In order to implement real time events on the server side, I used Postgraphile's
 My server is also responding for sending a participant information/ethics consent sheet. This is a simple React App, containing information about the study, data usage, etc. which requires the user to enter the username which they would like to use and to read and consent to all points. When the form is submitted, the username is saved in ethics consent table in the database. The presence of your username in the ethics consent table is required to proceed with the sign up, in which case the app opens your browser to let you sign in. Submitting the form opens the app back up, where you should be signed up.
 
 \subsection{Deploying}
-I originally intended to deploy both my database and server on Heroku, as I was familiar with both. I realized that Heroku's database wouldn't fit my use case: you are not allowed to create roles. My security policy is built on having a super user (which only I have access to) and a restricted database user which represents someone executing a request, which I call "query_sender". It's important that Postgraphile forwards the SQL queries as a restricted user, as restricted users are subject to row level security policies which protect unauthorized access. I considered hosting the database and server on AWS, but Postgraphile does not support subscriptions there (due to the serverless infrastructure). I went with a Heroku server and an AWS RDS database (which supports roles, even on the free tier.) It took some work for me to get SSL properly working as I am new to using AWS. Locally, simple CRUD queries only take 10-20ms to handle, and more complex ones such as fetching users by group, and all events by users take 50ms, while on Heroku, this is 60-100ms for simple queries, and 100-200 for more complex ones. I believe that this is partially because of the latency from Heroku to AWS, but I am still happy with the performance, especially for a free server and database.
+I originally intended to deploy both my database and server on Heroku, as I was familiar with both. I realized that Heroku's database wouldn't fit my use case: you are not allowed to create roles. My security policy is built on having a super user (which only I have access to) and a restricted database user which represents someone executing a request, which I call "query\_sender". It's important that Postgraphile forwards the SQL queries as a restricted user, as restricted users are subject to row level security policies which protect unauthorized access. I considered hosting the database and server on AWS, but Postgraphile does not support subscriptions there (due to the serverless infrastructure). I went with a Heroku server and an AWS RDS database (which supports roles, even on the free tier.) It took some work for me to get SSL properly working as I am new to using AWS. Locally, simple CRUD queries only take 10-20ms to handle, and more complex ones such as fetching users by group, and all events by users take 50ms, while on Heroku, this is 60-100ms for simple queries, and 100-200 for more complex ones. I believe that this is partially because of the latency from Heroku to AWS, but I am still happy with the performance, especially for a free server and database.
 
 \subsection{Strength calculations}
-
-
+A key part of my app is the connection between in game strength and real life strength. Strength is hard to calculate, as it depends on factors such as the exercise, the weight used, number of repetitions, the bodyweight of the user, etc. Although these formulas exist for popular exercises (such as squat, bench, and deadlift in powerlifting) I wanted the app to include more exercise, especially bodyweight ones during COVID. I did some research, and couldn't find any API's that handled these calculations, but I did find sites. I contacted the owners of the site, and they weren't willing to provide API access. I asked the owner of strengthlevel.com if they would mind me scraping their site, and they didn't. Strength Level calculates your relative strength as a percentage given information about the exercise (name, weight and repetitions) and information about yourself (weight, identified gender and age). They also let you calculate this for hundreds of exercises. In order to use this site, I recorded my network requests with Chrome as I submitted the afformentioned form, and copied the request that it sends as a node fetch. From this, I could generalize the request into a function, such as by replacing the exercise "barbell-squat" which I submitted with the variable exerciseName. I had 
 
 
 

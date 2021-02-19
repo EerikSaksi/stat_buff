@@ -40,7 +40,6 @@
   \setsansfont[Path=./fonts/, BoldFont=FiraSans-Bold, UprightFont=FiraSans-Regular, ItalicFont=FiraSans-Italic, BoldItalicFont=FiraSans-BoldItalic]{FiraSans.ttf}
 \fi
 
-\usepackage[libertine,bigdelims,vvarbb]{newtxmath} % bb from STIX
 \usepackage[cal=boondoxo]{mathalfa} % mathcal
 
 \usepackage{microtype} % improve typography
@@ -298,3 +297,4 @@ textfont=it,tableposition=above]{caption}
   mathescape = true,
   basicstyle = \ttfamily}
 \newcommand{\dollar}{\mbox{\textdollar}}
+\usepackage[libertine,bigdelims,vvarbb]{newtxmath} % bb from STIX
