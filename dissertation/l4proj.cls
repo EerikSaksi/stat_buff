@@ -205,6 +205,7 @@ textfont=it,tableposition=above]{caption}
     \fancyhead[R]{\thepage}%
 }
 
+
 \usepackage{titlesec}
 % set up chapter headings
 \usepackage{xstring}
@@ -293,3 +294,7 @@ textfont=it,tableposition=above]{caption}
       \parsep=1pt plus 1pt
       \itemsep=\parsep}
 
+\lstset{
+  mathescape = true,
+  basicstyle = \ttfamily}
+\newcommand{\dollar}{\mbox{\textdollar}}
