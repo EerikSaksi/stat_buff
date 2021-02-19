@@ -95,42 +95,58 @@ const GenericSprite: React.FC<{ spriteName: string | undefined; aspectRatio?: nu
           setSource(require("../assets/cropped_sprites/crab.png"));
           setHeight(100);
           setLeftShift(-3);
+          setRows(3);
+          setCols(8);
           break;
         case "Fire Devil":
           setSource(require("../assets/cropped_sprites/fire.png"));
           setAnimationLengths({ idle: 8, onHit: 3, attackOrDie: 7 });
           setHeight(250);
           setLeftShift(18);
+          setRows(3);
+          setCols(8);
           break;
         case "Earth Golem":
           setSource(require("../assets/cropped_sprites/earth.png"));
           setLeftShift(-10);
           setAnimationLengths({ idle: 8, onHit: 3, attackOrDie: 5 });
+          setRows(3);
+          setCols(8);
           break;
         case "Frogman, King of Deadlift Leverages":
           setSource(require("../assets/cropped_sprites/frog_man.png"));
           setHeight(220);
           setLeftShift(10);
+          setRows(3);
+          setCols(8);
           break;
         case "Guardian of the Frost Cavern":
           setSource(require("../assets/cropped_sprites/ice.png"));
           setHeight(220);
           setLeftShift(-5);
           setAnimationLengths({ idle: 8, onHit: 3, attackOrDie: 5 });
+          setRows(3);
+          setCols(8);
           break;
         case "Minotaur":
           setSource(require("../assets/cropped_sprites/minotaur.png"));
           setHeight(250);
           setLeftShift(20);
+          setRows(3);
+          setCols(8);
           break;
         case "Queen of Scorpions":
           setSource(require("../assets/cropped_sprites/scorpion.png"));
+          setRows(3);
+          setCols(8);
           break;
         case "Defender on the Air Temple":
           setSource(require("../assets/cropped_sprites/wind.png"));
           setAnimationLengths({ idle: 8, onHit: 3, attackOrDie: 5 });
           setHeight(280);
           setLeftShift(-15);
+          setRows(3);
+          setCols(8);
           break;
       }
     }
