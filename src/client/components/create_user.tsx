@@ -96,6 +96,7 @@ const CreateUser: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
     variables: { inputPassword: password, inputUsername: username },
     //if succesful cache the data
     onCompleted: async (serverData) => {
+      console.log(serverData)
       console.log(
         `await AsyncStorage.setItem(
           'jwt_token',

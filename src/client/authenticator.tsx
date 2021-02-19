@@ -15,18 +15,7 @@ const USERNAME = gql`
 
 export default function Authenticator() {
   //try fetch the current user if we have a token (if not logged in google first we need to sign in)
-  const [refetchUser, { data }] = useLazyQuery(USERNAME, {
-    onCompleted: async (data) => {
-      if (!data.activeUser) {
-        console.log(`await AsyncStorage.setItem("jwt_token", '';`);
-        try {
-          await AsyncStorage.setItem("jwt_token", "");
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    },
-  });
+  const [refetchUser, { data }] = useLazyQuery(USERNAME);
   useEffect(() => {
     refetchUser();
   }, []);
