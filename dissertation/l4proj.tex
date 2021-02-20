@@ -125,8 +125,6 @@ read these, but they will improve how you write.
     \item
     \emph{Style: The Basics of Clarity and Grace} \cite{Wil09} A very popular modern English style guide.
     \item
-    \emph{Politics and the English Language} \cite{Orw68}  A famous essay on effective, clear writing in English.
-    \item
     \emph{The Elements of Style} \cite{StrWhi07} Outdated, and American, but a classic.
     \item
     \emph{The Sense of Style} \cite{Pin15} Excellent, though quite in-depth.
@@ -134,10 +132,8 @@ read these, but they will improve how you write.
 
 \subsubsection{Citation styles}
 
-\begin{itemize}
-\item If you are referring to a reference as a noun, then cite it as: ``\citet{Orw68} discusses the role of language in political thought.''
-\item If you are referring implicitly to references, use: ``There are many good books on writing \citep{Orw68, Wil09, Pin15}.''
-\end{itemize}
+%\item If you are referring to a reference as a noun, then cite it as: ``\citet{Orw68} discusses the role of language in political thought.''
+%\item If you are referring implicitly to references, use: ``There are many good books on writing \citep{Orw68, Wil09, Pin15}.''
 
 There is a complete guide on good citation practice by Peter Coxhead available here: \url{http://www.cs.bham.ac.uk/~pxc/refs/index.html}. 
 If you are unsure about how to cite online sources, please see this guide: \url{https://student.unsw.edu.au/how-do-i-cite-electronic-sources}.
@@ -178,12 +174,11 @@ Make it clear how you derived the constrained form of your problem via a clear a
 
 %==================================================================================================================================
 \chapter{Design}
-I wanted this app to calculate your team's contribution based on your effort and your strength. Rewarding effort should hopefully motivate users to workout regularly and push themselves, even when progress plateaus. Progress is rarely a straight line: it often has bumps, but through perseverance, you progress more than you regress. This also motivates users with lots of experience, as they can often feel demotivated by the waning progress, and the amount of time and effort it can take to accomplish something a beginner can achieve in a fraction of the time. I also reward strength, as I want the app to provide users with long term motivation. I don't want users to simply exercise for the sake of exercise, but also for the long-term improvements in strength. Rewarding progression is also important as it disincentivizes overtraining. If I only reward effort, the optimal strategy would be to exercise as much as possible, even if you feel pain and your progression stops and regresses. By rewarding strength improvements, I 
+I wanted this app to calculate your team's contribution based on your effort and your strength. Rewarding effort should hopefully motivate users to workout regularly and push themselves, even when progress plateaus. Progress is rarely a straight line: it often has bumps, but through perseverance, you progress more than you regress. This also motivates users with lots of experience, as they can often feel demotivated by the waning progress, and the amount of time and effort it can take to accomplish something a beginner can achieve in a fraction of the time. I also reward strength, as I want the app to provide users with long term motivation. I don't want users to simply exercise for the sake of exercise, but also for the long-term improvements in strength. Rewarding progression is also important as it disincentivizes overtraining. If I only reward effort, the optimal strategy would be to exercise as much as possible, even if you feel pain and your progression stops and regresses. By rewarding strength improvements, I reward the user for training moderately and resting adequately, as these are integral for long term progress. I gamify strength as attack damage, and effort as the number of attacks you deliver towards your team's enemy. The product of the two is the total damage that you deal towards your team's enemy. This total damage is the gamified abstraction of your contribution to your team.
 
-\section{Guidance}
-Design should cover the abstract design in such a way that someone else might be able to do what you did, but with a different language or library or tool.
+After deciding that what I would need to measure, I had to decide how to quantify it. Effort is pretty difficult to measure. I could compare the user's per exercise performance relative to the last time. This would have a lot of confounding factors: personal differences and skill level let some add more weight with less effort. There would also be the problem of missing data (what is the effort on your first workout, or when you use new exercises?). This would also require users to input the number of repetitions and lifted weight for all their sets for all their exercises. Finally, this wouldn't reward users for putting in effort even on a bad day or during a plateau. I consulted sport science literature, and found a popular metric for estimating effort called RPE (Rate of Perceived Exertion). RPE is a scale from 1-10, where 1 is almost no effort, 5 is moderate effort, and 10 is maximal effort. RPE has the downside of not being objective, as we are relying on a person's subjective perception of their effort. Research by Monica et al. found that "The odds of underestimating RPE for an exerciser were 3.67 times greater than a non-exerciser" \cite{RPE_estimations}. This could be offset by reducing the RPE that beginner's estimate, but this was out of scope for this project. I am not particularly worried about intentional dishonesty with regards to RPE, as users can lie about the number of sets they complete, how much they can lift, how often they train, etc. I decided to use RIR (reps in reserve) as it seemed easier to understand than RPE. This article made a good case for measuring total training stress through average RIR and sets 
 
-%==================================================================================================================================
+
 \chapter{Implementation}
 \subsection{Server/Database}
 The server is built with a technology called Postgraphile GraphQL. GraphQL is a query language similar to REST, except GraphQL requests require you to pass JSON keys which you require the values for. This is what a simple GraphQL request might look like: 
@@ -204,7 +199,7 @@ The server is built with a technology called Postgraphile GraphQL. GraphQL is a 
   }
 \end{lstlisting}
 
-\begin{lstlisting}[language=python, caption={Server response to the above query}, label=lst:callahan]
+\begin{lstlisting}[language=python, caption={Server response to the above query}]
   {
     "data": {
       "user": {
@@ -225,7 +220,7 @@ The server is built with a technology called Postgraphile GraphQL. GraphQL is a 
 \end{lstlisting}
 This query format has many benefits: a client would never overfetch or underfetch. In a standard REST setup, the /user endpoint might return user metadata and /messages might return a users messages. This would mean that the client would have to send two requests, which would be slower for both the client and the server. One solution might be setting up a single endpoint, /user\_messages, which returns both user metadata and user messages. This would have the downside of overfetching: whenever we needed just the user metadata, the server would still have to do extra work to fetch messages, leading to a slower query. GraphQL only requires one request to get exactly the data that you need, no more, and no less. The data also comes in the exact shape that you request it in, which makes mapping the data on the client easy. 
 
-This sounds good in practice, but GraphQL can often perform poorly. This was brought to my attention by this video \cite{Ben Awad} where Awad talks about the Waterfall problem. This is characterized by GraphQL resolvers sending needlessly many database queries to fetch data. In order to implement nested resolvers (such as fetching the child books from the parent library) you need to define a function which returns children based on parent values (such as fetching all books whose foreign key matches the parent's ID). In this case, we make one query to fetch library information, and another one to fetch all books. But what if we fetch all pages of each book? This would lead to potentially thousands of database queries, as each book would call it's child resolver function fetching it's pages. This could be executed in a single SQL query by using joins.
+This sounds good in practice, but GraphQL can often perform poorly. This was brought to my attention by this video where Awad talks about the Waterfall problem. This is characterized by GraphQL resolvers sending needlessly many database queries to fetch data. In order to implement nested resolvers (such as fetching the child books from the parent library) you need to define a function which returns children based on parent values (such as fetching all books whose foreign key matches the parent's ID). In this case, we make one query to fetch library information, and another one to fetch all books. But what if we fetch all pages of each book? This would lead to potentially thousands of database queries, as each book would call it's child resolver function fetching it's pages. This could be executed in a single SQL query by using joins.
 
 Luckily there is a library for this. Instead of issuing an SQL query for every single child in the query, Postgraphile acts as a middleware, converting GraphQL requests into a single SQL query. This has huge performance benefits over the afformentioned manual implementation, as only one SQL query is required, and SQL's optimization can be harnessed better (such as through indexes). Another huge benefit of Postgraphile is that it analyzes your databases, and generates your entire query API from analyzing attributes and relations in your database. A lot of my time usually goes in to writing, debugging and maintaining basic CRUD server logic. When the database becomes complicated, changing the structure and relationships of tables can require a lot of work to change on the server. Postgraphile removes all this effort. Postgraphile does require some configuration, as we usually want to grant and limit data access depending on user, and internal logic beyond simply reading and writing data.
 
@@ -235,7 +230,7 @@ I am used to implementing security logic in the middleware, and not the database
 
 Removing read/write queries from the GraphQL API for specific fields and tables is very simple:
 
-\begin{lstlisting}[language=SQL, caption={This comment tells Postgraphile to omit password fields}, label=lst:callahan]
+\begin{lstlisting}[language=SQL, caption={This comment tells Postgraphile to omit password fields} ]
 comment on column "user".password is E'@omit';
 \end{lstlisting}
 
@@ -252,7 +247,7 @@ The difficult part was implementing per user security. When a user signs up, the
 Now that the database can authenticate users, it still needs to check whether or not a particular user has rights to perform an operation. This is implemented through row level security policies. Row level security policies only allow operations if the affected row(s) evaluate to true for the supplied boolean expression.
 
 
-\begin{lstlisting}[language=SQL, caption={Row level security policies for accessing chat messages}, label=lst:callahan]
+\begin{lstlisting}[language=SQL, caption={Row level security policies for accessing chat messages}, ]
 CREATE POLICY chat_message_update ON "chat_message" FOR update to query_sender USING (username = (select username from active_user()));
 CREATE POLICY chat_message_delete ON "chat_message" FOR delete to query_sender USING (username = (select username from active_user()));
 CREATE POLICY chat_message_create ON "chat_message" FOR insert to query_sender with check (username = (select username from active_user()) and groupName = (select groupName from active_user()));
@@ -263,12 +258,12 @@ The following code only allows a user to delete or update their own messages. In
 
 Finally, I will discuss password management. When a user creates an account by sending an encrypted POST request, I hash and salt the password and store the username in plaintext.
 
-\begin{lstlisting}[language=SQL, caption={Hashing and salting done with pgcrypto}, label=lst:callahan]
+\begin{lstlisting}[language=SQL, caption={Hashing and salting done with pgcrypto}]
 insert into "user"(username, password) values (username, crypt(password, gen_salt('bf')));
 \end{lstlisting}
 
 Then, when a user requests a JWT token, I simply hash their input password again, and compare it to the stored one:
-\begin{lstlisting}[language=SQL, caption={Hashing and salting done with pgcrypto}, label=lst:callahan]
+\begin{lstlisting}[language=SQL, caption={Hashing and salting done with pgcrypto}]
 if authenticated_user.password = crypt(input_password, authenticated_user.password) then
   #grant JWT
   #...
@@ -278,7 +273,7 @@ if authenticated_user.password = crypt(input_password, authenticated_user.passwo
 With the current setup, we can execute simple authenticated rule-based CRUD operations. Usually we want more complex logic. One solution would be to replace the automatically generated queries and mutations with custom written ones that also include side effects. This would go against Postgraphile's philosophy of reducing the amount of source code that needs to be written. I found the best solution to introduce side effects was to use database triggers. Database triggers are functions that execute when rows are specified rows are modified. Triggers can alter the row that caused the trigger to row, as well as execute SQL that reads/writes from other tables/rows. 
 
 
-\begin{lstlisting}[language=SQL, caption={Definition of a trigger function which sets the rows' "updated\_at" column to be the current time, and a trigger which calls the function on a user whenever the user is updated.}, label=lst:callahan]
+\begin{lstlisting}[language=SQL, caption={Definition of a trigger function which sets the rows' "updated\_at" column to be the current time, and a trigger which calls the function on a user whenever the user is updated.}]
 CREATE OR REPLACE FUNCTION trigger_set_timestamp()
 RETURNS TRIGGER AS $\dollar$$\dollar$ 
 BEGIN
@@ -702,11 +697,9 @@ submitted separately.
 % The bibliography always appears last, after the appendices.
 
 \bibliographystyle{abbrvnat}
-https://www.youtube.com/watch?v=uFH5S5dUPr8
 
 \bibliography{l4proj}
 
-My GraphQL Performance Problem (n.d.). Ben Awad. Retrieved February 18, 2021, from https://www.youtube.com/watch?v=uFH5S5dUPr8
 
 \end{document}
 
