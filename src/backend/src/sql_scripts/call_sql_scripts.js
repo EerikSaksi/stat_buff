@@ -42,15 +42,13 @@ async function init_enemies(client) {
       insert into
         "enemy" (level, max_health, name)
       values
-        (${level}, ${10 +  5 * level }, '${enemy}');
+        (${level}, ${10 + 5 * level}, '${enemy}');
     `);
   }
 }
 
 async function run_all_sql_scripts() {
-  const client = new Client(
-    "postgres://eerik:Postgrizzly@localhost:5432/rpgym"
-  );
+  const client = new Client("postgres://eerik:Postgrizzly@localhost:5432/rpgym");
   await client.connect();
   await exec_file("init.sql", client);
   await exec_file("triggers.sql", client);

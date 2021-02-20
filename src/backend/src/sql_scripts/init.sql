@@ -131,7 +131,7 @@ create table "session_analytics" (
 create index on "session_analytics" (username);
 
 create function active_user() returns "user" as $$
-  select * from "user" where username = current_setting('jwt.claims.username', true);
+  select * from "user" where username = 'eerik';
 $$ language sql stable;
 
 CREATE EXTENSION pgcrypto;

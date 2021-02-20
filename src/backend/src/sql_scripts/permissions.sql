@@ -58,9 +58,9 @@ comment on column "chat_message".id is E'@omit create, update, insert';
 comment on column "chat_message".id is E'@omit create, update, insert';
 comment on column "session_analytics".id is E'@omit create, update, insert';
 
-CREATE POLICY user_update ON "user" FOR update to query_sender USING (username = current_setting('jwt.claims.username'));
-CREATE POLICY user_delete ON "user" FOR delete to query_sender USING (username = current_setting('jwt.claims.username'));
-CREATE POLICY user_create ON "user" FOR insert to query_sender with check (username = current_setting('jwt.claims.username'));
+CREATE POLICY user_update ON "user" FOR update to query_sender USING (username = (select username from active_user()));
+CREATE POLICY user_delete ON "user" FOR delete to query_sender USING (username = (select username from active_user()));
+CREATE POLICY user_create ON "user" FOR insert to query_sender with check (username = (select username from active_user()));
 CREATE POLICY user_select ON "user" FOR select to query_sender using (true);
 
 --any user can update the group, but these mutations are omitted. The group updates are executed automatically, for example when a user deals damage to the enemy which triggers the next level.

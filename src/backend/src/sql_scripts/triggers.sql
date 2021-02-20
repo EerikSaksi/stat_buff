@@ -81,17 +81,15 @@ CREATE FUNCTION scale_health()
           insert into "battle"(groupName) values (new.groupName);
           update "group" set battle_number = 1 where name = NEW.groupName;
         end if;
-
-        select current_health, enemy_level into health_ratio, stored_enemy_level
-          from "battle"
-          where groupName = OLD.groupName and battle_number = (select battle_number from "group" where name = OLD.groupName);
+      select current_health, enemy_level into health_ratio, stored_enemy_level
+          where groupName = NEW.groupName and battle_number = (select battle_number from "group" where name = NEW.groupName);
 
         select max_health * num_members into new_max_health from "enemy" where level = stored_enemy_level;
         raise notice 'new_max_health %', new_max_health;
         update "battle"
           set current_health = health_ratio * new_max_health,
           max_health = new_max_health
-          where groupName = NEW.groupName and battle_number = (select battle_number from "group" where name = OLD.groupName);
+          where groupName = NEW.groupName and battle_number = (select battle_number from "group" where name = NEW.groupName);
         return new;
       end if; 
     return NEW;

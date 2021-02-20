@@ -18,19 +18,13 @@ insert into
 values
   ('Team Public', null);
 
-insert into
-  "group" (name, password)
-values
-  ('Team With Password', '123');
-
-
 update "user"
   set groupName = 'Team Public' 
   where username = 'orek';
+select nullify_group();
 
-update "user"
-  set groupName = 'Team Public' 
-  where username = 'eerik';
+
+
 
 insert into
   "bodystat" (bodymass, isMale, username)
@@ -368,17 +362,17 @@ where username = 'eerik';
 ALTER TABLE "user_exercise" enable TRIGGER set_timestamp;
 
 
-insert into
-  "workout" (average_rir, sets, username)
-values
-  (8, 2, 'orek'),
-  (7, 2, 'eerik'),
-  (9, 5, 'orek'),
-  (9, 5, 'eerik');
-
-update "workout"
-set created_at = '2020-12-14'
-where username = 'orek';
+--insert into
+--  "workout" (average_rir, sets, username)
+--values
+--  (8, 2, 'orek'),
+--  (7, 2, 'eerik'),
+--  (9, 5, 'orek'),
+--  (9, 5, 'eerik');
+--
+--update "workout"
+--set created_at = '2020-12-14'
+--where username = 'orek';
 
 insert into chat_message (username, text_content)
 values ('orek', 'Good day today, right?');
