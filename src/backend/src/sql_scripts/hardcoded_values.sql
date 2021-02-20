@@ -21,7 +21,6 @@ values
 update "user"
   set groupName = 'Team Public' 
   where username = 'orek';
-select nullify_group();
 
 
 

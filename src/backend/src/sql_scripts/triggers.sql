@@ -48,54 +48,46 @@ FOR EACH ROW
 EXECUTE PROCEDURE creator_joins_group();
 
 
+
+
+
 --check if there exist at least 2 members, in which case we initialize the first battle
 CREATE FUNCTION scale_health()
   RETURNS TRIGGER AS 
   $BODY$
   DECLARE
   num_members integer;
-  health_ratio float;
-  new_max_health float;
-  stored_enemy_level integer;
   BEGIN
     --user left group
     if OLD.groupName is not null then
+      --count members in old group
       select count(*) into num_members from "user" where groupName = OLD.groupName;
-      select current_health, enemy_level into health_ratio, stored_enemy_level
-        from "battle"
-        where groupName = OLD.groupName and battle_number = (select battle_number from "group" where name = OLD.groupName);
-      select max_health * num_members into new_max_health from "enemy" where level = stored_enemy_level;
-
-      update "battle"
-        set current_health = health_ratio * new_max_health,
-        max_health = new_max_health
-        where groupName = OLD.groupName and battle_number = (select battle_number from "group" where name = OLD.groupName);
-      return new;
+      update "battle" 
+      set current_health =  current_health * (1.0 * num_members / (num_members + 1)),
+      max_health = max_health * (1.0 * num_members / (num_members + 1))
+      where groupName = OLD.groupName and battle_number = (select battle_number from "group" where name = OLD.groupName);
     end if;
+
     --count members
     select count(*) into num_members from "user" where groupName = new.groupName;
-      --should have battle
-      if 2 <= num_members then  
-        --check if this group has a battle yet, if not create one
-        if not exists(select 1 from "battle" where battle_number = 1 and groupName = new.groupName) then
-          insert into "battle"(groupName) values (new.groupName);
-          update "group" set battle_number = 1 where name = NEW.groupName;
-        end if;
-      select current_health, enemy_level into health_ratio, stored_enemy_level
-          where groupName = NEW.groupName and battle_number = (select battle_number from "group" where name = NEW.groupName);
 
-        select max_health * num_members into new_max_health from "enemy" where level = stored_enemy_level;
-        raise notice 'new_max_health %', new_max_health;
-        update "battle"
-          set current_health = health_ratio * new_max_health,
-          max_health = new_max_health
-          where groupName = NEW.groupName and battle_number = (select battle_number from "group" where name = NEW.groupName);
-        return new;
-      end if; 
+    --should have battle
+    if 2 <= num_members then  
+      --check if this group has a battle yet, if not create one
+      if not exists(select 1 from "battle" where battle_number = 1 and groupName = new.groupName) then
+        insert into "battle"(groupName) values (new.groupName);
+        update "group" set battle_number = 1 where name = NEW.groupName;
+      end if;
+      --scale the health of the current enemy (if we went from 3 to 4 members then scale by 4/3)
+      update "battle" 
+      set current_health =  current_health * (1.0 * num_members / (num_members - 1)),
+      max_health = max_health * (1.0 * num_members / (num_members - 1))
+      where groupName = NEW.groupName and battle_number = (select battle_number from "group" where name = NEW.groupName);
+    end if; 
     return NEW;
   END;
   $BODY$
-LANGUAGE plpgsql;
+LANGUAGE plpgsql security definer;
 
 CREATE TRIGGER scale_health_on_groupname_change
 after update of groupName on "user"
