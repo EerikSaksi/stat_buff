@@ -23,13 +23,14 @@ insert into
 values
   ('Team With Password', '123');
 
-update "user"
-  set groupName = 'Team Public' 
-  where username = 'eerik';
 
 update "user"
   set groupName = 'Team Public' 
   where username = 'orek';
+
+update "user"
+  set groupName = 'Team Public' 
+  where username = 'eerik';
 
 insert into
   "bodystat" (bodymass, isMale, username)

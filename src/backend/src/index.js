@@ -28,7 +28,7 @@ const postgraphileOptions = {
   allowExplain: () => true,
   jwtPgTypeIdentifier: 'public.jwt_token',
   jwtSecret: process.env.JWT_SECRET,
-  ownerConnectionString: "postgres://eerik:Postgrizzly@localhost:5432/rpgym"
+  ownerConnectionString: "postgres://eerik:Postgrizzly@localhost:5432/rpgym",
 }
 const app = express();
 app.use(cors());
