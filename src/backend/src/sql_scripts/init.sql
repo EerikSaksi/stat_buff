@@ -131,8 +131,8 @@ create table "session_analytics" (
 create index on "session_analytics" (username);
 
 create function active_user() returns "user" as $$
-  return null
-$$ language sql volatile;
+  select * from "user" where username = 'orek'
+$$ language sql stable;
 
 CREATE EXTENSION pgcrypto;
 CREATE FUNCTION join_group(input_groupname varchar(32), input_password TEXT) RETURNS boolean as $$
@@ -191,7 +191,7 @@ DECLARE
 BEGIN
   select coalesce(round(avg(strongerpercentage), 2), 0) as average_strength, count (*) as num_exercises into result from "user_exercise" 
     where "user_exercise".username = (select username from active_user());
-  select coalesce(round(result.average_strength / 100 * ln(result.num_exercises), 2), 0) into result.DPH;
+  select coalesce(round((result.average_strength / 100) * ln(result.num_exercises) * 2.5, 2), 0) into result.DPH;
   return result;
 END
 $$ language plpgsql stable;

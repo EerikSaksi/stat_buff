@@ -325,28 +325,18 @@ update "exercise"
 set bodyweight = true 
 where slug_name = 'ring-muscle-ups';
 
-insert into
-  "user_exercise" 
-  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage, groupName, battle_number)
-values
-  ('bench-press', 'orek', 8, 80, 52, 'Dream Team', 1);
+
 
 insert into
   "user_exercise" 
   (slug_name,  username,  repetitions,  liftmass,  strongerPercentage)
 values
-  ('shoulder-press', 'eerik', 8, 50, 52);
-
-insert into
-  "user_exercise" 
-  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage)
-values
-  ('deadlift', 'orek', 12, 180, 80);
-insert into
-  "user_exercise" 
-  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage)
-values
-  ('front-squat', 'orek', 12, 140, 90);
+  ('squat', 'orek', 12, 120, 60),
+  ('front-squat', 'orek', 12, 120, 60),
+  ('barbell-curl', 'orek', 12, 120, 50),
+  ('deadlift', 'orek', 12, 120, 50),
+  ('shoulder-press', 'eerik', 8, 50, 52),
+  ('bench-press', 'orek', 8, 80, 52);
 
 --we want to change the updated at times, but changing the update times triggers the set update time trigger. Oh the irony
 
