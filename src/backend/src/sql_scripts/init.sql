@@ -184,14 +184,18 @@ CREATE TYPE strengthStats AS (
   DPH numeric
 );
 
-CREATE FUNCTION calculate_strength_stats()
+CREATE or replace FUNCTION calculate_strength_stats()
   RETURNS strengthStats AS $$
 DECLARE
  result strengthStats;
 BEGIN
-  select coalesce(round(avg(strongerpercentage), 2), 0) as average_strength, count (*) as num_exercises into result from "user_exercise" 
-    where "user_exercise".username = (select username from active_user());
-  select coalesce(round((result.average_strength / 100) * ln(result.num_exercises) * 2.5, 2), 0) into result.DPH;
+    select coalesce(round(avg(strongerpercentage), 2), 0) as average_strength, count (*) as num_exercises into result from "user_exercise" 
+      where "user_exercise".username = (select username from active_user());
+    if result.num_exercises = 0 then
+      result.DPH = 0;
+    else
+      select round((result.average_strength / 100) * ln(result.num_exercises) * 2.5, 2) into result.DPH;
+    end if;
   return result;
 END
 $$ language plpgsql stable;

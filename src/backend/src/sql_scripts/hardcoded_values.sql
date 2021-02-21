@@ -335,7 +335,6 @@ values
   ('front-squat', 'orek', 12, 120, 60),
   ('barbell-curl', 'orek', 12, 120, 50),
   ('deadlift', 'orek', 12, 120, 50),
-  ('shoulder-press', 'eerik', 8, 50, 52),
   ('bench-press', 'orek', 8, 80, 52);
 
 --we want to change the updated at times, but changing the update times triggers the set update time trigger. Oh the irony
