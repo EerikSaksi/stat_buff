@@ -184,11 +184,7 @@ total_attacks = min(0, (10 - average_rir) * total_sets)
 
 This reduces the number of dealt attacks as you have a higher RIR, and as you do less sets. This allows users to do more sets if they don't like pushing themselves too hard, and vice versa. 
 
-The second value that I had to quantify strength, or attack damage. I want strength to be calculated relative to the person performing it. For example, it is harder for an average 50kg person to lift a certain weight, than for the average 100kg person.
-
-
-
-
+The second value that I had to quantify strength, or attack damage. I wanted strength to be calculated relative to the person performing it. For example, it is harder for an average 50kg person to lift a certain weight, than for the average 80kg person. By taking this into account, I made the app more inclusive, and allowed everyone to contribute based on how strong they are relative to others like them, and not everyone else. Relative strength is simply a percentile that is calculated based on the demographic of the person, the exercise they performed, and the weight and repetitions that they used. There are sites which perform this calculation, which I will go into more detail in the implementation section. I was still left with the challenge of converting per-exercise percentiles into a single strength value. Initially, I used a simple naive implementation, where I took the mean of all exercises, and used that as the final strength value. I realized that this was problematic 
 
 
 \chapter{Implementation}

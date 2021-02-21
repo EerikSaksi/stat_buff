@@ -34,7 +34,6 @@ const app = express();
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 (async () => {
-  await run_all_sql_scripts()
   app.use(postgraphile("postgres://query_sender:restrictedPermissions@localhost:5432/rpgym", postgraphileOptions))
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname,  'public', 'index.html'));
