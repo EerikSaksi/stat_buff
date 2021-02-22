@@ -22,6 +22,9 @@ update "user"
   set groupName = 'Team Public' 
   where username = 'orek';
 
+update "user"
+  set groupName = 'Team Public' 
+  where username = 'eerik';
 
 
 
