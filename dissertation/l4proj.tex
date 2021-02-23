@@ -180,6 +180,8 @@ Make it clear how you derived the constrained form of your problem via a clear a
 \chapter{Design}
 
 \subsection{Calculating a user's contribution}
+In order to make the game collaborative, I wanted the users to have some common goal. I figured that a simple non-player character would be the easiest to implement. Team's would progress by defeating an enemy, and progress to the next one. The enemies would progressively have more health. There should be a constant time limit to defeat the enemy before it is reset back to full health, which should hopefully create a sense of urgency, and require users to be consistent with their training to defeat enemies.
+
 I wanted this app to calculate your team's contribution based on your effort and your strength. Rewarding effort should hopefully motivate users to workout regularly and push themselves, even when progress plateaus. Progress is rarely a straight line: it often has bumps, but through perseverance, you progress more than you regress. This also motivates users with lots of experience, as they can often feel demotivated by the waning progress, and the amount of time and effort it can take to accomplish something a beginner can achieve in a fraction of the time. I also reward strength, as I want the app to provide users with long term motivation. I don't want users to simply exercise for the sake of exercise, but also for the long-term improvements in strength. Rewarding progression is also important as it disincentivizes overtraining. If I only reward effort, the optimal strategy would be to exercise as much as possible, even if you feel pain and your progression stops and regresses. By rewarding strength improvements, I reward the user for training moderately and resting adequately, as these are integral for long term progress. I gamify strength as attack damage, and effort as the number of attacks you deliver towards your team's enemy. The product of the two is the total damage that you deal towards your team's enemy. This total damage is dealt towards a monster that your enemy is currently fighting, and represents a members contribution to the group.
 
 Initially I had to quantify strength, or attack damage. I wanted strength to be calculated relative to the person performing it. For example, it is harder for an average 50kg person to lift a certain weight, than for the average 80kg person. By taking this into account, I made the app more inclusive, and allowed everyone to contribute based on how strong they are relative to others like them, and not everyone else. Relative strength is simply a percentile that is calculated based on the demographic of the person, the exercise they performed, and the weight and repetitions that they used. There are sites which perform this calculation, which I will go into more detail in the implementation section. I was still left with the challenge of converting per-exercise percentiles into a single strength value. Initially, I used a simple naive implementation, where I took the mean percentile of all exercises, and used that as the final strength value. This is problematic, as this would encourage users to only track their best exercise, and nothing else. I don't want my app to encourage users to just focus on one exercise, as this can lead to injuries and imbalances. With this in mind, I decided that users should be rewarded for adding more exercises up to a certain number.  I decided to calculate strength by taking the product of the percentile with the number of exercises that you're doing. This seems good in practice, but this is simplifies to be just the sum of percentiles.
@@ -244,7 +246,7 @@ I tried to give the user instantenous satisfying and informative feedback. When 
     \end{subfigure}
 \end{figure}
 
-I also tried to make tracking workouts feel satisfying. After saving the workout, you initiate a battle with your team's enemy. You get to see the animations of your character attack, and the enemy take damage, one hit at a time. This is skippable, as it might become boring for long-time users. Killing the enemy will also trigger a dying animation from the enemy.
+I also tried to make tracking workouts feel satisfying. After saving the workout, you initiate a fight with your team's enemy. You get to see the animations of your character attack, and the enemy take damage, one hit at a time. This is skippable, as it might become boring for long-time users. Killing the enemy will also trigger a dying animation from the enemy.
 
 \begin{figure}[H]
     \centering
@@ -281,16 +283,6 @@ In order to demonstrate how workouts deal damage towards an enemy that you fight
         \caption{The second player then kills the wounded monster} 
     \end{subfigure}
 \end{figure}
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -513,24 +505,28 @@ A key part of my app is the connection between in game strength and real life st
 
 Most of the request parameters were self explanatory (exercise weight, bodyweight, repetitions, etc.) as it was obvious that they were just numbers. The exercise name parameter required more work to generalize, as this was a string which had to be in the small subset of supported exercises. I scraped the names of this by copying the HTML of the exercise browser, and stripping everything but the names. This was initially enough information to set up relative strength calculations. Months later I tracked a bodyweight exercise, and found that the request didn't work. This is because bodyweight exercise have a different query format. Instead of requiring lifted weight as a parameter, they require "additional\_weight" and "is\_bodyweight". To accomodate for this, I added an extra field to all exercises (is\_bodyweight), scraped all exercises tagged as such, and set is\_bodyweight to true for all those exercises. I also had to refactor the request sent to Strength Level depending on if the exercise was a bodyweight one or not. After fixing this bug, it was very easy to add a "bodyweight only" filter to the exercise search in my app, which hopefully made my exercise. 
 
+I accidentally mislabeled two exercises as bodyweight, which lead to one user getting a crash. My server threw an error, as Strength Level didn't give a valid response from the malformed request, which lead the user to receive an error aswell. The client would try to resend it whenever they relaunced the app, which lead to more crashes. I fixed these exercises in the database, and told the user to remove their cache (which stopped the user from trying to send a malformed request).
 
+I wanted groups to be able to search exercise updates by user for particular battles against monsters, or all battles. One simple solution would be to select based on timestamp (if a battle against a monster started 2 days ago, select all exercise updates where the "created\_at" attribute is less than 2 days from now). I decided not to do this, as this would be very slow since the timestamp is not a ordering attribute. Selecting all matching exercise updates would require searching all user exercise updates. Instead I decided to add nullable foreign key attributes, battle\_number and group\_name which denote the battle in which this exercise was tracked, and the group in which the user belonged to at the time. This metadata is not sent by the client, but read and written by a database trigger after the user inserts an exercise update. This trigger might not do anything, as the battle\_number and group\_name returned from the query might be null.
 
+\begin{lstlisting}[language=SQL, caption={This selects the group and battle of the user that created this exercise update}, label=lst:trigger_set_metadata]
+select group_name into NEW.group_name from "user" where username = NEW.username;
+select battle_number into NEW.battle_number from "group" where name = NEW.group_name;
 
+before insert on "user_exercise"
+\end{lstlisting}
 
+Using foreign keys allows us to construct queries GraphQL which fetch exercise updates based on group or specific battle, as Postgraphile recognizes relations. Loading the group's name into the exercise update also makes it easy to set up subscription updates. After the group name has been loaded, I read the groupname and alert subscribers of that group of the exercise update event.
 
+Workout calculations
 
+I implemented the same logic for updating workouts, but for workouts you must be a part of group, and you must have an active battle (this is true if you have two or more members). Tracking workouts makes you deal damage towards your enemy, which doesn't make sense if you don't have an enemy. On the other hand, you can strengthen your character without needing an active enemy. I calculate the number of granted hits using a simple generated column:
 
+\begin{lstlisting}[language=SQL, caption={hits is generated from the user's input (average_rir and sets)}, label=lst:generated_column]
+hits integer GENERATED ALWAYS as ((10 - average_rir) / 10.0 * sets) stored
+\end{lstlisting}
 
-
-
-
-
-
-
-
-
-
-
+I also needed to calculate the damage that this workout dealt, and to subtract the dealt damage from the current enemy, for which I needed to implement a trigger that activates whenever a workout is created. This trigger first calculates the total damage that this workout dealt by multiplying the number of hits with the attack damage of this user. I then subtract the current health from the group's enemy. Finally, I check if the health of the enemy is 0 or less, in which case I progress the group forward by one level, giving them a new stronger enemy at full health.
 
 
 
