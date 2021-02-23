@@ -514,7 +514,7 @@ Using foreign keys allows us to construct queries GraphQL which fetch exercise u
 
 I also load the battle and group foreign keys into workouts, but these fields are mandatory. Tracking workouts makes you deal damage towards your enemy, which doesn't make sense if you don't have an enemy. On the other hand, you can strengthen your character without needing an active enemy. I calculate the number of granted hits using a simple generated column:
 
-\begin{lstlisting}[language=SQL, caption={Calculate hits based on user supplied "average_rir" and "sets"}, label=lst:generated]
+\begin{lstlisting}[language=SQL, caption={Calculate hits based on user supplied average_rir and sets}, label=lst:generated]
 hits integer GENERATED ALWAYS as ((10 - average_rir) / 10.0 * sets) stored,
 \end{lstlisting}
 
