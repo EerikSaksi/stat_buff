@@ -216,12 +216,12 @@ With both attack\_damage, we can the damage dealt as
 When you open the app, you initially see two buttons on the top. One is labeled as "Strengthen Character" while the other one is labeled as "Deal Damage". "Strengthen Character" lets you update your exercise personal records, which increase your character's strength. "Deal Damage" on the other hand lets you track a workout, which deals damage towards your team's enemy. I decided to label these based on the effect that these actions have in game, as opposed to "Update Exercise" and "Track Workout" which I initially used. This is because I believe that the required real life data input could be easily inferred from these screens, so it would be a good opportunity to help the understand the real life connection to the game. As an example, if a user clicks on "Strengthen Character", and they see a screen that allows them to input their exercise performances, I would hope that they understood that your in-game strength is calculated through your real life strength.
 
 
-\begin{figure}[bp!]
-    \begin{subfigure}[bp!]{0.45\textwidth}
+\begin{figure}[H]
+    \begin{subfigure}{0.45\textwidth}
         \includegraphics[width=\textwidth]{exercise_modal.png}
         \caption{"Strengthen Character" screen} 
     \end{subfigure}
-    \begin{subfigure}[bp!]{0.45\textwidth}
+    \begin{subfigure}{0.45\textwidth}
       \includegraphics[width=\textwidth]{workout_modal.png}    
       \caption{"Deal Damage" Screen}
       \label{Track workout}
@@ -231,6 +231,161 @@ When you open the app, you initially see two buttons on the top. One is labeled 
 The right-hand "Deal Damage" screen is far more verbose than the left-hand "Strengthen Character". When I was running my pilot study, I found that participants instantly understood that they were being asked to input how many repetitions of a weight they could do on a given exercies do. Users were more confused with the idea of total sets, as they weren't sure what constituted a set. Users also struggled to understand what "reps in reserve" are. I added the explanations above each value to help explain these.
 
 I tried to give the user instantenous satisfying and informative feedback. When a user closes the "Strengthen Character" screen after adding exercises, their attack damage changes. Depending on the new attack damage, the character also changes. I wanted everyone to experience this when for tracking tracking their first exercise(s), As long as you track a single exercise and make your attack non-zero, you will get a new character. 
+
+\begin{figure}[H]
+    \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{noob_user_page.png}    
+      \caption{What the user sees initially (before tracking any exercises)}
+      \label{Track workout}
+    \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{apprentice.png}
+        \caption{What the user sees after tracking 1 or more exercises} 
+    \end{subfigure}
+\end{figure}
+
+I also tried to make tracking workouts feel satisfying. After saving the workout, you initiate a battle with your team's enemy. You get to see the animations of your character attack, and the enemy take damage, one hit at a time. This is skippable, as it might become boring for long-time users. Killing the enemy will also trigger a dying animation from the enemy.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\linewidth]{attack.png}    
+    \caption{
+      An active battle. There were some visual bugs that I didn't have time to fix.
+    }
+\end{figure}
+
+I also created a tutorial that explains this idea further. This tutorial is shown when you initially launch the app. In order to demonstrate the connection with real world strength and in-game strength, I simultaneously change real world strength inputs, and the visible in-game characters.
+
+\begin{figure}[H]
+    \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{noob.png}    
+      \caption{The first visible character and exercise personal bests}
+      \label{Track workout}
+    \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{elite.png}
+        \caption{The "elite" character, unlocked through high real world strength} 
+    \end{subfigure}
+\end{figure}
+
+In order to demonstrate how workouts deal damage towards an enemy that you fight with your friends, I show two different characters take turns fighting a monster, where the second player finishes the monster off.
+
+\begin{figure}[H]
+    \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{upper_attack.png}    
+      \caption{The first player deals initial damage to the enemy}
+      \label{Track workout}
+    \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{lower_attack.png}
+        \caption{The second player then kills the wounded monster} 
+    \end{subfigure}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -291,10 +446,9 @@ comment on column "user".password is E'@omit';
 \end{lstlisting}
 
 The difficult part was implementing per user security. When a user signs up, their username is stored along with their salted and hashed password. They receive a JWT token containing their username and a expiry date, which is symmetrically encrypted by a secret key (to prevent anyone from issuing access tokens). 
-\begin{figure}[bp!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=1.0\linewidth]{authentication.png}    
-
     \caption{
   Once the user has stored the JWT token, this is how authentication works
     }

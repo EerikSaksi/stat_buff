@@ -257,9 +257,6 @@ set bodyweight = true
 where slug_name = 'chin-ups';
 update "exercise"
 set bodyweight = true 
-where slug_name = 'dumbbell-lunge';
-update "exercise"
-set bodyweight = true 
 where slug_name = 'sit-ups';
 update "exercise"
 set bodyweight = true 
@@ -311,9 +308,6 @@ set bodyweight = true
 where slug_name = 'glute-ham-raise';
 update "exercise"
 set bodyweight = true 
-where slug_name = 'barbell-reverse-lunge';
-update "exercise"
-set bodyweight = true 
 where slug_name = 'pistol-squat';
 update "exercise"
 set bodyweight = true
@@ -330,15 +324,16 @@ where slug_name = 'ring-muscle-ups';
 
 
 
-insert into
-  "user_exercise" 
-  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage)
-values
-  ('squat', 'orek', 12, 120, 60),
-  ('front-squat', 'orek', 12, 120, 60),
-  ('barbell-curl', 'orek', 12, 120, 50),
-  ('deadlift', 'orek', 12, 120, 50),
-  ('bench-press', 'orek', 8, 80, 52);
+
+--insert into
+--  "user_exercise" 
+--  (slug_name,  username,  repetitions,  liftmass,  strongerPercentage)
+--values
+--  ('squat', 'orek', 12, 120, 60),
+--  ('front-squat', 'orek', 12, 120, 60),
+--  ('barbell-curl', 'orek', 12, 120, 50),
+--  ('deadlift', 'orek', 12, 120, 50),
+--  ('bench-press', 'orek', 8, 80, 52);
 
 --we want to change the updated at times, but changing the update times triggers the set update time trigger. Oh the irony
 

@@ -7,9 +7,10 @@ const styles = StyleSheet.create({
   sprites: {
     flexDirection: "row",
     alignItems: "flex-end",
+    justifyContent: "flex-start"
   },
   sprite: {
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
 });
 type Animation = "idle" | "onHit" | "attackOrDie";

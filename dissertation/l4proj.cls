@@ -298,4 +298,6 @@ textfont=it,tableposition=above]{caption}
   basicstyle = \ttfamily}
 \newcommand{\dollar}{\mbox{\textdollar}}
 \usepackage[libertine,bigdelims,vvarbb]{newtxmath} % bb from STIX
+\usepackage{float}
+
 
