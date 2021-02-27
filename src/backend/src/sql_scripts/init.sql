@@ -20,13 +20,13 @@ create table "user" (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
-
 CREATE INDEX ON "user" (groupName);
 
-
-alter table "group"
-add column creator_username varchar(32) REFERENCES "user" ON DELETE set null;
-CREATE INDEX ON "group" (creator_username);
+create table "group_role"(
+  creator_username varchar(32) references "user" primary key,
+  groupName varchar(32) references "group" primary key
+);
+create index on "group_role"(creator_username);
 
 create table "enemy" (
   level integer primary key,
