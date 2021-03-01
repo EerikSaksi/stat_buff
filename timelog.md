@@ -477,6 +477,13 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 # 14 February (2 hours)
 - Apple wants proof that my project has received ethical approval. I need to fill the form and get approval from my supervisor and Matthew.
 
+# 18 February (1 hour)
+- Apple hsa approved my app for the app store! I will begin the evaluation soon
 
+# 20 February (5 hours)
+- Last minute bug fixing
+
+# 21 February (6 hours)
+- Started sending out invites, fixed some database bugs in production, very stressful day.
 
 
