@@ -6,6 +6,7 @@
 - I will likely let teams form organically. Users can join random teams or their friends teams.
 
 - My primary data will points will be interviews/surveys with users after they have used the app for about 2 weeks. I will get in contact via email, as I can see registered users through Google's sign in API.
+
   - Some questions that I should ask in interviews/survey
     - Did you experience technical difficulties/did you have any issues with the app (although not relevant to the study, this will hopefully remove technical issues from the rest of the answers)
     - Have you used any of these apps before/have you used any of these games?
@@ -24,11 +25,12 @@
 - In order to analyze this data, I will hopefully analyze responses and place users on a x/y axis, where the x axis is a continium from "complete self centered motivation" -> "complete collaborative motation", and the y axis goes from "the app was not motivating at all" -> "the app was extrememly motivating." This should provide me with a graph, which shows me how motivated users were, were they driven by standard personal motivation or collaborative motivation, and whether personal or collabative motivation lead to more training motivation.
 
 - Log data will also be valuable
+
   - I haven't really analyzed log data before, I will have to consult with my supervisor first. Currently, my app saves an array of [section, time] pairs that shows the paths that a user takes and how long they spend on each section. One quantative way of going about it would be to weigh different sections/paths in terms of personal/team focused actions, and use these estimations to draw conclusions. For example user -> workout -> team -> messages could be seen as more team based, while just user -> workout would be more self centered, as the user didn't check up on their team after it. It is hard to separate these two, as more self centered acts such as working out help your team. It could be that all user actions are by default weighted as personal motivation, but flipped if the user checks up on their team (as then they clearly wanted to help their team).
 
 - I also store data such as workouts, chat messages, and strength updates. The frequency at which users update workouts and exercises will likely only tell me how much they exercise/engage with the app, but it could serve as a normalizer for other events (if the user chats a lot but they also engage with the app a lot, their chatting wouldn't be as significant). Chats will be very valuable, as they will give me a window into whether users get into fights or get along well, random users vs friends, etc.
 
-Week 4 - Week 6/7 recruit users 
+Week 4 - Week 6/7 recruit users
 Week 6/7 - Week 8/9 start sending out survey and interview requests as users have used the app for at least two weeks
 Week 8/9 - Week 11 data analysis
 
