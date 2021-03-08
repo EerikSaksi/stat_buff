@@ -4,13 +4,11 @@ select "user".username, count(slug_name) as num_exercises, avg(strongerpercentag
   group by "user".username
   order by avg(strongerpercentage);
 
-
---team performance (average enemy level 4.40
+--team performance (average enemy level 4.40)
 select "battle".* 
   from "battle", "group"
   where "group".battle_number = "battle".battle_number
   and "group".name= "battle".groupName;
-
 
 --your team contribution 
 select "user".username, sum(total_damage) / group_damage * 100 as contribution
@@ -29,12 +27,9 @@ select "user".username, count("session_analytics".created_at)
   group by "user".username
   order by count("session_analytics".created_at);
 
-
 --total use (avg 16 minutes) 
 select username, sum(analytics) / 60 from (
 select username, (select sum(time_spent) from unnest(analytics)) as analytics
   from "session_analytics" 
   group by session_analytics.analytics, session_analytics.username
-) query group by username order by sum(analytics) ;
-
-
+) query group by username order by sum(analytics);
