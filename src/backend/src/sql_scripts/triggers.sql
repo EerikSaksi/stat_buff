@@ -20,7 +20,6 @@ CREATE FUNCTION encrypt_password_and_set_creator()
   declare 
   active_user_username varchar(32);
   BEGIN
-    NEW.creator_username = (select username from active_user());
     if NEW.password is not null then
       NEW.password = crypt(NEW.password, gen_salt('bf'));
     end if; 
@@ -33,19 +32,7 @@ before insert on "group"
 FOR EACH ROW 
 EXECUTE PROCEDURE encrypt_password_and_set_creator();
 
---the creator should join the group
-CREATE FUNCTION creator_joins_group()
-  RETURNS TRIGGER AS $$
-  BEGIN
-    update "user" set groupName = NEW.name where username = NEW.creator_username;
-    return NEW;
-  END;
-$$ LANGUAGE plpgsql;
 
-CREATE TRIGGER creator_joins_group_after_group_create
-after insert on "group" 
-FOR EACH ROW 
-EXECUTE PROCEDURE creator_joins_group();
 
 
 

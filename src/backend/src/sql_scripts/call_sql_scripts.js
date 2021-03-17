@@ -1,6 +1,7 @@
 const { Client } = require("pg");
 const fs = require("fs");
 const path = require("path");
+const exercise_json = require("./exercise_metadata");
 
 async function exec_file(fileName, client) {
   const sql = fs.readFileSync(path.resolve(__dirname, fileName), "UTF-8");
@@ -47,6 +48,22 @@ async function init_enemies(client) {
   }
 }
 
+async function init_exercises(client) {
+  exercise_json.exerciseGroups.map((group) => {
+    group.exercises.map(async (exercise) => {
+      const { id, stringId, bodyPart, weightConnection, type, name, exerciseAliases } = exercise;
+      var query = `
+          insert into "exercise" (id, string_id, body_part, weight_connection, exercise_type, name) 
+          values (${id}, '${stringId}', '${bodyPart}', '${weightConnection}', '${type}', '${name}');
+        `
+      for (const alias of exerciseAliases) {
+        query += (`\ninsert into "exercise_alias" (id, name) values (${id}, '${alias}');`);
+      }
+      await client.query(query)
+    });
+  });
+}
+
 async function run_all_sql_scripts() {
   const client = new Client("postgres://eerik:Postgrizzly@localhost:5432/rpgym");
   await client.connect();
@@ -56,6 +73,7 @@ async function run_all_sql_scripts() {
   await exec_file("timestamp_triggers.sql", client);
   await exec_file("permissions.sql", client);
   await init_enemies(client);
+  await init_exercises(client);
   await exec_file("hardcoded_values.sql", client);
   await client.end().catch((err) => console.log(err));
 }

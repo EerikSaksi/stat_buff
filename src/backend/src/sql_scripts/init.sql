@@ -9,24 +9,15 @@ create table "group" (
   is_password_protected boolean GENERATED ALWAYS as (password is not null) stored
 );
 
-create table "signed_ethics_sheet" (
-  username varchar(32) primary key not null
-);
 
 create table "user" (
-  username varchar(32) primary key not null references "signed_ethics_sheet" on delete cascade,
+  username varchar(32) primary key,
   password TEXT,
   groupName varchar(32) REFERENCES "group" ON DELETE set null,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 CREATE INDEX ON "user" (groupName);
-
-create table "group_role"(
-  creator_username varchar(32) references "user" primary key,
-  groupName varchar(32) references "group" primary key
-);
-create index on "group_role"(creator_username);
 
 create table "enemy" (
   level integer primary key,
@@ -82,28 +73,38 @@ create index on "workout" (username);
 create index on "workout" (groupName, battle_number);
 
 CREATE INDEX ON "bodystat" (username);
+
 create table "exercise" (
-  slug_name varchar(32) not null primary key,
-  popularity_ranking integer unique,
-  bodyweight boolean default false
+  id integer primary key,
+  string_id varchar unique not null,
+  body_part varchar not null,
+  weight_connection varchar not null,
+  exercise_type varchar not null,
+  name varchar not null
 );
-create index on "exercise" (bodyweight);
+
+create table "exercise_alias" (
+  id integer references "exercise",
+  name varchar not null
+);
+create index on "exercise_alias" (id);
+
 
 create table "user_exercise" (
-  slug_name varchar(32) not null REFERENCES "exercise" ON DELETE cascade not null,
-  username varchar(32) not null  REFERENCES "user" ON DELETE cascade not null,
+  id integer  not null REFERENCES "exercise" ON DELETE cascade not null,
+  username varchar(32) not null REFERENCES "user" ON DELETE cascade not null,
   repetitions integer not null,
   liftmass float not null,
   strongerPercentage integer not null,
   groupName varchar(32),
   battle_number integer,
-  primary key(slug_name, username),
+  primary key(id, username),
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   FOREIGN KEY (groupName, battle_number) REFERENCES "battle"(groupName, battle_number) on delete set null
 );
 
-create index on "user_exercise" (slug_name);
+create index on "user_exercise" (id);
 create index on "user_exercise" (username);
 create index on "user_exercise" (groupName, battle_number);
 

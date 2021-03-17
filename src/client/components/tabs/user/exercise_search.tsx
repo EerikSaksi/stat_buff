@@ -89,15 +89,12 @@ const ExerciseSearch: React.FC<{ input: string; username: string; onlyShowTracke
       data.exercises.nodes;
 
   return (
-    <React.Fragment>
-      {!onlyShowTracked && input === "" ? <Text style={{ fontSize: 2, textAlign: "center" }}>Most popular searches</Text> : undefined}
       <FlatList
         data={exercises}
         style={{ width: "100%" }}
         keyExtractor={(item) => item.slugName}
-        renderItem={({ item }) => <ExerciseSearchResult exerciseSlug={item.slugName} bodyweight={item.bodyweight} username={username} refetchParent={refetchParent} />}
+        renderItem={({ item }) => <ExerciseSearchResult exerciseSlug={item.slugName} bodyweight={item.bodyweight} username={username} userExercise = {userData?.user.userExercisesByUsername.nodes.find(userExercise => userExercise.slugName === item.slugName)} />}
       ></FlatList>
-    </React.Fragment>
   );
 };
 export default ExerciseSearch;

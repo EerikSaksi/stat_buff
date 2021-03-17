@@ -8,6 +8,7 @@ alter user query_sender with password 'restrictedPermissions';
 grant all on database rpgym to query_sender;
 grant all on schema public to query_sender;
 grant select on table "exercise" to query_sender;
+grant select on table "exercise_alias" to query_sender;
 grant select on table "enemy" to query_sender;
 
 grant all on table "user" to query_sender;
@@ -18,7 +19,6 @@ grant all on table "battle" to query_sender;
 grant all on table "workout" to query_sender;
 grant all on table "chat_message" to query_sender;
 grant all on table "session_analytics" to query_sender;
-grant all on table "signed_ethics_sheet" to query_sender;
 
 --these are necessary for auto increment ids to work
 GRANT USAGE, SELECT ON SEQUENCE workout_id_seq TO query_sender;
@@ -32,7 +32,6 @@ comment on table "user" is E'@omit create';
 --groupname updates must go through a custom function that performs password checks for protected groups
 
 comment on column "user".groupName is E'@omit update';
-comment on column "group".creator_username is E'@omit create, update, insert';
 comment on table "group" is E'@omit update';
 comment on column "group".password is E'@omit select';
 comment on table "bodystat" is E'@omit all';
@@ -65,8 +64,8 @@ CREATE POLICY user_select ON "user" FOR select to query_sender using (true);
 
 --any user can update the group, but these mutations are omitted. The group updates are executed automatically, for example when a user deals damage to the enemy which triggers the next level.
 CREATE POLICY group_update ON "group" FOR update to query_sender USING (name = (select groupName from active_user()));
-CREATE POLICY group_delete ON "group" FOR delete to query_sender USING (creator_username = (select username from active_user()));
-CREATE POLICY group_create ON "group" FOR insert to query_sender with check (creator_username = (select username from active_user()));
+CREATE POLICY group_delete ON "group" FOR delete to query_sender USING (name = (select groupName from active_user()));
+CREATE POLICY group_create ON "group" FOR insert to query_sender with check (name = (select groupName from active_user()));
 CREATE POLICY group_select ON "group" FOR select to query_sender using (true);
 
 --only a user should have permissions to their own body stats
@@ -101,8 +100,3 @@ CREATE POLICY session_analytics_delete ON "session_analytics" FOR delete to quer
 CREATE POLICY session_analytics_create ON "session_analytics" FOR insert to query_sender with check (username = (select username from active_user()));
 CREATE POLICY session_analytics_select ON "session_analytics" FOR select to query_sender using (username = (select username from active_user()));
 
---no validation for selection or creation as this is done before the user registers, but we can limit updates and deletes
-CREATE POLICY signed_ethics_sheet_update ON "signed_ethics_sheet" FOR update to query_sender USING (false);
-CREATE POLICY signed_ethics_sheet_delete ON "signed_ethics_sheet" FOR delete to query_sender USING (false);
-CREATE POLICY signed_ethics_sheet_create ON "signed_ethics_sheet" FOR insert to query_sender with check (true);
-CREATE POLICY signed_ethics_sheet_select ON "signed_ethics_sheet" FOR select to query_sender using (true);

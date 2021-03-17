@@ -1,8 +1,4 @@
-%meeting notes
-%explain leeroy jenkins better
 %tables 6 different apps   
-%note observations
-%theories of explaining  
 
 % REMEMBER: You must not plagiarise anything in your report. Be extremely careful.
 
@@ -123,8 +119,19 @@ If you are unsure about how to cite online sources, please see this guide: \url{
 
 %==================================================================================================================================
 \chapter{Background}
-The most similar research I could find on collaborative activity trackers was a paper on an app named 'Pass the Ball' cited{Pass_the_ball}. This app was very simple: a team has one ball, and the person with that ball could score points for the team by exercising, and pass it to others. This very simple idea lead to many feeling responsibility to exercise when they had the ball. It also lead to lots of issues: users hogging the ball, users fighting after one stole it for a point penalty, etc. There were also issues for users with irregular schedules. This study made me understand the importance of accountability and structure, but also the possible friction that this can cause if not implemented well. I also looked into a case study on 'Spy Feet' cited{SpyFeet} which was a pedometer that let the user progress in a story through walking. Although this was singleplayer and story based, it was reassuring to see that gamified abstractions motivated users to exercise more. I also did some research into the state of activity trackers as a whole. citet{Behavior_change} talked about the lack of behavioural change techniques employed in top apps, aswell as the two primary categories: educational and motivational. This made me consider which route I should take (I leaned more towards motivational, with educational aspects). 'Apps of Steel: Are Exercise Apps Providing Consumers With Realistic Expectations?' came to the same conclusion as the earlier paper: apps don't use enough behavioural change techniques. I kept this in mind, but still kept my focus on collaborative aspects. I also read 'Personalizing Mobile Fitness Apps Using Reinforcement Learning', as I was interested in if it was possible to increase the effectiveness of the collaborative techniques through machine learning. This was out of scope due to a lack of experience and time. I read \citet{User_expectations} in order to understand what users prioritize in activity trackers. The app found that content was most important for 47.2\%, technical implementation and utilities 39.7\%, and psychological features were the most important for 13.2\% of users. Because of this, I decided that I should pay attention to content and technical details even if they aren't what is being studied, as this will make the app more attractive and usable for participants. Finally, I did some research into behaviour change by looking at 'Integrated Theory of Health Behavior Change'. I didn't have the time to implement most techniques, but it gave me a good understanding of how social support can be leveraged to drive behavioural change.
+I started my research by analyzing existing collaborative exercise apps. I only found one research paper on this topic. This paper was on "Pass the Ball" an app which was developed in order to evaluate the effectiveness of enforced turn taking for encouraging exercise \citep{Pass_the_ball}. In the second version of the app, users in groups had a single ball which gave the owner the ability to score points for the team through exercise, which could be passed to other users. Users who received the ball often felt that they had a small window of opportunity to score points before someone else wanted the ball. For example, one participant said: "I turned to my group and I was like 'we’re walking fast today! We have an hour to get as many steps in as we can!'". This exclusivity also caused some issues. Users who stole the ball from another teammate (for a point penalty) would get into fights. One user sent the message "Sorry, Just looked at my phone. I would have passed!" after their ball was stolen. Although the app seemed to make some group members competitive and more passionate about exercise, there were some drawbacks to their implementation "such as obligation, conflict, and privacy concerns".
 
+I wanted to make the game RPG themed, so I looked into if there were any RPG themed activity trackers. I found a study on a game called Spyfeet \citet{SpyFeet}. SpyFeet is a pedometer combined with story-telling elements. The more the user walks, the more they progress in the story. Although this was a singleplayer game and much more story-driven than I wanted to make my app, it was reassuring to see that providing additional reward for users who perform exercise leads them to do more activity.
+
+I then continued my research by looking into analysis of the state of top activity trackers. The paper by \citet{Behavior_change} discusses the lack of behavioural change techniques employed in top activity trackers. The researchers divided activity trackers into two categories: educational and motivational. This is an important consideration, as they proposed education and motivation as a continuum, where emphasis of one diminishes the other. This is an important consideration, as I will not be able to gear the app simultaneously towards beginners who do not know how to exercise, and motivational for users who already know how to train.
+
+\citet{AppsOfSteel} performed the same analysis as the afformentioned paper, but evaluated the apps more quantitatively. They scored each app out of 100 based on the presence behavioural change techniques or absence of bad practices. The average top app scored 11/100, some as low as 1/100, and the best app scoring 28/100. These results signify that either users don't care whether their activity trackers include behavioural change techniques, or that users simply have to make do with the poor selection. 
+
+I read \citet{User_expectations} as I wanted to better understand what users wanted from activity trackers, as I needed the activity tracker to contain features in addition to the collaborative aspects. The app found that content was most important for 47.2\%, technical implementation and utilities 39.7\%, and psychological features were the most important for 13.2\% of users. This made me prioritize content and the technical implementation, as this would hopefully help maintain users.
+
+I was curious if it was possible to implement reinforcement learning in order to vary behavioural change techniques to accomodate for a wide array of users. I found a paper on the topic \citet{Personalizing}, but this only varied step count based on the steps that users were taking. The research found that users provided with dynamic 
+
+Finally, I did some research into behavioural change techniques in general. There were lots of categories of behaviour change, one of which was social support/accountability. Most of the techniques were not feasible to implement, but understanding the importance of social support and accountability and how it can be implemented was helpful for my own implementation. \citep{Integrated_Theory}
 
 I analyzed existing exercise apps, and existing RPG games in order to better understand the two categories I am combining. I analyzed Stronglifts 5x5 and Jefit, two popular exercise apps. Both had inbuilt social features, and online forums to keep people motivated. They had some complicated exercise features like planning workouts, which were out of scope for me. I found that Jefit had competitions, but no collaborative exercising. The absence of collaborative features showed that there was room to explore the effectiveness of these apps. I had to make sure that I implemented at least some of the features of existing popular exercise apps in order to maintain user engagement. These were the key features that I noticed in both these apps.
 
@@ -144,7 +151,7 @@ I analyzed existing exercise apps, and existing RPG games in order to better und
 \end{itemize}
 
 From my analysis of RPG games, I realized that collaboration is an integral part of RPG games, and that existing products should serve as a model for implementing collaborative aspects. For instance, Clash of Clans has clans, where users need to give each other troops in order to optimally defend themselves. Clans also battle against one another in "Clan Wars" where users have to attack each others bases in order to win. Wins require members to attack consistently and to reinforce their fellow members \citep{coc}. 
-Another example of a collaborative RPG is World of Warcraft. In World of Warcraft, users participate in Raids together, which require very detailed coordination from all members \citep{wow}. There are also multiple different roles which users have to take, such as healer, tank, or DPS (damage dealer) \citep{wow_roles}. Collaboration is so important in this game, that there is a very popular video \citet{leeroy_jenkins} where a team tries to plan for a raid, but a player, named "Leeroy Jenkins" ruins the entire raid by not collaborating, going in alone forcing the team to join him. The fact that one person was able to ruin a raid, and that millions were able to relate to the frustration of non-collaborating members shows how integral collaboration is in this game. Even many singleplayer RPG games are built around collaboration. For instance the game Darkest Dungeon \citet{darkest_dungeon} is built around controlling your various heroes, who can give each other status bonuses, and heal each other. For instance, the Plague Doctor hero is focused on healing others, while a Highwayman can deal lots of damage. From these three RPG collaborative games, I derived the following key points:
+Another example of a collaborative RPG is World of Warcraft. In World of Warcraft, users participate in Raids together, which require very detailed coordination from all members. There are also multiple different roles which users have to take, such as healer, tank, or DPS (damage dealer) \citep{wow}. There is a viral video where a World of Warcraft player named "Leeroy Jenkins" ruins an entire raid by going in alone as the team plans their attack, ruining their whole raid \citep{leeroy_jenkins}. Even many singleplayer RPG games are built around collaboration. For instance the game Darkest Dungeon \citet{darkest_dungeon} is built around controlling your various heroes, who can give each other status bonuses, and heal each other. For instance, the Plague Doctor hero is focused on healing others, while a Highwayman can deal lots of damage. From these three RPG collaborative games, I derived the following key points:
 
 \begin{itemize}    
     \item
@@ -158,7 +165,6 @@ Another example of a collaborative RPG is World of Warcraft. In World of Warcraf
     \item 
       There should be accountability: if some user(s) aren't doing their part, they should not progress.
 \end{itemize}
-
 
 
 
@@ -178,17 +184,17 @@ Another example of a collaborative RPG is World of Warcraft. In World of Warcraf
 
 %==================================================================================================================================
 \chapter{Analysis/Requirements}
-Exercise is hard to do consistently, leading to high inactivity. Social and group based exercise (such as exercising with a friend or joining a class) are good solution for making people feel accountable, and forcing a schedule. Even then, exercise would still be for your own good, and not for some common goal. A collaborative activity tracker would try to remove the buy in of group based exercise (course cost, fixed schedule) and would make the user feel as though they were contributing to a collective success and not just an individual one.
+Exercise is hard to do consistently, leading to high inactivity. Social and group based exercise (such as exercising with a friend or joining a class) are good solution for making people feel accountable, and forcing a schedule. Even then, exercise would still be for your own good, and not for some common goal. A collaborative activity tracker would try to remove the buy in of group based exercise (course cost, fixed schedule) and would make the user feel as though they were contributing to a collective success and not just an individual one. 
 \section{Guidance}
 Make it clear how you derived the constrained form of your problem via a clear and logical process. 
 
 %==================================================================================================================================
 \chapter{Design}
 
-\subsection{Calculating a user's contribution}
-In order to make the game collaborative, I wanted the users to have some common goal. I figured that a simple non-player character would be the easiest to implement. Team's would progress by defeating an enemy, and progress to the next one. The enemies would progressively have more health. There should be a constant time limit to defeat the enemy before it is reset back to full health, which should hopefully create a sense of urgency, and require users to be consistent with their training to defeat enemies.
+A key feature of collaborative activity trackers is that exercise must have some collective benefit beyond just the individual benefit. I decided not to implement the turn-taking design of pass the ball, as it seemed to sometimes cause conflict and seemed difficult to implement well. Instead of users having to take turns, users could attack a monster enemy at any time through exercise. I liked the window of opportunity created from receiving the ball, so I added a maximum time to defeat the enemy before it resets. This should hopefully make users feel that their exercise is causing them to turn the tide of the battle, especially when they deal a killing blow on an enemy that is close to resetting.
 
-I wanted this app to calculate your team's contribution based on your effort and your strength. Rewarding effort should hopefully motivate users to workout regularly and push themselves, even when progress plateaus. Progress is rarely a straight line: it often has bumps, but through perseverance, you progress more than you regress. This also motivates users with lots of experience, as they can often feel demotivated by the waning progress, and the amount of time and effort it can take to accomplish something a beginner can achieve in a fraction of the time. I also reward strength, as I want the app to provide users with long term motivation. I don't want users to simply exercise for the sake of exercise, but also for the long-term improvements in strength. Rewarding progression is also important as it disincentivizes overtraining. If I only reward effort, the optimal strategy would be to exercise as much as possible, even if you felt pain or your progression stopped and regressed. By rewarding strength improvements, I reward the user for training moderately and resting adequately, as these are integral for long term progress. I gamify strength as attack damage, and effort as the number of attacks you deliver towards your team's enemy. The product of the two is the total damage that you deal towards your team's enemy. This total damage is dealt towards the monster that your enemy is currently fighting, and represents a members contribution to the group.
+\subsection{Calculating a user's contribution}
+I wanted this app to calculate your team's contribution based on your effort and your strength. Rewarding effort should hopefully motivate users to workout regularly and push themselves, even when progress plateaus. Progress is rarely linear: it often has bumps, but through perseverance, you progress more than you regress. This also motivates users with lots of experience, as they can often feel demotivated by the waning progress, and the amount of time and effort it can take to accomplish something a beginner can achieve in a fraction of the time. I also reward strength, as I want the app to provide users with long term motivation. I don't want users to simply exercise for the sake of exercise, but also for the long-term improvements in strength. Rewarding progression is also important as it disincentivizes overtraining. If I only reward effort, the optimal strategy would be to exercise as much as possible, even if you felt pain or your progression stopped and regressed. By rewarding strength improvements, I reward the user for training moderately and resting adequately, as these are integral for long term progress. I gamify strength as attack damage, and effort as the number of attacks you deliver towards your team's enemy. The product of the two is the total damage that you deal towards your team's enemy. This total damage is dealt towards the monster that your enemy is currently fighting, and represents a members contribution to the group.
 
 Initially I had to quantify strength, or attack damage. I wanted strength to be calculated relative to the person performing it. For example, it is harder for an average 50kg person to lift a certain weight, than for the average 80kg person. By taking this into account, I made the app more inclusive, and allowed everyone to contribute based on how strong they are relative to others like them, and not everyone else. Relative strength is simply a percentile that is calculated based on the demographic of the person, the exercise they performed, and the weight and repetitions that they used. There are sites which perform this calculation, which I will go into more detail in the implementation section. I was still left with the challenge of converting per-exercise percentiles into a single strength value. Initially, I used a simple naive implementation, where I took the mean percentile of all exercises, and used that as the final strength value. This is problematic, as this would encourage users to only track their best exercise, and nothing else. I don't want my app to encourage users to just focus on one exercise, as this can lead to injuries and imbalances. With this in mind, I decided that users should be rewarded for adding more exercises up to a certain number by setting strength to be the product of the average strength and the total number of tracked exercises. This seemed good, but this simplified to be just the sum of percentiles.
 
@@ -292,99 +298,9 @@ In order to demonstrate how workouts deal damage towards an enemy that you fight
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \chapter{Implementation}
 \section{Server/Database}
-The server is built with a technology called Postgraphile. GraphQL is a query language similar to REST, except GraphQL requests require you to pass a JSON-like object containing only keys for which you want the values for. This is what a simple GraphQL request might look like: 
+The server is built with a technology called GraphQL. GraphQL is a query language similar to REST, except GraphQL requests require you to pass a JSON-like object containing only keys for which you want the values for. This is what a simple GraphQL request might look like: 
 
 \begin{lstlisting}[language=python, caption={An example GraphQL query fetching information about user "orek" and their messages }, label=lst:callahan]
   query{
@@ -698,7 +614,111 @@ where $\hat{f}(\xi)$ is the Fourier transform of the time domain signal $f(x)$.
 Algorithms can be set using \texttt{algorithm2e}, as in Algorithm \ref{alg:metropolis}.
 
 \chapter{Evaluation} 
-How good is your solution? How well did you solve the general problem, and what evidence do you have to support that?
+In order to evaluate the effectiveness of my app in inducing behavioral change, I sent a survey to all participants. 
+
+Interviews take much longer than surveys, as you have to schedule conduct, transcribe, and analyze them. I only interviewed 10 people. In order to maximize the value of each interview, I classified users in to different categories, and sampled from each group. Some users belonged to more than one category. 
+
+Commonly mentioned techinical issues in interview
+A lot of users mentioned the same bugs which I was aware of but didn't have time to fix. When a user tries to set the repetitions/weight for the very last exercise, the keyboard would close as it overlapped with the input. This wasn't a 
+
+
+Some users had some issues with exercise inputs being removed. This bug was hard to reproduce, and probably had to do something with parent component refreshing. 
+User 1: Team MVP and 5 person team member
+User 2: 
+
+
+Team MVP's (2 users)
+  I interviewed two users who I considered to be team MVP's. These users were stronger than average by a larger margin, and contributed much more workouts during the time  that they used the app. I wanted to know how they felt about carrying a larger burden than their other team mates. User 1 did not like being the largest contributer. 
+  "If everyone would have been contributing equally, I think it will be like even more like, ah, like, I've put, I would have put like, much more effort into it."
+
+
+
+
+Users liked when gym and RPG references were combined. Users found generic monster names like "Mudcrab" and "Minotaur" compared to more creative names like Frogman, King of Deadlift Leverages. One user said: "I mean, it's funnier to do frogman jokes. Like deadlift guy than frostcave guardian and stuff like that, which is not like related to gym". You can see a frame of the Frogman's sprite sheet animation in Figure \ref{fig:frogman}:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\linewidth]{froggie.png}    
+    \caption{
+      "Frogman, the King of Deadlift Leverages. The deadlift is performed by picking up the weight from the ground, so this frog has great leverages for the exercise."
+    }
+    \label{fig:frogman} 
+\end{figure}
+
+
+Team MVP's (1 person)
+  
+
+
+%armdayeveryday
+%BigGamerGaming
+%broscience
+%frodo
+%Helene
+%ldog77
+%scott 
+%fraser
+%society
+%MV
+
+
+%%not in group
+%  %no personal bests
+%  armdayeveryday
+%  monkeyman
+%  EbalMam
+%  BigGamerGaming
+%  PhatPhish
+%  swetank
+%
+%  %personal bests
+%  broscience
+
+
+
+%joined group,
+  %but no personal bests
+%  Ardaches2000
+%  frodo
+%  Paquale
+%  rinnv
+%
+%  %only personal bests
+%  MV
+%  Helene
+%
+%  %personal bests + workouts
+%  hubexi
+%  ldog77
+%  maturk
+%  Scott
+%  FRAZ5094
+%  sofimelissa
+%  Andethana
+%  Society
+%  Jamie
+%  
+%%group where users didn't know each other
+%  ldog77
+%  society
+%
+%%very active group, best by far (3 users)
+%  3 users
+%
+%%largest group, 5 members
+%  5 users
+%
+%%team which was abandoned, 3 random members
+%  3 users
+
+
+
+
+
+No personal best tracking, no workouts, no group
+
+No personal best tracking, no workouts, no group
+
 
 \section{Guidance}
 \begin{itemize}
@@ -789,5 +809,8 @@ submitted separately.
 \bibliography{l4proj}
 
 
+
 \end{document}
 
+
+%pemipa5283@990ys.com 

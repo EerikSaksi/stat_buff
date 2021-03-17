@@ -1,26 +1,13 @@
-import React, { useRef, useState } from "react";
-import { View, TextInput, Text, StyleSheet, Alert, Linking } from "react-native";
+import React, { useState } from "react";
+import { View, TextInput, Text, StyleSheet, } from "react-native";
 import { unslugify } from "../../../util_components/slug";
 import { Button } from "react-native-elements";
-import { Ionicons } from "@expo/vector-icons";
-
-import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { gql, useLazyQuery, useMutation} from "@apollo/client";
+import {Ionicons} from "@expo/vector-icons";
 
 const CALCULATE_STRENGTH = gql`
   query($liftmass: Float!, $exerciseSlug: String!, $repetitions: Int!) {
     calculateStrength(liftmass: $liftmass, exercise: $exerciseSlug, repetitions: $repetitions)
-  }
-`;
-
-const USER_EXERCISE = gql`
-  query($exerciseSlug: String!, $username: String!) {
-    userExercise(slugName: $exerciseSlug, username: $username) {
-      nodeId
-      repetitions
-      liftmass
-      strongerpercentage
-      updatedAt
-    }
   }
 `;
 
@@ -78,147 +65,31 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
   },
 });
-const ExerciseSearchResult: React.FC<{ exerciseSlug: string; username: string; refetchParent: () => void; bodyweight: boolean }> = ({ exerciseSlug, bodyweight, username, refetchParent }) => {
+const ExerciseSearchResult: React.FC<{ exerciseSlug: string; username: string; bodyweight: boolean, userExercise: any }> = ({ exerciseSlug, bodyweight, username, userExercise }) => {
   //these are set by saved data (as they might have been filled before) and also by the user inputs in case the user wants to change them
-  const [liftmass, setLiftmass] = useState<undefined | string>(undefined);
-  const [repetitions, setRepetitions] = useState<undefined | number>(undefined);
+  const [liftmass, setLiftmass] = useState<undefined | string>(userExercise?.liftmass);
+  const [repetitions, setRepetitions] = useState<undefined | number>(userExercise?.repetitions);
 
-  const [percentage, setPercentage] = useState<undefined | number>(undefined);
-  const [askingConfirmation, setAskingConfirmation] = useState(false);
-
-  //this is set to the current values before they are updated so that we can compare them
-  const oldUserExerice = useRef({ strongerpercentage: 0, updatedAt: new Date() });
-  const [fetchCalculateStrength, { data, loading }] = useLazyQuery(CALCULATE_STRENGTH, {
+  const [fetchCalculateStrength, { data: calcData, loading }] = useLazyQuery(CALCULATE_STRENGTH, {
     variables: { liftmass: liftmass ? parseFloat(liftmass) : 0.0, exerciseSlug, repetitions },
-    onCompleted: (data) => {
-      setPercentage(data.calculateStrength);
-      setAskingConfirmation(true);
-    },
   });
 
-  const { data: savedData, refetch } = useQuery(USER_EXERCISE, {
-    variables: { username, exerciseSlug },
-    onCompleted: (data) => {
-      //user has tracked this exercise
-      if (data.userExercise && data.userExercise.repetitions) {
-        setRepetitions(data.userExercise.repetitions);
-        setLiftmass(data.userExercise.liftmass.toString());
-        setPercentage(data.userExercise.strongerpercentage);
-      }
-    },
-  });
 
   //provide mutations for updating and updating lift stats. These are offered based on whether data exists in the database, and both trigger a refetch to keep the data updated
   const [createUserExercise] = useMutation(CREATE_USER_EXERCISE, {
-    variables: { exerciseSlug, username, repetitions, percentage, liftmass: parseFloat(liftmass!) },
-    onCompleted: () => {
-      setAskingConfirmation(false);
-      refetch();
-      refetchParent();
-    },
+    variables: { exerciseSlug, username, repetitions, calcData, liftmass: parseFloat(liftmass!) },
   });
   const [updateUserExercise] = useMutation(UPDATE_USER_EXERCISE, {
-    variables: { exerciseSlug, username, repetitions, percentage, liftmass: parseFloat(liftmass!) },
-    onCompleted: (data) => {
-      //trigger refetches as we no longer need savedData
-      refetch();
-      refetchParent();
-      setAskingConfirmation(false);
-
-      //we have not yet refetched so we can extract the old values
-      const { strongerpercentage: old_strongerpercentage, updatedAt: old_updatedAt } = oldUserExerice.current;
-      const { strongerpercentage, updatedAt } = data.updateUserExercise.userExercise;
-
-
-      const hourDiff = (new Date(updatedAt).getTime() - new Date(old_updatedAt).getTime()) / 3600000;
-      const percentageDiff = strongerpercentage - old_strongerpercentage;
-
-      //we want atleast 12 hours difference to prevent alerts from wrong values that are later fixed
-      if (12 < hourDiff) {
-        //if the user has passed 3%/day threshold
-        if (3 <= percentageDiff / (hourDiff / 24)) {
-          Alert.alert(
-            `You've improved your percentile by ${percentageDiff}% over just ${Math.floor(hourDiff)} hours.`,
-            "Weight shouldn't be added at the expense of form. Would you like a video on technique?",
-            [
-              {
-                text: "I know what I'm doing!",
-              },
-              {
-                text: "Sure",
-                onPress: () => {
-                  //as youtube treats + as space, replace - with spaces so bench-press becomes bench+press. also append + form so we get relevant videos
-                  const searchTerm = exerciseSlug.replace('-', '+') + "+form"
-                  const url = `https://www.youtube.com/results?search_query=${searchTerm}`
-                  Linking.canOpenURL(url).then((supported) => {
-                    if (supported) {
-                      Linking.openURL(url);
-                    } else {
-                      alert("Can't open URL")
-                    }
-                  });
-                },
-              },
-            ],
-            { cancelable: true }
-          );
-        }
-      }
-    },
+    variables: { exerciseSlug, username, repetitions, calcData, liftmass: parseFloat(liftmass!) },
   });
   const [deleteUserExercise] = useMutation(DELETE_USER_EXERCISE, {
     variables: { exerciseSlug, username },
-    onCompleted: () => {
-      refetch();
-      refetchParent();
-    },
   });
 
   var button: React.ReactNode;
 
   if (loading) {
     button = <Button title={"Loading..."} onPress={() => null} />;
-  }
-
-  //user wanted to override their old strength, show the current calculation and ask for confirmation to save
-  else if (askingConfirmation) {
-    button = (
-      <Button
-        title={`Stronger than ${data.calculateStrength}%. Tap to save.`}
-        onPress={() => {
-          if (savedData.userExercise) {
-            //cache the old results so that we can compare them once we get the new data
-            oldUserExerice.current = savedData.userExercise;
-            updateUserExercise();
-          } else {
-            createUserExercise();
-          }
-          setAskingConfirmation(false);
-        }}
-      />
-    );
-  }
-
-  //user has data in the database for this exercise. Autofill input and allow user to edit and update their stats
-  else if (savedData && savedData.userExercise && savedData.userExercise.repetitions) {
-    const { strongerpercentage } = savedData.userExercise;
-    button = (
-      <View style={styles.row}>
-        <Button
-          title={`Stronger than ${strongerpercentage}%. Tap to recalculate.`}
-          onPress={() => {
-            fetchCalculateStrength();
-          }}
-          containerStyle={styles.recalculate}
-        />
-        <Button icon={<Ionicons name="md-trash" size={24} />} buttonStyle={styles.deleteButton} containerStyle={styles.flexOne} onPress={() => deleteUserExercise()} />
-      </View>
-    );
-  }
-
-  //calculate strength for the first time
-  else {
-    button = <Button title={"Calculate Relative Strength"} disabled={liftmass === "" || !repetitions} onPress={() => fetchCalculateStrength()} />;
   }
 
   return (
@@ -231,7 +102,13 @@ const ExerciseSearchResult: React.FC<{ exerciseSlug: string; username: string; r
         <TextInput onChangeText={(t) => setRepetitions(parseInt(t))} keyboardType="numeric" value={repetitions ? repetitions.toString() : undefined} style={styles.textInput} placeholder={"Reps"} />
       </View>
       <View style={styles.row}>
-        <View style={styles.flexOne}>{button}</View>
+        <Button
+          onPress={() => {
+            fetchCalculateStrength();
+          }}
+          containerStyle={styles.recalculate}
+        />
+        <Button icon={<Ionicons name="md-trash" size={24} />} buttonStyle={styles.deleteButton} containerStyle={styles.flexOne} onPress={() => deleteUserExercise()} />
       </View>
     </View>
   );
