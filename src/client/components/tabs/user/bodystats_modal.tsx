@@ -3,8 +3,8 @@ import { gql } from "@apollo/client";
 import { useMutation, useApolloClient } from "@apollo/client/react";
 import { useQuery } from "@apollo/client/react/hooks/useQuery";
 import { useState } from "react";
-import { Text, Switch, View, StyleSheet, TextInput } from "react-native";
-import { Button, Divider } from "react-native-elements";
+import { Text, Switch, View, StyleSheet} from "react-native";
+import { Button, Divider, Input } from "react-native-elements";
 import CustomModal from "../../../util_components/custom_modal";
 
 const CREATE_BODY_STAT = gql`
@@ -96,7 +96,7 @@ const BodyStatsModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => v
     <CustomModal visible={visible} setVisible={setVisible}>
       <View style={styles.modalPadding}>
         <Text style={styles.text}>This data is private (needed for strength calculations)</Text>
-        <TextInput style={styles.text} value={bodymass ? bodymass.toString() : undefined} placeholder="Bodyweight (kg)" onChangeText={(text) => setBodymass(parseInt(text))} keyboardType={"numeric"} />
+        <Input style={styles.text} value={bodymass ? bodymass.toString() : undefined} placeholder="Bodyweight (kg)" onChangeText={(text) => setBodymass(parseInt(text))} keyboardType={"numeric"} />
         <Text style={styles.text}>Which dataset would you like to use?</Text>
         <View style={styles.row}>
           <Text>Male</Text>
