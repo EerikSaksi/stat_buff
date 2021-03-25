@@ -67,7 +67,6 @@ const ExerciseSearch: React.FC<{ input: string; username: string; onlyShowTracke
     variables: { input: sluggedInput },
     skip: input === "" && onlyShowTracked,
   });
-
   const { data: userData } = useQuery(USER_EXERCISE_SEARCH, {
     variables: { username, input: sluggedInput, bodyweightFilter: { equalTo: true } },
     skip: !onlyShowTracked,

@@ -75,6 +75,7 @@ const CreateUser: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
   //set to user if the user tried to create user but needed to sign the ethics form
   const triedToCreateUser = useRef(false)
   const [error, setError] = useState("");
+
   const [signingIn, setSigningIn] = useState(false);
   useEffect(() => {
     if (ref.current) {

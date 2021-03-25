@@ -119,22 +119,34 @@ If you are unsure about how to cite online sources, please see this guide: \url{
 
 %==================================================================================================================================
 \chapter{Background}
-I started my research by analyzing existing collaborative exercise apps. I only found one research paper on this topic. This paper was on "Pass the Ball" an app which was developed in order to evaluate the effectiveness of enforced turn taking for encouraging exercise \citep{Pass_the_ball}. In the second version of the app, users in groups had a single ball which gave the owner the ability to score points for the team through exercise, which could be passed to other users. Users who received the ball often felt that they had a small window of opportunity to score points before someone else wanted the ball. For example, one participant said: "I turned to my group and I was like 'we’re walking fast today! We have an hour to get as many steps in as we can!'". This exclusivity also caused some issues. Users who stole the ball from another teammate (for a point penalty) would get into fights. One user sent the message "Sorry, Just looked at my phone. I would have passed!" after their ball was stolen. Although the app seemed to make some group members competitive and more passionate about exercise, there were some drawbacks to their implementation "such as obligation, conflict, and privacy concerns".
+ 
+%FIX
+%https://dl.acm.org/doi/10.1145/2592235.2592240
+%https://dl.acm.org/doi/10.1145/1125451.1125805
+%https://dl.acm.org/doi/10.1007/11853565_16
+%https://link.springer.com/article/10.1007/s11036-007-0011-7
+%https://dl.acm.org/doi/10.1145/3134717
 
-I wanted to make the game RPG themed, so I looked into if there were any RPG themed activity trackers. I found a study on a game called Spyfeet \citet{SpyFeet}. SpyFeet is a pedometer combined with story-telling elements. The more the user walks, the more they progress in the story. Although this was a singleplayer game and much more story-driven than I wanted to make my app, it was reassuring to see that providing additional reward for users who perform exercise leads them to do more activity.
+%start of the background, roadmap the issues, lot of them involved with step counts 
+% 
+I started my research by analyzing existing collaborative exercise apps. I only found one research paper on this topic. This paper was on "Pass the Ball" an app which was developed in order to evaluate the effectiveness of enforced turn taking for encouraging exercise \citep{Pass_the_ball}. In the second version of the app, users in groups had a single ball which gave the owner the ability to score points for the team through exercise, which could be passed to other users. Users who received the ball often felt that they had a small window of opportunity to score points before someone else wanted the ball. For example, one participant said: "I turned to my group and I was like 'we’re walking fast today! We have an hour to get as many steps in as we can!'". This exclusivity also caused some issues. Users who stole the ball from another teammate (incuring a penalty) would get into fights with other members. One user sent the message "Sorry, Just looked at my phone. I would have passed!" after their ball was stolen. Although the app seemed to make some group members competitive and more passionate about exercise, there were some drawbacks to their implementation "such as obligation, conflict, and privacy concerns".
 
-I then continued my research by looking into analysis of the state of top activity trackers. The paper by \citet{Behavior_change} discusses the lack of behavioural change techniques employed in top activity trackers. The researchers divided activity trackers into two categories: educational and motivational. This is an important consideration, as they proposed education and motivation as a continuum, where emphasis of one diminishes the other. This is an important consideration, as I will not be able to gear the app simultaneously towards beginners who do not know how to exercise, and motivational for users who already know how to train.
+I wanted to make the game RPG themed, so I looked into if there were any RPG themed activity trackers. I found a study on a game called Spyfeet \citep{SpyFeet}. SpyFeet is a pedometer combined with story-telling elements. The more the user walks, the more they progress in the story. Although this was a singleplayer game and much more story-driven than what I wanted to make, it was reassuring to see that additional reward for exercise leads to more activity.
 
-\citet{AppsOfSteel} performed the same analysis as the afformentioned paper, but evaluated the apps more quantitatively. They scored each app out of 100 based on the presence behavioural change techniques or absence of bad practices. The average top app scored 11/100, some as low as 1/100, and the best app scoring 28/100. These results signify that either users don't care whether their activity trackers include behavioural change techniques, or that users simply have to make do with the poor selection. 
+I then continued my research by looking into analysis of the state of top activity trackers. The paper by \citet{Behavior_change} discusses the lack of behavioural change techniques employed in top activity trackers. The researchers divided activity trackers into two categories: educational and motivational. This is an important consideration, as they proposed education and motivation as a continuum, where emphasis of one diminishes the other. This was an important consideration, as I realized that I would not be able to simultaneously target the app towards those who do not know how to exercise, and motivational for users who already know how to train.
 
-I read \citet{User_expectations} as I wanted to better understand what users wanted from activity trackers, as I needed the activity tracker to contain features in addition to the collaborative aspects. The app found that content was most important for 47.2\%, technical implementation and utilities 39.7\%, and psychological features were the most important for 13.2\% of users. This made me prioritize content and the technical implementation, as this would hopefully help maintain users.
+\citet{AppsOfSteel} performed the same analysis as the afformentioned paper, but evaluated the apps more quantitatively. They scored each app out of 100 based on the presence behavioural change techniques or absence of bad practices. The average top app scored 11/100, some as low as 1/100, with the best app scoring 28/100. These results signify that either users don't care whether their activity trackers include behavioural change techniques, or that users simply don't have a lot of good options.
 
-I was curious if it was possible to implement reinforcement learning in order to vary behavioural change techniques to accomodate for a wide array of users. I found a paper on the topic \citet{Personalizing}, but this only varied step count based on the steps that users were taking. The research found that users provided with dynamic 
+I read \citet{User_expectations} as I wanted to better understand what users wanted from activity trackers, as I needed my app to contain enticing features in addition to the collaborative aspects. The app found that content was most important for 47.2\%, technical implementation and utilities 39.7\%, and psychological features were the most important for 13.2\% of users. This made me prioritize content and the technical implementation, as this would hopefully help maintain users.
+
+I was curious if it was possible to implement reinforcement learning in order to vary behavioural change techniques to accomodate for a wide array of users. I found a paper on the topic \citet{Personalizing}, but this only varied step count based on the steps that users were taking. The research found that users provided with dynamic goals exercised more than the control group which performed no exercise. This could have been an interesting addition to my app, but it was out of scope for me to implement.
 
 Finally, I did some research into behavioural change techniques in general. There were lots of categories of behaviour change, one of which was social support/accountability. Most of the techniques were not feasible to implement, but understanding the importance of social support and accountability and how it can be implemented was helpful for my own implementation. \citep{Integrated_Theory}
 
-I analyzed existing exercise apps, and existing RPG games in order to better understand the two categories I am combining. I analyzed Stronglifts 5x5 and Jefit, two popular exercise apps. Both had inbuilt social features, and online forums to keep people motivated. They had some complicated exercise features like planning workouts, which were out of scope for me. I found that Jefit had competitions, but no collaborative exercising. The absence of collaborative features showed that there was room to explore the effectiveness of these apps. I had to make sure that I implemented at least some of the features of existing popular exercise apps in order to maintain user engagement. These were the key features that I noticed in both these apps.
+I analyzed existing exercise apps, and existing RPG games in order to better understand the two categories I am combining. I analyzed Stronglifts 5x5 and Jefit, two popular exercise apps. Both had inbuilt social features, and online forums to keep people motivated. They had some complicated exercise features like planning workouts, which were out of scope for me. I found that Jefit had competitions, but no collaborative exercising. The absence of collaborative features showed that there was room to explore the effectiveness of these apps. I had to make sure that I implemented at least some of the features of existing popular exercise apps in order to maintain user engagement. These were the key features that I noticed in both these apps:
 
+%FIX add screenshots 
+%add table containing characteristics 
 \begin{itemize}    
     \item
       Social features (adding friends/chatting)
@@ -150,7 +162,7 @@ I analyzed existing exercise apps, and existing RPG games in order to better und
       Progression suggestions (add more or less weight)
 \end{itemize}
 
-From my analysis of RPG games, I realized that collaboration is an integral part of RPG games, and that existing products should serve as a model for implementing collaborative aspects. For instance, Clash of Clans has clans, where users need to give each other troops in order to optimally defend themselves. Clans also battle against one another in "Clan Wars" where users have to attack each others bases in order to win. Wins require members to attack consistently and to reinforce their fellow members \citep{coc}. 
+From my analysis of RPG games, I realized that collaboration is an integral part of RPG games, and that existing products should serve as a model for implementing collaborative aspects. For instance, Clash of Clans has clans, where users need to give each other troops in order to defend one another. Clans also battle against one another in "Clan Wars" where users have to attack each others bases in order to win. Wins require members to attack consistently and to reinforce their fellow members \citep{coc}. 
 Another example of a collaborative RPG is World of Warcraft. In World of Warcraft, users participate in Raids together, which require very detailed coordination from all members. There are also multiple different roles which users have to take, such as healer, tank, or DPS (damage dealer) \citep{wow}. There is a viral video where a World of Warcraft player named "Leeroy Jenkins" ruins an entire raid by going in alone as the team plans their attack, ruining their whole raid \citep{leeroy_jenkins}. Even many singleplayer RPG games are built around collaboration. For instance the game Darkest Dungeon \citet{darkest_dungeon} is built around controlling your various heroes, who can give each other status bonuses, and heal each other. For instance, the Plague Doctor hero is focused on healing others, while a Highwayman can deal lots of damage. From these three RPG collaborative games, I derived the following key points:
 
 \begin{itemize}    
@@ -184,6 +196,7 @@ Another example of a collaborative RPG is World of Warcraft. In World of Warcraf
 
 %==================================================================================================================================
 \chapter{Analysis/Requirements}
+%FIX add citations 
 Exercise is hard to do consistently, leading to high inactivity. Social and group based exercise (such as exercising with a friend or joining a class) are good solution for making people feel accountable, and forcing a schedule. Even then, exercise would still be for your own good, and not for some common goal. A collaborative activity tracker would try to remove the buy in of group based exercise (course cost, fixed schedule) and would make the user feel as though they were contributing to a collective success and not just an individual one. 
 \section{Guidance}
 Make it clear how you derived the constrained form of your problem via a clear and logical process. 
@@ -224,7 +237,6 @@ With both attack\_damage, we can the damage dealt as
 
 
 \subsection{Communicating app functionality to the user}
-
 When you open the app, you initially see two buttons on the top. One is labeled as "Strengthen Character" while the other one is labeled as "Deal Damage". "Strengthen Character" lets you update your exercise personal records, which increase your character's strength. "Deal Damage" on the other hand lets you track a workout, which deals damage towards your team's enemy. I decided to label these based on the effect that these actions have in game, as opposed to "Update Exercise" and "Track Workout" which I initially used. This is because I believed that the required real life data input could be easily inferred from these screens, so it would be a good opportunity to help the user understand the real life connection to the game. As an example, if a user clicks on "Strengthen Character", and they see a screen that allows them to input their exercise performances, I would hope that they would understand that your in-game strength is calculated through your real life strength.
 
 
@@ -291,48 +303,27 @@ In order to demonstrate how workouts deal damage towards an enemy that you fight
 \end{figure}
 
 
-
-
-
-
-
-
-
 \chapter{Implementation}
+
+%FIX
+%Add technologies section
 \section{Server/Database}
+
 The server is built with a technology called GraphQL. GraphQL is a query language similar to REST, except GraphQL requests require you to pass a JSON-like object containing only keys for which you want the values for. This is what a simple GraphQL request might look like: 
 
-\begin{lstlisting}[language=python, caption={An example GraphQL query fetching information about user "orek" and their messages }, label=lst:callahan]
+\begin{lstlisting}[language=python, caption={An example GraphQL query fetching a user's group}, label=lst:callahan]
   query{
     user(username: "orek"){
       groupname
-      createdAt
-      updatedAt
-      chatMessagesByUsername{
-        nodes{
-          textContent
-          createdAt
-        }
-      }
     }
   }
 \end{lstlisting}
 
-\begin{lstlisting}[language=python, caption={Server response to the above query}]
+\begin{lstlisting}[language=python, caption={Response to above query}]
   {
     "data": {
       "user": {
         "groupname": "Team Public",
-        "createdAt": "2021-02-18T20:30:55.784356+02:00",
-        "updatedAt": "2021-02-18T20:30:55.784356+02:00",
-        "chatMessagesByUsername": {
-          "nodes": [
-            {
-              "textContent": "Good day today, right?",
-              "createdAt": "2021-02-18T20:30:55.784356+02:00"
-            }
-          ]
-        }
       }
     }
   }
@@ -354,6 +345,8 @@ comment on column "user".password is E'@omit';
 \end{lstlisting}
 
 The difficult part was implementing per user security. When a user signs up, their username is stored along with their salted and hashed password. They receive a JWT token containing their username and a expiry date, which is symmetrically encrypted by a secret key (to guarantee tokens can only be issues by my server). 
+
+%FIX 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\linewidth]{authentication.png}    
@@ -366,11 +359,8 @@ Now that the database can authenticate users, it still needs to check whether or
 
 The following code only allows a user to delete or update their own messages. Inserts are only allowed if the user also belongs to the group the message is sent to. Finally, any user in the group is allowed to read their group's messages. This combined with the earlier authentication protects unpermitted data access on the database layer itself. Although verbose, this creates consistent rules that can be written once and enforced everywhere, and prevents bugs that cause data leaks (for instance, you can't accidentally send a group another group's chat messages, as this wouldn't be permitted by the RLS policies).
 
-\begin{lstlisting}[language=SQL, caption={Row level security policies for accessing chat messages}, ]
-CREATE POLICY chat_message_update ON "chat_message" FOR update to query_sender USING (username = (select username from active_user()));
-CREATE POLICY chat_message_delete ON "chat_message" FOR delete to query_sender USING (username = (select username from active_user()));
+\begin{lstlisting}[language=SQL, caption={Row level security policy only allowing a user send messages as themselves to their team}, ]
 CREATE POLICY chat_message_create ON "chat_message" FOR insert to query_sender with check (username = (select username from active_user()) and groupName = (select groupName from active_user()));
-CREATE POLICY chat_message_select ON "chat_message" FOR select to query_sender using (groupName = (select groupName from active_user()));
 \end{lstlisting}
 
 
@@ -482,81 +472,7 @@ The server sends the name of the sprite that should be rendered, but the sprite 
 
 
 \subsection{Deploying}
-Deploying the app to Google Play was very easy. I had done all of my development with an Android device, so I didn't need to do extra testing. My first production build was accepted. It took a few days to make sure that everything was working as expected on iOS. I primarily had to make sure that text sizes and buttons were well sized for Apples flagship phones, and that safe area views were working properly. I also had to take screenshots with multiple devices, create a privacy policy, and do just about everything I did for Google Play again. Here are all the submissions I made an why they were rejected:
-
-\subsubsection{February 5th}
-They could not sign in with the Gmail account I gave them.This was completely my fault. I didn't know that Heroku restarts every day, which meant that my production database was rewritten every day with test day. This also overrode the test user. This was a good thing to find out before the evaluation, as i might have removed user data.
-
-\subsubsection{February 10th}
-This time they could sign up properly, but I had not provided them with an Apple ID as an alternative to the third party Google sign in. Initially I tried to setup Apple Authentication, which seemed to be succesful, but the sign in would get stuck infinitely loading. I also felt time pressure, as I didn't want to hog my parent's computer just so I could test my app. Eventually, i realized that I wouldn't need to provide an alternative to third party sign ins, if there is no third party sign in. I implemented JWT authentication, which is made easy by built-in support by Postgraphile, which seemed to fix the issue.
-
-\subsubsection{February 12th}
-I used to ask for ethical approval with a built in form that the user was required to agree to before they could proceed. The reviewers figured I was conducting a study, and asked for evidence of ethical approval from the University. After filling the ethical approval form out and implementing the feedback from my supervisor, I got the approval that I needed.
-
-\subsubsection{February 14th}
-As I mentioned previously, I used to have an ethics consent sheet embedded in my app. The reviewers didn't approve of this, and wanted the form to be external. I had to create a simple website which contained the same information as in the app. If a user signed up, but hadn't signed the form, the user's browser would open with my website. The username field in the ethics form would be prefilled with the username they had tried to sign up with in the app. Upon submitting the ethics form, the site would send this data to my database, after which the site redirects the user back to my app. The app refetches whether this user has signed the ethics form, in which case the user proceeds with the sign in.
-
-\subsubsection{February 19th}
-My app was finally accepted
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Deploying the app to Google Play was very easy. I had done all of my development with an Android device, so I didn't need to do extra testing. My first production build was accepted. It took a few days to make sure that everything was working as expected on iOS. I primarily had to make sure that text sizes and buttons were well sized for Apples flagship phones, and that safe area views were working properly. I also had to take screenshots with multiple devices, create a privacy policy, and do just about everything I did for Google Play again. 
 
 
 
@@ -614,6 +530,8 @@ where $\hat{f}(\xi)$ is the Fourier transform of the time domain signal $f(x)$.
 Algorithms can be set using \texttt{algorithm2e}, as in Algorithm \ref{alg:metropolis}.
 
 \chapter{Evaluation} 
+
+%FIX themes as subsections
 In order to evaluate the effectiveness of my app in inducing behavioral change, I sent a survey to all participants. 
 
 Interviews take much longer than surveys, as you have to schedule conduct, transcribe, and analyze them. I only interviewed 10 people. In order to maximize the value of each interview, I classified users in to different categories, and sampled from each group. Some users belonged to more than one category. 
@@ -624,7 +542,7 @@ A lot of users mentioned the same bugs which I was aware of but didn't have time
 Some users had some issues with exercise inputs being removed. This bug was hard to reproduce, and probably had to do something with parent component refreshing. 
 
 Patterns:
-  Both MVP's talked about how they want to be the best in their team. They don't view it so much as collaboration but more as competition. This competitiveness could lead  them to be the MVP, or vice versa.
+  Both MVP's talked about how they want to be the best in their team. They don't view it so much as collaboration but more as competition. This competitiveness could lead them to be the MVP, or vice versa.
 
 
 User 1: Team MVP and 5 person team member, most active member in the game
@@ -790,8 +708,6 @@ User 9: never tracked a single workout, but very actively updated exercises
   "For me, it was a bit different, because I've never really marked on my trainings or anything."
   Issues
      Hard to find exercises, I suggested dividing exercises by type and bodypart, thought it was a good idea.
-
-
 
 
 User 10: had exercise experience, didn't really engage with the app
