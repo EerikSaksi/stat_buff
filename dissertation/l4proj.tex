@@ -1,8 +1,10 @@
-%tables 6 different apps   
+%FIX tables 6 different apps   
 
 % REMEMBER: You must not plagiarise anything in your report. Be extremely careful.
 
 \documentclass{l4proj}
+
+%FIX refer to figures
 
     
 %
@@ -532,45 +534,49 @@ Algorithms can be set using \texttt{algorithm2e}, as in Algorithm \ref{alg:metro
 \chapter{Evaluation} 
 
 %FIX themes as subsections
-In order to evaluate the effectiveness of my app in inducing behavioral change, I sent a survey to all participants. 
+
+I had a total of 24 participants. Participants were recruited through messaging apps. I usually only mentioned that I was conducting research on an exercise app, and nothing more. My app had built in tutorials, and required that users signed a participant information/ethics consent sheet, so I didn't need to give much information about the app. After three weeks, users were asked to participate in a survey.
+
 
 Interviews take much longer than surveys, as you have to schedule conduct, transcribe, and analyze them. I only interviewed 10 people. In order to maximize the value of each interview, I classified users in to different categories, and sampled from each group. Some users belonged to more than one category. 
 
-Commonly mentioned techinical issues in interview
-A lot of users mentioned the same bugs which I was aware of but didn't have time to fix. When a user tries to set the repetitions/weight for the very last exercise, the keyboard would close as it overlapped with the input. This wasn't a 
-
 Some users had some issues with exercise inputs being removed. This bug was hard to reproduce, and probably had to do something with parent component refreshing. 
 
-Patterns:
-  Both MVP's talked about how they want to be the best in their team. They don't view it so much as collaboration but more as competition. This competitiveness could lead them to be the MVP, or vice versa.
+\subsection{Strongest members of teams}
+Two users that interested me (User 1 and User 3) were the users that contributed a substantial amount of the damage to the team (80\%+). Both the users had a lot of training experience. User 3 was the strongest out of all users, and User 1 was above average in strength, and had used an activity tracker named "FitNotes" before. I was interested in what drove them to contribute such a large amount, and how they felt about doing so. 
+
+\subsubsection{Motivation}
+Both of these users mentioned competitiveness, but hardly anything about collaboration. It is hard to say whether or not competitiveness drove these users to perform better, or they became competitive once they realized that they were well. For instance, User 1 suggested a feature: "you could click it and see all the movements that they did in the gym, and the weights and the like the reps. I think it would be a bit more interesting. And for people who like competition it would be fun.". User 1 wanted more transparency towards other members' actions, so that he could compete better. User 3 thought that being able to see the damage and actions of other users leads to competitiveness and more actions "Oh, ****, User 3 is out there, I've got to do the same". 
+
+\subsubsection{Reaction towards being the strongest}
+
+User 1 and User 3 had very opposite reactions towards being the best. User 1 commented: "If everyone would have been contributing equally, I think I would've put much more effort into it." At one point, User 1 had sent a chat message asking if the other member's had gym access. He later explained that this was a passive agressive way of asking why the other users weren't contributing enough. 
+
+User 3 reflected on his gameplay with "Plus, I was carrying those noobs." in a satisfied tone ("Carrying" in games refers to single-handedly winning games for your team, and "noobs" are beginners). Although he clearly enjoyed being the best in his team, he didn't think it would be fun if it someone else was outdoing him by a large margin: "And then we had one guy who was working out seven out of seven times a week for three to four hours a day. And so imagine that we had that guy in our team: he would be doing like 90\% out of a team of 10 people." 
+
+Both users suggested fixes to balance the user contributions. User 1 suggested that the game should rely on each team member more, by dividing users into different classes with different responsibilities. "You will even have a kind of social pressure to do a workout. If your team's success is based on your stamina stat or something like that." I had considered increasing per-user responsibility more. I decided not to do this, as I didn't want to unactive users to prevent progress, but only to slow it down. I asked this user how they would feel if they had to rely on someone who was not active. User 1 responded: "If my progress in the game would be relying on someone who doesn't do anything. I think it would be a bit unmotivating for me." 
+
+User 3 had a suggestion that involved changing how the game behaved, rather than how user actions should be influenced. He suggested: "Bonus damage, which might be the adjusted percentage of the monsters health. So it doesn't matter how weak you are, you could still offer the team that percentage damage". This would mean that everyone's effort would be equally valuable. Users would still contribute more to their team through being stronger, but this would allow weak users to contribute equal amounts in at least one dimension. 
 
 
-User 1: Team MVP and 5 person team member, most active member in the game
-  Team MVP
-    "If everyone would have been contributing equally, I think it will be like even more like, ah, like, I've put, I would have put like, much more effort into it."
-    "I just like did all the damage to except at one point. Then I just like commented that, 'where are you guys'? And like, 'are there all the gyms closed in the in Helsinki' and stuff like that?"
-    "And you could like click it and see like all the movements they did in the gym, and the weights and the like the reps. I think it will be a bit more interesting. And for people who like like competition it would be something fun."
-    As he we was annoyed that other users didn't feel an obligation to help, we discussed whether it would make sense to divide users into classes which all have to work together.  "You will even have like a kind of like social pressure to do a workout. If your team success is based on your stamina stat or something like that." When asked how he would feel if they had to rely on their teammates more and someone would still be a broken link, he replied: "If my progress in the game would be relying on someone who doesn't do anything. I think it would be a bit unmotivatingfor me."
+\subsection{Team's composed of strangers}
+By default, my app allowed the creation of one person teams. I decided to prevent this feature, as I didn't want many single-member teams to form, as these users wouldn't be collaborating with anyone. I didn't want users to drop out if they didn't want to invite friends, so I added a "Join Random Team" button, which would place you in the smallest and oldest public team. This lead to teams with 2-3 members forming, who did not know each other. I was curious of how these team's performed compared to team's where users knew each others.
 
-  Most active member  
-    "the gyms haven't been even closed, and there's like no restrictions."
-    Already trained consistently
-    Used fitnotes app before
-    Knew the team's members
+The overall reaction towards training with strangers seemed to be mostly negative. User 2 tried to create their own team, but wasn't allowed to play without other members. They didn't want to invite their friends to play, and realized that their only option was to join a team with strangers. User 2 didn't want to do this: "So I thought it's kind of weird just joining a random group, that I don't know the people in."
 
-  Issues
-    Keyboard overlap problem (could work around it)
-    Exercises unsaving when saving new lifts
-    Animations taking a long time to load (probably has to do with calculate strength)
-    Thought animations were too pixelated (which is expected for pixel art)
-    With regards to user animations
-      "I think there was this frog guy was like King of deadlift leverage, or something like that. I think it was like a really good idea... it's just much better than a normal mudcrab." 
-    Add exercise diary, should be game and standalone fitness tracker
-    "If I do like five gym sessions per week, but if that wouldn't be enough [to defeat the enemy], it wouldn't be very good for my health like to do like, seventh or eighth, gym session."
+Although User 3 was reasonably active, but he thought his experience could have been better: "If it was under normal circumstances, and I would actually have my friends and not just strangers, it would be really fun." 
 
+User 4 didn't feel negatively about working with strangers, but didn't care about their team: "It was almost like I was doing it myself because I didn't know the guy" 
+
+The activity of the inactive teams was also very noticeable. The two most active teams were by far was a three person team and a five person team where all the members knew each other. 
+
+
+
+
+
+    
 
 User 2: tracked lifts, didn't join group and dropped out
-  
   "I think it will be makes sense to join groups if you can I use the app with your friends, but didn't really know anyone else using it? So I thought it's kind of weird just joining a random group, that I don't know the people in."
   "I've seen kind of similarish ideas before. Like habit tracker apps that are kind of like RPG. And then you can develop your own character. So I kind of viewed it like that. So it's kind just personal motivation for you."
 
@@ -583,28 +589,9 @@ User 2: tracked lifts, didn't join group and dropped out
 
 
 
-User 3: MVP, trained with random users, very strong/experienced
-  "Timing was kind of bad because nobody I know was working out during the three weeks I had to actually test it. Even French in other countries, they were in countries that are currently locked down. So they couldn't go to the gym. I'm still working out. But that's because I do bodyweight stuff, so I can do it"
-  "Oh, ***, User 3 is out there, I've got to do the same"
-   "Bonus damage, which might be the adjusted percentage of the monsters health. So it doesn't matter how weak you are, you could still offer the team that percentage damage"
-
-  He said that he would be carrying his team in a pretty satisfied tone: "If it was under normal circumstances, and I would actually have like my friends and not just strangers, it would be really fun. Plus, I would be carrying those noobs." 
-  But simultaneously doesn't think it would be fun to train with someone putting in crazy amounts of work:
-  "And then we had one guy who was working out seven out of seven times a week for three to four hours a day. And so imagine that we had that guy in our team: hw would be doing like 90% out of a team of 10 people."
-
-  Misc: 
-    Can gym with friends in different locations
-    "But no, for two reasons, hey, you're very unlikely to find people that work out and play D\&D"
-
-  Issues:
-    Exercise recommendations
-    Cardio
-    Challenges outside of your skill domain
-    Monthly challenges
 
 User 4: Strong, didn't know who they trained with (wanted to find out how the experience was) also didn't drop out. 
   "I was gonna try and get my girlfriend to sign up as well but I don't think she was really able to train consistently"
-  "It was almost like I was doing it myself because I didn't know the guy" 
   "But I still feel is really beneficial. I still feel I got like a good experience from it."
   "I cared more about the workouts because I feel like there was more of a sense of progress with them."
   "But I did think, yeah, I felt like in terms of my character, there wasn't too much progression there. The goal for me was the battles I think." 
@@ -712,7 +699,7 @@ User 9: never tracked a single workout, but very actively updated exercises
 
 User 10: had exercise experience, didn't really engage with the app
   "Okay, that was the first I think I already mentioned that in the question. Gym access is like the first issue, obviously, because that was my primary source of exercise. Like, I'm literally just, you know, not doing anything so that's the first issue"
-  "So the sort of deal damage feature and how you can like be part of a team and then deal damage to other characters, or others. I don't know if that's something I would personally use. But for mepersonally, I think that just a feature of building a character, to me, that's a unique selling point of in and of its own." 
+  "So the sort of deal damage feature and how you can like be part of a team and then deal damage to other characters, or others. I don't know if that's something I would personally use. But for me personally, I think that just a feature of building a character, to me, that's a unique selling point of in and of its own." 
   "For me working out is a personal hobby and I'm not interested in making it group-based"
   Issues  
     "There's also so there's a, like a slider button that you can press to look at the track exercises I've already done."
@@ -739,57 +726,13 @@ Users liked when gym and RPG references were combined. Users found generic monst
 
 
 Team MVP's (1 person)
-  
-
-
-
-
-%%not in group
-%  %no personal bests
-%  armdayeveryday
-%  monkeyman
-%  EbalMam
-%  BigGamerGaming
-%  PhatPhish
-%  swetank
-%
-%  %personal bests
-%  broscience
-
-
-
-%joined group,
-  %but no personal bests
-%  Ardaches2000
-%  frodo
-%  Paquale
-%  rinnv
-%
-%  %only personal bests
-%  MV
-%  Helene
-%
-%  
-%%group where users didn't know each other
-%  ldog77
-%  society
-%
-%%very active group, best by far (3 users)
-%  3 users
-%
-%%largest group, 5 members
-%  5 users
-%
-%%team which was abandoned, 3 random members
-%  3 users
 
 
 
 
 
-No personal best tracking, no workouts, no group
 
-No personal best tracking, no workouts, no group
+
 
 
 \section{Guidance}
@@ -886,3 +829,39 @@ submitted separately.
 
 %pemipa5283@990ys.com 
 %hatob51724@grokleft.com
+
+User 1: Team MVP and 5 person team member, most active member in the game
+  Team MVP
+    As he we was annoyed that other users didn't feel an obligation to help, we discussed whether it would make sense to divide users into classes which all have to work together.   When asked how he would feel if they had to rely on their teammates more and someone would still be a broken link, he replied: 
+  Most active member  
+    "the gyms haven't been even closed, and there's like no restrictions."
+    Already trained consistently
+    Used fitnotes app before
+    Knew the team's members
+
+  Issues
+    Keyboard overlap problem (could work around it)
+    Exercises unsaving when saving new lifts
+    Animations taking a long time to load (probably has to do with calculate strength)
+    Thought animations were too pixelated (which is expected for pixel art)
+    With regards to user animations
+      "I think there was this frog guy was like King of deadlift leverage, or something like that. I think it was like a really good idea... it's just much better than a normal mudcrab." 
+    Add exercise diary, should be game and standalone fitness tracker
+    "If I do like five gym sessions per week, but if that wouldn't be enough [to defeat the enemy], it wouldn't be very good for my health like to do like, seventh or eighth, gym session."
+
+User 3: MVP, trained with random users, very strong/experienced
+  "Timing was kind of bad because nobody I know was working out during the three weeks I had to actually test it. Even French in other countries, they were in countries that are currently locked down. So they couldn't go to the gym. I'm still working out. But that's because I do bodyweight stuff, so I can do it"
+
+
+  But simultaneously doesn't think it would be fun to train with someone putting in crazy amounts of work:
+  "And then we had one guy who was working out seven out of seven times a week for three to four hours a day. And so imagine that we had that guy in our team: he would be doing like 90\% out of a team of 10 people."
+
+  Misc: 
+    Can gym with friends in different locations
+    "But no, for two reasons, hey, you're very unlikely to find people that work out and play D\&D"
+
+  Issues:
+    Exercise recommendations
+    Cardio
+    Challenges outside of your skill domain
+    Monthly challenges
