@@ -123,15 +123,23 @@ If you are unsure about how to cite online sources, please see this guide: \url{
 \chapter{Background}
  
 %FIX
-%https://dl.acm.org/doi/10.1145/2592235.2592240
-%https://dl.acm.org/doi/10.1145/1125451.1125805
-%https://dl.acm.org/doi/10.1007/11853565_16
-%https://link.springer.com/article/10.1007/s11036-007-0011-7
+%%%
+%
 %https://dl.acm.org/doi/10.1145/3134717
 
 %start of the background, roadmap the issues, lot of them involved with step counts 
 % 
-I started my research by analyzing existing collaborative exercise apps. I only found one research paper on this topic. This paper was on "Pass the Ball" an app which was developed in order to evaluate the effectiveness of enforced turn taking for encouraging exercise \citep{Pass_the_ball}. In the second version of the app, users in groups had a single ball which gave the owner the ability to score points for the team through exercise, which could be passed to other users. Users who received the ball often felt that they had a small window of opportunity to score points before someone else wanted the ball. For example, one participant said: "I turned to my group and I was like 'we’re walking fast today! We have an hour to get as many steps in as we can!'". This exclusivity also caused some issues. Users who stole the ball from another teammate (incuring a penalty) would get into fights with other members. One user sent the message "Sorry, Just looked at my phone. I would have passed!" after their ball was stolen. Although the app seemed to make some group members competitive and more passionate about exercise, there were some drawbacks to their implementation "such as obligation, conflict, and privacy concerns".
+
+\subsection{Existing Research}
+There is a lot of existing research into the effectiveness of collaborative activity trackers. Most of this research is into increasing step counts with pedometers. This differs slightly from my strength tracker, as step counts can be automatically tracked and input in to the system.
+
+"Pass the Ball" was an app which was developed in order to evaluate the effectiveness of enforced turn taking for encouraging exercise \citep{Pass_the_ball}. In the second version of the app, users in groups had a single ball which gave the owner the ability to score points for the team through exercise, which could be passed to other users. Users who received the ball often felt that they had a small window of opportunity to score points before someone else wanted the ball. For example, one participant said: "I turned to my group and I was like 'we’re walking fast today! We have an hour to get as many steps in as we can!'". This exclusivity also caused some issues. Users who stole the ball from another teammate (incuring a penalty) would get into fights with other members. One user sent the message "Sorry, Just looked at my phone. I would have passed!" after their ball was stolen. Although the app seemed to make some group members competitive and more passionate about exercise, there were some drawbacks to their implementation "such as obligation, conflict, and privacy concerns".
+
+\citet{HealthyTogether} didn't just investigate the effectiveness of collaborative features, but also competition, and combinations of the two. In the competive model, step counts were scored relative to your opponent. In the collaborative model, you and your team mate contributed equally to your shared total points.  In the hybrid model, your own step count was the most important, but the other person had a small impact. Interestingly, the control group which exercised alone exercised more than the group which competed amongst themselves. The collaborative model performed the best: "Amongst the group settings cooperation (21\% increase) and hybrid (18\% increase) outperformed competition (8\% increase)". This study supports collaborative activity trackers.
+
+\citet{ChickClique} developed an app called 'Chick Clique' which had a lot of the same design principles. They had assigned 5 different levels for users based on their step count, aswell as a "team average" which girls collaborated together to improve on. My app had 5 different characters and titles you got based on your strength, aswell as progression based on average performance of each member. Chick Clique also included other health features such as tips for healthy eating. Despite the particpants having a pedometer, food tips, and gamified progress "group performance was rated by the girls as being the most powerful method of changing behavior." The pedometer alone was found to be more effective than Chick Clique for middle schoolers, whilst Chick Clique was more effective for high schoolers.
+
+\citet{Fish'n'Steps} created a site called "Fish'n'Steps". The participants were given a fish bowl, where the number of fish, their mood and growth were influenced by the number of steps that they took. There was a version of the game where participants were given their own fish bowl, and thus did not collaborate or compete. There was another version of this game, where users shared a fish bowl. The step counts of each user influenced the shared fish bowl: "each 'insufficient' day for any team member resulted in the tank’s water getting darker, as well as the gradual removal of the fish-tank’s decorations". There was also out-group competition: there were leaderboards for the best performing teams. Much like my app, this site employed visual rewards. In my app, you got better looking characters as you got stronger, whilst this app grew your fish. I also implemented shared visual rewards: you got to see the enemy update and it's health reduce as your team worked out, whilst this site varied the state of your fish bowl. This site also implemented anonymous teams, and also found that "anonymous team cooperation did not produce significant results".  The game lead to good behaviour changes, but participants lost interest "Although the initial fascination with the game subsided after the first couple of weeks, it nonetheless generated sustainable change in behavior and made continuing the game unnecessary."
 
 I wanted to make the game RPG themed, so I looked into if there were any RPG themed activity trackers. I found a study on a game called Spyfeet \citep{SpyFeet}. SpyFeet is a pedometer combined with story-telling elements. The more the user walks, the more they progress in the story. Although this was a singleplayer game and much more story-driven than what I wanted to make, it was reassuring to see that additional reward for exercise leads to more activity.
 
@@ -440,13 +448,10 @@ I also needed to calculate the damage that this workout dealt, and to subtract t
 
 
 \section{Client}
-\subsection{Framework}
-Since the app was collaborative, I wanted users to be able to invite any of their friends to participate. I didn't want there to be any technological barriers to entry. As most people in developed countries have an Android or iOS phone, I decided that a cross platform app would be best suited for this, and would allow users to use the software as they trained, as opposed to a desktop app. 
+\subsection{App technology}
+As I already had some experience with React, I decided to use Expo, which is a superset of React Native. There are some differences, mainly that components use different tags (a basic container is called a View as opposed to a div). I quickly realized that React Native isn't simply about developing one code base. When installing some libraries, you would need to configure the Android Kotlin code, or the Swift code of the iOS app. I was intimitated by this, as I had experience with neither language or build system. Another issue is that I was developing on Linux: testing and building the iOS app was difficult, so I wanted the iOS app to stray from the Android version as little as possible.
 
-As I already had some experience with React, I decided to use React Native. There are some differences, mainly that the DOM that components use different tags (a basic container is called a View as opposed to a div). I quickly realized that React Native isn't simply about developing one code base. When installing some libraries, you would need to configure the Android Kotlin code, or the Swift code of the iOS app. I was intimitated by this, as I had experience with neither language or build system. Another issue is that I was developing on Linux: testing and building the iOS app was difficult, so I wanted the iOS app to stray from the Android version as little as possible.
-
-I decided to use Expo, which is a superset of React Native. You can create a React Native app through Expo without touching a line of platform specific code. Expo also handles certificates and keys for you, which was enticing, as I didn't even know what they were. It is also easy to convert back to React Native if I wanted to. Expo has some issues, but so does React Native. 
-
+Expo is slightly different from React Native. You can create a React Native app through Expo without touching a line of platform specific code, unlike in React Native. Expo also handles certificates and keys for you, which was enticing, as I didn't even know what they were. It is also easy to convert back to React Native if I wanted to. Expo has some issues, but so does React Native. 
 
 \subsection{Performance considerations}
 React Native apps compile into platform specific classes and components, eg. a React Native <View/> component becomes a Swift UIView on iOS, and a Java/Kotlin View on Android. Any Javascript that you write, or Javascript libraries that you use will stay as Javascript. React Native allows you to compile custom binaries which written in languages such as C, but Expo does not. Javascript is a slow language. It is not compiled like native app languages, and instead interpreted. This could prevent some older devices that already have performance issues from my app. In my case, the app was reasonably simple, and much of the data processing was handled server side, so this was not much of an issue. 
@@ -478,34 +483,6 @@ The server sends the name of the sprite that should be rendered, but the sprite 
 
 \subsection{Deploying}
 Deploying the app to Google Play was very easy. I had done all of my development with an Android device, so I didn't need to do extra testing. My first production build was accepted. It took a few days to make sure that everything was working as expected on iOS. I primarily had to make sure that text sizes and buttons were well sized for Apples flagship phones, and that safe area views were working properly. I also had to take screenshots with multiple devices, create a privacy policy, and do just about everything I did for Google Play again. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
