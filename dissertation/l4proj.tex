@@ -24,12 +24,8 @@
 %==============================================================================
 %% ABSTRACT
 \begin{abstract}
-    Every abstract follows a similar pattern. Motivate; set aims; describe work; explain results.
     \vskip 0.5em
-    ``XYZ is bad. This project investigated ABC to determine if it was better. 
-    ABC used XXX and YYY to implement ZZZ. This is particularly interesting as XXX and YYY have
-    never been used together. It was found that  
-    ABC was 20\% better than XYZ, though it caused rabies in half of subjects.''
+    ``Inactivity is a serious health epidemic in the modern world. In this project, I investigated whether adding collaboration to activity trackers could alleviate this problem. I implemented an RPG themed cross platform mobile app which let users fight enemies together through working out. This app did not have an impact on how often users trained, but lead to a small increase intensity in which users trained. The app brought some friends together and turned an otherwise individual activity into something shared.``
 \end{abstract}
 
 %==============================================================================
@@ -86,37 +82,9 @@
 
 
 
-Why should the reader care about what are you doing and what are you actually doing?
-\section{Guidance}
 
 \textbf{Motivate} 
 Activity trackers are very popular nowadays. These apps leverage various motivators, such as social feeds, points for activity, and reminders. However, most of these apps do not leverage collaborative motivators. I wanted to investigate whether or not users would feel more motivated to exercise if it wasn't just about working towards a personal goal, but towards a shared goal with a team of friends/strangers. The goal of my RPG themed activity tracker, 'Stat Buff' was to gamify progress as ingame character development (leading to greater attack damage), and workouts as attacks towards your teams enemy. This rewards users for making progress in their performance, as well as for making small daily efforts. The teams enemy resets in a week if it has not been defeated, which creates an urgency to exercise in order to to reach the next enemy.
-\section{Writing guidance}
-\subsection{Who is the reader?}
-
-This is the key question for any writing. Your reader:
-
-Remember, you will be marked by your supervisor and one or more members
-of staff. You might also have your project read by a prize-awarding
-committee or possibly a future employer. Bear that in mind.
-
-\subsection{References and style guides}
-
-\subsubsection{Citation styles}
-
-%\item If you are referring to a reference as a noun, then cite it as: ``\citet{Orw68} discusses the role of language in political thought.''
-%\item If you are referring implicitly to references, use: ``There are many good books on writing \citep{Orw68, Wil09, Pin15}.''
-
-There is a complete guide on good citation practice by Peter Coxhead available here: \url{http://www.cs.bham.ac.uk/~pxc/refs/index.html}. 
-If you are unsure about how to cite online sources, please see this guide: \url{https://student.unsw.edu.au/how-do-i-cite-electronic-sources}.
-
-\subsection{Plagiarism warning}
-
-\begin{highlight_title}{WARNING}
-    
-    If you include material from other sources without full and correct attribution, you are commiting plagiarism. The penalties for plagiarism are severe.
-    Quote any included text and cite it correctly. Cite all images, figures, etc. clearly in the caption of the figure.
-\end{highlight_title}
 
 
 %==================================================================================================================================
@@ -125,12 +93,12 @@ If you are unsure about how to cite online sources, please see this guide: \url{
 %FIX
 %%%
 %
-%https://dl.acm.org/doi/10.1145/3134717
+%https://dl.acm.org/doi/9.1145/3134717
 
 %start of the background, roadmap the issues, lot of them involved with step counts 
 % 
 
-\subsection{Existing Research}
+\subsection{Existing product research}
 There is a lot of existing research into the effectiveness of collaborative activity trackers. Most of this research is into increasing step counts with pedometers. This differs slightly from my strength tracker, as step counts can be automatically tracked and input in to the system.
 
 "Pass the Ball" was an app which was developed in order to evaluate the effectiveness of enforced turn taking for encouraging exercise \citep{Pass_the_ball}. In the second version of the app, users in groups had a single ball which gave the owner the ability to score points for the team through exercise, which could be passed to other users. Users who received the ball often felt that they had a small window of opportunity to score points before someone else wanted the ball. For example, one participant said: "I turned to my group and I was like 'we’re walking fast today! We have an hour to get as many steps in as we can!'". This exclusivity also caused some issues. Users who stole the ball from another teammate (incuring a penalty) would get into fights with other members. One user sent the message "Sorry, Just looked at my phone. I would have passed!" after their ball was stolen. Although the app seemed to make some group members competitive and more passionate about exercise, there were some drawbacks to their implementation "such as obligation, conflict, and privacy concerns".
@@ -140,6 +108,10 @@ There is a lot of existing research into the effectiveness of collaborative acti
 \citet{ChickClique} developed an app called 'Chick Clique' which had a lot of the same design principles. They had assigned 5 different levels for users based on their step count, aswell as a "team average" which girls collaborated together to improve on. My app had 5 different characters and titles you got based on your strength, aswell as progression based on average performance of each member. Chick Clique also included other health features such as tips for healthy eating. Despite the particpants having a pedometer, food tips, and gamified progress "group performance was rated by the girls as being the most powerful method of changing behavior." The pedometer alone was found to be more effective than Chick Clique for middle schoolers, whilst Chick Clique was more effective for high schoolers.
 
 \citet{Fish'n'Steps} created a site called "Fish'n'Steps". The participants were given a fish bowl, where the number of fish, their mood and growth were influenced by the number of steps that they took. There was a version of the game where participants were given their own fish bowl, and thus did not collaborate or compete. There was another version of this game, where users shared a fish bowl. The step counts of each user influenced the shared fish bowl: "each 'insufficient' day for any team member resulted in the tank’s water getting darker, as well as the gradual removal of the fish-tank’s decorations". There was also out-group competition: there were leaderboards for the best performing teams. Much like my app, this site employed visual rewards. In my app, you got better looking characters as you got stronger, whilst this app grew your fish. I also implemented shared visual rewards: you got to see the enemy update and it's health reduce as your team worked out, whilst this site varied the state of your fish bowl. This site also implemented anonymous teams, and also found that "anonymous team cooperation did not produce significant results".  The game lead to good behaviour changes, but participants lost interest "Although the initial fascination with the game subsided after the first couple of weeks, it nonetheless generated sustainable change in behavior and made continuing the game unnecessary."
+
+\citet{Shakra} estimated the activity of participants through their cell signals. This study was mostly focused on the accuracy at which the neural network estimated. The estimated activity levels were shared with friends. The app performed well even without the social signals: "participants described how they were would enjoy checking how much walking and running activity they did during the day." Teams mostly competed, but instead competed against one another. Competition seemed to be effective as users "also enjoyed competing among themselves". This is interesting, as users did not like competition in the afformentioned app Healthy Together. 
+
+\citet{Stickers} developed "Stickers for Steps" an Android sticker collecting app. Stickers are collected through reaching step count targets. Users could receive duplicate stickers, which incentiviced users to trade stickers. Users could only trade stickers through Bluetooth, which encouraged users to meet face to face. This was to gave the users a real sticker collecting experience as "part of the joy of the sticker collecting experience is in meeting with others to exchange the inevitable duplicates that will accrue from the random sticker acquisitions". This app brought users together as 27/31 of users who had partners traded at least once. Sticker swapping often served as an icebreaker: "Conversations during and after sticker exchanges were reported to have been quite general, discussing the app itself as well as typical day-to-day chitchat"
 
 I wanted to make the game RPG themed, so I looked into if there were any RPG themed activity trackers. I found a study on a game called Spyfeet \citep{SpyFeet}. SpyFeet is a pedometer combined with story-telling elements. The more the user walks, the more they progress in the story. Although this was a singleplayer game and much more story-driven than what I wanted to make, it was reassuring to see that additional reward for exercise leads to more activity.
 
@@ -153,7 +125,19 @@ I was curious if it was possible to implement reinforcement learning in order to
 
 Finally, I did some research into behavioural change techniques in general. There were lots of categories of behaviour change, one of which was social support/accountability. Most of the techniques were not feasible to implement, but understanding the importance of social support and accountability and how it can be implemented was helpful for my own implementation. \citep{Integrated_Theory}
 
-I analyzed existing exercise apps, and existing RPG games in order to better understand the two categories I am combining. I analyzed Stronglifts 5x5 and Jefit, two popular exercise apps. Both had inbuilt social features, and online forums to keep people motivated. They had some complicated exercise features like planning workouts, which were out of scope for me. I found that Jefit had competitions, but no collaborative exercising. The absence of collaborative features showed that there was room to explore the effectiveness of these apps. I had to make sure that I implemented at least some of the features of existing popular exercise apps in order to maintain user engagement. These were the key features that I noticed in both these apps:
+
+\subsection{Existing Research}
+I analyzed existing exercise apps, and existing RPG game in order to better understand the two categories I am combining. The following chart shows the presence of features in my app, and popular workout apps:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\linewidth]{exercise_comparisons.png}    
+    \caption{
+      Presence and absence of features in popular exercise apps
+    }
+    \label{fig:exercises} 
+\end{figure}
+
 
 %FIX add screenshots 
 %add table containing characteristics 
@@ -190,24 +174,10 @@ Another example of a collaborative RPG is World of Warcraft. In World of Warcraf
 
 
 
-\section{Guidance}
-\begin{itemize}    
-    \item
-      Don't give a laundry list of references.
-    \item
-      Tie everything you say to your problem.
-    \item
-      Present an argument.
-    \item Think critically; weigh up the contribution of the background and put it in context.    
-    \item
-      \textbf{Don't write a tutorial}; provide background and cite
-      references for further information.
-\end{itemize}
 
 %==================================================================================================================================
 \chapter{Analysis/Requirements}
-%FIX add citations 
-Exercise is hard to do consistently, leading to high inactivity. Social and group based exercise (such as exercising with a friend or joining a class) are good solution for making people feel accountable, and forcing a schedule. Even then, exercise would still be for your own good, and not for some common goal. A collaborative activity tracker would try to remove the buy in of group based exercise (course cost, fixed schedule) and would make the user feel as though they were contributing to a collective success and not just an individual one. 
+"Physical inactivity is the fourth leading cause of death worldwide". Social and group based exercise (such as exercising with a friend or joining a class) are good solution for making people feel accountable, and forcing a schedule. Even then, exercise would still be for your own good, and not for some common goal. A collaborative activity tracker would try to remove the buy in of group based exercise (course cost, fixed schedule) and would make the user feel as though they were contributing to a collective success and not just an individual one. 
 \section{Guidance}
 Make it clear how you derived the constrained form of your problem via a clear and logical process. 
 
@@ -320,7 +290,7 @@ I first had to choose a technology that I would use to build the client. I decid
 
 As the app was collaborative, I needed to setup a server and a database. I wanted to make this as easy as possible, so I used a technology called Postgraphile, which turns a database into a server API automatically. This technology still required a lot of learning and configuration for the created server to behave as expected.
 
-\section{Server/Database}
+\section{Server/Database implementation}
 
 The server is built with a technology called GraphQL. GraphQL is a query language similar to REST, except GraphQL requests require you to pass a JSON-like object containing only keys for which you want the values for. This is what a simple GraphQL request might look like: 
 
@@ -348,7 +318,7 @@ This sounds good in practice, but GraphQL can often perform poorly. This was bro
 Luckily, Postgraphile addresses this. Instead of issuing an SQL query for every single child in the query, Postgraphile acts as a middleware, converting GraphQL requests into a single SQL query. This has huge performance benefits over the afformentioned manual implementation, as only one SQL query is required, and SQL's optimization can be harnessed better (such as through indexes). Another huge benefit of Postgraphile is that it analyzes your databases, and generates your entire query API from attributes and relations in your database. A lot of my time usually goes in to writing, debugging and maintaining basic CRUD server logic. When the database becomes complicated, changing the structure and relationships of your tables requires a lot of work to synchronize on the server. Postgraphile removes all this effort. Postgraphile does require some configuration, as we usually want to grant and limit data access depending on user, and internal logic beyond simply reading and writing data. 
 
 
-\subsection{Security}
+\subsection{Server/Database Security}
 I am used to implementing security logic in the middleware, and not the database, so this was hard for to understand and implement. 
 
 Removing read/write queries from the GraphQL API for specific fields and tables is very simple:
@@ -390,7 +360,7 @@ if authenticated_user.password = crypt(input_password, authenticated_user.passwo
   #...
 \end{lstlisting}
 
-\subsection{Complex database logic}
+\subsection{Implementing business logic on the database}
 With the current setup, we can execute simple authenticated rule-based CRUD operations. Usually we want more complex logic. One solution would be to replace the automatically generated queries and mutations with custom written ones that also include side effects. This would go against Postgraphile's philosophy of reducing the amount of source code that needs to be written. I found the best solution to introduce side effects was to use database triggers. Database triggers are functions that execute when specified events occur. Triggers can alter the row that caused the trigger to row, as well as execute SQL that reads/writes from other tables/rows. 
 
 
@@ -410,16 +380,13 @@ EXECUTE PROCEDURE trigger_set_timestamp();
 
 Triggers reduce the amount of code that needs to be written, as I only need to specify what should be done after a write operation. Traditional side effects also might need to be written more than once: if a user is updated from two different endpoints, both would need to manually update the user's timestamp. Triggers need to be written once, and will always run regardless of what query or SQL statement triggered them.
 
-\subsection{Subscriptions}
+\subsection{Implementing real time client events}
 In order to implement real time events on the server side, I used Postgraphile's built in websocket subscriptions. Client subscribers listen on a "topic" which is a string representing a real time event source. A topic "blog\_posts" might notify listeners with a link to the new post whenever a new blog was published. In my case, I had topics for every team, which were formatted as "Event\_{Team Name}" (such as "Event\_Dream Team"). The Postgres database alerts Postgraphile when a topic has updated with the pg\_notify() function, along with data about the event itself. Postgraphile then notifies event listeners, along with the information about the event. This event can be a message, a workout, or a new exercise personal record. The client is responsible for presenting the different events. 
 
-\subsection{Other server features}
-My server is also responding for sending a participant information/ethics consent sheet. This is a simple React App, containing information about the study and data usage. It requires that the user enters the username which they would like to use and to read and consent to all points. When the form is submitted, the username is saved in ethics consent table in the database. The presence of your username in the ethics consent table is required to proceed with the sign up. This form is opened by the app, which opens the app through once it's submitted through deeplinking. 
-
-\subsection{Deploying}
+\subsection{Deploying server/database}
 I originally intended to deploy both my database and server on Heroku, as I was familiar with both. I realized that Heroku's database wouldn't fit my use case: you are not allowed to create roles. My security policy is built on having a super user (which only I have access to) and a restricted database user subject to all security rules. Postgraphile is connected as this restricted user, so any sent GraphQL (and thus SQL) that a user sends is subject to row level security policies. I considered hosting the database and server on AWS, but Postgraphile does not support subscriptions there (due to the serverless infrastructure). I decided to combine the best of both worlds, and used a Heroku server alongside an AWS RDS database (which supports roles, even on the free tier.) It took some work for me to get SSL properly working as I am new to using AWS. Locally, simple CRUD queries only take 10-20ms to handle, and more complex ones such as fetching users by group, and all events by users take 50ms, while on Heroku, this is 60-100ms for simple queries, and 100-200 for more complex ones. I believe that this is partially because of the latency from Heroku to AWS, but I am still happy with the performance, especially for a free server and database.
 
-\subsection{Strength and workout calculations}
+\subsection{Implementing relative strength calculations}
 A key part of my app is the connection between in game strength and real life strength. Strength is hard to calculate, as it depends on factors such as the exercise, the weight used, number of repetitions, the bodyweight of the user, etc. Although formulas exist for popular exercises (such as squat, bench, and deadlift in powerlifting) I wanted the app to include more exercises, especially bodyweight ones during COVID. I did some research, and couldn't find any API's that handled these calculations, but I did find websites which provided them. I contacted the owners of the sites, and they weren't willing to provide API access. I asked the owner of strengthlevel.com if they would mind me scraping their site, and they didn't. The web client contacts an API to make these requests, and by tracking my network requests when I submitted the form, I could copy and analyze how my request parameters were sent. I then made the exercise request generalizable (for instance, by changing the exercise which I submitted, "barbell-squat") to the variable exerciseName. The node.js server didn't allow for the Strength Level request to be made, as it wasn't encrypted. After doing some research, I found two solutions: one would be to disable this restriction and to send the request without any encryption. This is a bad idea, as the request contains some sensitive information (exercise performance, identified gender, weight). This would also remove warnings when sending unencrypted requests to other hosts. The latter solution involved getting the public key (.pem file) of Strength Level, and encrypting the request with it. This was harder, as I didn't have experience with this, but I'm glad I learned to do it properly (as I also needed to configure Amazon's public key for database requests).
 
 Most of the request parameters were self explanatory (exercise weight, bodyweight, repetitions, etc.) as it was obvious that they were just numbers. The exercise name parameter required more work to generalize, as this was a string which had to be in the small subset of supported exercises. I scraped the names of this by copying the HTML of the exercise browser, and by stripping everything but the names. This was initially enough information to set up relative strength calculations. Months later as I tracked a bodyweight exercise, I found that the request didn't work. This is because bodyweight exercise have a different query format. Instead of requiring lifted weight as a parameter, they require "additional\_weight" and "is\_bodyweight". To accomodate for this, I added an extra field to all exercises (is\_bodyweight), scraped all exercises tagged as such, and set is\_bodyweight to true for all those exercises. I also had to refactor the request sent to Strength Level depending on if the exercise was a bodyweight one or not. After fixing this bug, it was very easy to add a "bodyweight only" filter to the exercise search in my app, which hopefully made my exercise. 
@@ -439,8 +406,8 @@ Using foreign keys allows us to construct queries GraphQL which fetch exercise u
 
 I also load the battle and group foreign keys into workouts, but these fields are mandatory. Tracking workouts makes you deal damage towards your enemy, which doesn't make sense if you don't have an enemy. On the other hand, you can strengthen your character without needing an active enemy. I calculate the number of granted hits using a simple generated column:
 
-%\begin{lstlisting}[language=SQL, caption={Calculate hits based on user supplied average_rir and sets}]
-%hits integer GENERATED ALWAYS as ((10 - average_rir) / 10.0 * sets) stored
+%\begin{lstlisting}[language=SQL, caption={Calculate hits based on user supplied average_rir and sets}, label=lst:calc_hits]
+%hits integer GENERATED ALWAYS as $ ((10 - average_rir) / 10.0  \cdot  sets) $ stored
 %\end{lstlisting}
 
 
@@ -453,7 +420,7 @@ As I already had some experience with React, I decided to use Expo, which is a s
 
 Expo is slightly different from React Native. You can create a React Native app through Expo without touching a line of platform specific code, unlike in React Native. Expo also handles certificates and keys for you, which was enticing, as I didn't even know what they were. It is also easy to convert back to React Native if I wanted to. Expo has some issues, but so does React Native. 
 
-\subsection{Performance considerations}
+\subsection{Expo app size and launch time}
 React Native apps compile into platform specific classes and components, eg. a React Native <View/> component becomes a Swift UIView on iOS, and a Java/Kotlin View on Android. Any Javascript that you write, or Javascript libraries that you use will stay as Javascript. React Native allows you to compile custom binaries which written in languages such as C, but Expo does not. Javascript is a slow language. It is not compiled like native app languages, and instead interpreted. This could prevent some older devices that already have performance issues from my app. In my case, the app was reasonably simple, and much of the data processing was handled server side, so this was not much of an issue. 
 
 \citet{app_size} compared the sizes of different APKs generated by Java and React Native. A simple app that showed "Hello world" to the user 539 KB, while the React Native app 7 MB. This is primarily caused by the bundled Javascript interpreter which the React Native app bundles along with the App. This is not a requirement for Java apps, as Android devices come bundled with Java Runtime Environment. App size only gets worse with Expo: "An application with Hello World weighs 25 MB" \citep{expo}. App install size is very important: "For every 6 MB increase to an APK’s size, we see a decrease in the install conversion rate of 1\%" \citep{app_conversions}. This article primarily stresses the importance of app size when developing apps for countries with poor network connectivity and cheaper devices. My participants primarily resided in Finland and United Kingdom, where storage and network connectivity isn't as much of an issue. None of my participants reported that they couldn't install the app. There is also a difference with download and install size: The Android App Bundle (aab) is about half the size of an APK to download, and this bundle is also compressed. My app download size was about a fourth of the install size.
@@ -473,7 +440,7 @@ I used Typescript during my development of the app, which is a superset of Javas
 \subsection{Analytics}
 In order to better understand how the client was being used, I setup simple analytics tracking. Whenever a user opens an overlay or navigates to a screen, it sets a global visibleSection variable to it's own name. I set up a listener for this global variable, which pushes the new section to the end of a list whenever the visible section changes. I also append the total time spent on the last section. I set up another listener, which sends the path that the user took around the app when they close the app. When the analytics are sent, the path is set back to an empty list to avoid sending the same path twice.
 
-\subsection{Sprites}
+\subsection{Player and enemy sprites}
 In order to make the app more lively, I bought a sprite pack from an artist. I ended up using 6 different characters, and 8 different enemies. The sprites had varying amounts of whitespace around each frame. This made it difficult to center elements consistently. Fights would look weird with the enemy, as they wouldn't be centered vertically. I tried to solve this by applying absolute positioning to the characters, but this would break depending on the device. Eventually, I removed the whitespace from the sprites manually. I made a bash script with ImageMagick, a command line image editing tool. Each frame of the sprite sheet needed to stay the same size. My script required the number of rows and columns in the sprite sheet in order to calculate the size of each frame, as well as the percentage that should be clipped from the top, left, right, and bottom of each frame. This was a bit tedious but it worked.
 
 In order to make the characters idle, I simply had to loop the idle sprites. In order to make the character battle with an enemy, I triggered the player animation, which had an onFinish() function hook. The player's onFinish() call triggers the enemy to trigger it's "on hit" animation. The onFinish() call of the player triggers the enemy to attack again. This repeats until the enemy is dead, the player has no more attacks, or the player skips the animations.
@@ -481,78 +448,67 @@ In order to make the characters idle, I simply had to loop the idle sprites. In 
 The server sends the name of the sprite that should be rendered, but the sprite is stored on the client's device. The server classifies the user's strength, which tells the client which sprite to render. The server also tells the client which enemy it should render in the team view.
 
 
-\subsection{Deploying}
+\subsection{Deploying to app distribution platforms}
 Deploying the app to Google Play was very easy. I had done all of my development with an Android device, so I didn't need to do extra testing. My first production build was accepted. It took a few days to make sure that everything was working as expected on iOS. I primarily had to make sure that text sizes and buttons were well sized for Apples flagship phones, and that safe area views were working properly. I also had to take screenshots with multiple devices, create a privacy policy, and do just about everything I did for Google Play again. 
 
 
 
-\section{Guidance}
-You can't talk about everything. Cover the high level first, then cover important, relevant or impressive details.
 
 
-\section{General points}
-These points apply to the whole dissertation, not just this chapter.
-
-
-\subsection{Figures}
-\emph{Always} refer to figures included, like Figure \ref{fig:relu}, in the body of the text. Include full, explanatory captions and make sure the figures look good on the page.
-You may include multiple figures in one float, as in Figure \ref{fig:synthetic}, using \texttt{subcaption}, which is enabled in the template.
-
-
-\subsection{Equations}
-
-Equations should be typeset correctly and precisely. Make sure you get parenthesis sizing correct, and punctuate equations correctly 
-(the comma is important and goes \textit{inside} the equation block). Explain any symbols used clearly if not defined earlier. 
-
-For example, we might define:
-\begin{equation}
-    \hat{f}(\xi) = \frac{1}{2}\left[ \int_{-\infty}^{\infty} f(x) e^{2\pi i x \xi} \right],
-\end{equation}    
-where $\hat{f}(\xi)$ is the Fourier transform of the time domain signal $f(x)$.
-
-\subsection{Algorithms}
-Algorithms can be set using \texttt{algorithm2e}, as in Algorithm \ref{alg:metropolis}.
-
-\chapter{Evaluation} 
-
-
+\section{Evaluation}
 I had a total of 24 participants. Participants were recruited through messaging apps. I usually only mentioned that I was conducting research on an exercise app, and nothing more. My app had built in tutorials, and required that users signed a participant information/ethics consent sheet, so I didn't need to give much information about the app. After three weeks, users were asked to participate in a survey.
 
 
 Interviews take much longer than surveys, as you have to schedule conduct, transcribe, and analyze them. I only interviewed 10 people. In order to maximize the value of each interview, I classified users in to different categories, and sampled from each group. Some users belonged to more than one category. 
 
-Some users had some issues with exercise inputs being removed. This bug was hard to reproduce, and probably had to do something with parent component refreshing. 
 
 \subsection{Strongest members of teams}
-Two users that interested me (User 1 and User 3) were the users that contributed a substantial amount of the damage to the team (80\%+). Both the users had a lot of training experience. User 3 was the strongest out of all users, and User 1 was above average in strength, and had used an activity tracker named "FitNotes" before. I was interested in what drove them to contribute such a large amount, and how they felt about doing so. 
+User 1 and User 3l were users that contributed a substantial amount of the damage to the team (80\%+). Both the users had a lot of training experience. User 3 was the strongest out of all users, and User 1 was above average in strength, and had used an activity tracker named "FitNotes" before. I was interested in what drove them to contribute such a large amount, and how they felt about doing so. 
 
 \subsubsection{Motivation}
-Both of these users mentioned competitiveness, but hardly anything about collaboration. It is hard to say whether or not competitiveness drove these users to perform better, or they became competitive once they realized that they were well. For instance, User 1 suggested a feature: "you could click it and see all the movements that they did in the gym, and the weights and the like the reps. I think it would be a bit more interesting. And for people who like competition it would be fun.". User 1 wanted more transparency towards other members' actions, so that he could compete better. User 3 thought that being able to see the damage and actions of other users leads to competitiveness and more actions "Oh, ****, User 3 is out there, I've got to do the same". 
+
+Both of these users mentioned competitiveness, but hardly anything about collaboration. It is hard to say whether or not competitiveness drove these users to perform better, or if they became competitive due to their superiority. For instance, User 1 wanted more transparency towards other members' actions, so that he could compete better: "you could click it and see all the movements that they did in the gym, and the weights and the the reps. I think it would be a bit more interesting. And for people who like competition it would be fun.".  User 3 thought that being able to see the damage and actions of other users leads to competitiveness and more actions "Oh, ****, User 3 is out there, I've got to do the same". 
 
 \subsubsection{Reaction towards being the strongest}
 
-User 1 and User 3 had very opposite reactions towards being the best. User 1 commented: "If everyone would have been contributing equally, I think I would've put much more effort into it." At one point, User 1 had sent a chat message asking if the other member's had gym access. He later explained that this was a passive agressive way of asking why the other users weren't contributing enough. 
+User 1 and User 3 had very opposite reactions towards being the best in their team. User 1 commented: "If everyone would have been contributing equally, I think I would've put much more effort into it." At one point, User 1 had sent a chat message asking if the other member's had gym access. He later explained that this was a passive aggressive way of asking why the other users weren't contributing enough. 
 
 User 3 reflected on his gameplay with "Plus, I was carrying those noobs." in a satisfied tone ("Carrying" in games refers to single-handedly winning games for your team, and "noobs" are beginners). Although he clearly enjoyed being the best in his team, he didn't think it would be fun if it someone else was outdoing him by a large margin: "And then we had one guy who was working out seven out of seven times a week for three to four hours a day. And so imagine that we had that guy in our team: he would be doing like 90\% out of a team of 10 people." 
 
-Both users suggested fixes to balance the user contributions. User 1 suggested that the game should rely on each team member more, by dividing users into different classes with different responsibilities. "You will even have a kind of social pressure to do a workout. If your team's success is based on your stamina stat or something like that." I had considered increasing per-user responsibility more. I decided not to do this, as I didn't want to unactive users to prevent progress, but only to slow it down. I asked this user how they would feel if they had to rely on someone who was not active. User 1 responded: "If my progress in the game would be relying on someone who doesn't do anything. I think it would be a bit unmotivating for me." 
+Both users suggested fixes to balance the user contributions. User 1 suggested that the game should rely on each team member more, by dividing users into different classes with different responsibilities. "You will even have a kind of social pressure to do a workout. If your team's success is based on your stamina stat or something like that." I had considered increasing per-user responsibility more. I decided not to do this, as I didn't want to inactive users to prevent progress, but only to slow it down. I asked this user how they would feel if they had to rely on someone who was not active. User 1 responded: "If my progress in the game would be relying on someone who doesn't do anything. I think it would be a bit unmotivating for me." 
 
-User 3 had a suggestion that involved changing how the game behaved, rather than how user actions should be influenced. He suggested: "Bonus damage, which might be the adjusted percentage of the monsters health. So it doesn't matter how weak you are, you could still offer the team that percentage damage". This would mean that everyone's effort would be equally valuable. Users would still contribute more to their team through being stronger, but this would allow weak users to contribute equal amounts in at least one dimension. 
+User 3 had a suggestion that involved changing how the game behaved, rather than how user actions should be influenced. He suggested adding "bonus damage, which might be the adjusted percentage of the monsters health. So it doesn't matter how weak you are, you could still offer the team that percentage damage". This would mean that everyone's effort would be equally valuable. Users would still contribute more to their team through being stronger, but this would allow weak users to contribute equal amounts in at least one dimension. 
 
 
 \subsection{Team's composed of strangers}
-By default, my app allowed the creation of one person teams. I decided to prevent this feature, as I didn't want many single-member teams to form, as these users wouldn't be collaborating with anyone. I didn't want users to drop out if they didn't want to invite friends, so I added a "Join Random Team" button, which would place you in the smallest and oldest public team. This lead to teams with 2-3 members forming, who did not know each other. I was curious of how these team's performed compared to team's where users knew each others.
+I prevented the formation of 1-person teams as these users wouldn't be collaborating with anyone. I didn't want users to drop out if they didn't want to invite anyone, so I added a "Join Random Team" button, which would place you in the smallest and oldest public team. This lead to teams with 2-3 members forming, where users did not know each other. I was curious of how these team's performed compared to team's where users knew each others.
 
-The overall reaction towards training with strangers seemed to be mostly negative. User 2 tried to create their own team, but wasn't allowed to play without other members. They didn't want to invite their friends to play, and realized that their only option was to join a team with strangers. User 2 didn't want to do this: "So I thought it's kind of weird just joining a random group, that I don't know the people in." 
+The overall reaction towards training with strangers was negative. User 2 tried to create their own team, but wasn't allowed to play without other members. They didn't want to invite their friends to play, and realized that their only option was to join a team with strangers. User 2 didn't want to do this: "So I thought it's kind of weird just joining a random group, that I don't know the people in." 
 
-Although User 3 was reasonably active, but he thought his experience could have been better: "If it was under normal circumstances, and I would actually have my friends and not just strangers, it would be really fun." 
+Although User 3 was reasonably active, he thought his experience could have been better: "If it was under normal circumstances, and I would actually have my friends and not just strangers, it would be really fun." 
 
 User 4 didn't feel negatively about working with strangers, but didn't care about their team: "It was almost like I was doing it myself because I didn't know the guy" 
 
-The activity of the inactive teams was also very noticeable. The two most active teams were by far was a three person team and a five person team where all the members knew each other. 
+The activity of the inactive teams was also very noticeable. The two most active teams were composed of users who all knew each other.
 
-  
 
+\subsection{Users who didn't join a group}
+There was one user (User 2) who treated the app as a personal tracker but did not join a team: "I've seen kind of similarish ideas before. Like habit tracker apps that are kind of like RPG, where you can develop your own character. So I kind of viewed it like that. So it's kind just personal motivation for you." Not having gym access and lacking exercise habits were the primary reason people gave for not joining a team.  Users that already trained or wanted to start invited friends or joined a team with strangers. For instance User 9 stated: "Gym access is like the first issue, obviously, because that was my primary source of exercise. Like, I'm literally just, you know, not doing anything". A couple users mentioned not being interested in group based exercise in general. For instance, User 9 mentioned in addition to not having access to the gym: "For me working out is a personal hobby and I'm not interested in making it group-based". User 6 had a similar response "In RPG's you grind and train alone, and you taking that experience away is weird."
+
+\subsection{Social obligation vs altruism}
+I wanted to find out from members of teams which performed well whether their collaboration towards their teams was driven by social pressure, or a sense of altruism towards the team. Although both can lead to users training more, social pressure is a form of negative enforcement, whilst altruism towards the team is a form of positive enforcement.
+
+\subsection{Animated sprites}
+Users liked when gym and RPG references were combined. Users found generic monster names like "Mudcrab" and "Minotaur" compared to more creative names like Frogman, King of Deadlift Leverages. One user said: "I mean, it's funnier to do frogman jokes. Like deadlift guy than frostcave guardian and stuff like that, which is not like related to gym". You can see a frame of the Frogman's sprite sheet animation in Figure \ref{fig:frogman}:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\linewidth]{froggie.png}    
+    \caption{
+      "Frogman, the King of Deadlift Leverages. The deadlift is performed by picking up the weight from the ground, so this frog has great leverages for the exercise."
+    }
+    \label{fig:frogman} 
+\end{figure}
 
 \subsection{Commonly mentioned technical issues}
 By far the most mentioned issue was a keyboard opening error. If you searched for exercises and tried to set the repetitions/weight of the last or second last element of the list, the keyboard would overlap with the input, which would close the keyboard as soon as it opened. Users could luckily work around this: as long as they specified their search more, the last element would appear as the first element, which allowed the user to input the values.
@@ -565,25 +521,10 @@ There was an interesting bug with number inputs. Whenever users had to enter wei
 
 This bug was only visual, but the fight with the players character and the enemy was off center, sometimes slightly off screen. This could have been avoided by using a larger array of emulators with a diverse number of screen sizes. This lack of device test coverage lead to other similar bugs. Although I had implemented flex layouts which scale proportionally with screen size, elements such as buttons and text did not, which lead to small elements on some screens. Users with larger screens sometimes didn't even notice the "User" and "Group" labels on the bottom navigations tabs, which is an important part of the app.
 
-
-\subsection{Users who didn't join a group}
-There was one user (User 2) who treated the app as a personal tracker but did not join a team: "I've seen kind of similarish ideas before. Like habit tracker apps that are kind of like RPG. And then you can develop your own character. So I kind of viewed it like that.So it's kind just personal motivation for you." For the large part, not being able to train or having consistent gym habits was the primary reason people gave for not joining a team. Users that already trained or wanted to start invited friends or joined a team with strangers.  For instance User 9 stated: "Gym access is like the first issue, obviously, because that was my primary source of exercise. Like, I'm literally just, you know, not doing anything". In addition to not being able to train, some users also weren't interested in collaborative exercise in general. Afformentioned User 9 mentioned in addition to not having access to the gym: "For me working out is a personal hobby and I'm not interested in making it group-based". User 6 had a similar response "In RPG's you grind and train alone, and you taking that experience away is weird."
-
-\subsection{Social obligation vs altruism}
-I wanted to find out from members of teams which performed well whether their collaboration towards their teams was driven by social pressure, or a sense of altruism towards the team. Although both can lead to users training more, social pressure is a form of negative enforcement, whilst altruism towards the team is a form of positive enforcement.
-
-\subsection{Animated sprites}
-Users liked when gym and RPG references were combined. Users found generic monster names like "Mudcrab" and "Minotaur" compared to more creative names like Frogman, King of Deadlift Leverages. One user said: "I mean, it's funnier to do frogman jokes. Like deadlift guy than frostcave guardian and stuff like that, which is not like related to gym". You can see a frame of the Frogman's sprite sheet animation in Figure \ref{fig:frogman}:
+Some users had some issues with exercise inputs being removed. This bug was hard to reproduce, and probably had to do something with parent component refreshing. 
 
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\linewidth]{froggie.png}    
-    \caption{
-      "Frogman, the King of Deadlift Leverages. The deadlift is performed by picking up the weight from the ground, so this frog has great leverages for the exercise."
-    }
-    \label{fig:frogman} 
-\end{figure}
+
 
 Users overall seemed to the animated pixel art for the user and the enemies. User 7 mentioned how he enjoyed tracking workouts as he could see the eenmy take damage in a battle "Oh, you know, I get to put in, you know, by my like, 14 sets or whatever I did. And I get to see the boss taking damage." User 4 also mentioned the satisfaction of entering workouts: "I kind of saw it as a sort of a motivation thing, and sort of to get you to train and give you the extra wee bit of dopamine from training and when logging your workout"
 
@@ -595,35 +536,116 @@ A couple users did not like how I had implemented overflow effects. By default, 
 \subsection{Ethical considerations}
 When designing my app, I implemented alerts which are triggered if users progress too quickly to prevent users from progressing without caring about technique. Users raised other potential ethical considerations to my app which I had not accounted for. User 1 mentioned how my app could lead to users doing too many workouts: "If I do like five gym sessions per week, but if that wouldn't be enough [to defeat the enemy], it wouldn't be very good for my health like to do like, seventh or eighth, gym session.". In a similar vain, User 4 thinks that my app could lead to users prioritizing game progress over sensible training if the game is poorly balanced: "You shouldn't be able to game the system, do lots of fluff work just to inflate your numbers, all training styles should be accounted for". User 7 mentioned that I should be considerate about adding new features, such as calorie tracking: "It would probably lead to eating disorders where people lose a bunch of weight".
 
-\subsection{Design ideas}
-A common feature suggestion was that exercises should be divided by bodypart. In addition to making searching for exercises a bit easier, users liked and suggested adding this as an in-game feature. "Yeah it makes kind of sense if you have bodypart specific armor that like maybe if you do arms a lot you get a battle axe." I discussed this idea further with users who had some experience with games and RPG's. 
-
-"There should be rewards for using and engaging with the app that don't require real world improvement"
-User 5
- "Battle pass like in Fortnite and Warzone, where you have to level up in order to get the next tier, and users could pay to get more rewards"
-  "You need to add a lot of content, as muscle building and training can be a slow process"
-
-  User 6
-  "First person to reach x level or beat y challenge wins something"
-    Could literally be a real life sponsor, such as a supplement company
-  "If you kill a certain enemy 10 times you get a weapon"
-Different types of characters based on what sport you compete in
-Create PVP battles, but also player versus NPC battles, such as against popular athletes
-
-User 8
-  "Maybe if you could see, like, like, all the avatars maybe, and like, cover kind of like if you if you improve, whatever. If you improve your strength by this much, you'll get a new avatar or something or something like that."
-  One friend who only contributed like one workout had such low damage that he lost interest in playing
-    "There was [anonymous user] in our group but he was a beginner so he was barely able to contribute."
-      I mentioned that all users should have some kind of initial boost that they should get. He thought this was a good idea as strength would be rewarded but users wouldn't be 10 times stronger.
-
-"But they're like, we need to do 100 trillion damage to him" (global enemy fights)
-"But you could make item level a thing. where every item you get will have a higher item level. And maybe that needs to be somehow tied to the amount that you use the app."
-
-
-
 \subsection{Collaboration vs competitiveness}
 User 7 and User 8 were both in the same teamI asked both users whether their motivation was driven by collaboration or competition. User 7, who was strongest in the team responded: "I think, at the start, I would tell User 8 'Yo, I just did a workout I just did this much damage, the boss is almost dead, you need to work out'". This was mostly collaborative: User 7 trained to help the team out, and wanted the User 8 to help him defeat the enemies. I asked User 8 the same question, and he reiterated the same sentiment as User 7: "We never spoke about being competitive". User 8 was a bit weaker than User 7, and he gave me insight into how this influenced his motivation: "I think User 7 did a couple more workouts than me, and I was trying to keep up with him. I think it was definetely competitive there." This intrigued me, as User 8 felt competive as the underdog, but the strongest member in the team did not feel competitive. This lead to User 8 putting in more effort: "The app probably added an extra workout every week." This is what I hoped that the app design would lead to: users that are weaker and who train less wanting to keep up with other users
 
+\subsection{Design ideas}
+A common feature suggestion was that exercises should be divided by bodypart. In addition to making searching for exercises a bit easier, users liked and suggested adding this as an in-game feature. "Yeah it makes kind of sense if you have bodypart specific armor that maybe if you do arms a lot you get a battle axe." I discussed this idea further with users who had some experience with games and RPG's.  Some users suggested making RPG style quests: "If you kill a certain enemy 10 times you get a weapon". This same user thinks that content is key to maintain users long term: "You need to add a lot of content, as muscle building and training can be a slow process". Although unrealistic, one user suggested giving sponsored prices for in-game achievement: "First person to reach x level or beat y challenge wins something such as a supplements from sponsor".
+
+Although most users agreed that real life strength should remain important, many suggested adding rewards which are based around using the app: "There should be rewards for using and engaging with the app that don't require real world improvement". Rewarding app use would hopefully reduce inequalities among beginners and users which already train.  User 7 and User 8 also had a beginner in their team, who tracked only one workout, but dealt a fraction of what User 7 and User 8, and lost interest. Small inequalities can be motivating: for instance, User 8 worked harder to catch up to User 7. There are many 'pay to win' apps which let users play the game for free, but which lock long-term progression behind a paywall. I could copy this, but through a 'train to win' model, which would only allow users to progress beyond the early stages if they trained. 
+
+
+
+
+
+
+%FIX finish
+
+
+
+
+
+
+
+
+
+
+%User 2: tracked lifts, didn't join group and dropped out
+%  Tracked lifts before "Just have a piece of paper in my kitchen?" Also has training experience
+%  Import export exercises
+%  
+%
+%
+%
+%
+%
+%User 4: Strong, didn't know who they trained with (wanted to find out how the experience was) also didn't drop out. 
+%  "I was gonna try and get my girlfriend to sign up as well but I don't think she was really able to train consistently"
+%  "But I still feel is really beneficial. I still feel I got like a good experience from it."
+%  "I cared more about the workouts because I feel like there was more of a sense of progress with them."
+%  "But I did think, yeah, I felt like in terms of my character, there wasn't too much progression there. The goal for me was the battles I think." 
+%  "For me, I didn't really struggle with motivation, right? I would be working out the same whether I had this app or not. I think I like the fact that it was it was a bit of extra reward."
+%
+%  Question: "I wanted advanced people have to work like a year to add like two kilos. So I kind of wanted to just reward their effort. So as an advanced lifter, would you say that it worked in your case?"
+%    Answer: "I would say so. Yeah, it's exactly like you said in terms of the character progression"
+%
+%  Misc
+%    Used websites which tell you relative strength, such as Symmetric Strength before, which all my calculations are based on. Makes sense why he enjoyed the app
+%    Liked how simple the app was and how little effort it took to use
+%    Cardio 
+%    Uses EFT training app
+%    He could imagine it being used even in conjuction with other apps (I didn't think anyone would use two apps over the long term.)
+%    If I branch out and try to be an exercise tracker then I would have more competition
+%
+%  Issues
+%    Show how close you are to reaching the next category (if I'm at the top of intermediate I need to push myself a bit more)
+%    Should be able to track workouts from the past so you don't feel like you're cheating by tracking multiple at once.
+%    Damage calculations should be more transparent.
+%    Keyboard blocked the track workouts button
+%
+%User 5: joined group, invited friend, but didn't really engage with the app, little training experience, has played "Gatcha games" which are essentially super grindy mobile games
+% "So the gym has been open and closed and I don't really go to the gym. "
+% "If I could've I probably probably would have [used the app] because it would have made actually go to the gym slightly more fun."
+%  Me: "Do you think them like wanting to progress further or them being stuck on an enemy? Would that on its own be enough for you to actually start training? Just to help them out?"
+%    Answer: "Probably. Yeah. I do it for that. I do it for like the greater good."
+%   Game ideas
+%
+%User 6: used the app briefly but didn't really engage with it, has experience with grindy Gatcha games, also artist
+%  Split exercises more based on bodyweight and equipment, maybe guide noobies a bit
+%  Give users sample workouts
+%  "It was a bit scary and disorienting to start using the app"
+%
+%User 7: 3 person team, very active, the strongest in that team  
+%  "Yeah, it wasn't it was quite funny at the start because we were just each of us were just wanting the bosses pretty much at the start but then a lot more. Got more interesting where we can have to work together to kill each boss."
+%  What about for weight loss
+%
+%  Issues
+%    "But it kind of feels a bit frustrating if the boss is 2 health and I've got a workout that has like 40 damage. Like, it's kind of sucks that the damage hasn't gone to the net. I know, it kind of probably shouldn't work that way. I tried splitting my workout into two. So I'd like take like two sets and then kill the boss. So that and then add another workout right after that. I had like 14 if I did like a total of 16. I'm not sure if that's like cheating or not."
+%    Bodyweight squats broken
+%    Show other users avatars
+%    RPG could be more interesting you get items by training which gives you items and resources which you can wear based on your skill level
+%
+%User 8: also in 3 person team, but was a bit weaker
+%  This user had a lot of the same comments about the app in general as user 7
+%  As they lived together, they discussed a lot of their issues together and they seemed to share a lot of the same issues (with regards to technological problems). He also expressed the same kinds of concerns over damage overflow for characters.
+%
+%
+%
+%  Was your app use more competitive or collaborative
+%  Was your contribution more altruistic or social obligation 
+%    "It was more that I wanted to at least do my part, and not let User 7 get all the credit." 
+%  Which was more important, in-group or out-group competition
+%    "In-group because I knew who I competed with"
+%
+%
+%User 9: never tracked a single workout, but very actively updated exercises
+%  Turns out that this user thought that the "all time bests" screen was where you tracked your workout. This made the user frustrated as this screen wasn't meant to be used often, only when you do better than last time.
+%    I mentioned that I am planning on adding saved workouts that you can track at the gym as you exercise, and they thought it was a good idea.
+%  "It wasn't as motivating as it could have been, because I didn't really see what other people were actually doing. I just saw like, okay, we like levelled up or something. Then again, I didn't know who did what. I still felt that I was like fighting alone."
+%    I asked if she had noticed the chat which had automatic updates and messages from other members, which was especially active in her team. She said she saw the icon but thought it was for tutorials
+%      "I noticed that in the upper corner. I thought it was general information or something. Yeah, I've already read things beforehand, so I don't need to read them again."
+%        Maybe chat should be its own upper tab?
+%    She didn't read the tutorial, so I suggested that there would be integrated tutorials in the app, that could even fit the game theme
+%      She thought this was better than my initial tutorial
+%
+%  "For me, it was a bit different, because I've never really marked on my trainings or anything."
+%  Issues
+%     Hard to find exercises, I suggested dividing exercises by type and bodypart, thought it was a good idea.
+%
+%
+%User 10: had exercise experience, didn't really engage with the app
+%  "So the sort of deal damage feature and how you can like be part of a team and then deal damage to other characters, or others. I don't know if that's something I would personally use. But for me personally, I think that just a feature of building a character, to me, that's a unique selling point of in and of its own." 
+%  Issues  
 
 
 
@@ -635,94 +657,6 @@ User 7 and User 8 were both in the same teamI asked both users whether their mot
 
 
 
-    
-
-User 2: tracked lifts, didn't join group and dropped out
-  Tracked lifts before "Just have a piece of paper in my kitchen?" Also has training experience
-  Import export exercises
-  
-
-
-
-
-
-User 4: Strong, didn't know who they trained with (wanted to find out how the experience was) also didn't drop out. 
-  "I was gonna try and get my girlfriend to sign up as well but I don't think she was really able to train consistently"
-  "But I still feel is really beneficial. I still feel I got like a good experience from it."
-  "I cared more about the workouts because I feel like there was more of a sense of progress with them."
-  "But I did think, yeah, I felt like in terms of my character, there wasn't too much progression there. The goal for me was the battles I think." 
-  "For me, I didn't really struggle with motivation, right? I would be working out the same whether I had this app or not. I think I like the fact that it was it was a bit of extra reward."
-
-  Question: "I wanted advanced people have to work like a year to add like two kilos. So I kind of wanted to just reward their effort. So as an advanced lifter, would you say that it worked in your case?"
-    Answer: "I would say so. Yeah, it's exactly like you said in terms of the character progression"
-
-  Misc
-    Used websites which tell you relative strength, such as Symmetric Strength before, which all my calculations are based on. Makes sense why he enjoyed the app
-    Liked how simple the app was and how little effort it took to use
-    Cardio 
-    Uses EFT training app
-    He could imagine it being used even in conjuction with other apps (I didn't think anyone would use two apps over the long term.)
-    If I branch out and try to be an exercise tracker then I would have more competition
-
-  Issues
-    Show how close you are to reaching the next category (if I'm at the top of intermediate I need to push myself a bit more)
-    Should be able to track workouts from the past so you don't feel like you're cheating by tracking multiple at once.
-    Damage calculations should be more transparent.
-    Keyboard blocked the track workouts button
-
-User 5: joined group, invited friend, but didn't really engage with the app, little training experience, has played "Gatcha games" which are essentially super grindy mobile games
- "So the gym has been open and closed and I don't really go to the gym. "
- "If I could've I probably probably would have [used the app] because it would have made actually go to the gym slightly more fun."
-  Me: "Do you think them like wanting to progress further or them being stuck on an enemy? Would that on its own be enough for you to actually start training? Just to help them out?"
-    Answer: "Probably. Yeah. I do it for that. I do it for like the greater good."
-   Game ideas
-
-User 6: used the app briefly but didn't really engage with it, has experience with grindy Gatcha games, also artist
-  Split exercises more based on bodyweight and equipment, maybe guide noobies a bit
-  Give users sample workouts
-  "It was a bit scary and disorienting to start using the app"
-
-User 7: 3 person team, very active, the strongest in that team  
-  "Yeah, it wasn't it was quite funny at the start because we were just each of us were just wanting the bosses pretty much at the start but then a lot more. Got more interesting where we can have to work together to kill each boss."
-  What about for weight loss
-
-  Issues
-    "But it kind of feels a bit frustrating if the boss is 2 health and I've got a workout that has like 40 damage. Like, it's kind of sucks that the damage hasn't gone to the net. I know, it kind of probably shouldn't work that way. I tried splitting my workout into two. So I'd like take like two sets and then kill the boss. So that and then add another workout right after that. I had like 14 if I did like a total of 16. I'm not sure if that's like cheating or not."
-    Bodyweight squats broken
-    Show other users avatars
-    RPG could be more interesting you get items by training which gives you items and resources which you can wear based on your skill level
-
-User 8: also in 3 person team, but was a bit weaker
-  This user had a lot of the same comments about the app in general as user 7
-  As they lived together, they discussed a lot of their issues together and they seemed to share a lot of the same issues (with regards to technological problems). He also expressed the same kinds of concerns over damage overflow for characters.
-
-
-
-  Was your app use more competitive or collaborative
-  Was your contribution more altruistic or social obligation 
-    "It was more that I wanted to at least do my part, and not let User 7 get all the credit." 
-  Which was more important, in-group or out-group competition
-    "In-group because I knew who I competed with"
-
-
-User 9: never tracked a single workout, but very actively updated exercises
-  Turns out that this user thought that the "all time bests" screen was where you tracked your workout. This made the user frustrated as this screen wasn't meant to be used often, only when you do better than last time.
-    I mentioned that I am planning on adding saved workouts that you can track at the gym as you exercise, and they thought it was a good idea.
-  "It wasn't as motivating as it could have been, because I didn't really see what other people were actually doing. I just saw like, okay, we like levelled up or something. Then again, I didn't know who did what. I still felt that I was like fighting alone."
-    I asked if she had noticed the chat which had automatic updates and messages from other members, which was especially active in her team. She said she saw the icon but thought it was for tutorials
-      "I noticed that in the upper corner. I thought it was general information or something. Yeah, I've already read things beforehand, so I don't need to read them again."
-        Maybe chat should be its own upper tab?
-    She didn't read the tutorial, so I suggested that there would be integrated tutorials in the app, that could even fit the game theme
-      She thought this was better than my initial tutorial
-
-  "For me, it was a bit different, because I've never really marked on my trainings or anything."
-  Issues
-     Hard to find exercises, I suggested dividing exercises by type and bodypart, thought it was a good idea.
-
-
-User 10: had exercise experience, didn't really engage with the app
-  "So the sort of deal damage feature and how you can like be part of a team and then deal damage to other characters, or others. I don't know if that's something I would personally use. But for me personally, I think that just a feature of building a character, to me, that's a unique selling point of in and of its own." 
-  Issues  
 
 
 
@@ -730,47 +664,8 @@ User 10: had exercise experience, didn't really engage with the app
 
 
 
-
-
-
-Team MVP's (1 person)
-
-
-
-
-
-
-
-
-
-\section{Guidance}
-\begin{itemize}
-    \item
-        Ask specific questions that address the general problem.
-    \item
-        Answer them with precise evidence (graphs, numbers, statistical
-        analysis, qualitative analysis).
-    \item
-        Be fair and be scientific.
-    \item
-        The key thing is to show that you know how to evaluate your work, not
-        that your work is the most amazing product ever.
-\end{itemize}
 
 \section{Evidence}
-Make sure you present your evidence well. Use appropriate visualisations, reporting techniques and statistical analysis, as appropriate.
-
-If you visualise, follow the basic rules, as illustrated in Figure \ref{fig:boxplot}:
-\begin{itemize}
-\item Label everything correctly (axis, title, units).
-\item Caption thoroughly.
-\item Reference in text.
-\item \textbf{Include appropriate display of uncertainty (e.g. error bars, Box plot)}
-\item Minimize clutter.
-\end{itemize}
-
-See the file \texttt{guide\_to\_visualising.pdf} for further information and guidance.
-
 
 
 %==================================================================================================================================
@@ -791,82 +686,46 @@ Summarise the whole project for a lazy reader who didn't read the rest (e.g. a p
         won't get credit for things you haven't done}.
 \end{itemize}
 
-%==================================================================================================================================
-%
-% 
-%==================================================================================================================================
-%  APPENDICES  
 
-\begin{appendices}
-
-
-
-\begin{itemize}
-\item
-  Copies of ethics approvals (required if obtained)
-\item
-  Copies of questionnaires etc. used to gather data from subjects.
-\item
-  Extensive tables or figures that are too bulky to fit in the main body of
-  the report, particularly ones that are repetitive and summarised in the body.
-
-\item Outline of the source code (e.g. directory structure), or other architecture documentation like class diagrams.
-
-\item User manuals, and any guides to starting/running the software.
-
-\end{itemize}
-
-\textbf{Don't include your source code in the appendices}. It will be
-submitted separately.
-
-\end{appendices}
-
-%==================================================================================================================================
-%   BIBLIOGRAPHY   
-
-% The bibliography style is abbrvnat
-% The bibliography always appears last, after the appendices.
 
 \bibliographystyle{abbrvnat}
-
 \bibliography{l4proj}
-
-
 
 \end{document}
 
 %pemipa5283@990ys.com 
 %hatob51724@grokleft.com
 
-User 1: Team MVP and 5 person team member, most active member in the game
-  Team MVP
-    As he we was annoyed that other users didn't feel an obligation to help, we discussed whether it would make sense to divide users into classes which all have to work together.   When asked how he would feel if they had to rely on their teammates more and someone would still be a broken link, he replied: 
-  Most active member  
-    "the gyms haven't been even closed, and there's like no restrictions."
-    Already trained consistently
-    Used fitnotes app before
-    Knew the team's members
-
-  Issues
-    Exercises unsaving when saving new lifts
-    Animations taking a long time to load (probably has to do with calculate strength)
-    Thought animations were too pixelated (which is expected for pixel art)
-    With regards to user animations
-    Add exercise diary, should be game and standalone fitness tracker
-
-User 3: MVP, trained with random users, very strong/experienced
-  "Timing was kind of bad because nobody I know was working out during the three weeks I had to actually test it. Even French in other countries, they were in countries that are currently locked down. So they couldn't go to the gym. I'm still working out. But that's because I do bodyweight stuff, so I can do it"
-
-
-  But simultaneously doesn't think it would be fun to train with someone putting in crazy amounts of work:
-  "And then we had one guy who was working out seven out of seven times a week for three to four hours a day. And so imagine that we had that guy in our team: he would be doing like 90\% out of a team of 10 people."
-
-  Misc: 
-    Can gym with friends in different locations
-    "But no, for two reasons, hey, you're very unlikely to find people that work out and play D\&D"
-
-  Issues:
-    Exercise recommendations
-    Cardio
-    Challenges outside of your skill domain
-    Monthly challenges
+%User 1: Team MVP and 5 person team member, most active member in the game
+%  Team MVP
+%    As he we was annoyed that other users didn't feel an obligation to help, we discussed whether it would make sense to divide users into classes which all have to work together.   When asked how he would feel if they had to rely on their teammates more and someone would still be a broken link, he replied: 
+%  Most active member  
+%    "the gyms haven't been even closed, and there's like no restrictions."
+%    Already trained consistently
+%    Used fitnotes app before
+%    Knew the team's members
+%
+%  Issues
+%    Exercises unsaving when saving new lifts
+%    Animations taking a long time to load (probably has to do with calculate strength)
+%    Thought animations were too pixelated (which is expected for pixel art)
+%    With regards to user animations
+%    Add exercise diary, should be game and standalone fitness tracker
+%
+%User 3: MVP, trained with random users, very strong/experienced
+%  "Timing was kind of bad because nobody I know was working out during the three weeks I had to actually test it. Even French in other countries, they were in countries that are currently locked down. So they couldn't go to the gym. I'm still working out. But that's because I do bodyweight stuff, so I can do it"
+%
+%
+%  But simultaneously doesn't think it would be fun to train with someone putting in crazy amounts of work:
+%  "And then we had one guy who was working out seven out of seven times a week for three to four hours a day. And so imagine that we had that guy in our team: he would be doing like 90\% out of a team of 10 people."
+%
+%  Misc: 
+%    Can gym with friends in different locations
+%    "But no, for two reasons, hey, you're very unlikely to find people that work out and play D\&D"
+%
+%  Issues:
+%    Exercise recommendations
+%    Cardio
+%    Challenges outside of your skill domain
+%    Monthly challenges
+%
