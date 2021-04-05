@@ -26,7 +26,7 @@
     \vskip 0.5em
 
 %social relatedness         
-I created a crossover between a workout tracker and a multiplayer fantasy game. As the game was multiplayer, training had a purpose beyond just personal success. I evaluated my app with users ranging from complete beginners to advanced lifters to investigate whether my app increased motivation for exercise, which is hard for many to do consistently. Users did not train more frequently, but some reported increased training intensity and motivation.
+I created a crossover between a workout tracker and a multiplayer fantasy game in order to motivate users to exercise. As the game was multiplayer, training had a purpose beyond just personal success. I evaluated my app with users ranging from complete beginners to advanced lifters to investigate whether my app increased motivation for exercise, which is hard for many to do consistently. Users did not train more frequently, but some reported increased training intensity and motivation.
 
 \end{abstract}
 
@@ -89,31 +89,29 @@ I was motivated to combine RPGs and exercise trackers, as both are built around 
 
 
 \section{Background literature}
-There is a lot of existing research into the effectiveness of collaborative activity trackers. Most of this research is into increasing step counts with pedometers. This differs slightly from my strength tracker, as walking is done in everyday life and can be automatically tracked, whilst strength training is usually deliberate and requires manual input. Strength training also has a higher barrier of entry: it often requires access to equipment, and understanding of exercise form and the muscle groups they train.
+There is a lot of existing research into the effectiveness of collaborative activity trackers. Most of the research focuses on increasing step counts with pedometers. This differs slightly from my strength tracker, as walking is done in everyday life and can be automatically tracked, whilst strength training is usually deliberate and requires manual input. Strength training also has a higher barrier of entry: it often requires access to equipment, and understanding of exercise form and the muscle groups they train.
 
-``Pass the Ball'' was an app which was developed in order to evaluate the effectiveness of enforced turn taking for encouraging exercise \citep{Pass_the_ball}. In the second version of the app, users in groups had a single ball which gave the owner the ability to score points for the team through exercise, which could be passed to other users. Users who received the ball often felt that they had a small window of opportunity to score points before someone else wanted the ball. For example, one participant said: ``I turned to my group and I was like 'we’re walking fast today! We have an hour to get as many steps in as we can!'''. This exclusivity also caused some issues. Users who stole the ball from other teammates (incurring a penalty) would get into fights with other members. One user sent the message ``'Sorry, Just looked at my phone. I would have passed!'' after their ball was stolen. Although the app seemed to make some group members competitive and more passionate about exercise, there were some drawbacks to their implementation ``such as obligation, conflict, and privacy concerns''.
+``Pass the Ball'' was an app which was developed in order to evaluate the effectiveness of enforced turn taking for encouraging exercise \citep{Pass_the_ball}. In the second version of the app, users in groups had a single ball which gave the owner the ability to score points for the team through exercise, which could be passed to other users. Users who received the ball often felt that they had a small window of opportunity to score points before someone else wanted the ball. For example, one participant said: ``I turned to my group and I was like 'we’re walking fast today! We have an hour to get as many steps in as we can!'''. The exclusivity also lead to some issues. Users who stole the ball from other teammates (incurring a penalty) would get into fights with other members. One user sent the message ``'Sorry, Just looked at my phone. I would have passed!'' after their ball was stolen. Although the app seemed to make some group members competitive and more passionate about exercise, there were some drawbacks to their implementation ``such as obligation, conflict, and privacy concerns''.
 
 \citet{HealthyTogether} didn't just investigate the effectiveness of collaborative features, but also competition, and combinations of the two. In the competitive model, step counts were scored relative to your opponent. In the collaborative model, you and your team mate contributed equally to your shared total points.  In the hybrid model, your own step count was the most important, but the other person had a small impact. Interestingly, the control group which exercised alone performed than the group which competed amongst themselves. The collaborative model performed the best: ``Amongst the group settings cooperation (21\% increase) and hybrid (18\% increase) outperformed competition (8\% increase)''. This study supports collaborative activity trackers.
 
 \citet{ChickClique} developed an app called ``Chick Clique'' which had a lot of the same design principles. They had assigned 5 different skill levels for users based on their step count, as well as a ``team average'' which girls collaborated together to improve on. My app also had 5 different characters and titles you got based on your strength, as well as progression based on average performance of each member. Chick Clique also included other health features such as tips for healthy eating. Despite the participants having a pedometer, food tips, and gamified progress ``group performance was rated by the girls as being the most powerful method of changing behavior.'' The pedometer alone was found to be more effective than Chick Clique for middle schoolers, whilst Chick Clique was more effective for high schoolers.
 
-\citet{Fish'n'Steps} created a site called ``Fish'n'Steps''. The participants were given a virtual fishbowl, where the number of fish, their mood and their growth were influenced by the number of steps that they took. There was a version of the game which served as the control group where participants were given their own fishbowl, and thus did not collaborate or compete. The fish bowl which contained other fish was used to study the impact of collaboration/competition. The step counts of each user influenced the shared fishbowl: ``each 'insufficient' day for any team member resulted in the tanks water getting darker, as well as the gradual removal of the fish-tank’s decorations''. There was also out-group competition through leaderboards for the best performing teams. Much like my app, this site employed visual rewards. You got better looking characters as you got stronger, whilst this site grew your fish with more steps. I also implemented shared visual rewards: you got to see the enemy update and it's health reduce as your team worked out, whilst this site varied the state of your fishbowl. This site also implemented anonymous teams, and also found that ``anonymous team cooperation did not produce significant results''.  The game lead to good behaviour changes, but participants lost interest ``Although the initial fascination with the game subsided after the first couple of weeks, it nonetheless generated sustainable change in behavior and made continuing the game unnecessary.''
+\citet{Fish'n'Steps} created a site called ``Fish'n'Steps''. The participants were given a virtual fishbowl, where the number of fish, their mood and their growth were influenced by the number of steps that they took. There was a version of the game which served as the control group where participants were given their own fishbowl, and thus did not collaborate or compete. The fish bowl which contained other fish was used to study the impact of collaboration/competition. The step counts of each user influenced the shared fishbowl: ``each 'insufficient' day for any team member resulted in the tanks water getting darker, as well as the gradual removal of the fish-tank’s decorations''. There was also out-group competition through leaderboards for the best performing teams. Much like my app, this site employed visual rewards. You got better looking characters as you got stronger, whilst this site grew your fish with more steps. I implemented shared visual rewards: you got to see the enemy update and it's health reduce as your team worked out, whilst this site varied the state of your fishbowl. This site also implemented anonymous teams, and also found that ``anonymous team cooperation did not produce significant results''.  The game lead to good behaviour changes, but participants lost interest ``Although the initial fascination with the game subsided after the first couple of weeks, it nonetheless generated sustainable change in behavior and made continuing the game unnecessary.''
 
-\citet{Shakra} estimated the activity of participants through their cell signals. This study was mostly focused on the accuracy at which the neural network estimated. The estimated activity levels were shared with friends. The app performed well even without the social signals: ``participants described how they were would enjoy checking how much walking and running activity they did during the day.'' Teams mostly competed, but instead competed against one another. Competition seemed to be effective as users ``also enjoyed competing among themselves''. This is interesting, as users did not like competition in the aforementioned app Healthy Together. 
+\citet{Shakra} estimated the activity of participants through their cell signals. This study was mostly on using neural networks to estimate activity from cell signals. The estimated activity levels were shared with friends. The app performed well even without the social features: ``participants described how they would enjoy checking how much walking and running activity they did during the day.'' There wasn't much collaboration amongst teams, which instead competed. Competition seemed to be effective as users ``also enjoyed competing among themselves''. This is interesting, as users did not like competition in the aforementioned app Healthy Together. 
 
-\citet{Stickers} developed ``Stickers for Steps'' an Android sticker collecting app. Stickers are collected through reaching step count targets. Users could receive duplicate stickers, which motivated users to trade stickers. Users could only trade stickers through Bluetooth, which encouraged users to meet face to face. This was to gave the users a real sticker collecting experience as ``part of the joy of the sticker collecting experience is in meeting with others to exchange the inevitable duplicates that will accrue from the random sticker acquisitions''. This app brought users together as 27/31 of users who had partners traded at least once. Sticker swapping often served as an icebreaker: ``Conversations during and after sticker exchanges were reported to have been quite general, discussing the app itself as well as typical day-to-day chitchat''
+\citet{Stickers} developed ``Stickers for Steps'' an Android sticker collecting app. Stickers are collected through reaching step count targets. Users could receive duplicate stickers, which motivated users to trade stickers. Users could only trade stickers through Bluetooth, which encouraged users to meet face to face. This was to gave the users a real sticker collecting experience as ``part of the joy of the sticker collecting experience is in meeting with others to exchange the inevitable duplicates that will accrue from the random sticker acquisitions''. This app brought users together as 27/31 of users who had partners traded at least once. Sticker swapping often served as an icebreaker: ``Conversations during and after sticker exchanges were reported to have been quite general, discussing the app itself as well as typical day-to-day chitchat''.
 
-As I wanted to make the game RPG themed, I looked into if there were any RPG themed activity trackers. I found a study on a game called Spyfeet \citep{SpyFeet}. SpyFeet is a pedometer combined with story-telling elements. The more the user walks, the more they progress in the story. Although this was a singleplayer game and much more story-driven than what I wanted to make, it was reassuring to see that additional reward for exercise leads to more activity.
+As I wanted to make the game RPG themed, I looked into if there were any RPG themed activity trackers. I found a study on a game called Spyfeet \citep{SpyFeet}. SpyFeet is a pedometer combined with story-telling elements. The more the user walks, the more they progress in the story. Although this was a singleplayer game and much more story-driven than what I wanted to make, it was reassuring to see that a fantasy abstraction over exercise leads to more activity.
 
 I then continued my research by looking into analysis of the state of top activity trackers. The paper by \citet{Behavior_change} discusses the lack of behavioural change techniques employed in top activity trackers. The researchers divided activity trackers into two categories: educational and motivational. This is an important consideration, as they proposed education and motivation as a continuum, where emphasis of one diminishes the other. This was an important consideration, as I realized that I would not be able to simultaneously target the app towards those who do not know how to exercise, and motivational for users who already know how to train.
-
-\citet{AppsOfSteel} performed the same analysis as the aforementioned paper, but evaluated the apps more quantitatively. They scored each app out of 100 based on the presence behavioural change techniques or absence of bad practices. The average top app scored 11/100, some as low as 1/100, with the best app scoring 28/100. These results signify that either users don't care whether their activity trackers include behavioural change techniques, or that users simply don't have a lot of good options.
 
 I read \citet{User_expectations} as I wanted to better understand what users wanted from activity trackers, as I needed my app to contain enticing features in addition to the collaborative aspects. The app found that content was most important for 47.2\%, technical implementation and utilities 39.7\%, and psychological features were the most important for 13.2\% of users. This made me prioritize content and the technical implementation, as this would hopefully help maintain users.
 
 In order to make the most out of my multiplayer feature, I had to understand how users are motivated by peers. Self determination theory argues that an individual's experience of autonomy, competence, and social relatedness induce the most motivation \citep{self_determination_theory}. I tried to leverage social relatedness through creating a single enemy that users fought together. Winning or losing against this monster was a reflection on the exercise habits of the entire team. Users could celebrate a victory against their common enemy, or plan how they would defeat the monster the next time.
 
-\citet{social_comparison_theory} argues that people change behaviour based on how they are viewed by others. I leveraged this by adding high transparency towards the actions of other users. I added a timeline which contained all user events, such as workouts or new personal bests. There was also a tab which showed the total contribution of all users over time. Users are motivated to exercise, as they know everyone will see them contribute to the team. There is also negative enforcement, as users don't want to be seen as slackers by other team by being in the bottom of the team's leaderboard.
+\citet{social_comparison_theory} argues that people change behaviour based on how they are viewed by others. I leveraged this by adding high transparency towards the actions of other users. I added a timeline which contained all team member events, such as workouts or new personal bests. There was also a tab which showed the total contribution of all users over time, as well as for specific battles. Users are motivated to exercise, as they know everyone will see them contribute to the team. There is also negative enforcement, as users don't want to be seen as slackers by other team by being in the bottom of the team's leaderboard.
 
 Social support theory argues that positive social encounters encourage behaviour change \citep{social_support_theory}. I added a simple real-time chat which allows users to talk amongst themselves. I added a time limit to defeat enemies, requiring users to discuss their training plans amongst themselves to coordinate battles. I also tried to add some humorous monsters to the game to elicit reactions and discussion. 
 
@@ -130,9 +128,9 @@ I analyzed existing exercise apps, and existing RPG game in order to better unde
     }
     \label{fig:exercises} 
 \end{figure}
-You might notice that my app is the only one which lacks ``custom workouts'', ``premade workouts'' and ``use as you train''. I did not have time to make a full on activity tracker. From personal experience, most people do not log their sessions, so I tried to accomodate this larger share of users by setting up intuitive retrospective logging (users only had to input their number of sets and the average difficulty). I plan on adding this in the future. 
+You might notice that my app is the only one which lacks ``custom workouts'', ``premade workouts'' and ``use as you train''. I did not have time to make a full activity tracker. From personal experience, most people do not log their sessions, so I priorized this larger share of users by setting up intuitive retrospective logging (users only had to input their number of sets and the average difficulty).
 
-Outside of being a more restricted exercise logger, my app contains all the features of other popular trackers. The novel features of my app are ``Gamified Progress'', ``Collaborative Training'', ``Messaging'', and ``Friend Leaderboards''. Although other apps gave users points for working out, I didn't consider this as gamified progress, as these points were just numbers with no meaning. In my app, your strength unlocks new skins and titles, and working out helps your team defeat new enemies. Although the top apps had social features, none had any form of collaborative training. Although instant messaging isn't a novel idea, none of the top apps I tried had this as a feature. I also added a friend leaderboard, which is why I classified my app as partially competitive.
+Outside of being a more restricted exercise logger, my app contains all the features of other popular trackers. The novel features of my app are ``Gamified Progress'', ``Collaborative Training'', ``Messaging'', and ``Friend Leaderboards''. Although other apps gave users points for working out, I didn't consider this as gamified progress, as these points were just numbers with no meaning. In my app, your strength unlocks new skins and titles, and working out helps your team defeat new enemies. Although the top apps had social features, none had any form of collaborative training. Although instant messaging isn't a novel idea, none of the top apps I tried had this feature. I also added a friend leaderboard, which is why I classified my app as partially competitive.
 
 In \ref{fig:jefit} you can see Jefit's more nuanced workout tracking features:
 \begin{figure}[H]
@@ -149,28 +147,10 @@ In \ref{fig:jefit} you can see Jefit's more nuanced workout tracking features:
 
 
 
-These seemed like the most important exercise tracker features to add:
-\begin{itemize}    
-    \item
-      Social features (adding friends/chatting)
-    \item
-      Being able to plan workouts
-    \item
-      Being able to track a wide variety of exercises
-    \item 
-      Built in exercise tutorials
-    \item
-      Satisfying animations/congratulating progress
-    \item
-      Progression suggestions (add more or less weight)
-\end{itemize}
+From my analysis of RPG games, I realized that collaboration is an integral part of RPG games, and that existing products should serve as a model for implementing collaborative aspects. For instance, Clash of Clans has clans, where users need to give each other troops in order to defend one another. Clans also battle against one another in ``Clan Wars'' where users have to attack other clan's bases in order to win. Wins require members to attack consistently and to reinforce their fellow members \citep{coc}. 
+Another example of a collaborative RPG is World of Warcraft. In World of Warcraft, users participate in Raids together, which require very detailed coordination from all members. There are also multiple different roles which users have to take, such as healer, tank, or damage dealer \citep{wow}. There is a viral video where a World of Warcraft player named ``Leeroy Jenkins'' ruins an entire raid by going in alone as the team plans their attack, ruining their whole raid \citep{leeroy_jenkins}. Even many singleplayer RPG games are built around collaboration. For instance the game Darkest Dungeon \citep{darkest_dungeon} is built around controlling your various heroes, who can give each other status bonuses, and heal each other. For instance, the Plague Doctor hero is focused on healing others, while a Highwayman can deal lots of damage. 
 
-
-
-From my analysis of RPG games, I realized that collaboration is an integral part of RPG games, and that existing products should serve as a model for implementing collaborative aspects. For instance, Clash of Clans has clans, where users need to give each other troops in order to defend one another. Clans also battle against one another in ``Clan Wars'' where users have to attack each other's bases in order to win. Wins require members to attack consistently and to reinforce their fellow members \citep{coc}. 
-%FIX darkest dungeon cite
-Another example of a collaborative RPG is World of Warcraft. In World of Warcraft, users participate in Raids together, which require very detailed coordination from all members. There are also multiple different roles which users have to take, such as healer, tank, or DPS (damage dealer) \citep{wow}. There is a viral video where a World of Warcraft player named ``Leeroy Jenkins'' ruins an entire raid by going in alone as the team plans their attack, ruining their whole raid \citep{leeroy_jenkins}. Even many singleplayer RPG games are built around collaboration. For instance the game Darkest Dungeon \citet{darkest_dungeon} is built around controlling your various heroes, who can give each other status bonuses, and heal each other. For instance, the Plague Doctor hero is focused on healing others, while a Highwayman can deal lots of damage. From these three RPG collaborative games, I derived the following key points:
-
+From these three collaborative RPG games, I derived the following key points:
 \begin{itemize}    
     \item
       Teams should fight against other players (or non-player characters)
@@ -181,32 +161,30 @@ Another example of a collaborative RPG is World of Warcraft. In World of Warcraf
     \item 
       There should be some clear progression: both on an individual level and on a team level. These should be linked (the team should progress faster if individual users are progressing)
     \item 
-      There should be accountability: if some user(s) aren't doing their part, they should not progress.
+      There should be accountability: if some user(s) aren't doing their part, the team team should not progress.
 \end{itemize}
 
 
 %==================================================================================================================================
 \chapter{Analysis/Requirements}
-According to research by \citet{unused_memberships}, "Americans spend \$1.13 billion on unused gym memberships annually". 63.3\% of American members actually go to the gym twice or more a week, which could be considered regular training. Despite making a financial commitment, 36.7\% of gym members do not go regularly. Home exercisers seem to have even higher drop out rates than those who exercise in gyms \citep{home_vs_gym}. Users of Stat Buff should hopefully have higher motivation and lower drop-out rates, as their exercise is turned into a game that they can play with strangers or friends. Stat Buff users are rewarded with in-game progress in addition to their training progress. In-game progress helps your team, which gives training a collective purpose beyond the individualistic purpose of training. 
+According to research by \citet{unused_memberships}, "Americans spend \$1.13 billion on unused gym memberships annually". 63.3\% of American members actually go to the gym twice or more a week, which could be considered regular training. Despite making a financial commitment, 36.7\% of gym members do not go regularly. Home exercisers seem to have even higher drop out rates than those who exercise in gyms \citep{home_vs_gym}. Users of Stat Buff should hopefully have higher motivation and lower drop-out rates, as their exercise is turned into a game where they collaborate with strangers or friends. Users are rewarded with in-game progress in addition to their training progress which helps your team, giving training a collective purpose beyond the individualistic purpose of training. 
 
-\section{Guidance}
-Make it clear how you derived the constrained form of your problem via a clear and logical process. 
 
 %==================================================================================================================================
 \chapter{Design}
 
-A key feature of collaborative activity trackers is that exercise must have some collective benefit beyond just the individual benefit. I decided not to implement the turn-taking design of pass the ball, as it seemed to sometimes cause conflict and seemed difficult to implement well. Instead of users having to take turns, users could attack a monster enemy at any time through exercise. I liked the window of opportunity created from receiving the ball, so I added a maximum time to defeat the enemy before it resets. This should hopefully make users feel that their exercise is causing them to turn the tide of the battle, especially when they deal a killing blow on an enemy that is close to resetting.
+A key feature of collaborative activity trackers is that exercise must have some collective benefit beyond just the individual benefit. I implemented this through users fighting an enemy together, such as in World of Warcraft raids. User damage is calculated through their strength as well as their effort. 
 
 \section{Calculating a user's contribution}
-I wanted this app to calculate your team's contribution based on your effort and your strength. Rewarding effort should hopefully motivate users to workout regularly and push themselves, even when progress plateaus. Progress is rarely linear: it often has bumps, but through perseverance, you progress more than you regress. This also motivates users with lots of experience, as they can often feel demotivated by the waning progress, and the amount of time and effort it can take to accomplish something a beginner can achieve in a fraction of the time. I also reward strength, as I want the app to provide users with long term motivation. I don't want users to simply exercise for the sake of exercise, but also for the long-term improvements in strength. Rewarding progression is also important as it discourages overtraining. If I only reward effort, the optimal strategy would be to exercise as much as possible, even if you felt pain or your progression stopped and regressed. By rewarding strength improvements, I reward the user for training moderately and resting adequately, as these are integral for long term progress. I gamify strength as attack damage, and effort as the number of attacks you deliver towards your team's enemy. The product of the two is the total damage that you deal towards your team's enemy. This total damage is dealt towards the monster that your enemy is currently fighting, and represents a members contribution to the group.
+I wanted this app to calculate your team's contribution based on your effort and your strength. Rewarding effort should hopefully motivate users to workout regularly and push themselves, even when progress plateaus. Progress is rarely linear: it often has bumps, but through perseverance, you move more forwards than backwards. This also motivates users with lots of experience as they can often feel demotivated by the waning progress, and the amount of time and effort it can take to accomplish something a beginner can achieve in a fraction of the time. I also reward strength progression, as I want the app to provide users with long term motivation, and to motivate users to train for results and not just for the sake of training. Rewarding progression also discourages overtraining. If I only reward effort, the optimal strategy would be to exercise as much as possible, even if you felt pain or your progression stopped and regressed. By rewarding strength improvements, I reward the user for training moderately and resting adequately, as these are integral for long term progress. I gamify strength as attack damage, and effort as the number of attacks you deliver towards your team's enemy. The product of the two is the total damage that you deal towards your team's enemy. This total damage is dealt towards the monster that your enemy is currently fighting, and represents a member's contribution to the group.
 
-Initially I had to quantify strength, or attack damage. I wanted strength to be calculated relative to the person performing it. For example, it is harder for an average 50kg person to lift a certain weight, than for the average 80kg person. By taking this into account, I made the app more inclusive, and allowed everyone to contribute based on how strong they are relative to others like them, and not everyone else. Relative strength is simply a percentile that is calculated based on the demographic of the person, the exercise they performed, and the weight and repetitions that they used. There are sites which perform this calculation, which I will go into more detail in the implementation section. I was still left with the challenge of converting per-exercise percentiles into a single strength value. Initially, I used a simple naive implementation, where I took the mean percentile of all exercises, and used that as the final strength value. This is problematic, as this would encourage users to only track their best exercise, and nothing else. I don't want my app to encourage users to just focus on one exercise, as this can lead to injuries and imbalances. With this in mind, I decided that users should be rewarded for adding more exercises up to a certain number by setting strength to be the product of the average strength and the total number of tracked exercises. This seemed good, but this simplified to be just the sum of percentiles.
+Initially I had to quantify strength, or attack damage. I wanted strength to be calculated relative to the person performing it. For example, it is harder for an average 50kg person to lift the same weight as an average 80kg person. By taking this into account, I made the app more inclusive, and allowed everyone to contribute based on how strong they are relative to others like them, and not everyone else. For every exercise, users were asked to input their repetitions and weight. Using this information and the provided gender and bodyweight of the user, I was able to estimate the relative strength of this user for that exercise. There are sites which perform this calculation, which I will go into more detail in section \ref{strength_calculations}. I was still left with the challenge of converting per-exercise percentiles into a single strength value. Initially, I used a simple naive implementation, which took the mean percentile of all exercises, and used that as the final strength value. This is problematic, as this would encourage users to only track their best exercise, and nothing else. I don't want my app to encourage users to just focus on one exercise, as this can lead to injuries and imbalances. With this in mind, I decided that users should be rewarded for adding more exercises up to a certain number by setting strength to be the product of the average strength and the total number of tracked exercises. This seemed good, but this simplified to be just the sum of percentiles.
 
 \begin{algorithm}[H]
   $\frac{\sum_{i=0}^{n} x_i}{n} * n = {\sum_{i=0}^{n} x_i}$
 \end{algorithm}
 
-I only realized this on the first day of the evalution. Luckily, this was a simple database function, so it was easy to replace this calculation. 
+I only realized this on the first day of the evaluation. Luckily, this was a simple database function, so it was easy to replace this calculation. 
 My final solution was to multiply the average strength percentage with the number of exercises log scaled, which only rewards adding more exercises up to a certain point. I think it's important to discourage laborious strategies such as keeping track of 50 exercises just because it would increase your total damage. 
 
 \begin{algorithm}
@@ -215,13 +193,13 @@ My final solution was to multiply the average strength percentage with the numbe
   where the user has tracked $n$ exercises, and $x$ contains the strength percentiles for exercises 
 \end{algorithm}
 
-Next, I had to decide how I would grant attacks based on workout effort. I could compare the user's per exercise performance relative to the last time. This would have a lot of confounding factors: personal differences and skill level let some add more weight with less effort. There would also be the problem of missing data (what is the effort on your first workout, or when you use new exercises?). This would also require users to input the number of repetitions and lifted weight for all their sets for all their exercises. Finally, this wouldn't reward users for putting in effort even on a bad day or during a plateau. I consulted sport science literature, and found a popular metric for estimating effort is called ``RPE'' (Rate of Perceived Exertion). RPE is a scale from 1-10, where 1 is almost no effort, 5 is moderate effort, and 10 is maximal effort. RPE has the downside of not being objective, as we are relying on a person's subjective perception of their effort. Research by Monica et al. found that ``The odds of underestimating RPE for an exerciser were 3.67 times greater than a non-exerciser'' \cite{RPE_estimations}. This could be offset by reducing the RPE that beginner's estimate, but this was out of scope for this project. I am not particularly worried about intentional dishonesty with regards to RPE, as users can lie about the number of sets they complete, how much they can lift, how often they train, etc. I decided to use RIR (repetitions in reserve), which is an inverse of RPE as it seemed easier to understand than RPE. This article \cite{rir} made a good case for measuring total training stress through average RIR and total sets. I couldn't find any specific equations that combined the two, so I created this equation, which increases as average RIR decreases and total sets increase.
+Next, I had to decide how I would grant attacks based on workout effort. I could compare the user's per exercise performance relative to the last time. This would have a lot of confounding factors: personal differences and skill level let some add more weight with less effort. There would also be the problem of missing data (what is the effort on your first workout, or when you use new exercises?). This would also require users to input the number of repetitions and lifted weight for all their sets for all their exercises. Finally, this wouldn't reward users for putting in effort even on a bad day or during a plateau. I consulted sport science literature, and found a popular metric for estimating effort is called ``RPE'' (Rate of Perceived Exertion). RPE is a scale from 1-10, where 1 is almost no effort, 5 is moderate effort, and 10 is maximal effort. RPE has the downside of not being objective, as we are relying on a person's subjective perception of their effort. Research by \citet{RPE_estimations} found that ``The odds of underestimating RPE for an exerciser were 3.67 times greater than a non-exerciser'' . This could be offset by reducing the RPE that beginner's estimate, but this was out of scope for this project. I am not particularly worried about intentional dishonesty with regards to RPE, as users can lie about the number of sets they complete, how much they can lift, how often they train, etc. I decided to use RIR (repetitions in reserve), which is an inverse of RPE as it seemed easier to understand than RPE. The article by \citet{rir} made a good case for measuring total training stress through average RIR and total sets. I couldn't find any specific equations that combined the two, so I created this equation, which increases as average RIR decreases and total sets increase.
 
 \begin{algorithm}
-  $granted\_attacks = min(0, (10 - average\_rir) * total\_sets)$
+  $granted\_attacks = min(0, 10 - average\_rir) * total\_sets)$
 \end{algorithm}
 
-With both attack\_damage, we can write the damage dealt as 
+With both attack\_damage, we can write the damage dealt by a workout as 
 
 \begin{algorithm}
   $workout\_damage = attack\_damage * granted\_attacks$ 
@@ -229,7 +207,7 @@ With both attack\_damage, we can write the damage dealt as
 
 
 \section{Communicating app functionality to the user}
-When you open the app, you initially see two buttons on the top. One is labeled as ``Strengthen Character'' while the other one is labeled as ``Deal Damage''. ``Strengthen Character'' lets you update your exercise personal records, which increase your character's strength. ``Deal Damage'' on the other hand lets you track a workout, which deals damage towards your team's enemy. I decided to label these based on the effect that these actions have in game, as opposed to ``Update Exercise'' and ``Track Workout'' which I initially used. This is because I believed that the required real life data input could be easily inferred from these screens, so it would be a good opportunity to help the user understand the real life connection to the game. As an example, if a user clicks on ``Strengthen Character'', and they see a screen that allows them to input their exercise performances, I would hope that they would understand that your in-game strength is calculated through your real life strength.
+When you open the app, you initially see two buttons on the top labeled as ``Strengthen Character'' and ``Deal Damage''. ``Strengthen Character'' lets you update your exercise personal records, which increase your character's strength. ``Deal Damage'' on the other hand lets you track a workout, which deals damage towards your team's enemy. I decided to label these based on the effect that these actions have in game, as opposed to ``Update Exercise'' and ``Track Workout'' which I initially used. This is because I believed that the required real life data input could be easily inferred from these screens, so it would be a good opportunity to help the user understand the real life connection to the game. If a user clicks on ``Strengthen Character'', and they see a screen that allows them to input their exercise performances, I would hope that they would understand that in-game strength is calculated through your real life strength. 
 
 
 \begin{figure}[H]
@@ -243,9 +221,11 @@ When you open the app, you initially see two buttons on the top. One is labeled 
     \end{subfigure}
 \end{figure}
 
-The right-hand ``Deal Damage'' screen is far more verbose than the left-hand ``Strengthen Character''. When I was running my pilot study, I found that participants instantly understood that they were being asked to input how many repetitions of a weight they could do on a given exercise. Users were more confused with the idea of total sets, as they weren't sure what constituted a set. Users also struggled to understand what ``reps in reserve'' were. I added the explanations above each requested value to help explain these.
+The right-hand ``Deal Damage'' screen is far more verbose than the left-hand ``Strengthen Character''. When I was running my pilot study, I found that participants instantly understood that they were being asked to input how many repetitions of a weight they could do on a given exercise. Users were more confused with the idea of total sets, as they weren't sure what constituted as a set. Users also struggled to understand what ``reps in reserve'' were. I added the explanations above each requested value to help explain these.
 
-I tried to give the user instantaneous, satisfying and informative feedback. When a user closes the ``Strengthen Character'' screen after adding exercises, their attack damage changes. Depending on the new attack damage, the character also changes. I wanted everyone to experience this when tracking their first exercise(s). As long as you track a single exercise and make your attack non-zero, you will get a new character. 
+\newpage
+
+I tried to give the user instantaneous, satisfying and informative feedback. When a user closes the ``Strengthen Character'' screen after adding exercises, their attack damage changes. If their attack damage reaches a new threshold, the character look also changes. I wanted everyone to experience this when tracking their first exercise(s). As long as you track a single exercise and make your attack non-zero, you get a new character.
 
 \begin{figure}[H]
     \begin{subfigure}{0.45\textwidth}
@@ -258,22 +238,25 @@ I tried to give the user instantaneous, satisfying and informative feedback. Whe
     \end{subfigure}
 \end{figure}
 
+\newpage
 I also tried to make tracking workouts feel satisfying. After saving the workout, you initiate a fight with your team's enemy. You get to see the animations of your character attack, and the enemy take damage, one hit at a time. This is skippable, as it might become boring for long-time users. Killing the enemy will also trigger a dying animation from the enemy.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\linewidth]{attack.png}    
+    \includegraphics[width=0.7\linewidth]{attack.png}    
     \caption{
       An active battle. There were some visual bugs that I didn't have time to fix.
     }
 \end{figure}
 
-I also created a tutorial that explains this idea further. This tutorial is shown when you initially launch the app. In order to demonstrate the connection with real world strength and in-game strength, I simultaneously change real world strength inputs, and the visible in-game characters.
+\newpage
+
+I also created a tutorial that explains this idea further. This tutorial is shown when you initially launch the app. In order to demonstrate the connection with real world strength and in-game strength, I change real world strength inputs and show the in-game character get stronger.
 
 \begin{figure}[H]
     \begin{subfigure}{0.45\textwidth}
       \includegraphics[width=\textwidth]{noob.png}    
-      \caption{The first visible character and exercise personal bests}
+      \caption{The ``noob'' character is shown due to the low strength values}
     \end{subfigure}
     \begin{subfigure}{0.45\textwidth}
         \includegraphics[width=\textwidth]{elite.png}
@@ -281,7 +264,8 @@ I also created a tutorial that explains this idea further. This tutorial is show
     \end{subfigure}
 \end{figure}
 
-In order to demonstrate how workouts deal damage towards an enemy that you fight with your friends, I show two different characters take turns fighting a monster, where the second player finishes the monster off.
+\newpage
+In order to demonstrate how workouts deal damage towards an enemy that you fight with your friends, I show two different characters taking turns fighting a monster, where the second player finishes the monster off.
 
 \begin{figure}[H]
     \begin{subfigure}{0.45\textwidth}
@@ -299,9 +283,13 @@ In order to demonstrate how workouts deal damage towards an enemy that you fight
 
 \section{Technologies used}
 %rds, heroku, graphql, apollo, react 
-I first had to choose a technology that I would use to build the client. I decided that an app would be more convenient than a website, as users could enter values during/after exercising. After deciding to make an app, I had to decide which platform's to develop for. Ideally, I would have an app for both platforms, which would allow anyone to participate and to invite any of their friends. I didn't have time to learn how to make an iOS app and an Android app, so I decided to make a single React Native app, which can be compiled into two native apps. I also had some experience, which made learning React Native easy.
+I first had to choose a technology that I would use to build the client. I decided that an app would be more convenient than a website, as users could enter values during/right after exercising. After deciding to make an app, I had to decide which platform's to develop for. Ideally, I would have an app for both platforms, which would allow anyone to participate. Participants could also invite any of their friends. I didn't have time to learn how to make an iOS app and an Android app, so I decided to make a single React Native app, which can be compiled into two native apps. I also had some experience with React, which made learning React Native easy. All of my React Native code was written in Typescript. Typescript is only a development dependency, and isn't bundled into the app itself. Typescript is compiled into Javascript during the build phase. Typescript comes with type enforcement and built in null/undefined checks which makes catching bugs much easier. 
 
-As the app was collaborative, I needed to setup a server and a database. I wanted to make this as easy as possible, so I used a technology called Postgraphile, which turns a database into a server API automatically. This technology still required a lot of learning and configuration for the created server to behave as expected.
+As the app was collaborative, I needed to setup a server and a database. I wanted to make this as easy as possible, so I used a technology called Postgraphile, which turns a Postgres database into an API automatically. Postgraphile only translates user requests into SQL queries and SQL query results into user responses. Security rules and more complex logic was implemented in Postgres. I hosted the server on Heroku, and used an AWS relational database server. 
+
+I used a library called Apollo in order to interact with the server from the client. This made it easy to set up caching, interface updates on data update, and websocket subscriptions. 
+
+I also hosted a participant information/ethics consent form written in React on my Heroku server. Users who tried to sign up but hadn't signed the form would be taken to the site. Once the form was signed, the website would reopen the app, which refetched the status of the consent sheet. If this was ok, users would successfully sign up.
 
 \section{Server/Database implementation}
 
@@ -309,7 +297,7 @@ The server is built with a technology called GraphQL. GraphQL is a query languag
 
 \begin{lstlisting}[language=python, caption={An example GraphQL query fetching a user's group}, label=lst:callahan]
   query{
-    user(username: ``orek''){
+    user(username: "orek"){
       groupname
     }
   }
@@ -317,30 +305,33 @@ The server is built with a technology called GraphQL. GraphQL is a query languag
 
 \begin{lstlisting}[language=python, caption={Response to above query}]
   {
-    ``data'': {
-      ``user'': {
-        ``groupname'': ``Team Public'',
+    "data": {
+      "user": {
+        "groupname": "Team Public",
       }
     }
   }
 \end{lstlisting}
 This query format has many benefits: a well configured client would never overfetch or underfetch. In a standard REST setup, the /user endpoint might return user metadata and /messages might return a users messages. This would mean that the client would have to send two requests, which would be slower for both the client and the server. One solution might be setting up a single endpoint, /user\_messages, which returns both user metadata and user messages. This would have the downside of overfetching: whenever we needed just the user metadata, the server would still have to do extra work to fetch messages, leading to a slower query. GraphQL only requires one request to get exactly the data that you need, no more, and no less. The data also comes in the exact shape that you request it in, which makes mapping the data on the client easy. 
 
-This sounds good in practice, but GraphQL can often perform poorly. This was brought to my attention by this video where \citet{Awad} talks about the ``N+1'' problem. This is characterized by GraphQL resolvers sending needlessly many database queries to fetch data. In order to implement nested resolvers (such as fetching the child books from the parent library) you need to define a function which returns children based on parent values (such as fetching all books whose foreign key matches the parent's ID). In this case, we make one database query to fetch library information, and another one to fetch all books. But what if we fetch all pages of each book? This would lead to potentially thousands of database queries, as each book would call it's child resolver function fetching it's pages. Instead of executing many database requests, this could be executed in a single SQL query by using joins.
+This sounds good in practice, but GraphQL can often perform poorly. This was brought to my attention by a video where \citet{Awad} talks about the ``N+1'' problem. This is characterized by GraphQL resolvers sending needlessly many database queries to fetch data. In order to implement nested resolvers (such as fetching the child books from the parent library) you need to define a function which returns children based on parent values (such as fetching all books whose foreign key matches the parent's ID). In this case, we make one database query to fetch library information, and another one to fetch all books. But what if we fetch all pages for each book? This would lead to potentially thousands of database queries, as each book would fetching it's pages based on it's ID. Instead of executing many database requests, this could be executed in a single SQL query by using joins.
 
-Luckily, Postgraphile addresses this. Instead of issuing an SQL query for every single child in the query, Postgraphile acts as a middleware, converting GraphQL requests into a single SQL query. This has huge performance benefits over the aformentioned manual implementation, as only one SQL query is required, and SQL's optimization can be harnessed better (such as through indexes). Another huge benefit of Postgraphile is that it analyzes your databases, and generates your entire query API from attributes and relations in your database. A lot of my time usually goes in to writing, debugging and maintaining basic CRUD server logic. When the database becomes complicated, changing the structure and relationships of your tables requires a lot of work to synchronize on the server. Postgraphile removes all this effort. Postgraphile does require some configuration, as we usually want to grant and limit data access depending on user, and internal logic beyond simply reading and writing data. 
+Luckily, Postgraphile addresses this. Instead of issuing an SQL query for every single child in the query, Postgraphile acts as a middleware, converting GraphQL requests into a single SQL query. This has huge performance benefits over the aformentioned manual implementation, as only one SQL query is required, and SQL's optimization can be harnessed better (such as through indexes). Another huge benefit of Postgraphile is that it reads your database, and generates an entire GraphQL API from attributes and relations in your database. A lot of my time usually goes in to writing, debugging and maintaining basic CRUD server logic. When the database becomes complicated, changing the structure and relationships of your tables requires a lot of work to synchronize on the server. Postgraphile removes all this effort. Postgraphile does require some configuration, as we usually want to grant and limit data access depending on user, and internal logic beyond simply reading and writing data. 
 
 
+\newpage
 \section{Server/Database Security}
-I am used to implementing security logic in the middleware, and not the database, so this was hard for to understand and implement. 
 
-Removing read/write queries from the GraphQL API for specific fields and tables is very simple:
+\subsection{Global restrictions}
+I am used to implementing security logic in the middleware, and not the database, so this was hard for to understand and implement. 
+Removing read/write queries globally from the GraphQL API for specific fields and tables is very simple:
 
 \begin{lstlisting}[language=SQL, caption={This comment tells Postgraphile to omit password fields} ]
-comment on column ``user''.password is E'@omit';
+comment on column "user".password is E'@omit';
 \end{lstlisting}
 
-The difficult part was implementing per user security. When a user signs up, their username is stored along with their salted and hashed password. They receive a JWT token containing their username and a expiry date, which is symmetrically encrypted by a secret key (to guarantee tokens can only be issues by my server). 
+\subsection{Authentication}
+In order to implement per-user security rules, I first had to set up user authentication. When a user signs up, their username is stored along with their salted and hashed password. They receive a JWT token containing their username and a expiry date, which is symmetrically encrypted by a secret key (to guarantee tokens can only be issues by my server). 
 
 \begin{figure}[H]
     \centering
@@ -350,20 +341,21 @@ The difficult part was implementing per user security. When a user signs up, the
     }
 \end{figure}
 
+
+\subsection{Authorization}
 Now that the database can authenticate users, it still needs to check whether or not a particular user has rights to perform an operation. This is implemented through row level security policies. Row level security policies only allow operations if the affected row(s) evaluate to true for the supplied boolean expression.
 
-The following code only allows a user to delete or update their own messages. Inserts are only allowed if the user also belongs to the group the message is sent to. Finally, any user in the group is allowed to read their group's messages. This combined with the earlier authentication prevents unauthorized data access on the database layer itself. Although verbose, this creates consistent rules that can be written once and enforced everywhere, and prevents bugs that cause data leaks (for instance, you can't accidentally send a group another group's chat messages, as this wouldn't be permitted by the RLS policies).
-
+This following row level policy only allows a user to send a message as themselves in to a group that they belong in. These rules can also be written for selecting, updating and deleting. Although verbose, this creates consistent rules that are written once and enforced by default everywhere. This prevents bugs that cause data leaks (for instance, you can't accidentally send a group another group's chat messages, as this wouldn't be permitted by the RLS policies).
 
 \begin{lstlisting}[language=SQL, caption={Row level security policy only allowing a user send messages as themselves to their team}, ]
-CREATE POLICY chat_message_create ON ``chat_message'' FOR insert to query_sender with check (username = (select username from active_user()) and groupName = (select groupName from active_user()));
+CREATE POLICY chat_message_create ON "chat_message" FOR insert to query_sender with check (username = (select username from active_user()) and groupName = (select groupName from active_user()));
 \end{lstlisting}
 
-
+\subsection{Password management}
 Finally, I will discuss password management. When a user creates an account by sending an encrypted POST request, I hash and salt the password and store the username in plain text.
 
 \begin{lstlisting}[language=SQL, caption={Hashing and salting done with pgcrypto}]
-insert into ``user''(username, password) values (username, crypt(password, gen_salt('bf')));
+insert into "user"(username, password) values (username, crypt(password, gen_salt('bf')));
 \end{lstlisting}
 
 Then, when a user requests a JWT token, I simply hash their input password again, and compare it to the stored one:
@@ -374,10 +366,9 @@ if authenticated_user.password = crypt(input_password, authenticated_user.passwo
 \end{lstlisting}
 
 \section{Business logic on the database}
-With the current setup, we can execute simple authenticated rule-based CRUD operations. Usually we want more complex logic. One solution would be to replace the automatically generated queries and mutations with custom written ones that also include side effects. This would go against Postgraphile's philosophy of reducing the amount of source code that needs to be written. I found the best solution to introduce side effects was to use database triggers. Database triggers are functions that execute when specified events occur. Triggers can alter the row that caused the trigger to row, as well as execute SQL that reads/writes from other tables/rows. 
+With the current setup, we can execute simple authorized rule-based CRUD operations. Usually we want more complex logic. One solution would be to replace the automatically generated queries and mutations with custom ones which also include side effects. This would go against Postgraphile's philosophy of reducing the amount of source code that needs to be written. I found the best solution to introduce side effects was to use database triggers. Database triggers are functions that execute when specified events occur. Triggers can alter the row that caused the trigger to execute, as well as execute SQL that impacts other rows/tables.
 
-
-\begin{lstlisting}[language=SQL, caption={Definition of a trigger function which sets the rows' ``updated\_at'' column to be the current time, and a trigger which calls the function on a user whenever the user is updated.}]
+\begin{lstlisting}[language=SQL, caption={Definition of a function which sets the row's ``updated\_at'' column to be the current time, along with a trigger which binds it to user updates.}]
 CREATE OR REPLACE FUNCTION trigger_set_timestamp()
 RETURNS TRIGGER AS $\dollar$$\dollar$ 
 BEGIN
@@ -385,21 +376,22 @@ BEGIN
   RETURN NEW;
 END;
 $\dollar$$\dollar$ LANGUAGE plpgsql;
+
 CREATE TRIGGER set_timestamp
-BEFORE UPDATE ON ``user''
+BEFORE UPDATE ON "user"
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 \end{lstlisting}
 
-Triggers reduce the amount of code that needs to be written, as I only need to specify what should be done after a write operation. Traditional side effects also might need to be written more than once: if a user is updated from two different endpoints, both would need to manually update the user's timestamp. Triggers need to be written once, and will always run regardless of what query or SQL statement triggered them.
+Triggers require less code than implementing a function from scratch, as I only need to define what happens after a read/write (handled by Postgraphile). They also reduce the amount of code which needs to be written in other places. If I had two functions which both updated a user, the updated\_at timestamp would be updated automatically from both. Without a trigger, you need to update the timestamps in both functions separately. I found that I needed to be careful when implementing triggers, as triggers can cause other triggers to execute. This makes the code difficult to debug, but is also potentially dangerous as it can lead to infinite loops (leading to big AWS bills). A good rule of thumb was to avoid having a trigger cause another one to execute.
 
 \section{Implementing real time client events}
-In order to implement real time events on the server side, I used Postgraphile's built in websocket subscriptions. Client subscribers listen on a ``topic'' which is a string representing a real time event source. A topic ``blog\_posts'' might notify listeners with a link to the new post whenever a new blog was published. In my case, I had topics for every team, which were formatted as ``Event\_{Team Name}'' (such as ``Event\_Dream Team''). The Postgres database alerts Postgraphile when a topic has updated with the pg\_notify() function, along with data about the event itself. Postgraphile then notifies event listeners, along with the information about the event. This event can be a message, a workout, or a new exercise personal record. The client is responsible for presenting the different events. 
+In order to make real time social interaction possible, I set up a live event feed of user workouts, personal bests and user messages. In order to implement real time events on the server side, I used Postgraphile's built in websocket subscriptions. Client subscribers listen to a ``topic'' which is a string representing a real time event source. A topic ``blog\_posts'' might notify listeners with a link to the new post whenever a new blog was published. In my case, I had topics for every team, which were formatted as ``Event\_{Team Name}'' (such as ``Event\_Dream Team''). Postgres alerts Postgraphile when a user event has been inserted in to the database, along with the name of the table and ID of the row. Postgraphile forwards this information to all subscribers through the websocket connection. The client is responsible for presenting the different events. 
 
 \section{Deploying server/database}
-I originally intended to deploy both my database and server on Heroku, as I was familiar with both. I realized that Heroku's database wouldn't fit my use case: you are not allowed to create roles. My security policy is built on having a super user (which only I have access to) and a restricted database user subject to all security rules. Postgraphile is connected as this restricted user, so any sent GraphQL (and thus SQL) that a user sends is subject to row level security policies. I considered hosting the database and server on AWS, but Postgraphile does not support subscriptions there (due to the serverless infrastructure). I decided to combine the best of both worlds, and used a Heroku server alongside an AWS RDS database (which supports roles, even on the free tier.) It took some work for me to get SSL properly working as I am new to using AWS. Locally, simple CRUD queries only take 10-20ms to handle, and more complex ones such as fetching users by group, and all events by users take 50ms, while on Heroku, this is 60-100ms for simple queries, and 100-200 for more complex ones. I believe that this is partially because of the latency from Heroku to AWS, but I am still happy with the performance, especially for a free server and database.
+I originally intended to deploy both my database and server on Heroku, as I was familiar with both. I realized that Heroku's database wouldn't fit my use case: you are not allowed to create roles. My security policy is built on having a super user (which only I have access to) and a restricted regular user subject to all security rules. Postgraphile is connected as this restricted user, so any sent GraphQL (and thus SQL) that a user sends is subject to row level security policies. With only one superuser role, all SQL that Postgraphile forwards would be as the superuser, which would nullify all security rules. I considered hosting the database and server on AWS, but Postgraphile does not support subscriptions there (due to the serverless infrastructure). I decided to combine the best of both worlds, and used a Heroku server alongside an AWS RDS database (which supports roles, even on the free tier.) It took some work for me to get SSL properly working as I am new to using AWS. Locally, simple CRUD queries only take 10-20ms to handle, and more complex ones such as fetching users by group, and all events by users take 50ms, while on Heroku, this is 60-100ms for simple queries, and 100-200 for more complex ones. I believe that this is partially because of the latency from Heroku to AWS, but I am still happy with the performance, especially for a free server and database.
 
-\section{Implementing relative strength calculations}
+\section{Implementing relative strength calculations} \label{strength_calculations}
 A key part of my app is the connection between in game strength and real life strength. Strength is hard to calculate, as it depends on factors such as the exercise, the weight used, number of repetitions, the bodyweight of the user, etc. Although formulas exist for popular exercises (such as squat, bench, and deadlift in powerlifting) I wanted the app to include more exercises, especially bodyweight ones during COVID. I did some research, and couldn't find any API's that handled these calculations, but I did find websites which provided them. I contacted the owners of the sites, and they weren't willing to provide API access. I asked the owner of strengthlevel.com if they would mind me scraping their site, and they didn't. The web client contacts an API to make these requests, and by tracking my network requests when I submitted the form, I could copy and analyze how my request parameters were sent. I then made the exercise request generalizable (for instance, by changing the exercise which I submitted, ``barbell-squat'') to the variable exerciseName. The node.js server didn't allow for the Strength Level request to be made, as it wasn't encrypted. After doing some research, I found two solutions: one would be to disable this restriction and to send the request without any encryption. This is a bad idea, as the request contains some sensitive information (exercise performance, identified gender, weight). This would also remove warnings when sending unencrypted requests to other hosts. The latter solution involved getting the public key (.pem file) of Strength Level, and encrypting the request with it. This was harder, as I didn't have experience with this, but I'm glad I learned to do it properly (as I also needed to configure Amazon's public key for database requests).
 
 Most of the request parameters were self explanatory (exercise weight, bodyweight, repetitions, etc.) as it was obvious that they were just numbers. The exercise name parameter required more work to generalize, as this was a string which had to be in the small subset of supported exercises. I scraped the names of this by copying the HTML of the exercise browser, and by stripping everything but the names. This was initially enough information to set up relative strength calculations. Months later as I tracked a bodyweight exercise, I found that the request didn't work. This is because bodyweight exercise have a different query format. Instead of requiring lifted weight as a parameter, they require ``additional\_weight'' and ``is\_bodyweight''. To accommodate for this, I added an extra field to all exercises (is\_bodyweight), scraped all exercises tagged as such, and set is\_bodyweight to true for all those exercises. I also had to refactor the request sent to Strength Level depending on if the exercise was a bodyweight one or not. After fixing this bug, it was very easy to add a ``bodyweight only'' filter to the exercise search in my app, which hopefully made my exercise. 
@@ -409,9 +401,9 @@ I accidentally mislabeled two exercises as bodyweight, which lead to one user's 
 I wanted groups to be able to search exercise updates by user for particular battles against monsters, or all battles. One simple solution would be to select based on timestamp (if a battle against a monster started 2 days ago, select all exercise updates where the ``created\_at'' attribute is less than 2 days from now). I decided not to do this, as this would be very slow since the timestamp is not an ordering attribute. Selecting all matching exercise updates would require searching all of the user's updates. Instead, I decided to add nullable foreign key attributes, battle\_number and group\_name which denote the battle in which this exercise was tracked, and the group in which the user belonged to at the time. This metadata is not sent by the client, but read and written by a database trigger after the user inserts an exercise personal best. This trigger might not do anything, as the battle\_number and group\_name returned from the query might be null.
 
 \begin{lstlisting}[language=SQL, caption={This selects the group and battle of the user that created this exercise update}, label=lst:trigger_set_metadata]
-select group_name into NEW.group_name from ``user'' where username = NEW.username;
-select battle_number into NEW.battle_number from ``group'' where name = NEW.group_name;
-before insert on ``user_exercise''
+select group_name into NEW.group_name from "user" where username = NEW.username;
+select battle_number into NEW.battle_number from "group" where name = NEW.group_name;
+before insert on "user_exercise"
 \end{lstlisting}
 
 
@@ -419,9 +411,9 @@ Using foreign keys allows us to construct queries GraphQL which fetch exercise u
 
 I also load the battle and group foreign keys into workouts, but these fields are mandatory. Tracking workouts makes you deal damage towards your enemy, which doesn't make sense if you don't have an enemy. On the other hand, you can strengthen your character without needing an active enemy. I calculate the number of granted hits using a simple generated column:
 
-%\begin{lstlisting}[language=SQL, caption={Calculate hits based on user supplied average_rir and sets}, label=lst:calc_hits]
-%hits integer GENERATED ALWAYS as $ ((10 - average_rir) / 10.0  \cdot  sets) $ stored
-%\end{lstlisting}
+\begin{lstlisting}[language=SQL, caption={Calculate hits based on user supplied reps in reserver and sets}, label=lst:calc_hits]
+hits integer GENERATED ALWAYS as $ ((10 - average_rir) / 10.0  \cdot  sets) $ stored
+\end{lstlisting}
 
 
 I also needed to calculate the damage that this workout dealt, and to subtract the dealt damage from the current enemy. To do this I needed to implement a trigger that activates whenever a workout is created. This trigger first calculates the total damage that this workout dealt by multiplying the number of hits with the attack damage of this user. I then subtract the current health from the group's enemy. Finally, I check if the health of the enemy is 0 or less, in which case I progress the group forward by one level, giving them a new stronger enemy at full health. A team might not always succeed in killing the enemy within the allocated week. Whenever a user fetches data about their team's enemy, I check whether or not this current battle was created over a week ago. If so, I create a new battle with the same enemy, but everything reset (1 week to kill and full health). I also send the team a message to their group chat notifying them that they failed to defeat the enemy, and that it has been reset.
@@ -460,13 +452,8 @@ In order to make the characters idle, I simply had to loop the idle sprites. In 
 
 The server sends the name of the sprite that should be rendered, but the sprite is stored on the client's device. The server classifies the user's strength, which tells the client which sprite to render. The server also tells the client which enemy it should render in the team view.
 
-
 \section{Deploying to app distribution platforms}
 Deploying the app to Google Play was very easy. I had done all of my development with an Android device, so I didn't need to do extra testing. My first production build was accepted. It took a few days to make sure that everything was working as expected on iOS. I primarily had to make sure that text sizes and buttons were well sized for Apples flagship phones, and that safe area views were working properly. I also had to take screenshots with multiple devices, create a privacy policy, and do just about everything I did for Google Play again. 
-
-
-
-
 
 \section{Evaluation}
 I had a total of 24 participants. Participants were recruited through messaging apps. I usually only mentioned that I was conducting research on an exercise app, and nothing more. My app had built in tutorials, and required that users signed a participant information/ethics consent sheet, so I didn't need to give much information about the app. After three weeks, users were asked to participate in a survey. The mean age of participants was 22.8 and 93.3\% identified as male, the rest identifiying as female. 53\% were in the UK, 26\% in Finland, 13\% from America, with the remaining 8\% from Czech Republic. 
