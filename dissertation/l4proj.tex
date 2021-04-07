@@ -1,10 +1,9 @@
-% FIX screenshots 
+%FIX sign post
 
 % REMEMBER: You must not plagiarise anything in your report. Be extremely careful.
 
 \documentclass{l4proj}
 
-%FIX refer to figures
 
     
 % put any additional packages here
@@ -26,7 +25,7 @@
     \vskip 0.5em
 
 %social relatedness         
-I created a crossover between a workout tracker and a multiplayer fantasy game in order to motivate users to exercise. As the game was multiplayer, training had a purpose beyond just personal success. I evaluated my app with users ranging from complete beginners to advanced lifters to investigate whether my app increased motivation for exercise, which is hard for many to do consistently. Users did not train more frequently, but some reported increased training intensity and motivation.
+I created Stat Buff, which is a crossover between a mobile workout tracker and a multiplayer fantasy game. People struggle to start exercising, and even those who manage to start have high drop-off rates. I wanted to create an app which would get users to start and maintain the habit. Users strengthen their characters through becoming stronger in real life, and deal damage to their team's common enemy through workout effort. My app doesn't reward exercise through a simple point system: effort is rewarded through granting users new characters who deal damage in animated battles with the team's enemy. This makes the app satisfying to use, and exercise feel like you're helping others and not just yourself. I evaluated my app with users ranging from complete beginners to advanced lifters to investigate whether my app increased motivation to exercise. Users did not train more frequently, but some reported increased training intensity and motivation. Users showed roughly the same interest in individualistic and collective goals.
 
 \end{abstract}
 
@@ -74,14 +73,36 @@ I created a crossover between a workout tracker and a multiplayer fantasy game i
 %
 %==================================================================================================================================
 \chapter{Introduction}
-\textbf{Motivate} 
-I was motivated to combine RPGs and exercise trackers, as both are built around doing repetitive tasks to become better at skills over time. Progression and collaboration in RPGs has been homed over years, which allowed me to easily appropriate the design model into my own app. By rewarding real life training effort with in-game progress I gave users additional reward for their efforts. As the game was multiplayer, I was able to apply techniques from Self Determination Theory, Social Comparison Theory, and Social Support Theory to further motivate users.
 
-% reset page numbering. Don't remove this!
+\section{Workout trackers and their purpose}
+Workout trackers are tools which are used to plan and log workouts. They are primarily marketed as motivators for exercise, and often contain additional features such as social feeds and competitions. My app is a workout tracker, specifically a strength workout tracker. It supports bodyweight and weighted strength exercises, but not other types of exercise such as walking and running. 
+
+\section{Collaborative workout trackers}
+Collaborative workout trackers are a subset of workout trackers with built-in collaboration. When using these trackers, your exercise helps your teammates in some way. If implemented well, this creates additional motivation as users want to help their team progress or feel an obligation to help. There is some existing research into collaborative exercise trackers, which generally perform better than competitive or individual tracking.
+
+\section{Relevant theories}
+In order to ensure that my collaborative features of my app were motivating, I had to apply techniques from various theories:
+
+\subsection{Self-determination theory} 
+One of the three mini-theories is that social relatedness induces motivation. 
+
+\subsection{Social comparison theory} 
+This theory argues that people change behavior based on how they are perceived by others. 
+
+\subsection{Social support theory} 
+This theory argues that positive social encounters are motivating.
+
+\section{RPG/fantasy game characteristics}
+When I use "RPG" or "fantasy game" in this paper, I am referring to games such as World of Warcraft which are set in fictional medieval worlds with supernatural elements such as monsters and magic. In these games, characters progression happens through skill development which requires laborious repetitive tasks, often referred to as "grinding". I decided to gamify exercise with an RPG model, as training is also built around doing laborious repetitive training exercises. Many RPGs are also built around collaboration, which let me repurpose an existing successful collaborative model into my app. 
+
+\section{Motivation}
+The primary goal of my project was to develop a collaborative RPG workout tracker
+
+
+\chapter{Acknowledgements}
+I want like to thank my supervisor, Dr. Alistair Morrison for all his help and support, especially with regards to the evaluation of the app. Without his help, my evaluation wouldn't have had a clear goal, and my interviews, surveys, and data analysis would've been conducted poorly. I would like to thank my friend Jaakko, with whom I brainstormed many ideas for the project and conducted a pilot study with. Finally, I would like to thank all my participants for using my app, especially those who took time out of their day to conduct an interview.
+
 \pagenumbering{arabic} 
-
-
-
 
 
 %==================================================================================================================================
@@ -113,7 +134,7 @@ In order to make the most out of my multiplayer feature, I had to understand how
 
 \citet{social_comparison_theory} argues that people change behaviour based on how they are viewed by others. I leveraged this by adding high transparency towards the actions of other users. I added a timeline which contained all team member events, such as workouts or new personal bests. There was also a tab which showed the total contribution of all users over time, as well as for specific battles. Users are motivated to exercise, as they know everyone will see them contribute to the team. There is also negative enforcement, as users don't want to be seen as slackers by other team by being in the bottom of the team's leaderboard.
 
-Social support theory argues that positive social encounters encourage behaviour change \citep{social_support_theory}. I added a simple real-time chat which allows users to talk amongst themselves. By addding a time limit to defeat enemies, users were encouraged to discuss their training plans amongst themselves to better coordinate battles. I also tried to add some humorous monsters to the game to elicit reactions and discussion. 
+Social support theory argues that positive social encounters encourage behaviour change \citep{social_support_theory}. I added a simple real-time chat which allows users to talk amongst themselves. By adding a time limit to defeat enemies, users were encouraged to discuss their training plans amongst themselves to better coordinate battles. I also tried to add some humorous monsters to the game to elicit reactions and discussion. 
 
 
 \section{Commercial Products}
