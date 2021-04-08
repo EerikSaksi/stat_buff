@@ -1,4 +1,5 @@
 %FIX sign post
+%FIX questionair
 %MAYBE existing literature pedometer vs strength 
 %FIX every stage of the document mention the research question
 %FIX FOCUS 
@@ -18,7 +19,6 @@
 
 \documentclass{l4proj}
 
-    
 % put any additional packages here
 
 \begin{document}
@@ -37,7 +37,8 @@
 \begin{abstract}
     \vskip 0.5em
 
-I created Stat Buff, which is a crossover between a mobile strength exercise tracker and a multiplayer RPG. People struggle to start exercising, and even those who manage to start have high drop-off rates. I wanted to create an app which would get users to start and maintain the habit. Users are given a virtual character, and they can join a team with other virtual characters. Teams are assigned a monster enemy which they are tasked with killing. Killing this monster will progress your entire team forward, and give you a new enemy to fight. There is a time limit set to defeat a particular monster. Users strengthen their characters through becoming stronger in real life, and deal damage to their team's common enemy through workout effort. As there is a time limit to defeat the monster, users are under time pressure to do so. My app doesn't reward exercise through a simple point system: effort is rewarded through granting users new characters who deal damage in animated battles with the team's enemy. This makes the app satisfying to use, and exercise feel like you're helping others and not just yourself. I evaluated my app with users ranging from complete beginners to advanced lifters to investigate whether my app increased motivation to exercise. Users did not train more frequently, but some reported increased training intensity and motivation. Users showed roughly the same interest in individualistic and collective goals.
+I created Stat Buff, which is a crossover between a strength exercise tracker and a collaborative multiplayer RPG. There has been a lot of promising research into pure collaborative activity trackers, where a user's contribution only influences their own team. I wanted to investigate whether it was possible to create a hybrid between a collaborative and individual tracker, where users have an individualistic as well as a collective goal. This would cater to users who like to train with others as well as those who want to train alone. I also wanted to investigate whether the success of existing collaborative trackers would generalize in to strength training gamified as an RPG. Most existing research on collaborative activity focus on pedometers, and there has been no research on whether it generalizes to other forms of exercise, such as strength training. In addition, most apps reward user exercise by simply increasing their group's score. I tried to make progression more interesting and satisfying by applying existing techniques from RPG games, which no other collaborative activity tracker has done before. When users start using the app, they are given a virtual character. This character's strength and appearance are proportional to the user's real life strength, which motivates the user to increase it. They can also join a team with other virtual characters. Teams are assigned a monster enemy which they are tasked with killing. Killing this monster will progress your entire team forward, and give you a new enemy to fight. Individual characters in teams can deal damage to the monster by completing a training session. This means that users can both develop their individual character through becoming stronger, as well as their team through working out. I evaluated my app with users ranging from complete beginners to advanced lifters. I Users did not train more frequently, but some reported increased training intensity and motivation. Users showed roughly the same interest in individualistic and collective goals.
+
 
 \end{abstract}
 
@@ -99,6 +100,8 @@ I want like to thank my supervisor, Dr. Alistair Morrison for all his help and s
 Activity trackers are tools which are used to plan and log exercise. They are primarily marketed as motivators for exercise, and often contain additional features such as social feeds and competitions. My app is specifically a strength exercise tracker. It supports bodyweight and weighted strength exercises, but not other types of exercise such as walking and running. 
 
 Collaborative activity trackers are a subset of activity trackers with built-in collaboration. When using these trackers, your exercise helps your teammates in some way. If implemented well, this creates additional motivation as users want to help their team progress or feel an obligation to help. There is some existing research into collaborative activity trackers, which generally perform better than competitive or individual tracking.
+
+My app has collaborative aspects,
 
 In order to ensure that my collaborative features were motivating, I had to apply techniques from various theories:
 
@@ -489,7 +492,7 @@ Deploying the app to Google Play was very easy. I had done all of my development
 \section{Participants}
 I had a total of 24 participants Participants were recruited through messaging apps. I only directly contacted friends. Some people invited their friends who I did not know. My app required users to sign the consent/participant information form before signing up and using it, so I did not need to provide much information to the user initially. All users were asked to participate in a survey. I asked users to forward the survey to any of the friends they invited. Through diversity sampling based on analytics data, group membership and activity levels, I invited 10 users for an additional interview. The mean age of participants was 22.8 and 93.3\% identified as male, the rest identifying as female. 53\% were in the UK, 26\% in Finland, 13\% in America, with the remaining 8\% from the Czech Republic. 
 
-After looking at the survey data, I realized that my study recruitment had a strong sampling bias. I wanted to share my app with people who would fully understood and appreciated it, such as experienced lifters or users with gaming experience. For instance, 86.7\% of users had performed some kind of strength training in their lives. Every user had regularly performed some form of exercise. These users mostly had lots of experience, as you gg/
+After looking at the survey data, I realized that my study recruitment had a strong sampling bias. I wanted to share my app with people who would fully understood and appreciated it, such as experienced lifters or users with gaming experience. For instance, 86.7\% of users had performed some kind of strength training in their lives. Every user had regularly performed some form of exercise. These users mostly had lots of experience, as you can see in Figure \ref{fig:character_motivation}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\linewidth]{long_performed.png}    
@@ -497,9 +500,10 @@ After looking at the survey data, I realized that my study recruitment had a str
     \label{fig:character_motivation} 
 \end{figure}
 
-%53.3\% of users had used some 
+I addressed this in the interview stage by trying to sample users who didn't use the app much with higher priority than I otherwise would've. 
 
-\section{Method}
+\section{Methodology}
+My surveys mostly collected quantitative data. I thought it would make the most sense to ask more qualitative questions in interviews where users could go into more detail, and I can guide discussions. 
 
 \section{The strongest members of teams}
 User 1 and User 3 were users that contributed a substantial amount of the damage to the team (80\%+). Both the users had a lot of training experience. User 3 was the strongest out of all users, and User 1 was above average in strength, and had used an activity tracker named ``FitNotes'' before. I was interested in what drove them to contribute such a large amount, and how they felt about doing so. 
@@ -536,8 +540,7 @@ There was one user (User 2) who treated the app as a personal tracker but did no
 \section{Altruism vs obligation}
 I asked members who actively contributed to their team whether their motivation to help was altruistic or due to social obligation. Altruism can be viewed as a positive motivator, wherein users view their contribution as a voluntary gift to their team. Social obligation is a more negative motivator which makes uses feel that they have some responsibility towards their team, or they might be viewed poorly. Users seemed to be unsure about what drove them to contribute to their team. User 8 responded: "Good question, I'm not really sure. I guess it was about helping the team but also not being viewed as lazy." As I implemented techniques from social support theory and social comparison theory, users seemed to be motivated by both altruism and obligation simultaneously.
 
-\section{Collaboration vs competitiveness}
-User 7 and User 8 were both in the same team. I asked both users individually whether their motivation was driven by collaboration or competition. User 7, who was strongest in the team responded: ``I think, at the start, I would tell User 8 'Yo, I just did a workout I just did this much damage, the boss is almost dead, you need to work out'''. This was mostly collaborative: User 7 trained to help the team out, and wanted the User 8 to help him defeat the enemies. I asked User 8, who was a bit weaker than User 7 the same question. He reiterated the same sentiment as User 7: ``We never spoke about being competitive''.  He confessed that he felt competitive, although he didn't express it: ``I think User 7 did a couple more workouts than me, and I was trying to keep up with him. I think it was definitely competitive there.'' This intrigued me, as User 8 felt competitive as the underdog, but the strongest member in the team did not. It also led to User 8 putting in more effort: ``The app probably added an extra workout every week''. This is what I hoped that the app design would lead to: users that are weaker and who train less wanting to keep up with other users.
+\section{Collaboration vs competitiveness} User 7 and User 8 were both in the same team. I asked both users individually whether their motivation was driven by collaboration or competition. User 7, who was strongest in the team responded: ``I think, at the start, I would tell User 8 'Yo, I just did a workout I just did this much damage, the boss is almost dead, you need to work out'''. This was mostly collaborative: User 7 trained to help the team out, and wanted the User 8 to help him defeat the enemies. I asked User 8, who was a bit weaker than User 7 the same question. He reiterated the same sentiment as User 7: ``We never spoke about being competitive''.  He confessed that he felt competitive, although he didn't express it: ``I think User 7 did a couple more workouts than me, and I was trying to keep up with him. I think it was definitely competitive there.'' This intrigued me, as User 8 felt competitive as the underdog, but the strongest member in the team did not. It also led to User 8 putting in more effort: ``The app probably added an extra workout every week''. This is what I hoped that the app design would lead to: users that are weaker and who train less wanting to keep up with other users.
 
 \section{Individualistic vs collective motivation}
 Users were slightly more interested in their own progression (3.4 / 5) than in their team's (3.2 / 5). Character development can be viewed as individualistic motivator, and fighting the monster as a collective motivation, although there is a small caveat. There is an asymmetric link between the two, as developing your character helps your team progress, but team progress does not develop your character. A user who was solely focused on helping their team would still need to care about their character. On the other hand someone focused on just their character wouldn't need to care about their character. You can see the distributions in Figure \ref{fig:character_motivation} and \ref{fig:group_motivation}.
@@ -650,6 +653,7 @@ I set out to create a collaborative RPG activity tracker which should help users
 
 \chapter{Appendices}
 
+\includepdf{revised_ethics_form.pdf}
 Typical inclusions in the appendices are:
 
 \begin{itemize}
