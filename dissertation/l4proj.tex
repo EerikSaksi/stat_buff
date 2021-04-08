@@ -10,7 +10,6 @@
 %FIX survey results/interview results separately
 %FIX requirements moscow
 %FIX conclusion longer what motivation results interview conditions
-%6.0 What you hope to gain, 6.1 , 6.2 , 6.3, quantitative results, 6.4 qualitative results, 6.5 thematic analysis, 6.6 summary of evaluation
 %FIX ethics application
 %user stories depend on 
 
@@ -488,31 +487,55 @@ The client stores the sprites on the device, but the server tells the client whi
 Deploying the app to Google Play was very easy. I had done all of my development with an Android device, so I didn't need to do extra testing, and my first production build was accepted. For iOS, it took a few days to make sure that everything was working as expected. I primarily had to make sure that text sizes and buttons were well sized for Apples flagship phones, and that safe area views were working properly. I also had to take screenshots with multiple devices, create a privacy policy, and do just about everything I did for Google Play again. My app was rejected 5 times over a month before it was finally accepted. This was primarily due to Apple's new strict policies on health studies.
 
 \chapter{Evaluation}
+From my evaluation my primary focus was users' view team and user progression. If there is a user who is not interested in participating 
 
 \section{Participants}
 I had a total of 24 participants Participants were recruited through messaging apps. I only directly contacted friends. Some people invited their friends who I did not know. My app required users to sign the consent/participant information form before signing up and using it, so I did not need to provide much information to the user initially. All users were asked to participate in a survey. I asked users to forward the survey to any of the friends they invited. Through diversity sampling based on analytics data, group membership and activity levels, I invited 10 users for an additional interview. The mean age of participants was 22.8 and 93.3\% identified as male, the rest identifying as female. 53\% were in the UK, 26\% in Finland, 13\% in America, with the remaining 8\% from the Czech Republic. 
 
-After looking at the survey data, I realized that my study recruitment had a strong sampling bias. I wanted to share my app with people who would fully understood and appreciated it, such as experienced lifters or users with gaming experience. For instance, 86.7\% of users had performed some kind of strength training in their lives. Every user had regularly performed some form of exercise. These users mostly had lots of experience, as you can see in Figure \ref{fig:character_motivation}.
+After looking at the survey data, I realized that my study recruitment had a strong sampling bias. I wanted to share my app with people who would fully understood and appreciated it, such as experienced lifters or users with gaming experience. For instance, 86.7\% of users had performed some kind of strength training in their lives. Every user had regularly performed some form of exercise. These users mostly had lots of experience, as you can see in Figure \ref{fig:long_performed}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\linewidth]{long_performed.png}    
-    \caption{How long the users had performed the exercise they mentioned}
-    \label{fig:character_motivation} 
+    \caption{User exercise experience}
+    \label{fig:long_performed} 
 \end{figure}
+%6.0 What you hope to gain, quantitative results, 6.4 qualitative results, 6.5 thematic analysis, 6.6 summary of evaluation
 
-I addressed this in the interview stage by trying to sample users who didn't use the app much with higher priority than I otherwise would've. 
+I tried to address this in the interview stage by sampling users who didn't use the app much, and those who did not have much training experience. 
+
 
 \section{Methodology}
-My surveys mostly collected quantitative data. I thought it would make the most sense to ask more qualitative questions in interviews where users could go into more detail, and I can guide discussions. 
+My surveys mostly collected quantitative data. I thought it would make the most sense to ask more qualitative questions in interviews where users could go into more detail, and I could guide discussions. The survey asked for some demographic information (age, identified gender, location) and questions related to my research. I conducted my interviews semi-structured: I would prepare questions which where specific to that user. For instance, if I sampled a user because they were the most active in their team, I would ask what motivated them, how they viewed their lower performing teammates, etc. Once I had answers for the user-specific questions, I would let the user speak freely, interrupting as little as possible. This helped me discover known unknowns, leading me to discover issues and ideas I wouldn't have found in a very structured interview. I transcribed all interviews with otter.ai, an audio transcription service. I went over each transcription, noting their responses to my prepared questions, as well as any other issues which the user raised during the unstructured part of the interview. Once I had condensed notes of each participant, I performed thematic analysis to identify emergent themes along with evidence. 
 
-\section{The strongest members of teams}
+\section{Survey Data}
+In Figure \ref{fig:intensity}, you can see the ratio of users who claimed that their intensity increased when using my app.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\linewidth]{exercise_intensity.png}    
+    \caption{Self reported change in exercise intensity}
+    \label{fig:intensity} 
+\end{figure}
+
+This app seems to have motivated some users, but not a very meaningful share. I also forgot to include an option for users who exercised less while using my app, which has been grouped together with "did not exercise more". Many experienced users had rigid plans which they didn't want to stray away from. For instance, User 4 commented: "This app was motivating, but I paid for a plan with exact sets and RPEs, so I didn't change my training". This question should have asked about motivation, and not the actual physical workout intensity.
+
+I asked users how often they trained prior and while using my app. The results are visible in Figure \ref{fig:workout_frequencies}. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\linewidth]{user_workout_distribution.png}    
+    \caption{Frequency prior to using my app}
+    \label{fig:workout_frequencies} 
+\end{figure}
+
+
+The mean workout frequency is slightly lower while using my app (4.2 vs 4.13 workouts/week). There seemes to simultaneous increase and decrease in exercise frequency. One user who exercised 4 times a week removed a weekly workout, whilst another user added a fifth one. This data suffers from the same issues as Figure \ref{fig:intensity}, as many users have rigid plans which they don't want to change. The difference in mean, as well as the size of my sample are very small, so no conclusions can be drawn from this.
+
+
+\section{Thematic analysis}
+\subsection{The strongest members of teams}
 User 1 and User 3 were users that contributed a substantial amount of the damage to the team (80\%+). Both the users had a lot of training experience. User 3 was the strongest out of all users, and User 1 was above average in strength, and had used an activity tracker named ``FitNotes'' before. I was interested in what drove them to contribute such a large amount, and how they felt about doing so. 
 
-\subsection{Motivation}
 
 Both of these users mentioned competitiveness, but hardly anything about collaboration. It is hard to say whether competitiveness drove these users to perform better, or if they became competitive due to their superiority. For instance, User 1 wanted more transparency towards other members' actions, so that he could compete better: ``you could click it and see all the movements that they did in the gym, the weights and the reps. I think it would be a bit more interesting. And for people who like competition it would be fun.''. User 3 thought that being able to see the damage and actions of other users leads to competitiveness and more actions ``Oh, ****, User 3 is out there, I've got to do the same''. 
-
-\subsection{Reaction towards being the strongest}
 
 User 1 and User 3 had very opposite reactions towards being the best in their team. User 1 commented: ``If everyone would have been contributing equally, I think I would've put much more effort into it.'' At one point, User 1 had sent a chat message asking if the other members had gym access. He later explained that this was a passive aggressive way of asking why the other users weren't contributing enough. 
 
@@ -523,7 +546,7 @@ Both users suggested fixes to balance the user contributions. User 1 suggested t
 User 3 had a suggestion that involved changing how the game behaved, rather than how user actions should be influenced. He suggested adding ``bonus damage, which might be the adjusted percentage of the monster's health. So it doesn't matter how weak you are, you could still offer the team that percentage damage''. This would mean that everyone's effort would be equally valuable. Users would still contribute more to their team through being stronger, but this would allow weak users to contribute equal amounts in at least one dimension. 
 
 
-\section{Team's composed of strangers}
+\subsection{Team's composed of strangers}
 I prevented the formation of 1-person teams as these users wouldn't be collaborating with anyone. I didn't want users to drop out if they didn't want to invite anyone, so I added a ``Join Random Team'' button, which would place you in the smallest and oldest public team. This led to teams with 2-3 members forming, where users did not know each other. I was curious of how these teams performed compared to teams where users knew each others.
 
 Much like the study \citet{Fish'n'Steps} found, anonymous teams did not perform well. User 2 tried to create their own team, but wasn't allowed to play without other members. They didn't want to invite their friends to play, and realized that their only option was to join a team with strangers. User 2 didn't want to do this: ``So I thought it's kind of weird just joining a random group, that I don't know the people in.'' 
@@ -534,61 +557,45 @@ User 4 didn't feel negatively about working with strangers, but didn't care abou
 
 The sentiment was also reflected in the activity levels of the users. The two most active teams were composed of users who all knew each other.
 
-\section{Users who didn't join a group}
+\subsection{Users who didn't join a group}
 There was one user (User 2) who treated the app as a personal tracker but did not join a team: ``I've seen kind of similarish ideas before. Like habit tracker apps that are kind of like RPG, where you can develop your own character. So I kind of viewed it like that. So it's kind just personal motivation for you.'' Not having gym access and lacking exercise habits were the primary reason people gave for not joining a team.  For instance User 9 stated: ``Gym access is like the first issue, obviously, because that was my primary source of exercise. Like, I'm literally just not doing anything''. A couple users mentioned not being interested in group based exercise in general. For instance, User 9 mentioned in addition to not having access to the gym: ``For me working out is a personal hobby and I'm not interested in making it group-based''. User 6 had a similar response ``In RPGs you grind and train alone, and you taking that experience away is weird.''
 
-\section{Altruism vs obligation}
+\subsection{Altruism vs obligation}
 I asked members who actively contributed to their team whether their motivation to help was altruistic or due to social obligation. Altruism can be viewed as a positive motivator, wherein users view their contribution as a voluntary gift to their team. Social obligation is a more negative motivator which makes uses feel that they have some responsibility towards their team, or they might be viewed poorly. Users seemed to be unsure about what drove them to contribute to their team. User 8 responded: "Good question, I'm not really sure. I guess it was about helping the team but also not being viewed as lazy." As I implemented techniques from social support theory and social comparison theory, users seemed to be motivated by both altruism and obligation simultaneously.
 
-\section{Collaboration vs competitiveness} User 7 and User 8 were both in the same team. I asked both users individually whether their motivation was driven by collaboration or competition. User 7, who was strongest in the team responded: ``I think, at the start, I would tell User 8 'Yo, I just did a workout I just did this much damage, the boss is almost dead, you need to work out'''. This was mostly collaborative: User 7 trained to help the team out, and wanted the User 8 to help him defeat the enemies. I asked User 8, who was a bit weaker than User 7 the same question. He reiterated the same sentiment as User 7: ``We never spoke about being competitive''.  He confessed that he felt competitive, although he didn't express it: ``I think User 7 did a couple more workouts than me, and I was trying to keep up with him. I think it was definitely competitive there.'' This intrigued me, as User 8 felt competitive as the underdog, but the strongest member in the team did not. It also led to User 8 putting in more effort: ``The app probably added an extra workout every week''. This is what I hoped that the app design would lead to: users that are weaker and who train less wanting to keep up with other users.
+\subsection{Collaboration vs competitiveness} User 7 and User 8 were both in the same team. I asked both users individually whether their motivation was driven by collaboration or competition. User 7, who was strongest in the team responded: ``I think, at the start, I would tell User 8 'Yo, I just did a workout I just did this much damage, the boss is almost dead, you need to work out'''. This was mostly collaborative: User 7 trained to help the team out, and wanted the User 8 to help him defeat the enemies. I asked User 8, who was a bit weaker than User 7 the same question. He reiterated the same sentiment as User 7: ``We never spoke about being competitive''.  He confessed that he felt competitive, although he didn't express it: ``I think User 7 did a couple more workouts than me, and I was trying to keep up with him. I think it was definitely competitive there.'' This intrigued me, as User 8 felt competitive as the underdog, but the strongest member in the team did not. It also led to User 8 putting in more effort: ``The app probably added an extra workout every week''. This is what I hoped that the app design would lead to: users that are weaker and who train less wanting to keep up with other users.
 
-\section{Individualistic vs collective motivation}
-Users were slightly more interested in their own progression (3.4 / 5) than in their team's (3.2 / 5). Character development can be viewed as individualistic motivator, and fighting the monster as a collective motivation, although there is a small caveat. There is an asymmetric link between the two, as developing your character helps your team progress, but team progress does not develop your character. A user who was solely focused on helping their team would still need to care about their character. On the other hand someone focused on just their character wouldn't need to care about their character. You can see the distributions in Figure \ref{fig:character_motivation} and \ref{fig:group_motivation}.
+\subsection{Individualistic vs collective motivation}
+Users were slightly more interested in their own progression (3.4 / 5) than in their team's (3.2 / 5). Character development can be viewed as individualistic motivator, and fighting the monster as a collective motivation, although there is a small caveat. There is an asymmetric link between the two, as developing your character helps your team progress, but team progress does not develop your character. A user who was solely focused on helping their team would still need to care about their character. On the other hand someone focused on just their character wouldn't need to care about their character. You can see the distributions in Figure \ref{fig:character_vs_team}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\linewidth]{ingame.png}    
-    \caption{User motivation to improve their character}
-    \label{fig:character_motivation} 
+    \includegraphics[width=1.0\linewidth]{moviation_distribution_team_character.png}    
+    \caption{User motivation to improve their character vs their team}
+    \label{fig:character_vs_team} 
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\linewidth]{team_motivation.png}    
-    \caption{User motivation to help their team}
-    \label{fig:group_motivation} 
-\end{figure}
 
-\section{Ethical considerations}
+\subsection{Ethical considerations}
 I implemented alerts which were triggered if users progressed too quickly in order to prevent users from progressing without caring about technique. Users raised other potential ethical considerations about my app which I had not accounted for. User 1 mentioned how my app could lead to users doing too many workouts: ``If I do like five gym sessions per week, but if that wouldn't be enough [to defeat the enemy], it wouldn't be very good for my health like to do like, seventh or eighth, gym session.''. In a similar vain, User 4 thinks that my app could lead to users prioritizing game progress over sensible training if the game is poorly balanced: ``You shouldn't be able to game the system, do lots of fluff work just to inflate your numbers, all training styles should be accounted for''. User 7 mentioned that I should be considerate about adding new features, such as calorie tracking: ``It would probably lead to eating disorders where people lose a bunch of weight''.
 
-\section{Design ideas}
+\subsection{Design ideas}
 A common feature suggestion was that exercises should be divided by body part. In addition to making searching for exercises a bit easier, users suggested adding this as an in-game feature. ``Yeah it makes kind of sense if you have body part specific armor that maybe if you do arms a lot you get a battleaxe.'' Other users suggested different ways converting real world to fantasy, such as different character builds based on your strengths (if you're good at cardio, you might be an agile character). Some users suggested making RPG style quests: ``If you kill a certain enemy 10 times you get a weapon''. These quests could also be connected to the real world: ``do squats 2 days in a row for extra gold''. Although unrealistic, one user suggested giving sponsored prices for in-game achievements: ``First person to reach x level or beat y challenge wins something such as supplements from a sponsor''.
 
 Although most users agreed that real life strength should remain important, many suggested adding rewards which are based around using the app: ``There should be rewards for using and engaging with the app that don't require real world improvement''. Rewarding app use would hopefully reduce inequalities amongst beginners and users which already train.  User 7 and User 8 had a beginner in their team who tracked only one workout, but dealt a fraction of what User 7 and User 8 and lost interest. Small inequalities can be motivating: for instance, User 8 worked harder to catch up to User 7. When this gap gets too big, users lose motivation. There are many 'pay to win' apps which let users play the game for free, but which lock long-term progression behind a paywall. I could copy this, but through a 'train to win' model, which would only allow users to progress beyond the early stages if they train. 
 
 A couple users did not like how I had implemented overflow effects. By default, any damage that brings an enemy below zero health is wasted, and not dealt toward the next enemy. This was easier to implement, and I decided to leave it in to see if this would lead to more collaboration. Users would need to coordinate their workouts amongst themselves to minimize wasted damage. Nobody viewed this as something to collaborate together on, but rather as a technical problem which should be addressed.
 
-\section{App design comprehension}
+\subsection{App design comprehension}
 Experienced users seemed to understand how the app worked. For instance, one of the strongest users ``liked the simplicity of my app''. This was not the case for beginners. User 6 thought ``it was a bit scary and disorienting to start using the app''. Experienced users only had to understand the game side of my app, but beginners had to understand the exercise aspects as well as the game aspects. This could be alleviated by introducing exercise tracking and game elements separately. For example, users could first be given armor and weapons that they could equip and use, but some items could only be equipped after submitting personal bests. Beginners would be able to comprehend the game and play it, but wouldn't feel pressured to understand the exercise side unless they wanted to progress faster. 
 
 I discussed how I could better implement tutorials with users who didn't understand the game. No user seemed to care about the pre sign-up tutorials. Users that skipped the initial tutorials said they would have been more receptive to embedded tutorials, such as an explanation of a section as you open it. Some users suggested some fun ideas: such as making an animated pixel art guide, in-line with the games' theme.
 
 \section{Animated sprites}
-Users liked when gym and RPG references were combined. Users found generic monster names like ``Mudcrab'' and ``Minotaur'' compared to more creative names like Frogman, King of Deadlift Leverages. One user said: ``I mean, it's funnier to do frogman jokes. Like deadlift guy than frostcave guardian and stuff like that, which is not like related to gym''. You can see a frame of the Frogman's sprite sheet animation in figure. 
-
+Users liked when gym and RPG references were combined. Users found generic monster names like ``Mudcrab'' and ``Minotaur'' compared to more creative names like Frogman, King of Deadlift Leverages. One user said: ``I mean, it's funnier to do frogman jokes. Like deadlift guy than frostcave guardian and stuff like that, which is not like related to gym''. You can see a frame of the Frogman's sprite sheet animation in figure \ref{fig:frogman}. 
 
 User 7 mentioned how he enjoyed tracking workouts as he could see the enemy take damage in a battle ``Oh, you know, I get to put in, 14 sets or whatever I did. And I get to see the boss taking damage.'' User 4 also mentioned the satisfaction of entering workouts: ``I kind of saw it as a sort of a motivation thing, and sort of to get you to train and give you the extra wee bit of dopamine from training and when logging your workout''
 
 Generally, users suggested adding more sounds and animations. User 6 suggested that all inputs should have some kind of satisfying feedback: ``If it's not visually stimulating it's not going to be interesting, it's like filling out a spreadsheet''. User 7 used the term ``dopamine factory'' to describe making the app as addicting as possible. This would involve animations and sounds, and adding a ``lootcrate'' system to the game, where users unlock chests containing items, which would all be animated. 
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\linewidth]{froggie.png}    
-    \caption{
-      ``Frogman, the King of Deadlift Leverages. The deadlift is performed by picking up the weight from the ground, so this frog has great leverages for the exercise.''
-    }
-    \label{fig:frogman} 
-\end{figure}
 
 \section{Commonly mentioned technical issues}
 By far the most mentioned issue was a keyboard opening error. If you searched for exercises and tried to set the repetitions/weight of the last or second last element of the list, the keyboard would overlap with the input, which would close the keyboard as soon as it opened. Users could luckily work around this: as long as they specified their search more, the last element would appear as the first element, which allowed the user to input the values.
@@ -602,7 +609,7 @@ There was an interesting bug with number inputs. Any number inputs (such as weig
 This bug was only visual, but the fight with the players character and the enemy was off center and sometimes slightly off-screen. The bug could have been avoided by using a larger array of emulators with a diverse number of screen sizes. This lack of device test coverage led to other similar bugs. Although I had implemented flex views which scaled proportionally with screen size, elements such as buttons and text did not, which led to small elements on some screens. Users with larger screens sometimes didn't even notice the ``User'' and ``Group'' labels on the bottom navigations tabs, which is an important part of the app.
 
 
-\chapter{Quantitative Data}
+\chapter{Analytics data}
 
 In Figure \ref{fig:exercises} you can see the average app use from users of different sized groups. App use seemed to increase substantially as team sizes grew. There was a moderate increase in the amount of tracked exercise with team size.
 \begin{figure}[H]
@@ -614,32 +621,6 @@ In Figure \ref{fig:exercises} you can see the average app use from users of diff
 This seems to suggest a correlation between motivation and increased team size. It is not possible to tell which causes the other: larger teams might lead to more motivation, or motivated users might join larger teams. The direction of this causal link could be investigated by placing users in teams of random size, and examining the relationship again.
 
 
-In Figure \ref{fig:intensity}, you can see the ratio of users who claimed that their intensity increased when using my app.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\linewidth]{exercise_intensity.png}    
-    \caption{Self reported change in exercise intensity}
-    \label{fig:intensity} 
-\end{figure}
-
-This app seems to have motivated some users, but not a very meaningful share. I also forgot to include an option for users who exercised less while using my app, which has been grouped together with "did not exercise more". Many experienced users had rigid plans which they didn't want to stray away from. For instance, User 4 commented: "This app was motivating, but I paid for a plan with exact sets and RPEs, so I didn't change my training". This question should have asked about motivation, and not the actual physical workout intensity.
-
-I asked users how often they trained prior and while using my app. The results are visible in Figure \ref{fig:prior_frequency} and Figure \ref{fig:while_frequency}.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\linewidth]{prior_frequency.png}    
-    \caption{Frequency prior to using my app}
-    \label{fig:prior_frequency} 
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\linewidth]{while_frequency.png}    
-    \caption{Frequency while using my app}
-    \label{fig:while_frequency} 
-\end{figure}
-
-The mean workout frequency is slightly lower while using my app (4.2 vs 4.13 workouts/week). There seemes to simultaneous increase and decrease in exercise frequency. One user who exercised 4 times a week removed a weekly workout, whilst another user added a fifth one. This data suffers from the same issues as Figure \ref{fig:intensity}, as many users have rigid plans which they don't want to change. The difference in mean, as well as the size of my sample are very small, so no conclusions can be drawn from this.
 
 %==================================================================================================================================
 \chapter{Conclusion}    
