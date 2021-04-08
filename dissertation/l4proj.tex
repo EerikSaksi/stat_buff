@@ -7,15 +7,16 @@
 %FIX everything about interviews (semi structured but looking for answers)
 %FIX explain scales
 %FIX survey results/interview results separately
+%FIX requirements moscow
 %FIX conclusion longer what motivation results interview conditions
-%what you hope to gain, 6.1 participants, 6.2 method, 6.3, quantitative results, 6.4 qualitative results, 6.5 thematic analysis, 6.6 summary of evaluation
+%6.0 What you hope to gain, 6.1 , 6.2 , 6.3, quantitative results, 6.4 qualitative results, 6.5 thematic analysis, 6.6 summary of evaluation
+%FIX ethics application
 %user stories depend on 
 
 
 % REMEMBER: You must not plagiarise anything in your report. Be extremely careful.
 
 \documentclass{l4proj}
-
 
     
 % put any additional packages here
@@ -36,8 +37,7 @@
 \begin{abstract}
     \vskip 0.5em
 
-%social relatedness         
-I created Stat Buff, which is a crossover between a mobile strength activity tracker and a multiplayer RPG. People struggle to start exercising, and even those who manage to start have high drop-off rates. I wanted to create an app which would get users to start and maintain the habit. Users are given a virtual character, and they can join a team with other virtual characters. Teams are assigned a monster enemy which they are tasked with killing. Users strengthen their characters through becoming stronger in real life, and deal damage to their team's common enemy through workout effort. My app doesn't reward exercise through a simple point system: effort is rewarded through granting users new characters who deal damage in animated battles with the team's enemy. This makes the app satisfying to use, and exercise feel like you're helping others and not just yourself. I evaluated my app with users ranging from complete beginners to advanced lifters to investigate whether my app increased motivation to exercise. Users did not train more frequently, but some reported increased training intensity and motivation. Users showed roughly the same interest in individualistic and collective goals.
+I created Stat Buff, which is a crossover between a mobile strength exercise tracker and a multiplayer RPG. People struggle to start exercising, and even those who manage to start have high drop-off rates. I wanted to create an app which would get users to start and maintain the habit. Users are given a virtual character, and they can join a team with other virtual characters. Teams are assigned a monster enemy which they are tasked with killing. Killing this monster will progress your entire team forward, and give you a new enemy to fight. There is a time limit set to defeat a particular monster. Users strengthen their characters through becoming stronger in real life, and deal damage to their team's common enemy through workout effort. As there is a time limit to defeat the monster, users are under time pressure to do so. My app doesn't reward exercise through a simple point system: effort is rewarded through granting users new characters who deal damage in animated battles with the team's enemy. This makes the app satisfying to use, and exercise feel like you're helping others and not just yourself. I evaluated my app with users ranging from complete beginners to advanced lifters to investigate whether my app increased motivation to exercise. Users did not train more frequently, but some reported increased training intensity and motivation. Users showed roughly the same interest in individualistic and collective goals.
 
 \end{abstract}
 
@@ -45,6 +45,7 @@ I created Stat Buff, which is a crossover between a mobile strength activity tra
 \newpage
 \chapter*{Acknowledgements}
 I want like to thank my supervisor, Dr. Alistair Morrison for all his help and support, especially with regards to the evaluation of the app. Without his help, my evaluation wouldn't have had a clear goal and my interviews, surveys, and data analysis would've been conducted poorly. I would like to thank my friend Jaakko, with whom I brainstormed many ideas for the project and conducted a pilot study with. Finally, I would like to thank all my participants for using my app, especially those who took time out of their day to conduct an interview.
+
 %==============================================================================
 
 % EDUCATION REUSE CONSENT FORM
@@ -95,17 +96,17 @@ I want like to thank my supervisor, Dr. Alistair Morrison for all his help and s
 \section{Motivation}
 %FIX step counts, same mechanisms apply 
 
-Activity trackers are tools which are used to plan and log exercise. They are primarily marketed as motivators for exercise, and often contain additional features such as social feeds and competitions. My app is specifically a strength activity tracker. It supports bodyweight and weighted strength exercises, but not other types of exercise such as walking and running. 
+Activity trackers are tools which are used to plan and log exercise. They are primarily marketed as motivators for exercise, and often contain additional features such as social feeds and competitions. My app is specifically a strength exercise tracker. It supports bodyweight and weighted strength exercises, but not other types of exercise such as walking and running. 
 
 Collaborative activity trackers are a subset of activity trackers with built-in collaboration. When using these trackers, your exercise helps your teammates in some way. If implemented well, this creates additional motivation as users want to help their team progress or feel an obligation to help. There is some existing research into collaborative activity trackers, which generally perform better than competitive or individual tracking.
 
 In order to ensure that my collaborative features were motivating, I had to apply techniques from various theories:
 
-This theory is composed of three mini-theories. One of is that social relatedness induces motivation. 
+Self-determination theory: One of the three mini-theories is that social relatedness induces motivation. 
 
-This theory argues that people change behavior based on how they are perceived by others. 
+Social comparison theory: This theory argues that people change behavior based on how they are perceived by others. 
 
-This theory argues that positive social encounters are motivating. 
+Social support theory: This theory argues that positive social encounters are motivating.
 
 When I use "RPG" in this paper, I am referring to games such as World of Warcraft which are set in fictional medieval worlds with supernatural elements such as monsters and magic. In these games, characters progression happens through skill development which requires laborious repetitive tasks, often referred to as "grinding". I decided to gamify exercise with an RPG model, as training is also built around doing laborious repetitive training exercises. Many RPGs are also built around collaboration, which let me repurpose an existing successful collaborative model into my app. 
 
@@ -147,7 +148,7 @@ In order to make the most out of my multiplayer feature, I had to understand how
 Social support theory argues that positive social encounters encourage behaviour change \citep{social_support_theory}. I added a simple real-time chat which allows users to talk amongst themselves. By adding a time limit to defeat enemies, users were encouraged to discuss their training plans amongst themselves to better coordinate battles. I also tried to add some humorous monsters to the game to elicit reactions and discussion. 
 
 \section{Commercial Products}
-I analyzed existing strength activity trackers and existing RPG games in order to better understand the two categories I am combining. 
+I analyzed existing strength exercise trackers and existing RPG games in order to better understand the two categories I am combining. 
 %FIX explain more
 
 \subsection{Activity trackers}
@@ -423,7 +424,7 @@ In order to make real time social interaction possible, I set up a live event fe
 I originally intended to deploy both my database and server on Heroku, as I was familiar with both. I realized that Heroku's database wouldn't fit my use case: you are not allowed to create roles. My security policy is built on having a super user (which only I have access to) and a restricted regular user subject to all security rules. Postgraphile is connected as this restricted user, so any GraphQL (and thus SQL) that a user sends is subject to row level security policies. With only one superuser role, all SQL that Postgraphile forwards would be as the superuser, which would nullify all security rules. I considered hosting the database and server on AWS, but Postgraphile does not support subscriptions there (due to the serverless infrastructure). I decided to combine the best of both worlds, and used a Heroku server alongside an AWS RDS database (which supports roles, even on the free tier.) It took some work for me to get SSL properly working as I am new to using AWS. Locally, simple queries took 10-20ms, whilst more complicated queries involving triggers took 50ms. With my current hosting, this was about 100ms for simple queries and 200ms for complex ones. I was very pleased with this, especially since I was using free tier on both Heroku and AWS. 
 
 \subsection{Implementing relative strength calculations} \label{strength_calculations}
-A key part of my app is the connection between in game strength and real life strength. Strength is hard to calculate, as it depends on factors such as the exercise, the weight used, number of repetitions, the bodyweight of the user, etc. Although formulas exist for popular exercises (such as squat, bench, and deadlift in powerlifting) I wanted the app to include more exercises, especially bodyweight ones during COVID-19. I did some research, and couldn't find any APIs that handled these calculations, but I did find websites. I contacted the owners of the sites, and they weren't willing to provide API access. Luckily, the owner of Strength Level didn't mind me scraping their site. Strength Level's web client contacts an API to make these calculations, and by tracking my network requests when I submitted the form, I could copy and analyze how my request parameters were sent. The form submission request sent HTML responses which I could scrape to extract the percentage. You can see the form as well as the HTML it returns in figure \ref{fig:strength_level}.
+A key part of my app is the connection between in game strength and real life strength. Strength is hard to calculate, as it depends on factors such as the exercise, the weight used, number of repetitions, the bodyweight of the user, etc. Although formulas exist for popular exercises (such as squat, bench, and deadlift in powerlifting) I wanted the app to include more exercises, especially bodyweight ones during COVID-19. I did some research, and couldn't find any APIs that handled these calculations, but I did find websites. I contacted the owners of the sites, and they weren't willing to provide API access. Luckily, the owner of Strength Level didn't mind me scraping their site. Strength Level's web client contacts an API to make these calculations, and by tracking my network requests when I submitted the form, I could copy and analyze how my request parameters were sent. The form submission request sent HTML responses which I could scrape to extract the percentage. You can see the form as well as the HTML it returns in Figure \ref{fig:strength_level}.
 
 \begin{figure}[H]
     \begin{subfigure}[t]{0.45\textwidth}
@@ -484,7 +485,21 @@ The client stores the sprites on the device, but the server tells the client whi
 Deploying the app to Google Play was very easy. I had done all of my development with an Android device, so I didn't need to do extra testing, and my first production build was accepted. For iOS, it took a few days to make sure that everything was working as expected. I primarily had to make sure that text sizes and buttons were well sized for Apples flagship phones, and that safe area views were working properly. I also had to take screenshots with multiple devices, create a privacy policy, and do just about everything I did for Google Play again. My app was rejected 5 times over a month before it was finally accepted. This was primarily due to Apple's new strict policies on health studies.
 
 \chapter{Evaluation}
-I had a total of 24 participants. Participants were recruited through messaging apps. I usually only mentioned that I was conducting research on an exercise app, and nothing more. My app had built in tutorials, and required that users signed a participant information/ethics consent sheet, so I didn't need to give much information about the app. After three weeks, users were asked to participate in a survey. The mean age of participants was 22.8 and 93.3\% identified as male, the rest identifying as female. 53\% were in the UK, 26\% in Finland, 13\% in America, with the remaining 8\% from the Czech Republic. 
+
+\section{Participants}
+I had a total of 24 participants Participants were recruited through messaging apps. I only directly contacted friends. Some people invited their friends who I did not know. My app required users to sign the consent/participant information form before signing up and using it, so I did not need to provide much information to the user initially. All users were asked to participate in a survey. I asked users to forward the survey to any of the friends they invited. Through diversity sampling based on analytics data, group membership and activity levels, I invited 10 users for an additional interview. The mean age of participants was 22.8 and 93.3\% identified as male, the rest identifying as female. 53\% were in the UK, 26\% in Finland, 13\% in America, with the remaining 8\% from the Czech Republic. 
+
+After looking at the survey data, I realized that my study recruitment had a strong sampling bias. I wanted to share my app with people who would fully understood and appreciated it, such as experienced lifters or users with gaming experience. For instance, 86.7\% of users had performed some kind of strength training in their lives. Every user had regularly performed some form of exercise. These users mostly had lots of experience, as you gg/
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\linewidth]{long_performed.png}    
+    \caption{How long the users had performed the exercise they mentioned}
+    \label{fig:character_motivation} 
+\end{figure}
+
+%53.3\% of users had used some 
+
+\section{Method}
 
 \section{The strongest members of teams}
 User 1 and User 3 were users that contributed a substantial amount of the damage to the team (80\%+). Both the users had a lot of training experience. User 3 was the strongest out of all users, and User 1 was above average in strength, and had used an activity tracker named ``FitNotes'' before. I was interested in what drove them to contribute such a large amount, and how they felt about doing so. 
@@ -525,7 +540,7 @@ I asked members who actively contributed to their team whether their motivation 
 User 7 and User 8 were both in the same team. I asked both users individually whether their motivation was driven by collaboration or competition. User 7, who was strongest in the team responded: ``I think, at the start, I would tell User 8 'Yo, I just did a workout I just did this much damage, the boss is almost dead, you need to work out'''. This was mostly collaborative: User 7 trained to help the team out, and wanted the User 8 to help him defeat the enemies. I asked User 8, who was a bit weaker than User 7 the same question. He reiterated the same sentiment as User 7: ``We never spoke about being competitive''.  He confessed that he felt competitive, although he didn't express it: ``I think User 7 did a couple more workouts than me, and I was trying to keep up with him. I think it was definitely competitive there.'' This intrigued me, as User 8 felt competitive as the underdog, but the strongest member in the team did not. It also led to User 8 putting in more effort: ``The app probably added an extra workout every week''. This is what I hoped that the app design would lead to: users that are weaker and who train less wanting to keep up with other users.
 
 \section{Individualistic vs collective motivation}
-Users were slightly more interested in their own progression (3.4 / 5) than in their team's (3.2 / 5). Character development can be viewed as individualistic motivator, and fighting the monster as a collective motivation, although there is a small caveat. There is an asymmetric link between the two, as developing your character helps your team progress, but team progress does not develop your character. A user who was solely focused on helping their team would still need to care about their character. On the other hand someone focused on just their character wouldn't need to care about their character. You can see the distributions in figure \ref{fig:character_motivation} and \ref{fig:group_motivation}.
+Users were slightly more interested in their own progression (3.4 / 5) than in their team's (3.2 / 5). Character development can be viewed as individualistic motivator, and fighting the monster as a collective motivation, although there is a small caveat. There is an asymmetric link between the two, as developing your character helps your team progress, but team progress does not develop your character. A user who was solely focused on helping their team would still need to care about their character. On the other hand someone focused on just their character wouldn't need to care about their character. You can see the distributions in Figure \ref{fig:character_motivation} and \ref{fig:group_motivation}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\linewidth]{ingame.png}    
@@ -586,7 +601,7 @@ This bug was only visual, but the fight with the players character and the enemy
 
 \chapter{Quantitative Data}
 
-In figure \ref{fig:exercises} you can see the average app use from users of different sized groups. App use seemed to increase substantially as team sizes grew. There was a moderate increase in the amount of tracked exercise with team size.
+In Figure \ref{fig:exercises} you can see the average app use from users of different sized groups. App use seemed to increase substantially as team sizes grew. There was a moderate increase in the amount of tracked exercise with team size.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\linewidth]{data/activity.png}    
@@ -596,7 +611,7 @@ In figure \ref{fig:exercises} you can see the average app use from users of diff
 This seems to suggest a correlation between motivation and increased team size. It is not possible to tell which causes the other: larger teams might lead to more motivation, or motivated users might join larger teams. The direction of this causal link could be investigated by placing users in teams of random size, and examining the relationship again.
 
 
-In figure \ref{fig:intensity}, you can see the ratio of users who claimed that their intensity increased when using my app.
+In Figure \ref{fig:intensity}, you can see the ratio of users who claimed that their intensity increased when using my app.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\linewidth]{exercise_intensity.png}    
@@ -606,7 +621,7 @@ In figure \ref{fig:intensity}, you can see the ratio of users who claimed that t
 
 This app seems to have motivated some users, but not a very meaningful share. I also forgot to include an option for users who exercised less while using my app, which has been grouped together with "did not exercise more". Many experienced users had rigid plans which they didn't want to stray away from. For instance, User 4 commented: "This app was motivating, but I paid for a plan with exact sets and RPEs, so I didn't change my training". This question should have asked about motivation, and not the actual physical workout intensity.
 
-I asked users how often they trained prior and while using my app. The results are visible in figure \ref{fig:prior_frequency} and figure \ref{fig:while_frequency}.
+I asked users how often they trained prior and while using my app. The results are visible in Figure \ref{fig:prior_frequency} and Figure \ref{fig:while_frequency}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\linewidth]{prior_frequency.png}    
@@ -621,7 +636,7 @@ I asked users how often they trained prior and while using my app. The results a
     \label{fig:while_frequency} 
 \end{figure}
 
-The mean workout frequency is slightly lower while using my app (4.2 vs 4.13 workouts/week). There seemes to simultaneous increase and decrease in exercise frequency. One user who exercised 4 times a week removed a weekly workout, whilst another user added a fifth one. This data suffers from the same issues as figure \ref{fig:intensity}, as many users have rigid plans which they don't want to change. The difference in mean, as well as the size of my sample are very small, so no conclusions can be drawn from this.
+The mean workout frequency is slightly lower while using my app (4.2 vs 4.13 workouts/week). There seemes to simultaneous increase and decrease in exercise frequency. One user who exercised 4 times a week removed a weekly workout, whilst another user added a fifth one. This data suffers from the same issues as Figure \ref{fig:intensity}, as many users have rigid plans which they don't want to change. The difference in mean, as well as the size of my sample are very small, so no conclusions can be drawn from this.
 
 %==================================================================================================================================
 \chapter{Conclusion}    
