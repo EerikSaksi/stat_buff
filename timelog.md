@@ -456,10 +456,10 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - Finally got the developer account working, finalizing build. Was doing a final test and realized a before fixed feature is still broken
 
 # 3 February (3 hours)
-- Submitted build to Apple finallt
+- Submitted build to Apple finally
 
 # 5 February (4 hours)
-- Received feedback: Apple wanted more information about my project, aswell as Apple sign in since I use Google sign in
+- Received feedback: Apple wanted more information about my project, as well as Apple sign in since I use Google sign in
 
 # 8 February (2 hours)
 - Issues with Apple sign in. I decided with my supervisor that I should prioritize the dissertation more, and set a deadline for when the project needs to be finished
@@ -493,4 +493,17 @@ client -> request (with Google tokenID) -> pgSettings converts token to Google I
 - What sort of exercise
 - How long have you been doing it
 - How dedicated have you been
+
+
+# 15 March (2 hours)
+Sending out surveys and interviews 
+
+
+# 15 March - 22 March (20 hours)
+Conducted all interviews and surveys
+
+
+# 22 March - 29 March (10 hours)
+Transcribed all interviews with otter.ai and written up summaries, now I need to finish the dissertation
+
 
