@@ -4,10 +4,7 @@
 %FIX FOCUS 
 %FIX user table
 %FIX explain scales
-%FIX survey results/interview results separately
 %FIX requirements moscow
-%FIX conclusion longer what motivation results interview conditions
-%user stories depend on 
 
 
 % REMEMBER: You must not plagiarise anything in your report. Be extremely careful.
@@ -32,7 +29,7 @@
 \begin{abstract}
     \vskip 0.5em
 
-I created Stat Buff, which is a crossover between a strength exercise tracker and a collaborative multiplayer RPG. There has been a lot of promising research into pure collaborative activity trackers, where a user's contribution only influences their own team. I wanted to investigate whether a hybrid tracker would outperform personal trackers and collaborative trackers. In my hybrid tracker, users have an individualistic as well as a shared goal. This caters to users who like to train with others as well as those who want to train alone. I also wanted to investigate whether the success of existing collaborative trackers would generalize in to strength training gamified as an RPG. Most existing research on collaborative trackers focus on pedometers, and there has been no research on whether it generalizes to other forms of exercise, such as strength training. In addition, most apps reward exercise by simply increasing the user's group's score. I tried to make progression more interesting and satisfying by applying existing techniques from RPG games, which no other collaborative activity tracker has done before. When users start using the app, they are given a virtual character. This character's strength and appearance are proportional to the user's real life strength, which motivates the user to increase it. They can also join a team with other virtual characters. Teams are assigned a monster enemy which they are tasked with killing. Killing this monster will progress your entire team forward, and give you a new enemy to fight. Individual characters in teams can deal damage to the monster by completing a training session. This means that users can both develop their individual character through becoming stronger, as well as their team through working out. In my evaluation, I primarily investigated the interest in the personal and shared goal. From this, I could deduce whether there were users who would've dropped out if there wasn't a secondary goal which they could pursue. Although the mean ratings were roughly the same, the sentiment towards shared goals was much more spread out, which made individual goals a good stable fallback. 
+I created Stat Buff, which is a crossover between a strength exercise tracker and a collaborative multiplayer RPG. There has been a lot of promising research into pure collaborative activity trackers, where a user's contribution only influences their own team. I wanted to investigate whether a hybrid tracker would outperform personal trackers and collaborative trackers. In my hybrid tracker, users have an individualistic as well as a shared goal. This caters to users who like to train with others as well as those who want to train alone. I also wanted to investigate whether the success of existing collaborative trackers would generalize in to strength training gamified as an RPG. Most existing research on collaborative trackers focus on pedometers, and there has been no research on whether it generalizes to other forms of exercise, such as strength training. In addition, most apps reward exercise by simply increasing the user's group's score. I tried to make progression more interesting and satisfying by applying existing techniques from RPG games, which no other collaborative activity tracker has done before. When users start using the app, they are given a virtual character. This character's strength and appearance are proportional to the user's real life strength, which motivates the user to increase it. They can also join a team with other virtual characters. Teams are assigned a monster enemy which they are tasked with killing. Killing this monster will progress your entire team forward, and give you a new enemy to fight. Individual characters in teams can deal damage to the monster by completing a training session. This means that users can both develop their individual character through becoming stronger, as well as their team through working out. In my evaluation, I primarily investigated the interest in the personal and shared goal. From this, I could deduce whether there were users who would've dropped out if there wasn't a secondary goal which they could pursue. Although the mean ratings were roughly the same, the sentiment towards shared goals was much more spread out, which made individual goals a good stable fallback. Based on the user paths of two users who found the app confusing, I concluded that removing the shared goal would not have helped these users.
 
 \end{abstract}
 
@@ -110,7 +107,7 @@ My app implements both the personal and shared goal through an RPG model. RPGs (
 \section{Aim}
 The primary goal of my project will be to investigate the effectiveness of an activity tracker which has both personal and shared goals. In my evaluations I will seek out whether creating more goal diversity prevented drop-offs as I catered to more users, or increased them due to the additional complexity. As my app has other novel features compared to existing collaborative activity trackers, namely strength tracking and RPG features, I also wanted to investigate how the findings of other collaborative activity trackers generalized to my app. These were my two primary areas I wanted to address:
 \begin{itemize}
-  \item Does an activity tracker with both a personal and shared goal outperform trackers with single goals?
+  \item Does an activity tracker with both a personal and a shared goal outperform trackers with a single goal?
   \item Is the additional complexity of two goals worth the possible motivation increase?
 \end{itemize}
   
@@ -702,7 +699,7 @@ There was an interesting bug with number inputs. Any number inputs (such as weig
 This bug was only visual, but the fight with the players character and the enemy was off center and sometimes slightly off-screen. The bug could have been avoided by using a larger array of emulators with a diverse number of screen sizes. This lack of device test coverage led to other similar bugs. Although I had implemented flex views which scaled proportionally with screen size, elements such as buttons and text did not, which led to small elements on some screens. Users with larger screens sometimes didn't even notice the ``User'' and ``Group'' labels on the bottom navigations tabs, which is an important part of the app.
 
 \section{Analytics Data}
-I tried to identify whether having multiple goals made the app more confusing to use. In order to identify this, I looked at the user paths of users who didn't understand how the app worked. My app divided the personal goal and shared goal into different sections. The group section which contains the shared goal couldn't further confuse the user if they didn't visit it. On the other hand, if users viewed both sections and felt overwhelmed, then having multiple sections probably confused them further. I couldn't simply select any user who didn't use the app beyond sign-up. Some users, such as User 10 didn't use the app because he didn't have gym access, and not because he didn't understand the game. I decided to analyze the paths of two users who explicitly said that they were confused by the app. One user who I did not interview messaged me and told me they were confused by the app. The other user whose paths I analyzed was User 6, who said ``it was a bit scary and disorienting to start using the app'' in an interview. User paths are lists of section, time tuples. One list represent one session of use before closing the app. You can see both paths in listings \ref{lst:first_user} and \ref{lst:first_user}. Neither user ever entered the group tab. This means that they were confused by just the independent tracking, and they would have still been confused had the group tab and shared goal been removed.
+I tried to identify whether having multiple goals made the app more confusing to use. In order to identify this, I looked at the user paths of users who didn't understand how the app worked. I only analyzed the paths of users who explicitly said they were confused, and not those who didn't use the app. Some users, such as User 10 didn't use the app as he didn't have gym access, and not because he didn't understand the game. The first user whose path I analyzed messaged me and told me they were confused by the app. The other user whose paths I analyzed was User 6, who said ``it was a bit scary and disorienting to start using the app'' in an interview. User paths are lists of section, time tuples. One list represent one session of use before closing the app. You can see both paths in listings \ref{lst:first_user} and \ref{lst:first_user}. Neither user ever entered the group tab. This means that they were confused by just the character development, and they would have still been confused had the group tab and shared goal been removed.
 
 \begin{lstlisting}[language=python, caption={The user paths the user who messaged me}, label=lst:first_user]
 #First session
@@ -731,7 +728,6 @@ I tried to identify whether having multiple goals made the app more confusing to
 \end{lstlisting}
 
 
-
 I also used analytics data to analyze group size and app use. In Figure \ref{fig:exercises} you can see average number of various events from users of different sized groups. App use seemed to increase substantially as team sizes grew. There was a moderate increase in the amount of tracked exercise with team size.
 \begin{figure}[H]
     \centering
@@ -746,20 +742,39 @@ This seems to suggest a correlation between motivation and increased team size. 
 \section{Evaluation Summary}
 I had a total of 24 participants try out my app. These users were sent surveys, and select users were asked to participate in an interview. This app hardly changed exercise frequency, but over 20\% reported additional training intensity. There wasn't a big difference in mean interest with the shared and personal goal, but the shared interest was far more distributed. This made the personal goal a reliable fallback for those users with below average interest in the shared goal. 
 
-Users overall seemed to understand and enjoy the RPG model of my app. The various characters which users had to fight created social relatedness, and drove positive social interaction. I tried to implement relatedness as described in self-determination theory, and positive social interaction like in social support theory. Many users thought that your in-game performance shouldn't be just determined by real world factors. Many suggested ways where users could improve in the game without any real world changes. This would also help make user contributions more equal. 
+Users overall seemed to understand and enjoy the RPG model of my app. The various characters which users had to fight created social relatedness, and drove positive social interaction. Many users thought that in-game performance shouldn't be just determined by real world factors. Many suggested ways where users could improve in the game without any real world changes. This would also help make user contributions more equal. 
 
-Many users seemed to struggle
+The strength training aspects were most likely harder to understand than the RPG aspects. This was evidenced by users without RPG experience being able to understand it, but users without strength training experience being confused, including some users with strength training experience.
 
+I found that I made a similar mistake to the first version of the Pass the Ball app. When there is a large difference between the amount of points a users can score, it creates an inequality which is not fun for anyone.
 
+Similarly to Fish'n'Steps, anonymous teams did not perform well.
 
-
-
+I chose to analyze the user paths of two users who explicitly said that they were confused by the app. These users only viewed the personal side of the app. This implies that they would've been confused whether or not my app had hybrid goals.
 
 
 
 %==================================================================================================================================
 \chapter{Conclusion}    
-I set out to create an activity tracker which had both a personal and shared goal. This app supported strength training, and gamified goals through an RPG model. 
+\section{Summary}
+There are thousands of activity trackers, and lots of research into how they could be improved through adding collaboration. Although collaborative trackers are promising, they might not be for everyone. Some people consider exercise to be a personal pursuit.
+
+I set out to create an activity tracker which had both a personal and shared goal. I wanted to investigate whether it was possible to cater to users who preferred training with others, as well as those who wanted to simply train alone. If implemented well, hybrid model should outperform both the personal and shared model at the cost of additional complexity. I created the following research aims:
+
+\begin{itemize}
+  \item Does an activity tracker with both a personal and a shared goal outperform trackers with a single goal?
+  \item Is the additional complexity of two goals worth the possible motivation increase?
+\end{itemize}
+
+I ran an evaluation to find answers to these questions. Based on survey and interview results, I found that users had very mixed feelings towards shared goals. Users had a much more stable outlook towards the personal goal, which served as a good fallback for those who did not care about the shared goal. For existing collaborative activity trackers, adding an additional goal will help retain more users than adding collaborative features to an existing personal tracker.
+
+Whether the additional goal led to additional complexity was harder to answer. I could only analyze data from users who explicitly said that they were confused by the complexity and their explanations weren't detailed. I decided to analyze the paths that these users took around the app. From this, I found that users only viewed the character tab, and never anything from the group section. I concluded that for these particular users, the presence of the shared goal did not influence their confusion. This is a very small sample size, which makes this unreasonable to generalize.
+
+\section{Future Work}
+I made a novel hybrid tracker which also had other features which have not been experimented before with regards to collaborative activity trackers (RPG gamification and strength tracking). This made it difficult to draw causal inferences. If a user was confused by the app, I had to try to make a best guess over which of my novel features may have caused it. If these features were added independently, then causal inferences could be made with much more certainty. 
+
+I concluded that the motivation towards shared goals was more distributed than towards personal goals. This might also have to do with my implementation of the personal and shared goal. It would be interesting to see if this motivation distribution could be replicated in another app.
+
 
 \bibliographystyle{abbrvnat}
 \bibliography{l4proj}
