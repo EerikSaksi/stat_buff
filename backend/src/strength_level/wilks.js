@@ -57,5 +57,5 @@ x = x.flatMap((row, weight_index) =>
     return([ 50 + weight_index * 5, expected[relative_index], ])
   })
 );
-console.log(x.length)
-console.log(y.flat().length)
+console.log(x)
+console.log(y)
