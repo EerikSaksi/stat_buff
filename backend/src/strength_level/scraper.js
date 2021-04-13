@@ -282,9 +282,6 @@ var slugs = [
   "cable-kickback",
 ];
 
-var slugs = [
-  "bench-press",
-]
 dict = {};
 
 async function fetch_exercises() {
@@ -317,10 +314,10 @@ async function fetch_exercises() {
       })
       .then((text) => {
         $ = cheerio.load(text);
-        const result = $("div[class=section-box] > h2[id=standardsMale]").parent().find("tbody > tr").last().last().html()
-        console.log(result)
+        const result = $("div[class=section-box] > h2[id=standardsMale]").parent().find("tbody > tr > td").last().text()
         var match = result.match(/\d+/);
         dict[slug] = match[0];
+        console.log(`${slug}: ${match[0]}`)
       });
   }
   // convert JSON object to string
