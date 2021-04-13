@@ -30,7 +30,7 @@ y = [
 max_w = 235
 min_w = 102
 
-x = 235
-val = max_w / (1 + math.exp(-(x - min_w) / (min_w * 0.5))) - max_w / 2 
-print(val)
+#val = max_w / (1 + math.exp(-(x - min_w) / (min_w * 0.5))) - max_w / 2 
+plt.scatter(x,y)
+plt.savefig('file.png')
 

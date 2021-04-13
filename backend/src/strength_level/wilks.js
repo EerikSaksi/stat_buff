@@ -4,8 +4,8 @@ c = -0.002388645;
 d = -0.00113732;
 e = 7.01863e-6;
 f = -1.291e-8;
-const wilks = (x, W) => {
-  return (W * 500) / (a + b * x + c * Math.pow(x, 2) + d * Math.pow(x, 3) + e * Math.pow(x, 4) + f * Math.pow(x, 5));
+const wilks = (x) => {
+  return (500) / (a + b * x + c * Math.pow(x, 2) + d * Math.pow(x, 3) + e * Math.pow(x, 4) + f * Math.pow(x, 5));
 };
 
 const lifts = [129, 161, 197, 235];
@@ -57,5 +57,4 @@ x = x.flatMap((row, weight_index) =>
     return([ 50 + weight_index * 5, expected[relative_index], ])
   })
 );
-console.log(x)
-console.log(y)
+console.log(wilks(140))
