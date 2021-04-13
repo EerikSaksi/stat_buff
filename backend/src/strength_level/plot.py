@@ -34,3 +34,4 @@ min_w = 102
 plt.scatter(x,y)
 plt.savefig('file.png')
 
+
