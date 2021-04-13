@@ -7,7 +7,7 @@ const httpsAgent = new https.Agent({ ca: rootCas });
 const cheerio = require("cheerio");
 const fs = require("fs");
 
-const slugs = [
+var slugs = [
   "bench-press",
   "squat",
   "deadlift",
@@ -282,6 +282,9 @@ const slugs = [
   "cable-kickback",
 ];
 
+var slugs = [
+  "bench-press",
+]
 dict = {};
 
 async function fetch_exercises() {
@@ -314,11 +317,11 @@ async function fetch_exercises() {
       })
       .then((text) => {
         $ = cheerio.load(text);
-        const result = $("div[class=section-box] > h2[id=standardsMale]").parent().find("tbody > tr").first().find("td:nth-child(2)").text();
+        const result = $("div[class=section-box] > h2[id=standardsMale]").parent().find("tbody > tr").last().last().html()
+        console.log(result)
         var match = result.match(/\d+/);
         dict[slug] = match[0];
       });
-
   }
   // convert JSON object to string
   const data = JSON.stringify(dict);
