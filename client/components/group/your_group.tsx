@@ -1,14 +1,14 @@
 import React, { useState, useCallback } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { Text, View, StyleSheet, Alert, TouchableOpacity, StatusBar } from "react-native";
-import EnemyView from "./enemy_view";
+import EnemyView from "./your_group/enemy_view";
 import { useTheme } from "@react-navigation/native";
-import Members from "./members";
+import Members from "./your_group/members";
 import { MaterialIcons } from "@expo/vector-icons";
-import ChatModal from "./chat_modal";
+import ChatModal from "./your_group/chat_modal";
 import { Badge, Button } from "react-native-elements";
 import { gql, useMutation } from "@apollo/client";
-import useChatAnalytics from "../../../hooks/analytics/use_chat_analytics";
+import useChatAnalytics from "../../hooks/analytics/use_chat_analytics";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 const Tab = createMaterialTopTabNavigator();
 const NULLIFY_GROUP = gql`

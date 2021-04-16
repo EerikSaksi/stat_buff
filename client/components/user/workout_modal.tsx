@@ -3,10 +3,10 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Button, Input } from "react-native-elements";
-import CustomModal from "../util_components/custom_modal";
-import WorkoutModalAttack from "./workout_modal_attack";
-import globalStyles from "../style/global";
-import SpriteHealthBar from "../sprites/sprite_health_bar";
+import CustomModal from "../../util_components/custom_modal";
+import WorkoutModalAttack from "./workout_modal/workout_modal_attack";
+import globalStyles from "../../style/global";
+import SpriteHealthBar from "../../sprites/sprite_health_bar";
 
 const CREATE_WORKOUT = gql`
   mutation($rir: Int!, $sets: Int!, $username: String!) {

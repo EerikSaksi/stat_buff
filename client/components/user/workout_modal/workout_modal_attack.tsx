@@ -2,8 +2,8 @@ import { gql, useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Button } from "react-native-elements";
-import SpriteBattle from "../sprites/sprite_battle";
-import Loading from "../util_components/loading";
+import SpriteBattle from "../../../sprites/sprite_battle";
+import Loading from "../../../util_components/loading";
 
 const styles = StyleSheet.create({
   text: {

@@ -2,9 +2,9 @@ import React, { useState, useRef, Suspense } from "react";
 import { ScrollView, StyleSheet, View, Dimensions, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import StrongerCharacter from "./stronger_character"
-const CreateUser = React.lazy(() => import("../create_user"));
-const AttackingCharacters  = React.lazy(() => import("./attacking_characters"));
+import StrongerCharacter from "./app_demo/stronger_character"
+const CreateUser = React.lazy(() => import("./app_demo/create_user"));
+const AttackingCharacters  = React.lazy(() => import("./app_demo/attacking_characters"));
 
 const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({

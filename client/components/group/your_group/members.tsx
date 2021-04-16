@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from "react";
 import { gql, useLazyQuery, useQuery} from "@apollo/client";
-import BattlePicker from "./battle_picker";
+import BattlePicker from "./members/battle_picker";
 import { View, StyleSheet, Text, Switch, FlatList } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import ListItemContainer from "../../list_item_container";
+import ListItemContainer from "../shared/list_item_container";
 import globalStyles from "../../../style/global";
 
 const ALL_WORKOUTS = gql`

@@ -5,7 +5,7 @@ import { useQuery } from "@apollo/client/react/hooks/useQuery";
 import { useState } from "react";
 import { Text, Switch, View, StyleSheet} from "react-native";
 import { Button, Divider, Input } from "react-native-elements";
-import CustomModal from "../../../util_components/custom_modal";
+import CustomModal from "../../util_components/custom_modal";
 
 const CREATE_BODY_STAT = gql`
   mutation($username: String!, $ismale: Boolean!, $bodymass: Int!) {

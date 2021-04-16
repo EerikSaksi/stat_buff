@@ -3,7 +3,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { Text, StyleSheet, Animated, ImageBackground, View, Switch, Linking, } from "react-native";
 import { generateShadow } from "react-native-shadow-generator";
 import { Button, Input } from "react-native-elements";
-import globalStyles from "../style/global";
+import globalStyles from "../../style/global";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const CREATE_USER = gql`
   mutation createUser($username: String!, $password: String!) {

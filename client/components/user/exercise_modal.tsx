@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Text, Switch, View, Modal, TextInput, StyleSheet, SafeAreaView } from "react-native";
-import ExerciseSearch from "./exercise_search";
+import ExerciseSearch from "./exercise_modal/exercise_search";
 import { Ionicons } from "@expo/vector-icons";
-import globalStyles from "../../../style/global";
+import globalStyles from "../../style/global";
 const styles = StyleSheet.create({
   paddingWrap: { paddingTop: "10%", flex: 1 },
   arrow: { color: "black", fontSize: 40, position: "absolute", top: "2%" },

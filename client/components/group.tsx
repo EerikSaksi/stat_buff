@@ -1,9 +1,9 @@
 import React, { lazy, Suspense, useEffect } from "react";
 
 import { gql, useLazyQuery } from "@apollo/client";
-import Loading from "../../../util_components/loading";
-const YourGroup = lazy(() => import("./your_group"));
-const JoinGroup = lazy(() => import("./join_group"));
+import Loading from "../util_components/loading";
+const YourGroup = lazy(() => import("./group/your_group"));
+const JoinGroup = lazy(() => import("./group/join_group"));
 
 const GROUP_INFO = gql`
   query group_info($username: String!) {

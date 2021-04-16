@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { gql, useLazyQuery, useQuery } from "@apollo/client";
 import { Text, View, StyleSheet, Linking } from "react-native";
-import Loading from "../../../util_components/loading";
-import ExerciseModal from "./exercise_modal";
-import SpriteSelector from "../../../sprites/sprite_selector";
-import BodyStatsModal from "./bodystats_modal";
+import Loading from "../util_components/loading";
+import ExerciseModal from "./user/exercise_modal";
+import SpriteSelector from "../sprites/sprite_selector";
+import BodyStatsModal from "./user/bodystats_modal";
 import { Button } from "react-native-elements";
-import useSkillTitle from "../../../hooks/use_skill_title";
-import WorkoutModal from "../../workout_modal";
-import useUserAnalytics from "../../../hooks/analytics/use_user_analytics";
+import useSkillTitle from "../hooks/use_skill_title";
+import WorkoutModal from "./user/workout_modal";
+import useUserAnalytics from "../hooks/analytics/use_user_analytics";
 import { Ionicons } from "@expo/vector-icons";
-import globalStyles from "../../../style/global";
+import globalStyles from "../style/global";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const USER_BODY_STATS = gql`

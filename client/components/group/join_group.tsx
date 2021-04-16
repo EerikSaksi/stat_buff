@@ -2,10 +2,10 @@ import React, { useRef, useState } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Text, View, FlatList, StyleSheet} from "react-native";
 import { Button, SearchBar } from "react-native-elements";
-import ListItemContainer from "../../list_item_container";
-import PasswordProtectedGroup from "./password_protected_group";
-import CreateGroup from "./create_group";
-import globalStyles from "../../../style/global";
+import ListItemContainer from "./shared/list_item_container";
+import PasswordProtectedGroup from "./join_group/password_protected_group";
+import CreateGroup from "./join_group/create_group";
+import globalStyles from "../../style/global";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SEARCH_GROUPS = gql`

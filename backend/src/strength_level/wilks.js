@@ -1,9 +1,39 @@
-const calcRelative = (hardcoded, inputWeight) => {
-  const ratio = Math.min((inputWeight - hardcoded.min) / (hardcoded.max - hardcoded.min));
-  const normalizedRatio = ratio / (1 + Math.exp(-(ratio + -0.45640529441257865) * 5.9014971670057115))
-  console.log({ratio, normalizedRatio})
+a = -216.0475144;
+b = 16.2606339;
+c = -0.002388645;
+d = -0.00113732;
+e = 7.01863e-6;
+f = -1.291e-8;
+const wilks = (x) => {
+  return 500 / (a + b * x + c * Math.pow(x, 2) + d * Math.pow(x, 3) + e * Math.pow(x, 4) + f * Math.pow(x, 5));
 };
-const ratios = [102, 129, 161, 197, 235];
-ratios.forEach((weight) => calcRelative({ min: 102, max: 235 }, weight));
 
+const lifts = [129, 161, 197, 235];
+const expected = [0, 0.2, 0.5, 0.8, 0.95];
 
+const y = [
+  [43, 64, 91, 123, 158],
+  [50, 73, 102, 136, 173],
+  [57, 82, 113, 148, 186],
+  [65, 91, 123, 159, 199],
+  [72, 99, 132, 170, 211],
+  [79, 107, 142, 181, 223],
+  [85, 115, 151, 191, 234],
+  [92, 123, 159, 201, 245],
+  [98, 130, 168, 211, 256],
+  [105, 137, 176, 220, 266],
+  [111, 144, 184, 229, 276],
+  [117, 151, 192, 237, 285],
+  [123, 158, 199, 246, 294],
+  [129, 164, 207, 254, 303],
+  [134, 171, 214, 262, 312],
+  [140, 177, 221, 269, 320],
+  [145, 183, 228, 277, 328],
+  [151, 189, 234, 284, 336],
+  [156, 195, 241, 291, 344],
+];
+const percentiles = [0, 20, 50, 80, 95]
+const xInput = y.map((row, i) => row.map((col, j) => [i * 5 + 50, percentiles[j]]));
+const strongest = y[y.length - 1][y[0].length - 1]
+const yInput = y.map((row) => row.map(col => col / strongest))
+console.log(yInput.flat())
