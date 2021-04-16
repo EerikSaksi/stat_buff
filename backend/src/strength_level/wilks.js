@@ -4,8 +4,8 @@ c = -0.002388645;
 d = -0.00113732;
 e = 7.01863e-6;
 f = -1.291e-8;
-const wilks = (x) => {
-  return 500 / (a + b * x + c * Math.pow(x, 2) + d * Math.pow(x, 3) + e * Math.pow(x, 4) + f * Math.pow(x, 5));
+const wilks = (x, W) => {
+  return W / (a + b * x + c * Math.pow(x, 2) + d * Math.pow(x, 3) + e * Math.pow(x, 4) + f * Math.pow(x, 5));
 };
 
 const lifts = [129, 161, 197, 235];
@@ -33,7 +33,9 @@ const y = [
   [156, 195, 241, 291, 344],
 ];
 const percentiles = [0, 20, 50, 80, 95]
-const xInput = y.map((row, i) => row.map((col, j) => [i * 5 + 50, percentiles[j]]));
 const strongest = y[y.length - 1][y[0].length - 1]
-const yInput = y.map((row) => row.map(col => col / strongest))
-console.log(yInput.flat())
+
+const xInput = y.map((row, i) => row.map((col) => wilks(i * 5 + 50, col / strongest)))
+
+const yInput = y.map((row, i) => row.map((col, j) => percentiles[j]));
+console.log(xInput.flat())
