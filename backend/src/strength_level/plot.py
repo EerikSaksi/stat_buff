@@ -57,11 +57,42 @@ y = [
 #    predictions = [np.polyval(fit, x_val) for x_val in x]
 #    print("{}, {}".format(degs, mean_absolute_error(predictions, y)))
 
-def predict_y(x):
-    return (3.03922819e+14 * x**4 - 1.29002269e+12 * x**3 + 1.69849756e+09 * x**2  -7.10312918e+05 * x **1 + 9.28367574e+01  )
+
+a = -216.0475144
+b = 16.2606339
+c = -0.002388645
+d = -0.00113732
+e = 7.01863e-6
+f = -1.291e-8
+
+lifts = [
+    43, 64, 91, 123, 158,
+    50, 73, 102, 136, 173,
+    57, 82, 113, 148, 186,
+    65, 91, 123, 159, 199,
+    72, 99, 132, 170, 211,
+    79, 107, 142, 181, 223,
+    85, 115, 151, 191, 234,
+    92, 123, 159, 201, 245,
+    98, 130, 168, 211, 256,
+    105, 137, 176, 220, 266,
+    111, 144, 184, 229, 276,
+    117, 151, 192, 237, 285,
+    123, 158, 199, 246, 294,
+    129, 164, 207, 254, 303,
+    134, 171, 214, 262, 312,
+    140, 177, 221, 269, 320,
+    145, 183, 228, 277, 328,
+    151, 189, 234, 284, 336,
+    156, 195, 241, 291, 344,
+]
 
 
+def wilks(x, W):
+    return W / (a + b * x + c *  x ** 2 + d * x ** 3 + e * x ** 4 + f * x ** 5)
 
-fit = np.polyfit(x, y, 4)
-predictions = [predict_y(x_val) for x_val in x]
-print(mean_absolute_error(predictions, y))
+def predict_y(input_weight, input_bodyweight, max_weight):
+    x = wilks(input_bodyweight, input_weight / max_weight) 
+    return (3.03922819e+14 * x**4 - 1.29002269e+12 * x**3 + 1.69849756e+09 * x**2 - 7.10312918e+05 * x ** 1 + 9.28367574e+01)
+
+print(predict_y(97, 80, 235))
