@@ -52,8 +52,16 @@ y = [
 ]
 
 
+# for degs in range(20):
+#    fit = np.polyfit(x, y, degs)
+#    predictions = [np.polyval(fit, x_val) for x_val in x]
+#    print("{}, {}".format(degs, mean_absolute_error(predictions, y)))
 
-for degs in range(20):
-    fit = np.polyfit(x, y, degs)
-    predictions = [np.polyval(fit, x_val) for x_val in x]
-    print("{}, {}".format(degs, mean_absolute_error(predictions, y)))
+def predict_y(x):
+    return (3.03922819e+14 * x**4 - 1.29002269e+12 * x**3 + 1.69849756e+09 * x**2  -7.10312918e+05 * x **1 + 9.28367574e+01  )
+
+
+
+fit = np.polyfit(x, y, 4)
+predictions = [predict_y(x_val) for x_val in x]
+print(mean_absolute_error(predictions, y))
