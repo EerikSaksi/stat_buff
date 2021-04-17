@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.svm import SVR
 from sklearn.metrics import mean_absolute_error
 
-x = np.array([
+x = [
     0.00025579130410351917,  0.0003807126386657029,  0.0005413257831027964,
     0.0007316821024356478,   0.000939884326705954, 0.00026938025009687973,
     0.00039329516514144435,  0.0005495357101976346,  0.0007327142802635127,
@@ -37,7 +37,7 @@ x = np.array([
     0.0007645425348419166,  0.0009279063243380527,   0.001097804665414034,
     0.0005068246599972556,  0.0006335308249965696,  0.0007829791221752476,
     0.0009454229234564192,  0.0011176133528144612
-]).reshape((-1,1))
+]
 
 
 y = [
@@ -52,10 +52,8 @@ y = [
 ]
 
 
-def predict_kernel(kernel):
-    svr = SVR(kernel=kernel)
-    svr.fit(x, y)
-    return(mean_absolute_error(y, svr.predict(x)))
 
-for kernel in ['linear', 'poly', 'rbf', 'sigmoid', 'rbf']:
-   print("{}: {}".format(kernel, predict_kernel(kernel)))
+for degs in range(20):
+    fit = np.polyfit(x, y, degs)
+    predictions = [np.polyval(fit, x_val) for x_val in x]
+    print("{}, {}".format(degs, mean_absolute_error(predictions, y)))
