@@ -54,30 +54,17 @@ y = [
 
 
 
-a = -216.0475144
-b = 16.2606339
-c = -0.002388645
-d = -0.00113732
-e = 7.01863e-6
-f = -1.291e-8
-
-
-def wilks(x, W):
-    return W / (a + b * x + c * x ** 2 + d * x ** 3 + e * x ** 4 + f * x ** 5)
-
-
-def predict_y(input_weight, input_bodyweight, max_weight):
-    x = wilks(input_bodyweight, input_weight / max_weight)
-    return (115471.14623106 * x -8.801363625876917)
 
 
 
 
 
-def predict(x):
-    return (132519.33930236 * x -29.140338928094593)
 
 
-print(model.score(x,y))
-print(model.intercept_)
-print(model.coef_)
+#print(model.score(x,y))
+#print(model.intercept_)
+#print(model.coef_)
+
+
+
+print(predict_y(64, 83, 154))

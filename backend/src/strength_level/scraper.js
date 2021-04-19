@@ -284,7 +284,6 @@ var slugs = [
 
 dict = {};
 
-var slugs = ["bench-press"]
 async function fetch_exercises() {
   for (slug of slugs) {
     await fetch(`https://strengthlevel.com/strength-standards/${slug}/kg`, {
@@ -315,10 +314,10 @@ async function fetch_exercises() {
       })
       .then((text) => {
         $ = cheerio.load(text);
-        const result = $("div[class=section-box] > h2[id=standardsMale]").parent().find("tbody > tr").each((i, element) => console.log($(element).html()))
-        //var match = result.match(/\d+/);
-        //dict[slug] = match[0];
-        //console.log(`${slug}: ${match[0]}`)
+        const result = $("div[class=section-box] > h2[id=standardsMale]").parent().find("tbody > tr > td").last().text()
+        var match = result.match(/\d+/);
+        dict[slug] = match[0];
+        console.log(`${slug}: ${match[0]}`)
       });
   }
   // convert JSON object to string

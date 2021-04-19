@@ -32,12 +32,6 @@ before insert on "group"
 FOR EACH ROW 
 EXECUTE PROCEDURE encrypt_password_and_set_creator();
 
-
-
-
-
-
-
 --check if there exist at least 2 members, in which case we initialize the first battle
 CREATE FUNCTION scale_health()
   RETURNS TRIGGER AS 
@@ -80,9 +74,6 @@ CREATE TRIGGER scale_health_on_groupname_change
 after update of groupName on "user"
 FOR EACH ROW 
 EXECUTE PROCEDURE scale_health();
-
-
-
 
 --calculates how much damage this workout dealt based on the users current damage and the difficulty (which is calculated to hits) 
 CREATE FUNCTION calculate_total_damage()

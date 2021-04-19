@@ -1,41 +1,19 @@
-a = -216.0475144;
-b = 16.2606339;
-c = -0.002388645;
-d = -0.00113732;
-e = 7.01863e-6;
-f = -1.291e-8;
+const exercises = require('./exercises.json')
+
+const a = -216.0475144;
+const b = 16.2606339;
+const c = -0.002388645;
+const d = -0.00113732;
+const e = 7.01863e-6;
+const f = -1.291e-8;
 const wilks = (x, W) => {
   return W / (a + b * x + c * Math.pow(x, 2) + d * Math.pow(x, 3) + e * Math.pow(x, 4) + f * Math.pow(x, 5));
 };
 
-const lifts = [129, 161, 197, 235];
-const expected = [0, 0.2, 0.5, 0.8, 0.95];
-
-const y = [
-  [43, 64, 91, 123, 158],
-  [50, 73, 102, 136, 173],
-  [57, 82, 113, 148, 186],
-  [65, 91, 123, 159, 199],
-  [72, 99, 132, 170, 211],
-  [79, 107, 142, 181, 223],
-  [85, 115, 151, 191, 234],
-  [92, 123, 159, 201, 245],
-  [98, 130, 168, 211, 256],
-  [105, 137, 176, 220, 266],
-  [111, 144, 184, 229, 276],
-  [117, 151, 192, 237, 285],
-  [123, 158, 199, 246, 294],
-  [129, 164, 207, 254, 303],
-  [134, 171, 214, 262, 312],
-  [140, 177, 221, 269, 320],
-  [145, 183, 228, 277, 328],
-  [151, 189, 234, 284, 336],
-  [156, 195, 241, 291, 344],
-];
-const percentiles = [20, 50, 80, 90, 100]
-const strongest = y[y.length - 1][y[0].length - 1]
-
-const xInput = y.map((row, i) => row.map((col) => wilks(i * 5 + 50, col / strongest)))
-
-const yInput = y.map((row, i) => row.map((col, j) => percentiles[j]));
-console.log(yInput.flat())
+const predict_y = (input_repetitions, input_weight, input_exercise_slug, input_bodyweight) => {
+  const max_one_rm = exercises[input_exercise_slug]
+  const one_rm = input_weight * (1 + input_repetitions / 30);
+  const x = wilks(input_bodyweight, one_rm / max_one_rm);
+  return 115471.14623106 * x - 8.801363625876917;
+};
+console.log(predict_y(9, 50,  'shoulder-press', 83))
