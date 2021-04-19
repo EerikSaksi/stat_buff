@@ -32,10 +32,10 @@ const y = [
   [151, 189, 234, 284, 336],
   [156, 195, 241, 291, 344],
 ];
-const percentiles = [0, 20, 50, 80, 95]
+const percentiles = [20, 50, 80, 90, 100]
 const strongest = y[y.length - 1][y[0].length - 1]
 
 const xInput = y.map((row, i) => row.map((col) => wilks(i * 5 + 50, col / strongest)))
 
 const yInput = y.map((row, i) => row.map((col, j) => percentiles[j]));
-console.log(xInput.flat())
+console.log(yInput.flat())
