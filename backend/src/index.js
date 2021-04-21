@@ -40,4 +40,5 @@ app.use(express.static(path.join(__dirname, 'public')));
     res.sendFile(path.join(__dirname,  'public', 'index.html'));
   });
 })();
+console.log('app running')
 app.listen(process.env.PORT || 4000);

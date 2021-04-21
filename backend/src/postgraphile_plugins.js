@@ -1,6 +1,4 @@
 const { makeExtendSchemaPlugin, gql } = require("graphile-utils");
-const tokenToGoogleID = require("./google_auth");
-const statsToPercentageVal = require("./strength_level/strength_level");
 require("dotenv").config();
 
 const MyPlugins = makeExtendSchemaPlugin((build) => {
@@ -42,6 +40,7 @@ const MyPlugins = makeExtendSchemaPlugin((build) => {
           return val;
         },
       },
+    
     },
   };
 });

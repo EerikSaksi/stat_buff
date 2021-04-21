@@ -1,10 +1,4 @@
 const exercises = require("./exercises.json");
-const a = -216.0475144;
-const b = 16.2606339;
-const c = -0.002388645;
-const d = -0.00113732;
-const e = 7.01863e-6;
-const f = -1.291e-8;
 const wilks = (x, W, isMale) => {
   let a, b, c, d, e, f;
   if (isMale) {

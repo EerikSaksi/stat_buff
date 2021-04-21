@@ -1,7 +1,7 @@
 const { Client } = require("pg");
 const fs = require("fs");
 const path = require("path");
-const exercise_json = require("./exercise_metadata");
+const exercise_json = require('../strength_level/exercise_metadata')
 
 async function exec_file(fileName, client) {
   const sql = fs.readFileSync(path.resolve(__dirname, fileName), "UTF-8");

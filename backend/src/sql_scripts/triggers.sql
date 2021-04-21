@@ -6,7 +6,7 @@ CREATE FUNCTION update_battle_to_current()
     select battle_number into NEW.battle_number from "group" where name = NEW.groupName;
     return NEW;
   END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql security definer;
 
 CREATE TRIGGER update_exercise_to_current_battle
 before insert on "user_exercise"
@@ -15,7 +15,7 @@ EXECUTE PROCEDURE update_battle_to_current();
 
 
 --encrypts supplied password
-CREATE FUNCTION encrypt_password_and_set_creator()
+CREATE FUNCTION encrypt_group_password()
   RETURNS TRIGGER AS $BODY$
   declare 
   active_user_username varchar(32);
@@ -25,12 +25,12 @@ CREATE FUNCTION encrypt_password_and_set_creator()
     end if; 
     return NEW;
   END;
-$BODY$ LANGUAGE plpgsql;
+$BODY$ LANGUAGE plpgsql security definer;
 
-CREATE TRIGGER encrypt_password_and_set_creator_on_group_create
+CREATE TRIGGER encrypt_group_password()
 before insert on "group"
 FOR EACH ROW 
-EXECUTE PROCEDURE encrypt_password_and_set_creator();
+EXECUTE PROCEDURE encrypt_group_password();
 
 --check if there exist at least 2 members, in which case we initialize the first battle
 CREATE FUNCTION scale_health()
@@ -119,7 +119,7 @@ CREATE FUNCTION calculate_total_damage()
     return NEW;
   END;
 $BODY$
-LANGUAGE plpgsql;
+LANGUAGE plpgsql security definer;
 
 CREATE TRIGGER insert_total_damage
 before insert on "workout"
@@ -133,7 +133,7 @@ CREATE FUNCTION load_groupName()
     new.groupName = (select groupName from "user" where username = NEW.username);
     return new;
   END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql security definer;
 
 CREATE TRIGGER load_groupName_to_chat_message
 before insert on chat_message
@@ -143,41 +143,21 @@ EXECUTE PROCEDURE load_groupName();
 -- we create a special function that you can access active users current battle. Before we send the current battle, we check whether or not it has expired, in which case we create a new battle with the same parameters (other than the battle_number) and return that instead. This is efficient as we only check if a battle has expired once a user requests it (does a tree make a sound if no one sees it == has a battle not expired if no one has requested it)
 create function get_battle_and_check_expiry()
   returns "battle" as $$
-  DECLARE 
-  old_enemy_level integer;
-  old_battle_number integer;
-  old_max_health integer;
-  old_groupName varchar;
-  old_createdAt TIMESTAMPTZ;
-  to_return "battle";
   BEGIN
-    --get current group and the battle of the active user
-    select name, battle_number into old_groupName, old_battle_number
-      from "user" inner join "group" on "user".groupName = "group".name
-        where "user".username = (select username from active_user());
-
-    select enemy_level, max_health, created_at into old_enemy_level, old_max_health, old_createdAt 
-      from "battle" 
-        where battle_number = old_battle_number and groupName = old_groupName;
-    if (select DATE_PART('day', NOW() - old_createdAt) >= 7) then
-      --insert new battle with everything the same and reset, but old_battle_number + 1
-      insert into "battle"(groupName, battle_number, enemy_level, current_health, max_health) 
-      values (old_groupName, old_battle_number + 1, old_enemy_level, old_max_health, old_max_health);
-
-      --new battle is the newly created one
-      update "group" set battle_number = old_battle_number + 1 where name = old_groupName;
-      
-      -- we want this chat message to go to this group, and not be set back to Event Notices group
-      ALTER TABLE "chat_message" disable TRIGGER load_groupName_to_chat_message;
-
-      --create message that explains why the enemy reset
-      insert into "chat_message"(username, groupName, text_content) 
-      values ('Event Notice', old_groupName, 'You ran out of time to defeat the enemy, so it has been reset.');
-      ALTER TABLE "chat_message" enable TRIGGER load_groupName_to_chat_message;
-      select * into to_return from "battle" where groupName = old_groupName and battle_number = old_battle_number + 1;
-      return to_return;
-    end if;
-    select * into to_return from "battle" where groupName = old_groupName and battle_number = old_battle_number;
-    return to_return;
+    WITH current_battle AS (select name, "battle".battle_number, enemy_level, max_health, "battle".created_at as battle_created_at
+      from "user" 
+        inner join "group" on "user".groupName = "group".name
+        inner join "battle" on "group".battle_number = "battle".battle_number and "group".name = "battle".groupName
+        where "user".username = (select username from active_user()))
+    With other_battle as (select name, "battle".battle_number, enemy_level, max_health, "battle".created_at as battle_created_at
+      from "user" 
+        inner join "group" on "user".groupName = "group".name
+        inner join "battle" on "group".battle_number = "battle".battle_number and "group".name = "battle".groupName
+        where "user".username = (select username from active_user()))
+    -- if 1 then
+    --   --insert into "battle"(enemy_level, groupName, battle_number, current_health, max_health) 
+    --   --select (enemy_level, name, battle_number + 1, max_health, max_health) from current_battle;
+    --   --update "group" set battle_number = battle_number + 1 where name = (select name from current_battle);
+    -- end if;
   END
 $$ LANGUAGE plpgsql volatile security definer;
