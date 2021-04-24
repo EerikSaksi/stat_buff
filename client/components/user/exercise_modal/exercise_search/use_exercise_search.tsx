@@ -1,29 +1,13 @@
 import React, { useEffect, useState } from "react";
-const useExerciseSearch = ({ query }) => {
-  const [exerciseMetadata, setExerciseMetadata] = useState<undefined | any>();
-
-  const [returnedExercises, setReturnedExercises] = useState([]);
+const exerciseMetadata = require("./exercise_metadata.json");
+const useExerciseSearch = (query: string) => {
+  const [matchingExercises, setMatchingExercises] = useState<string[]>([]);
   useEffect(() => {
-    import("./exercise_metadata.js").then((unparsed) => {
-      setExerciseMetadata(JSON.parse(unparsed));
-    });
-  });
-
-  useEffect(() => {
-    const matchingExercises = [];
-    const upperQuery = query.toUpperCase()
-    loop1:
-    for (const exerciseGroup of exerciseMetadata.exerciseGroups) {
-      for (const exercise of exerciseGroup) {
-        if (exercise.name.toUpperCase().indexOf(upperQuery)){
-          matchingExercises.concat(exercise)
-          if (10 < matchingExercises.length){
-            break loop1
-          }
-        }
-      }
+    if (query) {
+      const upperQuery = query.toUpperCase();
+      setMatchingExercises(exerciseMetadata.filter((exercise) => exercise.name.toUpperCase().indexOf(upperQuery) !== -1));
     }
-    setReturnedExercises(matchingExercises)
-  }, [exerciseMetadata, query]);
+  }, [query]);
+  return {matchingExercises};
 };
 export default useExerciseSearch;
