@@ -1,5 +1,4 @@
 import React, { lazy, Suspense, useEffect } from "react";
-
 import { gql, useLazyQuery } from "@apollo/client";
 import Loading from "../util_components/loading";
 const YourGroup = lazy(() => import("./group/your_group"));

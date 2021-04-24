@@ -1,9 +1,9 @@
 import React, { useEffect, Suspense } from "react";
 import { gql, useLazyQuery } from "@apollo/client";
-import Loading from "./util_components/loading";
+import Loading from "../util_components/loading";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-const App = React.lazy(() => import("./App"));
-const AppDemo = React.lazy(() => import("./components/app_demo/app_demo"));
+const App = React.lazy(() => import("../App"));
+const AppDemo = React.lazy(() => import("./app_demo"));
 
 const USERNAME = gql`
   query {

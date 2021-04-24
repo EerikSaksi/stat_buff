@@ -200,7 +200,7 @@ const CreateUser: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
         });
 
   return (
-    <ImageBackground imageStyle={{ zIndex: -1 }} blurRadius={ 1.5} style={styles.image} source={require("../assets/squat.jpeg")}>
+    <ImageBackground imageStyle={{ zIndex: -1 }} blurRadius={ 1.5} style={styles.image} source={require("../../assets/squat.jpeg")}>
       <View style={globalStyles.container}>
         <View style={styles.opacityContainer}>
           <View style={styles.container}>

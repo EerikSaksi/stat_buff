@@ -1,8 +1,8 @@
 import registerRootComponent from "expo/build/launch/registerRootComponent";
 import React from "react";
 import { setContext } from "@apollo/client/link/context";
-import { ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink, gql } from "@apollo/client";
-import Authenticator from "../authenticator";
+import { ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink} from "@apollo/client";
+import Authenticator from "../components/authenticator";
 import { split } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { WebSocketLink } from "@apollo/client/link/ws";
