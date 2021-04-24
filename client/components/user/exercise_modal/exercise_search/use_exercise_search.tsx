@@ -5,9 +5,18 @@ const useExerciseSearch = (query: string) => {
   useEffect(() => {
     if (query) {
       const upperQuery = query.toUpperCase();
-      setMatchingExercises(exerciseMetadata.filter((exercise) => exercise.name.toUpperCase().indexOf(upperQuery) !== -1));
+      const tempMatchingExercises: any[] = [];
+      for (const exercise of exerciseMetadata) {
+        if (exercise.name.toUpperCase().indexOf(upperQuery) !== -1) {
+          tempMatchingExercises.push(exercise);
+          if (10 <= tempMatchingExercises.length) {
+            break;
+          }
+        }
+      }
+      setMatchingExercises(tempMatchingExercises);
     }
   }, [query]);
-  return {matchingExercises};
+  return { matchingExercises };
 };
 export default useExerciseSearch;
