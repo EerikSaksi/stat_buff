@@ -1108,6 +1108,20 @@ CREATE INDEX battle_groupname_idx ON public.battle USING btree (groupname);
 
 
 --
+-- Name: bodystat_user_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX bodystat_user_id_idx ON public.bodystat USING btree (user_id);
+
+
+--
+-- Name: bodystat_user_id_idx1; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX bodystat_user_id_idx1 ON public.bodystat USING btree (user_id);
+
+
+--
 -- Name: bodystat_username_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1119,6 +1133,20 @@ CREATE INDEX bodystat_username_idx ON public.bodystat USING btree (username);
 --
 
 CREATE INDEX chat_message_groupname_idx ON public.chat_message USING btree (groupname);
+
+
+--
+-- Name: chat_message_user_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX chat_message_user_id_idx ON public.chat_message USING btree (user_id);
+
+
+--
+-- Name: chat_message_user_id_idx1; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX chat_message_user_id_idx1 ON public.chat_message USING btree (user_id);
 
 
 --
@@ -1143,6 +1171,20 @@ CREATE INDEX group_name_battle_number_idx ON public."group" USING btree (name, b
 
 
 --
+-- Name: session_analytics_user_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX session_analytics_user_id_idx ON public.session_analytics USING btree (user_id);
+
+
+--
+-- Name: session_analytics_user_id_idx1; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX session_analytics_user_id_idx1 ON public.session_analytics USING btree (user_id);
+
+
+--
 -- Name: session_analytics_username_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1161,6 +1203,20 @@ CREATE INDEX user_exercise_groupname_battle_number_idx ON public.user_exercise U
 --
 
 CREATE INDEX user_exercise_id_idx ON public.user_exercise USING btree (id);
+
+
+--
+-- Name: user_exercise_user_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX user_exercise_user_id_idx ON public.user_exercise USING btree (user_id);
+
+
+--
+-- Name: user_exercise_user_id_idx1; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX user_exercise_user_id_idx1 ON public.user_exercise USING btree (user_id);
 
 
 --
