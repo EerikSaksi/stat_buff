@@ -21,14 +21,25 @@ test("Bodypart filter only one exercise", () => {
   for (const exercise of result.current.matchingExercises) {
     expect(exercise.bodyPart).toBe("Chest");
   }
+  expect(result.current.matchingExercises.length).toBeGreaterThan(-1)
 });
 
 test("Bodypart filter works for multiple", () => {
   const { result } = renderHook(() => useExerciseSearch("a", ["Legs", "Back"]));
   expect(result.current.matchingExercises.every(exercise => exercise.bodyPart === "Legs" || exercise.bodyPart === "Back"));
+  expect(result.current.matchingExercises.length).toBeGreaterThan(0)
 });
 
 test("Exercise equipment works", () => {
-  const { result } = renderHook(() => useExerciseSearch("a", ["dumbbell", "barbell"]));
-  expect(result.current.matchingExercises.every(exercise => exercise.bodyPart === "dumbbell" || exercise.bodyPart === "barbell"));
+  const { result } = renderHook(() => useExerciseSearch("a", undefined, ["Dumbbell", "Barbell"]));
+  expect(result.current.matchingExercises.every(exercise => exercise.bodyPart === "Dumbbell" || exercise.bodyPart === "Barbell"));
+  expect(result.current.matchingExercises.length).toBeGreaterThan(0)
+});
+
+test("Filter change should be reactive", () => {
+  let filter = ["Dumbbell"]
+  const { result, rerender } = renderHook(() => useExerciseSearch("", undefined, filter));
+  filter = ["Dumbbell", "Barbell"]
+  rerender()
+  expect(result.current.matchingExercises.every(exercise => exercise.bodyPart === "Dumbbell" || exercise.bodyPart === "Barbell"));
 });

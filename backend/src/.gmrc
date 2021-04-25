@@ -33,7 +33,7 @@
    *
    * RECOMMENDATION: use `ROOT_DATABASE_URL` envvar instead.
    */
-   //"rootConnectionString": "postgres://eerik:Postgrizzly@host:5432/postgres",
+   "rootConnectionString": "postgres://postgres:postgres@localhost:5432/postgres",
 
   /*
    * pgSettings: key-value settings to be automatically loaded into PostgreSQL
