@@ -21,7 +21,7 @@ test("Alias search works", () => {
 });
 
 test("Bodypart filter filters bench press out", () => {
-  const { result } = renderHook(() => useExerciseSearch("Bench", ["Shoulders"]));
+  const { result } = renderHook(() => useExerciseSearch("Bench", ["Chest"]));
   expect(result.current.matchingExercises.some(({name}) => name === "Bench Press")).toBe(false)
 });
 

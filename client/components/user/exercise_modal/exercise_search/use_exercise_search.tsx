@@ -11,8 +11,10 @@ const useExerciseSearch = (query: string, bodypartFilter: undefined | string[], 
     const equipmentFunc =
       equipmentFilter !== undefined ? (exercise) => equipmentFilter.some((equipment) => equipment === exercise.type) : () => true;
     const bodypartFunc =
-      bodypartFilter !== undefined ? (exercise) => bodypartFilter.some((bodypart) => bodypart === exercise.type) : () => true;
-    console.log("ran")
+      bodypartFilter !== undefined ? (exercise) => {
+        console.log(exercise)
+        bodypartFilter.some((bodypart) => bodypart !== exercise.bodyPart)
+      } : () => true;
     if (query) {
       const upperQuery = query.toUpperCase();
       const tempMatchingExercises: any[] = [];
@@ -31,7 +33,7 @@ const useExerciseSearch = (query: string, bodypartFilter: undefined | string[], 
       }
       setMatchingExercises(tempMatchingExercises);
     }
-  }, [query, bodypartFilter, equipmentFilter]);
+  }, [query]);
   return { matchingExercises };
 };
 export default useExerciseSearch;
