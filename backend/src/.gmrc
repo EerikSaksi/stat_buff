@@ -93,11 +93,10 @@
    * afterAllMigrations: actions executed once all migrations are complete.
    */
   "afterAllMigrations": [
-    // {
-    //   "_": "command",
-    //   "shadow": true,
-    //   "command": "if [ \"$IN_TESTS\" != \"1\" ]; then ./scripts/dump-db; fi",
-    // },
+     {
+         "_": "command",
+        "command": "pg_dump --schema-only --no-owner --exclude-schema=graphile_migrate --file=data/schema.sql \"$GM_DBURL\""
+     },
   ],
 
   /*

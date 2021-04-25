@@ -26,5 +26,4 @@ const predict_y = (input_repetitions, input_weight, input_exercise_slug, input_b
   const x = wilks(input_bodyweight, one_rm / max_one_rm, isMale);
   return 115471.14623106 * x - 8.801363625876917;
 };
-console.log(predict_y(4, 40, "bench-press", 80, false));
 module.exports = predict_y;

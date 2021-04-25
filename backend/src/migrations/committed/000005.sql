@@ -1,7 +1,6 @@
---ensure no privileges that were set before exist
-drop owned by query_sender;
-drop role query_sender;
-create role query_sender;
+--! Previous: sha1:288f775859719c8724fd2498059d97a0f7d3fc09
+--! Hash: sha1:b475414a4ab6153cbc20c4d82ae328019a09446e
+
 alter role query_sender with login;
 alter user query_sender with password 'restrictedPermissions';
 
@@ -99,4 +98,3 @@ CREATE POLICY session_analytics_update ON "session_analytics" FOR update to quer
 CREATE POLICY session_analytics_delete ON "session_analytics" FOR delete to query_sender USING (username = (select username from active_user()));
 CREATE POLICY session_analytics_create ON "session_analytics" FOR insert to query_sender with check (username = (select username from active_user()));
 CREATE POLICY session_analytics_select ON "session_analytics" FOR select to query_sender using (username = (select username from active_user()));
-

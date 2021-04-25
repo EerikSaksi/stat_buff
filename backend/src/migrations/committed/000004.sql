@@ -1,3 +1,8 @@
+--! Previous: sha1:83d08ff3784543990488699fb36fb02fc3fab6c6
+--! Hash: sha1:288f775859719c8724fd2498059d97a0f7d3fc09
+
+-- Enter migration here
+
 CREATE OR REPLACE FUNCTION trigger_set_timestamp()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -56,4 +61,4 @@ comment on column "bodystat".updated_at is E'@omit create, update, insert';
 comment on column "user_exercise".updated_at is E'@omit create, update, insert'; 
 comment on column "battle".updated_at is E'@omit create, update, insert'; 
 comment on column "workout".updated_at is E'@omit create, update, insert'; 
-comment on column "chat_message".updated_at is E'@omit create, update, insert'; 
+comment on column "chat_message".updated_at is E'@omit create, update, insert';

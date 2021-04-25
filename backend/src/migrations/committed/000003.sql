@@ -1,3 +1,8 @@
+--! Previous: sha1:1ffd055dbf157316f64dc0c9dcc645f702f78a3a
+--! Hash: sha1:83d08ff3784543990488699fb36fb02fc3fab6c6
+
+-- Enter migration here
+
 CREATE FUNCTION notify_message_inserted()
   RETURNS TRIGGER AS $$
   BEGIN
