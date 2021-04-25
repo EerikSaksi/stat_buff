@@ -9,26 +9,25 @@ const useExerciseSearch = (query: string, bodypartFilter: undefined | string[], 
   const [matchingExercises, setMatchingExercises] = useState<string[]>([]);
   useEffect(() => {
     const equipmentFunc =
-      equipmentFilter !== undefined ? (exercise) => equipmentFilter.some((equipment) => equipment === exercise.type) : () => true;
+      equipmentFilter !== undefined ? (exercise: any) => equipmentFilter.some((equipment) => equipment === exercise.type) : () => true;
     const bodypartFunc =
-      bodypartFilter !== undefined ? (exercise: any) =>  bodypartFilter.some((bodypart) => bodypart === exercise.bodyPart) : () => true;
-    if (query) {
-      const upperQuery = query.toUpperCase();
-      const tempMatchingExercises: any[] = [];
-      for (const exercise of exerciseMetadata) {
-        if (
-          (caseInsensitiveContains(exercise.name, upperQuery) || exercise.exerciseAliases.some((alias) => caseInsensitiveContains(alias, upperQuery))) &&
-            bodypartFunc(exercise) && equipmentFunc
-        ) {
-        
-          tempMatchingExercises.push(exercise);
-          if (10 <= tempMatchingExercises.length) {
-            break;
-          }
+      bodypartFilter !== undefined ? (exercise: any) => bodypartFilter.some((bodypart) => bodypart === exercise.bodyPart) : () => true;
+    const upperQuery = query.toUpperCase();
+    const tempMatchingExercises: any[] = [];
+    for (const exercise of exerciseMetadata) {
+      if (
+        (caseInsensitiveContains(exercise.name, upperQuery) ||
+          exercise.exerciseAliases.some((alias) => caseInsensitiveContains(alias, upperQuery))) &&
+        bodypartFunc(exercise) &&
+        equipmentFunc(exercise)
+      ) {
+        tempMatchingExercises.push(exercise);
+        if (10 <= tempMatchingExercises.length) {
+          break;
         }
       }
-      setMatchingExercises(tempMatchingExercises);
     }
+    setMatchingExercises(tempMatchingExercises);
   }, [query]);
   return { matchingExercises };
 };
