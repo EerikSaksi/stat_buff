@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import User from "./components/user";
 import Group from "./components/group";
+import Workout from "./components/workout";
 import { visibleSection } from "./apollo/cache";
 import useAnalyticsSender from "./hooks/analytics/use_analytics_sender";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -60,7 +61,7 @@ const App: React.FC<{ username: string }> = ({ username }) => {
       <Tab.Navigator>
         <Tab.Screen name="User" component={User} initialParams={{ username }} />
         <Tab.Screen name="Group" component={Group} initialParams={{ username }} />
-        <Tab.Screen name="Workout" component={Group} initialParams={{ username }} />
+        <Tab.Screen name="Workout" component={Workout} initialParams={{ username }} />
       </Tab.Navigator>
     </NavigationContainer>
   );

@@ -1,11 +1,12 @@
 import registerRootComponent from "expo/build/launch/registerRootComponent";
 import React from "react";
 import { setContext } from "@apollo/client/link/context";
-import { ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink} from "@apollo/client";
+import { ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink } from "@apollo/client";
 import Authenticator from "../components/authenticator";
 import { split } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { WebSocketLink } from "@apollo/client/link/ws";
+import { Provider as PaperProvider } from "react-native-paper";
 import { cache } from "./cache";
 import "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -16,7 +17,7 @@ const authLink = setContext(async (_, { headers }) => {
   if (!token) {
     try {
       const value = await AsyncStorage.getItem("jwt_token");
-      if (value !== '') {
+      if (value !== "") {
         token = value;
       }
     } catch (error) {}
@@ -66,9 +67,11 @@ const options: ApolloClientOptions<unknown> = {
 const client = new ApolloClient(options);
 const index: React.FC = () => (
   <ApolloProvider client={client}>
-    <SafeAreaProvider>
-      <Authenticator />
-    </SafeAreaProvider>
+    <PaperProvider>
+      <SafeAreaProvider>
+        <Authenticator />
+      </SafeAreaProvider>
+    </PaperProvider>
   </ApolloProvider>
 );
 registerRootComponent(index);
