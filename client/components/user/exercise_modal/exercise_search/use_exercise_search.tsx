@@ -11,20 +11,16 @@ const useExerciseSearch = (query: string, bodypartFilter: undefined | string[], 
     const equipmentFunc =
       equipmentFilter !== undefined ? (exercise) => equipmentFilter.some((equipment) => equipment === exercise.type) : () => true;
     const bodypartFunc =
-      bodypartFilter !== undefined ? (exercise) => {
-        console.log(exercise)
-        bodypartFilter.some((bodypart) => bodypart !== exercise.bodyPart)
-      } : () => true;
+      bodypartFilter !== undefined ? (exercise: any) =>  bodypartFilter.some((bodypart) => bodypart === exercise.bodyPart) : () => true;
     if (query) {
       const upperQuery = query.toUpperCase();
       const tempMatchingExercises: any[] = [];
       for (const exercise of exerciseMetadata) {
         if (
-          caseInsensitiveContains(exercise.name, upperQuery) ||
-          (exercise.exerciseAliases.some((alias) => caseInsensitiveContains(alias, upperQuery)) &&
-            equipmentFunc(exercise) &&
-            bodypartFunc(exercise))
+          (caseInsensitiveContains(exercise.name, upperQuery) || exercise.exerciseAliases.some((alias) => caseInsensitiveContains(alias, upperQuery))) &&
+            bodypartFunc(exercise) && equipmentFunc
         ) {
+        
           tempMatchingExercises.push(exercise);
           if (10 <= tempMatchingExercises.length) {
             break;
