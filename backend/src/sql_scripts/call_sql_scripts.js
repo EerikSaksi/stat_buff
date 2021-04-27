@@ -48,19 +48,13 @@ async function init_enemies(client) {
   }
 }
 
-async function init_exercises(client) {
-  exercise_json.exerciseGroups.map((group) => {
-    group.exercises.map(async (exercise) => {
-      const { id, stringId, bodyPart, weightConnection, type, name, exerciseAliases } = exercise;
-      console.log(`
-          insert into "exercise" (id, string_id, body_part, weight_connection, exercise_type, name) 
-          values (${id}, '${stringId}', '${bodyPart}', '${weightConnection}', '${type}', '${name}');
-        `);
-      for (const alias of exerciseAliases) {
-        console.log(`\ninsert into "exercise_alias" (id, name) values (${id}, '${alias}');`);
-      }
-    });
-  });
+function init_exercises(client) {
+  var toPrint = exercise_json.exerciseGroups.flatMap((group) => group.exercises).sort((a, b) => b.count - a.count );
+
+  return toPrint.map((exercise, id) => {
+    const {bodyPart, type, name, count, exerciseAliases} = exercise
+    return {bodyPart, type, name, count, exerciseAliases, id}
+  })
 }
 
 async function run_all_sql_scripts() {

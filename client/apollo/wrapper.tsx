@@ -6,11 +6,11 @@ import Authenticator from "../components/authenticator";
 import { split } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { WebSocketLink } from "@apollo/client/link/ws";
-import { Provider as PaperProvider } from "react-native-paper";
 import { cache } from "./cache";
 import "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Provider as PaperProvider } from "react-native-paper";
 
 var token;
 const authLink = setContext(async (_, { headers }) => {
@@ -57,7 +57,7 @@ const options: ApolloClientOptions<unknown> = {
   cache,
   defaultOptions: {
     watchQuery: {
-      fetchPolicy: "cache-and-network",
+      fetchPolicy: "cache-first",
     },
     query: {
       fetchPolicy: "cache-first",

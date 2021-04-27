@@ -1,6 +1,6 @@
 import React from "react";
-import {StyleSheet, View} from 'react-native'
-import {generateShadow} from "react-native-shadow-generator";
+import { StyleSheet, View } from "react-native";
+import { generateShadow } from "react-native-shadow-generator";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -11,12 +11,7 @@ const styles = StyleSheet.create({
     margin: "2%",
   },
 });
-const ListItemContainer: React.FC<{children: React.ReactNode}> = ({children}) => {
-  return (
-    
-  <View style = { styles.container }>
-      {children}
-    </View>
-  )
+const ListItemContainer: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return <View style={styles.container}>{children}</View>;
 };
 export default ListItemContainer;
