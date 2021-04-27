@@ -3052,7 +3052,7 @@ function generateSQL() {
     const { id, bodyPart, type, name, exerciseAliases, count } = exercise;
     console.log(`
           insert into "exercise" (id, body_part, exercise_type, name, count) 
-          values (${id}, '${bodyPart}', '${type}', '${name}', '${count}');
+          values (${id}, '${bodyPart}', '${type}', '${name.charAt(0).toUpperCase() + name.slice(1)}', '${count}');
         `);
     for (const alias of exerciseAliases) {
       console.log(`\ninsert into "exercise_alias" (id, name) values (${id}, '${alias}');`);

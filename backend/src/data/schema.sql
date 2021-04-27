@@ -38,12 +38,54 @@ COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
 
 
 --
+-- Name: body_part_enum; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.body_part_enum AS ENUM (
+    'Back',
+    'Biceps',
+    'Chest',
+    'Core',
+    'Forearms',
+    'Legs',
+    'Shoulders',
+    'Triceps',
+    'Whole Body'
+);
+
+
+--
+-- Name: exercise_type_enum; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.exercise_type_enum AS ENUM (
+    'Barbell',
+    'Bodyweight',
+    'Olympic',
+    'Dumbbell',
+    'Machine',
+    'Cable'
+);
+
+
+--
 -- Name: jwt_token; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public.jwt_token AS (
 	exp integer,
 	user_id integer
+);
+
+
+--
+-- Name: mood; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.mood AS ENUM (
+    'sad',
+    'ok',
+    'happy'
 );
 
 
@@ -742,11 +784,10 @@ CREATE TABLE public.enemy (
 
 CREATE TABLE public.exercise (
     id integer NOT NULL,
-    string_id character varying NOT NULL,
-    body_part character varying NOT NULL,
-    weight_connection character varying NOT NULL,
-    exercise_type character varying NOT NULL,
-    name character varying NOT NULL
+    body_part public.body_part_enum NOT NULL,
+    exercise_type public.exercise_type_enum NOT NULL,
+    name character varying NOT NULL,
+    count integer NOT NULL
 );
 
 
@@ -758,6 +799,26 @@ CREATE TABLE public.exercise_alias (
     id integer,
     name character varying NOT NULL
 );
+
+
+--
+-- Name: exercise_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.exercise_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: exercise_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.exercise_id_seq OWNED BY public.exercise.id;
 
 
 --
@@ -957,6 +1018,89 @@ CREATE TABLE public.workout (
 
 
 --
+-- Name: workout_plan_exercise; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.workout_plan_exercise (
+    id integer NOT NULL,
+    exercise_id integer NOT NULL,
+    sets integer NOT NULL,
+    reps integer NOT NULL
+);
+
+
+--
+-- Name: workout_plan; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.workout_plan (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    exercises public.workout_plan_exercise[] NOT NULL
+);
+
+
+--
+-- Name: workout_plan_exercise_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.workout_plan_exercise_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: workout_plan_exercise_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.workout_plan_exercise_id_seq OWNED BY public.workout_plan_exercise.id;
+
+
+--
+-- Name: workout_plan_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.workout_plan_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: workout_plan_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.workout_plan_id_seq OWNED BY public.workout_plan.id;
+
+
+--
+-- Name: workout_plan_user_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.workout_plan_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: workout_plan_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.workout_plan_user_id_seq OWNED BY public.workout_plan.user_id;
+
+
+--
 -- Name: bodystat user_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -975,6 +1119,13 @@ ALTER TABLE ONLY public.chat_message ALTER COLUMN id SET DEFAULT nextval('public
 --
 
 ALTER TABLE ONLY public.chat_message ALTER COLUMN user_id SET DEFAULT nextval('public.chat_message_user_id_seq'::regclass);
+
+
+--
+-- Name: exercise id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exercise ALTER COLUMN id SET DEFAULT nextval('public.exercise_id_seq'::regclass);
 
 
 --
@@ -1003,6 +1154,27 @@ ALTER TABLE ONLY public."user" ALTER COLUMN id SET DEFAULT nextval('public.user_
 --
 
 ALTER TABLE ONLY public.user_exercise ALTER COLUMN user_id SET DEFAULT nextval('public.user_exercise_user_id_seq'::regclass);
+
+
+--
+-- Name: workout_plan id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.workout_plan ALTER COLUMN id SET DEFAULT nextval('public.workout_plan_id_seq'::regclass);
+
+
+--
+-- Name: workout_plan user_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.workout_plan ALTER COLUMN user_id SET DEFAULT nextval('public.workout_plan_user_id_seq'::regclass);
+
+
+--
+-- Name: workout_plan_exercise id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.workout_plan_exercise ALTER COLUMN id SET DEFAULT nextval('public.workout_plan_exercise_id_seq'::regclass);
 
 
 --
@@ -1046,14 +1218,6 @@ ALTER TABLE ONLY public.exercise
 
 
 --
--- Name: exercise exercise_string_id_key; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.exercise
-    ADD CONSTRAINT exercise_string_id_key UNIQUE (string_id);
-
-
---
 -- Name: group group_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1091,6 +1255,22 @@ ALTER TABLE ONLY public.user_exercise
 
 ALTER TABLE ONLY public."user"
     ADD CONSTRAINT user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: workout_plan_exercise workout_plan_exercise_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.workout_plan_exercise
+    ADD CONSTRAINT workout_plan_exercise_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: workout_plan workout_plan_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.workout_plan
+    ADD CONSTRAINT workout_plan_pkey PRIMARY KEY (id);
 
 
 --
@@ -1234,6 +1414,20 @@ CREATE INDEX user_groupname_idx ON public."user" USING btree (groupname);
 
 
 --
+-- Name: workout_plan_exercise_exercise_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX workout_plan_exercise_exercise_id_idx ON public.workout_plan_exercise USING btree (exercise_id);
+
+
+--
+-- Name: workout_plan_user_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX workout_plan_user_id_idx ON public.workout_plan USING btree (user_id);
+
+
+--
 -- Name: group encrypt_password_and_set_creator_on_group_create; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -1358,14 +1552,6 @@ ALTER TABLE ONLY public.chat_message
 
 
 --
--- Name: exercise_alias exercise_alias_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.exercise_alias
-    ADD CONSTRAINT exercise_alias_id_fkey FOREIGN KEY (id) REFERENCES public.exercise(id);
-
-
---
 -- Name: group group_name_battle_number_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1390,14 +1576,6 @@ ALTER TABLE ONLY public.user_exercise
 
 
 --
--- Name: user_exercise user_exercise_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.user_exercise
-    ADD CONSTRAINT user_exercise_id_fkey FOREIGN KEY (id) REFERENCES public.exercise(id) ON DELETE CASCADE;
-
-
---
 -- Name: user_exercise user_exercise_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1411,6 +1589,22 @@ ALTER TABLE ONLY public.user_exercise
 
 ALTER TABLE ONLY public."user"
     ADD CONSTRAINT user_groupname_fkey FOREIGN KEY (groupname) REFERENCES public."group"(name) ON DELETE SET NULL;
+
+
+--
+-- Name: workout_plan_exercise workout_plan_exercise_exercise_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.workout_plan_exercise
+    ADD CONSTRAINT workout_plan_exercise_exercise_id_fkey FOREIGN KEY (exercise_id) REFERENCES public.exercise(id);
+
+
+--
+-- Name: workout_plan workout_plan_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.workout_plan
+    ADD CONSTRAINT workout_plan_user_id_fkey FOREIGN KEY (user_id) REFERENCES public."user"(id);
 
 
 --
@@ -1698,7 +1892,7 @@ GRANT SELECT ON TABLE public.enemy TO query_sender;
 -- Name: TABLE exercise; Type: ACL; Schema: public; Owner: -
 --
 
-GRANT SELECT ON TABLE public.exercise TO query_sender;
+GRANT ALL ON TABLE public.exercise TO PUBLIC;
 
 
 --
@@ -1734,6 +1928,27 @@ GRANT SELECT,USAGE ON SEQUENCE public.session_analytics_id_seq TO query_sender;
 --
 
 GRANT ALL ON TABLE public.user_exercise TO query_sender;
+
+
+--
+-- Name: TABLE workout; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT ALL ON TABLE public.workout TO PUBLIC;
+
+
+--
+-- Name: TABLE workout_plan_exercise; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT ALL ON TABLE public.workout_plan_exercise TO PUBLIC;
+
+
+--
+-- Name: TABLE workout_plan; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT ALL ON TABLE public.workout_plan TO PUBLIC;
 
 
 --
