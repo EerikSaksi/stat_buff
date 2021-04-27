@@ -32,7 +32,11 @@ const App: React.FC<{ username: string }> = ({ username }) => {
             setInitialState(state);
           }
         }
-      } finally {
+      }
+      catch(e){
+        console.log(e)
+      }
+      finally {
         setIsReady(true);
       }
     };
