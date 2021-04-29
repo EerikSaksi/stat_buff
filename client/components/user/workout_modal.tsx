@@ -3,10 +3,9 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Button, Input } from "react-native-elements";
-import CustomModal from "../../util_components/custom_modal";
+import {Modal} from 'react-native-paper'
 import WorkoutModalAttack from "./workout_modal/workout_modal_attack";
-import globalStyles from "../../style/global";
-import SpriteHealthBar from "../../sprites/sprite_health_bar";
+import SpriteHealthBar from "../sprites/sprite_health_bar";
 
 const CREATE_WORKOUT = gql`
   mutation($rir: Int!, $sets: Int!, $username: String!) {
@@ -122,14 +121,13 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
         <View style
           ={{ padding: "5%" }}>
           <View style={styles.row}>
-            <Text style={globalStyles.text}>How many sets did you complete in total (for all exercises in your entire workout, not including warmup sets.)</Text>
-            <Input style={globalStyles.text} value={sets?.toString()} onChangeText={(v) => (v.length ? setSets(parseInt(v)) : setSets(undefined))} placeholder="Sets" keyboardType={"numeric"} />
+            <Text >How many sets did you complete in total (for all exercises in your entire workout, not including warmup sets.)</Text>
+            <Input  value={sets?.toString()} onChangeText={(v) => (v.length ? setSets(parseInt(v)) : setSets(undefined))} placeholder="Sets" keyboardType={"numeric"} />
           </View>
           <View style={styles.row}>
-            <Text style={globalStyles.text}>If you were to try your hardest, how many more reps would you have been able to do on average?</Text>
+            <Text >If you were to try your hardest, how many more reps would you have been able to do on average?</Text>
             <Input
-              style={globalStyles.text}
-              value={rir?.toString()}
+                            value={rir?.toString()}
               onChangeText={(v) => (v.length ? setRir(parseInt(v)) : setRir(undefined))}
               placeholder="Average Reps Left"
               keyboardType={"numeric"}
@@ -144,9 +142,9 @@ const WorkoutModal: React.FC<{ username: string; visible: boolean; setVisible: (
     }
   }
   return (
-    <CustomModal visible={visible} setVisible={setVisible}>
+    <Modal visible={visible} >
       {content}
-    </CustomModal>
+    </Modal>
   );
 };
 export default WorkoutModal;

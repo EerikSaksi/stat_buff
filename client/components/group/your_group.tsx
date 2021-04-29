@@ -8,7 +8,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import ChatModal from "./your_group/chat_modal";
 import { Badge, Button } from "react-native-elements";
 import { gql, useMutation } from "@apollo/client";
-import useChatAnalytics from "../../hooks/analytics/use_chat_analytics";
+import useChatAnalytics from "../analytics/use_chat_analytics";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 const Tab = createMaterialTopTabNavigator();
 const NULLIFY_GROUP = gql`

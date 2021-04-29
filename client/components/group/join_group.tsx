@@ -1,12 +1,11 @@
 import React, { useRef, useState } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { Text, View, FlatList, StyleSheet} from "react-native";
+import { Text, View, FlatList, StyleSheet } from "react-native";
 import { Button, SearchBar } from "react-native-elements";
 import ListItemContainer from "./shared/list_item_container";
 import PasswordProtectedGroup from "./join_group/password_protected_group";
 import CreateGroup from "./join_group/create_group";
-import globalStyles from "../../style/global";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const SEARCH_GROUPS = gql`
   query search_groups($query: String!) {
@@ -76,9 +75,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   safeArea: {
-    height: '100%',
-    width: '100%'
-  }
+    height: "100%",
+    width: "100%",
+  },
 });
 const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParentGroup }) => {
   const [query, setQuery] = useState("");
@@ -110,12 +109,20 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
     },
   });
   return (
-    <SafeAreaView style = { styles.safeArea }>
+    <SafeAreaView style={styles.safeArea}>
       <CreateGroup visible={createGroupVisible} setVisible={setCreateGroupVisible} refetchParentGroup={refetchParentGroup} />
       <View style={styles.root}>
-        <SearchBar lightTheme={true} ref={ref} placeholder="Search for teams" round={true} value={query} onChangeText={(t) => setQuery(t)} containerStyle={styles.searchBar} />
+        <SearchBar
+          lightTheme={true}
+          ref={ref}
+          placeholder="Search for teams"
+          round={true}
+          value={query}
+          onChangeText={(t) => setQuery(t)}
+          containerStyle={styles.searchBar}
+        />
         {query === "" ? (
-          <View style={{ ...globalStyles.container, justifyContent: "flex-start" }}>
+          <View style={{ justifyContent: "flex-start" }}>
             <View style={styles.button}>
               <Button onPress={() => joinRandomPublicGroup()} style={styles.button} title="Join Random Public Team" />
             </View>
@@ -129,14 +136,16 @@ const JoinGroup: React.FC<{ refetchParentGroup: () => void }> = ({ refetchParent
           renderItem={({ item: group }) => (
             <ListItemContainer>
               <View style={styles.row}>
-                <View style={globalStyles.container}>
+                <View>
                   <Text style={styles.listItemText}>{group.name}</Text>
                   <View style={styles.row}>
                     <Text style={styles.memberCount}>{group.usersByGroupname.totalCount} Members</Text>
-                    {group.battleByNameAndBattleNumber ? <Text style={styles.memberCount}>, Level {group.battleByNameAndBattleNumber.enemyLevel}</Text> : undefined}
+                    {group.battleByNameAndBattleNumber ? (
+                      <Text style={styles.memberCount}>, Level {group.battleByNameAndBattleNumber.enemyLevel}</Text>
+                    ) : undefined}
                   </View>
                 </View>
-                <View style={globalStyles.container}>
+                <View>
                   {group.isPasswordProtected ? (
                     <View style={styles.row}>
                       <PasswordProtectedGroup joinGroup={joinGroup} groupName={group.name} />

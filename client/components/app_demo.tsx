@@ -1,10 +1,10 @@
 import React, { useState, useRef, Suspense } from "react";
 import { ScrollView, StyleSheet, View, Dimensions, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { SafeAreaView } from 'react-native-safe-area-context';
-import StrongerCharacter from "./app_demo/stronger_character"
-const CreateUser = React.lazy(() => import("./app_demo/create_user"));
-const AttackingCharacters  = React.lazy(() => import("./app_demo/attacking_characters"));
+import { SafeAreaView } from "react-native-safe-area-context";
+import StrongerCharacter from "./app_demo/stronger_character";
+import CreateUser from "./app_demo/create_user";
+import AttackingCharacters from "./app_demo/attacking_characters";
 
 const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 const EmptyWidthView = () => <View style={styles.view} />;
-const AppDemo: React.FC<{ refetchUser: () => void; }> = ({ refetchUser}) => {
+const AppDemo: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
   const [scrollOffset, setScrollOffset] = useState(0);
   const scrollViewRef = useRef<ScrollView | null>(null);
   return (
@@ -33,30 +33,36 @@ const AppDemo: React.FC<{ refetchUser: () => void; }> = ({ refetchUser}) => {
     >
       <SafeAreaView style={styles.view}>
         <StrongerCharacter inView={scrollOffset < width} />
-        <TouchableOpacity style={styles.arrow} onPress={() => scrollViewRef?.current?.scrollTo({ x: scrollOffset + width, animated: true })}>
+        <TouchableOpacity
+          style={styles.arrow}
+          onPress={() => scrollViewRef?.current?.scrollTo({ x: scrollOffset + width, animated: true })}
+        >
           <Ionicons size={40} name="arrow-forward-sharp" />
         </TouchableOpacity>
       </SafeAreaView>
       <SafeAreaView style={styles.view}>
         {width * 0.05 <= scrollOffset && scrollOffset <= width * 1.95 ? (
-          <Suspense fallback={<EmptyWidthView/>}>
+          <Suspense fallback={<EmptyWidthView />}>
             <AttackingCharacters />
           </Suspense>
         ) : (
-          <EmptyWidthView/>
+          <EmptyWidthView />
         )}
 
-        <TouchableOpacity style={styles.arrow} onPress={() => scrollViewRef?.current?.scrollTo({ x: scrollOffset + width, animated: true })}>
+        <TouchableOpacity
+          style={styles.arrow}
+          onPress={() => scrollViewRef?.current?.scrollTo({ x: scrollOffset + width, animated: true })}
+        >
           <Ionicons size={40} name="arrow-forward-sharp" />
         </TouchableOpacity>
       </SafeAreaView>
       <View style={styles.view}>
-        {1.8 * width  <= scrollOffset ? (
-          <Suspense fallback={<EmptyWidthView/>}>
+        {1.8 * width <= scrollOffset ? (
+          <Suspense fallback={<EmptyWidthView />}>
             <CreateUser refetchUser={refetchUser} />
           </Suspense>
         ) : (
-          <EmptyWidthView/>
+          <EmptyWidthView />
         )}
       </View>
     </ScrollView>

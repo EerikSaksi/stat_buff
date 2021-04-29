@@ -4,7 +4,6 @@ import BattlePicker from "./members/battle_picker";
 import { View, StyleSheet, Text, Switch, FlatList } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import ListItemContainer from "../shared/list_item_container";
-import globalStyles from "../../../style/global";
 
 const ALL_WORKOUTS = gql`
   query($groupname: String!) {
@@ -130,13 +129,13 @@ const Members: React.FC<{ route: NavigationProps }> = ({ route }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={globalStyles.row}>
-        <View style={globalStyles.container}>
-          <View style={globalStyles.row}>
-            <View style={globalStyles.container}>
-              <Text style = { globalStyles.text}>All battles</Text>
+      <View >
+        <View >
+          <View >
+            <View >
+              <Text>All battles</Text>
             </View>
-            <View style={globalStyles.container}>
+            <View >
               <Switch value={showAllStats} onValueChange={(v) => setShowAllStats(v)} />
             </View>
           </View>
@@ -151,10 +150,10 @@ const Members: React.FC<{ route: NavigationProps }> = ({ route }) => {
           keyExtractor={(item) => item[0] + item[1].toString()}
           renderItem={({ item }) => (
             <ListItemContainer>
-              <View style={globalStyles.row}>
+              <View >
                 <Text style={styles.listHeading}>{`${item[0]}`}</Text>
               </View>
-              <View style={globalStyles.row}>
+              <View>
                 <Text style={styles.listText}>{`${item[1]} damage in ${showAllStats ? "all battles" : "Battle " + battleNumber} `}</Text>
               </View>
             </ListItemContainer>

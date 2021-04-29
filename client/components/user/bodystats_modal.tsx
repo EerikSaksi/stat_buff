@@ -5,7 +5,7 @@ import { useQuery } from "@apollo/client/react/hooks/useQuery";
 import { useState } from "react";
 import { Text, Switch, View, StyleSheet} from "react-native";
 import { Button, Divider, Input } from "react-native-elements";
-import CustomModal from "../../util_components/custom_modal";
+import {Modal} from 'react-native-paper'
 
 const CREATE_BODY_STAT = gql`
   mutation($username: String!, $ismale: Boolean!, $bodymass: Int!) {
@@ -93,7 +93,7 @@ const BodyStatsModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => v
     );
 
   return (
-    <CustomModal visible={visible} setVisible={setVisible}>
+    <Modal visible={visible} >
       <View style={styles.modalPadding}>
         <Text style={styles.text}>This data is private (needed for strength calculations)</Text>
         <Input style={styles.text} value={bodymass ? bodymass.toString() : undefined} placeholder="Bodyweight (kg)" onChangeText={(text) => setBodymass(parseInt(text))} keyboardType={"numeric"} />
@@ -106,7 +106,7 @@ const BodyStatsModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => v
         {bodyStatButton}
         <Divider style={{ backgroundColor: "black" }} />
       </View>
-    </CustomModal>
+    </Modal>
   );
 };
 export default BodyStatsModal;

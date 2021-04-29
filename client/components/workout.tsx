@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { gql } from "@apollo/client";
 const FETCH_WORKOUT_PLAN = gql`
   query {
-    user() {
+    user(id:0) {
       workoutPlans {
         nodes {
           workoutExercises {

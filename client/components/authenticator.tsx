@@ -1,9 +1,9 @@
 import React, { useEffect, Suspense } from "react";
 import { gql, useLazyQuery } from "@apollo/client";
-import Loading from "../util_components/loading";
+import { ActivityIndicator } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-const App = React.lazy(() => import("../App"));
-const AppDemo = React.lazy(() => import("./app_demo"));
+import App from "./App";
+import AppDemo from "./app_demo";
 
 const USERNAME = gql`
   query {
@@ -24,13 +24,13 @@ export default function Authenticator() {
   }
   if (!data.activeUser) {
     return (
-      <Suspense fallback={<Loading />}>
+      <Suspense fallback={<ActivityIndicator />}>
         <AppDemo refetchUser={refetchUser} />
       </Suspense>
     );
   }
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<ActivityIndicator />}>
       <App username={data.activeUser.username} />
     </Suspense>
   );

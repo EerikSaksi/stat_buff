@@ -2,8 +2,7 @@ import { gql, useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { StyleSheet, View, Switch, Text } from "react-native";
 import { Button, Input } from "react-native-elements";
-import CustomModal from "../../../util_components/custom_modal";
-import globalStyles from "../../../style/global";
+import {Modal} from 'react-native-paper'
 const styles = StyleSheet.create({
   row: {
     justifyContent: "center",
@@ -36,19 +35,19 @@ const CreateGroup: React.FC<{ visible: boolean; setVisible: (arg: boolean) => vo
     },
   });
   return (
-    <CustomModal visible={visible} setVisible={setVisible}>
+    <Modal visible={visible}>
       <View style={styles.row}>
-        <Input style={globalStyles.text} placeholder="Team Name" value={newGroupName} onChangeText={(v) => setNewGroupName(v)} />
+        <Input  placeholder="Team Name" value={newGroupName} onChangeText={(v) => setNewGroupName(v)} />
       </View>
       <View style={styles.row}>
         <Text>Requires password?</Text>
         <Switch value={isPasswordProtected} onValueChange={(v) => setIsPasswordProtected(v)} />
       </View>
       <View style={styles.row}>
-        <Input style={globalStyles.text} disabled={!isPasswordProtected} placeholder="Password" value={password} onChangeText={(v) => setPassword(v)} secureTextEntry={true} textContentType="password" />
+        <Input  disabled={!isPasswordProtected} placeholder="Password" value={password} onChangeText={(v) => setPassword(v)} secureTextEntry={true} textContentType="password" />
       </View>
       <Button disabled={newGroupName === "" || (isPasswordProtected && password === "")} title="Create Team" onPress={() => createGroup()} />
-    </CustomModal>
+    </Modal>
   );
 };
 export default CreateGroup;

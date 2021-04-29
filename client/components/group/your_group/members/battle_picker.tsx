@@ -3,8 +3,7 @@ import { useLazyQuery } from "@apollo/client/react/hooks/useLazyQuery";
 import {Picker} from "@react-native-picker/picker";
 import {useFocusEffect} from "@react-navigation/native";
 import React, {useCallback} from "react";
-import Loading from "../../../../util_components/loading";
-
+import {ActivityIndicator} from "react-native-paper"
 const BATTLE_NUMBER = gql`
   query($groupname: String!) {
     group(name: $groupname) {
@@ -32,7 +31,7 @@ const BattlePicker: React.FC<{ battleNumber: number | undefined; setBattleNumber
     }, [])
   );
   if (!data){
-    return <Loading/>
+    return <ActivityIndicator/>
   }
   return (
     <Picker

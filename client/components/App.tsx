@@ -1,11 +1,11 @@
 import React, { useRef, useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import User from "./components/user";
-import Group from "./components/group";
-import Workout from "./components/workout";
-import { visibleSection } from "./apollo/cache";
-import useAnalyticsSender from "./hooks/analytics/use_analytics_sender";
+import User from "./user";
+import Group from "./group";
+import Workout from "./workout";
+import { visibleSection } from "../apollo/cache";
+import useAnalyticsSender from "./analytics/use_analytics_sender";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Linking, Platform } from "react-native";
 const Tab = createBottomTabNavigator();

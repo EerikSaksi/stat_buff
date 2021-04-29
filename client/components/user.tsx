@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { gql, useLazyQuery, useQuery } from "@apollo/client";
 import { Text, View, StyleSheet, Linking } from "react-native";
-import Loading from "../util_components/loading";
+import {ActivityIndicator} from 'react-native-paper'
 import ExerciseModal from "./user/exercise_modal";
-import SpriteSelector from "../sprites/sprite_selector";
+import SpriteSelector from "./sprites/sprite_selector";
 import BodyStatsModal from "./user/bodystats_modal";
 import { Button } from "react-native-elements";
-import useSkillTitle from "../hooks/use_skill_title";
 import WorkoutModal from "./user/workout_modal";
-import useUserAnalytics from "../hooks/analytics/use_user_analytics";
+import useUserAnalytics from "./analytics/use_user_analytics";
 import { Ionicons } from "@expo/vector-icons";
-import globalStyles from "../style/global";
+import globalStyles from "./style/global";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const USER_BODY_STATS = gql`
@@ -116,9 +115,8 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
     fetchBodyStats();
     fetchStrength();
   }, []);
-  const { skillTitle } = useSkillTitle(exerciseData && exerciseData.calculateStrengthStats ? exerciseData.calculateStrengthStats.dph : undefined);
   if (!data) {
-    return <Loading />;
+    return <ActivityIndicator />;
   }
   return (
     <SafeAreaView style={styles.root}>
@@ -130,7 +128,6 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
       <View style={styles.flexOne}>
         {exerciseData && exerciseData.calculateStrengthStats ? (
           <View>
-            <Text style={styles.dph}>{`${username} has DPH: ${exerciseData.calculateStrengthStats.dph} (${skillTitle})`}</Text>
             <Text style={styles.explanation}>{`Damage Per Hit = Stronger than ${exerciseData.calculateStrengthStats.averageStrength}% * ${exerciseData.calculateStrengthStats.numExercises} exercise${
               exerciseData.calculateStrengthStats.numExercises === 1 ? "" : "'s"
             } tracked`}</Text>
@@ -148,7 +145,7 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
       <ExerciseModal visible={strengthModalVisible} setVisible={setStrengthModalVisible} username={username} refetchParent={fetchStrength} />
       <BodyStatsModal visible={bodystatsModalVisible} setVisible={setBodystatsModalVisible} username={username} refetchParent={fetchBodyStats} />
       <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username} skillTitle={"intermediate"} />
-      <View style={styles.sprite}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector aspectRatio={1.2} spriteName={skillTitle} /> : <Loading />}</View>
+      <View style={styles.sprite}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector aspectRatio={1.2} spriteName={"intermediate"} /> : <ActivityIndicator />}</View>
     </SafeAreaView>
   );
 };

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Text, Switch, View, Modal, TextInput, StyleSheet, SafeAreaView } from "react-native";
 import ExerciseSearch from "./exercise_modal/exercise_search";
 import { Ionicons } from "@expo/vector-icons";
-import globalStyles from "../../style/global";
 const styles = StyleSheet.create({
   paddingWrap: { paddingTop: "10%", flex: 1 },
   arrow: { color: "black", fontSize: 40, position: "absolute", top: "2%" },
@@ -19,13 +18,13 @@ const ExerciseModal: React.FC<{ visible: boolean; setVisible: (b: boolean) => vo
       <SafeAreaView style = { styles.safeArea }>
         <View style={styles.paddingWrap}>
           <Ionicons onPress={() => setVisible(false)} name="arrow-back-sharp" style={styles.arrow} />
-          <View style={globalStyles.row}>
-            <View style={globalStyles.row}>
-              <View style={globalStyles.container}>
+          <View >
+            <View >
+              <View >
                 <Text style={styles.text}>Only tracked exercises</Text>
                 <Switch value={onlyShowTracked} onValueChange={(v) => setOnlyShowTracked(v)} />
               </View>
-              <View style={globalStyles.container}>
+              <View >
                 <Text style={styles.text}>Only bodyweight</Text>
                 <Switch value={onlyBodyweight} onValueChange={(v) => setOnlyBodyweight(v)} />
               </View>

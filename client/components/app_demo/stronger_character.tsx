@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, StatusBar } from "react-native";
-import SpriteSelector from "../../sprites/sprite_selector";
+import SpriteSelector from "../sprites/sprite_selector";
 const styles = StyleSheet.create({
   container: {
     flex: 1,

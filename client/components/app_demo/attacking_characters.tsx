@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text} from "react-native";
-import SpriteSelector from "../../sprites/sprite_selector";
-import SpriteBattle from "../../sprites/sprite_battle";
+import SpriteSelector from "../sprites/sprite_selector";
+import SpriteBattle from "../sprites/sprite_battle";
 const styles = StyleSheet.create({
   threeCharacters: {
     flex: 1,

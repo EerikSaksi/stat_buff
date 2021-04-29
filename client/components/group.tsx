@@ -1,8 +1,8 @@
-import React, { lazy, Suspense, useEffect } from "react";
+import React, { useEffect } from "react";
 import { gql, useLazyQuery } from "@apollo/client";
-import Loading from "../util_components/loading";
-const YourGroup = lazy(() => import("./group/your_group"));
-const JoinGroup = lazy(() => import("./group/join_group"));
+import {ActivityIndicator} from "react-native-paper"
+import YourGroup from "./group/your_group"
+import JoinGroup from "./group/join_group"
 
 const GROUP_INFO = gql`
   query group_info($username: String!) {
@@ -25,19 +25,15 @@ const Group: React.FC<{ route: NavigationProps }> = ({ route }) => {
   }, []);
 
   if (!data || !data.user) {
-    return <Loading />;
+    return <ActivityIndicator />;
   }
   if (data.user.groupname) {
     return (
-      <Suspense fallback={<Loading />}>
         <YourGroup groupname={data.user.groupname} username={username} refetchParentGroup = {checkGroupStatus} />
-      </Suspense>
     );
   }
   return (
-    <Suspense fallback={<Loading />}>
       <JoinGroup refetchParentGroup={checkGroupStatus} />
-    </Suspense>
   );
 };
 export default Group;

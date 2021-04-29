@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { View, TextInput, Text, StyleSheet, } from "react-native";
-import { unslugify } from "../../../../util_components/slug";
 import { Button } from "react-native-elements";
 import { gql, useLazyQuery, useMutation} from "@apollo/client";
 import {Ionicons} from "@expo/vector-icons";
@@ -96,7 +95,7 @@ const ExerciseSearchResult: React.FC<{ exerciseSlug: string; username: string; b
     <View key={exerciseSlug} style={styles.root}>
       <View style={styles.row}>
         <View style={styles.flexOne}>
-          <Text>{unslugify(exerciseSlug)}</Text>
+          <Text>exerciseSlug</Text>
         </View>
         <TextInput onChangeText={(t) => setLiftmass(t)} keyboardType="numeric" value={liftmass} style={styles.textInput} placeholder={bodyweight ? "Additional Weight (kg)" : "Weight (kg)"} />
         <TextInput onChangeText={(t) => setRepetitions(parseInt(t))} keyboardType="numeric" value={repetitions ? repetitions.toString() : undefined} style={styles.textInput} placeholder={"Reps"} />
