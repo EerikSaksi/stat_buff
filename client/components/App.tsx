@@ -21,22 +21,17 @@ const App: React.FC<{ username: string }> = ({ username }) => {
   useEffect(() => {
     const restoreState = async () => {
       try {
-        const initialUrl = await Linking.getInitialURL();
-
-        if (Platform.OS !== "web" && initialUrl == null) {
+        if (Platform.OS !== "web") {
           // Only restore state if there's no deep link and we're not on web
           const savedStateString = await AsyncStorage.getItem(PERSISTENCE_KEY);
           const state = savedStateString ? JSON.parse(savedStateString) : undefined;
-
           if (state !== undefined) {
             setInitialState(state);
           }
         }
       }
-      catch(e){
-        console.log(e)
-      }
       finally {
+        console.log("no error")
         setIsReady(true);
       }
     };
