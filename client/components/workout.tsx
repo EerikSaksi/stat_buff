@@ -4,17 +4,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { gql, useQuery } from "@apollo/client";
 import WorkoutExercise from "./workout/workout_exercise";
 const FETCH_WORKOUT_PLAN = gql`
-  query {
-    activeUser {
-      nodeId
-      workoutPlans {
-        nodes {
-          nodeId
-          workoutExercises {
+  query{
+    activeUser{
+      userCurrentWorkoutPlan{
+        workoutPlan{
+          workoutExercises{
             sets
             reps
-            exercise {
-              nodeId
+            exercise{
               name
             }
           }
@@ -37,7 +34,7 @@ const Workout: React.FC = () => {
         }}
       >
         {data
-          ? data.activeUser.workoutPlans.nodes[0].workoutExercises.map((wE, id) => (
+          ? data.activeUser.userCurrentWorkoutPlan.workoutPlan.workoutExercises.map((wE, id) => (
               <WorkoutExercise name={wE.exercise.name} sets={wE.sets} targetReps={wE.reps} id={id + 1} />
             ))
           : undefined}
