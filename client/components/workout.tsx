@@ -25,12 +25,20 @@ const FETCH_WORKOUT_PLAN = gql`
 `;
 const Workout: React.FC = () => {
   const { data } = useQuery(FETCH_WORKOUT_PLAN);
+  const [expandedId, setExpandedId] = useState(1);
   return (
     <SafeAreaView>
-      <List.AccordionGroup expandedId = {1}>
+      <List.AccordionGroup
+        expandedId={expandedId}
+        onAccordionPress={(expandedId) => {
+          if (typeof expandedId === "number") {
+            setExpandedId((oldExpandedId) => (oldExpandedId === expandedId ? 0 : expandedId));
+          }
+        }}
+      >
         {data
           ? data.activeUser.workoutPlans.nodes[0].workoutExercises.map((wE, id) => (
-              <WorkoutExercise name={wE.exercise.name} sets={wE.sets} reps={wE.reps} id = {id + 1}/>
+              <WorkoutExercise name={wE.exercise.name} sets={wE.sets} targetReps={wE.reps} id={id + 1} />
             ))
           : undefined}
       </List.AccordionGroup>
