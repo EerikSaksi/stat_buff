@@ -15,7 +15,6 @@ BEGIN
       ALTER TABLE "public"."workout_plan" RENAME COLUMN "exercises" TO "workout_exercises";
   END IF;
 END $$;
-
-
-
 grant all on workout_plan_id_seq to public;
+
+grant all on session_analytics_user_id_seq
