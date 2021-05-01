@@ -5,7 +5,6 @@ const WorkoutExerciseSet: React.FC<{exerciseId: number}> = ({exerciseId}) => {
   const [weight, setWeight] = useState<undefined | number>();
   const [reps, setReps] = useState<undefined | number>();
   const predictions = useStrengthPredictions(reps, weight, exerciseId, 80, true)
-  console.log(predictions)
   return (
     <List.Item
       title={predictions ? `${predictions.percentile}%, 1RM: ${predictions.oneRepMax}` : ""}

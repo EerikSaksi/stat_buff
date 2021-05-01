@@ -31,7 +31,6 @@ const App: React.FC<{ username: string }> = ({ username }) => {
         }
       }
       finally {
-        console.log("no error")
         setIsReady(true);
       }
     };

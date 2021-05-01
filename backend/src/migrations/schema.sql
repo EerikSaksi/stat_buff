@@ -1082,6 +1082,16 @@ ALTER SEQUENCE public.user_id_seq OWNED BY public."user".id;
 
 
 --
+-- Name: workout_plan; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.workout_plan (
+    id integer NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
 -- Name: workout_plan_exercise; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1093,13 +1103,14 @@ CREATE TABLE public.workout_plan_exercise (
 
 
 --
--- Name: workout_plan; Type: TABLE; Schema: public; Owner: -
+-- Name: workout_plan_day; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.workout_plan (
+CREATE TABLE public.workout_plan_day (
     id integer NOT NULL,
     user_id integer NOT NULL,
-    workout_exercises public.workout_plan_exercise[] NOT NULL
+    workout_exercises public.workout_plan_exercise[] NOT NULL,
+    workout_plan_id integer
 );
 
 
@@ -1120,7 +1131,27 @@ CREATE SEQUENCE public.workout_plan_id_seq
 -- Name: workout_plan_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.workout_plan_id_seq OWNED BY public.workout_plan.id;
+ALTER SEQUENCE public.workout_plan_id_seq OWNED BY public.workout_plan_day.id;
+
+
+--
+-- Name: workout_plan_id_seq1; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.workout_plan_id_seq1
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: workout_plan_id_seq1; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.workout_plan_id_seq1 OWNED BY public.workout_plan.id;
 
 
 --
@@ -1140,7 +1171,7 @@ CREATE SEQUENCE public.workout_plan_user_id_seq
 -- Name: workout_plan_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.workout_plan_user_id_seq OWNED BY public.workout_plan.user_id;
+ALTER SEQUENCE public.workout_plan_user_id_seq OWNED BY public.workout_plan_day.user_id;
 
 
 --
@@ -1217,14 +1248,21 @@ ALTER TABLE ONLY public.user_exercise ALTER COLUMN user_id SET DEFAULT nextval('
 -- Name: workout_plan id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.workout_plan ALTER COLUMN id SET DEFAULT nextval('public.workout_plan_id_seq'::regclass);
+ALTER TABLE ONLY public.workout_plan ALTER COLUMN id SET DEFAULT nextval('public.workout_plan_id_seq1'::regclass);
 
 
 --
--- Name: workout_plan user_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: workout_plan_day id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.workout_plan ALTER COLUMN user_id SET DEFAULT nextval('public.workout_plan_user_id_seq'::regclass);
+ALTER TABLE ONLY public.workout_plan_day ALTER COLUMN id SET DEFAULT nextval('public.workout_plan_id_seq'::regclass);
+
+
+--
+-- Name: workout_plan_day user_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.workout_plan_day ALTER COLUMN user_id SET DEFAULT nextval('public.workout_plan_user_id_seq'::regclass);
 
 
 --
@@ -1332,11 +1370,19 @@ ALTER TABLE ONLY public."user"
 
 
 --
--- Name: workout_plan workout_plan_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: workout_plan_day workout_plan_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.workout_plan_day
+    ADD CONSTRAINT workout_plan_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: workout_plan workout_plan_pkey1; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.workout_plan
-    ADD CONSTRAINT workout_plan_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT workout_plan_pkey1 PRIMARY KEY (id);
 
 
 --
@@ -1473,6 +1519,55 @@ CREATE INDEX user_groupname_idx ON public."user" USING btree (groupname);
 
 
 --
+-- Name: workout_plan_day_workout_plan_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX workout_plan_day_workout_plan_id_idx ON public.workout_plan_day USING btree (workout_plan_id);
+
+
+--
+-- Name: workout_plan_day_workout_plan_id_idx1; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX workout_plan_day_workout_plan_id_idx1 ON public.workout_plan_day USING btree (workout_plan_id);
+
+
+--
+-- Name: workout_plan_day_workout_plan_id_idx2; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX workout_plan_day_workout_plan_id_idx2 ON public.workout_plan_day USING btree (workout_plan_id);
+
+
+--
+-- Name: workout_plan_day_workout_plan_id_idx3; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX workout_plan_day_workout_plan_id_idx3 ON public.workout_plan_day USING btree (workout_plan_id);
+
+
+--
+-- Name: workout_plan_day_workout_plan_id_idx4; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX workout_plan_day_workout_plan_id_idx4 ON public.workout_plan_day USING btree (workout_plan_id);
+
+
+--
+-- Name: workout_plan_day_workout_plan_id_idx5; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX workout_plan_day_workout_plan_id_idx5 ON public.workout_plan_day USING btree (workout_plan_id);
+
+
+--
+-- Name: workout_plan_day_workout_plan_id_idx6; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX workout_plan_day_workout_plan_id_idx6 ON public.workout_plan_day USING btree (workout_plan_id);
+
+
+--
 -- Name: workout_plan_exercise_exercise_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1483,7 +1578,7 @@ CREATE INDEX workout_plan_exercise_exercise_id_idx ON public.workout_plan_exerci
 -- Name: workout_plan_user_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX workout_plan_user_id_idx ON public.workout_plan USING btree (user_id);
+CREATE INDEX workout_plan_user_id_idx ON public.workout_plan_day USING btree (user_id);
 
 
 --
@@ -1655,7 +1750,7 @@ ALTER TABLE ONLY public.user_current_workout_plan
 --
 
 ALTER TABLE ONLY public.user_current_workout_plan
-    ADD CONSTRAINT user_current_workout_plan_workout_plan_id_fkey FOREIGN KEY (workout_plan_id) REFERENCES public.workout_plan(id);
+    ADD CONSTRAINT user_current_workout_plan_workout_plan_id_fkey FOREIGN KEY (workout_plan_id) REFERENCES public.workout_plan(id) ON DELETE CASCADE;
 
 
 --
@@ -1683,6 +1778,14 @@ ALTER TABLE ONLY public."user"
 
 
 --
+-- Name: workout_plan_day workout_plan_day_workout_plan_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.workout_plan_day
+    ADD CONSTRAINT workout_plan_day_workout_plan_id_fkey FOREIGN KEY (workout_plan_id) REFERENCES public.workout_plan(id) ON DELETE CASCADE;
+
+
+--
 -- Name: workout_plan_exercise workout_plan_exercise_exercise_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1691,10 +1794,10 @@ ALTER TABLE ONLY public.workout_plan_exercise
 
 
 --
--- Name: workout_plan workout_plan_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: workout_plan_day workout_plan_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.workout_plan
+ALTER TABLE ONLY public.workout_plan_day
     ADD CONSTRAINT workout_plan_user_id_fkey FOREIGN KEY (user_id) REFERENCES public."user"(id);
 
 
@@ -1968,39 +2071,39 @@ CREATE POLICY user_update ON public."user" FOR UPDATE TO query_sender USING ((id
 
 
 --
--- Name: workout_plan; Type: ROW SECURITY; Schema: public; Owner: -
+-- Name: workout_plan_day; Type: ROW SECURITY; Schema: public; Owner: -
 --
 
-ALTER TABLE public.workout_plan ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.workout_plan_day ENABLE ROW LEVEL SECURITY;
 
 --
--- Name: workout_plan workout_plan_delete_policy; Type: POLICY; Schema: public; Owner: -
+-- Name: workout_plan_day workout_plan_delete_policy; Type: POLICY; Schema: public; Owner: -
 --
 
-CREATE POLICY workout_plan_delete_policy ON public.workout_plan FOR DELETE USING ((user_id = ( SELECT active_user.id
+CREATE POLICY workout_plan_delete_policy ON public.workout_plan_day FOR DELETE USING ((user_id = ( SELECT active_user.id
    FROM public.active_user() active_user(username, password, groupname, created_at, updated_at, id))));
 
 
 --
--- Name: workout_plan workout_plan_insert_policy; Type: POLICY; Schema: public; Owner: -
+-- Name: workout_plan_day workout_plan_insert_policy; Type: POLICY; Schema: public; Owner: -
 --
 
-CREATE POLICY workout_plan_insert_policy ON public.workout_plan FOR INSERT WITH CHECK ((user_id = ( SELECT active_user.id
+CREATE POLICY workout_plan_insert_policy ON public.workout_plan_day FOR INSERT WITH CHECK ((user_id = ( SELECT active_user.id
    FROM public.active_user() active_user(username, password, groupname, created_at, updated_at, id))));
 
 
 --
--- Name: workout_plan workout_plan_select_policy; Type: POLICY; Schema: public; Owner: -
+-- Name: workout_plan_day workout_plan_select_policy; Type: POLICY; Schema: public; Owner: -
 --
 
-CREATE POLICY workout_plan_select_policy ON public.workout_plan FOR SELECT USING (true);
+CREATE POLICY workout_plan_select_policy ON public.workout_plan_day FOR SELECT USING (true);
 
 
 --
--- Name: workout_plan workout_plan_update_policy; Type: POLICY; Schema: public; Owner: -
+-- Name: workout_plan_day workout_plan_update_policy; Type: POLICY; Schema: public; Owner: -
 --
 
-CREATE POLICY workout_plan_update_policy ON public.workout_plan FOR UPDATE USING ((user_id = ( SELECT active_user.id
+CREATE POLICY workout_plan_update_policy ON public.workout_plan_day FOR UPDATE USING ((user_id = ( SELECT active_user.id
    FROM public.active_user() active_user(username, password, groupname, created_at, updated_at, id))));
 
 
@@ -2138,6 +2241,13 @@ GRANT ALL ON TABLE public.user_exercise TO query_sender;
 
 
 --
+-- Name: TABLE workout_plan; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT ALL ON TABLE public.workout_plan TO PUBLIC;
+
+
+--
 -- Name: TABLE workout_plan_exercise; Type: ACL; Schema: public; Owner: -
 --
 
@@ -2145,10 +2255,10 @@ GRANT ALL ON TABLE public.workout_plan_exercise TO PUBLIC;
 
 
 --
--- Name: TABLE workout_plan; Type: ACL; Schema: public; Owner: -
+-- Name: TABLE workout_plan_day; Type: ACL; Schema: public; Owner: -
 --
 
-GRANT ALL ON TABLE public.workout_plan TO PUBLIC;
+GRANT ALL ON TABLE public.workout_plan_day TO PUBLIC;
 
 
 --
