@@ -36,7 +36,7 @@ const Workout: React.FC = () => {
       >
         {data
           ? data.activeUser.userCurrentWorkoutPlan.workoutPlan.workoutExercises.map((wE, id) => (
-              <WorkoutExercise name={wE.exercise.name} sets={wE.sets} targetReps={wE.reps} id={id + 1} />
+              <WorkoutExercise name={wE.exercise.name} sets={wE.sets} targetReps={wE.reps} accordionId={id + 1} exerciseId = {wE.exercise.id} />
             ))
           : undefined}
       </List.AccordionGroup>

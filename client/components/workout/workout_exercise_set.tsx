@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { TextInput, List } from "react-native-paper";
 import useStrengthPredictions from "./use_strength_predictions";
-const WorkoutExerciseSet: React.FC = () => {
+const WorkoutExerciseSet: React.FC<{exerciseId: number}> = ({exerciseId}) => {
   const [weight, setWeight] = useState<undefined | number>();
   const [reps, setReps] = useState<undefined | number>();
-  const predictions = useStrengthPredictions(reps, weight, 0, 80, true)
-  console.log({predictions})
+  const predictions = useStrengthPredictions(reps, weight, exerciseId, 80, true)
+  console.log(predictions)
   return (
     <List.Item
-      title={``}
+      title={predictions ? `${predictions.percentile}%, 1RM: ${predictions.oneRepMax}` : ""}
       left={() => (
         <>
           <TextInput
             style={{ margin: 3 }}
-            placeholder="Weight (kg)"
+            placeholder="Reps"
             mode="outlined"
             dense
             keyboardType="numeric"
@@ -27,7 +27,7 @@ const WorkoutExerciseSet: React.FC = () => {
           />
           <TextInput
             style={{ margin: 3 }}
-            placeholder="Weight"
+            placeholder="Weight (kg)"
             mode="outlined"
             dense
             keyboardType="numeric"
