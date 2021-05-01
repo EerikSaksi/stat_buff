@@ -13,6 +13,7 @@ const FETCH_WORKOUT_PLAN = gql`
             reps
             exercise{
               name
+              id
             }
           }
         }

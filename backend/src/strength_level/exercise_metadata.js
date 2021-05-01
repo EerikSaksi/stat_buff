@@ -3046,19 +3046,24 @@ function generatePrunedJson() {
       return { bodyPart, type, name, count, exerciseAliases, id, eliteStrengthBaseline: parseInt(strength_json[stringId])};
     });
 }
+
+function generatePerExerciseStandards() {
+  const pruned = generatePrunedJson()
+  return pruned.map(exercise => exercise.eliteStrengthBaseline)
+}
+
 function generateSQL() {
   const pruned = generatePrunedJson();
 
   for (const exercise of pruned) {
-    const { id, bodyPart, type, name, exerciseAliases, count } = exercise;
+    const { id, bodyPart, type, name, exerciseAliases, count, eliteStrengthBaseline } = exercise;
     console.log(`
-          insert into "exercise" (body_part, exercise_type, name, count) 
-          values ('${bodyPart}', '${type.charAt(0).toUpperCase() + type.slice(1)}', '${name}', ${count});
+          insert into "exercise" (body_part, exercise_type, name, count, elite_strength_baseline) 
+          values ('${bodyPart}', '${type.charAt(0).toUpperCase() + type.slice(1)}', '${name}', ${count}, ${eliteStrengthBaseline});
         `);
     for (const alias of exerciseAliases) {
       console.log(`\ninsert into "exercise_alias" (id, name) values (${id}, '${alias}');`);
     }
   }
 }
-console.log(generatePrunedJson())
 module.exports = exercise_json;
