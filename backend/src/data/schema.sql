@@ -776,7 +776,8 @@ CREATE TABLE public.exercise (
     body_part public.body_part_enum NOT NULL,
     exercise_type public.exercise_type_enum NOT NULL,
     name character varying NOT NULL,
-    count integer NOT NULL
+    count integer NOT NULL,
+    elite_strength_baseline integer NOT NULL
 );
 
 
@@ -1013,9 +1014,9 @@ ALTER SEQUENCE public.user_id_seq OWNED BY public."user".id;
 --
 
 CREATE TABLE public.workout_plan_exercise (
+    exercise_id integer NOT NULL,
     sets integer NOT NULL,
-    reps integer NOT NULL,
-    exercise_id integer NOT NULL
+    reps integer NOT NULL
 );
 
 
@@ -1363,41 +1364,6 @@ CREATE INDEX workout_plan_exercise_exercise_id_idx ON public.workout_plan_exerci
 
 
 --
--- Name: workout_plan_exercise_exercise_id_idx1; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX workout_plan_exercise_exercise_id_idx1 ON public.workout_plan_exercise USING btree (exercise_id);
-
-
---
--- Name: workout_plan_exercise_exercise_id_idx2; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX workout_plan_exercise_exercise_id_idx2 ON public.workout_plan_exercise USING btree (exercise_id);
-
-
---
--- Name: workout_plan_exercise_exercise_id_idx3; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX workout_plan_exercise_exercise_id_idx3 ON public.workout_plan_exercise USING btree (exercise_id);
-
-
---
--- Name: workout_plan_exercise_exercise_id_idx4; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX workout_plan_exercise_exercise_id_idx4 ON public.workout_plan_exercise USING btree (exercise_id);
-
-
---
--- Name: workout_plan_exercise_exercise_id_idx5; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX workout_plan_exercise_exercise_id_idx5 ON public.workout_plan_exercise USING btree (exercise_id);
-
-
---
 -- Name: workout_plan_user_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1589,47 +1555,7 @@ ALTER TABLE ONLY public."user"
 --
 
 ALTER TABLE ONLY public.workout_plan_exercise
-    ADD CONSTRAINT workout_plan_exercise_exercise_id_fkey FOREIGN KEY (exercise_id) REFERENCES public.exercise(id);
-
-
---
--- Name: workout_plan_exercise workout_plan_exercise_exercise_id_fkey1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.workout_plan_exercise
-    ADD CONSTRAINT workout_plan_exercise_exercise_id_fkey1 FOREIGN KEY (exercise_id) REFERENCES public.exercise(id);
-
-
---
--- Name: workout_plan_exercise workout_plan_exercise_exercise_id_fkey2; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.workout_plan_exercise
-    ADD CONSTRAINT workout_plan_exercise_exercise_id_fkey2 FOREIGN KEY (exercise_id) REFERENCES public.exercise(id);
-
-
---
--- Name: workout_plan_exercise workout_plan_exercise_exercise_id_fkey3; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.workout_plan_exercise
-    ADD CONSTRAINT workout_plan_exercise_exercise_id_fkey3 FOREIGN KEY (exercise_id) REFERENCES public.exercise(id);
-
-
---
--- Name: workout_plan_exercise workout_plan_exercise_exercise_id_fkey4; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.workout_plan_exercise
-    ADD CONSTRAINT workout_plan_exercise_exercise_id_fkey4 FOREIGN KEY (exercise_id) REFERENCES public.exercise(id);
-
-
---
--- Name: workout_plan_exercise workout_plan_exercise_exercise_id_fkey5; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.workout_plan_exercise
-    ADD CONSTRAINT workout_plan_exercise_exercise_id_fkey5 FOREIGN KEY (exercise_id) REFERENCES public.exercise(id);
+    ADD CONSTRAINT workout_plan_exercise_exercise_id_fkey FOREIGN KEY (exercise_id) REFERENCES public.exercise(id) ON DELETE CASCADE;
 
 
 --
@@ -1914,14 +1840,6 @@ CREATE POLICY user_update ON public."user" FOR UPDATE TO query_sender USING ((id
 --
 
 ALTER TABLE public.workout_plan ENABLE ROW LEVEL SECURITY;
-
---
--- Name: workout_plan workout_plan_create_policy; Type: POLICY; Schema: public; Owner: -
---
-
-CREATE POLICY workout_plan_create_policy ON public.workout_plan FOR INSERT WITH CHECK ((user_id = ( SELECT active_user.id
-   FROM public.active_user() active_user(username, password, groupname, created_at, updated_at, id))));
-
 
 --
 -- Name: workout_plan workout_plan_delete_policy; Type: POLICY; Schema: public; Owner: -

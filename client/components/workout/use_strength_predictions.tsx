@@ -26,7 +26,7 @@ type predictions = {
   percentile: number;
 }
 
-const useRelativeStrength = (
+const useStrengthPredictions = (
   input_repetitions: number | undefined,
   input_weight: number | undefined,
   input_exercise_slug: number,
@@ -44,4 +44,4 @@ const useRelativeStrength = (
   }, []);
   return predictions
 };
-export default useRelativeStrength;
+export default useStrengthPredictions;

@@ -1,3 +1,4 @@
+const strength_json = require('./exercises.json')
 var exercise_json = {
   exerciseGroups: [
     {
@@ -3041,8 +3042,8 @@ function generatePrunedJson() {
     .flatMap((group) => group.exercises)
     .sort((a, b) => b.count - a.count)
     .map((exercise, id) => {
-      const { bodyPart, type, name, count, exerciseAliases } = exercise;
-      return { bodyPart, type, name, count, exerciseAliases, id };
+      const { bodyPart, type, name, count, exerciseAliases, stringId} = exercise;
+      return { bodyPart, type, name, count, exerciseAliases, id, eliteStrengthBaseline: parseInt(strength_json[stringId])};
     });
 }
 function generateSQL() {
@@ -3059,5 +3060,5 @@ function generateSQL() {
     }
   }
 }
-generateSQL()
+console.log(generatePrunedJson())
 module.exports = exercise_json;
