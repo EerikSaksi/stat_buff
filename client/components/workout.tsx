@@ -4,22 +4,31 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { gql, useQuery } from "@apollo/client";
 import WorkoutExercise from "./workout/workout_exercise";
 const FETCH_WORKOUT_PLAN = gql`
-  query{
-    activeUser{
-      userCurrentWorkoutPlan{
-        workoutPlan{
-          workoutExercises{
-            sets
-            reps
-            exercise{
-              name
-              id
+query {
+  activeUser {
+    nodeId
+    userCurrentWorkoutPlan {
+      nodeId
+      workoutPlan {
+        nodeId
+        workoutPlanDays {
+          nodes {
+            nodeId
+            workoutExercises {
+              sets
+              reps
+              exercise {
+                nodeId
+                name
+                id
+              }
             }
           }
         }
       }
     }
   }
+}
 `;
 const Workout: React.FC = () => {
   const { data } = useQuery(FETCH_WORKOUT_PLAN);

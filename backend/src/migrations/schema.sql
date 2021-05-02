@@ -17,13 +17,6 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: postgraphile_watch; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA postgraphile_watch;
-
-
---
 -- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -107,48 +100,6 @@ CREATE TYPE public.volume AS (
 	sets integer,
 	reps integer
 );
-
-
---
--- Name: notify_watchers_ddl(); Type: FUNCTION; Schema: postgraphile_watch; Owner: -
---
-
-CREATE FUNCTION postgraphile_watch.notify_watchers_ddl() RETURNS event_trigger
-    LANGUAGE plpgsql
-    AS $$
-begin
-  perform pg_notify(
-    'postgraphile_watch',
-    json_build_object(
-      'type',
-      'ddl',
-      'payload',
-      (select json_agg(json_build_object('schema', schema_name, 'command', command_tag)) from pg_event_trigger_ddl_commands() as x)
-    )::text
-  );
-end;
-$$;
-
-
---
--- Name: notify_watchers_drop(); Type: FUNCTION; Schema: postgraphile_watch; Owner: -
---
-
-CREATE FUNCTION postgraphile_watch.notify_watchers_drop() RETURNS event_trigger
-    LANGUAGE plpgsql
-    AS $$
-begin
-  perform pg_notify(
-    'postgraphile_watch',
-    json_build_object(
-      'type',
-      'drop',
-      'payload',
-      (select json_agg(distinct x.schema_name) from pg_event_trigger_dropped_objects() as x)
-    )::text
-  );
-end;
-$$;
 
 
 SET default_tablespace = '';
@@ -1087,7 +1038,8 @@ ALTER SEQUENCE public.user_id_seq OWNED BY public."user".id;
 
 CREATE TABLE public.workout_plan (
     id integer NOT NULL,
-    created_at timestamp with time zone DEFAULT now() NOT NULL
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    user_id integer
 );
 
 
@@ -1108,9 +1060,9 @@ CREATE TABLE public.workout_plan_exercise (
 
 CREATE TABLE public.workout_plan_day (
     id integer NOT NULL,
-    user_id integer NOT NULL,
     workout_exercises public.workout_plan_exercise[] NOT NULL,
-    workout_plan_id integer
+    workout_plan_id integer,
+    name character varying NOT NULL
 );
 
 
@@ -1152,26 +1104,6 @@ CREATE SEQUENCE public.workout_plan_id_seq1
 --
 
 ALTER SEQUENCE public.workout_plan_id_seq1 OWNED BY public.workout_plan.id;
-
-
---
--- Name: workout_plan_user_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.workout_plan_user_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: workout_plan_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.workout_plan_user_id_seq OWNED BY public.workout_plan_day.user_id;
 
 
 --
@@ -1256,13 +1188,6 @@ ALTER TABLE ONLY public.workout_plan ALTER COLUMN id SET DEFAULT nextval('public
 --
 
 ALTER TABLE ONLY public.workout_plan_day ALTER COLUMN id SET DEFAULT nextval('public.workout_plan_id_seq'::regclass);
-
-
---
--- Name: workout_plan_day user_id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.workout_plan_day ALTER COLUMN user_id SET DEFAULT nextval('public.workout_plan_user_id_seq'::regclass);
 
 
 --
@@ -1367,6 +1292,14 @@ ALTER TABLE ONLY public.user_exercise
 
 ALTER TABLE ONLY public."user"
     ADD CONSTRAINT user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: workout_plan_day workout_plan_day_name_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.workout_plan_day
+    ADD CONSTRAINT workout_plan_day_name_key UNIQUE (name);
 
 
 --
@@ -1526,59 +1459,10 @@ CREATE INDEX workout_plan_day_workout_plan_id_idx ON public.workout_plan_day USI
 
 
 --
--- Name: workout_plan_day_workout_plan_id_idx1; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX workout_plan_day_workout_plan_id_idx1 ON public.workout_plan_day USING btree (workout_plan_id);
-
-
---
--- Name: workout_plan_day_workout_plan_id_idx2; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX workout_plan_day_workout_plan_id_idx2 ON public.workout_plan_day USING btree (workout_plan_id);
-
-
---
--- Name: workout_plan_day_workout_plan_id_idx3; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX workout_plan_day_workout_plan_id_idx3 ON public.workout_plan_day USING btree (workout_plan_id);
-
-
---
--- Name: workout_plan_day_workout_plan_id_idx4; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX workout_plan_day_workout_plan_id_idx4 ON public.workout_plan_day USING btree (workout_plan_id);
-
-
---
--- Name: workout_plan_day_workout_plan_id_idx5; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX workout_plan_day_workout_plan_id_idx5 ON public.workout_plan_day USING btree (workout_plan_id);
-
-
---
--- Name: workout_plan_day_workout_plan_id_idx6; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX workout_plan_day_workout_plan_id_idx6 ON public.workout_plan_day USING btree (workout_plan_id);
-
-
---
 -- Name: workout_plan_exercise_exercise_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX workout_plan_exercise_exercise_id_idx ON public.workout_plan_exercise USING btree (exercise_id);
-
-
---
--- Name: workout_plan_user_id_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX workout_plan_user_id_idx ON public.workout_plan_day USING btree (user_id);
 
 
 --
@@ -1794,11 +1678,11 @@ ALTER TABLE ONLY public.workout_plan_exercise
 
 
 --
--- Name: workout_plan_day workout_plan_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: workout_plan workout_plan_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.workout_plan_day
-    ADD CONSTRAINT workout_plan_user_id_fkey FOREIGN KEY (user_id) REFERENCES public."user"(id);
+ALTER TABLE ONLY public.workout_plan
+    ADD CONSTRAINT workout_plan_user_id_fkey FOREIGN KEY (user_id) REFERENCES public."user"(id) ON DELETE CASCADE;
 
 
 --
@@ -2077,34 +1961,10 @@ CREATE POLICY user_update ON public."user" FOR UPDATE TO query_sender USING ((id
 ALTER TABLE public.workout_plan_day ENABLE ROW LEVEL SECURITY;
 
 --
--- Name: workout_plan_day workout_plan_delete_policy; Type: POLICY; Schema: public; Owner: -
---
-
-CREATE POLICY workout_plan_delete_policy ON public.workout_plan_day FOR DELETE USING ((user_id = ( SELECT active_user.id
-   FROM public.active_user() active_user(username, password, groupname, created_at, updated_at, id))));
-
-
---
--- Name: workout_plan_day workout_plan_insert_policy; Type: POLICY; Schema: public; Owner: -
---
-
-CREATE POLICY workout_plan_insert_policy ON public.workout_plan_day FOR INSERT WITH CHECK ((user_id = ( SELECT active_user.id
-   FROM public.active_user() active_user(username, password, groupname, created_at, updated_at, id))));
-
-
---
 -- Name: workout_plan_day workout_plan_select_policy; Type: POLICY; Schema: public; Owner: -
 --
 
 CREATE POLICY workout_plan_select_policy ON public.workout_plan_day FOR SELECT USING (true);
-
-
---
--- Name: workout_plan_day workout_plan_update_policy; Type: POLICY; Schema: public; Owner: -
---
-
-CREATE POLICY workout_plan_update_policy ON public.workout_plan_day FOR UPDATE USING ((user_id = ( SELECT active_user.id
-   FROM public.active_user() active_user(username, password, groupname, created_at, updated_at, id))));
 
 
 --
@@ -2266,23 +2126,6 @@ GRANT ALL ON TABLE public.workout_plan_day TO PUBLIC;
 --
 
 GRANT ALL ON SEQUENCE public.workout_plan_id_seq TO PUBLIC;
-
-
---
--- Name: postgraphile_watch_ddl; Type: EVENT TRIGGER; Schema: -; Owner: -
---
-
-CREATE EVENT TRIGGER postgraphile_watch_ddl ON ddl_command_end
-         WHEN TAG IN ('ALTER AGGREGATE', 'ALTER DOMAIN', 'ALTER EXTENSION', 'ALTER FOREIGN TABLE', 'ALTER FUNCTION', 'ALTER POLICY', 'ALTER SCHEMA', 'ALTER TABLE', 'ALTER TYPE', 'ALTER VIEW', 'COMMENT', 'CREATE AGGREGATE', 'CREATE DOMAIN', 'CREATE EXTENSION', 'CREATE FOREIGN TABLE', 'CREATE FUNCTION', 'CREATE INDEX', 'CREATE POLICY', 'CREATE RULE', 'CREATE SCHEMA', 'CREATE TABLE', 'CREATE TABLE AS', 'CREATE VIEW', 'DROP AGGREGATE', 'DROP DOMAIN', 'DROP EXTENSION', 'DROP FOREIGN TABLE', 'DROP FUNCTION', 'DROP INDEX', 'DROP OWNED', 'DROP POLICY', 'DROP RULE', 'DROP SCHEMA', 'DROP TABLE', 'DROP TYPE', 'DROP VIEW', 'GRANT', 'REVOKE', 'SELECT INTO')
-   EXECUTE FUNCTION postgraphile_watch.notify_watchers_ddl();
-
-
---
--- Name: postgraphile_watch_drop; Type: EVENT TRIGGER; Schema: -; Owner: -
---
-
-CREATE EVENT TRIGGER postgraphile_watch_drop ON sql_drop
-   EXECUTE FUNCTION postgraphile_watch.notify_watchers_drop();
 
 
 --
