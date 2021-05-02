@@ -1,26 +1,27 @@
-import React, { useState, useCallback } from "react";
-import { List, TextInput } from "react-native-paper";
+import React, { useState } from "react";
+import { List } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { gql, useQuery } from "@apollo/client";
 import WorkoutExercise from "./workout/workout_exercise";
 const FETCH_WORKOUT_PLAN = gql`
-query {
-  activeUser {
-    nodeId
-    userCurrentWorkoutPlan {
+  query {
+    activeUser {
       nodeId
-      workoutPlan {
+      userCurrentWorkoutPlan {
         nodeId
-        workoutPlanDays {
-          nodes {
-            nodeId
-            workoutExercises {
-              sets
-              reps
-              exercise {
-                nodeId
-                name
-                id
+        workoutPlan {
+          nodeId
+          workoutPlanDays {
+            nodes {
+              nodeId
+              workoutExercises {
+                sets
+                reps
+                exercise {
+                  nodeId
+                  name
+                  id
+                }
               }
             }
           }
@@ -28,8 +29,8 @@ query {
       }
     }
   }
-}
 `;
+
 const Workout: React.FC = () => {
   const { data } = useQuery(FETCH_WORKOUT_PLAN);
   const [expandedId, setExpandedId] = useState(1);
@@ -44,8 +45,14 @@ const Workout: React.FC = () => {
         }}
       >
         {data
-          ? data.activeUser.userCurrentWorkoutPlan.workoutPlan.workoutExercises.map((wE, id) => (
-              <WorkoutExercise name={wE.exercise.name} sets={wE.sets} targetReps={wE.reps} accordionId={id + 1} exerciseId = {wE.exercise.id} />
+          ? data.activeUser.userCurrentWorkoutPlan.workoutPlan.workoutPlanDays.nodes[0].workoutExercises.map((wE, id) => (
+              <WorkoutExercise
+                name={wE.exercise.name}
+                sets={wE.sets}
+                targetReps={wE.reps}
+                accordionId={id + 1}
+                exerciseId={wE.exercise.id}
+              />
             ))
           : undefined}
       </List.AccordionGroup>
