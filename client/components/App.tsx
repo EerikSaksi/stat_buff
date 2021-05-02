@@ -3,11 +3,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import User from "./user";
 import Group from "./group";
-import Workout from "./workout";
 import { visibleSection } from "../apollo/cache";
 import useAnalyticsSender from "./analytics/use_analytics_sender";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Linking, Platform } from "react-native";
+import { Platform } from "react-native";
+import WorkoutPlanPicker from "./workout_plan_picker";
 const Tab = createBottomTabNavigator();
 
 const PERSISTENCE_KEY = "NAVIGATION_STATE";
@@ -59,7 +59,7 @@ const App: React.FC<{ username: string }> = ({ username }) => {
       <Tab.Navigator>
         <Tab.Screen name="User" component={User} initialParams={{ username }} />
         <Tab.Screen name="Group" component={Group} initialParams={{ username }} />
-        <Tab.Screen name="Workout" component={Workout} initialParams={{ username }} />
+        <Tab.Screen name="Workout" component={WorkoutPlanPicker} />
       </Tab.Navigator>
     </NavigationContainer>
   );
