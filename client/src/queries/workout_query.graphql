@@ -1,0 +1,48 @@
+query Workout{
+  activeUser {
+    nodeId
+    userCurrentWorkoutPlan {
+      nodeId
+      workoutPlan {
+        nodeId
+        name
+        workoutPlanDays {
+          nodes {
+            nodeId
+            name
+            workoutExercises {
+              sets
+              reps
+              exercise {
+                nodeId
+                name
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+    workoutPlans {
+      nodes {
+        nodeId
+        name
+        workoutPlanDays {
+          nodes {
+            nodeId
+            name
+            workoutExercises {
+              sets
+              reps
+              exercise {
+                nodeId
+                name
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "main": "./apollo/wrapper.tsx",
+  "main": "./src/apollo/wrapper.tsx",
   "scripts": {
     "start": "expo start --android",
     "android": "expo start --android --localhost",
