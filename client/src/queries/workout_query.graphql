@@ -1,3 +1,16 @@
+fragment WorkoutDayFields on WorkoutPlanDay{
+  nodeId
+  name
+  workoutExercises {
+    sets
+    reps
+    exercise {
+      nodeId
+      name
+      id
+    }
+  }
+}
 query Workout{
   activeUser {
     nodeId
@@ -8,17 +21,7 @@ query Workout{
         name
         workoutPlanDays {
           nodes {
-            nodeId
-            name
-            workoutExercises {
-              sets
-              reps
-              exercise {
-                nodeId
-                name
-                id
-              }
-            }
+            ...WorkoutDayFields
           }
         }
       }
@@ -46,3 +49,4 @@ query Workout{
     }
   }
 }
+

@@ -24,7 +24,6 @@ export type Scalars = {
 };
 
 export type Battle = Node & {
-  __typename?: 'Battle';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
   enemyLevel: Scalars['Int'];
@@ -103,7 +102,6 @@ export type BattlePatch = {
 
 /** A connection to a list of `Battle` values. */
 export type BattlesConnection = {
-  __typename?: 'BattlesConnection';
   /** A list of `Battle` objects. */
   nodes: Array<Battle>;
   /** A list of edges which contains the `Battle` and cursor to aid in pagination. */
@@ -116,7 +114,6 @@ export type BattlesConnection = {
 
 /** A `Battle` edge in the connection. */
 export type BattlesEdge = {
-  __typename?: 'BattlesEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `Battle` at the end of the edge. */
@@ -148,7 +145,6 @@ export enum BodyPartEnum {
 }
 
 export type Bodystat = Node & {
-  __typename?: 'Bodystat';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
   username: Scalars['String'];
@@ -206,7 +202,6 @@ export type BodystatPatch = {
 
 /** A connection to a list of `Bodystat` values. */
 export type BodystatsConnection = {
-  __typename?: 'BodystatsConnection';
   /** A list of `Bodystat` objects. */
   nodes: Array<Bodystat>;
   /** A list of edges which contains the `Bodystat` and cursor to aid in pagination. */
@@ -219,7 +214,6 @@ export type BodystatsConnection = {
 
 /** A `Bodystat` edge in the connection. */
 export type BodystatsEdge = {
-  __typename?: 'BodystatsEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `Bodystat` at the end of the edge. */
@@ -238,7 +232,6 @@ export enum BodystatsOrderBy {
 }
 
 export type ChatMessage = Node & {
-  __typename?: 'ChatMessage';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
   id: Scalars['Int'];
@@ -307,7 +300,6 @@ export type ChatMessagePatch = {
 
 /** A connection to a list of `ChatMessage` values. */
 export type ChatMessagesConnection = {
-  __typename?: 'ChatMessagesConnection';
   /** A list of `ChatMessage` objects. */
   nodes: Array<ChatMessage>;
   /** A list of edges which contains the `ChatMessage` and cursor to aid in pagination. */
@@ -320,7 +312,6 @@ export type ChatMessagesConnection = {
 
 /** A `ChatMessage` edge in the connection. */
 export type ChatMessagesEdge = {
-  __typename?: 'ChatMessagesEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `ChatMessage` at the end of the edge. */
@@ -343,7 +334,6 @@ export enum ChatMessagesOrderBy {
 }
 
 export type CompletedWorkout = Node & {
-  __typename?: 'CompletedWorkout';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
   id: Scalars['Int'];
@@ -373,7 +363,6 @@ export type CompletedWorkoutCondition = {
 };
 
 export type CompletedWorkoutExercise = Node & {
-  __typename?: 'CompletedWorkoutExercise';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
   id: Scalars['Int'];
@@ -436,7 +425,6 @@ export type CompletedWorkoutExercisePatch = {
 
 /** A connection to a list of `CompletedWorkoutExercise` values. */
 export type CompletedWorkoutExercisesConnection = {
-  __typename?: 'CompletedWorkoutExercisesConnection';
   /** A list of `CompletedWorkoutExercise` objects. */
   nodes: Array<CompletedWorkoutExercise>;
   /** A list of edges which contains the `CompletedWorkoutExercise` and cursor to aid in pagination. */
@@ -449,7 +437,6 @@ export type CompletedWorkoutExercisesConnection = {
 
 /** A `CompletedWorkoutExercise` edge in the connection. */
 export type CompletedWorkoutExercisesEdge = {
-  __typename?: 'CompletedWorkoutExercisesEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `CompletedWorkoutExercise` at the end of the edge. */
@@ -493,7 +480,6 @@ export type CompletedWorkoutPatch = {
 
 /** A connection to a list of `CompletedWorkout` values. */
 export type CompletedWorkoutsConnection = {
-  __typename?: 'CompletedWorkoutsConnection';
   /** A list of `CompletedWorkout` objects. */
   nodes: Array<CompletedWorkout>;
   /** A list of edges which contains the `CompletedWorkout` and cursor to aid in pagination. */
@@ -506,7 +492,6 @@ export type CompletedWorkoutsConnection = {
 
 /** A `CompletedWorkout` edge in the connection. */
 export type CompletedWorkoutsEdge = {
-  __typename?: 'CompletedWorkoutsEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `CompletedWorkout` at the end of the edge. */
@@ -535,7 +520,6 @@ export type CreateBodystatInput = {
 
 /** The output of our create `Bodystat` mutation. */
 export type CreateBodystatPayload = {
-  __typename?: 'CreateBodystatPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -570,7 +554,6 @@ export type CreateChatMessageInput = {
 
 /** The output of our create `ChatMessage` mutation. */
 export type CreateChatMessagePayload = {
-  __typename?: 'CreateChatMessagePayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -607,7 +590,6 @@ export type CreateCompletedWorkoutExerciseInput = {
 
 /** The output of our create `CompletedWorkoutExercise` mutation. */
 export type CreateCompletedWorkoutExercisePayload = {
-  __typename?: 'CreateCompletedWorkoutExercisePayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -644,7 +626,6 @@ export type CreateCompletedWorkoutInput = {
 
 /** The output of our create `CompletedWorkout` mutation. */
 export type CreateCompletedWorkoutPayload = {
-  __typename?: 'CreateCompletedWorkoutPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -677,7 +658,6 @@ export type CreateExerciseInput = {
 
 /** The output of our create `Exercise` mutation. */
 export type CreateExercisePayload = {
-  __typename?: 'CreateExercisePayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -710,7 +690,6 @@ export type CreateGroupInput = {
 
 /** The output of our create `Group` mutation. */
 export type CreateGroupPayload = {
-  __typename?: 'CreateGroupPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -745,7 +724,6 @@ export type CreateSessionAnalyticInput = {
 
 /** The output of our create `SessionAnalytic` mutation. */
 export type CreateSessionAnalyticPayload = {
-  __typename?: 'CreateSessionAnalyticPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -780,7 +758,6 @@ export type CreateUserCurrentWorkoutPlanInput = {
 
 /** The output of our create `UserCurrentWorkoutPlan` mutation. */
 export type CreateUserCurrentWorkoutPlanPayload = {
-  __typename?: 'CreateUserCurrentWorkoutPlanPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -817,7 +794,6 @@ export type CreateUserExerciseInput = {
 
 /** The output of our create `UserExercise` mutation. */
 export type CreateUserExercisePayload = {
-  __typename?: 'CreateUserExercisePayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -854,7 +830,6 @@ export type CreateUserInput = {
 
 /** The output of our `createUser` mutation. */
 export type CreateUserPayload = {
-  __typename?: 'CreateUserPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -877,7 +852,6 @@ export type CreateWorkoutPlanDayInput = {
 
 /** The output of our create `WorkoutPlanDay` mutation. */
 export type CreateWorkoutPlanDayPayload = {
-  __typename?: 'CreateWorkoutPlanDayPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -912,7 +886,6 @@ export type CreateWorkoutPlanExerciseInput = {
 
 /** The output of our create `WorkoutPlanExercise` mutation. */
 export type CreateWorkoutPlanExercisePayload = {
-  __typename?: 'CreateWorkoutPlanExercisePayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -947,7 +920,6 @@ export type CreateWorkoutPlanInput = {
 
 /** The output of our create `WorkoutPlan` mutation. */
 export type CreateWorkoutPlanPayload = {
-  __typename?: 'CreateWorkoutPlanPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -995,7 +967,6 @@ export type DeleteBattleInput = {
 
 /** The output of our delete `Battle` mutation. */
 export type DeleteBattlePayload = {
-  __typename?: 'DeleteBattlePayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1043,7 +1014,6 @@ export type DeleteBodystatInput = {
 
 /** The output of our delete `Bodystat` mutation. */
 export type DeleteBodystatPayload = {
-  __typename?: 'DeleteBodystatPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1089,7 +1059,6 @@ export type DeleteChatMessageInput = {
 
 /** The output of our delete `ChatMessage` mutation. */
 export type DeleteChatMessagePayload = {
-  __typename?: 'DeleteChatMessagePayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1148,7 +1117,6 @@ export type DeleteCompletedWorkoutExerciseInput = {
 
 /** The output of our delete `CompletedWorkoutExercise` mutation. */
 export type DeleteCompletedWorkoutExercisePayload = {
-  __typename?: 'DeleteCompletedWorkoutExercisePayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1185,7 +1153,6 @@ export type DeleteCompletedWorkoutInput = {
 
 /** The output of our delete `CompletedWorkout` mutation. */
 export type DeleteCompletedWorkoutPayload = {
-  __typename?: 'DeleteCompletedWorkoutPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1229,7 +1196,6 @@ export type DeleteExerciseInput = {
 
 /** The output of our delete `Exercise` mutation. */
 export type DeleteExercisePayload = {
-  __typename?: 'DeleteExercisePayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1273,7 +1239,6 @@ export type DeleteGroupInput = {
 
 /** The output of our delete `Group` mutation. */
 export type DeleteGroupPayload = {
-  __typename?: 'DeleteGroupPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1319,7 +1284,6 @@ export type DeleteSessionAnalyticInput = {
 
 /** The output of our delete `SessionAnalytic` mutation. */
 export type DeleteSessionAnalyticPayload = {
-  __typename?: 'DeleteSessionAnalyticPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1386,7 +1350,6 @@ export type DeleteUserCurrentWorkoutPlanInput = {
 
 /** The output of our delete `UserCurrentWorkoutPlan` mutation. */
 export type DeleteUserCurrentWorkoutPlanPayload = {
-  __typename?: 'DeleteUserCurrentWorkoutPlanPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1435,7 +1398,6 @@ export type DeleteUserExerciseInput = {
 
 /** The output of our delete `UserExercise` mutation. */
 export type DeleteUserExercisePayload = {
-  __typename?: 'DeleteUserExercisePayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1472,7 +1434,6 @@ export type DeleteUserInput = {
 
 /** The output of our delete `User` mutation. */
 export type DeleteUserPayload = {
-  __typename?: 'DeleteUserPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1551,7 +1512,6 @@ export type DeleteWorkoutPlanDayInput = {
 
 /** The output of our delete `WorkoutPlanDay` mutation. */
 export type DeleteWorkoutPlanDayPayload = {
-  __typename?: 'DeleteWorkoutPlanDayPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1586,7 +1546,6 @@ export type DeleteWorkoutPlanInput = {
 
 /** The output of our delete `WorkoutPlan` mutation. */
 export type DeleteWorkoutPlanPayload = {
-  __typename?: 'DeleteWorkoutPlanPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1611,7 +1570,6 @@ export type DeleteWorkoutPlanPayloadWorkoutPlanEdgeArgs = {
 
 /** A connection to a list of `Enemy` values. */
 export type EnemiesConnection = {
-  __typename?: 'EnemiesConnection';
   /** A list of `Enemy` objects. */
   nodes: Array<Enemy>;
   /** A list of edges which contains the `Enemy` and cursor to aid in pagination. */
@@ -1624,7 +1582,6 @@ export type EnemiesConnection = {
 
 /** A `Enemy` edge in the connection. */
 export type EnemiesEdge = {
-  __typename?: 'EnemiesEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `Enemy` at the end of the edge. */
@@ -1641,7 +1598,6 @@ export enum EnemiesOrderBy {
 }
 
 export type Enemy = Node & {
-  __typename?: 'Enemy';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
   level: Scalars['Int'];
@@ -1682,7 +1638,6 @@ export type EnemyFilter = {
 };
 
 export type Exercise = Node & {
-  __typename?: 'Exercise';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
   id: Scalars['Int'];
@@ -1722,7 +1677,6 @@ export type ExerciseCompletedWorkoutExercisesArgs = {
 };
 
 export type ExerciseAlias = {
-  __typename?: 'ExerciseAlias';
   id?: Maybe<Scalars['Int']>;
   name: Scalars['String'];
 };
@@ -1750,7 +1704,6 @@ export type ExerciseAliasFilter = {
 
 /** A connection to a list of `ExerciseAlias` values. */
 export type ExerciseAliasesConnection = {
-  __typename?: 'ExerciseAliasesConnection';
   /** A list of `ExerciseAlias` objects. */
   nodes: Array<ExerciseAlias>;
   /** A list of edges which contains the `ExerciseAlias` and cursor to aid in pagination. */
@@ -1763,7 +1716,6 @@ export type ExerciseAliasesConnection = {
 
 /** A `ExerciseAlias` edge in the connection. */
 export type ExerciseAliasesEdge = {
-  __typename?: 'ExerciseAliasesEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `ExerciseAlias` at the end of the edge. */
@@ -1829,7 +1781,6 @@ export enum ExerciseTypeEnum {
 
 /** A connection to a list of `Exercise` values. */
 export type ExercisesConnection = {
-  __typename?: 'ExercisesConnection';
   /** A list of `Exercise` objects. */
   nodes: Array<Exercise>;
   /** A list of edges which contains the `Exercise` and cursor to aid in pagination. */
@@ -1842,7 +1793,6 @@ export type ExercisesConnection = {
 
 /** A `Exercise` edge in the connection. */
 export type ExercisesEdge = {
-  __typename?: 'ExercisesEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `Exercise` at the end of the edge. */
@@ -1869,7 +1819,6 @@ export type GetBattleAndCheckExpiryInput = {
 
 /** The output of our `getBattleAndCheckExpiry` mutation. */
 export type GetBattleAndCheckExpiryPayload = {
-  __typename?: 'GetBattleAndCheckExpiryPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1893,7 +1842,6 @@ export type GetBattleAndCheckExpiryPayloadBattleEdgeArgs = {
 };
 
 export type Group = Node & {
-  __typename?: 'Group';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
   name: Scalars['String'];
@@ -1976,7 +1924,6 @@ export type GroupInput = {
 
 /** A connection to a list of `Group` values. */
 export type GroupsConnection = {
-  __typename?: 'GroupsConnection';
   /** A list of `Group` objects. */
   nodes: Array<Group>;
   /** A list of edges which contains the `Group` and cursor to aid in pagination. */
@@ -1989,7 +1936,6 @@ export type GroupsConnection = {
 
 /** A `Group` edge in the connection. */
 export type GroupsEdge = {
-  __typename?: 'GroupsEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `Group` at the end of the edge. */
@@ -2044,7 +1990,6 @@ export type JoinGroupInput = {
 
 /** The output of our `joinGroup` mutation. */
 export type JoinGroupPayload = {
-  __typename?: 'JoinGroupPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -2066,7 +2011,6 @@ export type JoinRandomPublicGroupInput = {
 
 /** The output of our `joinRandomPublicGroup` mutation. */
 export type JoinRandomPublicGroupPayload = {
-  __typename?: 'JoinRandomPublicGroupPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -2078,7 +2022,6 @@ export type JoinRandomPublicGroupPayload = {
 };
 
 export type ListenPayload = {
-  __typename?: 'ListenPayload';
   /** Our root query field type. Allows us to run any query from our subscription payload. */
   query?: Maybe<Query>;
   relatedNode?: Maybe<Node>;
@@ -2087,7 +2030,6 @@ export type ListenPayload = {
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type Mutation = {
-  __typename?: 'Mutation';
   /** Creates a single `Bodystat`. */
   createBodystat?: Maybe<CreateBodystatPayload>;
   /** Creates a single `ChatMessage`. */
@@ -2686,7 +2628,6 @@ export type NullifyGroupInput = {
 
 /** The output of our `nullifyGroup` mutation. */
 export type NullifyGroupPayload = {
-  __typename?: 'NullifyGroupPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -2698,7 +2639,6 @@ export type NullifyGroupPayload = {
 
 /** Information about pagination in a connection. */
 export type PageInfo = {
-  __typename?: 'PageInfo';
   /** When paginating forwards, are there more items? */
   hasNextPage: Scalars['Boolean'];
   /** When paginating backwards, are there more items? */
@@ -2711,7 +2651,6 @@ export type PageInfo = {
 
 /** The root query type which gives access points into the data universe. */
 export type Query = Node & {
-  __typename?: 'Query';
   /**
    * Exposes the root query type nested one level down. This is helpful for Relay 1
    * which can only query top level fields if they are in a particular form.
@@ -3201,7 +3140,6 @@ export type QueryCalculateStrengthArgs = {
 };
 
 export type SectionAndTimeSpent = {
-  __typename?: 'SectionAndTimeSpent';
   section?: Maybe<Scalars['String']>;
   timeSpent?: Maybe<Scalars['Float']>;
 };
@@ -3213,7 +3151,6 @@ export type SectionAndTimeSpentInput = {
 };
 
 export type SessionAnalytic = Node & {
-  __typename?: 'SessionAnalytic';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
   id: Scalars['Int'];
@@ -3273,7 +3210,6 @@ export type SessionAnalyticPatch = {
 
 /** A connection to a list of `SessionAnalytic` values. */
 export type SessionAnalyticsConnection = {
-  __typename?: 'SessionAnalyticsConnection';
   /** A list of `SessionAnalytic` objects. */
   nodes: Array<SessionAnalytic>;
   /** A list of edges which contains the `SessionAnalytic` and cursor to aid in pagination. */
@@ -3286,7 +3222,6 @@ export type SessionAnalyticsConnection = {
 
 /** A `SessionAnalytic` edge in the connection. */
 export type SessionAnalyticsEdge = {
-  __typename?: 'SessionAnalyticsEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `SessionAnalytic` at the end of the edge. */
@@ -3307,7 +3242,6 @@ export enum SessionAnalyticsOrderBy {
 }
 
 export type Strengthstat = {
-  __typename?: 'Strengthstat';
   averageStrength?: Maybe<Scalars['BigFloat']>;
   numExercises?: Maybe<Scalars['BigFloat']>;
   dph?: Maybe<Scalars['BigFloat']>;
@@ -3393,7 +3327,6 @@ export type StringFilter = {
 
 /** The root subscription type: contains realtime events you can subscribe to with the `subscription` operation. */
 export type Subscription = {
-  __typename?: 'Subscription';
   listen: ListenPayload;
 };
 
@@ -3431,7 +3364,6 @@ export type UpdateBattleInput = {
 
 /** The output of our update `Battle` mutation. */
 export type UpdateBattlePayload = {
-  __typename?: 'UpdateBattlePayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -3482,7 +3414,6 @@ export type UpdateBodystatInput = {
 
 /** The output of our update `Bodystat` mutation. */
 export type UpdateBodystatPayload = {
-  __typename?: 'UpdateBodystatPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -3531,7 +3462,6 @@ export type UpdateChatMessageInput = {
 
 /** The output of our update `ChatMessage` mutation. */
 export type UpdateChatMessagePayload = {
-  __typename?: 'UpdateChatMessagePayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -3595,7 +3525,6 @@ export type UpdateCompletedWorkoutExerciseInput = {
 
 /** The output of our update `CompletedWorkoutExercise` mutation. */
 export type UpdateCompletedWorkoutExercisePayload = {
-  __typename?: 'UpdateCompletedWorkoutExercisePayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -3633,7 +3562,6 @@ export type UpdateCompletedWorkoutInput = {
 
 /** The output of our update `CompletedWorkout` mutation. */
 export type UpdateCompletedWorkoutPayload = {
-  __typename?: 'UpdateCompletedWorkoutPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -3680,7 +3608,6 @@ export type UpdateExerciseInput = {
 
 /** The output of our update `Exercise` mutation. */
 export type UpdateExercisePayload = {
-  __typename?: 'UpdateExercisePayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -3727,7 +3654,6 @@ export type UpdateSessionAnalyticInput = {
 
 /** The output of our update `SessionAnalytic` mutation. */
 export type UpdateSessionAnalyticPayload = {
-  __typename?: 'UpdateSessionAnalyticPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -3801,7 +3727,6 @@ export type UpdateUserCurrentWorkoutPlanInput = {
 
 /** The output of our update `UserCurrentWorkoutPlan` mutation. */
 export type UpdateUserCurrentWorkoutPlanPayload = {
-  __typename?: 'UpdateUserCurrentWorkoutPlanPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -3853,7 +3778,6 @@ export type UpdateUserExerciseInput = {
 
 /** The output of our update `UserExercise` mutation. */
 export type UpdateUserExercisePayload = {
-  __typename?: 'UpdateUserExercisePayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -3891,7 +3815,6 @@ export type UpdateUserInput = {
 
 /** The output of our update `User` mutation. */
 export type UpdateUserPayload = {
-  __typename?: 'UpdateUserPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -3979,7 +3902,6 @@ export type UpdateWorkoutPlanDayInput = {
 
 /** The output of our update `WorkoutPlanDay` mutation. */
 export type UpdateWorkoutPlanDayPayload = {
-  __typename?: 'UpdateWorkoutPlanDayPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -4015,7 +3937,6 @@ export type UpdateWorkoutPlanInput = {
 
 /** The output of our update `WorkoutPlan` mutation. */
 export type UpdateWorkoutPlanPayload = {
-  __typename?: 'UpdateWorkoutPlanPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -4038,7 +3959,6 @@ export type UpdateWorkoutPlanPayloadWorkoutPlanEdgeArgs = {
 };
 
 export type User = Node & {
-  __typename?: 'User';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
   username: Scalars['String'];
@@ -4133,7 +4053,6 @@ export type UserCondition = {
 };
 
 export type UserCurrentWorkoutPlan = Node & {
-  __typename?: 'UserCurrentWorkoutPlan';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
   userId: Scalars['Int'];
@@ -4183,7 +4102,6 @@ export type UserCurrentWorkoutPlanPatch = {
 
 /** A connection to a list of `UserCurrentWorkoutPlan` values. */
 export type UserCurrentWorkoutPlansConnection = {
-  __typename?: 'UserCurrentWorkoutPlansConnection';
   /** A list of `UserCurrentWorkoutPlan` objects. */
   nodes: Array<UserCurrentWorkoutPlan>;
   /** A list of edges which contains the `UserCurrentWorkoutPlan` and cursor to aid in pagination. */
@@ -4196,7 +4114,6 @@ export type UserCurrentWorkoutPlansConnection = {
 
 /** A `UserCurrentWorkoutPlan` edge in the connection. */
 export type UserCurrentWorkoutPlansEdge = {
-  __typename?: 'UserCurrentWorkoutPlansEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `UserCurrentWorkoutPlan` at the end of the edge. */
@@ -4215,7 +4132,6 @@ export enum UserCurrentWorkoutPlansOrderBy {
 }
 
 export type UserExercise = Node & {
-  __typename?: 'UserExercise';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
   id: Scalars['Int'];
@@ -4293,7 +4209,6 @@ export type UserExercisePatch = {
 
 /** A connection to a list of `UserExercise` values. */
 export type UserExercisesConnection = {
-  __typename?: 'UserExercisesConnection';
   /** A list of `UserExercise` objects. */
   nodes: Array<UserExercise>;
   /** A list of edges which contains the `UserExercise` and cursor to aid in pagination. */
@@ -4306,7 +4221,6 @@ export type UserExercisesConnection = {
 
 /** A `UserExercise` edge in the connection. */
 export type UserExercisesEdge = {
-  __typename?: 'UserExercisesEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `UserExercise` at the end of the edge. */
@@ -4354,7 +4268,6 @@ export type UserPatch = {
 
 /** A connection to a list of `User` values. */
 export type UsersConnection = {
-  __typename?: 'UsersConnection';
   /** A list of `User` objects. */
   nodes: Array<User>;
   /** A list of edges which contains the `User` and cursor to aid in pagination. */
@@ -4367,7 +4280,6 @@ export type UsersConnection = {
 
 /** A `User` edge in the connection. */
 export type UsersEdge = {
-  __typename?: 'UsersEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `User` at the end of the edge. */
@@ -4388,7 +4300,6 @@ export enum UsersOrderBy {
 }
 
 export type Volume = {
-  __typename?: 'Volume';
   sets?: Maybe<Scalars['Int']>;
   reps?: Maybe<Scalars['Int']>;
 };
@@ -4400,7 +4311,6 @@ export type VolumeInput = {
 };
 
 export type WorkoutPlan = Node & {
-  __typename?: 'WorkoutPlan';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
   id: Scalars['Int'];
@@ -4451,7 +4361,6 @@ export type WorkoutPlanCondition = {
 };
 
 export type WorkoutPlanDay = Node & {
-  __typename?: 'WorkoutPlanDay';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
   id: Scalars['Int'];
@@ -4505,7 +4414,6 @@ export type WorkoutPlanDayPatch = {
 
 /** A connection to a list of `WorkoutPlanDay` values. */
 export type WorkoutPlanDaysConnection = {
-  __typename?: 'WorkoutPlanDaysConnection';
   /** A list of `WorkoutPlanDay` objects. */
   nodes: Array<WorkoutPlanDay>;
   /** A list of edges which contains the `WorkoutPlanDay` and cursor to aid in pagination. */
@@ -4518,7 +4426,6 @@ export type WorkoutPlanDaysConnection = {
 
 /** A `WorkoutPlanDay` edge in the connection. */
 export type WorkoutPlanDaysEdge = {
-  __typename?: 'WorkoutPlanDaysEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `WorkoutPlanDay` at the end of the edge. */
@@ -4537,7 +4444,6 @@ export enum WorkoutPlanDaysOrderBy {
 }
 
 export type WorkoutPlanExercise = {
-  __typename?: 'WorkoutPlanExercise';
   exerciseId: Scalars['Int'];
   sets: Scalars['Int'];
   reps: Scalars['Int'];
@@ -4575,7 +4481,6 @@ export type WorkoutPlanExerciseInput = {
 
 /** A connection to a list of `WorkoutPlanExercise` values. */
 export type WorkoutPlanExercisesConnection = {
-  __typename?: 'WorkoutPlanExercisesConnection';
   /** A list of `WorkoutPlanExercise` objects. */
   nodes: Array<WorkoutPlanExercise>;
   /** A list of edges which contains the `WorkoutPlanExercise` and cursor to aid in pagination. */
@@ -4588,7 +4493,6 @@ export type WorkoutPlanExercisesConnection = {
 
 /** A `WorkoutPlanExercise` edge in the connection. */
 export type WorkoutPlanExercisesEdge = {
-  __typename?: 'WorkoutPlanExercisesEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `WorkoutPlanExercise` at the end of the edge. */
@@ -4634,7 +4538,6 @@ export type WorkoutPlanPatch = {
 
 /** A connection to a list of `WorkoutPlan` values. */
 export type WorkoutPlansConnection = {
-  __typename?: 'WorkoutPlansConnection';
   /** A list of `WorkoutPlan` objects. */
   nodes: Array<WorkoutPlan>;
   /** A list of edges which contains the `WorkoutPlan` and cursor to aid in pagination. */
@@ -4647,7 +4550,6 @@ export type WorkoutPlansConnection = {
 
 /** A `WorkoutPlan` edge in the connection. */
 export type WorkoutPlansEdge = {
-  __typename?: 'WorkoutPlansEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `WorkoutPlan` at the end of the edge. */
@@ -4665,116 +4567,52 @@ export enum WorkoutPlansOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
-export type MessagesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type MessagesQuery = (
-  { __typename?: 'Query' }
-  & { chatMessages?: Maybe<(
-    { __typename?: 'ChatMessagesConnection' }
-    & { nodes: Array<(
-      { __typename?: 'ChatMessage' }
-      & Pick<ChatMessage, 'username' | 'textContent' | 'createdAt' | 'updatedAt' | 'groupname'>
-    )> }
-  )> }
+export type WorkoutDayFieldsFragment = (
+  Pick<WorkoutPlanDay, 'nodeId' | 'name'>
+  & { workoutExercises: Array<Maybe<(
+    Pick<WorkoutPlanExercise, 'sets' | 'reps'>
+    & { exercise?: Maybe<Pick<Exercise, 'nodeId' | 'name' | 'id'>> }
+  )>> }
 );
 
 export type WorkoutQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type WorkoutQuery = (
-  { __typename?: 'Query' }
-  & { activeUser?: Maybe<(
-    { __typename?: 'User' }
-    & Pick<User, 'nodeId'>
+export type WorkoutQuery = { activeUser?: Maybe<(
+    Pick<User, 'nodeId'>
     & { userCurrentWorkoutPlan?: Maybe<(
-      { __typename?: 'UserCurrentWorkoutPlan' }
-      & Pick<UserCurrentWorkoutPlan, 'nodeId'>
+      Pick<UserCurrentWorkoutPlan, 'nodeId'>
       & { workoutPlan?: Maybe<(
-        { __typename?: 'WorkoutPlan' }
-        & Pick<WorkoutPlan, 'nodeId' | 'name'>
-        & { workoutPlanDays: (
-          { __typename?: 'WorkoutPlanDaysConnection' }
-          & { nodes: Array<(
-            { __typename?: 'WorkoutPlanDay' }
-            & Pick<WorkoutPlanDay, 'nodeId' | 'name'>
-            & { workoutExercises: Array<Maybe<(
-              { __typename?: 'WorkoutPlanExercise' }
-              & Pick<WorkoutPlanExercise, 'sets' | 'reps'>
-              & { exercise?: Maybe<(
-                { __typename?: 'Exercise' }
-                & Pick<Exercise, 'nodeId' | 'name' | 'id'>
-              )> }
-            )>> }
-          )> }
-        ) }
+        Pick<WorkoutPlan, 'nodeId' | 'name'>
+        & { workoutPlanDays: { nodes: Array<WorkoutDayFieldsFragment> } }
       )> }
-    )>, workoutPlans: (
-      { __typename?: 'WorkoutPlansConnection' }
-      & { nodes: Array<(
-        { __typename?: 'WorkoutPlan' }
-        & Pick<WorkoutPlan, 'nodeId' | 'name'>
-        & { workoutPlanDays: (
-          { __typename?: 'WorkoutPlanDaysConnection' }
-          & { nodes: Array<(
-            { __typename?: 'WorkoutPlanDay' }
-            & Pick<WorkoutPlanDay, 'nodeId' | 'name'>
+    )>, workoutPlans: { nodes: Array<(
+        Pick<WorkoutPlan, 'nodeId' | 'name'>
+        & { workoutPlanDays: { nodes: Array<(
+            Pick<WorkoutPlanDay, 'nodeId' | 'name'>
             & { workoutExercises: Array<Maybe<(
-              { __typename?: 'WorkoutPlanExercise' }
-              & Pick<WorkoutPlanExercise, 'sets' | 'reps'>
-              & { exercise?: Maybe<(
-                { __typename?: 'Exercise' }
-                & Pick<Exercise, 'nodeId' | 'name' | 'id'>
-              )> }
+              Pick<WorkoutPlanExercise, 'sets' | 'reps'>
+              & { exercise?: Maybe<Pick<Exercise, 'nodeId' | 'name' | 'id'>> }
             )>> }
-          )> }
-        ) }
-      )> }
-    ) }
-  )> }
-);
+          )> } }
+      )> } }
+  )> };
 
-
-export const MessagesDocument = gql`
-    query Messages {
-  chatMessages {
-    nodes {
-      username
-      textContent
-      createdAt
-      updatedAt
-      groupname
+export const WorkoutDayFieldsFragmentDoc = gql`
+    fragment WorkoutDayFields on WorkoutPlanDay {
+  nodeId
+  name
+  workoutExercises {
+    sets
+    reps
+    exercise {
+      nodeId
+      name
+      id
     }
   }
 }
     `;
-
-/**
- * __useMessagesQuery__
- *
- * To run a query within a React component, call `useMessagesQuery` and pass it any options that fit your needs.
- * When your component renders, `useMessagesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useMessagesQuery({
- *   variables: {
- *   },
- * });
- */
-export function useMessagesQuery(baseOptions?: Apollo.QueryHookOptions<MessagesQuery, MessagesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<MessagesQuery, MessagesQueryVariables>(MessagesDocument, options);
-      }
-export function useMessagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MessagesQuery, MessagesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<MessagesQuery, MessagesQueryVariables>(MessagesDocument, options);
-        }
-export type MessagesQueryHookResult = ReturnType<typeof useMessagesQuery>;
-export type MessagesLazyQueryHookResult = ReturnType<typeof useMessagesLazyQuery>;
-export type MessagesQueryResult = Apollo.QueryResult<MessagesQuery, MessagesQueryVariables>;
 export const WorkoutDocument = gql`
     query Workout {
   activeUser {
@@ -4786,17 +4624,7 @@ export const WorkoutDocument = gql`
         name
         workoutPlanDays {
           nodes {
-            nodeId
-            name
-            workoutExercises {
-              sets
-              reps
-              exercise {
-                nodeId
-                name
-                id
-              }
-            }
+            ...WorkoutDayFields
           }
         }
       }
@@ -4824,7 +4652,7 @@ export const WorkoutDocument = gql`
     }
   }
 }
-    `;
+    ${WorkoutDayFieldsFragmentDoc}`;
 
 /**
  * __useWorkoutQuery__

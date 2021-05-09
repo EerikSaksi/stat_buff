@@ -63,7 +63,6 @@
     "babel-preset-expo": "^8.3.0",
     "cross-fetch": "^3.0.6",
     "jest-expo": "^40.0.1",
-    "react-test-renderer": "^17.0.1",
     "ts-jest": "^26.4.4",
     "typescript": "~3.9.5"
   },

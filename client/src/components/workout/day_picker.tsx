@@ -1,6 +1,8 @@
 import React from "react";
-import { List, Button, } from "react-native-paper";
-const WorkoutDayPicker: React.FC<{ days: any }> = ({ days }) => {
+import { List, Button } from "react-native-paper";
+import { WorkoutQuery, WorkoutDayFieldsFragment } from "generated/graphql";
+
+const WorkoutDayPicker: React.FC<{days: WorkoutDayFieldsFragment[]}> = ({ days }) => {
   return (
     <List.Section>
       {days.map((day) => (
@@ -8,7 +10,7 @@ const WorkoutDayPicker: React.FC<{ days: any }> = ({ days }) => {
           left={(props) => <List.Icon {...props} icon="arm-flex" />}
           key={day.name}
           title={day.name}
-          style = { { backgroundColor: 'white', borderBottomWidth: 1, borderBottomColor: 'lightgray'} }
+          style={{ backgroundColor: "white", borderBottomWidth: 1, borderBottomColor: "lightgray" }}
           titleStyle={{ fontSize: 24 }}
           descriptionStyle={{ fontSize: 16 }}
           description={`${day.workoutExercises.length} exercises`}

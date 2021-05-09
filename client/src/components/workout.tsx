@@ -6,7 +6,7 @@ const Stack = createStackNavigator();
 const Workout: React.FC = () => {
   return (
     <Stack.Navigator initialRouteName = "WorkoutPlanPicker">
-      <Stack.Screen name="WorkoutPlanPicker" component={WorkoutPlanPicker} />
+      <Stack.Screen name="Select Workout" component={WorkoutPlanPicker} />
       <Stack.Screen name="WorkoutDayPicker" component={WorkoutDayPicker} />
     </Stack.Navigator>
   );
