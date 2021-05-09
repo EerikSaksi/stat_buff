@@ -52,7 +52,6 @@ export type BattleGroupsByNameAndBattleNumberArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<GroupsOrderBy>>;
   condition?: Maybe<GroupCondition>;
-  filter?: Maybe<GroupFilter>;
 };
 
 
@@ -64,7 +63,6 @@ export type BattleUserExercisesByGroupnameAndBattleNumberArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<UserExercisesOrderBy>>;
   condition?: Maybe<UserExerciseCondition>;
-  filter?: Maybe<UserExerciseFilter>;
 };
 
 /** A condition to be used against `Battle` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -75,18 +73,13 @@ export type BattleCondition = {
   groupname?: Maybe<Scalars['String']>;
 };
 
-/** A filter to be used against `Battle` object types. All fields are combined with a logical ‘and.’ */
-export type BattleFilter = {
-  /** Filter by the object’s `enemyLevel` field. */
-  enemyLevel?: Maybe<IntFilter>;
-  /** Filter by the object’s `groupname` field. */
-  groupname?: Maybe<StringFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<BattleFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<BattleFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<BattleFilter>;
+/** An input for mutations affecting `Battle` */
+export type BattleInput = {
+  enemyLevel?: Maybe<Scalars['Int']>;
+  groupname: Scalars['String'];
+  battleNumber?: Maybe<Scalars['Int']>;
+  currentHealth?: Maybe<Scalars['Float']>;
+  maxHealth?: Maybe<Scalars['Float']>;
 };
 
 /** Represents an update to a `Battle`. Fields that are set will be updated. */
@@ -166,20 +159,6 @@ export type BodystatCondition = {
   username?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `userId` field. */
   userId?: Maybe<Scalars['Int']>;
-};
-
-/** A filter to be used against `Bodystat` object types. All fields are combined with a logical ‘and.’ */
-export type BodystatFilter = {
-  /** Filter by the object’s `username` field. */
-  username?: Maybe<StringFilter>;
-  /** Filter by the object’s `userId` field. */
-  userId?: Maybe<IntFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<BodystatFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<BodystatFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<BodystatFilter>;
 };
 
 /** An input for mutations affecting `Bodystat` */
@@ -262,24 +241,6 @@ export type ChatMessageCondition = {
   userId?: Maybe<Scalars['Int']>;
 };
 
-/** A filter to be used against `ChatMessage` object types. All fields are combined with a logical ‘and.’ */
-export type ChatMessageFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<IntFilter>;
-  /** Filter by the object’s `username` field. */
-  username?: Maybe<StringFilter>;
-  /** Filter by the object’s `groupname` field. */
-  groupname?: Maybe<StringFilter>;
-  /** Filter by the object’s `userId` field. */
-  userId?: Maybe<IntFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<ChatMessageFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<ChatMessageFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<ChatMessageFilter>;
-};
-
 /** An input for mutations affecting `ChatMessage` */
 export type ChatMessageInput = {
   username: Scalars['String'];
@@ -350,7 +311,6 @@ export type CompletedWorkoutCompletedWorkoutExercisesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<CompletedWorkoutExercisesOrderBy>>;
   condition?: Maybe<CompletedWorkoutExerciseCondition>;
-  filter?: Maybe<CompletedWorkoutExerciseFilter>;
 };
 
 /**
@@ -387,22 +347,6 @@ export type CompletedWorkoutExerciseCondition = {
   exerciseId?: Maybe<Scalars['Int']>;
   /** Checks for equality with the object’s `completedWorkoutId` field. */
   completedWorkoutId?: Maybe<Scalars['Int']>;
-};
-
-/** A filter to be used against `CompletedWorkoutExercise` object types. All fields are combined with a logical ‘and.’ */
-export type CompletedWorkoutExerciseFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<IntFilter>;
-  /** Filter by the object’s `exerciseId` field. */
-  exerciseId?: Maybe<IntFilter>;
-  /** Filter by the object’s `completedWorkoutId` field. */
-  completedWorkoutId?: Maybe<IntFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<CompletedWorkoutExerciseFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<CompletedWorkoutExerciseFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<CompletedWorkoutExerciseFilter>;
 };
 
 /** An input for mutations affecting `CompletedWorkoutExercise` */
@@ -455,18 +399,6 @@ export enum CompletedWorkoutExercisesOrderBy {
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
-
-/** A filter to be used against `CompletedWorkout` object types. All fields are combined with a logical ‘and.’ */
-export type CompletedWorkoutFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<IntFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<CompletedWorkoutFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<CompletedWorkoutFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<CompletedWorkoutFilter>;
-};
 
 /** An input for mutations affecting `CompletedWorkout` */
 export type CompletedWorkoutInput = {
@@ -1616,25 +1548,12 @@ export type EnemyBattlesByEnemyLevelArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<BattlesOrderBy>>;
   condition?: Maybe<BattleCondition>;
-  filter?: Maybe<BattleFilter>;
 };
 
 /** A condition to be used against `Enemy` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type EnemyCondition = {
   /** Checks for equality with the object’s `level` field. */
   level?: Maybe<Scalars['Int']>;
-};
-
-/** A filter to be used against `Enemy` object types. All fields are combined with a logical ‘and.’ */
-export type EnemyFilter = {
-  /** Filter by the object’s `level` field. */
-  level?: Maybe<IntFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<EnemyFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<EnemyFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<EnemyFilter>;
 };
 
 export type Exercise = Node & {
@@ -1661,7 +1580,6 @@ export type ExerciseWorkoutPlanExercisesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<WorkoutPlanExercisesOrderBy>>;
   condition?: Maybe<WorkoutPlanExerciseCondition>;
-  filter?: Maybe<WorkoutPlanExerciseFilter>;
 };
 
 
@@ -1673,7 +1591,6 @@ export type ExerciseCompletedWorkoutExercisesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<CompletedWorkoutExercisesOrderBy>>;
   condition?: Maybe<CompletedWorkoutExerciseCondition>;
-  filter?: Maybe<CompletedWorkoutExerciseFilter>;
 };
 
 export type ExerciseAlias = {
@@ -1688,18 +1605,6 @@ export type ExerciseAlias = {
 export type ExerciseAliasCondition = {
   /** Checks for equality with the object’s `id` field. */
   id?: Maybe<Scalars['Int']>;
-};
-
-/** A filter to be used against `ExerciseAlias` object types. All fields are combined with a logical ‘and.’ */
-export type ExerciseAliasFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<IntFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<ExerciseAliasFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<ExerciseAliasFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<ExerciseAliasFilter>;
 };
 
 /** A connection to a list of `ExerciseAlias` values. */
@@ -1736,18 +1641,6 @@ export enum ExerciseAliasesOrderBy {
 export type ExerciseCondition = {
   /** Checks for equality with the object’s `id` field. */
   id?: Maybe<Scalars['Int']>;
-};
-
-/** A filter to be used against `Exercise` object types. All fields are combined with a logical ‘and.’ */
-export type ExerciseFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<IntFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<ExerciseFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<ExerciseFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<ExerciseFilter>;
 };
 
 /** An input for mutations affecting `Exercise` */
@@ -1869,7 +1762,6 @@ export type GroupUsersByGroupnameArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<UsersOrderBy>>;
   condition?: Maybe<UserCondition>;
-  filter?: Maybe<UserFilter>;
 };
 
 
@@ -1881,7 +1773,6 @@ export type GroupBattlesByGroupnameArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<BattlesOrderBy>>;
   condition?: Maybe<BattleCondition>;
-  filter?: Maybe<BattleFilter>;
 };
 
 
@@ -1893,25 +1784,12 @@ export type GroupChatMessagesByGroupnameArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<ChatMessagesOrderBy>>;
   condition?: Maybe<ChatMessageCondition>;
-  filter?: Maybe<ChatMessageFilter>;
 };
 
 /** A condition to be used against `Group` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type GroupCondition = {
   /** Checks for equality with the object’s `name` field. */
   name?: Maybe<Scalars['String']>;
-};
-
-/** A filter to be used against `Group` object types. All fields are combined with a logical ‘and.’ */
-export type GroupFilter = {
-  /** Filter by the object’s `name` field. */
-  name?: Maybe<StringFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<GroupFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<GroupFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<GroupFilter>;
 };
 
 /** An input for mutations affecting `Group` */
@@ -1950,32 +1828,6 @@ export enum GroupsOrderBy {
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
-
-/** A filter to be used against Int fields. All fields are combined with a logical ‘and.’ */
-export type IntFilter = {
-  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull?: Maybe<Scalars['Boolean']>;
-  /** Equal to the specified value. */
-  equalTo?: Maybe<Scalars['Int']>;
-  /** Not equal to the specified value. */
-  notEqualTo?: Maybe<Scalars['Int']>;
-  /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom?: Maybe<Scalars['Int']>;
-  /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom?: Maybe<Scalars['Int']>;
-  /** Included in the specified list. */
-  in?: Maybe<Array<Scalars['Int']>>;
-  /** Not included in the specified list. */
-  notIn?: Maybe<Array<Scalars['Int']>>;
-  /** Less than the specified value. */
-  lessThan?: Maybe<Scalars['Int']>;
-  /** Less than or equal to the specified value. */
-  lessThanOrEqualTo?: Maybe<Scalars['Int']>;
-  /** Greater than the specified value. */
-  greaterThan?: Maybe<Scalars['Int']>;
-  /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo?: Maybe<Scalars['Int']>;
-};
 
 /** All input for the `joinGroup` mutation. */
 export type JoinGroupInput = {
@@ -2171,6 +2023,34 @@ export type Mutation = {
   joinGroup?: Maybe<JoinGroupPayload>;
   joinRandomPublicGroup?: Maybe<JoinRandomPublicGroupPayload>;
   nullifyGroup?: Maybe<NullifyGroupPayload>;
+  /** Upserts a single `Battle`. */
+  upsertBattle?: Maybe<UpsertBattlePayload>;
+  /** Upserts a single `Bodystat`. */
+  upsertBodystat?: Maybe<UpsertBodystatPayload>;
+  /** Upserts a single `ChatMessage`. */
+  upsertChatMessage?: Maybe<UpsertChatMessagePayload>;
+  /** Upserts a single `CompletedWorkout`. */
+  upsertCompletedWorkout?: Maybe<UpsertCompletedWorkoutPayload>;
+  /** Upserts a single `CompletedWorkoutExercise`. */
+  upsertCompletedWorkoutExercise?: Maybe<UpsertCompletedWorkoutExercisePayload>;
+  /** Upserts a single `Exercise`. */
+  upsertExercise?: Maybe<UpsertExercisePayload>;
+  /** Upserts a single `Group`. */
+  upsertGroup?: Maybe<UpsertGroupPayload>;
+  /** Upserts a single `SessionAnalytic`. */
+  upsertSessionAnalytic?: Maybe<UpsertSessionAnalyticPayload>;
+  /** Upserts a single `User`. */
+  upsertUser?: Maybe<UpsertUserPayload>;
+  /** Upserts a single `UserCurrentWorkoutPlan`. */
+  upsertUserCurrentWorkoutPlan?: Maybe<UpsertUserCurrentWorkoutPlanPayload>;
+  /** Upserts a single `UserExercise`. */
+  upsertUserExercise?: Maybe<UpsertUserExercisePayload>;
+  /** Upserts a single `WorkoutPlan`. */
+  upsertWorkoutPlan?: Maybe<UpsertWorkoutPlanPayload>;
+  /** Upserts a single `WorkoutPlanDay`. */
+  upsertWorkoutPlanDay?: Maybe<UpsertWorkoutPlanDayPayload>;
+  /** Upserts a single `WorkoutPlanExercise`. */
+  upsertWorkoutPlanExercise?: Maybe<UpsertWorkoutPlanExercisePayload>;
 };
 
 
@@ -2611,6 +2491,90 @@ export type MutationNullifyGroupArgs = {
   input: NullifyGroupInput;
 };
 
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertBattleArgs = {
+  input: UpsertBattleInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertBodystatArgs = {
+  input: UpsertBodystatInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertChatMessageArgs = {
+  input: UpsertChatMessageInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertCompletedWorkoutArgs = {
+  input: UpsertCompletedWorkoutInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertCompletedWorkoutExerciseArgs = {
+  input: UpsertCompletedWorkoutExerciseInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertExerciseArgs = {
+  input: UpsertExerciseInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertGroupArgs = {
+  input: UpsertGroupInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertSessionAnalyticArgs = {
+  input: UpsertSessionAnalyticInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertUserArgs = {
+  input: UpsertUserInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertUserCurrentWorkoutPlanArgs = {
+  input: UpsertUserCurrentWorkoutPlanInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertUserExerciseArgs = {
+  input: UpsertUserExerciseInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertWorkoutPlanArgs = {
+  input: UpsertWorkoutPlanInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertWorkoutPlanDayArgs = {
+  input: UpsertWorkoutPlanDayInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertWorkoutPlanExerciseArgs = {
+  input: UpsertWorkoutPlanExerciseInput;
+};
+
 /** An object with a globally unique `ID`. */
 export type Node = {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
@@ -2756,7 +2720,6 @@ export type QueryBattlesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<BattlesOrderBy>>;
   condition?: Maybe<BattleCondition>;
-  filter?: Maybe<BattleFilter>;
 };
 
 
@@ -2769,7 +2732,6 @@ export type QueryChatMessagesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<ChatMessagesOrderBy>>;
   condition?: Maybe<ChatMessageCondition>;
-  filter?: Maybe<ChatMessageFilter>;
 };
 
 
@@ -2782,7 +2744,6 @@ export type QueryCompletedWorkoutsArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<CompletedWorkoutsOrderBy>>;
   condition?: Maybe<CompletedWorkoutCondition>;
-  filter?: Maybe<CompletedWorkoutFilter>;
 };
 
 
@@ -2795,7 +2756,6 @@ export type QueryCompletedWorkoutExercisesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<CompletedWorkoutExercisesOrderBy>>;
   condition?: Maybe<CompletedWorkoutExerciseCondition>;
-  filter?: Maybe<CompletedWorkoutExerciseFilter>;
 };
 
 
@@ -2808,7 +2768,6 @@ export type QueryEnemiesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<EnemiesOrderBy>>;
   condition?: Maybe<EnemyCondition>;
-  filter?: Maybe<EnemyFilter>;
 };
 
 
@@ -2821,7 +2780,6 @@ export type QueryExercisesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<ExercisesOrderBy>>;
   condition?: Maybe<ExerciseCondition>;
-  filter?: Maybe<ExerciseFilter>;
 };
 
 
@@ -2834,7 +2792,6 @@ export type QueryExerciseAliasesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<ExerciseAliasesOrderBy>>;
   condition?: Maybe<ExerciseAliasCondition>;
-  filter?: Maybe<ExerciseAliasFilter>;
 };
 
 
@@ -2847,7 +2804,6 @@ export type QueryGroupsArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<GroupsOrderBy>>;
   condition?: Maybe<GroupCondition>;
-  filter?: Maybe<GroupFilter>;
 };
 
 
@@ -2860,7 +2816,6 @@ export type QuerySessionAnalyticsArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<SessionAnalyticsOrderBy>>;
   condition?: Maybe<SessionAnalyticCondition>;
-  filter?: Maybe<SessionAnalyticFilter>;
 };
 
 
@@ -2873,7 +2828,6 @@ export type QueryUsersArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<UsersOrderBy>>;
   condition?: Maybe<UserCondition>;
-  filter?: Maybe<UserFilter>;
 };
 
 
@@ -2886,7 +2840,6 @@ export type QueryUserCurrentWorkoutPlansArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<UserCurrentWorkoutPlansOrderBy>>;
   condition?: Maybe<UserCurrentWorkoutPlanCondition>;
-  filter?: Maybe<UserCurrentWorkoutPlanFilter>;
 };
 
 
@@ -2899,7 +2852,6 @@ export type QueryUserExercisesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<UserExercisesOrderBy>>;
   condition?: Maybe<UserExerciseCondition>;
-  filter?: Maybe<UserExerciseFilter>;
 };
 
 
@@ -2912,7 +2864,6 @@ export type QueryWorkoutPlansArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<WorkoutPlansOrderBy>>;
   condition?: Maybe<WorkoutPlanCondition>;
-  filter?: Maybe<WorkoutPlanFilter>;
 };
 
 
@@ -2925,7 +2876,6 @@ export type QueryWorkoutPlanDaysArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<WorkoutPlanDaysOrderBy>>;
   condition?: Maybe<WorkoutPlanDayCondition>;
-  filter?: Maybe<WorkoutPlanDayFilter>;
 };
 
 
@@ -2938,7 +2888,6 @@ export type QueryWorkoutPlanExercisesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<WorkoutPlanExercisesOrderBy>>;
   condition?: Maybe<WorkoutPlanExerciseCondition>;
-  filter?: Maybe<WorkoutPlanExerciseFilter>;
 };
 
 
@@ -3175,22 +3124,6 @@ export type SessionAnalyticCondition = {
   userId?: Maybe<Scalars['Int']>;
 };
 
-/** A filter to be used against `SessionAnalytic` object types. All fields are combined with a logical ‘and.’ */
-export type SessionAnalyticFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<IntFilter>;
-  /** Filter by the object’s `username` field. */
-  username?: Maybe<StringFilter>;
-  /** Filter by the object’s `userId` field. */
-  userId?: Maybe<IntFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<SessionAnalyticFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<SessionAnalyticFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<SessionAnalyticFilter>;
-};
-
 /** An input for mutations affecting `SessionAnalytic` */
 export type SessionAnalyticInput = {
   username: Scalars['String'];
@@ -3245,84 +3178,6 @@ export type Strengthstat = {
   averageStrength?: Maybe<Scalars['BigFloat']>;
   numExercises?: Maybe<Scalars['BigFloat']>;
   dph?: Maybe<Scalars['BigFloat']>;
-};
-
-/** A filter to be used against String fields. All fields are combined with a logical ‘and.’ */
-export type StringFilter = {
-  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull?: Maybe<Scalars['Boolean']>;
-  /** Equal to the specified value. */
-  equalTo?: Maybe<Scalars['String']>;
-  /** Not equal to the specified value. */
-  notEqualTo?: Maybe<Scalars['String']>;
-  /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom?: Maybe<Scalars['String']>;
-  /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom?: Maybe<Scalars['String']>;
-  /** Included in the specified list. */
-  in?: Maybe<Array<Scalars['String']>>;
-  /** Not included in the specified list. */
-  notIn?: Maybe<Array<Scalars['String']>>;
-  /** Less than the specified value. */
-  lessThan?: Maybe<Scalars['String']>;
-  /** Less than or equal to the specified value. */
-  lessThanOrEqualTo?: Maybe<Scalars['String']>;
-  /** Greater than the specified value. */
-  greaterThan?: Maybe<Scalars['String']>;
-  /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo?: Maybe<Scalars['String']>;
-  /** Contains the specified string (case-sensitive). */
-  includes?: Maybe<Scalars['String']>;
-  /** Does not contain the specified string (case-sensitive). */
-  notIncludes?: Maybe<Scalars['String']>;
-  /** Contains the specified string (case-insensitive). */
-  includesInsensitive?: Maybe<Scalars['String']>;
-  /** Does not contain the specified string (case-insensitive). */
-  notIncludesInsensitive?: Maybe<Scalars['String']>;
-  /** Starts with the specified string (case-sensitive). */
-  startsWith?: Maybe<Scalars['String']>;
-  /** Does not start with the specified string (case-sensitive). */
-  notStartsWith?: Maybe<Scalars['String']>;
-  /** Starts with the specified string (case-insensitive). */
-  startsWithInsensitive?: Maybe<Scalars['String']>;
-  /** Does not start with the specified string (case-insensitive). */
-  notStartsWithInsensitive?: Maybe<Scalars['String']>;
-  /** Ends with the specified string (case-sensitive). */
-  endsWith?: Maybe<Scalars['String']>;
-  /** Does not end with the specified string (case-sensitive). */
-  notEndsWith?: Maybe<Scalars['String']>;
-  /** Ends with the specified string (case-insensitive). */
-  endsWithInsensitive?: Maybe<Scalars['String']>;
-  /** Does not end with the specified string (case-insensitive). */
-  notEndsWithInsensitive?: Maybe<Scalars['String']>;
-  /** Matches the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
-  like?: Maybe<Scalars['String']>;
-  /** Does not match the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
-  notLike?: Maybe<Scalars['String']>;
-  /** Matches the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
-  likeInsensitive?: Maybe<Scalars['String']>;
-  /** Does not match the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
-  notLikeInsensitive?: Maybe<Scalars['String']>;
-  /** Equal to the specified value (case-insensitive). */
-  equalToInsensitive?: Maybe<Scalars['String']>;
-  /** Not equal to the specified value (case-insensitive). */
-  notEqualToInsensitive?: Maybe<Scalars['String']>;
-  /** Not equal to the specified value, treating null like an ordinary value (case-insensitive). */
-  distinctFromInsensitive?: Maybe<Scalars['String']>;
-  /** Equal to the specified value, treating null like an ordinary value (case-insensitive). */
-  notDistinctFromInsensitive?: Maybe<Scalars['String']>;
-  /** Included in the specified list (case-insensitive). */
-  inInsensitive?: Maybe<Array<Scalars['String']>>;
-  /** Not included in the specified list (case-insensitive). */
-  notInInsensitive?: Maybe<Array<Scalars['String']>>;
-  /** Less than the specified value (case-insensitive). */
-  lessThanInsensitive?: Maybe<Scalars['String']>;
-  /** Less than or equal to the specified value (case-insensitive). */
-  lessThanOrEqualToInsensitive?: Maybe<Scalars['String']>;
-  /** Greater than the specified value (case-insensitive). */
-  greaterThanInsensitive?: Maybe<Scalars['String']>;
-  /** Greater than or equal to the specified value (case-insensitive). */
-  greaterThanOrEqualToInsensitive?: Maybe<Scalars['String']>;
 };
 
 /** The root subscription type: contains realtime events you can subscribe to with the `subscription` operation. */
@@ -3958,6 +3813,404 @@ export type UpdateWorkoutPlanPayloadWorkoutPlanEdgeArgs = {
   orderBy?: Maybe<Array<WorkoutPlansOrderBy>>;
 };
 
+/** All input for the upsert `Battle` mutation. */
+export type UpsertBattleInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Battle` to be upserted by this mutation. */
+  battle: BattleInput;
+};
+
+/** The output of our upsert `Battle` mutation. */
+export type UpsertBattlePayload = {
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Battle` that was upserted by this mutation. */
+  battle?: Maybe<Battle>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Enemy` that is related to this `Battle`. */
+  enemyByEnemyLevel?: Maybe<Enemy>;
+  /** Reads a single `Group` that is related to this `Battle`. */
+  groupByGroupname?: Maybe<Group>;
+  /** An edge for our `Battle`. May be used by Relay 1. */
+  battleEdge?: Maybe<BattlesEdge>;
+};
+
+
+/** The output of our upsert `Battle` mutation. */
+export type UpsertBattlePayloadBattleEdgeArgs = {
+  orderBy?: Maybe<Array<BattlesOrderBy>>;
+};
+
+/** All input for the upsert `Bodystat` mutation. */
+export type UpsertBodystatInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Bodystat` to be upserted by this mutation. */
+  bodystat: BodystatInput;
+};
+
+/** The output of our upsert `Bodystat` mutation. */
+export type UpsertBodystatPayload = {
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Bodystat` that was upserted by this mutation. */
+  bodystat?: Maybe<Bodystat>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `Bodystat`. */
+  user?: Maybe<User>;
+  /** An edge for our `Bodystat`. May be used by Relay 1. */
+  bodystatEdge?: Maybe<BodystatsEdge>;
+};
+
+
+/** The output of our upsert `Bodystat` mutation. */
+export type UpsertBodystatPayloadBodystatEdgeArgs = {
+  orderBy?: Maybe<Array<BodystatsOrderBy>>;
+};
+
+/** All input for the upsert `ChatMessage` mutation. */
+export type UpsertChatMessageInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ChatMessage` to be upserted by this mutation. */
+  chatMessage: ChatMessageInput;
+};
+
+/** The output of our upsert `ChatMessage` mutation. */
+export type UpsertChatMessagePayload = {
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ChatMessage` that was upserted by this mutation. */
+  chatMessage?: Maybe<ChatMessage>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Group` that is related to this `ChatMessage`. */
+  groupByGroupname?: Maybe<Group>;
+  /** Reads a single `User` that is related to this `ChatMessage`. */
+  user?: Maybe<User>;
+  /** An edge for our `ChatMessage`. May be used by Relay 1. */
+  chatMessageEdge?: Maybe<ChatMessagesEdge>;
+};
+
+
+/** The output of our upsert `ChatMessage` mutation. */
+export type UpsertChatMessagePayloadChatMessageEdgeArgs = {
+  orderBy?: Maybe<Array<ChatMessagesOrderBy>>;
+};
+
+/** All input for the upsert `CompletedWorkoutExercise` mutation. */
+export type UpsertCompletedWorkoutExerciseInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CompletedWorkoutExercise` to be upserted by this mutation. */
+  completedWorkoutExercise: CompletedWorkoutExerciseInput;
+};
+
+/** The output of our upsert `CompletedWorkoutExercise` mutation. */
+export type UpsertCompletedWorkoutExercisePayload = {
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CompletedWorkoutExercise` that was upserted by this mutation. */
+  completedWorkoutExercise?: Maybe<CompletedWorkoutExercise>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Exercise` that is related to this `CompletedWorkoutExercise`. */
+  exercise?: Maybe<Exercise>;
+  /** Reads a single `CompletedWorkout` that is related to this `CompletedWorkoutExercise`. */
+  completedWorkout?: Maybe<CompletedWorkout>;
+  /** An edge for our `CompletedWorkoutExercise`. May be used by Relay 1. */
+  completedWorkoutExerciseEdge?: Maybe<CompletedWorkoutExercisesEdge>;
+};
+
+
+/** The output of our upsert `CompletedWorkoutExercise` mutation. */
+export type UpsertCompletedWorkoutExercisePayloadCompletedWorkoutExerciseEdgeArgs = {
+  orderBy?: Maybe<Array<CompletedWorkoutExercisesOrderBy>>;
+};
+
+/** All input for the upsert `CompletedWorkout` mutation. */
+export type UpsertCompletedWorkoutInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CompletedWorkout` to be upserted by this mutation. */
+  completedWorkout: CompletedWorkoutInput;
+};
+
+/** The output of our upsert `CompletedWorkout` mutation. */
+export type UpsertCompletedWorkoutPayload = {
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CompletedWorkout` that was upserted by this mutation. */
+  completedWorkout?: Maybe<CompletedWorkout>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `CompletedWorkout`. May be used by Relay 1. */
+  completedWorkoutEdge?: Maybe<CompletedWorkoutsEdge>;
+};
+
+
+/** The output of our upsert `CompletedWorkout` mutation. */
+export type UpsertCompletedWorkoutPayloadCompletedWorkoutEdgeArgs = {
+  orderBy?: Maybe<Array<CompletedWorkoutsOrderBy>>;
+};
+
+/** All input for the upsert `Exercise` mutation. */
+export type UpsertExerciseInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Exercise` to be upserted by this mutation. */
+  exercise: ExerciseInput;
+};
+
+/** The output of our upsert `Exercise` mutation. */
+export type UpsertExercisePayload = {
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Exercise` that was upserted by this mutation. */
+  exercise?: Maybe<Exercise>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `Exercise`. May be used by Relay 1. */
+  exerciseEdge?: Maybe<ExercisesEdge>;
+};
+
+
+/** The output of our upsert `Exercise` mutation. */
+export type UpsertExercisePayloadExerciseEdgeArgs = {
+  orderBy?: Maybe<Array<ExercisesOrderBy>>;
+};
+
+/** All input for the upsert `Group` mutation. */
+export type UpsertGroupInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Group` to be upserted by this mutation. */
+  group: GroupInput;
+};
+
+/** The output of our upsert `Group` mutation. */
+export type UpsertGroupPayload = {
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Group` that was upserted by this mutation. */
+  group?: Maybe<Group>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Battle` that is related to this `Group`. */
+  battleByNameAndBattleNumber?: Maybe<Battle>;
+  /** An edge for our `Group`. May be used by Relay 1. */
+  groupEdge?: Maybe<GroupsEdge>;
+};
+
+
+/** The output of our upsert `Group` mutation. */
+export type UpsertGroupPayloadGroupEdgeArgs = {
+  orderBy?: Maybe<Array<GroupsOrderBy>>;
+};
+
+/** All input for the upsert `SessionAnalytic` mutation. */
+export type UpsertSessionAnalyticInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `SessionAnalytic` to be upserted by this mutation. */
+  sessionAnalytic: SessionAnalyticInput;
+};
+
+/** The output of our upsert `SessionAnalytic` mutation. */
+export type UpsertSessionAnalyticPayload = {
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `SessionAnalytic` that was upserted by this mutation. */
+  sessionAnalytic?: Maybe<SessionAnalytic>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `SessionAnalytic`. */
+  user?: Maybe<User>;
+  /** An edge for our `SessionAnalytic`. May be used by Relay 1. */
+  sessionAnalyticEdge?: Maybe<SessionAnalyticsEdge>;
+};
+
+
+/** The output of our upsert `SessionAnalytic` mutation. */
+export type UpsertSessionAnalyticPayloadSessionAnalyticEdgeArgs = {
+  orderBy?: Maybe<Array<SessionAnalyticsOrderBy>>;
+};
+
+/** All input for the upsert `UserCurrentWorkoutPlan` mutation. */
+export type UpsertUserCurrentWorkoutPlanInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `UserCurrentWorkoutPlan` to be upserted by this mutation. */
+  userCurrentWorkoutPlan: UserCurrentWorkoutPlanInput;
+};
+
+/** The output of our upsert `UserCurrentWorkoutPlan` mutation. */
+export type UpsertUserCurrentWorkoutPlanPayload = {
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `UserCurrentWorkoutPlan` that was upserted by this mutation. */
+  userCurrentWorkoutPlan?: Maybe<UserCurrentWorkoutPlan>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `UserCurrentWorkoutPlan`. */
+  user?: Maybe<User>;
+  /** Reads a single `WorkoutPlan` that is related to this `UserCurrentWorkoutPlan`. */
+  workoutPlan?: Maybe<WorkoutPlan>;
+  /** An edge for our `UserCurrentWorkoutPlan`. May be used by Relay 1. */
+  userCurrentWorkoutPlanEdge?: Maybe<UserCurrentWorkoutPlansEdge>;
+};
+
+
+/** The output of our upsert `UserCurrentWorkoutPlan` mutation. */
+export type UpsertUserCurrentWorkoutPlanPayloadUserCurrentWorkoutPlanEdgeArgs = {
+  orderBy?: Maybe<Array<UserCurrentWorkoutPlansOrderBy>>;
+};
+
+/** All input for the upsert `UserExercise` mutation. */
+export type UpsertUserExerciseInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `UserExercise` to be upserted by this mutation. */
+  userExercise: UserExerciseInput;
+};
+
+/** The output of our upsert `UserExercise` mutation. */
+export type UpsertUserExercisePayload = {
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `UserExercise` that was upserted by this mutation. */
+  userExercise?: Maybe<UserExercise>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Battle` that is related to this `UserExercise`. */
+  battleByGroupnameAndBattleNumber?: Maybe<Battle>;
+  /** Reads a single `User` that is related to this `UserExercise`. */
+  user?: Maybe<User>;
+  /** An edge for our `UserExercise`. May be used by Relay 1. */
+  userExerciseEdge?: Maybe<UserExercisesEdge>;
+};
+
+
+/** The output of our upsert `UserExercise` mutation. */
+export type UpsertUserExercisePayloadUserExerciseEdgeArgs = {
+  orderBy?: Maybe<Array<UserExercisesOrderBy>>;
+};
+
+/** All input for the upsert `User` mutation. */
+export type UpsertUserInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `User` to be upserted by this mutation. */
+  user: UserInput;
+};
+
+/** The output of our upsert `User` mutation. */
+export type UpsertUserPayload = {
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `User` that was upserted by this mutation. */
+  user?: Maybe<User>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Group` that is related to this `User`. */
+  groupByGroupname?: Maybe<Group>;
+  /** An edge for our `User`. May be used by Relay 1. */
+  userEdge?: Maybe<UsersEdge>;
+};
+
+
+/** The output of our upsert `User` mutation. */
+export type UpsertUserPayloadUserEdgeArgs = {
+  orderBy?: Maybe<Array<UsersOrderBy>>;
+};
+
+/** All input for the upsert `WorkoutPlanDay` mutation. */
+export type UpsertWorkoutPlanDayInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WorkoutPlanDay` to be upserted by this mutation. */
+  workoutPlanDay: WorkoutPlanDayInput;
+};
+
+/** The output of our upsert `WorkoutPlanDay` mutation. */
+export type UpsertWorkoutPlanDayPayload = {
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WorkoutPlanDay` that was upserted by this mutation. */
+  workoutPlanDay?: Maybe<WorkoutPlanDay>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `WorkoutPlan` that is related to this `WorkoutPlanDay`. */
+  workoutPlan?: Maybe<WorkoutPlan>;
+  /** An edge for our `WorkoutPlanDay`. May be used by Relay 1. */
+  workoutPlanDayEdge?: Maybe<WorkoutPlanDaysEdge>;
+};
+
+
+/** The output of our upsert `WorkoutPlanDay` mutation. */
+export type UpsertWorkoutPlanDayPayloadWorkoutPlanDayEdgeArgs = {
+  orderBy?: Maybe<Array<WorkoutPlanDaysOrderBy>>;
+};
+
+/** All input for the upsert `WorkoutPlanExercise` mutation. */
+export type UpsertWorkoutPlanExerciseInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WorkoutPlanExercise` to be upserted by this mutation. */
+  workoutPlanExercise: WorkoutPlanExerciseInput;
+};
+
+/** The output of our upsert `WorkoutPlanExercise` mutation. */
+export type UpsertWorkoutPlanExercisePayload = {
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WorkoutPlanExercise` that was upserted by this mutation. */
+  workoutPlanExercise?: Maybe<WorkoutPlanExercise>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Exercise` that is related to this `WorkoutPlanExercise`. */
+  exercise?: Maybe<Exercise>;
+  /** An edge for our `WorkoutPlanExercise`. May be used by Relay 1. */
+  workoutPlanExerciseEdge?: Maybe<WorkoutPlanExercisesEdge>;
+};
+
+
+/** The output of our upsert `WorkoutPlanExercise` mutation. */
+export type UpsertWorkoutPlanExercisePayloadWorkoutPlanExerciseEdgeArgs = {
+  orderBy?: Maybe<Array<WorkoutPlanExercisesOrderBy>>;
+};
+
+/** All input for the upsert `WorkoutPlan` mutation. */
+export type UpsertWorkoutPlanInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WorkoutPlan` to be upserted by this mutation. */
+  workoutPlan: WorkoutPlanInput;
+};
+
+/** The output of our upsert `WorkoutPlan` mutation. */
+export type UpsertWorkoutPlanPayload = {
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WorkoutPlan` that was upserted by this mutation. */
+  workoutPlan?: Maybe<WorkoutPlan>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `WorkoutPlan`. */
+  user?: Maybe<User>;
+  /** An edge for our `WorkoutPlan`. May be used by Relay 1. */
+  workoutPlanEdge?: Maybe<WorkoutPlansEdge>;
+};
+
+
+/** The output of our upsert `WorkoutPlan` mutation. */
+export type UpsertWorkoutPlanPayloadWorkoutPlanEdgeArgs = {
+  orderBy?: Maybe<Array<WorkoutPlansOrderBy>>;
+};
+
 export type User = Node & {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
@@ -3991,7 +4244,6 @@ export type UserBodystatsArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<BodystatsOrderBy>>;
   condition?: Maybe<BodystatCondition>;
-  filter?: Maybe<BodystatFilter>;
 };
 
 
@@ -4003,7 +4255,6 @@ export type UserUserExercisesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<UserExercisesOrderBy>>;
   condition?: Maybe<UserExerciseCondition>;
-  filter?: Maybe<UserExerciseFilter>;
 };
 
 
@@ -4015,7 +4266,6 @@ export type UserChatMessagesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<ChatMessagesOrderBy>>;
   condition?: Maybe<ChatMessageCondition>;
-  filter?: Maybe<ChatMessageFilter>;
 };
 
 
@@ -4027,7 +4277,6 @@ export type UserSessionAnalyticsArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<SessionAnalyticsOrderBy>>;
   condition?: Maybe<SessionAnalyticCondition>;
-  filter?: Maybe<SessionAnalyticFilter>;
 };
 
 
@@ -4039,7 +4288,6 @@ export type UserWorkoutPlansArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<WorkoutPlansOrderBy>>;
   condition?: Maybe<WorkoutPlanCondition>;
-  filter?: Maybe<WorkoutPlanFilter>;
 };
 
 /** A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -4072,20 +4320,6 @@ export type UserCurrentWorkoutPlanCondition = {
   userId?: Maybe<Scalars['Int']>;
   /** Checks for equality with the object’s `workoutPlanId` field. */
   workoutPlanId?: Maybe<Scalars['Int']>;
-};
-
-/** A filter to be used against `UserCurrentWorkoutPlan` object types. All fields are combined with a logical ‘and.’ */
-export type UserCurrentWorkoutPlanFilter = {
-  /** Filter by the object’s `userId` field. */
-  userId?: Maybe<IntFilter>;
-  /** Filter by the object’s `workoutPlanId` field. */
-  workoutPlanId?: Maybe<IntFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<UserCurrentWorkoutPlanFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<UserCurrentWorkoutPlanFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<UserCurrentWorkoutPlanFilter>;
 };
 
 /** An input for mutations affecting `UserCurrentWorkoutPlan` */
@@ -4165,24 +4399,6 @@ export type UserExerciseCondition = {
   userId?: Maybe<Scalars['Int']>;
 };
 
-/** A filter to be used against `UserExercise` object types. All fields are combined with a logical ‘and.’ */
-export type UserExerciseFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<IntFilter>;
-  /** Filter by the object’s `username` field. */
-  username?: Maybe<StringFilter>;
-  /** Filter by the object’s `groupname` field. */
-  groupname?: Maybe<StringFilter>;
-  /** Filter by the object’s `userId` field. */
-  userId?: Maybe<IntFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<UserExerciseFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<UserExerciseFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<UserExerciseFilter>;
-};
-
 /** An input for mutations affecting `UserExercise` */
 export type UserExerciseInput = {
   id: Scalars['Int'];
@@ -4242,20 +4458,11 @@ export enum UserExercisesOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
-/** A filter to be used against `User` object types. All fields are combined with a logical ‘and.’ */
-export type UserFilter = {
-  /** Filter by the object’s `username` field. */
-  username?: Maybe<StringFilter>;
-  /** Filter by the object’s `groupname` field. */
-  groupname?: Maybe<StringFilter>;
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<IntFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<UserFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<UserFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<UserFilter>;
+/** An input for mutations affecting `User` */
+export type UserInput = {
+  username: Scalars['String'];
+  groupname?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
 };
 
 /** Represents an update to a `User`. Fields that are set will be updated. */
@@ -4316,7 +4523,7 @@ export type WorkoutPlan = Node & {
   id: Scalars['Int'];
   createdAt: Scalars['Datetime'];
   userId?: Maybe<Scalars['Int']>;
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   /** Reads a single `User` that is related to this `WorkoutPlan`. */
   user?: Maybe<User>;
   /** Reads and enables pagination through a set of `WorkoutPlanDay`. */
@@ -4334,7 +4541,6 @@ export type WorkoutPlanWorkoutPlanDaysArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<WorkoutPlanDaysOrderBy>>;
   condition?: Maybe<WorkoutPlanDayCondition>;
-  filter?: Maybe<WorkoutPlanDayFilter>;
 };
 
 
@@ -4346,7 +4552,6 @@ export type WorkoutPlanUserCurrentWorkoutPlansArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<UserCurrentWorkoutPlansOrderBy>>;
   condition?: Maybe<UserCurrentWorkoutPlanCondition>;
-  filter?: Maybe<UserCurrentWorkoutPlanFilter>;
 };
 
 /**
@@ -4380,20 +4585,6 @@ export type WorkoutPlanDayCondition = {
   id?: Maybe<Scalars['Int']>;
   /** Checks for equality with the object’s `workoutPlanId` field. */
   workoutPlanId?: Maybe<Scalars['Int']>;
-};
-
-/** A filter to be used against `WorkoutPlanDay` object types. All fields are combined with a logical ‘and.’ */
-export type WorkoutPlanDayFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<IntFilter>;
-  /** Filter by the object’s `workoutPlanId` field. */
-  workoutPlanId?: Maybe<IntFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<WorkoutPlanDayFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<WorkoutPlanDayFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<WorkoutPlanDayFilter>;
 };
 
 /** An input for mutations affecting `WorkoutPlanDay` */
@@ -4460,18 +4651,6 @@ export type WorkoutPlanExerciseCondition = {
   exerciseId?: Maybe<Scalars['Int']>;
 };
 
-/** A filter to be used against `WorkoutPlanExercise` object types. All fields are combined with a logical ‘and.’ */
-export type WorkoutPlanExerciseFilter = {
-  /** Filter by the object’s `exerciseId` field. */
-  exerciseId?: Maybe<IntFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<WorkoutPlanExerciseFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<WorkoutPlanExerciseFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<WorkoutPlanExerciseFilter>;
-};
-
 /** An input for mutations affecting `WorkoutPlanExercise` */
 export type WorkoutPlanExerciseInput = {
   exerciseId: Scalars['Int'];
@@ -4506,26 +4685,12 @@ export enum WorkoutPlanExercisesOrderBy {
   ExerciseIdDesc = 'EXERCISE_ID_DESC'
 }
 
-/** A filter to be used against `WorkoutPlan` object types. All fields are combined with a logical ‘and.’ */
-export type WorkoutPlanFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<IntFilter>;
-  /** Filter by the object’s `userId` field. */
-  userId?: Maybe<IntFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<WorkoutPlanFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<WorkoutPlanFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<WorkoutPlanFilter>;
-};
-
 /** An input for mutations affecting `WorkoutPlan` */
 export type WorkoutPlanInput = {
   id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['Datetime']>;
   userId?: Maybe<Scalars['Int']>;
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
 };
 
 /** Represents an update to a `WorkoutPlan`. Fields that are set will be updated. */
@@ -4566,6 +4731,14 @@ export enum WorkoutPlansOrderBy {
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
+
+export type UpsertCurrentWorkoutPlanMutationVariables = Exact<{
+  userId: Scalars['Int'];
+  workoutPlanId: Scalars['Int'];
+}>;
+
+
+export type UpsertCurrentWorkoutPlanMutation = { upsertUserCurrentWorkoutPlan?: Maybe<{ userCurrentWorkoutPlan?: Maybe<Pick<UserCurrentWorkoutPlan, 'workoutPlanId' | 'userId'>> }> };
 
 export type WorkoutDayFieldsFragment = (
   Pick<WorkoutPlanDay, 'nodeId' | 'name'>
@@ -4613,6 +4786,45 @@ export const WorkoutDayFieldsFragmentDoc = gql`
   }
 }
     `;
+export const UpsertCurrentWorkoutPlanDocument = gql`
+    mutation UpsertCurrentWorkoutPlan($userId: Int!, $workoutPlanId: Int!) {
+  upsertUserCurrentWorkoutPlan(
+    input: {userCurrentWorkoutPlan: {userId: $userId, workoutPlanId: $workoutPlanId}}
+  ) {
+    userCurrentWorkoutPlan {
+      workoutPlanId
+      userId
+    }
+  }
+}
+    `;
+export type UpsertCurrentWorkoutPlanMutationFn = Apollo.MutationFunction<UpsertCurrentWorkoutPlanMutation, UpsertCurrentWorkoutPlanMutationVariables>;
+
+/**
+ * __useUpsertCurrentWorkoutPlanMutation__
+ *
+ * To run a mutation, you first call `useUpsertCurrentWorkoutPlanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpsertCurrentWorkoutPlanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [upsertCurrentWorkoutPlanMutation, { data, loading, error }] = useUpsertCurrentWorkoutPlanMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      workoutPlanId: // value for 'workoutPlanId'
+ *   },
+ * });
+ */
+export function useUpsertCurrentWorkoutPlanMutation(baseOptions?: Apollo.MutationHookOptions<UpsertCurrentWorkoutPlanMutation, UpsertCurrentWorkoutPlanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpsertCurrentWorkoutPlanMutation, UpsertCurrentWorkoutPlanMutationVariables>(UpsertCurrentWorkoutPlanDocument, options);
+      }
+export type UpsertCurrentWorkoutPlanMutationHookResult = ReturnType<typeof useUpsertCurrentWorkoutPlanMutation>;
+export type UpsertCurrentWorkoutPlanMutationResult = Apollo.MutationResult<UpsertCurrentWorkoutPlanMutation>;
+export type UpsertCurrentWorkoutPlanMutationOptions = Apollo.BaseMutationOptions<UpsertCurrentWorkoutPlanMutation, UpsertCurrentWorkoutPlanMutationVariables>;
 export const WorkoutDocument = gql`
     query Workout {
   activeUser {

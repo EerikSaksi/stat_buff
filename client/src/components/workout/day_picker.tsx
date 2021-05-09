@@ -1,11 +1,16 @@
 import React from "react";
 import { List, Button } from "react-native-paper";
-import { WorkoutQuery, WorkoutDayFieldsFragment } from "generated/graphql";
+import { WorkoutDayFieldsFragment } from "generated/graphql";
+type Route = {
+  params: {
+    days: WorkoutDayFieldsFragment[];
+  };
+};
 
-const WorkoutDayPicker: React.FC<{days: WorkoutDayFieldsFragment[]}> = ({ days }) => {
+const WorkoutDayPicker: React.FC<{route: Route}> = ({route}) => {
   return (
     <List.Section>
-      {days.map((day) => (
+      {route.params.days.map((day) => (
         <List.Item
           left={(props) => <List.Icon {...props} icon="arm-flex" />}
           key={day.name}

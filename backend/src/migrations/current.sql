@@ -16,3 +16,6 @@ ALTER TABLE "workout_plan" drop CONSTRAINT if exists unique_user_id_name;
 ALTER TABLE "workout_plan" ADD CONSTRAINT unique_user_id_name UNIQUE (user_id, name);
 
 insert into "workout_plan_day"(workout_plan_id, name, workout_exercises) values (1, 'Legs', '{"(6, 4, 9)", "(7,7,7)"}') on conflict(name, workout_plan_id) do nothing;
+
+update "workout_plan" set name = 'PPL';
+ALTER TABLE "workout_plan" ALTER COLUMN name SET NOT NULL;

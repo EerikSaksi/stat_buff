@@ -7,7 +7,7 @@ const Workout: React.FC = () => {
   return (
     <Stack.Navigator initialRouteName = "WorkoutPlanPicker">
       <Stack.Screen name="Select Workout" component={WorkoutPlanPicker} />
-      <Stack.Screen name="WorkoutDayPicker" component={WorkoutDayPicker} />
+      <Stack.Screen name="Select Workout Day" component={WorkoutDayPicker} />
     </Stack.Navigator>
   );
 };

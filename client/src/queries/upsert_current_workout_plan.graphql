@@ -1,0 +1,8 @@
+mutation UpsertCurrentWorkoutPlan ($userId: Int!, $workoutPlanId: Int!){
+  upsertUserCurrentWorkoutPlan(input: {userCurrentWorkoutPlan: {userId: $userId, workoutPlanId: $workoutPlanId}}){
+    userCurrentWorkoutPlan{
+      workoutPlanId
+      userId
+    }
+  }
+}
