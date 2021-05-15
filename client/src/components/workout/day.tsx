@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { List } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {WorkoutPlanExercisesFragment} from "generated/graphql";
+import { WorkoutPlanExercisesFragment } from "generated/graphql";
 import WorkoutExerciseSet from "./exercise_set";
 
 type Route = {
   params: {
-    exercises: WorkoutPlanExercisesFragment
+    exercises: WorkoutPlanExercisesFragment;
   };
 };
-const Day: React.FC<Route> = ({params}) => {
+const Day: React.FC<{ route: Route }> = ({ route }) => {
   const [expandedId, setExpandedId] = useState(1);
+  console.log(route.params.exercises);
   return (
     <SafeAreaView>
       <List.AccordionGroup
@@ -21,15 +22,17 @@ const Day: React.FC<Route> = ({params}) => {
           }
         }}
       >
-        {params.exercises.workoutExercises.map((workoutExercise, i) => {
-            workoutExercise?.exercise?.id
-            ?
-            <List.Accordion id={i} title={`${workoutExercise.exercise.name}: ${workoutExercise.sets} sets of ${workoutExercise.reps} reps`} >
-              {Array.from({ length:  workoutExercise.sets}).map((_, i) => (
-                <WorkoutExerciseSet exerciseId = {workoutExercise.exercise.id}/>
-              ))}
-            </List.Accordion>
-            : undefined
+        {route.params.exercises.workoutExercises.map((workoutExercise, i) => (
+          <List.Accordion
+            key = {i}
+            id={i + 1}
+            title={`${workoutExercise?.exercise?.name}: ${workoutExercise?.sets} sets of ${workoutExercise?.reps} reps`}
+          >
+            {Array.from({ length: workoutExercise?.sets || 0 }).map((_, i) => (
+              <WorkoutExerciseSet key = {i} exerciseId={workoutExercise?.exercise?.id || -1} />
+            ))}
+          </List.Accordion>
+        ))}
       </List.AccordionGroup>
     </SafeAreaView>
   );

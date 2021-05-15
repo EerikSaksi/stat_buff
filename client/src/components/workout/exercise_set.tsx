@@ -12,6 +12,23 @@ const WorkoutExerciseSet: React.FC<{exerciseId: number}> = ({exerciseId}) => {
         <>
           <TextInput
             style={{ margin: 3 }}
+            placeholder="Weight (kg)"
+            mode="outlined"
+            dense
+            keyboardType="numeric"
+            value={weight?.toString() }
+            onChangeText={(v) => {
+              const parsed = parseInt(v);
+              if (!isNaN(parsed)) {
+                setWeight(parsed);
+              }
+              else{
+                setWeight(undefined)
+              }
+            }}
+          />
+          <TextInput
+            style={{ margin: 3 }}
             placeholder="Reps"
             mode="outlined"
             dense
@@ -21,20 +38,6 @@ const WorkoutExerciseSet: React.FC<{exerciseId: number}> = ({exerciseId}) => {
               const parsed = parseInt(v);
               if (!isNaN(parsed)) {
                 setReps(parsed);
-              }
-            }}
-          />
-          <TextInput
-            style={{ margin: 3 }}
-            placeholder="Weight (kg)"
-            mode="outlined"
-            dense
-            keyboardType="numeric"
-            value={weight?.toString()}
-            onChangeText={(v) => {
-              const parsed = parseInt(v);
-              if (!isNaN(parsed)) {
-                setWeight(parsed);
               }
             }}
           />

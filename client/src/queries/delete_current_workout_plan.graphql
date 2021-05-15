@@ -9,4 +9,5 @@ mutation DeleteCurrentWorkoutPlan($userId: Int!) {
       }
     }
   }
+
 }
