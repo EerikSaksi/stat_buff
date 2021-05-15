@@ -12,7 +12,6 @@ const Tab = createBottomTabNavigator();
 
 const PERSISTENCE_KEY = "NAVIGATION_STATE";
 const App: React.FC<{ username: string }> = ({ username }) => {
-  console.log("ran")
   const navigationRef = useRef<any>();
   const [isReady, setIsReady] = React.useState(false);
   const [initialState, setInitialState] = useState();

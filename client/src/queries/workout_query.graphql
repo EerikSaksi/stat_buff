@@ -1,52 +1,40 @@
-fragment WorkoutDayFields on WorkoutPlanDay{
-  nodeId
+fragment WorkoutPlan on WorkoutPlan {
   name
+  id
+  workoutPlanDays {
+    nodes {
+      ...WorkoutDay
+    }
+  }
+}
+fragment WorkoutDay on WorkoutPlanDay {
+  name
+  id
   workoutExercises {
     sets
     reps
     exercise {
-      nodeId
       name
       id
     }
   }
 }
-query Workout{
-  activeUser {
-    nodeId
-    userCurrentWorkoutPlan {
-      nodeId
-      workoutPlan {
-        nodeId
-        name
-        workoutPlanDays {
-          nodes {
-            ...WorkoutDayFields
-          }
-        }
-      }
-    }
-    workoutPlans {
-      nodes {
-        nodeId
-        name
-        workoutPlanDays {
-          nodes {
-            nodeId
-            name
-            workoutExercises {
-              sets
-              reps
-              exercise {
-                nodeId
-                name
-                id
-              }
-            }
-          }
-        }
-      }
+fragment UserCurrentWorkoutPlan on User {
+  id
+  userCurrentWorkoutPlan {
+    workoutPlan {
+      ...WorkoutPlan
     }
   }
 }
 
+query Workout {
+  activeUser {
+    ...UserCurrentWorkoutPlan
+    workoutPlans {
+      nodes {
+        ...WorkoutPlan
+      }
+    }
+  }
+}

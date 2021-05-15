@@ -1,0 +1,7 @@
+mutation DeleteCurrentWorkoutPlan ($userId: Int!) {
+  deleteUserCurrentWorkoutPlan(input: { userId: $userId }) {
+    user {
+      ...UserCurrentWorkoutPlan
+    }
+  }
+}

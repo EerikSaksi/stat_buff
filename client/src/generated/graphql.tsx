@@ -4732,72 +4732,128 @@ export enum WorkoutPlansOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
+export type DeleteCurrentWorkoutPlanMutationVariables = Exact<{
+  userId: Scalars['Int'];
+}>;
+
+
+export type DeleteCurrentWorkoutPlanMutation = { deleteUserCurrentWorkoutPlan?: Maybe<{ user?: Maybe<UserCurrentWorkoutPlanFragment> }> };
+
 export type UpsertCurrentWorkoutPlanMutationVariables = Exact<{
   userId: Scalars['Int'];
   workoutPlanId: Scalars['Int'];
 }>;
 
 
-export type UpsertCurrentWorkoutPlanMutation = { upsertUserCurrentWorkoutPlan?: Maybe<{ userCurrentWorkoutPlan?: Maybe<Pick<UserCurrentWorkoutPlan, 'workoutPlanId' | 'userId'>> }> };
+export type UpsertCurrentWorkoutPlanMutation = { upsertUserCurrentWorkoutPlan?: Maybe<{ user?: Maybe<UserCurrentWorkoutPlanFragment> }> };
 
-export type WorkoutDayFieldsFragment = (
-  Pick<WorkoutPlanDay, 'nodeId' | 'name'>
+export type WorkoutPlanFragment = (
+  Pick<WorkoutPlan, 'name' | 'id'>
+  & { workoutPlanDays: { nodes: Array<WorkoutDayFragment> } }
+);
+
+export type WorkoutDayFragment = (
+  Pick<WorkoutPlanDay, 'name' | 'id'>
   & { workoutExercises: Array<Maybe<(
     Pick<WorkoutPlanExercise, 'sets' | 'reps'>
-    & { exercise?: Maybe<Pick<Exercise, 'nodeId' | 'name' | 'id'>> }
+    & { exercise?: Maybe<Pick<Exercise, 'name' | 'id'>> }
   )>> }
+);
+
+export type UserCurrentWorkoutPlanFragment = (
+  Pick<User, 'id'>
+  & { userCurrentWorkoutPlan?: Maybe<{ workoutPlan?: Maybe<WorkoutPlanFragment> }> }
 );
 
 export type WorkoutQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type WorkoutQuery = { activeUser?: Maybe<(
-    Pick<User, 'nodeId'>
-    & { userCurrentWorkoutPlan?: Maybe<(
-      Pick<UserCurrentWorkoutPlan, 'nodeId'>
-      & { workoutPlan?: Maybe<(
-        Pick<WorkoutPlan, 'nodeId' | 'name'>
-        & { workoutPlanDays: { nodes: Array<WorkoutDayFieldsFragment> } }
-      )> }
-    )>, workoutPlans: { nodes: Array<(
-        Pick<WorkoutPlan, 'nodeId' | 'name'>
-        & { workoutPlanDays: { nodes: Array<(
-            Pick<WorkoutPlanDay, 'nodeId' | 'name'>
-            & { workoutExercises: Array<Maybe<(
-              Pick<WorkoutPlanExercise, 'sets' | 'reps'>
-              & { exercise?: Maybe<Pick<Exercise, 'nodeId' | 'name' | 'id'>> }
-            )>> }
-          )> } }
-      )> } }
+    { workoutPlans: { nodes: Array<WorkoutPlanFragment> } }
+    & UserCurrentWorkoutPlanFragment
   )> };
 
-export const WorkoutDayFieldsFragmentDoc = gql`
-    fragment WorkoutDayFields on WorkoutPlanDay {
-  nodeId
+export const WorkoutDayFragmentDoc = gql`
+    fragment WorkoutDay on WorkoutPlanDay {
   name
+  id
   workoutExercises {
     sets
     reps
     exercise {
-      nodeId
       name
       id
     }
   }
 }
     `;
+export const WorkoutPlanFragmentDoc = gql`
+    fragment WorkoutPlan on WorkoutPlan {
+  name
+  id
+  workoutPlanDays {
+    nodes {
+      ...WorkoutDay
+    }
+  }
+}
+    ${WorkoutDayFragmentDoc}`;
+export const UserCurrentWorkoutPlanFragmentDoc = gql`
+    fragment UserCurrentWorkoutPlan on User {
+  id
+  userCurrentWorkoutPlan {
+    workoutPlan {
+      ...WorkoutPlan
+    }
+  }
+}
+    ${WorkoutPlanFragmentDoc}`;
+export const DeleteCurrentWorkoutPlanDocument = gql`
+    mutation DeleteCurrentWorkoutPlan($userId: Int!) {
+  deleteUserCurrentWorkoutPlan(input: {userId: $userId}) {
+    user {
+      ...UserCurrentWorkoutPlan
+    }
+  }
+}
+    ${UserCurrentWorkoutPlanFragmentDoc}`;
+export type DeleteCurrentWorkoutPlanMutationFn = Apollo.MutationFunction<DeleteCurrentWorkoutPlanMutation, DeleteCurrentWorkoutPlanMutationVariables>;
+
+/**
+ * __useDeleteCurrentWorkoutPlanMutation__
+ *
+ * To run a mutation, you first call `useDeleteCurrentWorkoutPlanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCurrentWorkoutPlanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteCurrentWorkoutPlanMutation, { data, loading, error }] = useDeleteCurrentWorkoutPlanMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useDeleteCurrentWorkoutPlanMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCurrentWorkoutPlanMutation, DeleteCurrentWorkoutPlanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteCurrentWorkoutPlanMutation, DeleteCurrentWorkoutPlanMutationVariables>(DeleteCurrentWorkoutPlanDocument, options);
+      }
+export type DeleteCurrentWorkoutPlanMutationHookResult = ReturnType<typeof useDeleteCurrentWorkoutPlanMutation>;
+export type DeleteCurrentWorkoutPlanMutationResult = Apollo.MutationResult<DeleteCurrentWorkoutPlanMutation>;
+export type DeleteCurrentWorkoutPlanMutationOptions = Apollo.BaseMutationOptions<DeleteCurrentWorkoutPlanMutation, DeleteCurrentWorkoutPlanMutationVariables>;
 export const UpsertCurrentWorkoutPlanDocument = gql`
     mutation UpsertCurrentWorkoutPlan($userId: Int!, $workoutPlanId: Int!) {
   upsertUserCurrentWorkoutPlan(
     input: {userCurrentWorkoutPlan: {userId: $userId, workoutPlanId: $workoutPlanId}}
   ) {
-    userCurrentWorkoutPlan {
-      workoutPlanId
-      userId
+    user {
+      ...UserCurrentWorkoutPlan
     }
   }
 }
-    `;
+    ${UserCurrentWorkoutPlanFragmentDoc}`;
 export type UpsertCurrentWorkoutPlanMutationFn = Apollo.MutationFunction<UpsertCurrentWorkoutPlanMutation, UpsertCurrentWorkoutPlanMutationVariables>;
 
 /**
@@ -4828,43 +4884,16 @@ export type UpsertCurrentWorkoutPlanMutationOptions = Apollo.BaseMutationOptions
 export const WorkoutDocument = gql`
     query Workout {
   activeUser {
-    nodeId
-    userCurrentWorkoutPlan {
-      nodeId
-      workoutPlan {
-        nodeId
-        name
-        workoutPlanDays {
-          nodes {
-            ...WorkoutDayFields
-          }
-        }
-      }
-    }
+    ...UserCurrentWorkoutPlan
     workoutPlans {
       nodes {
-        nodeId
-        name
-        workoutPlanDays {
-          nodes {
-            nodeId
-            name
-            workoutExercises {
-              sets
-              reps
-              exercise {
-                nodeId
-                name
-                id
-              }
-            }
-          }
-        }
+        ...WorkoutPlan
       }
     }
   }
 }
-    ${WorkoutDayFieldsFragmentDoc}`;
+    ${UserCurrentWorkoutPlanFragmentDoc}
+${WorkoutPlanFragmentDoc}`;
 
 /**
  * __useWorkoutQuery__

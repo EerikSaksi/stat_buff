@@ -1,9 +1,9 @@
 import React from "react";
 import { List, Button } from "react-native-paper";
-import { WorkoutDayFieldsFragment } from "generated/graphql";
+import { WorkoutDayFragment } from "generated/graphql";
 type Route = {
   params: {
-    days: WorkoutDayFieldsFragment[];
+    days: WorkoutDayFragment[];
   };
 };
 
