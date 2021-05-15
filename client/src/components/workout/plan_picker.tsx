@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import { useWorkoutQuery, useUpsertCurrentWorkoutPlanMutation, useDeleteCurrentWorkoutPlanMutation } from "../../generated/graphql";
-import { ActivityIndicator, Checkbox } from "react-native-paper";
+import { ActivityIndicator, Checkbox, Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { List } from "react-native-paper";
-import { cache } from "../../apollo/cache";
-import { Text } from "react-native";
+import { View, Text } from "react-native";
 
 const WorkoutPlanPicker: React.FC = () => {
   const navigation = useNavigation();
@@ -17,11 +16,7 @@ const WorkoutPlanPicker: React.FC = () => {
     }
   }, [data]);
   const [upsertCurrentWorkoutPlan] = useUpsertCurrentWorkoutPlanMutation();
-  const [deleteCurrentWorkoutPlanMutation] = useDeleteCurrentWorkoutPlanMutation({
-    onCompleted: (data) => {
-      console.log(data)
-    }
-  });
+  const [deleteCurrentWorkoutPlanMutation] = useDeleteCurrentWorkoutPlanMutation();
 
   if (!data?.activeUser) {
     return <ActivityIndicator />;
@@ -33,19 +28,22 @@ const WorkoutPlanPicker: React.FC = () => {
           key={plan.id}
           title={plan.name}
           right={() => (
-            <Checkbox
-              status={plan.id === data.activeUser?.userCurrentWorkoutPlan?.workoutPlan?.id ? "checked" : "unchecked"}
-              onPress={() => {
-                if (data.activeUser) {
-                  if (plan.id === data.activeUser?.userCurrentWorkoutPlan?.workoutPlan?.id) {
-                    deleteCurrentWorkoutPlanMutation({ variables: { userId: data.activeUser.id } });
+            <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
+              <Text>Default</Text>
+              <Checkbox
+                status={plan.id === data.activeUser?.userCurrentWorkoutPlan?.workoutPlan?.id ? "checked" : "unchecked"}
+                onPress={() => {
+                  if (data.activeUser) {
+                    if (plan.id === data.activeUser?.userCurrentWorkoutPlan?.workoutPlan?.id) {
+                      deleteCurrentWorkoutPlanMutation({ variables: { userId: data.activeUser.id } });
+                    } else {
+                      upsertCurrentWorkoutPlan({ variables: { userId: data.activeUser.id, workoutPlanId: plan.id } });
+                    }
                   }
-                  else{
-                    upsertCurrentWorkoutPlan({ variables: { userId: data.activeUser.id, workoutPlanId: plan.id } });
-                  }
-                }
-              }}
-            />
+                }}
+              />
+              <Button icon = {source: "arrow-right"}>View</Button>
+            </View>
           )}
         />
       ))}
