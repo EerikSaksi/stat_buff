@@ -1,15 +1,4 @@
-fragment WorkoutPlan on WorkoutPlan {
-  name
-  id
-  workoutPlanDays {
-    nodes {
-      ...WorkoutDay
-    }
-  }
-}
-fragment WorkoutDay on WorkoutPlanDay {
-  name
-  id
+fragment WorkoutPlanExercises on WorkoutPlanDay {
   workoutExercises {
     sets
     reps
@@ -19,18 +8,30 @@ fragment WorkoutDay on WorkoutPlanDay {
     }
   }
 }
-fragment UserCurrentWorkoutPlan on User {
+fragment WorkoutDay on WorkoutPlanDay {
+  name
   id
-  userCurrentWorkoutPlan {
-    workoutPlan {
-      ...WorkoutPlan
+  ...WorkoutPlanExercises
+}
+
+fragment WorkoutPlan on WorkoutPlan {
+  name
+  id
+  workoutPlanDays {
+    nodes {
+      ...WorkoutDay
     }
   }
 }
 
 query Workout {
   activeUser {
-    ...UserCurrentWorkoutPlan
+    id
+    userCurrentWorkoutPlan {
+      workoutPlan {
+        ...WorkoutPlan
+      }
+    }
     workoutPlans {
       nodes {
         ...WorkoutPlan

@@ -1,7 +1,12 @@
 mutation UpsertCurrentWorkoutPlan($userId: Int!, $workoutPlanId: Int!) {
   upsertUserCurrentWorkoutPlan(input: { userCurrentWorkoutPlan: { userId: $userId, workoutPlanId: $workoutPlanId } }) {
-    user{
-      ...UserCurrentWorkoutPlan
+    user {
+      id
+      userCurrentWorkoutPlan {
+        workoutPlan {
+          ...WorkoutPlan
+        }
+      }
     }
   }
 }

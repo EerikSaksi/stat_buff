@@ -1,7 +1,12 @@
-mutation DeleteCurrentWorkoutPlan ($userId: Int!) {
+mutation DeleteCurrentWorkoutPlan($userId: Int!) {
   deleteUserCurrentWorkoutPlan(input: { userId: $userId }) {
     user {
-      ...UserCurrentWorkoutPlan
+      id
+      userCurrentWorkoutPlan {
+        workoutPlan {
+          ...WorkoutPlan
+        }
+      }
     }
   }
 }

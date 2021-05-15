@@ -4737,7 +4737,10 @@ export type DeleteCurrentWorkoutPlanMutationVariables = Exact<{
 }>;
 
 
-export type DeleteCurrentWorkoutPlanMutation = { deleteUserCurrentWorkoutPlan?: Maybe<{ user?: Maybe<UserCurrentWorkoutPlanFragment> }> };
+export type DeleteCurrentWorkoutPlanMutation = { deleteUserCurrentWorkoutPlan?: Maybe<{ user?: Maybe<(
+      Pick<User, 'id'>
+      & { userCurrentWorkoutPlan?: Maybe<{ workoutPlan?: Maybe<WorkoutPlanFragment> }> }
+    )> }> };
 
 export type UpsertCurrentWorkoutPlanMutationVariables = Exact<{
   userId: Scalars['Int'];
@@ -4745,38 +4748,36 @@ export type UpsertCurrentWorkoutPlanMutationVariables = Exact<{
 }>;
 
 
-export type UpsertCurrentWorkoutPlanMutation = { upsertUserCurrentWorkoutPlan?: Maybe<{ user?: Maybe<UserCurrentWorkoutPlanFragment> }> };
+export type UpsertCurrentWorkoutPlanMutation = { upsertUserCurrentWorkoutPlan?: Maybe<{ user?: Maybe<(
+      Pick<User, 'id'>
+      & { userCurrentWorkoutPlan?: Maybe<{ workoutPlan?: Maybe<WorkoutPlanFragment> }> }
+    )> }> };
+
+export type WorkoutPlanExercisesFragment = { workoutExercises: Array<Maybe<(
+    Pick<WorkoutPlanExercise, 'sets' | 'reps'>
+    & { exercise?: Maybe<Pick<Exercise, 'name' | 'id'>> }
+  )>> };
+
+export type WorkoutDayFragment = (
+  Pick<WorkoutPlanDay, 'name' | 'id'>
+  & WorkoutPlanExercisesFragment
+);
 
 export type WorkoutPlanFragment = (
   Pick<WorkoutPlan, 'name' | 'id'>
   & { workoutPlanDays: { nodes: Array<WorkoutDayFragment> } }
 );
 
-export type WorkoutDayFragment = (
-  Pick<WorkoutPlanDay, 'name' | 'id'>
-  & { workoutExercises: Array<Maybe<(
-    Pick<WorkoutPlanExercise, 'sets' | 'reps'>
-    & { exercise?: Maybe<Pick<Exercise, 'name' | 'id'>> }
-  )>> }
-);
-
-export type UserCurrentWorkoutPlanFragment = (
-  Pick<User, 'id'>
-  & { userCurrentWorkoutPlan?: Maybe<{ workoutPlan?: Maybe<WorkoutPlanFragment> }> }
-);
-
 export type WorkoutQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type WorkoutQuery = { activeUser?: Maybe<(
-    { workoutPlans: { nodes: Array<WorkoutPlanFragment> } }
-    & UserCurrentWorkoutPlanFragment
+    Pick<User, 'id'>
+    & { userCurrentWorkoutPlan?: Maybe<{ workoutPlan?: Maybe<WorkoutPlanFragment> }>, workoutPlans: { nodes: Array<WorkoutPlanFragment> } }
   )> };
 
-export const WorkoutDayFragmentDoc = gql`
-    fragment WorkoutDay on WorkoutPlanDay {
-  name
-  id
+export const WorkoutPlanExercisesFragmentDoc = gql`
+    fragment WorkoutPlanExercises on WorkoutPlanDay {
   workoutExercises {
     sets
     reps
@@ -4787,6 +4788,13 @@ export const WorkoutDayFragmentDoc = gql`
   }
 }
     `;
+export const WorkoutDayFragmentDoc = gql`
+    fragment WorkoutDay on WorkoutPlanDay {
+  name
+  id
+  ...WorkoutPlanExercises
+}
+    ${WorkoutPlanExercisesFragmentDoc}`;
 export const WorkoutPlanFragmentDoc = gql`
     fragment WorkoutPlan on WorkoutPlan {
   name
@@ -4798,25 +4806,20 @@ export const WorkoutPlanFragmentDoc = gql`
   }
 }
     ${WorkoutDayFragmentDoc}`;
-export const UserCurrentWorkoutPlanFragmentDoc = gql`
-    fragment UserCurrentWorkoutPlan on User {
-  id
-  userCurrentWorkoutPlan {
-    workoutPlan {
-      ...WorkoutPlan
-    }
-  }
-}
-    ${WorkoutPlanFragmentDoc}`;
 export const DeleteCurrentWorkoutPlanDocument = gql`
     mutation DeleteCurrentWorkoutPlan($userId: Int!) {
   deleteUserCurrentWorkoutPlan(input: {userId: $userId}) {
     user {
-      ...UserCurrentWorkoutPlan
+      id
+      userCurrentWorkoutPlan {
+        workoutPlan {
+          ...WorkoutPlan
+        }
+      }
     }
   }
 }
-    ${UserCurrentWorkoutPlanFragmentDoc}`;
+    ${WorkoutPlanFragmentDoc}`;
 export type DeleteCurrentWorkoutPlanMutationFn = Apollo.MutationFunction<DeleteCurrentWorkoutPlanMutation, DeleteCurrentWorkoutPlanMutationVariables>;
 
 /**
@@ -4849,11 +4852,16 @@ export const UpsertCurrentWorkoutPlanDocument = gql`
     input: {userCurrentWorkoutPlan: {userId: $userId, workoutPlanId: $workoutPlanId}}
   ) {
     user {
-      ...UserCurrentWorkoutPlan
+      id
+      userCurrentWorkoutPlan {
+        workoutPlan {
+          ...WorkoutPlan
+        }
+      }
     }
   }
 }
-    ${UserCurrentWorkoutPlanFragmentDoc}`;
+    ${WorkoutPlanFragmentDoc}`;
 export type UpsertCurrentWorkoutPlanMutationFn = Apollo.MutationFunction<UpsertCurrentWorkoutPlanMutation, UpsertCurrentWorkoutPlanMutationVariables>;
 
 /**
@@ -4884,7 +4892,12 @@ export type UpsertCurrentWorkoutPlanMutationOptions = Apollo.BaseMutationOptions
 export const WorkoutDocument = gql`
     query Workout {
   activeUser {
-    ...UserCurrentWorkoutPlan
+    id
+    userCurrentWorkoutPlan {
+      workoutPlan {
+        ...WorkoutPlan
+      }
+    }
     workoutPlans {
       nodes {
         ...WorkoutPlan
@@ -4892,8 +4905,7 @@ export const WorkoutDocument = gql`
     }
   }
 }
-    ${UserCurrentWorkoutPlanFragmentDoc}
-${WorkoutPlanFragmentDoc}`;
+    ${WorkoutPlanFragmentDoc}`;
 
 /**
  * __useWorkoutQuery__

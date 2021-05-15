@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useRef} from "react";
 import { useWorkoutQuery, useUpsertCurrentWorkoutPlanMutation, useDeleteCurrentWorkoutPlanMutation } from "../../generated/graphql";
 import { ActivityIndicator, Checkbox, Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
@@ -6,15 +6,17 @@ import { List } from "react-native-paper";
 import { View, Text } from "react-native";
 
 const WorkoutPlanPicker: React.FC = () => {
+  const alreadyTriedNavigating = useRef(false)
   const navigation = useNavigation();
   const { data } = useWorkoutQuery({
-    fetchPolicy: "cache-first",
+    fetchPolicy: "cache-and-network",
+    onCompleted: (data) => {
+      if (!alreadyTriedNavigating.current && data?.activeUser?.userCurrentWorkoutPlan?.workoutPlan) {
+        navigation.navigate("Select Workout Day", { days: data.activeUser.userCurrentWorkoutPlan.workoutPlan.workoutPlanDays.nodes });
+        alreadyTriedNavigating.current = true
+      }
+    },
   });
-  useEffect(() => {
-    if (data?.activeUser?.userCurrentWorkoutPlan?.workoutPlan) {
-      //navigation.navigate("Select Workout Day", { days: data.activeUser.userCurrentWorkoutPlan.workoutPlan.workoutPlanDays.nodes });
-    }
-  }, [data]);
   const [upsertCurrentWorkoutPlan] = useUpsertCurrentWorkoutPlanMutation();
   const [deleteCurrentWorkoutPlanMutation] = useDeleteCurrentWorkoutPlanMutation();
 
@@ -42,7 +44,9 @@ const WorkoutPlanPicker: React.FC = () => {
                   }
                 }}
               />
-              <Button icon = {source: "arrow-right"}>View</Button>
+              <Button icon="arrow-right" onPress={() => navigation.navigate("Select Workout Day", { days: plan.workoutPlanDays.nodes })}>
+                View
+              </Button>
             </View>
           )}
         />
