@@ -1,0 +1,13 @@
+mutation SaveWorkout($completedExercises: [CompletedWorkoutExerciseInput!]){
+  mnCreateCompletedWorkoutExercise(input: {mnCompletedWorkoutExercise: $completedExercises}){
+    completedWorkoutExercise{
+      volume{
+        sets
+        reps
+      }
+    }
+    exercise{
+      bodyPart
+    }
+  }
+}

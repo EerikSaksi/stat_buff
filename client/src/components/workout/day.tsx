@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { List } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { WorkoutPlanExercisesFragment } from "generated/graphql";
+import { WorkoutPlanExercisesFragment, CompletedWorkoutExerciseInput } from "generated/graphql";
 import WorkoutExerciseSet from "./exercise_set";
 
 type Route = {
@@ -11,7 +11,7 @@ type Route = {
 };
 const Day: React.FC<{ route: Route }> = ({ route }) => {
   const [expandedId, setExpandedId] = useState(1);
-  console.log(route.params.exercises);
+  const [completedExercises, setCompletedExercises] = useState<CompletedWorkoutExerciseInput[]>()
   return (
     <SafeAreaView>
       <List.AccordionGroup

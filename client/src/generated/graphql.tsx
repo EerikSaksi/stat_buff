@@ -2051,6 +2051,12 @@ export type Mutation = {
   upsertWorkoutPlanDay?: Maybe<UpsertWorkoutPlanDayPayload>;
   /** Upserts a single `WorkoutPlanExercise`. */
   upsertWorkoutPlanExercise?: Maybe<UpsertWorkoutPlanExercisePayload>;
+  /** Creates one or many `CompletedWorkoutExercise`. */
+  mnCreateCompletedWorkoutExercise?: Maybe<MnCreateCompletedWorkoutExercisePayload>;
+  /** Updates one or many `CompletedWorkoutExercise` using a unique key and a patch. */
+  mnUpdateCompletedWorkoutExercise?: Maybe<MnUpdateCompletedWorkoutExercisePayload>;
+  /** Deletes one or many `CompletedWorkoutExercise` a unique key via a patch. */
+  mnDeleteCompletedWorkoutExercise?: Maybe<MnDeleteCompletedWorkoutExercisePayload>;
 };
 
 
@@ -2573,6 +2579,24 @@ export type MutationUpsertWorkoutPlanDayArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpsertWorkoutPlanExerciseArgs = {
   input: UpsertWorkoutPlanExerciseInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationMnCreateCompletedWorkoutExerciseArgs = {
+  input: MnCreateCompletedWorkoutExerciseInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationMnUpdateCompletedWorkoutExerciseArgs = {
+  input: MnUpdateCompletedWorkoutExerciseInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationMnDeleteCompletedWorkoutExerciseArgs = {
+  input: MnDeleteCompletedWorkoutExerciseInput;
 };
 
 /** An object with a globally unique `ID`. */
@@ -4732,6 +4756,103 @@ export enum WorkoutPlansOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
+/** All input for the create mn`CompletedWorkoutExercise` mutation. */
+export type MnCreateCompletedWorkoutExerciseInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The one or many `CompletedWorkoutExercise` to be created by this mutation. */
+  mnCompletedWorkoutExercise?: Maybe<Array<CompletedWorkoutExerciseInput>>;
+};
+
+/** The output of our many create `CompletedWorkoutExercise` mutation. */
+export type MnCreateCompletedWorkoutExercisePayload = {
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CompletedWorkoutExercise` that was created by this mutation. */
+  completedWorkoutExercise?: Maybe<CompletedWorkoutExercise>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Exercise` that is related to this `CompletedWorkoutExercise`. */
+  exercise?: Maybe<Exercise>;
+  /** Reads a single `CompletedWorkout` that is related to this `CompletedWorkoutExercise`. */
+  completedWorkout?: Maybe<CompletedWorkout>;
+  /** An edge for our `CompletedWorkoutExercise`. May be used by Relay 1. */
+  completedWorkoutExerciseEdge?: Maybe<CompletedWorkoutExercisesEdge>;
+};
+
+
+/** The output of our many create `CompletedWorkoutExercise` mutation. */
+export type MnCreateCompletedWorkoutExercisePayloadCompletedWorkoutExerciseEdgeArgs = {
+  orderBy?: Maybe<Array<CompletedWorkoutExercisesOrderBy>>;
+};
+
+/** All input for the delete `mnDeleteCompletedWorkoutExercise` mutation. */
+export type MnDeleteCompletedWorkoutExerciseInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The one or many `CompletedWorkoutExercise` to be deleted. You must provide the PK values! */
+  mnPatch?: Maybe<Array<CompletedWorkoutExercisePatch>>;
+};
+
+/** The output of our delete mn `CompletedWorkoutExercise` mutation. */
+export type MnDeleteCompletedWorkoutExercisePayload = {
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CompletedWorkoutExercise` that was deleted by this mutation. */
+  completedWorkoutExercise?: Maybe<CompletedWorkoutExercise>;
+  deletedCompletedWorkoutExerciseNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Exercise` that is related to this `CompletedWorkoutExercise`. */
+  exercise?: Maybe<Exercise>;
+  /** Reads a single `CompletedWorkout` that is related to this `CompletedWorkoutExercise`. */
+  completedWorkout?: Maybe<CompletedWorkout>;
+  /** An edge for our `CompletedWorkoutExercise`. May be used by Relay 1. */
+  completedWorkoutExerciseEdge?: Maybe<CompletedWorkoutExercisesEdge>;
+};
+
+
+/** The output of our delete mn `CompletedWorkoutExercise` mutation. */
+export type MnDeleteCompletedWorkoutExercisePayloadCompletedWorkoutExerciseEdgeArgs = {
+  orderBy?: Maybe<Array<CompletedWorkoutExercisesOrderBy>>;
+};
+
+/** All input for the update `mnUpdateCompletedWorkoutExercise` mutation. */
+export type MnUpdateCompletedWorkoutExerciseInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The one or many `CompletedWorkoutExercise` to be updated. */
+  mnPatch?: Maybe<Array<CompletedWorkoutExercisePatch>>;
+};
+
+/** The output of our update mn `CompletedWorkoutExercise` mutation. */
+export type MnUpdateCompletedWorkoutExercisePayload = {
+  /** The exact same `clientMutationId` that was provided in the mutation input,                 unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CompletedWorkoutExercise` that was updated by this mutation. */
+  completedWorkoutExercise?: Maybe<CompletedWorkoutExercise>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Exercise` that is related to this `CompletedWorkoutExercise`. */
+  exercise?: Maybe<Exercise>;
+  /** Reads a single `CompletedWorkout` that is related to this `CompletedWorkoutExercise`. */
+  completedWorkout?: Maybe<CompletedWorkout>;
+  /** An edge for our `CompletedWorkoutExercise`. May be used by Relay 1. */
+  completedWorkoutExerciseEdge?: Maybe<CompletedWorkoutExercisesEdge>;
+};
+
+
+/** The output of our update mn `CompletedWorkoutExercise` mutation. */
+export type MnUpdateCompletedWorkoutExercisePayloadCompletedWorkoutExerciseEdgeArgs = {
+  orderBy?: Maybe<Array<CompletedWorkoutExercisesOrderBy>>;
+};
+
 export type DeleteCurrentWorkoutPlanMutationVariables = Exact<{
   userId: Scalars['Int'];
 }>;
@@ -4741,6 +4862,13 @@ export type DeleteCurrentWorkoutPlanMutation = { deleteUserCurrentWorkoutPlan?: 
       Pick<User, 'id'>
       & { userCurrentWorkoutPlan?: Maybe<{ workoutPlan?: Maybe<WorkoutPlanFragment> }> }
     )> }> };
+
+export type SaveWorkoutMutationVariables = Exact<{
+  completedExercises?: Maybe<Array<CompletedWorkoutExerciseInput> | CompletedWorkoutExerciseInput>;
+}>;
+
+
+export type SaveWorkoutMutation = { mnCreateCompletedWorkoutExercise?: Maybe<{ completedWorkoutExercise?: Maybe<{ volume: Array<Maybe<Pick<Volume, 'sets' | 'reps'>>> }>, exercise?: Maybe<Pick<Exercise, 'bodyPart'>> }> };
 
 export type UpsertCurrentWorkoutPlanMutationVariables = Exact<{
   userId: Scalars['Int'];
@@ -4846,6 +4974,49 @@ export function useDeleteCurrentWorkoutPlanMutation(baseOptions?: Apollo.Mutatio
 export type DeleteCurrentWorkoutPlanMutationHookResult = ReturnType<typeof useDeleteCurrentWorkoutPlanMutation>;
 export type DeleteCurrentWorkoutPlanMutationResult = Apollo.MutationResult<DeleteCurrentWorkoutPlanMutation>;
 export type DeleteCurrentWorkoutPlanMutationOptions = Apollo.BaseMutationOptions<DeleteCurrentWorkoutPlanMutation, DeleteCurrentWorkoutPlanMutationVariables>;
+export const SaveWorkoutDocument = gql`
+    mutation SaveWorkout($completedExercises: [CompletedWorkoutExerciseInput!]) {
+  mnCreateCompletedWorkoutExercise(
+    input: {mnCompletedWorkoutExercise: $completedExercises}
+  ) {
+    completedWorkoutExercise {
+      volume {
+        sets
+        reps
+      }
+    }
+    exercise {
+      bodyPart
+    }
+  }
+}
+    `;
+export type SaveWorkoutMutationFn = Apollo.MutationFunction<SaveWorkoutMutation, SaveWorkoutMutationVariables>;
+
+/**
+ * __useSaveWorkoutMutation__
+ *
+ * To run a mutation, you first call `useSaveWorkoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSaveWorkoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [saveWorkoutMutation, { data, loading, error }] = useSaveWorkoutMutation({
+ *   variables: {
+ *      completedExercises: // value for 'completedExercises'
+ *   },
+ * });
+ */
+export function useSaveWorkoutMutation(baseOptions?: Apollo.MutationHookOptions<SaveWorkoutMutation, SaveWorkoutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SaveWorkoutMutation, SaveWorkoutMutationVariables>(SaveWorkoutDocument, options);
+      }
+export type SaveWorkoutMutationHookResult = ReturnType<typeof useSaveWorkoutMutation>;
+export type SaveWorkoutMutationResult = Apollo.MutationResult<SaveWorkoutMutation>;
+export type SaveWorkoutMutationOptions = Apollo.BaseMutationOptions<SaveWorkoutMutation, SaveWorkoutMutationVariables>;
 export const UpsertCurrentWorkoutPlanDocument = gql`
     mutation UpsertCurrentWorkoutPlan($userId: Int!, $workoutPlanId: Int!) {
   upsertUserCurrentWorkoutPlan(

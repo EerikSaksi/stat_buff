@@ -17,6 +17,13 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: postgraphile_watch; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA postgraphile_watch;
+
+
+--
 -- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -100,6 +107,48 @@ CREATE TYPE public.volume AS (
 	sets integer,
 	reps integer
 );
+
+
+--
+-- Name: notify_watchers_ddl(); Type: FUNCTION; Schema: postgraphile_watch; Owner: -
+--
+
+CREATE FUNCTION postgraphile_watch.notify_watchers_ddl() RETURNS event_trigger
+    LANGUAGE plpgsql
+    AS $$
+begin
+  perform pg_notify(
+    'postgraphile_watch',
+    json_build_object(
+      'type',
+      'ddl',
+      'payload',
+      (select json_agg(json_build_object('schema', schema_name, 'command', command_tag)) from pg_event_trigger_ddl_commands() as x)
+    )::text
+  );
+end;
+$$;
+
+
+--
+-- Name: notify_watchers_drop(); Type: FUNCTION; Schema: postgraphile_watch; Owner: -
+--
+
+CREATE FUNCTION postgraphile_watch.notify_watchers_drop() RETURNS event_trigger
+    LANGUAGE plpgsql
+    AS $$
+begin
+  perform pg_notify(
+    'postgraphile_watch',
+    json_build_object(
+      'type',
+      'drop',
+      'payload',
+      (select json_agg(distinct x.schema_name) from pg_event_trigger_dropped_objects() as x)
+    )::text
+  );
+end;
+$$;
 
 
 SET default_tablespace = '';
@@ -734,9 +783,17 @@ CREATE TABLE public.completed_workout_exercise (
     id integer NOT NULL,
     exercise_id integer NOT NULL,
     volume public.volume[] NOT NULL,
-    completed_workout_id integer,
+    completed_workout_id integer NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL
 );
+
+
+--
+-- Name: TABLE completed_workout_exercise; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.completed_workout_exercise IS '@mncud
+';
 
 
 --
@@ -1971,16 +2028,90 @@ CREATE POLICY user_update ON public."user" FOR UPDATE TO query_sender USING ((id
 
 
 --
+-- Name: workout_plan; Type: ROW SECURITY; Schema: public; Owner: -
+--
+
+ALTER TABLE public.workout_plan ENABLE ROW LEVEL SECURITY;
+
+--
 -- Name: workout_plan_day; Type: ROW SECURITY; Schema: public; Owner: -
 --
 
 ALTER TABLE public.workout_plan_day ENABLE ROW LEVEL SECURITY;
 
 --
+-- Name: workout_plan_day workout_plan_day_delete_policy; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY workout_plan_day_delete_policy ON public.workout_plan_day FOR DELETE USING ((( SELECT workout_plan.user_id
+   FROM (public.workout_plan_day workout_plan_day_1
+     JOIN public.workout_plan ON ((workout_plan_day_1.workout_plan_id = workout_plan.id)))) = ( SELECT active_user.id
+   FROM public.active_user() active_user(username, password, groupname, created_at, updated_at, id))));
+
+
+--
+-- Name: workout_plan_day workout_plan_day_insert_policy; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY workout_plan_day_insert_policy ON public.workout_plan_day FOR INSERT WITH CHECK ((( SELECT workout_plan.user_id
+   FROM (public.workout_plan_day workout_plan_day_1
+     JOIN public.workout_plan ON ((workout_plan_day_1.workout_plan_id = workout_plan.id)))) = ( SELECT active_user.id
+   FROM public.active_user() active_user(username, password, groupname, created_at, updated_at, id))));
+
+
+--
+-- Name: workout_plan_day workout_plan_day_select_policy; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY workout_plan_day_select_policy ON public.workout_plan_day FOR SELECT USING (true);
+
+
+--
+-- Name: workout_plan_day workout_plan_day_update_policy; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY workout_plan_day_update_policy ON public.workout_plan_day FOR UPDATE USING ((( SELECT workout_plan.user_id
+   FROM (public.workout_plan_day workout_plan_day_1
+     JOIN public.workout_plan ON ((workout_plan_day_1.workout_plan_id = workout_plan.id)))) = ( SELECT active_user.id
+   FROM public.active_user() active_user(username, password, groupname, created_at, updated_at, id))));
+
+
+--
+-- Name: workout_plan workout_plan_delete_policy; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY workout_plan_delete_policy ON public.workout_plan FOR DELETE USING ((user_id = ( SELECT active_user.id
+   FROM public.active_user() active_user(username, password, groupname, created_at, updated_at, id))));
+
+
+--
+-- Name: workout_plan workout_plan_insert_policy; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY workout_plan_insert_policy ON public.workout_plan FOR INSERT WITH CHECK ((user_id = ( SELECT active_user.id
+   FROM public.active_user() active_user(username, password, groupname, created_at, updated_at, id))));
+
+
+--
+-- Name: workout_plan workout_plan_select_policy; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY workout_plan_select_policy ON public.workout_plan FOR SELECT USING (true);
+
+
+--
 -- Name: workout_plan_day workout_plan_select_policy; Type: POLICY; Schema: public; Owner: -
 --
 
 CREATE POLICY workout_plan_select_policy ON public.workout_plan_day FOR SELECT USING (true);
+
+
+--
+-- Name: workout_plan workout_plan_update_policy; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY workout_plan_update_policy ON public.workout_plan FOR UPDATE USING ((user_id = ( SELECT active_user.id
+   FROM public.active_user() active_user(username, password, groupname, created_at, updated_at, id))));
 
 
 --
@@ -2142,6 +2273,23 @@ GRANT ALL ON TABLE public.workout_plan_day TO PUBLIC;
 --
 
 GRANT ALL ON SEQUENCE public.workout_plan_id_seq TO PUBLIC;
+
+
+--
+-- Name: postgraphile_watch_ddl; Type: EVENT TRIGGER; Schema: -; Owner: -
+--
+
+CREATE EVENT TRIGGER postgraphile_watch_ddl ON ddl_command_end
+         WHEN TAG IN ('ALTER AGGREGATE', 'ALTER DOMAIN', 'ALTER EXTENSION', 'ALTER FOREIGN TABLE', 'ALTER FUNCTION', 'ALTER POLICY', 'ALTER SCHEMA', 'ALTER TABLE', 'ALTER TYPE', 'ALTER VIEW', 'COMMENT', 'CREATE AGGREGATE', 'CREATE DOMAIN', 'CREATE EXTENSION', 'CREATE FOREIGN TABLE', 'CREATE FUNCTION', 'CREATE INDEX', 'CREATE POLICY', 'CREATE RULE', 'CREATE SCHEMA', 'CREATE TABLE', 'CREATE TABLE AS', 'CREATE VIEW', 'DROP AGGREGATE', 'DROP DOMAIN', 'DROP EXTENSION', 'DROP FOREIGN TABLE', 'DROP FUNCTION', 'DROP INDEX', 'DROP OWNED', 'DROP POLICY', 'DROP RULE', 'DROP SCHEMA', 'DROP TABLE', 'DROP TYPE', 'DROP VIEW', 'GRANT', 'REVOKE', 'SELECT INTO')
+   EXECUTE FUNCTION postgraphile_watch.notify_watchers_ddl();
+
+
+--
+-- Name: postgraphile_watch_drop; Type: EVENT TRIGGER; Schema: -; Owner: -
+--
+
+CREATE EVENT TRIGGER postgraphile_watch_drop ON sql_drop
+   EXECUTE FUNCTION postgraphile_watch.notify_watchers_drop();
 
 
 --

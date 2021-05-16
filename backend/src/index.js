@@ -2,7 +2,8 @@ const express = require('express');
 const cors = require('cors')
 const {postgraphile, makePluginHook} = require('postgraphile');
 const MyPlugins = require('./postgraphile_plugins')
-const { PgMutationUpsertPlugin } = require('postgraphile-upsert-plugin')
+const { PgMutationUpsertPlugin,  } = require('postgraphile-upsert-plugin')
+const {default: PgManyCUDPlugin} = require('postgraphile-plugin-many-create-update-delete')
 const { default: PgPubsub } = require("@graphile/pg-pubsub"); 
 require('dotenv').config({path: '../.env'})
 const pluginHook = makePluginHook([PgPubsub]);
@@ -15,7 +16,7 @@ const postgraphileOptions = {
   setofFunctionsContainNulls: false,
   ignoreRBAC: false,
   ignoreIndexes: false,
-  appendPlugins: [require("@graphile-contrib/pg-simplify-inflector"), MyPlugins, PgMutationUpsertPlugin],
+  appendPlugins: [require("@graphile-contrib/pg-simplify-inflector"), MyPlugins, PgMutationUpsertPlugin, PgManyCUDPlugin],
   exportGqlSchemaPath: "schema.graphql",
   handleErrors: (error) => console.log(error),
   graphiql: true,
