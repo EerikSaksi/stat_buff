@@ -1,9 +1,11 @@
-query{
-  activeUser{
-     bodystat{
-       ismale
-       bodymass
-     }
+fragment Bodystat on Bodystat {
+  ismale
+  bodymass
+}
+query BodyStat {
+  activeUser {
+    bodystat {
+      ...Bodystat
+    }
   }
 }
-

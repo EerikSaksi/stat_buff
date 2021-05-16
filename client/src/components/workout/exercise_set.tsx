@@ -1,5 +1,5 @@
 import React from "react";
-import { Volume } from "generated/graphql";
+import { Volume, BodystatFragment } from "../../generated/graphql";
 import { TextInput, List } from "react-native-paper";
 import useStrengthPredictions from "./use_strength_predictions";
 const WorkoutExerciseSet: React.FC<{
@@ -8,8 +8,9 @@ const WorkoutExerciseSet: React.FC<{
   col: number;
   volume: Volume;
   updateVolumes: (row: number, column: number, volume: Volume) => void;
-}> = ({ exerciseId, row, col, volume, updateVolumes }) => {
-  const predictions = useStrengthPredictions(volume.reps, volume.weight, exerciseId, 80, true);
+  bodystat: BodystatFragment | undefined;
+}> = ({ exerciseId, row, col, volume, updateVolumes, bodystat }) => {
+  const predictions = useStrengthPredictions(volume.reps, volume.weight, exerciseId, bodystat);
   return (
     <List.Item
       title={predictions ? `${predictions.percentile}%, 1RM: ${predictions.oneRepMax}` : ""}

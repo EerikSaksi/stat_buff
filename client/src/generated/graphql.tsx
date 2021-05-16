@@ -140,7 +140,6 @@ export enum BodyPartEnum {
 export type Bodystat = Node & {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
-  username: Scalars['String'];
   ismale: Scalars['Boolean'];
   bodymass: Scalars['Int'];
   createdAt: Scalars['Datetime'];
@@ -150,45 +149,20 @@ export type Bodystat = Node & {
   user?: Maybe<User>;
 };
 
-/**
- * A condition to be used against `Bodystat` object types. All fields are tested
- * for equality and combined with a logical ‘and.’
- */
-export type BodystatCondition = {
-  /** Checks for equality with the object’s `username` field. */
-  username?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `userId` field. */
-  userId?: Maybe<Scalars['Int']>;
-};
-
 /** An input for mutations affecting `Bodystat` */
 export type BodystatInput = {
-  username: Scalars['String'];
   ismale: Scalars['Boolean'];
   bodymass: Scalars['Int'];
-  userId?: Maybe<Scalars['Int']>;
+  userId: Scalars['Int'];
 };
 
 /** Represents an update to a `Bodystat`. Fields that are set will be updated. */
 export type BodystatPatch = {
-  username?: Maybe<Scalars['String']>;
   ismale?: Maybe<Scalars['Boolean']>;
   bodymass?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['Datetime']>;
   updatedAt?: Maybe<Scalars['Datetime']>;
   userId?: Maybe<Scalars['Int']>;
-};
-
-/** A connection to a list of `Bodystat` values. */
-export type BodystatsConnection = {
-  /** A list of `Bodystat` objects. */
-  nodes: Array<Bodystat>;
-  /** A list of edges which contains the `Bodystat` and cursor to aid in pagination. */
-  edges: Array<BodystatsEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Bodystat` you could get from the connection. */
-  totalCount: Scalars['Int'];
 };
 
 /** A `Bodystat` edge in the connection. */
@@ -202,8 +176,6 @@ export type BodystatsEdge = {
 /** Methods to use when ordering `Bodystat`. */
 export enum BodystatsOrderBy {
   Natural = 'NATURAL',
-  UsernameAsc = 'USERNAME_ASC',
-  UsernameDesc = 'USERNAME_DESC',
   UserIdAsc = 'USER_ID_ASC',
   UserIdDesc = 'USER_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
@@ -941,7 +913,7 @@ export type DeleteBodystatInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  username: Scalars['String'];
+  userId: Scalars['Int'];
 };
 
 /** The output of our delete `Bodystat` mutation. */
@@ -2924,7 +2896,7 @@ export type QueryBattleArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryBodystatArgs = {
-  username: Scalars['String'];
+  userId: Scalars['Int'];
 };
 
 
@@ -3288,7 +3260,7 @@ export type UpdateBodystatInput = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** An object where the defined keys will be set on the `Bodystat` being updated. */
   patch: BodystatPatch;
-  username: Scalars['String'];
+  userId: Scalars['Int'];
 };
 
 /** The output of our update `Bodystat` mutation. */
@@ -4245,8 +4217,8 @@ export type User = Node & {
   id: Scalars['Int'];
   /** Reads a single `Group` that is related to this `User`. */
   groupByGroupname?: Maybe<Group>;
-  /** Reads and enables pagination through a set of `Bodystat`. */
-  bodystats: BodystatsConnection;
+  /** Reads a single `Bodystat` that is related to this `User`. */
+  bodystat?: Maybe<Bodystat>;
   /** Reads and enables pagination through a set of `UserExercise`. */
   userExercises: UserExercisesConnection;
   /** Reads and enables pagination through a set of `ChatMessage`. */
@@ -4257,17 +4229,6 @@ export type User = Node & {
   userCurrentWorkoutPlan?: Maybe<UserCurrentWorkoutPlan>;
   /** Reads and enables pagination through a set of `WorkoutPlan`. */
   workoutPlans: WorkoutPlansConnection;
-};
-
-
-export type UserBodystatsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<BodystatsOrderBy>>;
-  condition?: Maybe<BodystatCondition>;
 };
 
 
@@ -4853,6 +4814,13 @@ export type MnUpdateCompletedWorkoutExercisePayloadCompletedWorkoutExerciseEdgeA
   orderBy?: Maybe<Array<CompletedWorkoutExercisesOrderBy>>;
 };
 
+export type BodystatFragment = Pick<Bodystat, 'ismale' | 'bodymass'>;
+
+export type BodyStatQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type BodyStatQuery = { activeUser?: Maybe<{ bodystat?: Maybe<BodystatFragment> }> };
+
 export type DeleteCurrentWorkoutPlanMutationVariables = Exact<{
   userId: Scalars['Int'];
 }>;
@@ -4904,6 +4872,12 @@ export type WorkoutQuery = { activeUser?: Maybe<(
     & { userCurrentWorkoutPlan?: Maybe<{ workoutPlan?: Maybe<WorkoutPlanFragment> }>, workoutPlans: { nodes: Array<WorkoutPlanFragment> } }
   )> };
 
+export const BodystatFragmentDoc = gql`
+    fragment Bodystat on Bodystat {
+  ismale
+  bodymass
+}
+    `;
 export const WorkoutPlanExerciseFragmentDoc = gql`
     fragment WorkoutPlanExercise on WorkoutPlanExercise {
   sets
@@ -4934,6 +4908,42 @@ export const WorkoutPlanFragmentDoc = gql`
   }
 }
     ${WorkoutDayFragmentDoc}`;
+export const BodyStatDocument = gql`
+    query BodyStat {
+  activeUser {
+    bodystat {
+      ...Bodystat
+    }
+  }
+}
+    ${BodystatFragmentDoc}`;
+
+/**
+ * __useBodyStatQuery__
+ *
+ * To run a query within a React component, call `useBodyStatQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBodyStatQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBodyStatQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useBodyStatQuery(baseOptions?: Apollo.QueryHookOptions<BodyStatQuery, BodyStatQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BodyStatQuery, BodyStatQueryVariables>(BodyStatDocument, options);
+      }
+export function useBodyStatLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BodyStatQuery, BodyStatQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BodyStatQuery, BodyStatQueryVariables>(BodyStatDocument, options);
+        }
+export type BodyStatQueryHookResult = ReturnType<typeof useBodyStatQuery>;
+export type BodyStatLazyQueryHookResult = ReturnType<typeof useBodyStatLazyQuery>;
+export type BodyStatQueryResult = Apollo.QueryResult<BodyStatQuery, BodyStatQueryVariables>;
 export const DeleteCurrentWorkoutPlanDocument = gql`
     mutation DeleteCurrentWorkoutPlan($userId: Int!) {
   deleteUserCurrentWorkoutPlan(input: {userId: $userId}) {

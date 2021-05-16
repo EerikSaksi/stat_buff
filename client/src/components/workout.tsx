@@ -9,7 +9,7 @@ import {NavigatorScreenParams} from "@react-navigation/native";
 type RootStackParamList = {
   "Select Workout": undefined;
   "Select Workout Day": NavigatorScreenParams<{ days: WorkoutDayFragment[] }>;
-  "Workout":  NavigatorScreenParams<{ exercises: WorkoutPlanExercisesFragment }>;
+  "Workout":  NavigatorScreenParams<{ exercises: WorkoutPlanExercisesFragment, name: string}>;
 };
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -18,7 +18,9 @@ const Workout: React.FC = () => {
     <Stack.Navigator initialRouteName="Select Workout" >
       <Stack.Screen name="Select Workout" component={WorkoutPlanPicker} />
       <Stack.Screen name="Select Workout Day" component={WorkoutDayPicker} />
-      <Stack.Screen name="Workout" component={WorkoutDay} />
+      <Stack.Screen name="Workout" component={WorkoutDay} 
+        options={({ route }) => ({ title: route.params.name })}
+      />
     </Stack.Navigator>
   );
 };

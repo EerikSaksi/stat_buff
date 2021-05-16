@@ -21,7 +21,7 @@ const WorkoutDayPicker: React.FC<{route: Route}> = ({route}) => {
           titleStyle={{ fontSize: 24 }}
           descriptionStyle={{ fontSize: 16 }}
           description={`${day.workoutExercises.length} exercises`}
-          right={() => <Button icon="arrow-right" onPress = {() => navigation.navigate('Workout', {exercises: day.workoutExercises})}>Start</Button>}
+          right={() => <Button icon="arrow-right" onPress = {() => navigation.navigate('Workout', {exercises: day.workoutExercises, name: day.name})}>Start</Button>}
         ></List.Item>
       ))}
     </List.Section>

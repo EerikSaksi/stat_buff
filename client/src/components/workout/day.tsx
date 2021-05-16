@@ -1,19 +1,22 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState} from "react";
 import { List } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Volume, WorkoutPlanExerciseFragment } from "generated/graphql";
+import { Volume, WorkoutPlanExerciseFragment, useBodyStatQuery} from "../../generated/graphql";
 import WorkoutExerciseSet from "./exercise_set";
 
 type Route = {
   params: {
     exercises: WorkoutPlanExerciseFragment[];
+    name: string
   };
 };
-const Day: React.FC<{route: Route}> = ({ route }) => {
+
+const Day: React.FC<{route: Route}> = ({ route}) => {
   const [expandedId, setExpandedId] = useState(1);
   const [volumes, setVolumes] = useState<Volume[][]>(() =>
     route.params.exercises.map((exercise) => new Array(exercise?.sets).fill({ weight: undefined, reps: undefined }))
   );
+
   const updateVolumes = useCallback((row: number, column: number, volume: Volume) => {
     setVolumes(old => {
       const copy = [...old]
@@ -21,6 +24,8 @@ const Day: React.FC<{route: Route}> = ({ route }) => {
       return copy
     })
   }, []) 
+
+  const {data} = useBodyStatQuery()
   return (
     <SafeAreaView>
       <List.AccordionGroup
@@ -42,9 +47,10 @@ const Day: React.FC<{route: Route}> = ({ route }) => {
                 key = {`${row} ${col}`}
                 row = {row}
                 col = {col}
-                exerciseId={workoutExercise?.exercise?.id || -1}
                 updateVolumes = {updateVolumes}
                 volume = {volumes[row][col]}
+                exerciseId={workoutExercise?.exercise?.id || -1}
+                bodystat = {data?.activeUser?.bodystat ? data.activeUser.bodystat : undefined}
               />
             ))}
           </List.Accordion>
