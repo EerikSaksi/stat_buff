@@ -4,11 +4,12 @@ import WorkoutPlanPicker from "./workout/plan_picker";
 import WorkoutDayPicker from "./workout/day_picker";
 import WorkoutDay from "./workout/day";
 import { WorkoutDayFragment, WorkoutPlanExercisesFragment } from "generated/graphql";
+import {NavigatorScreenParams} from "@react-navigation/native";
 
 type RootStackParamList = {
   "Select Workout": undefined;
-  "Select Workout Day": { days: WorkoutDayFragment[] };
-  "Workout": { exercises: WorkoutPlanExercisesFragment };
+  "Select Workout Day": NavigatorScreenParams<{ days: WorkoutDayFragment[] }>;
+  "Workout":  NavigatorScreenParams<{ exercises: WorkoutPlanExercisesFragment }>;
 };
 const Stack = createStackNavigator<RootStackParamList>();
 

@@ -1,17 +1,17 @@
-fragment WorkoutPlanExercises on WorkoutPlanDay {
-  workoutExercises {
+fragment WorkoutPlanExercise on WorkoutPlanExercise{
     sets
     reps
     exercise {
       name
       id
     }
-  }
 }
 fragment WorkoutDay on WorkoutPlanDay {
   name
   id
-  ...WorkoutPlanExercises
+  workoutExercises{
+    ...WorkoutPlanExercise
+  }
 }
 
 fragment WorkoutPlan on WorkoutPlan {

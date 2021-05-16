@@ -4881,14 +4881,14 @@ export type UpsertCurrentWorkoutPlanMutation = { upsertUserCurrentWorkoutPlan?: 
       & { userCurrentWorkoutPlan?: Maybe<{ workoutPlan?: Maybe<WorkoutPlanFragment> }> }
     )> }> };
 
-export type WorkoutPlanExercisesFragment = { workoutExercises: Array<Maybe<(
-    Pick<WorkoutPlanExercise, 'sets' | 'reps'>
-    & { exercise?: Maybe<Pick<Exercise, 'name' | 'id'>> }
-  )>> };
+export type WorkoutPlanExerciseFragment = (
+  Pick<WorkoutPlanExercise, 'sets' | 'reps'>
+  & { exercise?: Maybe<Pick<Exercise, 'name' | 'id'>> }
+);
 
 export type WorkoutDayFragment = (
   Pick<WorkoutPlanDay, 'name' | 'id'>
-  & WorkoutPlanExercisesFragment
+  & { workoutExercises: Array<Maybe<WorkoutPlanExerciseFragment>> }
 );
 
 export type WorkoutPlanFragment = (
@@ -4904,15 +4904,13 @@ export type WorkoutQuery = { activeUser?: Maybe<(
     & { userCurrentWorkoutPlan?: Maybe<{ workoutPlan?: Maybe<WorkoutPlanFragment> }>, workoutPlans: { nodes: Array<WorkoutPlanFragment> } }
   )> };
 
-export const WorkoutPlanExercisesFragmentDoc = gql`
-    fragment WorkoutPlanExercises on WorkoutPlanDay {
-  workoutExercises {
-    sets
-    reps
-    exercise {
-      name
-      id
-    }
+export const WorkoutPlanExerciseFragmentDoc = gql`
+    fragment WorkoutPlanExercise on WorkoutPlanExercise {
+  sets
+  reps
+  exercise {
+    name
+    id
   }
 }
     `;
@@ -4920,9 +4918,11 @@ export const WorkoutDayFragmentDoc = gql`
     fragment WorkoutDay on WorkoutPlanDay {
   name
   id
-  ...WorkoutPlanExercises
+  workoutExercises {
+    ...WorkoutPlanExercise
+  }
 }
-    ${WorkoutPlanExercisesFragmentDoc}`;
+    ${WorkoutPlanExerciseFragmentDoc}`;
 export const WorkoutPlanFragmentDoc = gql`
     fragment WorkoutPlan on WorkoutPlan {
   name

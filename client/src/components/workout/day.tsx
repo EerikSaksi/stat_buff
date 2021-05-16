@@ -1,18 +1,18 @@
 import React, { useCallback, useState } from "react";
 import { List } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { WorkoutPlanExercisesFragment, Volume } from "generated/graphql";
+import { Volume, WorkoutPlanExerciseFragment } from "generated/graphql";
 import WorkoutExerciseSet from "./exercise_set";
 
 type Route = {
   params: {
-    exercises: WorkoutPlanExercisesFragment;
+    exercises: WorkoutPlanExerciseFragment[];
   };
 };
-const Day: React.FC<Route> = ({ params }) => {
+const Day: React.FC<{route: Route}> = ({ route }) => {
   const [expandedId, setExpandedId] = useState(1);
   const [volumes, setVolumes] = useState<Volume[][]>(() =>
-    params.exercises.workoutExercises.map((exercise) => new Array(exercise?.sets).fill({ weight: undefined, reps: undefined }))
+    route.params.exercises.map((exercise) => new Array(exercise?.sets).fill({ weight: undefined, reps: undefined }))
   );
   const updateVolumes = useCallback((row: number, column: number, volume: Volume) => {
     setVolumes(old => {
@@ -31,7 +31,7 @@ const Day: React.FC<Route> = ({ params }) => {
           }
         }}
       >
-        {params.exercises.workoutExercises.map((workoutExercise, row) => (
+        {route.params.exercises.map((workoutExercise, row) => (
           <List.Accordion
             key={row}
             id={row + 1}
@@ -39,6 +39,7 @@ const Day: React.FC<Route> = ({ params }) => {
           >
             {Array.from({ length: workoutExercise?.sets || 0 }).map((_, col) => (
               <WorkoutExerciseSet
+                key = {`${row} ${col}`}
                 row = {row}
                 col = {col}
                 exerciseId={workoutExercise?.exercise?.id || -1}
