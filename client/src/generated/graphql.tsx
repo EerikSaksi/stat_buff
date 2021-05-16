@@ -4819,7 +4819,10 @@ export type BodystatFragment = Pick<Bodystat, 'ismale' | 'bodymass'>;
 export type BodyStatQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type BodyStatQuery = { activeUser?: Maybe<{ bodystat?: Maybe<BodystatFragment> }> };
+export type BodyStatQuery = { activeUser?: Maybe<(
+    Pick<User, 'id'>
+    & { bodystat?: Maybe<BodystatFragment> }
+  )> };
 
 export type DeleteCurrentWorkoutPlanMutationVariables = Exact<{
   userId: Scalars['Int'];
@@ -4911,6 +4914,7 @@ export const WorkoutPlanFragmentDoc = gql`
 export const BodyStatDocument = gql`
     query BodyStat {
   activeUser {
+    id
     bodystat {
       ...Bodystat
     }

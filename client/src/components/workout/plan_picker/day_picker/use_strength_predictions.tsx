@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BodystatFragment } from "../../generated/graphql";
+import { BodystatFragment } from "../../../../generated/graphql";
 
 const roundToOneDecimalPoint = (x: number) => Number(x.toFixed(1));
 

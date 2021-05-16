@@ -2,9 +2,10 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import WorkoutPlanPicker from "./workout/plan_picker";
 import WorkoutDayPicker from "./workout/plan_picker/day_picker";
-import WorkoutDay from "./workout/day";
+import WorkoutDay from "./workout/plan_picker/day_picker/day";
 import { WorkoutDayFragment, WorkoutPlanExerciseFragment} from "generated/graphql";
 import {NavigatorScreenParams} from "@react-navigation/native";
+
 
 type RootStackParamList = {
   "Select Workout": undefined;
@@ -24,4 +25,5 @@ const Workout: React.FC = () => {
     </Stack.Navigator>
   );
 };
-export default Workout;
+export 
+default Workout;

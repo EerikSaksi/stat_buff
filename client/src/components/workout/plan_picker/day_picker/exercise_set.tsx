@@ -1,5 +1,5 @@
 import React from "react";
-import { Volume, BodystatFragment } from "../../generated/graphql";
+import { Volume, BodystatFragment } from "../../../../generated/graphql";
 import { TextInput, List } from "react-native-paper";
 import useStrengthPredictions from "./use_strength_predictions";
 const WorkoutExerciseSet: React.FC<{

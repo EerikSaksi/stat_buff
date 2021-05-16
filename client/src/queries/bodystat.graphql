@@ -4,6 +4,7 @@ fragment Bodystat on Bodystat {
 }
 query BodyStat {
   activeUser {
+    id
     bodystat {
       ...Bodystat
     }
