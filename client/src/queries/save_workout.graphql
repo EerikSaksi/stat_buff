@@ -1,9 +1,9 @@
 mutation SaveWorkout($completedExercises: [CompletedWorkoutExerciseInput!]){
   mnCreateCompletedWorkoutExercise(input: {mnCompletedWorkoutExercise: $completedExercises}){
     completedWorkoutExercise{
-      volume{
-        sets
+      volumes{
         reps
+        weight
       }
     }
     exercise{

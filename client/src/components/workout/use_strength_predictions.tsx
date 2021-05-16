@@ -303,8 +303,8 @@ const eliteStrengthBaselines = [
 ];
 
 const useStrengthPredictions = (
-  reps: number | undefined,
-  weight: number | undefined,
+  reps: number | undefined | null,
+  weight: number | undefined | null,
   exerciseId: number,
   bodyweight: number,
   isMale: boolean

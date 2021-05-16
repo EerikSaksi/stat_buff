@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
+import { Volume } from "generated/graphql";
 import { TextInput, List } from "react-native-paper";
 import useStrengthPredictions from "./use_strength_predictions";
-const WorkoutExerciseSet: React.FC<{exerciseId: number}> = ({exerciseId}) => {
-  const [weight, setWeight] = useState<undefined | number>();
-  const [reps, setReps] = useState<undefined | number>();
-  const predictions = useStrengthPredictions(reps, weight, exerciseId, 80, true)
+const WorkoutExerciseSet: React.FC<{
+  exerciseId: number;
+  row: number;
+  col: number;
+  volume: Volume;
+  updateVolumes: (row: number, column: number, volume: Volume) => void;
+}> = ({ exerciseId, row, col, volume, updateVolumes }) => {
+  const predictions = useStrengthPredictions(volume.reps, volume.weight, exerciseId, 80, true);
   return (
     <List.Item
       title={predictions ? `${predictions.percentile}%, 1RM: ${predictions.oneRepMax}` : ""}
@@ -16,15 +21,14 @@ const WorkoutExerciseSet: React.FC<{exerciseId: number}> = ({exerciseId}) => {
             mode="outlined"
             dense
             keyboardType="numeric"
-            value={weight?.toString() }
+            value={volume.weight?.toString()}
             onChangeText={(v) => {
               const parsed = parseInt(v);
+              var weight: number | undefined | null;
               if (!isNaN(parsed)) {
-                setWeight(parsed);
+                weight = parsed;
               }
-              else{
-                setWeight(undefined)
-              }
+              updateVolumes(row, col, { reps: volume.reps, weight });
             }}
           />
           <TextInput
@@ -33,12 +37,14 @@ const WorkoutExerciseSet: React.FC<{exerciseId: number}> = ({exerciseId}) => {
             mode="outlined"
             dense
             keyboardType="numeric"
-            value={reps?.toString()}
+            value={volume.reps?.toString()}
             onChangeText={(v) => {
               const parsed = parseInt(v);
+              var reps: number | undefined | null;
               if (!isNaN(parsed)) {
-                setReps(parsed);
+                reps = parsed;
               }
+              updateVolumes(row, col, { weight: volume.weight, reps });
             }}
           />
         </>
@@ -46,4 +52,4 @@ const WorkoutExerciseSet: React.FC<{exerciseId: number}> = ({exerciseId}) => {
     ></List.Item>
   );
 };
-export default WorkoutExerciseSet;
+export default React.memo(WorkoutExerciseSet);

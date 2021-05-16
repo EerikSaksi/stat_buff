@@ -327,9 +327,9 @@ export type CompletedWorkoutExercise = Node & {
   nodeId: Scalars['ID'];
   id: Scalars['Int'];
   exerciseId: Scalars['Int'];
-  volume: Array<Maybe<Volume>>;
-  completedWorkoutId?: Maybe<Scalars['Int']>;
+  completedWorkoutId: Scalars['Int'];
   createdAt: Scalars['Datetime'];
+  volumes: Array<Maybe<Volume>>;
   /** Reads a single `Exercise` that is related to this `CompletedWorkoutExercise`. */
   exercise?: Maybe<Exercise>;
   /** Reads a single `CompletedWorkout` that is related to this `CompletedWorkoutExercise`. */
@@ -353,18 +353,18 @@ export type CompletedWorkoutExerciseCondition = {
 export type CompletedWorkoutExerciseInput = {
   id?: Maybe<Scalars['Int']>;
   exerciseId: Scalars['Int'];
-  volume: Array<Maybe<VolumeInput>>;
-  completedWorkoutId?: Maybe<Scalars['Int']>;
+  completedWorkoutId: Scalars['Int'];
   createdAt?: Maybe<Scalars['Datetime']>;
+  volumes: Array<Maybe<VolumeInput>>;
 };
 
 /** Represents an update to a `CompletedWorkoutExercise`. Fields that are set will be updated. */
 export type CompletedWorkoutExercisePatch = {
   id?: Maybe<Scalars['Int']>;
   exerciseId?: Maybe<Scalars['Int']>;
-  volume?: Maybe<Array<Maybe<VolumeInput>>>;
   completedWorkoutId?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['Datetime']>;
+  volumes?: Maybe<Array<Maybe<VolumeInput>>>;
 };
 
 /** A connection to a list of `CompletedWorkoutExercise` values. */
@@ -4531,13 +4531,13 @@ export enum UsersOrderBy {
 }
 
 export type Volume = {
-  sets?: Maybe<Scalars['Int']>;
+  weight?: Maybe<Scalars['Float']>;
   reps?: Maybe<Scalars['Int']>;
 };
 
 /** An input for mutations affecting `Volume` */
 export type VolumeInput = {
-  sets?: Maybe<Scalars['Int']>;
+  weight?: Maybe<Scalars['Float']>;
   reps?: Maybe<Scalars['Int']>;
 };
 
@@ -4868,7 +4868,7 @@ export type SaveWorkoutMutationVariables = Exact<{
 }>;
 
 
-export type SaveWorkoutMutation = { mnCreateCompletedWorkoutExercise?: Maybe<{ completedWorkoutExercise?: Maybe<{ volume: Array<Maybe<Pick<Volume, 'sets' | 'reps'>>> }>, exercise?: Maybe<Pick<Exercise, 'bodyPart'>> }> };
+export type SaveWorkoutMutation = { mnCreateCompletedWorkoutExercise?: Maybe<{ completedWorkoutExercise?: Maybe<{ volumes: Array<Maybe<Pick<Volume, 'reps' | 'weight'>>> }>, exercise?: Maybe<Pick<Exercise, 'bodyPart'>> }> };
 
 export type UpsertCurrentWorkoutPlanMutationVariables = Exact<{
   userId: Scalars['Int'];
@@ -4980,9 +4980,9 @@ export const SaveWorkoutDocument = gql`
     input: {mnCompletedWorkoutExercise: $completedExercises}
   ) {
     completedWorkoutExercise {
-      volume {
-        sets
+      volumes {
         reps
+        weight
       }
     }
     exercise {
