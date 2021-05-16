@@ -312,6 +312,7 @@ const useStrengthPredictions = (
   const [predictions, setPredictions] = useState<undefined | predictions>();
   useEffect(() => {
     if (weight && reps) {
+      console.log({weight})
       const max_one_rm = eliteStrengthBaselines[exerciseId - 1] * (isMale ? 1 : 0.57);
       const one_rm = weight * (1 + reps / 30);
       const x = wilks(bodyweight, one_rm / max_one_rm, isMale);
@@ -319,6 +320,9 @@ const useStrengthPredictions = (
         percentile: Math.max(0, Math.min(100, roundToOneDecimalPoint(115471.14623106 * x - 8.801363625876917))),
         oneRepMax: roundToOneDecimalPoint(one_rm),
       });
+    }
+    else{
+      setPredictions(undefined)
     }
   }, [reps, weight, exerciseId, bodyweight, isMale]);
   return predictions;
