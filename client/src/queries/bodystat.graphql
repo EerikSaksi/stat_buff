@@ -1,0 +1,9 @@
+query{
+  activeUser{
+     bodystat{
+       ismale
+       bodymass
+     }
+  }
+}
+

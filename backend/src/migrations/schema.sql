@@ -104,7 +104,7 @@ CREATE TYPE public.strengthstats AS (
 --
 
 CREATE TYPE public.volume AS (
-	sets integer,
+	weight double precision,
 	reps integer
 );
 
@@ -632,7 +632,6 @@ $$;
 --
 
 CREATE TABLE public.bodystat (
-    username character varying(32) NOT NULL,
     ismale boolean NOT NULL,
     bodymass integer NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
@@ -661,26 +660,6 @@ COMMENT ON COLUMN public.bodystat.created_at IS '@omit create, update, insert';
 --
 
 COMMENT ON COLUMN public.bodystat.updated_at IS '@omit create, update, insert';
-
-
---
--- Name: bodystat_user_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.bodystat_user_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: bodystat_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.bodystat_user_id_seq OWNED BY public.bodystat.user_id;
 
 
 --
@@ -782,9 +761,9 @@ CREATE TABLE public.completed_workout (
 CREATE TABLE public.completed_workout_exercise (
     id integer NOT NULL,
     exercise_id integer NOT NULL,
-    volume public.volume[] NOT NULL,
     completed_workout_id integer NOT NULL,
-    created_at timestamp with time zone DEFAULT now() NOT NULL
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    volumes public.volume[] NOT NULL
 );
 
 
@@ -1165,13 +1144,6 @@ ALTER SEQUENCE public.workout_plan_id_seq1 OWNED BY public.workout_plan.id;
 
 
 --
--- Name: bodystat user_id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.bodystat ALTER COLUMN user_id SET DEFAULT nextval('public.bodystat_user_id_seq'::regclass);
-
-
---
 -- Name: chat_message id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1261,7 +1233,7 @@ ALTER TABLE ONLY public.battle
 --
 
 ALTER TABLE ONLY public.bodystat
-    ADD CONSTRAINT bodystat_pkey PRIMARY KEY (username);
+    ADD CONSTRAINT bodystat_pkey PRIMARY KEY (user_id);
 
 
 --
@@ -1396,20 +1368,6 @@ CREATE INDEX battle_enemy_level_idx ON public.battle USING btree (enemy_level);
 --
 
 CREATE INDEX battle_groupname_idx ON public.battle USING btree (groupname);
-
-
---
--- Name: bodystat_user_id_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX bodystat_user_id_idx ON public.bodystat USING btree (user_id);
-
-
---
--- Name: bodystat_username_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX bodystat_username_idx ON public.bodystat USING btree (username);
 
 
 --
@@ -1643,7 +1601,7 @@ ALTER TABLE ONLY public.battle
 --
 
 ALTER TABLE ONLY public.bodystat
-    ADD CONSTRAINT bodystat_user_id_fkey FOREIGN KEY (user_id) REFERENCES public."user"(id) ON DELETE CASCADE;
+    ADD CONSTRAINT bodystat_user_id_fkey FOREIGN KEY (user_id) REFERENCES public."user"(id);
 
 
 --
@@ -1802,11 +1760,35 @@ CREATE POLICY battle_update ON public.battle FOR UPDATE TO query_sender USING ((
 ALTER TABLE public.bodystat ENABLE ROW LEVEL SECURITY;
 
 --
--- Name: bodystat bodystats_all; Type: POLICY; Schema: public; Owner: -
+-- Name: bodystat bodystat_delete_policy; Type: POLICY; Schema: public; Owner: -
 --
 
-CREATE POLICY bodystats_all ON public.bodystat TO query_sender USING (((username)::text = (( SELECT active_user.username
-   FROM public.active_user() active_user(username, password, groupname, created_at, updated_at)))::text));
+CREATE POLICY bodystat_delete_policy ON public.bodystat FOR DELETE USING ((user_id = ( SELECT active_user.id
+   FROM public.active_user() active_user(username, password, groupname, created_at, updated_at, id))));
+
+
+--
+-- Name: bodystat bodystat_insert_policy; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY bodystat_insert_policy ON public.bodystat FOR INSERT WITH CHECK ((user_id = ( SELECT active_user.id
+   FROM public.active_user() active_user(username, password, groupname, created_at, updated_at, id))));
+
+
+--
+-- Name: bodystat bodystat_select_policy; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY bodystat_select_policy ON public.bodystat FOR SELECT USING ((user_id = ( SELECT active_user.id
+   FROM public.active_user() active_user(username, password, groupname, created_at, updated_at, id))));
+
+
+--
+-- Name: bodystat bodystat_update_policy; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY bodystat_update_policy ON public.bodystat FOR UPDATE USING ((user_id = ( SELECT active_user.id
+   FROM public.active_user() active_user(username, password, groupname, created_at, updated_at, id))));
 
 
 --
