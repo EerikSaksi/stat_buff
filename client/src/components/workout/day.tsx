@@ -1,7 +1,7 @@
 import React, { useCallback, useState} from "react";
 import { List } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Volume, WorkoutPlanExerciseFragment, useBodyStatQuery} from "../../generated/graphql";
+import { Volume, WorkoutPlanExerciseFragment, useBodyStatQuery, useSaveWorkoutMutation} from "../../generated/graphql";
 import WorkoutExerciseSet from "./exercise_set";
 
 type Route = {
@@ -24,8 +24,8 @@ const Day: React.FC<{route: Route}> = ({ route}) => {
       return copy
     })
   }, []) 
-
   const {data} = useBodyStatQuery()
+
   return (
     <SafeAreaView>
       <List.AccordionGroup

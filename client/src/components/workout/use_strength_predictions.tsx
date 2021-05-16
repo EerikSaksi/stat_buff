@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {BodystatFragment} from "../../generated/graphql";
+import { BodystatFragment } from "../../generated/graphql";
 
 const roundToOneDecimalPoint = (x: number) => Number(x.toFixed(1));
 
@@ -312,7 +312,6 @@ const useStrengthPredictions = (
   const [predictions, setPredictions] = useState<undefined | predictions>();
   useEffect(() => {
     if (weight && reps && bodystat) {
-      console.log({weight})
       const max_one_rm = eliteStrengthBaselines[exerciseId - 1] * (bodystat.ismale ? 1 : 0.57);
       const one_rm = weight * (1 + reps / 30);
       const x = wilks(bodystat.bodymass, one_rm / max_one_rm, bodystat.ismale);
@@ -320,9 +319,8 @@ const useStrengthPredictions = (
         percentile: Math.max(0, Math.min(100, roundToOneDecimalPoint(115471.14623106 * x - 8.801363625876917))),
         oneRepMax: roundToOneDecimalPoint(one_rm),
       });
-    }
-    else{
-      setPredictions(undefined)
+    } else {
+      setPredictions(undefined);
     }
   }, [reps, weight, exerciseId, bodystat]);
   return predictions;
