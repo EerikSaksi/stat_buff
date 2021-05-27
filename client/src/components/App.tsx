@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import User from "./user";
-import Workout from "./workout"
+import Workout from "./workout";
 
 import { visibleSection } from "../apollo/cache";
 import useAnalyticsSender from "./analytics/use_analytics_sender";
@@ -30,6 +30,10 @@ const App: React.FC<{ username: string }> = ({ username }) => {
           }
         }
       }
+      
+      catch(error){
+        console.log(error)
+      }
       finally {
         setIsReady(true);
       }
@@ -47,13 +51,14 @@ const App: React.FC<{ username: string }> = ({ username }) => {
   return (
     <NavigationContainer
       ref={navigationRef}
-      initialState = {initialState}
+      initialState={initialState}
       onStateChange={(state) => {
         const tab = navigationRef.current.getCurrentRoute().name;
         //set the tab as the visible section
         //group is never set as opening group will also open enemy or members. I'm adding "tab" because postgres doesnt like "user" as a variable name
         if (tab !== "Group") visibleSection(tab + "Tab");
-        AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
+        console.log(state);
+        AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state));
       }}
     >
       <Tab.Navigator>

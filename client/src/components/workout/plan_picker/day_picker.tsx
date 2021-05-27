@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { List, Button } from "react-native-paper";
 import { WorkoutDayFragment } from "generated/graphql";
 import {useNavigation} from "@react-navigation/native";

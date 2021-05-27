@@ -1,0 +1,7 @@
+mutation createCompletedWorkout{
+  createCompletedWorkout(input: {completedWorkout: {}}){
+    completedWorkout{
+      id
+    }
+  }
+}
