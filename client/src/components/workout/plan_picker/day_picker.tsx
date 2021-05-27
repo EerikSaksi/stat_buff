@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import { List, Button } from "react-native-paper";
 import { WorkoutDayFragment } from "generated/graphql";
 import {useNavigation} from "@react-navigation/native";
@@ -11,6 +11,8 @@ type Route = {
 
 const WorkoutDayPicker: React.FC<{route: Route}> = ({route}) => {
   const navigation = useNavigation()
+  route.params.days.map(day => console.log(day))
+
   return (
     <List.Section>
       {route.params.days.map((day) => (
@@ -20,8 +22,8 @@ const WorkoutDayPicker: React.FC<{route: Route}> = ({route}) => {
           title={day.name}
           titleStyle={{ fontSize: 24 }}
           descriptionStyle={{ fontSize: 16 }}
-          description={`${day.workoutExercises.length} exercises`}
-          right={() => <Button icon="arrow-right" onPress = {() => navigation.navigate('Workout', {exercises: day.workoutExercises, name: day.name})}>Start</Button>}
+          description={`${day.workoutPlanExercises.nodes.length} exercises`}
+          right={() => <Button icon="arrow-right" onPress = {() => navigation.navigate('Workout', {exercises: day.workoutPlanExercises.nodes, name: day.name})}>Start</Button>}
         ></List.Item>
       ))}
     </List.Section>

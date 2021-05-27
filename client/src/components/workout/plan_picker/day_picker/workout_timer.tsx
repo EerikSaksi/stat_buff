@@ -6,19 +6,22 @@ import {
   useCreateCompletedWorkoutMutation,
 } from "../../../../generated/graphql";
 import { Button } from "react-native-paper";
-import { View, Text } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { View} from "react-native";
+
 
 const transformVolumeToPayload = (
   volumes: Volume[][],
   exerciseIds: number[],
   completedWorkoutId: number
 ): CompletedWorkoutExerciseInput[] =>
-  volumes.map((volume, i) => ({
-    exerciseId: exerciseIds[i],
-    volumes: volume.filter(({ reps, weight }) => !reps || !weight),
-    completedWorkoutId,
-  }));
+  volumes
+    .map((volume, i) => ({
+      exerciseId: exerciseIds[i],
+      volumes: volume.filter(({ reps, weight }) => reps && weight),
+      completedWorkoutId,
+    }))
+    .filter(({ volumes }) => volumes.length);
+
 const WorkoutTimer: React.FC<{ volumes: Volume[][]; exerciseIds: number[] }> = ({ volumes, exerciseIds }) => {
   const startTime = useRef<Date | undefined>();
   const [minutes, setMinutes] = useState<undefined | number>();

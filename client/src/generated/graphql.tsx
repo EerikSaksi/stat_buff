@@ -182,90 +182,6 @@ export enum BodystatsOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
-export type ChatMessage = Node & {
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['Int'];
-  username: Scalars['String'];
-  textContent: Scalars['String'];
-  createdAt: Scalars['Datetime'];
-  updatedAt: Scalars['Datetime'];
-  groupname: Scalars['String'];
-  userId: Scalars['Int'];
-  /** Reads a single `Group` that is related to this `ChatMessage`. */
-  groupByGroupname?: Maybe<Group>;
-  /** Reads a single `User` that is related to this `ChatMessage`. */
-  user?: Maybe<User>;
-};
-
-/**
- * A condition to be used against `ChatMessage` object types. All fields are tested
- * for equality and combined with a logical ‘and.’
- */
-export type ChatMessageCondition = {
-  /** Checks for equality with the object’s `id` field. */
-  id?: Maybe<Scalars['Int']>;
-  /** Checks for equality with the object’s `username` field. */
-  username?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `groupname` field. */
-  groupname?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `userId` field. */
-  userId?: Maybe<Scalars['Int']>;
-};
-
-/** An input for mutations affecting `ChatMessage` */
-export type ChatMessageInput = {
-  username: Scalars['String'];
-  textContent: Scalars['String'];
-  userId?: Maybe<Scalars['Int']>;
-};
-
-/** Represents an update to a `ChatMessage`. Fields that are set will be updated. */
-export type ChatMessagePatch = {
-  id?: Maybe<Scalars['Int']>;
-  username?: Maybe<Scalars['String']>;
-  textContent?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Datetime']>;
-  updatedAt?: Maybe<Scalars['Datetime']>;
-  groupname?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['Int']>;
-};
-
-/** A connection to a list of `ChatMessage` values. */
-export type ChatMessagesConnection = {
-  /** A list of `ChatMessage` objects. */
-  nodes: Array<ChatMessage>;
-  /** A list of edges which contains the `ChatMessage` and cursor to aid in pagination. */
-  edges: Array<ChatMessagesEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `ChatMessage` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `ChatMessage` edge in the connection. */
-export type ChatMessagesEdge = {
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `ChatMessage` at the end of the edge. */
-  node: ChatMessage;
-};
-
-/** Methods to use when ordering `ChatMessage`. */
-export enum ChatMessagesOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  UsernameAsc = 'USERNAME_ASC',
-  UsernameDesc = 'USERNAME_DESC',
-  GroupnameAsc = 'GROUPNAME_ASC',
-  GroupnameDesc = 'GROUPNAME_DESC',
-  UserIdAsc = 'USER_ID_ASC',
-  UserIdDesc = 'USER_ID_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
-}
-
 export type CompletedWorkout = Node & {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
@@ -443,42 +359,6 @@ export type CreateBodystatPayload = {
 /** The output of our create `Bodystat` mutation. */
 export type CreateBodystatPayloadBodystatEdgeArgs = {
   orderBy?: Maybe<Array<BodystatsOrderBy>>;
-};
-
-/** All input for the create `ChatMessage` mutation. */
-export type CreateChatMessageInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `ChatMessage` to be created by this mutation. */
-  chatMessage: ChatMessageInput;
-};
-
-/** The output of our create `ChatMessage` mutation. */
-export type CreateChatMessagePayload = {
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `ChatMessage` that was created by this mutation. */
-  chatMessage?: Maybe<ChatMessage>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `Group` that is related to this `ChatMessage`. */
-  groupByGroupname?: Maybe<Group>;
-  /** Reads a single `User` that is related to this `ChatMessage`. */
-  user?: Maybe<User>;
-  /** An edge for our `ChatMessage`. May be used by Relay 1. */
-  chatMessageEdge?: Maybe<ChatMessagesEdge>;
-};
-
-
-/** The output of our create `ChatMessage` mutation. */
-export type CreateChatMessagePayloadChatMessageEdgeArgs = {
-  orderBy?: Maybe<Array<ChatMessagesOrderBy>>;
 };
 
 /** All input for the create `CompletedWorkoutExercise` mutation. */
@@ -743,6 +623,38 @@ export type CreateUserPayload = {
   query?: Maybe<Query>;
 };
 
+/** All input for the create `Volume` mutation. */
+export type CreateVolumeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Volume` to be created by this mutation. */
+  volume: VolumeInput;
+};
+
+/** The output of our create `Volume` mutation. */
+export type CreateVolumePayload = {
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Volume` that was created by this mutation. */
+  volume?: Maybe<Volume>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `Volume`. May be used by Relay 1. */
+  volumeEdge?: Maybe<VolumesEdge>;
+};
+
+
+/** The output of our create `Volume` mutation. */
+export type CreateVolumePayloadVolumeEdgeArgs = {
+  orderBy?: Maybe<Array<VolumesOrderBy>>;
+};
+
 /** All input for the create `WorkoutPlanDay` mutation. */
 export type CreateWorkoutPlanDayInput = {
   /**
@@ -801,6 +713,8 @@ export type CreateWorkoutPlanExercisePayload = {
   query?: Maybe<Query>;
   /** Reads a single `Exercise` that is related to this `WorkoutPlanExercise`. */
   exercise?: Maybe<Exercise>;
+  /** Reads a single `WorkoutPlanDay` that is related to this `WorkoutPlanExercise`. */
+  workoutPlanDay?: Maybe<WorkoutPlanDay>;
   /** An edge for our `WorkoutPlanExercise`. May be used by Relay 1. */
   workoutPlanExerciseEdge?: Maybe<WorkoutPlanExercisesEdge>;
 };
@@ -938,53 +852,6 @@ export type DeleteBodystatPayload = {
 /** The output of our delete `Bodystat` mutation. */
 export type DeleteBodystatPayloadBodystatEdgeArgs = {
   orderBy?: Maybe<Array<BodystatsOrderBy>>;
-};
-
-/** All input for the `deleteChatMessageByNodeId` mutation. */
-export type DeleteChatMessageByNodeIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `ChatMessage` to be deleted. */
-  nodeId: Scalars['ID'];
-};
-
-/** All input for the `deleteChatMessage` mutation. */
-export type DeleteChatMessageInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  id: Scalars['Int'];
-};
-
-/** The output of our delete `ChatMessage` mutation. */
-export type DeleteChatMessagePayload = {
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `ChatMessage` that was deleted by this mutation. */
-  chatMessage?: Maybe<ChatMessage>;
-  deletedChatMessageNodeId?: Maybe<Scalars['ID']>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `Group` that is related to this `ChatMessage`. */
-  groupByGroupname?: Maybe<Group>;
-  /** Reads a single `User` that is related to this `ChatMessage`. */
-  user?: Maybe<User>;
-  /** An edge for our `ChatMessage`. May be used by Relay 1. */
-  chatMessageEdge?: Maybe<ChatMessagesEdge>;
-};
-
-
-/** The output of our delete `ChatMessage` mutation. */
-export type DeleteChatMessagePayloadChatMessageEdgeArgs = {
-  orderBy?: Maybe<Array<ChatMessagesOrderBy>>;
 };
 
 /** All input for the `deleteCompletedWorkoutByNodeId` mutation. */
@@ -1438,6 +1305,64 @@ export type DeleteWorkoutPlanDayPayloadWorkoutPlanDayEdgeArgs = {
   orderBy?: Maybe<Array<WorkoutPlanDaysOrderBy>>;
 };
 
+/** All input for the `deleteWorkoutPlanExerciseByNodeId` mutation. */
+export type DeleteWorkoutPlanExerciseByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `WorkoutPlanExercise` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteWorkoutPlanExerciseByOrderingAndWorkoutPlanDayId` mutation. */
+export type DeleteWorkoutPlanExerciseByOrderingAndWorkoutPlanDayIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  ordering: Scalars['Int'];
+  workoutPlanDayId: Scalars['Int'];
+};
+
+/** All input for the `deleteWorkoutPlanExercise` mutation. */
+export type DeleteWorkoutPlanExerciseInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+};
+
+/** The output of our delete `WorkoutPlanExercise` mutation. */
+export type DeleteWorkoutPlanExercisePayload = {
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WorkoutPlanExercise` that was deleted by this mutation. */
+  workoutPlanExercise?: Maybe<WorkoutPlanExercise>;
+  deletedWorkoutPlanExerciseNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Exercise` that is related to this `WorkoutPlanExercise`. */
+  exercise?: Maybe<Exercise>;
+  /** Reads a single `WorkoutPlanDay` that is related to this `WorkoutPlanExercise`. */
+  workoutPlanDay?: Maybe<WorkoutPlanDay>;
+  /** An edge for our `WorkoutPlanExercise`. May be used by Relay 1. */
+  workoutPlanExerciseEdge?: Maybe<WorkoutPlanExercisesEdge>;
+};
+
+
+/** The output of our delete `WorkoutPlanExercise` mutation. */
+export type DeleteWorkoutPlanExercisePayloadWorkoutPlanExerciseEdgeArgs = {
+  orderBy?: Maybe<Array<WorkoutPlanExercisesOrderBy>>;
+};
+
 /** All input for the `deleteWorkoutPlan` mutation. */
 export type DeleteWorkoutPlanInput = {
   /**
@@ -1566,7 +1491,7 @@ export type ExerciseCompletedWorkoutExercisesArgs = {
 };
 
 export type ExerciseAlias = {
-  id?: Maybe<Scalars['Int']>;
+  id: Scalars['Int'];
   name: Scalars['String'];
 };
 
@@ -1721,8 +1646,6 @@ export type Group = Node & {
   usersByGroupname: UsersConnection;
   /** Reads and enables pagination through a set of `Battle`. */
   battlesByGroupname: BattlesConnection;
-  /** Reads and enables pagination through a set of `ChatMessage`. */
-  chatMessagesByGroupname: ChatMessagesConnection;
 };
 
 
@@ -1745,17 +1668,6 @@ export type GroupBattlesByGroupnameArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<BattlesOrderBy>>;
   condition?: Maybe<BattleCondition>;
-};
-
-
-export type GroupChatMessagesByGroupnameArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ChatMessagesOrderBy>>;
-  condition?: Maybe<ChatMessageCondition>;
 };
 
 /** A condition to be used against `Group` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -1856,8 +1768,6 @@ export type ListenPayload = {
 export type Mutation = {
   /** Creates a single `Bodystat`. */
   createBodystat?: Maybe<CreateBodystatPayload>;
-  /** Creates a single `ChatMessage`. */
-  createChatMessage?: Maybe<CreateChatMessagePayload>;
   /** Creates a single `CompletedWorkout`. */
   createCompletedWorkout?: Maybe<CreateCompletedWorkoutPayload>;
   /** Creates a single `CompletedWorkoutExercise`. */
@@ -1872,6 +1782,8 @@ export type Mutation = {
   createUserCurrentWorkoutPlan?: Maybe<CreateUserCurrentWorkoutPlanPayload>;
   /** Creates a single `UserExercise`. */
   createUserExercise?: Maybe<CreateUserExercisePayload>;
+  /** Creates a single `Volume`. */
+  createVolume?: Maybe<CreateVolumePayload>;
   /** Creates a single `WorkoutPlan`. */
   createWorkoutPlan?: Maybe<CreateWorkoutPlanPayload>;
   /** Creates a single `WorkoutPlanDay`. */
@@ -1886,10 +1798,6 @@ export type Mutation = {
   updateBodystatByNodeId?: Maybe<UpdateBodystatPayload>;
   /** Updates a single `Bodystat` using a unique key and a patch. */
   updateBodystat?: Maybe<UpdateBodystatPayload>;
-  /** Updates a single `ChatMessage` using its globally unique id and a patch. */
-  updateChatMessageByNodeId?: Maybe<UpdateChatMessagePayload>;
-  /** Updates a single `ChatMessage` using a unique key and a patch. */
-  updateChatMessage?: Maybe<UpdateChatMessagePayload>;
   /** Updates a single `CompletedWorkout` using its globally unique id and a patch. */
   updateCompletedWorkoutByNodeId?: Maybe<UpdateCompletedWorkoutPayload>;
   /** Updates a single `CompletedWorkout` using a unique key and a patch. */
@@ -1932,6 +1840,12 @@ export type Mutation = {
   updateWorkoutPlanDay?: Maybe<UpdateWorkoutPlanDayPayload>;
   /** Updates a single `WorkoutPlanDay` using a unique key and a patch. */
   updateWorkoutPlanDayByWorkoutPlanIdAndName?: Maybe<UpdateWorkoutPlanDayPayload>;
+  /** Updates a single `WorkoutPlanExercise` using its globally unique id and a patch. */
+  updateWorkoutPlanExerciseByNodeId?: Maybe<UpdateWorkoutPlanExercisePayload>;
+  /** Updates a single `WorkoutPlanExercise` using a unique key and a patch. */
+  updateWorkoutPlanExerciseByOrderingAndWorkoutPlanDayId?: Maybe<UpdateWorkoutPlanExercisePayload>;
+  /** Updates a single `WorkoutPlanExercise` using a unique key and a patch. */
+  updateWorkoutPlanExercise?: Maybe<UpdateWorkoutPlanExercisePayload>;
   /** Deletes a single `Battle` using its globally unique id. */
   deleteBattleByNodeId?: Maybe<DeleteBattlePayload>;
   /** Deletes a single `Battle` using a unique key. */
@@ -1940,10 +1854,6 @@ export type Mutation = {
   deleteBodystatByNodeId?: Maybe<DeleteBodystatPayload>;
   /** Deletes a single `Bodystat` using a unique key. */
   deleteBodystat?: Maybe<DeleteBodystatPayload>;
-  /** Deletes a single `ChatMessage` using its globally unique id. */
-  deleteChatMessageByNodeId?: Maybe<DeleteChatMessagePayload>;
-  /** Deletes a single `ChatMessage` using a unique key. */
-  deleteChatMessage?: Maybe<DeleteChatMessagePayload>;
   /** Deletes a single `CompletedWorkout` using its globally unique id. */
   deleteCompletedWorkoutByNodeId?: Maybe<DeleteCompletedWorkoutPayload>;
   /** Deletes a single `CompletedWorkout` using a unique key. */
@@ -1990,6 +1900,12 @@ export type Mutation = {
   deleteWorkoutPlanDay?: Maybe<DeleteWorkoutPlanDayPayload>;
   /** Deletes a single `WorkoutPlanDay` using a unique key. */
   deleteWorkoutPlanDayByWorkoutPlanIdAndName?: Maybe<DeleteWorkoutPlanDayPayload>;
+  /** Deletes a single `WorkoutPlanExercise` using its globally unique id. */
+  deleteWorkoutPlanExerciseByNodeId?: Maybe<DeleteWorkoutPlanExercisePayload>;
+  /** Deletes a single `WorkoutPlanExercise` using a unique key. */
+  deleteWorkoutPlanExerciseByOrderingAndWorkoutPlanDayId?: Maybe<DeleteWorkoutPlanExercisePayload>;
+  /** Deletes a single `WorkoutPlanExercise` using a unique key. */
+  deleteWorkoutPlanExercise?: Maybe<DeleteWorkoutPlanExercisePayload>;
   createUser?: Maybe<CreateUserPayload>;
   getBattleAndCheckExpiry?: Maybe<GetBattleAndCheckExpiryPayload>;
   joinGroup?: Maybe<JoinGroupPayload>;
@@ -1999,8 +1915,6 @@ export type Mutation = {
   upsertBattle?: Maybe<UpsertBattlePayload>;
   /** Upserts a single `Bodystat`. */
   upsertBodystat?: Maybe<UpsertBodystatPayload>;
-  /** Upserts a single `ChatMessage`. */
-  upsertChatMessage?: Maybe<UpsertChatMessagePayload>;
   /** Upserts a single `CompletedWorkout`. */
   upsertCompletedWorkout?: Maybe<UpsertCompletedWorkoutPayload>;
   /** Upserts a single `CompletedWorkoutExercise`. */
@@ -2017,6 +1931,8 @@ export type Mutation = {
   upsertUserCurrentWorkoutPlan?: Maybe<UpsertUserCurrentWorkoutPlanPayload>;
   /** Upserts a single `UserExercise`. */
   upsertUserExercise?: Maybe<UpsertUserExercisePayload>;
+  /** Upserts a single `Volume`. */
+  upsertVolume?: Maybe<UpsertVolumePayload>;
   /** Upserts a single `WorkoutPlan`. */
   upsertWorkoutPlan?: Maybe<UpsertWorkoutPlanPayload>;
   /** Upserts a single `WorkoutPlanDay`. */
@@ -2035,12 +1951,6 @@ export type Mutation = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateBodystatArgs = {
   input: CreateBodystatInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateChatMessageArgs = {
-  input: CreateChatMessageInput;
 };
 
 
@@ -2087,6 +1997,12 @@ export type MutationCreateUserExerciseArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateVolumeArgs = {
+  input: CreateVolumeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateWorkoutPlanArgs = {
   input: CreateWorkoutPlanInput;
 };
@@ -2125,18 +2041,6 @@ export type MutationUpdateBodystatByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateBodystatArgs = {
   input: UpdateBodystatInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateChatMessageByNodeIdArgs = {
-  input: UpdateChatMessageByNodeIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateChatMessageArgs = {
-  input: UpdateChatMessageInput;
 };
 
 
@@ -2267,6 +2171,24 @@ export type MutationUpdateWorkoutPlanDayByWorkoutPlanIdAndNameArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateWorkoutPlanExerciseByNodeIdArgs = {
+  input: UpdateWorkoutPlanExerciseByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateWorkoutPlanExerciseByOrderingAndWorkoutPlanDayIdArgs = {
+  input: UpdateWorkoutPlanExerciseByOrderingAndWorkoutPlanDayIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateWorkoutPlanExerciseArgs = {
+  input: UpdateWorkoutPlanExerciseInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteBattleByNodeIdArgs = {
   input: DeleteBattleByNodeIdInput;
 };
@@ -2287,18 +2209,6 @@ export type MutationDeleteBodystatByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteBodystatArgs = {
   input: DeleteBodystatInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteChatMessageByNodeIdArgs = {
-  input: DeleteChatMessageByNodeIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteChatMessageArgs = {
-  input: DeleteChatMessageInput;
 };
 
 
@@ -2441,6 +2351,24 @@ export type MutationDeleteWorkoutPlanDayByWorkoutPlanIdAndNameArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteWorkoutPlanExerciseByNodeIdArgs = {
+  input: DeleteWorkoutPlanExerciseByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteWorkoutPlanExerciseByOrderingAndWorkoutPlanDayIdArgs = {
+  input: DeleteWorkoutPlanExerciseByOrderingAndWorkoutPlanDayIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteWorkoutPlanExerciseArgs = {
+  input: DeleteWorkoutPlanExerciseInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
 };
@@ -2479,12 +2407,6 @@ export type MutationUpsertBattleArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpsertBodystatArgs = {
   input: UpsertBodystatInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpsertChatMessageArgs = {
-  input: UpsertChatMessageInput;
 };
 
 
@@ -2533,6 +2455,12 @@ export type MutationUpsertUserCurrentWorkoutPlanArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpsertUserExerciseArgs = {
   input: UpsertUserExerciseInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertVolumeArgs = {
+  input: UpsertVolumeInput;
 };
 
 
@@ -2622,8 +2550,6 @@ export type Query = Node & {
   node?: Maybe<Node>;
   /** Reads and enables pagination through a set of `Battle`. */
   battles?: Maybe<BattlesConnection>;
-  /** Reads and enables pagination through a set of `ChatMessage`. */
-  chatMessages?: Maybe<ChatMessagesConnection>;
   /** Reads and enables pagination through a set of `CompletedWorkout`. */
   completedWorkouts?: Maybe<CompletedWorkoutsConnection>;
   /** Reads and enables pagination through a set of `CompletedWorkoutExercise`. */
@@ -2644,6 +2570,8 @@ export type Query = Node & {
   userCurrentWorkoutPlans?: Maybe<UserCurrentWorkoutPlansConnection>;
   /** Reads and enables pagination through a set of `UserExercise`. */
   userExercises?: Maybe<UserExercisesConnection>;
+  /** Reads and enables pagination through a set of `Volume`. */
+  volumes?: Maybe<VolumesConnection>;
   /** Reads and enables pagination through a set of `WorkoutPlan`. */
   workoutPlans?: Maybe<WorkoutPlansConnection>;
   /** Reads and enables pagination through a set of `WorkoutPlanDay`. */
@@ -2652,7 +2580,6 @@ export type Query = Node & {
   workoutPlanExercises?: Maybe<WorkoutPlanExercisesConnection>;
   battle?: Maybe<Battle>;
   bodystat?: Maybe<Bodystat>;
-  chatMessage?: Maybe<ChatMessage>;
   completedWorkout?: Maybe<CompletedWorkout>;
   completedWorkoutExercise?: Maybe<CompletedWorkoutExercise>;
   enemy?: Maybe<Enemy>;
@@ -2667,14 +2594,14 @@ export type Query = Node & {
   workoutPlanByUserIdAndName?: Maybe<WorkoutPlan>;
   workoutPlanDay?: Maybe<WorkoutPlanDay>;
   workoutPlanDayByWorkoutPlanIdAndName?: Maybe<WorkoutPlanDay>;
+  workoutPlanExerciseByOrderingAndWorkoutPlanDayId?: Maybe<WorkoutPlanExercise>;
+  workoutPlanExercise?: Maybe<WorkoutPlanExercise>;
   activeUser?: Maybe<User>;
   calculateStrengthStats?: Maybe<Strengthstat>;
   /** Reads a single `Battle` using its globally unique `ID`. */
   battleByNodeId?: Maybe<Battle>;
   /** Reads a single `Bodystat` using its globally unique `ID`. */
   bodystatByNodeId?: Maybe<Bodystat>;
-  /** Reads a single `ChatMessage` using its globally unique `ID`. */
-  chatMessageByNodeId?: Maybe<ChatMessage>;
   /** Reads a single `CompletedWorkout` using its globally unique `ID`. */
   completedWorkoutByNodeId?: Maybe<CompletedWorkout>;
   /** Reads a single `CompletedWorkoutExercise` using its globally unique `ID`. */
@@ -2697,6 +2624,8 @@ export type Query = Node & {
   workoutPlanByNodeId?: Maybe<WorkoutPlan>;
   /** Reads a single `WorkoutPlanDay` using its globally unique `ID`. */
   workoutPlanDayByNodeId?: Maybe<WorkoutPlanDay>;
+  /** Reads a single `WorkoutPlanExercise` using its globally unique `ID`. */
+  workoutPlanExerciseByNodeId?: Maybe<WorkoutPlanExercise>;
   calculateStrength?: Maybe<Scalars['Int']>;
 };
 
@@ -2716,18 +2645,6 @@ export type QueryBattlesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<BattlesOrderBy>>;
   condition?: Maybe<BattleCondition>;
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryChatMessagesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ChatMessagesOrderBy>>;
-  condition?: Maybe<ChatMessageCondition>;
 };
 
 
@@ -2852,6 +2769,17 @@ export type QueryUserExercisesArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryVolumesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<VolumesOrderBy>>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryWorkoutPlansArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -2897,12 +2825,6 @@ export type QueryBattleArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryBodystatArgs = {
   userId: Scalars['Int'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryChatMessageArgs = {
-  id: Scalars['Int'];
 };
 
 
@@ -2994,6 +2916,19 @@ export type QueryWorkoutPlanDayByWorkoutPlanIdAndNameArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryWorkoutPlanExerciseByOrderingAndWorkoutPlanDayIdArgs = {
+  ordering: Scalars['Int'];
+  workoutPlanDayId: Scalars['Int'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryWorkoutPlanExerciseArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryBattleByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
@@ -3001,12 +2936,6 @@ export type QueryBattleByNodeIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryBodystatByNodeIdArgs = {
-  nodeId: Scalars['ID'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryChatMessageByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
@@ -3073,6 +3002,12 @@ export type QueryWorkoutPlanByNodeIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryWorkoutPlanDayByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryWorkoutPlanExerciseByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
@@ -3284,56 +3219,6 @@ export type UpdateBodystatPayload = {
 /** The output of our update `Bodystat` mutation. */
 export type UpdateBodystatPayloadBodystatEdgeArgs = {
   orderBy?: Maybe<Array<BodystatsOrderBy>>;
-};
-
-/** All input for the `updateChatMessageByNodeId` mutation. */
-export type UpdateChatMessageByNodeIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `ChatMessage` to be updated. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `ChatMessage` being updated. */
-  patch: ChatMessagePatch;
-};
-
-/** All input for the `updateChatMessage` mutation. */
-export type UpdateChatMessageInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** An object where the defined keys will be set on the `ChatMessage` being updated. */
-  patch: ChatMessagePatch;
-  id: Scalars['Int'];
-};
-
-/** The output of our update `ChatMessage` mutation. */
-export type UpdateChatMessagePayload = {
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `ChatMessage` that was updated by this mutation. */
-  chatMessage?: Maybe<ChatMessage>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `Group` that is related to this `ChatMessage`. */
-  groupByGroupname?: Maybe<Group>;
-  /** Reads a single `User` that is related to this `ChatMessage`. */
-  user?: Maybe<User>;
-  /** An edge for our `ChatMessage`. May be used by Relay 1. */
-  chatMessageEdge?: Maybe<ChatMessagesEdge>;
-};
-
-
-/** The output of our update `ChatMessage` mutation. */
-export type UpdateChatMessagePayloadChatMessageEdgeArgs = {
-  orderBy?: Maybe<Array<ChatMessagesOrderBy>>;
 };
 
 /** All input for the `updateCompletedWorkoutByNodeId` mutation. */
@@ -3774,6 +3659,69 @@ export type UpdateWorkoutPlanDayPayloadWorkoutPlanDayEdgeArgs = {
   orderBy?: Maybe<Array<WorkoutPlanDaysOrderBy>>;
 };
 
+/** All input for the `updateWorkoutPlanExerciseByNodeId` mutation. */
+export type UpdateWorkoutPlanExerciseByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `WorkoutPlanExercise` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `WorkoutPlanExercise` being updated. */
+  patch: WorkoutPlanExercisePatch;
+};
+
+/** All input for the `updateWorkoutPlanExerciseByOrderingAndWorkoutPlanDayId` mutation. */
+export type UpdateWorkoutPlanExerciseByOrderingAndWorkoutPlanDayIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `WorkoutPlanExercise` being updated. */
+  patch: WorkoutPlanExercisePatch;
+  ordering: Scalars['Int'];
+  workoutPlanDayId: Scalars['Int'];
+};
+
+/** All input for the `updateWorkoutPlanExercise` mutation. */
+export type UpdateWorkoutPlanExerciseInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `WorkoutPlanExercise` being updated. */
+  patch: WorkoutPlanExercisePatch;
+  id: Scalars['Int'];
+};
+
+/** The output of our update `WorkoutPlanExercise` mutation. */
+export type UpdateWorkoutPlanExercisePayload = {
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WorkoutPlanExercise` that was updated by this mutation. */
+  workoutPlanExercise?: Maybe<WorkoutPlanExercise>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Exercise` that is related to this `WorkoutPlanExercise`. */
+  exercise?: Maybe<Exercise>;
+  /** Reads a single `WorkoutPlanDay` that is related to this `WorkoutPlanExercise`. */
+  workoutPlanDay?: Maybe<WorkoutPlanDay>;
+  /** An edge for our `WorkoutPlanExercise`. May be used by Relay 1. */
+  workoutPlanExerciseEdge?: Maybe<WorkoutPlanExercisesEdge>;
+};
+
+
+/** The output of our update `WorkoutPlanExercise` mutation. */
+export type UpdateWorkoutPlanExercisePayloadWorkoutPlanExerciseEdgeArgs = {
+  orderBy?: Maybe<Array<WorkoutPlanExercisesOrderBy>>;
+};
+
 /** All input for the `updateWorkoutPlan` mutation. */
 export type UpdateWorkoutPlanInput = {
   /**
@@ -3865,36 +3813,6 @@ export type UpsertBodystatPayload = {
 /** The output of our upsert `Bodystat` mutation. */
 export type UpsertBodystatPayloadBodystatEdgeArgs = {
   orderBy?: Maybe<Array<BodystatsOrderBy>>;
-};
-
-/** All input for the upsert `ChatMessage` mutation. */
-export type UpsertChatMessageInput = {
-  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `ChatMessage` to be upserted by this mutation. */
-  chatMessage: ChatMessageInput;
-};
-
-/** The output of our upsert `ChatMessage` mutation. */
-export type UpsertChatMessagePayload = {
-  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `ChatMessage` that was upserted by this mutation. */
-  chatMessage?: Maybe<ChatMessage>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `Group` that is related to this `ChatMessage`. */
-  groupByGroupname?: Maybe<Group>;
-  /** Reads a single `User` that is related to this `ChatMessage`. */
-  user?: Maybe<User>;
-  /** An edge for our `ChatMessage`. May be used by Relay 1. */
-  chatMessageEdge?: Maybe<ChatMessagesEdge>;
-};
-
-
-/** The output of our upsert `ChatMessage` mutation. */
-export type UpsertChatMessagePayloadChatMessageEdgeArgs = {
-  orderBy?: Maybe<Array<ChatMessagesOrderBy>>;
 };
 
 /** All input for the upsert `CompletedWorkoutExercise` mutation. */
@@ -4123,6 +4041,32 @@ export type UpsertUserPayloadUserEdgeArgs = {
   orderBy?: Maybe<Array<UsersOrderBy>>;
 };
 
+/** All input for the upsert `Volume` mutation. */
+export type UpsertVolumeInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Volume` to be upserted by this mutation. */
+  volume: VolumeInput;
+};
+
+/** The output of our upsert `Volume` mutation. */
+export type UpsertVolumePayload = {
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Volume` that was upserted by this mutation. */
+  volume?: Maybe<Volume>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `Volume`. May be used by Relay 1. */
+  volumeEdge?: Maybe<VolumesEdge>;
+};
+
+
+/** The output of our upsert `Volume` mutation. */
+export type UpsertVolumePayloadVolumeEdgeArgs = {
+  orderBy?: Maybe<Array<VolumesOrderBy>>;
+};
+
 /** All input for the upsert `WorkoutPlanDay` mutation. */
 export type UpsertWorkoutPlanDayInput = {
   /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
@@ -4169,6 +4113,8 @@ export type UpsertWorkoutPlanExercisePayload = {
   query?: Maybe<Query>;
   /** Reads a single `Exercise` that is related to this `WorkoutPlanExercise`. */
   exercise?: Maybe<Exercise>;
+  /** Reads a single `WorkoutPlanDay` that is related to this `WorkoutPlanExercise`. */
+  workoutPlanDay?: Maybe<WorkoutPlanDay>;
   /** An edge for our `WorkoutPlanExercise`. May be used by Relay 1. */
   workoutPlanExerciseEdge?: Maybe<WorkoutPlanExercisesEdge>;
 };
@@ -4221,8 +4167,6 @@ export type User = Node & {
   bodystat?: Maybe<Bodystat>;
   /** Reads and enables pagination through a set of `UserExercise`. */
   userExercises: UserExercisesConnection;
-  /** Reads and enables pagination through a set of `ChatMessage`. */
-  chatMessages: ChatMessagesConnection;
   /** Reads and enables pagination through a set of `SessionAnalytic`. */
   sessionAnalytics: SessionAnalyticsConnection;
   /** Reads a single `UserCurrentWorkoutPlan` that is related to this `User`. */
@@ -4240,17 +4184,6 @@ export type UserUserExercisesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<UserExercisesOrderBy>>;
   condition?: Maybe<UserExerciseCondition>;
-};
-
-
-export type UserChatMessagesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ChatMessagesOrderBy>>;
-  condition?: Maybe<ChatMessageCondition>;
 };
 
 
@@ -4492,15 +4425,40 @@ export enum UsersOrderBy {
 }
 
 export type Volume = {
-  weight?: Maybe<Scalars['Float']>;
-  reps?: Maybe<Scalars['Int']>;
+  weight: Scalars['Float'];
+  reps: Scalars['Int'];
 };
 
 /** An input for mutations affecting `Volume` */
 export type VolumeInput = {
-  weight?: Maybe<Scalars['Float']>;
-  reps?: Maybe<Scalars['Int']>;
+  weight: Scalars['Float'];
+  reps: Scalars['Int'];
 };
+
+/** A connection to a list of `Volume` values. */
+export type VolumesConnection = {
+  /** A list of `Volume` objects. */
+  nodes: Array<Volume>;
+  /** A list of edges which contains the `Volume` and cursor to aid in pagination. */
+  edges: Array<VolumesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Volume` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Volume` edge in the connection. */
+export type VolumesEdge = {
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Volume` at the end of the edge. */
+  node: Volume;
+};
+
+/** Methods to use when ordering `Volume`. */
+export enum VolumesOrderBy {
+  Natural = 'NATURAL'
+}
 
 export type WorkoutPlan = Node & {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
@@ -4554,11 +4512,23 @@ export type WorkoutPlanDay = Node & {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
   id: Scalars['Int'];
-  workoutExercises: Array<Maybe<WorkoutPlanExercise>>;
-  workoutPlanId?: Maybe<Scalars['Int']>;
+  workoutPlanId: Scalars['Int'];
   name: Scalars['String'];
   /** Reads a single `WorkoutPlan` that is related to this `WorkoutPlanDay`. */
   workoutPlan?: Maybe<WorkoutPlan>;
+  /** Reads and enables pagination through a set of `WorkoutPlanExercise`. */
+  workoutPlanExercises: WorkoutPlanExercisesConnection;
+};
+
+
+export type WorkoutPlanDayWorkoutPlanExercisesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<WorkoutPlanExercisesOrderBy>>;
+  condition?: Maybe<WorkoutPlanExerciseCondition>;
 };
 
 /**
@@ -4575,15 +4545,13 @@ export type WorkoutPlanDayCondition = {
 /** An input for mutations affecting `WorkoutPlanDay` */
 export type WorkoutPlanDayInput = {
   id?: Maybe<Scalars['Int']>;
-  workoutExercises: Array<Maybe<WorkoutPlanExerciseInput>>;
-  workoutPlanId?: Maybe<Scalars['Int']>;
+  workoutPlanId: Scalars['Int'];
   name: Scalars['String'];
 };
 
 /** Represents an update to a `WorkoutPlanDay`. Fields that are set will be updated. */
 export type WorkoutPlanDayPatch = {
   id?: Maybe<Scalars['Int']>;
-  workoutExercises?: Maybe<Array<Maybe<WorkoutPlanExerciseInput>>>;
   workoutPlanId?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
 };
@@ -4619,12 +4587,19 @@ export enum WorkoutPlanDaysOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
-export type WorkoutPlanExercise = {
+export type WorkoutPlanExercise = Node & {
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
   exerciseId: Scalars['Int'];
   sets: Scalars['Int'];
   reps: Scalars['Int'];
+  ordering: Scalars['Int'];
+  workoutPlanDayId: Scalars['Int'];
+  id: Scalars['Int'];
   /** Reads a single `Exercise` that is related to this `WorkoutPlanExercise`. */
   exercise?: Maybe<Exercise>;
+  /** Reads a single `WorkoutPlanDay` that is related to this `WorkoutPlanExercise`. */
+  workoutPlanDay?: Maybe<WorkoutPlanDay>;
 };
 
 /**
@@ -4634,6 +4609,12 @@ export type WorkoutPlanExercise = {
 export type WorkoutPlanExerciseCondition = {
   /** Checks for equality with the object’s `exerciseId` field. */
   exerciseId?: Maybe<Scalars['Int']>;
+  /** Checks for equality with the object’s `ordering` field. */
+  ordering?: Maybe<Scalars['Int']>;
+  /** Checks for equality with the object’s `workoutPlanDayId` field. */
+  workoutPlanDayId?: Maybe<Scalars['Int']>;
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['Int']>;
 };
 
 /** An input for mutations affecting `WorkoutPlanExercise` */
@@ -4641,6 +4622,17 @@ export type WorkoutPlanExerciseInput = {
   exerciseId: Scalars['Int'];
   sets: Scalars['Int'];
   reps: Scalars['Int'];
+  ordering: Scalars['Int'];
+  workoutPlanDayId: Scalars['Int'];
+};
+
+/** Represents an update to a `WorkoutPlanExercise`. Fields that are set will be updated. */
+export type WorkoutPlanExercisePatch = {
+  exerciseId?: Maybe<Scalars['Int']>;
+  sets?: Maybe<Scalars['Int']>;
+  reps?: Maybe<Scalars['Int']>;
+  ordering?: Maybe<Scalars['Int']>;
+  workoutPlanDayId?: Maybe<Scalars['Int']>;
 };
 
 /** A connection to a list of `WorkoutPlanExercise` values. */
@@ -4667,7 +4659,15 @@ export type WorkoutPlanExercisesEdge = {
 export enum WorkoutPlanExercisesOrderBy {
   Natural = 'NATURAL',
   ExerciseIdAsc = 'EXERCISE_ID_ASC',
-  ExerciseIdDesc = 'EXERCISE_ID_DESC'
+  ExerciseIdDesc = 'EXERCISE_ID_DESC',
+  OrderingAsc = 'ORDERING_ASC',
+  OrderingDesc = 'ORDERING_DESC',
+  WorkoutPlanDayIdAsc = 'WORKOUT_PLAN_DAY_ID_ASC',
+  WorkoutPlanDayIdDesc = 'WORKOUT_PLAN_DAY_ID_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
 /** An input for mutations affecting `WorkoutPlan` */
@@ -4858,13 +4858,13 @@ export type UpsertCurrentWorkoutPlanMutation = { upsertUserCurrentWorkoutPlan?: 
     )> }> };
 
 export type WorkoutPlanExerciseFragment = (
-  Pick<WorkoutPlanExercise, 'sets' | 'reps'>
+  Pick<WorkoutPlanExercise, 'sets' | 'reps' | 'id'>
   & { exercise?: Maybe<Pick<Exercise, 'name' | 'id'>> }
 );
 
 export type WorkoutDayFragment = (
   Pick<WorkoutPlanDay, 'name' | 'id'>
-  & { workoutExercises: Array<Maybe<WorkoutPlanExerciseFragment>> }
+  & { workoutPlanExercises: { nodes: Array<WorkoutPlanExerciseFragment> } }
 );
 
 export type WorkoutPlanFragment = (
@@ -4890,6 +4890,7 @@ export const WorkoutPlanExerciseFragmentDoc = gql`
     fragment WorkoutPlanExercise on WorkoutPlanExercise {
   sets
   reps
+  id
   exercise {
     name
     id
@@ -4900,8 +4901,10 @@ export const WorkoutDayFragmentDoc = gql`
     fragment WorkoutDay on WorkoutPlanDay {
   name
   id
-  workoutExercises {
-    ...WorkoutPlanExercise
+  workoutPlanExercises {
+    nodes {
+      ...WorkoutPlanExercise
+    }
   }
 }
     ${WorkoutPlanExerciseFragmentDoc}`;

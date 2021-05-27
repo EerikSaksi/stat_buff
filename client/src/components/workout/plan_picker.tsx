@@ -7,16 +7,8 @@ import { View, Text } from "react-native";
 
 
 const WorkoutPlanPicker: React.FC = () => {
-  const alreadyTriedNavigating = useRef(false);
   const navigation = useNavigation();
-  const { data } = useWorkoutQuery({
-    onCompleted: (data) => {
-      //if (!alreadyTriedNavigating.current && data?.activeUser?.userCurrentWorkoutPlan?.workoutPlan) {
-      //  navigation.navigate("Select Workout Day", { days: data.activeUser.userCurrentWorkoutPlan.workoutPlan.workoutPlanDays.nodes });
-      //  alreadyTriedNavigating.current = true;
-      //}
-    },
-  });
+  const { data } = useWorkoutQuery();
   const [upsertCurrentWorkoutPlan] = useUpsertCurrentWorkoutPlanMutation();
   const [deleteCurrentWorkoutPlanMutation] = useDeleteCurrentWorkoutPlanMutation();
 

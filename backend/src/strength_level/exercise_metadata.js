@@ -3062,8 +3062,9 @@ function generateSQL() {
           values ('${bodyPart}', '${type.charAt(0).toUpperCase() + type.slice(1)}', '${name}', ${count}, ${eliteStrengthBaseline});
         `);
     for (const alias of exerciseAliases) {
-      console.log(`\ninsert into "exercise_alias" (id, name) values (${id}, '${alias}');`);
+      console.log(`\ninsert into "exercise_alias" (name, exercise_id) values ('${alias}', ${id});`);
     }
   }
 }
+generateSQL()
 module.exports = exercise_json;
