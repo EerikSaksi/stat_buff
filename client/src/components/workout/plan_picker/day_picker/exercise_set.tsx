@@ -1,13 +1,14 @@
 import React from "react";
-import { Volume, BodystatFragment } from "../../../../generated/graphql";
+import { BodystatFragment } from "../../../../generated/graphql";
 import { TextInput, List } from "react-native-paper";
 import useStrengthPredictions from "./use_strength_predictions";
+import {ConditionalVolume} from './day'
 const WorkoutExerciseSet: React.FC<{
   exerciseId: number;
   row: number;
   col: number;
-  volume: Volume;
-  updateVolumes: (row: number, column: number, volume: Volume) => void;
+  volume: ConditionalVolume;
+  updateVolumes: (row: number, column: number, volume: ConditionalVolume) => void;
   bodystat: BodystatFragment | undefined;
 }> = ({ exerciseId, row, col, volume, updateVolumes, bodystat }) => {
   const predictions = useStrengthPredictions(volume.reps, volume.weight, exerciseId, bodystat);

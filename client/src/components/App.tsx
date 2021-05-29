@@ -57,7 +57,6 @@ const App: React.FC<{ username: string }> = ({ username }) => {
         //set the tab as the visible section
         //group is never set as opening group will also open enemy or members. I'm adding "tab" because postgres doesnt like "user" as a variable name
         if (tab !== "Group") visibleSection(tab + "Tab");
-        console.log(state);
         AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state));
       }}
     >

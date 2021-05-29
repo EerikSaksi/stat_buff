@@ -3,27 +3,25 @@ import { createStackNavigator } from "@react-navigation/stack";
 import WorkoutPlanPicker from "./workout/plan_picker";
 import WorkoutDayPicker from "./workout/plan_picker/day_picker";
 import WorkoutDay from "./workout/plan_picker/day_picker/day";
-import { WorkoutDayFragment, WorkoutPlanExerciseFragment} from "generated/graphql";
-import {NavigatorScreenParams} from "@react-navigation/native";
+import ExerciseSearch from "./workout/plan_picker/day_picker/exercise_search";
+import { WorkoutDayFragment } from "generated/graphql";
 
-
-type RootStackParamList = {
+export type RootStackParamList = {
   "Select Workout": undefined;
-  "Select Workout Day": NavigatorScreenParams<{ days: WorkoutDayFragment[] }>;
-  "Workout":  NavigatorScreenParams<{ exercises: WorkoutPlanExerciseFragment[], name: string}>;
+  "Select Workout Day": { days: WorkoutDayFragment[] };
+  Workout: { workoutDay: WorkoutDayFragment };
+  "Select Exercise": { planId: number };
 };
 const Stack = createStackNavigator<RootStackParamList>();
 
 const Workout: React.FC = () => {
   return (
-    <Stack.Navigator initialRouteName="Select Workout" >
+    <Stack.Navigator initialRouteName="Select Workout">
       <Stack.Screen name="Select Workout" component={WorkoutPlanPicker} />
       <Stack.Screen name="Select Workout Day" component={WorkoutDayPicker} />
-      <Stack.Screen name="Workout" component={WorkoutDay} 
-        options={({ route }) => ({ title: route.params.name })}
-      />
+      <Stack.Screen name="Workout" component={WorkoutDay} options={({ route }) => ({ title: '' })} />
+      <Stack.Screen name="Select Exercise" component={ExerciseSearch} />
     </Stack.Navigator>
   );
 };
-export 
-default Workout;
+export default Workout;

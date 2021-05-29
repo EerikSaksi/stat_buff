@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { gql, useLazyQuery, useQuery } from "@apollo/client";
 import { Text, View, StyleSheet, Linking } from "react-native";
 import {ActivityIndicator} from 'react-native-paper'
-import ExerciseModal from "./user/exercise_modal";
 import SpriteSelector from "./sprites/sprite_selector";
 import BodyStatsModal from "./user/bodystats_modal";
 import { Button } from "react-native-elements";
@@ -107,7 +106,6 @@ const User: React.FC<{ route: NavigationProps }> = ({ route }) => {
           </Text>
         </Text>
       </View>
-      <ExerciseModal visible={strengthModalVisible} setVisible={setStrengthModalVisible} username={username} refetchParent={fetchStrength} />
       <WorkoutModal visible={workoutModalVisible} setVisible={setWorkoutModalVisible} username={username} skillTitle={"intermediate"} />
       <View style={styles.sprite}>{(exerciseData && exerciseData.averageStrength) || !loading ? <SpriteSelector aspectRatio={1.2} spriteName={"intermediate"} /> : <ActivityIndicator />}</View>
     </SafeAreaView>

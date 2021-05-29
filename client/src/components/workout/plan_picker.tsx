@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useWorkoutQuery, useUpsertCurrentWorkoutPlanMutation, useDeleteCurrentWorkoutPlanMutation } from "../../generated/graphql";
 import { ActivityIndicator, Checkbox, Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
@@ -8,7 +8,7 @@ import { View, Text } from "react-native";
 
 const WorkoutPlanPicker: React.FC = () => {
   const navigation = useNavigation();
-  const { data } = useWorkoutQuery();
+  const { data } = useWorkoutQuery({});
   const [upsertCurrentWorkoutPlan] = useUpsertCurrentWorkoutPlanMutation();
   const [deleteCurrentWorkoutPlanMutation] = useDeleteCurrentWorkoutPlanMutation();
 

@@ -6,23 +6,25 @@ import {
   useCreateCompletedWorkoutMutation,
 } from "../../../../generated/graphql";
 import { Button } from "react-native-paper";
-import { View} from "react-native";
-
+import { View } from "react-native";
+import {ConditionalVolume} from './day'
 
 const transformVolumeToPayload = (
-  volumes: Volume[][],
+  volumes: ConditionalVolume[][],
   exerciseIds: number[],
   completedWorkoutId: number
 ): CompletedWorkoutExerciseInput[] =>
   volumes
     .map((volume, i) => ({
       exerciseId: exerciseIds[i],
-      volumes: volume.filter(({ reps, weight }) => reps && weight),
+      //filter all conditional volumes which miss attributes and cast them to Volume (which require both fields)
+      //our database requires both fields to insert because of not null constraint
+      volumes: volume.filter(({ reps, weight }) => reps && weight).map((conditional) => conditional as Volume),
       completedWorkoutId,
     }))
     .filter(({ volumes }) => volumes.length);
 
-const WorkoutTimer: React.FC<{ volumes: Volume[][]; exerciseIds: number[] }> = ({ volumes, exerciseIds }) => {
+const WorkoutTimer: React.FC<{ volumes: ConditionalVolume[][]; exerciseIds: number[] }> = ({ volumes, exerciseIds }) => {
   const startTime = useRef<Date | undefined>();
   const [minutes, setMinutes] = useState<undefined | number>();
 
@@ -42,7 +44,7 @@ const WorkoutTimer: React.FC<{ volumes: Volume[][]; exerciseIds: number[] }> = (
   useEffect(() => {
     if (!startTime.current) {
       //user has tracked a lift, then start the timer
-      if (volumes.some((row) => row.some((val) => val !== undefined))) {
+      if (volumes.some((row) => row.some(val => val.weight || val.reps))) {
         startTime.current = new Date();
         setMinutes(0);
       }

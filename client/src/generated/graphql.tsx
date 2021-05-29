@@ -52,6 +52,7 @@ export type BattleGroupsByNameAndBattleNumberArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<GroupsOrderBy>>;
   condition?: Maybe<GroupCondition>;
+  filter?: Maybe<GroupFilter>;
 };
 
 
@@ -63,6 +64,7 @@ export type BattleUserExercisesByGroupnameAndBattleNumberArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<UserExercisesOrderBy>>;
   condition?: Maybe<UserExerciseCondition>;
+  filter?: Maybe<UserExerciseFilter>;
 };
 
 /** A condition to be used against `Battle` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -71,6 +73,20 @@ export type BattleCondition = {
   enemyLevel?: Maybe<Scalars['Int']>;
   /** Checks for equality with the object’s `groupname` field. */
   groupname?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against `Battle` object types. All fields are combined with a logical ‘and.’ */
+export type BattleFilter = {
+  /** Filter by the object’s `enemyLevel` field. */
+  enemyLevel?: Maybe<IntFilter>;
+  /** Filter by the object’s `groupname` field. */
+  groupname?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<BattleFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<BattleFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<BattleFilter>;
 };
 
 /** An input for mutations affecting `Battle` */
@@ -199,6 +215,7 @@ export type CompletedWorkoutCompletedWorkoutExercisesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<CompletedWorkoutExercisesOrderBy>>;
   condition?: Maybe<CompletedWorkoutExerciseCondition>;
+  filter?: Maybe<CompletedWorkoutExerciseFilter>;
 };
 
 /**
@@ -235,6 +252,22 @@ export type CompletedWorkoutExerciseCondition = {
   exerciseId?: Maybe<Scalars['Int']>;
   /** Checks for equality with the object’s `completedWorkoutId` field. */
   completedWorkoutId?: Maybe<Scalars['Int']>;
+};
+
+/** A filter to be used against `CompletedWorkoutExercise` object types. All fields are combined with a logical ‘and.’ */
+export type CompletedWorkoutExerciseFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<IntFilter>;
+  /** Filter by the object’s `exerciseId` field. */
+  exerciseId?: Maybe<IntFilter>;
+  /** Filter by the object’s `completedWorkoutId` field. */
+  completedWorkoutId?: Maybe<IntFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<CompletedWorkoutExerciseFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<CompletedWorkoutExerciseFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<CompletedWorkoutExerciseFilter>;
 };
 
 /** An input for mutations affecting `CompletedWorkoutExercise` */
@@ -287,6 +320,18 @@ export enum CompletedWorkoutExercisesOrderBy {
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
+
+/** A filter to be used against `CompletedWorkout` object types. All fields are combined with a logical ‘and.’ */
+export type CompletedWorkoutFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<IntFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<CompletedWorkoutFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<CompletedWorkoutFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<CompletedWorkoutFilter>;
+};
 
 /** An input for mutations affecting `CompletedWorkout` */
 export type CompletedWorkoutInput = {
@@ -1445,12 +1490,25 @@ export type EnemyBattlesByEnemyLevelArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<BattlesOrderBy>>;
   condition?: Maybe<BattleCondition>;
+  filter?: Maybe<BattleFilter>;
 };
 
 /** A condition to be used against `Enemy` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type EnemyCondition = {
   /** Checks for equality with the object’s `level` field. */
   level?: Maybe<Scalars['Int']>;
+};
+
+/** A filter to be used against `Enemy` object types. All fields are combined with a logical ‘and.’ */
+export type EnemyFilter = {
+  /** Filter by the object’s `level` field. */
+  level?: Maybe<IntFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<EnemyFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<EnemyFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<EnemyFilter>;
 };
 
 export type Exercise = Node & {
@@ -1477,6 +1535,7 @@ export type ExerciseWorkoutPlanExercisesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<WorkoutPlanExercisesOrderBy>>;
   condition?: Maybe<WorkoutPlanExerciseCondition>;
+  filter?: Maybe<WorkoutPlanExerciseFilter>;
 };
 
 
@@ -1488,6 +1547,7 @@ export type ExerciseCompletedWorkoutExercisesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<CompletedWorkoutExercisesOrderBy>>;
   condition?: Maybe<CompletedWorkoutExerciseCondition>;
+  filter?: Maybe<CompletedWorkoutExerciseFilter>;
 };
 
 export type ExerciseAlias = {
@@ -1502,6 +1562,18 @@ export type ExerciseAlias = {
 export type ExerciseAliasCondition = {
   /** Checks for equality with the object’s `id` field. */
   id?: Maybe<Scalars['Int']>;
+};
+
+/** A filter to be used against `ExerciseAlias` object types. All fields are combined with a logical ‘and.’ */
+export type ExerciseAliasFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<IntFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ExerciseAliasFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ExerciseAliasFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ExerciseAliasFilter>;
 };
 
 /** A connection to a list of `ExerciseAlias` values. */
@@ -1538,6 +1610,22 @@ export enum ExerciseAliasesOrderBy {
 export type ExerciseCondition = {
   /** Checks for equality with the object’s `id` field. */
   id?: Maybe<Scalars['Int']>;
+  /** Checks for equality with the object’s `name` field. */
+  name?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against `Exercise` object types. All fields are combined with a logical ‘and.’ */
+export type ExerciseFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<IntFilter>;
+  /** Filter by the object’s `name` field. */
+  name?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ExerciseFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ExerciseFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ExerciseFilter>;
 };
 
 /** An input for mutations affecting `Exercise` */
@@ -1594,6 +1682,8 @@ export enum ExercisesOrderBy {
   Natural = 'NATURAL',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
+  NameAsc = 'NAME_ASC',
+  NameDesc = 'NAME_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
@@ -1657,6 +1747,7 @@ export type GroupUsersByGroupnameArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<UsersOrderBy>>;
   condition?: Maybe<UserCondition>;
+  filter?: Maybe<UserFilter>;
 };
 
 
@@ -1668,12 +1759,25 @@ export type GroupBattlesByGroupnameArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<BattlesOrderBy>>;
   condition?: Maybe<BattleCondition>;
+  filter?: Maybe<BattleFilter>;
 };
 
 /** A condition to be used against `Group` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type GroupCondition = {
   /** Checks for equality with the object’s `name` field. */
   name?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against `Group` object types. All fields are combined with a logical ‘and.’ */
+export type GroupFilter = {
+  /** Filter by the object’s `name` field. */
+  name?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<GroupFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<GroupFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<GroupFilter>;
 };
 
 /** An input for mutations affecting `Group` */
@@ -1712,6 +1816,32 @@ export enum GroupsOrderBy {
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
+
+/** A filter to be used against Int fields. All fields are combined with a logical ‘and.’ */
+export type IntFilter = {
+  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
+  isNull?: Maybe<Scalars['Boolean']>;
+  /** Equal to the specified value. */
+  equalTo?: Maybe<Scalars['Int']>;
+  /** Not equal to the specified value. */
+  notEqualTo?: Maybe<Scalars['Int']>;
+  /** Not equal to the specified value, treating null like an ordinary value. */
+  distinctFrom?: Maybe<Scalars['Int']>;
+  /** Equal to the specified value, treating null like an ordinary value. */
+  notDistinctFrom?: Maybe<Scalars['Int']>;
+  /** Included in the specified list. */
+  in?: Maybe<Array<Scalars['Int']>>;
+  /** Not included in the specified list. */
+  notIn?: Maybe<Array<Scalars['Int']>>;
+  /** Less than the specified value. */
+  lessThan?: Maybe<Scalars['Int']>;
+  /** Less than or equal to the specified value. */
+  lessThanOrEqualTo?: Maybe<Scalars['Int']>;
+  /** Greater than the specified value. */
+  greaterThan?: Maybe<Scalars['Int']>;
+  /** Greater than or equal to the specified value. */
+  greaterThanOrEqualTo?: Maybe<Scalars['Int']>;
+};
 
 /** All input for the `joinGroup` mutation. */
 export type JoinGroupInput = {
@@ -2645,6 +2775,7 @@ export type QueryBattlesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<BattlesOrderBy>>;
   condition?: Maybe<BattleCondition>;
+  filter?: Maybe<BattleFilter>;
 };
 
 
@@ -2657,6 +2788,7 @@ export type QueryCompletedWorkoutsArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<CompletedWorkoutsOrderBy>>;
   condition?: Maybe<CompletedWorkoutCondition>;
+  filter?: Maybe<CompletedWorkoutFilter>;
 };
 
 
@@ -2669,6 +2801,7 @@ export type QueryCompletedWorkoutExercisesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<CompletedWorkoutExercisesOrderBy>>;
   condition?: Maybe<CompletedWorkoutExerciseCondition>;
+  filter?: Maybe<CompletedWorkoutExerciseFilter>;
 };
 
 
@@ -2681,6 +2814,7 @@ export type QueryEnemiesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<EnemiesOrderBy>>;
   condition?: Maybe<EnemyCondition>;
+  filter?: Maybe<EnemyFilter>;
 };
 
 
@@ -2693,6 +2827,7 @@ export type QueryExercisesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<ExercisesOrderBy>>;
   condition?: Maybe<ExerciseCondition>;
+  filter?: Maybe<ExerciseFilter>;
 };
 
 
@@ -2705,6 +2840,7 @@ export type QueryExerciseAliasesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<ExerciseAliasesOrderBy>>;
   condition?: Maybe<ExerciseAliasCondition>;
+  filter?: Maybe<ExerciseAliasFilter>;
 };
 
 
@@ -2717,6 +2853,7 @@ export type QueryGroupsArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<GroupsOrderBy>>;
   condition?: Maybe<GroupCondition>;
+  filter?: Maybe<GroupFilter>;
 };
 
 
@@ -2729,6 +2866,7 @@ export type QuerySessionAnalyticsArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<SessionAnalyticsOrderBy>>;
   condition?: Maybe<SessionAnalyticCondition>;
+  filter?: Maybe<SessionAnalyticFilter>;
 };
 
 
@@ -2741,6 +2879,7 @@ export type QueryUsersArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<UsersOrderBy>>;
   condition?: Maybe<UserCondition>;
+  filter?: Maybe<UserFilter>;
 };
 
 
@@ -2753,6 +2892,7 @@ export type QueryUserCurrentWorkoutPlansArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<UserCurrentWorkoutPlansOrderBy>>;
   condition?: Maybe<UserCurrentWorkoutPlanCondition>;
+  filter?: Maybe<UserCurrentWorkoutPlanFilter>;
 };
 
 
@@ -2765,6 +2905,7 @@ export type QueryUserExercisesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<UserExercisesOrderBy>>;
   condition?: Maybe<UserExerciseCondition>;
+  filter?: Maybe<UserExerciseFilter>;
 };
 
 
@@ -2788,6 +2929,7 @@ export type QueryWorkoutPlansArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<WorkoutPlansOrderBy>>;
   condition?: Maybe<WorkoutPlanCondition>;
+  filter?: Maybe<WorkoutPlanFilter>;
 };
 
 
@@ -2800,6 +2942,7 @@ export type QueryWorkoutPlanDaysArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<WorkoutPlanDaysOrderBy>>;
   condition?: Maybe<WorkoutPlanDayCondition>;
+  filter?: Maybe<WorkoutPlanDayFilter>;
 };
 
 
@@ -2812,6 +2955,7 @@ export type QueryWorkoutPlanExercisesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<WorkoutPlanExercisesOrderBy>>;
   condition?: Maybe<WorkoutPlanExerciseCondition>;
+  filter?: Maybe<WorkoutPlanExerciseFilter>;
 };
 
 
@@ -3055,6 +3199,22 @@ export type SessionAnalyticCondition = {
   userId?: Maybe<Scalars['Int']>;
 };
 
+/** A filter to be used against `SessionAnalytic` object types. All fields are combined with a logical ‘and.’ */
+export type SessionAnalyticFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<IntFilter>;
+  /** Filter by the object’s `username` field. */
+  username?: Maybe<StringFilter>;
+  /** Filter by the object’s `userId` field. */
+  userId?: Maybe<IntFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<SessionAnalyticFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<SessionAnalyticFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<SessionAnalyticFilter>;
+};
+
 /** An input for mutations affecting `SessionAnalytic` */
 export type SessionAnalyticInput = {
   username: Scalars['String'];
@@ -3109,6 +3269,84 @@ export type Strengthstat = {
   averageStrength?: Maybe<Scalars['BigFloat']>;
   numExercises?: Maybe<Scalars['BigFloat']>;
   dph?: Maybe<Scalars['BigFloat']>;
+};
+
+/** A filter to be used against String fields. All fields are combined with a logical ‘and.’ */
+export type StringFilter = {
+  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
+  isNull?: Maybe<Scalars['Boolean']>;
+  /** Equal to the specified value. */
+  equalTo?: Maybe<Scalars['String']>;
+  /** Not equal to the specified value. */
+  notEqualTo?: Maybe<Scalars['String']>;
+  /** Not equal to the specified value, treating null like an ordinary value. */
+  distinctFrom?: Maybe<Scalars['String']>;
+  /** Equal to the specified value, treating null like an ordinary value. */
+  notDistinctFrom?: Maybe<Scalars['String']>;
+  /** Included in the specified list. */
+  in?: Maybe<Array<Scalars['String']>>;
+  /** Not included in the specified list. */
+  notIn?: Maybe<Array<Scalars['String']>>;
+  /** Less than the specified value. */
+  lessThan?: Maybe<Scalars['String']>;
+  /** Less than or equal to the specified value. */
+  lessThanOrEqualTo?: Maybe<Scalars['String']>;
+  /** Greater than the specified value. */
+  greaterThan?: Maybe<Scalars['String']>;
+  /** Greater than or equal to the specified value. */
+  greaterThanOrEqualTo?: Maybe<Scalars['String']>;
+  /** Contains the specified string (case-sensitive). */
+  includes?: Maybe<Scalars['String']>;
+  /** Does not contain the specified string (case-sensitive). */
+  notIncludes?: Maybe<Scalars['String']>;
+  /** Contains the specified string (case-insensitive). */
+  includesInsensitive?: Maybe<Scalars['String']>;
+  /** Does not contain the specified string (case-insensitive). */
+  notIncludesInsensitive?: Maybe<Scalars['String']>;
+  /** Starts with the specified string (case-sensitive). */
+  startsWith?: Maybe<Scalars['String']>;
+  /** Does not start with the specified string (case-sensitive). */
+  notStartsWith?: Maybe<Scalars['String']>;
+  /** Starts with the specified string (case-insensitive). */
+  startsWithInsensitive?: Maybe<Scalars['String']>;
+  /** Does not start with the specified string (case-insensitive). */
+  notStartsWithInsensitive?: Maybe<Scalars['String']>;
+  /** Ends with the specified string (case-sensitive). */
+  endsWith?: Maybe<Scalars['String']>;
+  /** Does not end with the specified string (case-sensitive). */
+  notEndsWith?: Maybe<Scalars['String']>;
+  /** Ends with the specified string (case-insensitive). */
+  endsWithInsensitive?: Maybe<Scalars['String']>;
+  /** Does not end with the specified string (case-insensitive). */
+  notEndsWithInsensitive?: Maybe<Scalars['String']>;
+  /** Matches the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
+  like?: Maybe<Scalars['String']>;
+  /** Does not match the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
+  notLike?: Maybe<Scalars['String']>;
+  /** Matches the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
+  likeInsensitive?: Maybe<Scalars['String']>;
+  /** Does not match the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
+  notLikeInsensitive?: Maybe<Scalars['String']>;
+  /** Equal to the specified value (case-insensitive). */
+  equalToInsensitive?: Maybe<Scalars['String']>;
+  /** Not equal to the specified value (case-insensitive). */
+  notEqualToInsensitive?: Maybe<Scalars['String']>;
+  /** Not equal to the specified value, treating null like an ordinary value (case-insensitive). */
+  distinctFromInsensitive?: Maybe<Scalars['String']>;
+  /** Equal to the specified value, treating null like an ordinary value (case-insensitive). */
+  notDistinctFromInsensitive?: Maybe<Scalars['String']>;
+  /** Included in the specified list (case-insensitive). */
+  inInsensitive?: Maybe<Array<Scalars['String']>>;
+  /** Not included in the specified list (case-insensitive). */
+  notInInsensitive?: Maybe<Array<Scalars['String']>>;
+  /** Less than the specified value (case-insensitive). */
+  lessThanInsensitive?: Maybe<Scalars['String']>;
+  /** Less than or equal to the specified value (case-insensitive). */
+  lessThanOrEqualToInsensitive?: Maybe<Scalars['String']>;
+  /** Greater than the specified value (case-insensitive). */
+  greaterThanInsensitive?: Maybe<Scalars['String']>;
+  /** Greater than or equal to the specified value (case-insensitive). */
+  greaterThanOrEqualToInsensitive?: Maybe<Scalars['String']>;
 };
 
 /** The root subscription type: contains realtime events you can subscribe to with the `subscription` operation. */
@@ -4184,6 +4422,7 @@ export type UserUserExercisesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<UserExercisesOrderBy>>;
   condition?: Maybe<UserExerciseCondition>;
+  filter?: Maybe<UserExerciseFilter>;
 };
 
 
@@ -4195,6 +4434,7 @@ export type UserSessionAnalyticsArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<SessionAnalyticsOrderBy>>;
   condition?: Maybe<SessionAnalyticCondition>;
+  filter?: Maybe<SessionAnalyticFilter>;
 };
 
 
@@ -4206,6 +4446,7 @@ export type UserWorkoutPlansArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<WorkoutPlansOrderBy>>;
   condition?: Maybe<WorkoutPlanCondition>;
+  filter?: Maybe<WorkoutPlanFilter>;
 };
 
 /** A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -4238,6 +4479,20 @@ export type UserCurrentWorkoutPlanCondition = {
   userId?: Maybe<Scalars['Int']>;
   /** Checks for equality with the object’s `workoutPlanId` field. */
   workoutPlanId?: Maybe<Scalars['Int']>;
+};
+
+/** A filter to be used against `UserCurrentWorkoutPlan` object types. All fields are combined with a logical ‘and.’ */
+export type UserCurrentWorkoutPlanFilter = {
+  /** Filter by the object’s `userId` field. */
+  userId?: Maybe<IntFilter>;
+  /** Filter by the object’s `workoutPlanId` field. */
+  workoutPlanId?: Maybe<IntFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<UserCurrentWorkoutPlanFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<UserCurrentWorkoutPlanFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<UserCurrentWorkoutPlanFilter>;
 };
 
 /** An input for mutations affecting `UserCurrentWorkoutPlan` */
@@ -4317,6 +4572,24 @@ export type UserExerciseCondition = {
   userId?: Maybe<Scalars['Int']>;
 };
 
+/** A filter to be used against `UserExercise` object types. All fields are combined with a logical ‘and.’ */
+export type UserExerciseFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<IntFilter>;
+  /** Filter by the object’s `username` field. */
+  username?: Maybe<StringFilter>;
+  /** Filter by the object’s `groupname` field. */
+  groupname?: Maybe<StringFilter>;
+  /** Filter by the object’s `userId` field. */
+  userId?: Maybe<IntFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<UserExerciseFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<UserExerciseFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<UserExerciseFilter>;
+};
+
 /** An input for mutations affecting `UserExercise` */
 export type UserExerciseInput = {
   id: Scalars['Int'];
@@ -4375,6 +4648,22 @@ export enum UserExercisesOrderBy {
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
+
+/** A filter to be used against `User` object types. All fields are combined with a logical ‘and.’ */
+export type UserFilter = {
+  /** Filter by the object’s `username` field. */
+  username?: Maybe<StringFilter>;
+  /** Filter by the object’s `groupname` field. */
+  groupname?: Maybe<StringFilter>;
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<IntFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<UserFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<UserFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<UserFilter>;
+};
 
 /** An input for mutations affecting `User` */
 export type UserInput = {
@@ -4484,6 +4773,7 @@ export type WorkoutPlanWorkoutPlanDaysArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<WorkoutPlanDaysOrderBy>>;
   condition?: Maybe<WorkoutPlanDayCondition>;
+  filter?: Maybe<WorkoutPlanDayFilter>;
 };
 
 
@@ -4495,6 +4785,7 @@ export type WorkoutPlanUserCurrentWorkoutPlansArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<UserCurrentWorkoutPlansOrderBy>>;
   condition?: Maybe<UserCurrentWorkoutPlanCondition>;
+  filter?: Maybe<UserCurrentWorkoutPlanFilter>;
 };
 
 /**
@@ -4529,6 +4820,7 @@ export type WorkoutPlanDayWorkoutPlanExercisesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<WorkoutPlanExercisesOrderBy>>;
   condition?: Maybe<WorkoutPlanExerciseCondition>;
+  filter?: Maybe<WorkoutPlanExerciseFilter>;
 };
 
 /**
@@ -4540,6 +4832,20 @@ export type WorkoutPlanDayCondition = {
   id?: Maybe<Scalars['Int']>;
   /** Checks for equality with the object’s `workoutPlanId` field. */
   workoutPlanId?: Maybe<Scalars['Int']>;
+};
+
+/** A filter to be used against `WorkoutPlanDay` object types. All fields are combined with a logical ‘and.’ */
+export type WorkoutPlanDayFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<IntFilter>;
+  /** Filter by the object’s `workoutPlanId` field. */
+  workoutPlanId?: Maybe<IntFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<WorkoutPlanDayFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<WorkoutPlanDayFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<WorkoutPlanDayFilter>;
 };
 
 /** An input for mutations affecting `WorkoutPlanDay` */
@@ -4617,6 +4923,24 @@ export type WorkoutPlanExerciseCondition = {
   id?: Maybe<Scalars['Int']>;
 };
 
+/** A filter to be used against `WorkoutPlanExercise` object types. All fields are combined with a logical ‘and.’ */
+export type WorkoutPlanExerciseFilter = {
+  /** Filter by the object’s `exerciseId` field. */
+  exerciseId?: Maybe<IntFilter>;
+  /** Filter by the object’s `ordering` field. */
+  ordering?: Maybe<IntFilter>;
+  /** Filter by the object’s `workoutPlanDayId` field. */
+  workoutPlanDayId?: Maybe<IntFilter>;
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<IntFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<WorkoutPlanExerciseFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<WorkoutPlanExerciseFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<WorkoutPlanExerciseFilter>;
+};
+
 /** An input for mutations affecting `WorkoutPlanExercise` */
 export type WorkoutPlanExerciseInput = {
   exerciseId: Scalars['Int'];
@@ -4669,6 +4993,20 @@ export enum WorkoutPlanExercisesOrderBy {
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
+
+/** A filter to be used against `WorkoutPlan` object types. All fields are combined with a logical ‘and.’ */
+export type WorkoutPlanFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<IntFilter>;
+  /** Filter by the object’s `userId` field. */
+  userId?: Maybe<IntFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<WorkoutPlanFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<WorkoutPlanFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<WorkoutPlanFilter>;
+};
 
 /** An input for mutations affecting `WorkoutPlan` */
 export type WorkoutPlanInput = {
@@ -4839,6 +5177,33 @@ export type DeleteCurrentWorkoutPlanMutation = { deleteUserCurrentWorkoutPlan?: 
       & { userCurrentWorkoutPlan?: Maybe<{ workoutPlan?: Maybe<WorkoutPlanFragment> }> }
     )> }> };
 
+export type ExerciseFragment = Pick<Exercise, 'id' | 'bodyPart' | 'exerciseType' | 'name' | 'eliteStrengthBaseline'>;
+
+export type ExerciseSearchQueryVariables = Exact<{
+  query: Scalars['String'];
+}>;
+
+
+export type ExerciseSearchQuery = { exercises?: Maybe<{ nodes: Array<ExerciseFragment> }> };
+
+export type ExercisesByWorkoutPlanIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type ExercisesByWorkoutPlanIdQuery = { workoutPlanDay?: Maybe<{ workoutPlanExercises: { nodes: Array<Pick<WorkoutPlanExercise, 'ordering'>> } }> };
+
+export type InsertExerciseInPlanMutationVariables = Exact<{
+  sets: Scalars['Int'];
+  reps: Scalars['Int'];
+  ordering: Scalars['Int'];
+  exerciseId: Scalars['Int'];
+  workoutPlanDayId: Scalars['Int'];
+}>;
+
+
+export type InsertExerciseInPlanMutation = { createWorkoutPlanExercise?: Maybe<{ workoutPlanExercise?: Maybe<WorkoutPlanExerciseFragment> }> };
+
 export type SaveWorkoutMutationVariables = Exact<{
   completedExercises?: Maybe<Array<CompletedWorkoutExerciseInput> | CompletedWorkoutExerciseInput>;
 }>;
@@ -4884,6 +5249,15 @@ export const BodystatFragmentDoc = gql`
     fragment Bodystat on Bodystat {
   ismale
   bodymass
+}
+    `;
+export const ExerciseFragmentDoc = gql`
+    fragment Exercise on Exercise {
+  id
+  bodyPart
+  exerciseType
+  name
+  eliteStrengthBaseline
 }
     `;
 export const WorkoutPlanExerciseFragmentDoc = gql`
@@ -5030,6 +5404,123 @@ export function useDeleteCurrentWorkoutPlanMutation(baseOptions?: Apollo.Mutatio
 export type DeleteCurrentWorkoutPlanMutationHookResult = ReturnType<typeof useDeleteCurrentWorkoutPlanMutation>;
 export type DeleteCurrentWorkoutPlanMutationResult = Apollo.MutationResult<DeleteCurrentWorkoutPlanMutation>;
 export type DeleteCurrentWorkoutPlanMutationOptions = Apollo.BaseMutationOptions<DeleteCurrentWorkoutPlanMutation, DeleteCurrentWorkoutPlanMutationVariables>;
+export const ExerciseSearchDocument = gql`
+    query exerciseSearch($query: String!) {
+  exercises(filter: {name: {includesInsensitive: $query}}, first: 10) {
+    nodes {
+      ...Exercise
+    }
+  }
+}
+    ${ExerciseFragmentDoc}`;
+
+/**
+ * __useExerciseSearchQuery__
+ *
+ * To run a query within a React component, call `useExerciseSearchQuery` and pass it any options that fit your needs.
+ * When your component renders, `useExerciseSearchQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useExerciseSearchQuery({
+ *   variables: {
+ *      query: // value for 'query'
+ *   },
+ * });
+ */
+export function useExerciseSearchQuery(baseOptions: Apollo.QueryHookOptions<ExerciseSearchQuery, ExerciseSearchQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ExerciseSearchQuery, ExerciseSearchQueryVariables>(ExerciseSearchDocument, options);
+      }
+export function useExerciseSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ExerciseSearchQuery, ExerciseSearchQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ExerciseSearchQuery, ExerciseSearchQueryVariables>(ExerciseSearchDocument, options);
+        }
+export type ExerciseSearchQueryHookResult = ReturnType<typeof useExerciseSearchQuery>;
+export type ExerciseSearchLazyQueryHookResult = ReturnType<typeof useExerciseSearchLazyQuery>;
+export type ExerciseSearchQueryResult = Apollo.QueryResult<ExerciseSearchQuery, ExerciseSearchQueryVariables>;
+export const ExercisesByWorkoutPlanIdDocument = gql`
+    query exercisesByWorkoutPlanId($id: Int!) {
+  workoutPlanDay(id: $id) {
+    workoutPlanExercises {
+      nodes {
+        ordering
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useExercisesByWorkoutPlanIdQuery__
+ *
+ * To run a query within a React component, call `useExercisesByWorkoutPlanIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useExercisesByWorkoutPlanIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useExercisesByWorkoutPlanIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useExercisesByWorkoutPlanIdQuery(baseOptions: Apollo.QueryHookOptions<ExercisesByWorkoutPlanIdQuery, ExercisesByWorkoutPlanIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ExercisesByWorkoutPlanIdQuery, ExercisesByWorkoutPlanIdQueryVariables>(ExercisesByWorkoutPlanIdDocument, options);
+      }
+export function useExercisesByWorkoutPlanIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ExercisesByWorkoutPlanIdQuery, ExercisesByWorkoutPlanIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ExercisesByWorkoutPlanIdQuery, ExercisesByWorkoutPlanIdQueryVariables>(ExercisesByWorkoutPlanIdDocument, options);
+        }
+export type ExercisesByWorkoutPlanIdQueryHookResult = ReturnType<typeof useExercisesByWorkoutPlanIdQuery>;
+export type ExercisesByWorkoutPlanIdLazyQueryHookResult = ReturnType<typeof useExercisesByWorkoutPlanIdLazyQuery>;
+export type ExercisesByWorkoutPlanIdQueryResult = Apollo.QueryResult<ExercisesByWorkoutPlanIdQuery, ExercisesByWorkoutPlanIdQueryVariables>;
+export const InsertExerciseInPlanDocument = gql`
+    mutation insertExerciseInPlan($sets: Int!, $reps: Int!, $ordering: Int!, $exerciseId: Int!, $workoutPlanDayId: Int!) {
+  createWorkoutPlanExercise(
+    input: {workoutPlanExercise: {sets: $sets, reps: $reps, ordering: $ordering, exerciseId: $exerciseId, workoutPlanDayId: $workoutPlanDayId}}
+  ) {
+    workoutPlanExercise {
+      ...WorkoutPlanExercise
+    }
+  }
+}
+    ${WorkoutPlanExerciseFragmentDoc}`;
+export type InsertExerciseInPlanMutationFn = Apollo.MutationFunction<InsertExerciseInPlanMutation, InsertExerciseInPlanMutationVariables>;
+
+/**
+ * __useInsertExerciseInPlanMutation__
+ *
+ * To run a mutation, you first call `useInsertExerciseInPlanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertExerciseInPlanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [insertExerciseInPlanMutation, { data, loading, error }] = useInsertExerciseInPlanMutation({
+ *   variables: {
+ *      sets: // value for 'sets'
+ *      reps: // value for 'reps'
+ *      ordering: // value for 'ordering'
+ *      exerciseId: // value for 'exerciseId'
+ *      workoutPlanDayId: // value for 'workoutPlanDayId'
+ *   },
+ * });
+ */
+export function useInsertExerciseInPlanMutation(baseOptions?: Apollo.MutationHookOptions<InsertExerciseInPlanMutation, InsertExerciseInPlanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InsertExerciseInPlanMutation, InsertExerciseInPlanMutationVariables>(InsertExerciseInPlanDocument, options);
+      }
+export type InsertExerciseInPlanMutationHookResult = ReturnType<typeof useInsertExerciseInPlanMutation>;
+export type InsertExerciseInPlanMutationResult = Apollo.MutationResult<InsertExerciseInPlanMutation>;
+export type InsertExerciseInPlanMutationOptions = Apollo.BaseMutationOptions<InsertExerciseInPlanMutation, InsertExerciseInPlanMutationVariables>;
 export const SaveWorkoutDocument = gql`
     mutation SaveWorkout($completedExercises: [CompletedWorkoutExerciseInput!]) {
   mnCreateCompletedWorkoutExercise(

@@ -1,18 +1,25 @@
 import React from "react";
 import { List, Button } from "react-native-paper";
-import { WorkoutDayFragment } from "generated/graphql";
-import {useNavigation} from "@react-navigation/native";
+import {RootStackParamList} from "components/workout";
+import {StackNavigationProp} from "@react-navigation/stack";
+import { RouteProp } from "@react-navigation/native";
 
-type Route = {
-  params: {
-    days: WorkoutDayFragment[];
-  };
+
+type WorkoutDayPickerRouteProp = RouteProp<
+  RootStackParamList,
+  'Select Workout Day'
+>;
+
+type WorkoutDayPickerNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Select Workout Day'
+>;
+type Props = {
+  route: WorkoutDayPickerRouteProp;
+  navigation: WorkoutDayPickerNavigationProp;
 };
 
-const WorkoutDayPicker: React.FC<{route: Route}> = ({route}) => {
-  const navigation = useNavigation()
-  route.params.days.map(day => console.log(day))
-
+const WorkoutDayPicker: React.FC<Props> = ({navigation, route}) => {
   return (
     <List.Section>
       {route.params.days.map((day) => (
@@ -23,7 +30,14 @@ const WorkoutDayPicker: React.FC<{route: Route}> = ({route}) => {
           titleStyle={{ fontSize: 24 }}
           descriptionStyle={{ fontSize: 16 }}
           description={`${day.workoutPlanExercises.nodes.length} exercises`}
-          right={() => <Button icon="arrow-right" onPress = {() => navigation.navigate('Workout', {exercises: day.workoutPlanExercises.nodes, name: day.name})}>Start</Button>}
+          right={() => (
+            <Button
+              icon="arrow-right"
+              onPress={() => navigation.navigate("Workout", { workoutDay: day})}
+            >
+              Start
+            </Button>
+          )}
         ></List.Item>
       ))}
     </List.Section>

@@ -4,7 +4,8 @@ import App from "./App";
 
 export default function Authenticator() {
   return (
-    <Suspense fallback={<ActivityIndicator />}>
+  
+  <Suspense fallback={<ActivityIndicator />}>
       <App username={"orek"} />
     </Suspense>
   );

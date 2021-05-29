@@ -6,7 +6,6 @@ fragment WorkoutPlanExercise on WorkoutPlanExercise {
     name
     id
   }
-  
 }
 fragment WorkoutDay on WorkoutPlanDay {
   name
@@ -43,3 +42,4 @@ query Workout {
     }
   }
 }
+
