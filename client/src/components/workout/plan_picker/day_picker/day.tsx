@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useLayoutEffect } from "react";
+import React, { useCallback, useState, useLayoutEffect, useEffect } from "react";
 import { List, Button } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useBodyStatQuery, useWorkoutPlanDayByIdQuery } from "../../../../generated/graphql";
@@ -25,20 +25,32 @@ export type ConditionalVolume = {
 const Day: React.FC<Props> = ({ route, navigation }) => {
   const [expandedId, setExpandedId] = useState(1);
 
-  const [volumes, setVolumes] = useState<ConditionalVolume[][]>(() =>
-    route.params.workoutPlanDay.workoutPlanExercises.nodes.map((exercise) =>
-      new Array(exercise.sets).fill({ weight: undefined, reps: undefined })
-    )
-  );
+  //volumes stores the sets and reps for various exercises. For instance
+  const [volumes, setVolumes] = useState<ConditionalVolume[][] | undefined>();
 
-  const { data: workoutPlanDayData } = useWorkoutPlanDayByIdQuery({ variables: { id: route.params.workoutPlanDay.id } });
-  const { data } = useBodyStatQuery();
+  const { data: workoutPlanDayData } = useWorkoutPlanDayByIdQuery({
+    variables: { id: route.params.workoutPlanDay.id },
+  });
+  const { data: bodyStatData } = useBodyStatQuery();
+
+  useEffect(() => {
+    if (workoutPlanDayData?.workoutPlanDay) {
+      if (volumes.length < workoutPlanDayData.workoutPlanDay.workoutPlanExercises.nodes.length ) 
+      setVolumes(
+        workoutPlanDayData?.workoutPlanDay.workoutPlanExercises.nodes.map((exercise) =>
+          new Array(exercise.sets).fill({ weight: undefined, reps: undefined })
+        )
+      );
+    }
+  }, [workoutPlanDayData]);
 
   const updateVolumes = useCallback((row: number, column: number, volume: ConditionalVolume) => {
     setVolumes((old) => {
-      const copy = [...old];
-      copy[row][column] = volume;
-      return copy;
+      if (old) {
+        const copy = [...old];
+        copy[row][column] = volume;
+        return copy;
+      }
     });
   }, []);
 
@@ -57,7 +69,7 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
     }
   }, [navigation, route]);
 
-  if (!workoutPlanDayData?.workoutPlanDay) {
+  if (!workoutPlanDayData?.workoutPlanDay || !volumes) {
     return <ActivityIndicator />;
   }
 
@@ -85,7 +97,7 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
                 updateVolumes={updateVolumes}
                 volume={volumes[row][col]}
                 exerciseId={workoutExercise?.exercise?.id || -1}
-                bodystat={data?.activeUser?.bodystat ? data.activeUser.bodystat : undefined}
+                bodystat={bodyStatData?.activeUser?.bodystat ? bodyStatData.activeUser.bodystat : undefined}
               />
             ))}
           </List.Accordion>

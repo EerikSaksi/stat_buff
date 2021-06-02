@@ -10,7 +10,7 @@ fragment WorkoutPlanExercise on WorkoutPlanExercise {
 fragment WorkoutPlanDay on WorkoutPlanDay {
   name
   id
-  workoutPlanExercises {
+  workoutPlanExercises(orderBy: ORDERING_ASC) {
     nodes {
       ...WorkoutPlanExercise
     }

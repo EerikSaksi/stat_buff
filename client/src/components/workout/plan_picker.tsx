@@ -5,7 +5,6 @@ import { useNavigation } from "@react-navigation/native";
 import { List } from "react-native-paper";
 import { View, Text } from "react-native";
 
-
 const WorkoutPlanPicker: React.FC = () => {
   const navigation = useNavigation();
   const { data } = useWorkoutQuery();

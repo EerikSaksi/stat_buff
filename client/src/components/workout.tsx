@@ -3,7 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import WorkoutPlanPicker from "./workout/plan_picker";
 import WorkoutDayPicker from "./workout/plan_picker/day_picker";
 import WorkoutDay from "./workout/plan_picker/day_picker/day";
-import ExerciseSearch from "./workout/plan_picker/day_picker/exercise_search";
+import ExerciseSearch from "./workout/plan_picker/day_picker/edit_day/add_exercise";
 import { WorkoutPlanDayFragment } from "generated/graphql";
 
 export type RootStackParamList = {
