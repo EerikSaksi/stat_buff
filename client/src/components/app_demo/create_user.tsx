@@ -4,30 +4,6 @@ import { Text, StyleSheet, Animated, ImageBackground, View, Switch, Linking, } f
 import { generateShadow } from "react-native-shadow-generator";
 import { Button, Input } from "react-native-elements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-const CREATE_USER = gql`
-  mutation createUser($username: String!, $password: String!) {
-    createUser(input: { username: $username, password: $password }) {
-      clientMutationId
-    }
-  }
-`;
-const FETCH_TOKEN = gql`
-  mutation($inputUsername: String!, $inputPassword: String!) {
-    authenticate(input: { inputUsername: $inputUsername, inputPassword: $inputPassword }) {
-      jwtToken
-    }
-  }
-`;
-const USER = gql`
-  query user($username: String!) {
-    user(username: $username) {
-      nodeId
-    }
-    signedEthicsSheet(username: $username){
-      username
-    }
-  }
-`;
 
 
 var styles = StyleSheet.create({

@@ -1,8 +1,9 @@
 import React from "react";
-import { List, Button } from "react-native-paper";
+import { List, Button, ActivityIndicator } from "react-native-paper";
 import {RootStackParamList} from "components/workout";
 import {StackNavigationProp} from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
+import {useWorkoutPlanDayByIdQuery, useWorkoutPlanByIdQuery} from "../../../generated/graphql"
 
 
 type WorkoutDayPickerRouteProp = RouteProp<
@@ -20,9 +21,13 @@ type Props = {
 };
 
 const WorkoutDayPicker: React.FC<Props> = ({navigation, route}) => {
-  return (
+  const {data} = useWorkoutPlanByIdQuery({variables: {id: route.params.workoutPlanId}})
+  if (!data?.workoutPlan){
+    return <ActivityIndicator/>
+  }
+    return (
     <List.Section>
-      {route.params.days.map((day) => (
+      {data.workoutPlan.workoutPlanDays.nodes.map((day) => (
         <List.Item
           left={(props) => <List.Icon {...props} icon="arm-flex" />}
           key={day.name}
@@ -33,7 +38,7 @@ const WorkoutDayPicker: React.FC<Props> = ({navigation, route}) => {
           right={() => (
             <Button
               icon="arrow-right"
-              onPress={() => navigation.navigate("Workout", { workoutDay: day})}
+              onPress={() => navigation.navigate("Workout", {workoutPlanDay: day})}
             >
               Start
             </Button>

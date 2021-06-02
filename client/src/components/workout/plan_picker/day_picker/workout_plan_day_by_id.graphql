@@ -1,0 +1,5 @@
+query WorkoutPlanDayById($id: Int!){
+  workoutPlanDay(id: $id){
+    ...WorkoutPlanDay
+  }
+}

@@ -1,0 +1,9 @@
+query exercisesByWorkoutPlanId($id: Int!) {
+  workoutPlanDay(id: $id){
+    workoutPlanExercises{
+      nodes{
+        ordering
+      }
+    }
+  }
+}

@@ -7,30 +7,6 @@ import { Text, Switch, View, StyleSheet} from "react-native";
 import { Button, Divider, Input } from "react-native-elements";
 import {Modal} from 'react-native-paper'
 
-const CREATE_BODY_STAT = gql`
-  mutation($username: String!, $ismale: Boolean!, $bodymass: Int!) {
-    createBodystat(input: { bodystat: { username: $username, ismale: $ismale, bodymass: $bodymass } }) {
-      clientMutationId
-    }
-  }
-`;
-
-const UPDATE_BODY_STAT = gql`
-  mutation($username: String!, $ismale: Boolean!, $bodymass: Int!) {
-    updateBodystat(input: { username: $username, patch: { ismale: $ismale, bodymass: $bodymass } }) {
-      clientMutationId
-    }
-  }
-`;
-const FETCH_BODY_STAT = gql`
-  query($username: String!) {
-    bodystat(username: $username) {
-      nodeId
-      ismale
-      bodymass
-    }
-  }
-`;
 const styles = StyleSheet.create({
   row: {
     flexDirection: "row",

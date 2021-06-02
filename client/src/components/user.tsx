@@ -13,15 +13,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 
 
-const STRENGTH = gql`
-  query {
-    calculateStrengthStats {
-      averageStrength
-      numExercises
-      dph
-    }
-  }
-`;
 
 const styles = StyleSheet.create({
   root: {

@@ -7,48 +7,6 @@ import {Modal} from 'react-native-paper'
 import WorkoutModalAttack from "./workout_modal/workout_modal_attack";
 import SpriteHealthBar from "../sprites/sprite_health_bar";
 
-const CREATE_WORKOUT = gql`
-  mutation($rir: Int!, $sets: Int!, $username: String!) {
-    createWorkout(input: { workout: { averageRir: $rir, sets: $sets, username: $username } }) {
-      workout {
-        hits
-      }
-    }
-  }
-`;
-
-const ENEMY_STATS = gql`
-  mutation {
-    getBattleAndCheckExpiry(input: {}) {
-      battle {
-        nodeId
-        enemyLevel
-        battleNumber
-        currentHealth
-        createdAt
-        maxHealth
-        enemyByEnemyLevel {
-          nodeId
-          name
-        }
-      }
-    }
-  }
-`;
-const WORKOUTS = gql`
-  query($username: String!) {
-    calculateStrengthStats {
-      dph
-    }
-    workouts(filter: { username: { equalTo: $username } }, last: 1) {
-      nodes {
-        nodeId
-        sets
-        averageRir
-      }
-    }
-  }
-`;
 const styles = StyleSheet.create({
   row: {
     textAlign: "center",

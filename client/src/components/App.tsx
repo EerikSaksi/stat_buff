@@ -22,6 +22,8 @@ const App: React.FC<{ username: string }> = ({ username }) => {
     const restoreState = async () => {
       try {
         if (Platform.OS !== "web") {
+
+          //await AsyncStorage.clear()
           // Only restore state if there's no deep link and we're not on web
           const savedStateString = await AsyncStorage.getItem(PERSISTENCE_KEY);
           const state = savedStateString ? JSON.parse(savedStateString) : undefined;
@@ -61,8 +63,8 @@ const App: React.FC<{ username: string }> = ({ username }) => {
       }}
     >
       <Tab.Navigator>
-        <Tab.Screen name="User" component={User} initialParams={{ username }} />
         <Tab.Screen name="Workout" component={Workout} />
+        <Tab.Screen name="User" component={User} initialParams={{ username }} />
       </Tab.Navigator>
     </NavigationContainer>
   );

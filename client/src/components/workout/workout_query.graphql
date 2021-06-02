@@ -7,7 +7,7 @@ fragment WorkoutPlanExercise on WorkoutPlanExercise {
     id
   }
 }
-fragment WorkoutDay on WorkoutPlanDay {
+fragment WorkoutPlanDay on WorkoutPlanDay {
   name
   id
   workoutPlanExercises {
@@ -22,7 +22,7 @@ fragment WorkoutPlan on WorkoutPlan {
   id
   workoutPlanDays {
     nodes {
-      ...WorkoutDay
+      ...WorkoutPlanDay
     }
   }
 }

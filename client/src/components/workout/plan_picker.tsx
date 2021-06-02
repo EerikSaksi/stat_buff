@@ -8,7 +8,7 @@ import { View, Text } from "react-native";
 
 const WorkoutPlanPicker: React.FC = () => {
   const navigation = useNavigation();
-  const { data } = useWorkoutQuery({});
+  const { data } = useWorkoutQuery();
   const [upsertCurrentWorkoutPlan] = useUpsertCurrentWorkoutPlanMutation();
   const [deleteCurrentWorkoutPlanMutation] = useDeleteCurrentWorkoutPlanMutation();
 
@@ -37,7 +37,7 @@ const WorkoutPlanPicker: React.FC = () => {
                     }
                   }}
                 />
-                <Button icon="arrow-right" onPress={() => navigation.navigate("Select Workout Day", { days: plan.workoutPlanDays.nodes })}>
+                <Button icon="arrow-right" onPress={() => navigation.navigate("Select Workout Day", {workoutPlanId: plan.id})}>
                   View
                 </Button>
               </View>

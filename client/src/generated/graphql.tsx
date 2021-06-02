@@ -5152,6 +5152,43 @@ export type MnUpdateCompletedWorkoutExercisePayloadCompletedWorkoutExerciseEdgeA
   orderBy?: Maybe<Array<CompletedWorkoutExercisesOrderBy>>;
 };
 
+export type WorkoutPlanDayByIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type WorkoutPlanDayByIdQuery = { workoutPlanDay?: Maybe<WorkoutPlanDayFragment> };
+
+export type WorkoutPlanByIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type WorkoutPlanByIdQuery = { workoutPlan?: Maybe<WorkoutPlanFragment> };
+
+export type WorkoutPlanExerciseFragment = (
+  Pick<WorkoutPlanExercise, 'sets' | 'reps' | 'id'>
+  & { exercise?: Maybe<Pick<Exercise, 'name' | 'id'>> }
+);
+
+export type WorkoutPlanDayFragment = (
+  Pick<WorkoutPlanDay, 'name' | 'id'>
+  & { workoutPlanExercises: { nodes: Array<WorkoutPlanExerciseFragment> } }
+);
+
+export type WorkoutPlanFragment = (
+  Pick<WorkoutPlan, 'name' | 'id'>
+  & { workoutPlanDays: { nodes: Array<WorkoutPlanDayFragment> } }
+);
+
+export type WorkoutQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type WorkoutQuery = { activeUser?: Maybe<(
+    Pick<User, 'id'>
+    & { userCurrentWorkoutPlan?: Maybe<{ workoutPlan?: Maybe<WorkoutPlanFragment> }>, workoutPlans: { nodes: Array<WorkoutPlanFragment> } }
+  )> };
+
 export type BodystatFragment = Pick<Bodystat, 'ismale' | 'bodymass'>;
 
 export type BodyStatQueryVariables = Exact<{ [key: string]: never; }>;
@@ -5202,7 +5239,10 @@ export type InsertExerciseInPlanMutationVariables = Exact<{
 }>;
 
 
-export type InsertExerciseInPlanMutation = { createWorkoutPlanExercise?: Maybe<{ workoutPlanExercise?: Maybe<WorkoutPlanExerciseFragment> }> };
+export type InsertExerciseInPlanMutation = { createWorkoutPlanExercise?: Maybe<{ workoutPlanDay?: Maybe<(
+      Pick<WorkoutPlanDay, 'id'>
+      & { workoutPlanExercises: { nodes: Array<WorkoutPlanExerciseFragment> } }
+    )> }> };
 
 export type SaveWorkoutMutationVariables = Exact<{
   completedExercises?: Maybe<Array<CompletedWorkoutExerciseInput> | CompletedWorkoutExerciseInput>;
@@ -5222,44 +5262,6 @@ export type UpsertCurrentWorkoutPlanMutation = { upsertUserCurrentWorkoutPlan?: 
       & { userCurrentWorkoutPlan?: Maybe<{ workoutPlan?: Maybe<WorkoutPlanFragment> }> }
     )> }> };
 
-export type WorkoutPlanExerciseFragment = (
-  Pick<WorkoutPlanExercise, 'sets' | 'reps' | 'id'>
-  & { exercise?: Maybe<Pick<Exercise, 'name' | 'id'>> }
-);
-
-export type WorkoutDayFragment = (
-  Pick<WorkoutPlanDay, 'name' | 'id'>
-  & { workoutPlanExercises: { nodes: Array<WorkoutPlanExerciseFragment> } }
-);
-
-export type WorkoutPlanFragment = (
-  Pick<WorkoutPlan, 'name' | 'id'>
-  & { workoutPlanDays: { nodes: Array<WorkoutDayFragment> } }
-);
-
-export type WorkoutQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type WorkoutQuery = { activeUser?: Maybe<(
-    Pick<User, 'id'>
-    & { userCurrentWorkoutPlan?: Maybe<{ workoutPlan?: Maybe<WorkoutPlanFragment> }>, workoutPlans: { nodes: Array<WorkoutPlanFragment> } }
-  )> };
-
-export const BodystatFragmentDoc = gql`
-    fragment Bodystat on Bodystat {
-  ismale
-  bodymass
-}
-    `;
-export const ExerciseFragmentDoc = gql`
-    fragment Exercise on Exercise {
-  id
-  bodyPart
-  exerciseType
-  name
-  eliteStrengthBaseline
-}
-    `;
 export const WorkoutPlanExerciseFragmentDoc = gql`
     fragment WorkoutPlanExercise on WorkoutPlanExercise {
   sets
@@ -5271,8 +5273,8 @@ export const WorkoutPlanExerciseFragmentDoc = gql`
   }
 }
     `;
-export const WorkoutDayFragmentDoc = gql`
-    fragment WorkoutDay on WorkoutPlanDay {
+export const WorkoutPlanDayFragmentDoc = gql`
+    fragment WorkoutPlanDay on WorkoutPlanDay {
   name
   id
   workoutPlanExercises {
@@ -5288,11 +5290,140 @@ export const WorkoutPlanFragmentDoc = gql`
   id
   workoutPlanDays {
     nodes {
-      ...WorkoutDay
+      ...WorkoutPlanDay
     }
   }
 }
-    ${WorkoutDayFragmentDoc}`;
+    ${WorkoutPlanDayFragmentDoc}`;
+export const BodystatFragmentDoc = gql`
+    fragment Bodystat on Bodystat {
+  ismale
+  bodymass
+}
+    `;
+export const ExerciseFragmentDoc = gql`
+    fragment Exercise on Exercise {
+  id
+  bodyPart
+  exerciseType
+  name
+  eliteStrengthBaseline
+}
+    `;
+export const WorkoutPlanDayByIdDocument = gql`
+    query WorkoutPlanDayById($id: Int!) {
+  workoutPlanDay(id: $id) {
+    ...WorkoutPlanDay
+  }
+}
+    ${WorkoutPlanDayFragmentDoc}`;
+
+/**
+ * __useWorkoutPlanDayByIdQuery__
+ *
+ * To run a query within a React component, call `useWorkoutPlanDayByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useWorkoutPlanDayByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWorkoutPlanDayByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useWorkoutPlanDayByIdQuery(baseOptions: Apollo.QueryHookOptions<WorkoutPlanDayByIdQuery, WorkoutPlanDayByIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<WorkoutPlanDayByIdQuery, WorkoutPlanDayByIdQueryVariables>(WorkoutPlanDayByIdDocument, options);
+      }
+export function useWorkoutPlanDayByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WorkoutPlanDayByIdQuery, WorkoutPlanDayByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<WorkoutPlanDayByIdQuery, WorkoutPlanDayByIdQueryVariables>(WorkoutPlanDayByIdDocument, options);
+        }
+export type WorkoutPlanDayByIdQueryHookResult = ReturnType<typeof useWorkoutPlanDayByIdQuery>;
+export type WorkoutPlanDayByIdLazyQueryHookResult = ReturnType<typeof useWorkoutPlanDayByIdLazyQuery>;
+export type WorkoutPlanDayByIdQueryResult = Apollo.QueryResult<WorkoutPlanDayByIdQuery, WorkoutPlanDayByIdQueryVariables>;
+export const WorkoutPlanByIdDocument = gql`
+    query WorkoutPlanById($id: Int!) {
+  workoutPlan(id: $id) {
+    ...WorkoutPlan
+  }
+}
+    ${WorkoutPlanFragmentDoc}`;
+
+/**
+ * __useWorkoutPlanByIdQuery__
+ *
+ * To run a query within a React component, call `useWorkoutPlanByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useWorkoutPlanByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWorkoutPlanByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useWorkoutPlanByIdQuery(baseOptions: Apollo.QueryHookOptions<WorkoutPlanByIdQuery, WorkoutPlanByIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<WorkoutPlanByIdQuery, WorkoutPlanByIdQueryVariables>(WorkoutPlanByIdDocument, options);
+      }
+export function useWorkoutPlanByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WorkoutPlanByIdQuery, WorkoutPlanByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<WorkoutPlanByIdQuery, WorkoutPlanByIdQueryVariables>(WorkoutPlanByIdDocument, options);
+        }
+export type WorkoutPlanByIdQueryHookResult = ReturnType<typeof useWorkoutPlanByIdQuery>;
+export type WorkoutPlanByIdLazyQueryHookResult = ReturnType<typeof useWorkoutPlanByIdLazyQuery>;
+export type WorkoutPlanByIdQueryResult = Apollo.QueryResult<WorkoutPlanByIdQuery, WorkoutPlanByIdQueryVariables>;
+export const WorkoutDocument = gql`
+    query Workout {
+  activeUser {
+    id
+    userCurrentWorkoutPlan {
+      workoutPlan {
+        ...WorkoutPlan
+      }
+    }
+    workoutPlans {
+      nodes {
+        ...WorkoutPlan
+      }
+    }
+  }
+}
+    ${WorkoutPlanFragmentDoc}`;
+
+/**
+ * __useWorkoutQuery__
+ *
+ * To run a query within a React component, call `useWorkoutQuery` and pass it any options that fit your needs.
+ * When your component renders, `useWorkoutQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWorkoutQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useWorkoutQuery(baseOptions?: Apollo.QueryHookOptions<WorkoutQuery, WorkoutQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<WorkoutQuery, WorkoutQueryVariables>(WorkoutDocument, options);
+      }
+export function useWorkoutLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WorkoutQuery, WorkoutQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<WorkoutQuery, WorkoutQueryVariables>(WorkoutDocument, options);
+        }
+export type WorkoutQueryHookResult = ReturnType<typeof useWorkoutQuery>;
+export type WorkoutLazyQueryHookResult = ReturnType<typeof useWorkoutLazyQuery>;
+export type WorkoutQueryResult = Apollo.QueryResult<WorkoutQuery, WorkoutQueryVariables>;
 export const BodyStatDocument = gql`
     query BodyStat {
   activeUser {
@@ -5485,8 +5616,13 @@ export const InsertExerciseInPlanDocument = gql`
   createWorkoutPlanExercise(
     input: {workoutPlanExercise: {sets: $sets, reps: $reps, ordering: $ordering, exerciseId: $exerciseId, workoutPlanDayId: $workoutPlanDayId}}
   ) {
-    workoutPlanExercise {
-      ...WorkoutPlanExercise
+    workoutPlanDay {
+      id
+      workoutPlanExercises {
+        nodes {
+          ...WorkoutPlanExercise
+        }
+      }
     }
   }
 }
@@ -5607,47 +5743,3 @@ export function useUpsertCurrentWorkoutPlanMutation(baseOptions?: Apollo.Mutatio
 export type UpsertCurrentWorkoutPlanMutationHookResult = ReturnType<typeof useUpsertCurrentWorkoutPlanMutation>;
 export type UpsertCurrentWorkoutPlanMutationResult = Apollo.MutationResult<UpsertCurrentWorkoutPlanMutation>;
 export type UpsertCurrentWorkoutPlanMutationOptions = Apollo.BaseMutationOptions<UpsertCurrentWorkoutPlanMutation, UpsertCurrentWorkoutPlanMutationVariables>;
-export const WorkoutDocument = gql`
-    query Workout {
-  activeUser {
-    id
-    userCurrentWorkoutPlan {
-      workoutPlan {
-        ...WorkoutPlan
-      }
-    }
-    workoutPlans {
-      nodes {
-        ...WorkoutPlan
-      }
-    }
-  }
-}
-    ${WorkoutPlanFragmentDoc}`;
-
-/**
- * __useWorkoutQuery__
- *
- * To run a query within a React component, call `useWorkoutQuery` and pass it any options that fit your needs.
- * When your component renders, `useWorkoutQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useWorkoutQuery({
- *   variables: {
- *   },
- * });
- */
-export function useWorkoutQuery(baseOptions?: Apollo.QueryHookOptions<WorkoutQuery, WorkoutQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<WorkoutQuery, WorkoutQueryVariables>(WorkoutDocument, options);
-      }
-export function useWorkoutLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WorkoutQuery, WorkoutQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<WorkoutQuery, WorkoutQueryVariables>(WorkoutDocument, options);
-        }
-export type WorkoutQueryHookResult = ReturnType<typeof useWorkoutQuery>;
-export type WorkoutLazyQueryHookResult = ReturnType<typeof useWorkoutLazyQuery>;
-export type WorkoutQueryResult = Apollo.QueryResult<WorkoutQuery, WorkoutQueryVariables>;

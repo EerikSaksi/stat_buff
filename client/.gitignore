@@ -14,3 +14,4 @@ GoogleService-Info.plist
 .env
 pc-api-6666232843318496031-23-cb3fc956a13c.json
 tests/__snapshots__
+graphql.schema.json
