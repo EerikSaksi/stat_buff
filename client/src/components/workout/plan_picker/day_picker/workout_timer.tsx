@@ -7,24 +7,20 @@ import {
 } from "../../../../generated/graphql";
 import { Button } from "react-native-paper";
 import { View } from "react-native";
-import {ConditionalVolume} from './day'
+import { ExerciseSetVolume } from "./day";
 
-const transformVolumeToPayload = (
-  volumes: ConditionalVolume[][],
-  exerciseIds: number[],
-  completedWorkoutId: number
-): CompletedWorkoutExerciseInput[] =>
-  volumes
-    .map((volume, i) => ({
-      exerciseId: exerciseIds[i],
-      //filter all conditional volumes which miss attributes and cast them to Volume (which require both fields)
-      //our database requires both fields to insert because of not null constraint
-      volumes: volume.filter(({ reps, weight }) => reps && weight).map((conditional) => conditional as Volume),
-      completedWorkoutId,
-    }))
+const transformVolumeToPayload = (volumes: ExerciseSetVolume[], completedWorkoutId: number): CompletedWorkoutExerciseInput[] => {
+  return volumes
+    .map((volume, i) => {
+      return {
+        volumes: volume.filter(({ reps, weight }) => reps && weight).map((conditional) => conditional as Volume),
+        completedWorkoutId,
+        exerciseId: volume.workoutExerciseId
+      }
+    })
     .filter(({ volumes }) => volumes.length);
-
-const WorkoutTimer: React.FC<{ volumes: ConditionalVolume[][]; exerciseIds: number[] }> = ({ volumes, exerciseIds }) => {
+};
+const WorkoutTimer: React.FC<{ volumes: ExerciseSetVolume[]; exerciseIds: number[] }> = ({ volumes }) => {
   const startTime = useRef<Date | undefined>();
   const [minutes, setMinutes] = useState<undefined | number>();
 
@@ -34,7 +30,7 @@ const WorkoutTimer: React.FC<{ volumes: ConditionalVolume[][]; exerciseIds: numb
     onCompleted: ({ createCompletedWorkout }) => {
       if (createCompletedWorkout?.completedWorkout?.id) {
         saveWorkout({
-          variables: { completedExercises: transformVolumeToPayload(volumes, exerciseIds, createCompletedWorkout.completedWorkout.id) },
+          variables: { completedExercises: transformVolumeToPayload(volumes, createCompletedWorkout.completedWorkout.id) },
         });
       }
     },
@@ -44,7 +40,7 @@ const WorkoutTimer: React.FC<{ volumes: ConditionalVolume[][]; exerciseIds: numb
   useEffect(() => {
     if (!startTime.current) {
       //user has tracked a lift, then start the timer
-      if (volumes.some((row) => row.some(val => val.weight || val.reps))) {
+      if (volumes.some((row) => row.some((val) => val.weight || val.reps))) {
         startTime.current = new Date();
         setMinutes(0);
       }

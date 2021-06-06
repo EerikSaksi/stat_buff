@@ -34,9 +34,9 @@ export type Battle = Node & {
   createdAt: Scalars['Datetime'];
   updatedAt: Scalars['Datetime'];
   /** Reads a single `Enemy` that is related to this `Battle`. */
-  enemyByEnemyLevel?: Maybe<Enemy>;
+  enemyByEnemyLevel: Enemy;
   /** Reads a single `Group` that is related to this `Battle`. */
-  groupByGroupname?: Maybe<Group>;
+  groupByGroupname: Group;
   /** Reads and enables pagination through a set of `Group`. */
   groupsByNameAndBattleNumber: GroupsConnection;
   /** Reads and enables pagination through a set of `UserExercise`. */
@@ -162,7 +162,7 @@ export type Bodystat = Node & {
   updatedAt: Scalars['Datetime'];
   userId: Scalars['Int'];
   /** Reads a single `User` that is related to this `Bodystat`. */
-  user?: Maybe<User>;
+  user: User;
 };
 
 /** An input for mutations affecting `Bodystat` */
@@ -236,9 +236,9 @@ export type CompletedWorkoutExercise = Node & {
   createdAt: Scalars['Datetime'];
   volumes: Array<Maybe<Volume>>;
   /** Reads a single `Exercise` that is related to this `CompletedWorkoutExercise`. */
-  exercise?: Maybe<Exercise>;
+  exercise: Exercise;
   /** Reads a single `CompletedWorkout` that is related to this `CompletedWorkoutExercise`. */
-  completedWorkout?: Maybe<CompletedWorkout>;
+  completedWorkout: CompletedWorkout;
 };
 
 /**
@@ -395,7 +395,7 @@ export type CreateBodystatPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `Bodystat`. */
-  user?: Maybe<User>;
+  user: User;
   /** An edge for our `Bodystat`. May be used by Relay 1. */
   bodystatEdge?: Maybe<BodystatsEdge>;
 };
@@ -429,9 +429,9 @@ export type CreateCompletedWorkoutExercisePayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `Exercise` that is related to this `CompletedWorkoutExercise`. */
-  exercise?: Maybe<Exercise>;
+  exercise: Exercise;
   /** Reads a single `CompletedWorkout` that is related to this `CompletedWorkoutExercise`. */
-  completedWorkout?: Maybe<CompletedWorkout>;
+  completedWorkout: CompletedWorkout;
   /** An edge for our `CompletedWorkoutExercise`. May be used by Relay 1. */
   completedWorkoutExerciseEdge?: Maybe<CompletedWorkoutExercisesEdge>;
 };
@@ -563,7 +563,7 @@ export type CreateSessionAnalyticPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `SessionAnalytic`. */
-  user?: Maybe<User>;
+  user: User;
   /** An edge for our `SessionAnalytic`. May be used by Relay 1. */
   sessionAnalyticEdge?: Maybe<SessionAnalyticsEdge>;
 };
@@ -597,9 +597,9 @@ export type CreateUserCurrentWorkoutPlanPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `UserCurrentWorkoutPlan`. */
-  user?: Maybe<User>;
+  user: User;
   /** Reads a single `WorkoutPlan` that is related to this `UserCurrentWorkoutPlan`. */
-  workoutPlan?: Maybe<WorkoutPlan>;
+  workoutPlan: WorkoutPlan;
   /** An edge for our `UserCurrentWorkoutPlan`. May be used by Relay 1. */
   userCurrentWorkoutPlanEdge?: Maybe<UserCurrentWorkoutPlansEdge>;
 };
@@ -635,7 +635,7 @@ export type CreateUserExercisePayload = {
   /** Reads a single `Battle` that is related to this `UserExercise`. */
   battleByGroupnameAndBattleNumber?: Maybe<Battle>;
   /** Reads a single `User` that is related to this `UserExercise`. */
-  user?: Maybe<User>;
+  user: User;
   /** An edge for our `UserExercise`. May be used by Relay 1. */
   userExerciseEdge?: Maybe<UserExercisesEdge>;
 };
@@ -723,7 +723,7 @@ export type CreateWorkoutPlanDayPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `WorkoutPlan` that is related to this `WorkoutPlanDay`. */
-  workoutPlan?: Maybe<WorkoutPlan>;
+  workoutPlan: WorkoutPlan;
   /** An edge for our `WorkoutPlanDay`. May be used by Relay 1. */
   workoutPlanDayEdge?: Maybe<WorkoutPlanDaysEdge>;
 };
@@ -757,9 +757,9 @@ export type CreateWorkoutPlanExercisePayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `Exercise` that is related to this `WorkoutPlanExercise`. */
-  exercise?: Maybe<Exercise>;
+  exercise: Exercise;
   /** Reads a single `WorkoutPlanDay` that is related to this `WorkoutPlanExercise`. */
-  workoutPlanDay?: Maybe<WorkoutPlanDay>;
+  workoutPlanDay: WorkoutPlanDay;
   /** An edge for our `WorkoutPlanExercise`. May be used by Relay 1. */
   workoutPlanExerciseEdge?: Maybe<WorkoutPlanExercisesEdge>;
 };
@@ -841,9 +841,9 @@ export type DeleteBattlePayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `Enemy` that is related to this `Battle`. */
-  enemyByEnemyLevel?: Maybe<Enemy>;
+  enemyByEnemyLevel: Enemy;
   /** Reads a single `Group` that is related to this `Battle`. */
-  groupByGroupname?: Maybe<Group>;
+  groupByGroupname: Group;
   /** An edge for our `Battle`. May be used by Relay 1. */
   battleEdge?: Maybe<BattlesEdge>;
 };
@@ -888,7 +888,7 @@ export type DeleteBodystatPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `Bodystat`. */
-  user?: Maybe<User>;
+  user: User;
   /** An edge for our `Bodystat`. May be used by Relay 1. */
   bodystatEdge?: Maybe<BodystatsEdge>;
 };
@@ -944,9 +944,9 @@ export type DeleteCompletedWorkoutExercisePayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `Exercise` that is related to this `CompletedWorkoutExercise`. */
-  exercise?: Maybe<Exercise>;
+  exercise: Exercise;
   /** Reads a single `CompletedWorkout` that is related to this `CompletedWorkoutExercise`. */
-  completedWorkout?: Maybe<CompletedWorkout>;
+  completedWorkout: CompletedWorkout;
   /** An edge for our `CompletedWorkoutExercise`. May be used by Relay 1. */
   completedWorkoutExerciseEdge?: Maybe<CompletedWorkoutExercisesEdge>;
 };
@@ -1111,7 +1111,7 @@ export type DeleteSessionAnalyticPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `SessionAnalytic`. */
-  user?: Maybe<User>;
+  user: User;
   /** An edge for our `SessionAnalytic`. May be used by Relay 1. */
   sessionAnalyticEdge?: Maybe<SessionAnalyticsEdge>;
 };
@@ -1177,9 +1177,9 @@ export type DeleteUserCurrentWorkoutPlanPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `UserCurrentWorkoutPlan`. */
-  user?: Maybe<User>;
+  user: User;
   /** Reads a single `WorkoutPlan` that is related to this `UserCurrentWorkoutPlan`. */
-  workoutPlan?: Maybe<WorkoutPlan>;
+  workoutPlan: WorkoutPlan;
   /** An edge for our `UserCurrentWorkoutPlan`. May be used by Relay 1. */
   userCurrentWorkoutPlanEdge?: Maybe<UserCurrentWorkoutPlansEdge>;
 };
@@ -1227,7 +1227,7 @@ export type DeleteUserExercisePayload = {
   /** Reads a single `Battle` that is related to this `UserExercise`. */
   battleByGroupnameAndBattleNumber?: Maybe<Battle>;
   /** Reads a single `User` that is related to this `UserExercise`. */
-  user?: Maybe<User>;
+  user: User;
   /** An edge for our `UserExercise`. May be used by Relay 1. */
   userExerciseEdge?: Maybe<UserExercisesEdge>;
 };
@@ -1339,7 +1339,7 @@ export type DeleteWorkoutPlanDayPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `WorkoutPlan` that is related to this `WorkoutPlanDay`. */
-  workoutPlan?: Maybe<WorkoutPlan>;
+  workoutPlan: WorkoutPlan;
   /** An edge for our `WorkoutPlanDay`. May be used by Relay 1. */
   workoutPlanDayEdge?: Maybe<WorkoutPlanDaysEdge>;
 };
@@ -1395,9 +1395,9 @@ export type DeleteWorkoutPlanExercisePayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `Exercise` that is related to this `WorkoutPlanExercise`. */
-  exercise?: Maybe<Exercise>;
+  exercise: Exercise;
   /** Reads a single `WorkoutPlanDay` that is related to this `WorkoutPlanExercise`. */
-  workoutPlanDay?: Maybe<WorkoutPlanDay>;
+  workoutPlanDay: WorkoutPlanDay;
   /** An edge for our `WorkoutPlanExercise`. May be used by Relay 1. */
   workoutPlanExerciseEdge?: Maybe<WorkoutPlanExercisesEdge>;
 };
@@ -1708,9 +1708,9 @@ export type GetBattleAndCheckExpiryPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `Enemy` that is related to this `Battle`. */
-  enemyByEnemyLevel?: Maybe<Enemy>;
+  enemyByEnemyLevel: Enemy;
   /** Reads a single `Group` that is related to this `Battle`. */
-  groupByGroupname?: Maybe<Group>;
+  groupByGroupname: Group;
   /** An edge for our `Battle`. May be used by Relay 1. */
   battleEdge?: Maybe<BattlesEdge>;
 };
@@ -3183,7 +3183,7 @@ export type SessionAnalytic = Node & {
   createdAt: Scalars['Datetime'];
   userId: Scalars['Int'];
   /** Reads a single `User` that is related to this `SessionAnalytic`. */
-  user?: Maybe<User>;
+  user: User;
 };
 
 /**
@@ -3398,9 +3398,9 @@ export type UpdateBattlePayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `Enemy` that is related to this `Battle`. */
-  enemyByEnemyLevel?: Maybe<Enemy>;
+  enemyByEnemyLevel: Enemy;
   /** Reads a single `Group` that is related to this `Battle`. */
-  groupByGroupname?: Maybe<Group>;
+  groupByGroupname: Group;
   /** An edge for our `Battle`. May be used by Relay 1. */
   battleEdge?: Maybe<BattlesEdge>;
 };
@@ -3448,7 +3448,7 @@ export type UpdateBodystatPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `Bodystat`. */
-  user?: Maybe<User>;
+  user: User;
   /** An edge for our `Bodystat`. May be used by Relay 1. */
   bodystatEdge?: Maybe<BodystatsEdge>;
 };
@@ -3509,9 +3509,9 @@ export type UpdateCompletedWorkoutExercisePayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `Exercise` that is related to this `CompletedWorkoutExercise`. */
-  exercise?: Maybe<Exercise>;
+  exercise: Exercise;
   /** Reads a single `CompletedWorkout` that is related to this `CompletedWorkoutExercise`. */
-  completedWorkout?: Maybe<CompletedWorkout>;
+  completedWorkout: CompletedWorkout;
   /** An edge for our `CompletedWorkoutExercise`. May be used by Relay 1. */
   completedWorkoutExerciseEdge?: Maybe<CompletedWorkoutExercisesEdge>;
 };
@@ -3638,7 +3638,7 @@ export type UpdateSessionAnalyticPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `SessionAnalytic`. */
-  user?: Maybe<User>;
+  user: User;
   /** An edge for our `SessionAnalytic`. May be used by Relay 1. */
   sessionAnalyticEdge?: Maybe<SessionAnalyticsEdge>;
 };
@@ -3711,9 +3711,9 @@ export type UpdateUserCurrentWorkoutPlanPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `UserCurrentWorkoutPlan`. */
-  user?: Maybe<User>;
+  user: User;
   /** Reads a single `WorkoutPlan` that is related to this `UserCurrentWorkoutPlan`. */
-  workoutPlan?: Maybe<WorkoutPlan>;
+  workoutPlan: WorkoutPlan;
   /** An edge for our `UserCurrentWorkoutPlan`. May be used by Relay 1. */
   userCurrentWorkoutPlanEdge?: Maybe<UserCurrentWorkoutPlansEdge>;
 };
@@ -3764,7 +3764,7 @@ export type UpdateUserExercisePayload = {
   /** Reads a single `Battle` that is related to this `UserExercise`. */
   battleByGroupnameAndBattleNumber?: Maybe<Battle>;
   /** Reads a single `User` that is related to this `UserExercise`. */
-  user?: Maybe<User>;
+  user: User;
   /** An edge for our `UserExercise`. May be used by Relay 1. */
   userExerciseEdge?: Maybe<UserExercisesEdge>;
 };
@@ -3886,7 +3886,7 @@ export type UpdateWorkoutPlanDayPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `WorkoutPlan` that is related to this `WorkoutPlanDay`. */
-  workoutPlan?: Maybe<WorkoutPlan>;
+  workoutPlan: WorkoutPlan;
   /** An edge for our `WorkoutPlanDay`. May be used by Relay 1. */
   workoutPlanDayEdge?: Maybe<WorkoutPlanDaysEdge>;
 };
@@ -3947,9 +3947,9 @@ export type UpdateWorkoutPlanExercisePayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `Exercise` that is related to this `WorkoutPlanExercise`. */
-  exercise?: Maybe<Exercise>;
+  exercise: Exercise;
   /** Reads a single `WorkoutPlanDay` that is related to this `WorkoutPlanExercise`. */
-  workoutPlanDay?: Maybe<WorkoutPlanDay>;
+  workoutPlanDay: WorkoutPlanDay;
   /** An edge for our `WorkoutPlanExercise`. May be used by Relay 1. */
   workoutPlanExerciseEdge?: Maybe<WorkoutPlanExercisesEdge>;
 };
@@ -4012,9 +4012,9 @@ export type UpsertBattlePayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `Enemy` that is related to this `Battle`. */
-  enemyByEnemyLevel?: Maybe<Enemy>;
+  enemyByEnemyLevel: Enemy;
   /** Reads a single `Group` that is related to this `Battle`. */
-  groupByGroupname?: Maybe<Group>;
+  groupByGroupname: Group;
   /** An edge for our `Battle`. May be used by Relay 1. */
   battleEdge?: Maybe<BattlesEdge>;
 };
@@ -4042,7 +4042,7 @@ export type UpsertBodystatPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `Bodystat`. */
-  user?: Maybe<User>;
+  user: User;
   /** An edge for our `Bodystat`. May be used by Relay 1. */
   bodystatEdge?: Maybe<BodystatsEdge>;
 };
@@ -4070,9 +4070,9 @@ export type UpsertCompletedWorkoutExercisePayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `Exercise` that is related to this `CompletedWorkoutExercise`. */
-  exercise?: Maybe<Exercise>;
+  exercise: Exercise;
   /** Reads a single `CompletedWorkout` that is related to this `CompletedWorkoutExercise`. */
-  completedWorkout?: Maybe<CompletedWorkout>;
+  completedWorkout: CompletedWorkout;
   /** An edge for our `CompletedWorkoutExercise`. May be used by Relay 1. */
   completedWorkoutExerciseEdge?: Maybe<CompletedWorkoutExercisesEdge>;
 };
@@ -4180,7 +4180,7 @@ export type UpsertSessionAnalyticPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `SessionAnalytic`. */
-  user?: Maybe<User>;
+  user: User;
   /** An edge for our `SessionAnalytic`. May be used by Relay 1. */
   sessionAnalyticEdge?: Maybe<SessionAnalyticsEdge>;
 };
@@ -4208,9 +4208,9 @@ export type UpsertUserCurrentWorkoutPlanPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `UserCurrentWorkoutPlan`. */
-  user?: Maybe<User>;
+  user: User;
   /** Reads a single `WorkoutPlan` that is related to this `UserCurrentWorkoutPlan`. */
-  workoutPlan?: Maybe<WorkoutPlan>;
+  workoutPlan: WorkoutPlan;
   /** An edge for our `UserCurrentWorkoutPlan`. May be used by Relay 1. */
   userCurrentWorkoutPlanEdge?: Maybe<UserCurrentWorkoutPlansEdge>;
 };
@@ -4240,7 +4240,7 @@ export type UpsertUserExercisePayload = {
   /** Reads a single `Battle` that is related to this `UserExercise`. */
   battleByGroupnameAndBattleNumber?: Maybe<Battle>;
   /** Reads a single `User` that is related to this `UserExercise`. */
-  user?: Maybe<User>;
+  user: User;
   /** An edge for our `UserExercise`. May be used by Relay 1. */
   userExerciseEdge?: Maybe<UserExercisesEdge>;
 };
@@ -4322,7 +4322,7 @@ export type UpsertWorkoutPlanDayPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `WorkoutPlan` that is related to this `WorkoutPlanDay`. */
-  workoutPlan?: Maybe<WorkoutPlan>;
+  workoutPlan: WorkoutPlan;
   /** An edge for our `WorkoutPlanDay`. May be used by Relay 1. */
   workoutPlanDayEdge?: Maybe<WorkoutPlanDaysEdge>;
 };
@@ -4350,9 +4350,9 @@ export type UpsertWorkoutPlanExercisePayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `Exercise` that is related to this `WorkoutPlanExercise`. */
-  exercise?: Maybe<Exercise>;
+  exercise: Exercise;
   /** Reads a single `WorkoutPlanDay` that is related to this `WorkoutPlanExercise`. */
-  workoutPlanDay?: Maybe<WorkoutPlanDay>;
+  workoutPlanDay: WorkoutPlanDay;
   /** An edge for our `WorkoutPlanExercise`. May be used by Relay 1. */
   workoutPlanExerciseEdge?: Maybe<WorkoutPlanExercisesEdge>;
 };
@@ -4465,9 +4465,9 @@ export type UserCurrentWorkoutPlan = Node & {
   userId: Scalars['Int'];
   workoutPlanId: Scalars['Int'];
   /** Reads a single `User` that is related to this `UserCurrentWorkoutPlan`. */
-  user?: Maybe<User>;
+  user: User;
   /** Reads a single `WorkoutPlan` that is related to this `UserCurrentWorkoutPlan`. */
-  workoutPlan?: Maybe<WorkoutPlan>;
+  workoutPlan: WorkoutPlan;
 };
 
 /**
@@ -4554,7 +4554,7 @@ export type UserExercise = Node & {
   /** Reads a single `Battle` that is related to this `UserExercise`. */
   battleByGroupnameAndBattleNumber?: Maybe<Battle>;
   /** Reads a single `User` that is related to this `UserExercise`. */
-  user?: Maybe<User>;
+  user: User;
 };
 
 /**
@@ -4806,7 +4806,7 @@ export type WorkoutPlanDay = Node & {
   workoutPlanId: Scalars['Int'];
   name: Scalars['String'];
   /** Reads a single `WorkoutPlan` that is related to this `WorkoutPlanDay`. */
-  workoutPlan?: Maybe<WorkoutPlan>;
+  workoutPlan: WorkoutPlan;
   /** Reads and enables pagination through a set of `WorkoutPlanExercise`. */
   workoutPlanExercises: WorkoutPlanExercisesConnection;
 };
@@ -4903,9 +4903,9 @@ export type WorkoutPlanExercise = Node & {
   workoutPlanDayId: Scalars['Int'];
   id: Scalars['Int'];
   /** Reads a single `Exercise` that is related to this `WorkoutPlanExercise`. */
-  exercise?: Maybe<Exercise>;
+  exercise: Exercise;
   /** Reads a single `WorkoutPlanDay` that is related to this `WorkoutPlanExercise`. */
-  workoutPlanDay?: Maybe<WorkoutPlanDay>;
+  workoutPlanDay: WorkoutPlanDay;
 };
 
 /**
@@ -5072,9 +5072,9 @@ export type MnCreateCompletedWorkoutExercisePayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `Exercise` that is related to this `CompletedWorkoutExercise`. */
-  exercise?: Maybe<Exercise>;
+  exercise: Exercise;
   /** Reads a single `CompletedWorkout` that is related to this `CompletedWorkoutExercise`. */
-  completedWorkout?: Maybe<CompletedWorkout>;
+  completedWorkout: CompletedWorkout;
   /** An edge for our `CompletedWorkoutExercise`. May be used by Relay 1. */
   completedWorkoutExerciseEdge?: Maybe<CompletedWorkoutExercisesEdge>;
 };
@@ -5106,9 +5106,9 @@ export type MnDeleteCompletedWorkoutExercisePayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `Exercise` that is related to this `CompletedWorkoutExercise`. */
-  exercise?: Maybe<Exercise>;
+  exercise: Exercise;
   /** Reads a single `CompletedWorkout` that is related to this `CompletedWorkoutExercise`. */
-  completedWorkout?: Maybe<CompletedWorkout>;
+  completedWorkout: CompletedWorkout;
   /** An edge for our `CompletedWorkoutExercise`. May be used by Relay 1. */
   completedWorkoutExerciseEdge?: Maybe<CompletedWorkoutExercisesEdge>;
 };
@@ -5139,9 +5139,9 @@ export type MnUpdateCompletedWorkoutExercisePayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `Exercise` that is related to this `CompletedWorkoutExercise`. */
-  exercise?: Maybe<Exercise>;
+  exercise: Exercise;
   /** Reads a single `CompletedWorkout` that is related to this `CompletedWorkoutExercise`. */
-  completedWorkout?: Maybe<CompletedWorkout>;
+  completedWorkout: CompletedWorkout;
   /** An edge for our `CompletedWorkoutExercise`. May be used by Relay 1. */
   completedWorkoutExerciseEdge?: Maybe<CompletedWorkoutExercisesEdge>;
 };
@@ -5151,6 +5151,17 @@ export type MnUpdateCompletedWorkoutExercisePayload = {
 export type MnUpdateCompletedWorkoutExercisePayloadCompletedWorkoutExerciseEdgeArgs = {
   orderBy?: Maybe<Array<CompletedWorkoutExercisesOrderBy>>;
 };
+
+export type InsertExerciseInPlanMutationVariables = Exact<{
+  sets: Scalars['Int'];
+  reps: Scalars['Int'];
+  ordering: Scalars['Int'];
+  exerciseId: Scalars['Int'];
+  workoutPlanDayId: Scalars['Int'];
+}>;
+
+
+export type InsertExerciseInPlanMutation = { createWorkoutPlanExercise?: Maybe<{ workoutPlanExercise?: Maybe<WorkoutPlanExerciseFragment> }> };
 
 export type WorkoutPlanDayByIdQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -5167,8 +5178,8 @@ export type WorkoutPlanByIdQueryVariables = Exact<{
 export type WorkoutPlanByIdQuery = { workoutPlan?: Maybe<WorkoutPlanFragment> };
 
 export type WorkoutPlanExerciseFragment = (
-  Pick<WorkoutPlanExercise, 'sets' | 'reps' | 'id'>
-  & { exercise?: Maybe<Pick<Exercise, 'name' | 'id'>> }
+  Pick<WorkoutPlanExercise, 'sets' | 'reps' | 'id' | 'ordering'>
+  & { exercise: Pick<Exercise, 'name' | 'id'> }
 );
 
 export type WorkoutPlanDayFragment = (
@@ -5186,7 +5197,7 @@ export type WorkoutQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type WorkoutQuery = { activeUser?: Maybe<(
     Pick<User, 'id'>
-    & { userCurrentWorkoutPlan?: Maybe<{ workoutPlan?: Maybe<WorkoutPlanFragment> }>, workoutPlans: { nodes: Array<WorkoutPlanFragment> } }
+    & { userCurrentWorkoutPlan?: Maybe<{ workoutPlan: WorkoutPlanFragment }>, workoutPlans: { nodes: Array<WorkoutPlanFragment> } }
   )> };
 
 export type BodystatFragment = Pick<Bodystat, 'ismale' | 'bodymass'>;
@@ -5209,10 +5220,10 @@ export type DeleteCurrentWorkoutPlanMutationVariables = Exact<{
 }>;
 
 
-export type DeleteCurrentWorkoutPlanMutation = { deleteUserCurrentWorkoutPlan?: Maybe<{ user?: Maybe<(
+export type DeleteCurrentWorkoutPlanMutation = { deleteUserCurrentWorkoutPlan?: Maybe<{ user: (
       Pick<User, 'id'>
-      & { userCurrentWorkoutPlan?: Maybe<{ workoutPlan?: Maybe<WorkoutPlanFragment> }> }
-    )> }> };
+      & { userCurrentWorkoutPlan?: Maybe<{ workoutPlan: WorkoutPlanFragment }> }
+    ) }> };
 
 export type ExerciseFragment = Pick<Exercise, 'id' | 'bodyPart' | 'exerciseType' | 'name' | 'eliteStrengthBaseline'>;
 
@@ -5230,26 +5241,12 @@ export type ExercisesByWorkoutPlanIdQueryVariables = Exact<{
 
 export type ExercisesByWorkoutPlanIdQuery = { workoutPlanDay?: Maybe<{ workoutPlanExercises: { nodes: Array<Pick<WorkoutPlanExercise, 'ordering'>> } }> };
 
-export type InsertExerciseInPlanMutationVariables = Exact<{
-  sets: Scalars['Int'];
-  reps: Scalars['Int'];
-  ordering: Scalars['Int'];
-  exerciseId: Scalars['Int'];
-  workoutPlanDayId: Scalars['Int'];
-}>;
-
-
-export type InsertExerciseInPlanMutation = { createWorkoutPlanExercise?: Maybe<{ workoutPlanDay?: Maybe<(
-      Pick<WorkoutPlanDay, 'id'>
-      & { workoutPlanExercises: { nodes: Array<WorkoutPlanExerciseFragment> } }
-    )> }> };
-
 export type SaveWorkoutMutationVariables = Exact<{
   completedExercises?: Maybe<Array<CompletedWorkoutExerciseInput> | CompletedWorkoutExerciseInput>;
 }>;
 
 
-export type SaveWorkoutMutation = { mnCreateCompletedWorkoutExercise?: Maybe<{ completedWorkoutExercise?: Maybe<{ volumes: Array<Maybe<Pick<Volume, 'reps' | 'weight'>>> }>, exercise?: Maybe<Pick<Exercise, 'bodyPart'>> }> };
+export type SaveWorkoutMutation = { mnCreateCompletedWorkoutExercise?: Maybe<{ completedWorkoutExercise?: Maybe<{ volumes: Array<Maybe<Pick<Volume, 'reps' | 'weight'>>> }>, exercise: Pick<Exercise, 'bodyPart'> }> };
 
 export type UpsertCurrentWorkoutPlanMutationVariables = Exact<{
   userId: Scalars['Int'];
@@ -5257,16 +5254,17 @@ export type UpsertCurrentWorkoutPlanMutationVariables = Exact<{
 }>;
 
 
-export type UpsertCurrentWorkoutPlanMutation = { upsertUserCurrentWorkoutPlan?: Maybe<{ user?: Maybe<(
+export type UpsertCurrentWorkoutPlanMutation = { upsertUserCurrentWorkoutPlan?: Maybe<{ user: (
       Pick<User, 'id'>
-      & { userCurrentWorkoutPlan?: Maybe<{ workoutPlan?: Maybe<WorkoutPlanFragment> }> }
-    )> }> };
+      & { userCurrentWorkoutPlan?: Maybe<{ workoutPlan: WorkoutPlanFragment }> }
+    ) }> };
 
 export const WorkoutPlanExerciseFragmentDoc = gql`
     fragment WorkoutPlanExercise on WorkoutPlanExercise {
   sets
   reps
   id
+  ordering
   exercise {
     name
     id
@@ -5277,7 +5275,7 @@ export const WorkoutPlanDayFragmentDoc = gql`
     fragment WorkoutPlanDay on WorkoutPlanDay {
   name
   id
-  workoutPlanExercises {
+  workoutPlanExercises(orderBy: ORDERING_ASC) {
     nodes {
       ...WorkoutPlanExercise
     }
@@ -5310,6 +5308,47 @@ export const ExerciseFragmentDoc = gql`
   eliteStrengthBaseline
 }
     `;
+export const InsertExerciseInPlanDocument = gql`
+    mutation insertExerciseInPlan($sets: Int!, $reps: Int!, $ordering: Int!, $exerciseId: Int!, $workoutPlanDayId: Int!) {
+  createWorkoutPlanExercise(
+    input: {workoutPlanExercise: {sets: $sets, reps: $reps, ordering: $ordering, exerciseId: $exerciseId, workoutPlanDayId: $workoutPlanDayId}}
+  ) {
+    workoutPlanExercise {
+      ...WorkoutPlanExercise
+    }
+  }
+}
+    ${WorkoutPlanExerciseFragmentDoc}`;
+export type InsertExerciseInPlanMutationFn = Apollo.MutationFunction<InsertExerciseInPlanMutation, InsertExerciseInPlanMutationVariables>;
+
+/**
+ * __useInsertExerciseInPlanMutation__
+ *
+ * To run a mutation, you first call `useInsertExerciseInPlanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertExerciseInPlanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [insertExerciseInPlanMutation, { data, loading, error }] = useInsertExerciseInPlanMutation({
+ *   variables: {
+ *      sets: // value for 'sets'
+ *      reps: // value for 'reps'
+ *      ordering: // value for 'ordering'
+ *      exerciseId: // value for 'exerciseId'
+ *      workoutPlanDayId: // value for 'workoutPlanDayId'
+ *   },
+ * });
+ */
+export function useInsertExerciseInPlanMutation(baseOptions?: Apollo.MutationHookOptions<InsertExerciseInPlanMutation, InsertExerciseInPlanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InsertExerciseInPlanMutation, InsertExerciseInPlanMutationVariables>(InsertExerciseInPlanDocument, options);
+      }
+export type InsertExerciseInPlanMutationHookResult = ReturnType<typeof useInsertExerciseInPlanMutation>;
+export type InsertExerciseInPlanMutationResult = Apollo.MutationResult<InsertExerciseInPlanMutation>;
+export type InsertExerciseInPlanMutationOptions = Apollo.BaseMutationOptions<InsertExerciseInPlanMutation, InsertExerciseInPlanMutationVariables>;
 export const WorkoutPlanDayByIdDocument = gql`
     query WorkoutPlanDayById($id: Int!) {
   workoutPlanDay(id: $id) {
@@ -5611,52 +5650,6 @@ export function useExercisesByWorkoutPlanIdLazyQuery(baseOptions?: Apollo.LazyQu
 export type ExercisesByWorkoutPlanIdQueryHookResult = ReturnType<typeof useExercisesByWorkoutPlanIdQuery>;
 export type ExercisesByWorkoutPlanIdLazyQueryHookResult = ReturnType<typeof useExercisesByWorkoutPlanIdLazyQuery>;
 export type ExercisesByWorkoutPlanIdQueryResult = Apollo.QueryResult<ExercisesByWorkoutPlanIdQuery, ExercisesByWorkoutPlanIdQueryVariables>;
-export const InsertExerciseInPlanDocument = gql`
-    mutation insertExerciseInPlan($sets: Int!, $reps: Int!, $ordering: Int!, $exerciseId: Int!, $workoutPlanDayId: Int!) {
-  createWorkoutPlanExercise(
-    input: {workoutPlanExercise: {sets: $sets, reps: $reps, ordering: $ordering, exerciseId: $exerciseId, workoutPlanDayId: $workoutPlanDayId}}
-  ) {
-    workoutPlanDay {
-      id
-      workoutPlanExercises {
-        nodes {
-          ...WorkoutPlanExercise
-        }
-      }
-    }
-  }
-}
-    ${WorkoutPlanExerciseFragmentDoc}`;
-export type InsertExerciseInPlanMutationFn = Apollo.MutationFunction<InsertExerciseInPlanMutation, InsertExerciseInPlanMutationVariables>;
-
-/**
- * __useInsertExerciseInPlanMutation__
- *
- * To run a mutation, you first call `useInsertExerciseInPlanMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInsertExerciseInPlanMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [insertExerciseInPlanMutation, { data, loading, error }] = useInsertExerciseInPlanMutation({
- *   variables: {
- *      sets: // value for 'sets'
- *      reps: // value for 'reps'
- *      ordering: // value for 'ordering'
- *      exerciseId: // value for 'exerciseId'
- *      workoutPlanDayId: // value for 'workoutPlanDayId'
- *   },
- * });
- */
-export function useInsertExerciseInPlanMutation(baseOptions?: Apollo.MutationHookOptions<InsertExerciseInPlanMutation, InsertExerciseInPlanMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<InsertExerciseInPlanMutation, InsertExerciseInPlanMutationVariables>(InsertExerciseInPlanDocument, options);
-      }
-export type InsertExerciseInPlanMutationHookResult = ReturnType<typeof useInsertExerciseInPlanMutation>;
-export type InsertExerciseInPlanMutationResult = Apollo.MutationResult<InsertExerciseInPlanMutation>;
-export type InsertExerciseInPlanMutationOptions = Apollo.BaseMutationOptions<InsertExerciseInPlanMutation, InsertExerciseInPlanMutationVariables>;
 export const SaveWorkoutDocument = gql`
     mutation SaveWorkout($completedExercises: [CompletedWorkoutExerciseInput!]) {
   mnCreateCompletedWorkoutExercise(

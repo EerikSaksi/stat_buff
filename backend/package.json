@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@graphile-contrib/pg-non-null": "^1.0.3",
     "@graphile-contrib/pg-simplify-inflector": "^6.1.0",
     "@graphile/pg-pubsub": "^4.10.0",
     "add": "^2.0.6",

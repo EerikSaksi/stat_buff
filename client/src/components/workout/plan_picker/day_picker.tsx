@@ -3,7 +3,7 @@ import { List, Button, ActivityIndicator } from "react-native-paper";
 import {RootStackParamList} from "components/workout";
 import {StackNavigationProp} from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
-import {useWorkoutPlanDayByIdQuery, useWorkoutPlanByIdQuery} from "../../../generated/graphql"
+import {useWorkoutPlanByIdQuery} from "../../../generated/graphql"
 
 
 type WorkoutDayPickerRouteProp = RouteProp<

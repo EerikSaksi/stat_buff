@@ -8,10 +8,11 @@ const WorkoutExerciseSet: React.FC<{
   row: number;
   col: number;
   volume: ConditionalVolume;
-  updateVolumes: (row: number, column: number, volume: ConditionalVolume) => void;
+  updateVolumes: (row: number, column: number, volume: Volume) => void;
   bodystat: BodystatFragment | undefined;
 }> = ({ exerciseId, row, col, volume, updateVolumes, bodystat }) => {
   const predictions = useStrengthPredictions(volume.reps, volume.weight, exerciseId, bodystat);
+  console.log({exerciseId})
   return (
     <List.Item
       title={predictions ? `${predictions.percentile}%, 1RM: ${predictions.oneRepMax}` : ""}
