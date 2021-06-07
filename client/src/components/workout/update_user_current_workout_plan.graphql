@@ -1,0 +1,9 @@
+mutation updateUserCurrentWorkoutPlan($userId: Int!, $currentWorkoutPlanId: Int){
+  updateUser(input: {id: $userId, patch: {currentWorkoutPlanId: $currentWorkoutPlanId}}){
+    user{
+      id
+      currentWorkoutPlanId
+    }
+  }
+}
+

@@ -1,8 +1,9 @@
 import React from "react";
 import { BodystatFragment } from "../../../../generated/graphql";
-import { TextInput, List } from "react-native-paper";
+import { TextInput, List, Button } from "react-native-paper";
 import useStrengthPredictions from "./use_strength_predictions";
 import {ConditionalVolume} from './use_local_volumes'
+import {View} from 'react-native'
 
 const WorkoutExerciseSet: React.FC<{
   exerciseId: number;
@@ -13,7 +14,6 @@ const WorkoutExerciseSet: React.FC<{
   bodystat: BodystatFragment | undefined;
 }> = ({ exerciseId, setIndex, workoutPlanExerciseId, volume, updateVolumes, bodystat }) => {
   const predictions = useStrengthPredictions(volume.reps, volume.weight, exerciseId, bodystat);
-  console.log({exerciseId})
   return (
     <List.Item
       title={predictions ? `${predictions.percentile}%, 1RM: ${predictions.oneRepMax}` : ""}

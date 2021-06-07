@@ -3,8 +3,7 @@ import { List, Searchbar, Button } from "react-native-paper";
 import {
   useExerciseSearchQuery,
   useInsertExerciseInPlanMutation,
-  useExerciseOrderingsByWorkoutPlanIdQuery,
-  WorkoutPlanExerciseFragmentDoc
+  WorkoutPlanExerciseFragmentDoc,
 } from "../../../../../generated/graphql";
 import { RootStackParamList } from "../../../../workout";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -26,20 +25,25 @@ const ExerciseSearch: React.FC<Props> = ({ navigation, route }) => {
   });
   const [insertExerciseInPlan] = useInsertExerciseInPlanMutation({
     update(cache, { data }) {
-      cache.modify({
-        id: `WorkoutPlanDay:${route.params.workoutPlanDayData.workoutPlanDay.id}`,
-        fields: {
-          workoutPlanExercises(existingWorkoutPlanExercises = { nodes: [] }) {
-            if (data?.createWorkoutPlanExercise?.workoutPlanExercise) {
-              const newWorkoutPlanExercise = cache.writeFragment({
-                data: data.createWorkoutPlanExercise.workoutPlanExercise,
-                fragment: WorkoutPlanExerciseFragmentDoc
-              });
-              return {nodes: [...existingWorkoutPlanExercises.nodes, newWorkoutPlanExercise]};
-            }
+      if (route.params.workoutPlanDayData.workoutPlanDay?.id) {
+        cache.modify({
+          //modify the workout plan from which this was opened
+          id: `WorkoutPlanDay:${route.params.workoutPlanDayData.workoutPlanDay.id}`,
+          fields: {
+            workoutPlanExercises(existingWorkoutPlanExercises = { nodes: [] }) {
+              //if succesfully created
+              if (data?.createWorkoutPlanExercise?.workoutPlanExercise) {
+                const newWorkoutPlanExercise = cache.writeFragment({
+                  data: data.createWorkoutPlanExercise.workoutPlanExercise,
+                  fragment: WorkoutPlanExerciseFragmentDoc,
+                });
+                //insert into the end of the plan
+                return { nodes: [...existingWorkoutPlanExercises.nodes, newWorkoutPlanExercise] };
+              }
+            },
           },
-        },
-      });
+        });
+      }
     },
     onCompleted: () => {
       navigation.goBack();
@@ -53,21 +57,27 @@ const ExerciseSearch: React.FC<Props> = ({ navigation, route }) => {
           <List.Item
             title={exercise.name}
             key={exercise.id}
-            disabled={!orderingData}
+            disabled={!route.params.workoutPlanDayData.workoutPlanDay}
             right={() => (
               <Button
                 icon="plus-thick"
                 onPress={() => {
-                  if (orderingData?.workoutPlanDay) {
-                    //first get all orderings
-                    const listOfOrderings = orderingData.workoutPlanDay.workoutPlanExercises.nodes.map((exercise) => exercise.ordering);
+                  //first get all orderings
+                  const listOfOrderings = route.params.workoutPlanDayData!.workoutPlanDay!.workoutPlanExercises.nodes.map(
+                    (exercise) => exercise.ordering
+                  );
 
-                    //if no exercises, insert ordering 0, else add to the end of the list
-                    const ordering = listOfOrderings.length ? Math.max(...listOfOrderings) + 1 : 0;
-                    insertExerciseInPlan({
-                      variables: { reps: 5, sets: 5, ordering, exerciseId: exercise.id, workoutPlanDayId: route.params.dayId },
-                    });
-                  }
+                  //if no exercises, insert ordering 0, else add to the end of the list
+                  const ordering = listOfOrderings.length ? Math.max(...listOfOrderings) + 1 : 0;
+                  insertExerciseInPlan({
+                    variables: {
+                      reps: 5,
+                      sets: 5,
+                      ordering,
+                      exerciseId: exercise.id,
+                      workoutPlanDayId: route.params.workoutPlanDayData.workoutPlanDay!.id,
+                    },
+                  });
                 }}
               >
                 Add

@@ -6,13 +6,7 @@ const visibleSection = makeVar("UserTab");
 var cache;
 
 (async () => {
-  cache = new InMemoryCache({
-    typePolicies: {
-      userCurrentWorkoutPlan: {
-        keyFields: ['userId']
-      }
-    }
-  });
+  cache = new InMemoryCache();
   // await before instantiating ApolloClient, else queries might run before the cache is persisted
   await persistCache({
     cache,

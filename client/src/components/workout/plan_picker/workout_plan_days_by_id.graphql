@@ -5,6 +5,7 @@ query WorkoutPlanById($id: Int!){
         name
         id
         workoutPlanExercises{
+
           totalCount
         }
       }

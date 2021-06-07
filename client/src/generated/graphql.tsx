@@ -591,43 +591,6 @@ export type CreateSessionAnalyticPayloadSessionAnalyticEdgeArgs = {
   orderBy?: Maybe<Array<SessionAnalyticsOrderBy>>;
 };
 
-/** All input for the create `UserCurrentWorkoutPlan` mutation. */
-export type CreateUserCurrentWorkoutPlanInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `UserCurrentWorkoutPlan` to be created by this mutation. */
-  userCurrentWorkoutPlan: UserCurrentWorkoutPlanInput;
-};
-
-/** The output of our create `UserCurrentWorkoutPlan` mutation. */
-export type CreateUserCurrentWorkoutPlanPayload = {
-  __typename?: 'CreateUserCurrentWorkoutPlanPayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `UserCurrentWorkoutPlan` that was created by this mutation. */
-  userCurrentWorkoutPlan?: Maybe<UserCurrentWorkoutPlan>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `User` that is related to this `UserCurrentWorkoutPlan`. */
-  user: User;
-  /** Reads a single `WorkoutPlan` that is related to this `UserCurrentWorkoutPlan`. */
-  workoutPlan: WorkoutPlan;
-  /** An edge for our `UserCurrentWorkoutPlan`. May be used by Relay 1. */
-  userCurrentWorkoutPlanEdge?: Maybe<UserCurrentWorkoutPlansEdge>;
-};
-
-
-/** The output of our create `UserCurrentWorkoutPlan` mutation. */
-export type CreateUserCurrentWorkoutPlanPayloadUserCurrentWorkoutPlanEdgeArgs = {
-  orderBy?: Maybe<Array<UserCurrentWorkoutPlansOrderBy>>;
-};
-
 /** All input for the create `UserExercise` mutation. */
 export type CreateUserExerciseInput = {
   /**
@@ -1174,54 +1137,6 @@ export type DeleteUserByUsernameInput = {
   username: Scalars['String'];
 };
 
-/** All input for the `deleteUserCurrentWorkoutPlanByNodeId` mutation. */
-export type DeleteUserCurrentWorkoutPlanByNodeIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `UserCurrentWorkoutPlan` to be deleted. */
-  nodeId: Scalars['ID'];
-};
-
-/** All input for the `deleteUserCurrentWorkoutPlan` mutation. */
-export type DeleteUserCurrentWorkoutPlanInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  userId: Scalars['Int'];
-};
-
-/** The output of our delete `UserCurrentWorkoutPlan` mutation. */
-export type DeleteUserCurrentWorkoutPlanPayload = {
-  __typename?: 'DeleteUserCurrentWorkoutPlanPayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `UserCurrentWorkoutPlan` that was deleted by this mutation. */
-  userCurrentWorkoutPlan?: Maybe<UserCurrentWorkoutPlan>;
-  deletedUserCurrentWorkoutPlanNodeId?: Maybe<Scalars['ID']>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `User` that is related to this `UserCurrentWorkoutPlan`. */
-  user: User;
-  /** Reads a single `WorkoutPlan` that is related to this `UserCurrentWorkoutPlan`. */
-  workoutPlan: WorkoutPlan;
-  /** An edge for our `UserCurrentWorkoutPlan`. May be used by Relay 1. */
-  userCurrentWorkoutPlanEdge?: Maybe<UserCurrentWorkoutPlansEdge>;
-};
-
-
-/** The output of our delete `UserCurrentWorkoutPlan` mutation. */
-export type DeleteUserCurrentWorkoutPlanPayloadUserCurrentWorkoutPlanEdgeArgs = {
-  orderBy?: Maybe<Array<UserCurrentWorkoutPlansOrderBy>>;
-};
-
 /** All input for the `deleteUserExerciseByNodeId` mutation. */
 export type DeleteUserExerciseByNodeIdInput = {
   /**
@@ -1296,6 +1211,8 @@ export type DeleteUserPayload = {
   query?: Maybe<Query>;
   /** Reads a single `Group` that is related to this `User`. */
   groupByGroupname?: Maybe<Group>;
+  /** Reads a single `WorkoutPlan` that is related to this `User`. */
+  currentWorkoutPlan?: Maybe<WorkoutPlan>;
   /** An edge for our `User`. May be used by Relay 1. */
   userEdge?: Maybe<UsersEdge>;
 };
@@ -1962,8 +1879,6 @@ export type Mutation = {
   createGroup?: Maybe<CreateGroupPayload>;
   /** Creates a single `SessionAnalytic`. */
   createSessionAnalytic?: Maybe<CreateSessionAnalyticPayload>;
-  /** Creates a single `UserCurrentWorkoutPlan`. */
-  createUserCurrentWorkoutPlan?: Maybe<CreateUserCurrentWorkoutPlanPayload>;
   /** Creates a single `UserExercise`. */
   createUserExercise?: Maybe<CreateUserExercisePayload>;
   /** Creates a single `Volume`. */
@@ -2004,10 +1919,6 @@ export type Mutation = {
   updateUserByUsername?: Maybe<UpdateUserPayload>;
   /** Updates a single `User` using a unique key and a patch. */
   updateUser?: Maybe<UpdateUserPayload>;
-  /** Updates a single `UserCurrentWorkoutPlan` using its globally unique id and a patch. */
-  updateUserCurrentWorkoutPlanByNodeId?: Maybe<UpdateUserCurrentWorkoutPlanPayload>;
-  /** Updates a single `UserCurrentWorkoutPlan` using a unique key and a patch. */
-  updateUserCurrentWorkoutPlan?: Maybe<UpdateUserCurrentWorkoutPlanPayload>;
   /** Updates a single `UserExercise` using its globally unique id and a patch. */
   updateUserExerciseByNodeId?: Maybe<UpdateUserExercisePayload>;
   /** Updates a single `UserExercise` using a unique key and a patch. */
@@ -2064,10 +1975,6 @@ export type Mutation = {
   deleteUserByUsername?: Maybe<DeleteUserPayload>;
   /** Deletes a single `User` using a unique key. */
   deleteUser?: Maybe<DeleteUserPayload>;
-  /** Deletes a single `UserCurrentWorkoutPlan` using its globally unique id. */
-  deleteUserCurrentWorkoutPlanByNodeId?: Maybe<DeleteUserCurrentWorkoutPlanPayload>;
-  /** Deletes a single `UserCurrentWorkoutPlan` using a unique key. */
-  deleteUserCurrentWorkoutPlan?: Maybe<DeleteUserCurrentWorkoutPlanPayload>;
   /** Deletes a single `UserExercise` using its globally unique id. */
   deleteUserExerciseByNodeId?: Maybe<DeleteUserExercisePayload>;
   /** Deletes a single `UserExercise` using a unique key. */
@@ -2111,8 +2018,6 @@ export type Mutation = {
   upsertSessionAnalytic?: Maybe<UpsertSessionAnalyticPayload>;
   /** Upserts a single `User`. */
   upsertUser?: Maybe<UpsertUserPayload>;
-  /** Upserts a single `UserCurrentWorkoutPlan`. */
-  upsertUserCurrentWorkoutPlan?: Maybe<UpsertUserCurrentWorkoutPlanPayload>;
   /** Upserts a single `UserExercise`. */
   upsertUserExercise?: Maybe<UpsertUserExercisePayload>;
   /** Upserts a single `Volume`. */
@@ -2165,12 +2070,6 @@ export type MutationCreateGroupArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateSessionAnalyticArgs = {
   input: CreateSessionAnalyticInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateUserCurrentWorkoutPlanArgs = {
-  input: CreateUserCurrentWorkoutPlanInput;
 };
 
 
@@ -2291,18 +2190,6 @@ export type MutationUpdateUserByUsernameArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateUserCurrentWorkoutPlanByNodeIdArgs = {
-  input: UpdateUserCurrentWorkoutPlanByNodeIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateUserCurrentWorkoutPlanArgs = {
-  input: UpdateUserCurrentWorkoutPlanInput;
 };
 
 
@@ -2475,18 +2362,6 @@ export type MutationDeleteUserArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteUserCurrentWorkoutPlanByNodeIdArgs = {
-  input: DeleteUserCurrentWorkoutPlanByNodeIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteUserCurrentWorkoutPlanArgs = {
-  input: DeleteUserCurrentWorkoutPlanInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteUserExerciseByNodeIdArgs = {
   input: DeleteUserExerciseByNodeIdInput;
 };
@@ -2631,12 +2506,6 @@ export type MutationUpsertUserArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpsertUserCurrentWorkoutPlanArgs = {
-  input: UpsertUserCurrentWorkoutPlanInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpsertUserExerciseArgs = {
   input: UpsertUserExerciseInput;
 };
@@ -2753,8 +2622,6 @@ export type Query = Node & {
   sessionAnalytics?: Maybe<SessionAnalyticsConnection>;
   /** Reads and enables pagination through a set of `User`. */
   users?: Maybe<UsersConnection>;
-  /** Reads and enables pagination through a set of `UserCurrentWorkoutPlan`. */
-  userCurrentWorkoutPlans?: Maybe<UserCurrentWorkoutPlansConnection>;
   /** Reads and enables pagination through a set of `UserExercise`. */
   userExercises?: Maybe<UserExercisesConnection>;
   /** Reads and enables pagination through a set of `Volume`. */
@@ -2775,7 +2642,6 @@ export type Query = Node & {
   sessionAnalytic?: Maybe<SessionAnalytic>;
   userByUsername?: Maybe<User>;
   user?: Maybe<User>;
-  userCurrentWorkoutPlan?: Maybe<UserCurrentWorkoutPlan>;
   userExercise?: Maybe<UserExercise>;
   workoutPlan?: Maybe<WorkoutPlan>;
   workoutPlanByUserIdAndName?: Maybe<WorkoutPlan>;
@@ -2803,8 +2669,6 @@ export type Query = Node & {
   sessionAnalyticByNodeId?: Maybe<SessionAnalytic>;
   /** Reads a single `User` using its globally unique `ID`. */
   userByNodeId?: Maybe<User>;
-  /** Reads a single `UserCurrentWorkoutPlan` using its globally unique `ID`. */
-  userCurrentWorkoutPlanByNodeId?: Maybe<UserCurrentWorkoutPlan>;
   /** Reads a single `UserExercise` using its globally unique `ID`. */
   userExerciseByNodeId?: Maybe<UserExercise>;
   /** Reads a single `WorkoutPlan` using its globally unique `ID`. */
@@ -2941,19 +2805,6 @@ export type QueryUsersArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryUserCurrentWorkoutPlansArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<UserCurrentWorkoutPlansOrderBy>>;
-  condition?: Maybe<UserCurrentWorkoutPlanCondition>;
-  filter?: Maybe<UserCurrentWorkoutPlanFilter>;
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryUserExercisesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -3078,12 +2929,6 @@ export type QueryUserArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryUserCurrentWorkoutPlanArgs = {
-  userId: Scalars['Int'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryUserExerciseArgs = {
   id: Scalars['Int'];
   username: Scalars['String'];
@@ -3179,12 +3024,6 @@ export type QuerySessionAnalyticByNodeIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryUserByNodeIdArgs = {
-  nodeId: Scalars['ID'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryUserCurrentWorkoutPlanByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
@@ -3743,57 +3582,6 @@ export type UpdateUserByUsernameInput = {
   username: Scalars['String'];
 };
 
-/** All input for the `updateUserCurrentWorkoutPlanByNodeId` mutation. */
-export type UpdateUserCurrentWorkoutPlanByNodeIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `UserCurrentWorkoutPlan` to be updated. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `UserCurrentWorkoutPlan` being updated. */
-  patch: UserCurrentWorkoutPlanPatch;
-};
-
-/** All input for the `updateUserCurrentWorkoutPlan` mutation. */
-export type UpdateUserCurrentWorkoutPlanInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** An object where the defined keys will be set on the `UserCurrentWorkoutPlan` being updated. */
-  patch: UserCurrentWorkoutPlanPatch;
-  userId: Scalars['Int'];
-};
-
-/** The output of our update `UserCurrentWorkoutPlan` mutation. */
-export type UpdateUserCurrentWorkoutPlanPayload = {
-  __typename?: 'UpdateUserCurrentWorkoutPlanPayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `UserCurrentWorkoutPlan` that was updated by this mutation. */
-  userCurrentWorkoutPlan?: Maybe<UserCurrentWorkoutPlan>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `User` that is related to this `UserCurrentWorkoutPlan`. */
-  user: User;
-  /** Reads a single `WorkoutPlan` that is related to this `UserCurrentWorkoutPlan`. */
-  workoutPlan: WorkoutPlan;
-  /** An edge for our `UserCurrentWorkoutPlan`. May be used by Relay 1. */
-  userCurrentWorkoutPlanEdge?: Maybe<UserCurrentWorkoutPlansEdge>;
-};
-
-
-/** The output of our update `UserCurrentWorkoutPlan` mutation. */
-export type UpdateUserCurrentWorkoutPlanPayloadUserCurrentWorkoutPlanEdgeArgs = {
-  orderBy?: Maybe<Array<UserCurrentWorkoutPlansOrderBy>>;
-};
-
 /** All input for the `updateUserExerciseByNodeId` mutation. */
 export type UpdateUserExerciseByNodeIdInput = {
   /**
@@ -3872,6 +3660,8 @@ export type UpdateUserPayload = {
   query?: Maybe<Query>;
   /** Reads a single `Group` that is related to this `User`. */
   groupByGroupname?: Maybe<Group>;
+  /** Reads a single `WorkoutPlan` that is related to this `User`. */
+  currentWorkoutPlan?: Maybe<WorkoutPlan>;
   /** An edge for our `User`. May be used by Relay 1. */
   userEdge?: Maybe<UsersEdge>;
 };
@@ -4273,37 +4063,6 @@ export type UpsertSessionAnalyticPayloadSessionAnalyticEdgeArgs = {
   orderBy?: Maybe<Array<SessionAnalyticsOrderBy>>;
 };
 
-/** All input for the upsert `UserCurrentWorkoutPlan` mutation. */
-export type UpsertUserCurrentWorkoutPlanInput = {
-  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `UserCurrentWorkoutPlan` to be upserted by this mutation. */
-  userCurrentWorkoutPlan: UserCurrentWorkoutPlanInput;
-};
-
-/** The output of our upsert `UserCurrentWorkoutPlan` mutation. */
-export type UpsertUserCurrentWorkoutPlanPayload = {
-  __typename?: 'UpsertUserCurrentWorkoutPlanPayload';
-  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `UserCurrentWorkoutPlan` that was upserted by this mutation. */
-  userCurrentWorkoutPlan?: Maybe<UserCurrentWorkoutPlan>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `User` that is related to this `UserCurrentWorkoutPlan`. */
-  user: User;
-  /** Reads a single `WorkoutPlan` that is related to this `UserCurrentWorkoutPlan`. */
-  workoutPlan: WorkoutPlan;
-  /** An edge for our `UserCurrentWorkoutPlan`. May be used by Relay 1. */
-  userCurrentWorkoutPlanEdge?: Maybe<UserCurrentWorkoutPlansEdge>;
-};
-
-
-/** The output of our upsert `UserCurrentWorkoutPlan` mutation. */
-export type UpsertUserCurrentWorkoutPlanPayloadUserCurrentWorkoutPlanEdgeArgs = {
-  orderBy?: Maybe<Array<UserCurrentWorkoutPlansOrderBy>>;
-};
-
 /** All input for the upsert `UserExercise` mutation. */
 export type UpsertUserExerciseInput = {
   /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
@@ -4354,6 +4113,8 @@ export type UpsertUserPayload = {
   query?: Maybe<Query>;
   /** Reads a single `Group` that is related to this `User`. */
   groupByGroupname?: Maybe<Group>;
+  /** Reads a single `WorkoutPlan` that is related to this `User`. */
+  currentWorkoutPlan?: Maybe<WorkoutPlan>;
   /** An edge for our `User`. May be used by Relay 1. */
   userEdge?: Maybe<UsersEdge>;
 };
@@ -4489,16 +4250,17 @@ export type User = Node & {
   createdAt: Scalars['Datetime'];
   updatedAt: Scalars['Datetime'];
   id: Scalars['Int'];
+  currentWorkoutPlanId?: Maybe<Scalars['Int']>;
   /** Reads a single `Group` that is related to this `User`. */
   groupByGroupname?: Maybe<Group>;
+  /** Reads a single `WorkoutPlan` that is related to this `User`. */
+  currentWorkoutPlan?: Maybe<WorkoutPlan>;
   /** Reads a single `Bodystat` that is related to this `User`. */
   bodystat?: Maybe<Bodystat>;
   /** Reads and enables pagination through a set of `UserExercise`. */
   userExercises: UserExercisesConnection;
   /** Reads and enables pagination through a set of `SessionAnalytic`. */
   sessionAnalytics: SessionAnalyticsConnection;
-  /** Reads a single `UserCurrentWorkoutPlan` that is related to this `User`. */
-  userCurrentWorkoutPlan?: Maybe<UserCurrentWorkoutPlan>;
   /** Reads and enables pagination through a set of `WorkoutPlan`. */
   workoutPlans: WorkoutPlansConnection;
 };
@@ -4547,89 +4309,9 @@ export type UserCondition = {
   groupname?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `id` field. */
   id?: Maybe<Scalars['Int']>;
+  /** Checks for equality with the object’s `currentWorkoutPlanId` field. */
+  currentWorkoutPlanId?: Maybe<Scalars['Int']>;
 };
-
-export type UserCurrentWorkoutPlan = Node & {
-  __typename?: 'UserCurrentWorkoutPlan';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  userId: Scalars['Int'];
-  workoutPlanId: Scalars['Int'];
-  /** Reads a single `User` that is related to this `UserCurrentWorkoutPlan`. */
-  user: User;
-  /** Reads a single `WorkoutPlan` that is related to this `UserCurrentWorkoutPlan`. */
-  workoutPlan: WorkoutPlan;
-};
-
-/**
- * A condition to be used against `UserCurrentWorkoutPlan` object types. All fields
- * are tested for equality and combined with a logical ‘and.’
- */
-export type UserCurrentWorkoutPlanCondition = {
-  /** Checks for equality with the object’s `userId` field. */
-  userId?: Maybe<Scalars['Int']>;
-  /** Checks for equality with the object’s `workoutPlanId` field. */
-  workoutPlanId?: Maybe<Scalars['Int']>;
-};
-
-/** A filter to be used against `UserCurrentWorkoutPlan` object types. All fields are combined with a logical ‘and.’ */
-export type UserCurrentWorkoutPlanFilter = {
-  /** Filter by the object’s `userId` field. */
-  userId?: Maybe<IntFilter>;
-  /** Filter by the object’s `workoutPlanId` field. */
-  workoutPlanId?: Maybe<IntFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<UserCurrentWorkoutPlanFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<UserCurrentWorkoutPlanFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<UserCurrentWorkoutPlanFilter>;
-};
-
-/** An input for mutations affecting `UserCurrentWorkoutPlan` */
-export type UserCurrentWorkoutPlanInput = {
-  userId: Scalars['Int'];
-  workoutPlanId: Scalars['Int'];
-};
-
-/** Represents an update to a `UserCurrentWorkoutPlan`. Fields that are set will be updated. */
-export type UserCurrentWorkoutPlanPatch = {
-  userId?: Maybe<Scalars['Int']>;
-  workoutPlanId?: Maybe<Scalars['Int']>;
-};
-
-/** A connection to a list of `UserCurrentWorkoutPlan` values. */
-export type UserCurrentWorkoutPlansConnection = {
-  __typename?: 'UserCurrentWorkoutPlansConnection';
-  /** A list of `UserCurrentWorkoutPlan` objects. */
-  nodes: Array<UserCurrentWorkoutPlan>;
-  /** A list of edges which contains the `UserCurrentWorkoutPlan` and cursor to aid in pagination. */
-  edges: Array<UserCurrentWorkoutPlansEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `UserCurrentWorkoutPlan` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `UserCurrentWorkoutPlan` edge in the connection. */
-export type UserCurrentWorkoutPlansEdge = {
-  __typename?: 'UserCurrentWorkoutPlansEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `UserCurrentWorkoutPlan` at the end of the edge. */
-  node: UserCurrentWorkoutPlan;
-};
-
-/** Methods to use when ordering `UserCurrentWorkoutPlan`. */
-export enum UserCurrentWorkoutPlansOrderBy {
-  Natural = 'NATURAL',
-  UserIdAsc = 'USER_ID_ASC',
-  UserIdDesc = 'USER_ID_DESC',
-  WorkoutPlanIdAsc = 'WORKOUT_PLAN_ID_ASC',
-  WorkoutPlanIdDesc = 'WORKOUT_PLAN_ID_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
-}
 
 export type UserExercise = Node & {
   __typename?: 'UserExercise';
@@ -4753,6 +4435,8 @@ export type UserFilter = {
   groupname?: Maybe<StringFilter>;
   /** Filter by the object’s `id` field. */
   id?: Maybe<IntFilter>;
+  /** Filter by the object’s `currentWorkoutPlanId` field. */
+  currentWorkoutPlanId?: Maybe<IntFilter>;
   /** Checks for all expressions in this list. */
   and?: Maybe<Array<UserFilter>>;
   /** Checks for any expressions in this list. */
@@ -4766,6 +4450,7 @@ export type UserInput = {
   username: Scalars['String'];
   groupname?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
+  currentWorkoutPlanId?: Maybe<Scalars['Int']>;
 };
 
 /** Represents an update to a `User`. Fields that are set will be updated. */
@@ -4774,6 +4459,7 @@ export type UserPatch = {
   createdAt?: Maybe<Scalars['Datetime']>;
   updatedAt?: Maybe<Scalars['Datetime']>;
   id?: Maybe<Scalars['Int']>;
+  currentWorkoutPlanId?: Maybe<Scalars['Int']>;
 };
 
 /** A connection to a list of `User` values. */
@@ -4807,6 +4493,8 @@ export enum UsersOrderBy {
   GroupnameDesc = 'GROUPNAME_DESC',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
+  CurrentWorkoutPlanIdAsc = 'CURRENT_WORKOUT_PLAN_ID_ASC',
+  CurrentWorkoutPlanIdDesc = 'CURRENT_WORKOUT_PLAN_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
@@ -4860,10 +4548,22 @@ export type WorkoutPlan = Node & {
   name: Scalars['String'];
   /** Reads a single `User` that is related to this `WorkoutPlan`. */
   user?: Maybe<User>;
+  /** Reads and enables pagination through a set of `User`. */
+  usersByCurrentWorkoutPlanId: UsersConnection;
   /** Reads and enables pagination through a set of `WorkoutPlanDay`. */
   workoutPlanDays: WorkoutPlanDaysConnection;
-  /** Reads and enables pagination through a set of `UserCurrentWorkoutPlan`. */
-  userCurrentWorkoutPlans: UserCurrentWorkoutPlansConnection;
+};
+
+
+export type WorkoutPlanUsersByCurrentWorkoutPlanIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<UsersOrderBy>>;
+  condition?: Maybe<UserCondition>;
+  filter?: Maybe<UserFilter>;
 };
 
 
@@ -4876,18 +4576,6 @@ export type WorkoutPlanWorkoutPlanDaysArgs = {
   orderBy?: Maybe<Array<WorkoutPlanDaysOrderBy>>;
   condition?: Maybe<WorkoutPlanDayCondition>;
   filter?: Maybe<WorkoutPlanDayFilter>;
-};
-
-
-export type WorkoutPlanUserCurrentWorkoutPlansArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<UserCurrentWorkoutPlansOrderBy>>;
-  condition?: Maybe<UserCurrentWorkoutPlanCondition>;
-  filter?: Maybe<UserCurrentWorkoutPlanFilter>;
 };
 
 /**
@@ -5265,42 +4953,6 @@ export type MnUpdateCompletedWorkoutExercisePayloadCompletedWorkoutExerciseEdgeA
   orderBy?: Maybe<Array<CompletedWorkoutExercisesOrderBy>>;
 };
 
-export type DeleteCurrentWorkoutPlanMutationVariables = Exact<{
-  userId: Scalars['Int'];
-}>;
-
-
-export type DeleteCurrentWorkoutPlanMutation = (
-  { __typename?: 'Mutation' }
-  & { deleteUserCurrentWorkoutPlan?: Maybe<(
-    { __typename?: 'DeleteUserCurrentWorkoutPlanPayload' }
-    & { userCurrentWorkoutPlan?: Maybe<(
-      { __typename?: 'UserCurrentWorkoutPlan' }
-      & UserCurrentWorkoutPlanFragment
-    )> }
-  )> }
-);
-
-export type ExerciseOrderingsByWorkoutPlanIdQueryVariables = Exact<{
-  id: Scalars['Int'];
-}>;
-
-
-export type ExerciseOrderingsByWorkoutPlanIdQuery = (
-  { __typename?: 'Query' }
-  & { workoutPlanDay?: Maybe<(
-    { __typename?: 'WorkoutPlanDay' }
-    & Pick<WorkoutPlanDay, 'name' | 'id'>
-    & { workoutPlanExercises: (
-      { __typename?: 'WorkoutPlanExercisesConnection' }
-      & { nodes: Array<(
-        { __typename?: 'WorkoutPlanExercise' }
-        & WorkoutPlanExerciseFragment
-      )> }
-    ) }
-  )> }
-);
-
 export type InsertExerciseInPlanMutationVariables = Exact<{
   sets: Scalars['Int'];
   reps: Scalars['Int'];
@@ -5317,6 +4969,23 @@ export type InsertExerciseInPlanMutation = (
     & { workoutPlanExercise?: Maybe<(
       { __typename?: 'WorkoutPlanExercise' }
       & WorkoutPlanExerciseFragment
+    )> }
+  )> }
+);
+
+export type UpdateWorkoutPlanExerciseSetsMutationVariables = Exact<{
+  id: Scalars['Int'];
+  sets: Scalars['Int'];
+}>;
+
+
+export type UpdateWorkoutPlanExerciseSetsMutation = (
+  { __typename?: 'Mutation' }
+  & { updateWorkoutPlanExercise?: Maybe<(
+    { __typename?: 'UpdateWorkoutPlanExercisePayload' }
+    & { workoutPlanExercise?: Maybe<(
+      { __typename?: 'WorkoutPlanExercise' }
+      & Pick<WorkoutPlanExercise, 'id' | 'sets'>
     )> }
   )> }
 );
@@ -5373,30 +5042,21 @@ export type WorkoutPlanByIdQuery = (
   )> }
 );
 
-export type UpsertCurrentWorkoutPlanMutationVariables = Exact<{
+export type UpdateUserCurrentWorkoutPlanMutationVariables = Exact<{
   userId: Scalars['Int'];
-  workoutPlanId: Scalars['Int'];
+  currentWorkoutPlanId?: Maybe<Scalars['Int']>;
 }>;
 
 
-export type UpsertCurrentWorkoutPlanMutation = (
+export type UpdateUserCurrentWorkoutPlanMutation = (
   { __typename?: 'Mutation' }
-  & { upsertUserCurrentWorkoutPlan?: Maybe<(
-    { __typename?: 'UpsertUserCurrentWorkoutPlanPayload' }
-    & { userCurrentWorkoutPlan?: Maybe<(
-      { __typename?: 'UserCurrentWorkoutPlan' }
-      & UserCurrentWorkoutPlanFragment
+  & { updateUser?: Maybe<(
+    { __typename?: 'UpdateUserPayload' }
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'currentWorkoutPlanId'>
     )> }
   )> }
-);
-
-export type UserCurrentWorkoutPlanFragment = (
-  { __typename?: 'UserCurrentWorkoutPlan' }
-  & Pick<UserCurrentWorkoutPlan, 'userId'>
-  & { workoutPlan: (
-    { __typename?: 'WorkoutPlan' }
-    & WorkoutPlanFragment
-  ) }
 );
 
 export type WorkoutPlanFragment = (
@@ -5411,11 +5071,8 @@ export type WorkoutQuery = (
   { __typename?: 'Query' }
   & { activeUser?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id'>
-    & { userCurrentWorkoutPlan?: Maybe<(
-      { __typename?: 'UserCurrentWorkoutPlan' }
-      & UserCurrentWorkoutPlanFragment
-    )>, workoutPlans: (
+    & Pick<User, 'id' | 'currentWorkoutPlanId'>
+    & { workoutPlans: (
       { __typename?: 'WorkoutPlansConnection' }
       & { nodes: Array<(
         { __typename?: 'WorkoutPlan' }
@@ -5521,14 +5178,6 @@ export const WorkoutPlanFragmentDoc = gql`
   id
 }
     `;
-export const UserCurrentWorkoutPlanFragmentDoc = gql`
-    fragment UserCurrentWorkoutPlan on UserCurrentWorkoutPlan {
-  userId
-  workoutPlan {
-    ...WorkoutPlan
-  }
-}
-    ${WorkoutPlanFragmentDoc}`;
 export const BodystatFragmentDoc = gql`
     fragment Bodystat on Bodystat {
   ismale
@@ -5544,82 +5193,6 @@ export const ExerciseFragmentDoc = gql`
   eliteStrengthBaseline
 }
     `;
-export const DeleteCurrentWorkoutPlanDocument = gql`
-    mutation DeleteCurrentWorkoutPlan($userId: Int!) {
-  deleteUserCurrentWorkoutPlan(input: {userId: $userId}) {
-    userCurrentWorkoutPlan {
-      ...UserCurrentWorkoutPlan
-    }
-  }
-}
-    ${UserCurrentWorkoutPlanFragmentDoc}`;
-export type DeleteCurrentWorkoutPlanMutationFn = Apollo.MutationFunction<DeleteCurrentWorkoutPlanMutation, DeleteCurrentWorkoutPlanMutationVariables>;
-
-/**
- * __useDeleteCurrentWorkoutPlanMutation__
- *
- * To run a mutation, you first call `useDeleteCurrentWorkoutPlanMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteCurrentWorkoutPlanMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteCurrentWorkoutPlanMutation, { data, loading, error }] = useDeleteCurrentWorkoutPlanMutation({
- *   variables: {
- *      userId: // value for 'userId'
- *   },
- * });
- */
-export function useDeleteCurrentWorkoutPlanMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCurrentWorkoutPlanMutation, DeleteCurrentWorkoutPlanMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteCurrentWorkoutPlanMutation, DeleteCurrentWorkoutPlanMutationVariables>(DeleteCurrentWorkoutPlanDocument, options);
-      }
-export type DeleteCurrentWorkoutPlanMutationHookResult = ReturnType<typeof useDeleteCurrentWorkoutPlanMutation>;
-export type DeleteCurrentWorkoutPlanMutationResult = Apollo.MutationResult<DeleteCurrentWorkoutPlanMutation>;
-export type DeleteCurrentWorkoutPlanMutationOptions = Apollo.BaseMutationOptions<DeleteCurrentWorkoutPlanMutation, DeleteCurrentWorkoutPlanMutationVariables>;
-export const ExerciseOrderingsByWorkoutPlanIdDocument = gql`
-    query exerciseOrderingsByWorkoutPlanId($id: Int!) {
-  workoutPlanDay(id: $id) {
-    name
-    id
-    workoutPlanExercises(orderBy: ORDERING_ASC) {
-      nodes {
-        ...WorkoutPlanExercise
-      }
-    }
-  }
-}
-    ${WorkoutPlanExerciseFragmentDoc}`;
-
-/**
- * __useExerciseOrderingsByWorkoutPlanIdQuery__
- *
- * To run a query within a React component, call `useExerciseOrderingsByWorkoutPlanIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useExerciseOrderingsByWorkoutPlanIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useExerciseOrderingsByWorkoutPlanIdQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useExerciseOrderingsByWorkoutPlanIdQuery(baseOptions: Apollo.QueryHookOptions<ExerciseOrderingsByWorkoutPlanIdQuery, ExerciseOrderingsByWorkoutPlanIdQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ExerciseOrderingsByWorkoutPlanIdQuery, ExerciseOrderingsByWorkoutPlanIdQueryVariables>(ExerciseOrderingsByWorkoutPlanIdDocument, options);
-      }
-export function useExerciseOrderingsByWorkoutPlanIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ExerciseOrderingsByWorkoutPlanIdQuery, ExerciseOrderingsByWorkoutPlanIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ExerciseOrderingsByWorkoutPlanIdQuery, ExerciseOrderingsByWorkoutPlanIdQueryVariables>(ExerciseOrderingsByWorkoutPlanIdDocument, options);
-        }
-export type ExerciseOrderingsByWorkoutPlanIdQueryHookResult = ReturnType<typeof useExerciseOrderingsByWorkoutPlanIdQuery>;
-export type ExerciseOrderingsByWorkoutPlanIdLazyQueryHookResult = ReturnType<typeof useExerciseOrderingsByWorkoutPlanIdLazyQuery>;
-export type ExerciseOrderingsByWorkoutPlanIdQueryResult = Apollo.QueryResult<ExerciseOrderingsByWorkoutPlanIdQuery, ExerciseOrderingsByWorkoutPlanIdQueryVariables>;
 export const InsertExerciseInPlanDocument = gql`
     mutation insertExerciseInPlan($sets: Int!, $reps: Int!, $ordering: Int!, $exerciseId: Int!, $workoutPlanDayId: Int!) {
   createWorkoutPlanExercise(
@@ -5661,6 +5234,43 @@ export function useInsertExerciseInPlanMutation(baseOptions?: Apollo.MutationHoo
 export type InsertExerciseInPlanMutationHookResult = ReturnType<typeof useInsertExerciseInPlanMutation>;
 export type InsertExerciseInPlanMutationResult = Apollo.MutationResult<InsertExerciseInPlanMutation>;
 export type InsertExerciseInPlanMutationOptions = Apollo.BaseMutationOptions<InsertExerciseInPlanMutation, InsertExerciseInPlanMutationVariables>;
+export const UpdateWorkoutPlanExerciseSetsDocument = gql`
+    mutation updateWorkoutPlanExerciseSets($id: Int!, $sets: Int!) {
+  updateWorkoutPlanExercise(input: {id: $id, patch: {sets: $sets}}) {
+    workoutPlanExercise {
+      id
+      sets
+    }
+  }
+}
+    `;
+export type UpdateWorkoutPlanExerciseSetsMutationFn = Apollo.MutationFunction<UpdateWorkoutPlanExerciseSetsMutation, UpdateWorkoutPlanExerciseSetsMutationVariables>;
+
+/**
+ * __useUpdateWorkoutPlanExerciseSetsMutation__
+ *
+ * To run a mutation, you first call `useUpdateWorkoutPlanExerciseSetsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateWorkoutPlanExerciseSetsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateWorkoutPlanExerciseSetsMutation, { data, loading, error }] = useUpdateWorkoutPlanExerciseSetsMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      sets: // value for 'sets'
+ *   },
+ * });
+ */
+export function useUpdateWorkoutPlanExerciseSetsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateWorkoutPlanExerciseSetsMutation, UpdateWorkoutPlanExerciseSetsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateWorkoutPlanExerciseSetsMutation, UpdateWorkoutPlanExerciseSetsMutationVariables>(UpdateWorkoutPlanExerciseSetsDocument, options);
+      }
+export type UpdateWorkoutPlanExerciseSetsMutationHookResult = ReturnType<typeof useUpdateWorkoutPlanExerciseSetsMutation>;
+export type UpdateWorkoutPlanExerciseSetsMutationResult = Apollo.MutationResult<UpdateWorkoutPlanExerciseSetsMutation>;
+export type UpdateWorkoutPlanExerciseSetsMutationOptions = Apollo.BaseMutationOptions<UpdateWorkoutPlanExerciseSetsMutation, UpdateWorkoutPlanExerciseSetsMutationVariables>;
 export const WorkoutPlanDayByIdDocument = gql`
     query WorkoutPlanDayById($id: Int!) {
   workoutPlanDay(id: $id) {
@@ -5744,51 +5354,50 @@ export function useWorkoutPlanByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type WorkoutPlanByIdQueryHookResult = ReturnType<typeof useWorkoutPlanByIdQuery>;
 export type WorkoutPlanByIdLazyQueryHookResult = ReturnType<typeof useWorkoutPlanByIdLazyQuery>;
 export type WorkoutPlanByIdQueryResult = Apollo.QueryResult<WorkoutPlanByIdQuery, WorkoutPlanByIdQueryVariables>;
-export const UpsertCurrentWorkoutPlanDocument = gql`
-    mutation UpsertCurrentWorkoutPlan($userId: Int!, $workoutPlanId: Int!) {
-  upsertUserCurrentWorkoutPlan(
-    input: {userCurrentWorkoutPlan: {userId: $userId, workoutPlanId: $workoutPlanId}}
+export const UpdateUserCurrentWorkoutPlanDocument = gql`
+    mutation updateUserCurrentWorkoutPlan($userId: Int!, $currentWorkoutPlanId: Int) {
+  updateUser(
+    input: {id: $userId, patch: {currentWorkoutPlanId: $currentWorkoutPlanId}}
   ) {
-    userCurrentWorkoutPlan {
-      ...UserCurrentWorkoutPlan
+    user {
+      id
+      currentWorkoutPlanId
     }
   }
 }
-    ${UserCurrentWorkoutPlanFragmentDoc}`;
-export type UpsertCurrentWorkoutPlanMutationFn = Apollo.MutationFunction<UpsertCurrentWorkoutPlanMutation, UpsertCurrentWorkoutPlanMutationVariables>;
+    `;
+export type UpdateUserCurrentWorkoutPlanMutationFn = Apollo.MutationFunction<UpdateUserCurrentWorkoutPlanMutation, UpdateUserCurrentWorkoutPlanMutationVariables>;
 
 /**
- * __useUpsertCurrentWorkoutPlanMutation__
+ * __useUpdateUserCurrentWorkoutPlanMutation__
  *
- * To run a mutation, you first call `useUpsertCurrentWorkoutPlanMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpsertCurrentWorkoutPlanMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateUserCurrentWorkoutPlanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserCurrentWorkoutPlanMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [upsertCurrentWorkoutPlanMutation, { data, loading, error }] = useUpsertCurrentWorkoutPlanMutation({
+ * const [updateUserCurrentWorkoutPlanMutation, { data, loading, error }] = useUpdateUserCurrentWorkoutPlanMutation({
  *   variables: {
  *      userId: // value for 'userId'
- *      workoutPlanId: // value for 'workoutPlanId'
+ *      currentWorkoutPlanId: // value for 'currentWorkoutPlanId'
  *   },
  * });
  */
-export function useUpsertCurrentWorkoutPlanMutation(baseOptions?: Apollo.MutationHookOptions<UpsertCurrentWorkoutPlanMutation, UpsertCurrentWorkoutPlanMutationVariables>) {
+export function useUpdateUserCurrentWorkoutPlanMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserCurrentWorkoutPlanMutation, UpdateUserCurrentWorkoutPlanMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpsertCurrentWorkoutPlanMutation, UpsertCurrentWorkoutPlanMutationVariables>(UpsertCurrentWorkoutPlanDocument, options);
+        return Apollo.useMutation<UpdateUserCurrentWorkoutPlanMutation, UpdateUserCurrentWorkoutPlanMutationVariables>(UpdateUserCurrentWorkoutPlanDocument, options);
       }
-export type UpsertCurrentWorkoutPlanMutationHookResult = ReturnType<typeof useUpsertCurrentWorkoutPlanMutation>;
-export type UpsertCurrentWorkoutPlanMutationResult = Apollo.MutationResult<UpsertCurrentWorkoutPlanMutation>;
-export type UpsertCurrentWorkoutPlanMutationOptions = Apollo.BaseMutationOptions<UpsertCurrentWorkoutPlanMutation, UpsertCurrentWorkoutPlanMutationVariables>;
+export type UpdateUserCurrentWorkoutPlanMutationHookResult = ReturnType<typeof useUpdateUserCurrentWorkoutPlanMutation>;
+export type UpdateUserCurrentWorkoutPlanMutationResult = Apollo.MutationResult<UpdateUserCurrentWorkoutPlanMutation>;
+export type UpdateUserCurrentWorkoutPlanMutationOptions = Apollo.BaseMutationOptions<UpdateUserCurrentWorkoutPlanMutation, UpdateUserCurrentWorkoutPlanMutationVariables>;
 export const WorkoutDocument = gql`
     query Workout {
   activeUser {
     id
-    userCurrentWorkoutPlan {
-      ...UserCurrentWorkoutPlan
-    }
+    currentWorkoutPlanId
     workoutPlans {
       nodes {
         ...WorkoutPlan
@@ -5796,8 +5405,7 @@ export const WorkoutDocument = gql`
     }
   }
 }
-    ${UserCurrentWorkoutPlanFragmentDoc}
-${WorkoutPlanFragmentDoc}`;
+    ${WorkoutPlanFragmentDoc}`;
 
 /**
  * __useWorkoutQuery__

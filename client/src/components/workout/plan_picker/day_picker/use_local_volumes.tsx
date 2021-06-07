@@ -26,21 +26,30 @@ const useLocalVolumes = (workoutPlanDayData: WorkoutPlanDayByIdQuery | undefined
 
   useEffect(() => {
     if (workoutPlanDayData?.workoutPlanDay) {
-      //either copy or initialize 
-      const newExerciseSetVolumes: ExerciseSetVolumes = exerciseSetVolumes ? {...exerciseSetVolumes} : {};
+      //either copy or initialize
+      const newExerciseSetVolumes: ExerciseSetVolumes = exerciseSetVolumes ? { ...exerciseSetVolumes } : {};
       workoutPlanDayData?.workoutPlanDay.workoutPlanExercises.nodes.forEach((workoutPlanExercise) => {
-        //cache miss
-        if (!newExerciseSetVolumes[workoutPlanExercise.id]){
+        if (!newExerciseSetVolumes[workoutPlanExercise.id]) {
           //initialize with empty sets and reps
           newExerciseSetVolumes[workoutPlanExercise.id] = {
             exerciseId: workoutPlanExercise.exercise!.id,
             volumes: new Array(workoutPlanExercise.sets).fill({ weight: undefined, reps: undefined }),
           };
         }
+        //rendering fewer sets than the server has
+        else if (newExerciseSetVolumes[workoutPlanExercise.id].volumes.length < workoutPlanExercise.sets) {
+          do {
+            newExerciseSetVolumes[workoutPlanExercise.id].volumes.push({ weight: undefined, reps: undefined });
+          } while (newExerciseSetVolumes[workoutPlanExercise.id].volumes.length < workoutPlanExercise.sets);
+        }
+        //rendering more sets than the server has
+        else if (newExerciseSetVolumes[workoutPlanExercise.id].volumes.length > workoutPlanExercise.sets) {
+          newExerciseSetVolumes[workoutPlanExercise.id].volumes.splice(workoutPlanExercise.sets);
+        }
       });
       setExerciseSetVolumes(newExerciseSetVolumes);
     }
   }, [workoutPlanDayData]);
-  return {exerciseSetVolumes, updateVolumes}
+  return { exerciseSetVolumes, updateVolumes };
 };
 export default useLocalVolumes;

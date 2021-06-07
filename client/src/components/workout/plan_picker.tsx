@@ -1,5 +1,5 @@
 import React from "react";
-import { useWorkoutQuery, useUpsertCurrentWorkoutPlanMutation, useDeleteCurrentWorkoutPlanMutation } from "../../generated/graphql";
+import { useWorkoutQuery, useUpdateUserCurrentWorkoutPlanMutation } from "../../generated/graphql";
 import { ActivityIndicator, Checkbox, Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { List } from "react-native-paper";
@@ -8,11 +8,8 @@ import { View, Text } from "react-native";
 const WorkoutPlanPicker: React.FC = () => {
   const navigation = useNavigation();
   const { data } = useWorkoutQuery();
-  const [upsertCurrentWorkoutPlan] = useUpsertCurrentWorkoutPlanMutation({
-    update(cache, { data }) {},
-  });
-  const [deleteCurrentWorkoutPlanMutation] = useDeleteCurrentWorkoutPlanMutation();
 
+  const [updateUserCurrentWorkoutPlan] = useUpdateUserCurrentWorkoutPlanMutation();
   if (!data?.activeUser) {
     return <ActivityIndicator />;
   }
@@ -27,18 +24,21 @@ const WorkoutPlanPicker: React.FC = () => {
               <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
                 <Text>Default</Text>
                 <Checkbox
-                  status={plan.id === data.activeUser?.userCurrentWorkoutPlan?.workoutPlan?.id ? "checked" : "unchecked"}
+                  status={plan.id === data.activeUser?.currentWorkoutPlanId ? "checked" : "unchecked"}
                   onPress={() => {
-                    if (data.activeUser) {
-                      if (plan.id === data.activeUser?.userCurrentWorkoutPlan?.workoutPlan.id) {
-                        deleteCurrentWorkoutPlanMutation({
-                          variables: { userId: data.activeUser.id },
-                        });
-                      } else {
-                        upsertCurrentWorkoutPlan({
-                          variables: { userId: data.activeUser.id, workoutPlanId: plan.id },
-                        });
-                      }
+                    if (data.activeUser?.id) {
+                      const currentWorkoutPlanId = plan.id === data.activeUser?.currentWorkoutPlanId ? null : plan.id
+                      const userId = data.activeUser.id
+                      updateUserCurrentWorkoutPlan({ variables: { userId: data.activeUser.id, currentWorkoutPlanId }, optimisticResponse: {
+                        updateUser: {
+                          __typename: "UpdateUserPayload",
+                          user: {
+                            __typename: "User",
+                            id: userId,
+                            currentWorkoutPlanId
+                          }
+                        }
+                      }});
                     }
                   }}
                 />

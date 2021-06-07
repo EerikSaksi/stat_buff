@@ -13,3 +13,16 @@ begin
 end $$;
     
 create index if not exists exercise_name_idx on "exercise"(name);
+
+drop table if exists user_current_workout_plan;
+
+alter TABLE "user" drop COLUMN if exists current_workout_plan_id;
+ALTER TABLE "user" ADD COLUMN current_workout_plan_id integer references "workout_plan"(id) on delete cascade;
+create index if not exists user_workout_plan_idx on "user"(current_workout_plan_id);
+
+ALTER TABLE workout_plan_exercise
+ADD CONSTRAINT non_zero_volume
+CHECK (
+	reps > 0
+    and sets > 0
+);
