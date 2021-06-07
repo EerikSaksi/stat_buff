@@ -1,7 +1,13 @@
 import React, { useState, useLayoutEffect } from "react";
-import { List, Button } from "react-native-paper";
+import { List, Button, Snackbar } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useBodyStatQuery, useWorkoutPlanDayByIdQuery} from "../../../../generated/graphql";
+import {
+  useBodyStatQuery,
+  useWorkoutPlanDayByIdQuery,
+  WorkoutPlanExerciseFragment,
+  useInsertExerciseInPlanMutation,
+  WorkoutPlanExerciseFragmentDoc,
+} from "../../../../generated/graphql";
 import WorkoutExerciseSet from "./exercise_set";
 import WorkoutTimer from "./workout_timer";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -21,6 +27,7 @@ type Props = {
 
 const Day: React.FC<Props> = ({ route, navigation }) => {
   const [expandedId, setExpandedId] = useState(1);
+  const [lastDeletedItem, setLastDeletedItem] = useState<undefined | WorkoutPlanExerciseFragment>();
 
   const { data: workoutPlanDayData } = useWorkoutPlanDayByIdQuery({
     variables: { id: route.params.dayId },
@@ -29,7 +36,6 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
   const { exerciseSetVolumes, updateVolumes } = useLocalVolumes(workoutPlanDayData);
 
   const { data: bodyStatData } = useBodyStatQuery();
-
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -79,11 +85,24 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
                   bodystat={bodyStatData?.activeUser?.bodystat ? bodyStatData.activeUser.bodystat : undefined}
                 />
               ))}
-              <EditExerciseButtons workoutPlanExercise = {workoutPlanExercise}/>
+              <EditExerciseButtons workoutPlanExercise={workoutPlanExercise} setLastDeletedItem={setLastDeletedItem} />
             </List.Accordion>
           ) : undefined
         )}
       </List.AccordionGroup>
+
+      <Snackbar
+        visible={lastDeletedItem !== undefined}
+        action={{
+          label: "Undo",
+          onPress: () => {
+            insertLastDeletedExerciseInPlan();
+          },
+        }}
+        onDismiss={() => setLastDeletedItem(undefined)}
+      >
+        {lastDeletedItem?.exercise.name} ({lastDeletedItem?.sets}x{lastDeletedItem?.reps}) Deleted
+      </Snackbar>
     </SafeAreaView>
   );
 };
