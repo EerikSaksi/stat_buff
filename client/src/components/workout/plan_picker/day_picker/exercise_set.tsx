@@ -2,7 +2,7 @@ import React from "react";
 import { BodystatFragment } from "../../../../generated/graphql";
 import { TextInput, List } from "react-native-paper";
 import useStrengthPredictions from "./use_strength_predictions";
-import {ConditionalVolume} from './day'
+import {ConditionalVolume} from './use_local_volumes'
 
 const WorkoutExerciseSet: React.FC<{
   exerciseId: number;

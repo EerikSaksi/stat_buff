@@ -8,7 +8,6 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "strict": true,
-    "noImplicitAny": false,
-    "baseUrl": "src"
+    "noImplicitAny": false
   }
 }

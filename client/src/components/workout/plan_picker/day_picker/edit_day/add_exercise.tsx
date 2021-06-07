@@ -9,7 +9,6 @@ import {
 import { RootStackParamList } from "components/workout";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
-import { cache } from "../../../../../apollo/cache";
 
 type ExerciseSearchRouteProp = RouteProp<RootStackParamList, "Select Exercise">;
 
