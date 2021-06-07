@@ -24,8 +24,8 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
 
   const { data: workoutPlanDayData } = useWorkoutPlanDayByIdQuery({
     variables: { id: route.params.dayId },
+    //fetchPolicy: 'cache-and-network'
   });
-
   const { exerciseSetVolumes, updateVolumes } = useLocalVolumes(workoutPlanDayData);
 
   const { data: bodyStatData } = useBodyStatQuery();

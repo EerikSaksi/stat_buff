@@ -14,7 +14,7 @@ type Props = {
 };
 
 const WorkoutDayPicker: React.FC<Props> = ({ navigation, route }) => {
-  const { data } = useWorkoutPlanByIdQuery({ variables: { id: route.params.workoutPlanId } });
+  const { data } = useWorkoutPlanByIdQuery({ variables: { id: route.params.workoutPlanId }, fetchPolicy: 'no-cache' });
   if (!data?.workoutPlan) {
     return <ActivityIndicator />;
   }

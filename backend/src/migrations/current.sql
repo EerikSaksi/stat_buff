@@ -20,9 +20,22 @@ alter TABLE "user" drop COLUMN if exists current_workout_plan_id;
 ALTER TABLE "user" ADD COLUMN current_workout_plan_id integer references "workout_plan"(id) on delete cascade;
 create index if not exists user_workout_plan_idx on "user"(current_workout_plan_id);
 
+
+ALTER TABLE workout_plan_exercise drop CONSTRAINT non_zero_volume;
+
 ALTER TABLE workout_plan_exercise
 ADD CONSTRAINT non_zero_volume
 CHECK (
 	reps > 0
     and sets > 0
 );
+
+delete from workout_plan_exercise;
+insert into workout_plan_exercise(exercise_id, sets, reps, ordering, workout_plan_day_id) 
+values 
+  (1, 5, 5, 1, 1),
+  (2, 5, 5, 2, 1),
+  (3, 5, 5, 3, 1),
+  (4, 5, 5, 4, 1),
+  (5, 5, 5, 5, 1),
+  (6, 5, 5, 6, 1);
