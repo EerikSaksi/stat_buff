@@ -28,15 +28,37 @@ const WorkoutPlanPicker: React.FC = () => {
                   status={plan.id === data.activeUser?.userCurrentWorkoutPlan?.workoutPlan?.id ? "checked" : "unchecked"}
                   onPress={() => {
                     if (data.activeUser) {
-                      if (plan.id === data.activeUser?.userCurrentWorkoutPlan?.workoutPlan?.id) {
-                        deleteCurrentWorkoutPlanMutation({ variables: { userId: data.activeUser.id } });
+                      if (plan.id === data.activeUser?.userCurrentWorkoutPlan?.workoutPlan.id) {
+                        deleteCurrentWorkoutPlanMutation({
+                          variables: { userId: data.activeUser.id },
+                          optimisticResponse: {
+                            deleteUserCurrentWorkoutPlan: {
+                              __typename: 'DeleteUserCurrentWorkoutPlanPayload',
+                              user: {
+                                id: data.activeUser.id,
+                                __typename: "User",
+                                userCurrentWorkoutPlan: null,
+                              },
+
+                            },
+
+                          },
+                        });
                       } else {
-                        upsertCurrentWorkoutPlan({ variables: { userId: data.activeUser.id, workoutPlanId: plan.id } });
+                        upsertCurrentWorkoutPlan({
+                          variables: { userId: data.activeUser.id, workoutPlanId: plan.id },
+                          optimisticResponse: {
+                            upsertUserCurrentWorkoutPlan: {
+                              __typename: "UpsertUserCurrentWorkoutPlanPayload",
+                              user: { __typename: "User", id: data.activeUser.id, userCurrentWorkoutPlan: { workoutPlan: plan, __typename: "UserCurrentWorkoutPlan" } },
+                            },
+                          },
+                        });
                       }
                     }
                   }}
                 />
-                <Button icon="arrow-right" onPress={() => navigation.navigate("Select Workout Day", {workoutPlanId: plan.id})}>
+                <Button icon="arrow-right" onPress={() => navigation.navigate("Select Workout Day", { workoutPlanId: plan.id })}>
                   View
                 </Button>
               </View>

@@ -8,6 +8,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "components/workout";
 import { ActivityIndicator } from "react-native-paper";
+import {Text} from 'react-native'
 
 type WorkoutDayRouteProp = RouteProp<RootStackParamList, "Workout">;
 
@@ -21,33 +22,34 @@ export type ConditionalVolume = {
   weight: number | undefined | null;
   reps: number | undefined | null;
 };
-export type ExerciseSetVolume = {
-  workoutPlanExerciseId: number;
-  exerciseId: number;
-  volumes: ConditionalVolume[];
+export type ExerciseSetVolumes = {
+  [workoutPlanExerciseId: number]: {
+    exerciseId: number;
+    volumes: ConditionalVolume[];
+  };
 };
 
 const Day: React.FC<Props> = ({ route, navigation }) => {
   const [expandedId, setExpandedId] = useState(1);
 
   //volumes stores the sets and reps for various exercises. For instance
-  const [volumes, setVolumes] = useState<ExerciseSetVolume[] | undefined>();
+  const [exerciseSetVolumes, setExerciseSetVolumes] = useState<ExerciseSetVolumes | undefined>();
 
   const { data: workoutPlanDayData } = useWorkoutPlanDayByIdQuery({
     variables: { id: route.params.workoutPlanDay.id },
     onCompleted: () => {
       if (workoutPlanDayData?.workoutPlanDay) {
-        setVolumes(
-          workoutPlanDayData?.workoutPlanDay.workoutPlanExercises.nodes.map((workoutPlanExercise) => {
-            return {
-              workoutPlanExerciseId: workoutPlanExercise.id,
-              exerciseId: workoutPlanExercise.exercise.id,
-              volumes: new Array(workoutPlanExercise.sets).fill({ weight: undefined, reps: undefined }),
-            };
-          })
-        );
+        const newExerciseSetVolumes: ExerciseSetVolumes = {};
+        workoutPlanDayData?.workoutPlanDay.workoutPlanExercises.nodes.forEach((workoutPlanExercise) => {
+          newExerciseSetVolumes[workoutPlanExercise.id] = {
+            exerciseId: workoutPlanExercise.exercise!.id,
+            volumes: new Array(workoutPlanExercise.sets).fill({ weight: undefined, reps: undefined }),
+          };
+        });
+        setExerciseSetVolumes(newExerciseSetVolumes);
       }
     },
+    fetchPolicy: 'cache-only'
   });
   const { data: bodyStatData } = useBodyStatQuery();
 
@@ -74,11 +76,11 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
   //  }
   //}, [workoutPlanDayData, volumes]);
 
-  const updateVolumes = useCallback((row: number, column: number, volume: ConditionalVolume) => {
-    setVolumes((old) => {
+  const updateVolumes = useCallback((workoutPlanExerciseId: number, setIndex: number, volume: ConditionalVolume) => {
+    setExerciseSetVolumes((old) => {
       if (old) {
-        const copy = [...old];
-        copy[row][column] = volume;
+        const copy = { ...old };
+        copy[workoutPlanExerciseId][setIndex] = volume;
         return copy;
       }
     });
@@ -90,7 +92,7 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
         headerRight: () => (
           <Button
             icon="square-edit-outline"
-            onPress={() => navigation.navigate("Select Exercise", { planId: route.params.workoutPlanDay.id })}
+            onPress={() => navigation.navigate("Select Exercise", { dayId: route.params.workoutPlanDay.id })}
           >
             Edit workout
           </Button>
@@ -99,9 +101,10 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
     }
   }, [navigation, route]);
 
-  if (!workoutPlanDayData?.workoutPlanDay || !volumes) {
+  if (!workoutPlanDayData?.workoutPlanDay || !exerciseSetVolumes) {
     return <ActivityIndicator />;
   }
+
 
   return (
     <SafeAreaView style={{ height: "100%" }}>
@@ -113,29 +116,28 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
           }
         }}
       >
-        {workoutPlanDayData.workoutPlanDay.workoutPlanExercises.nodes.map((workoutExercise, row) => {
-          volumes[row] ? (
+        {workoutPlanDayData.workoutPlanDay.workoutPlanExercises.nodes.map((workoutPlanExercise) => (
+          exerciseSetVolumes[workoutPlanExercise.id.toString()] ? (
             <List.Accordion
-              key={row}
-              id={row + 1}
-              title={`${workoutExercise.exercise?.name}: ${workoutExercise.sets} sets of ${workoutExercise.reps} reps`}
+              key={workoutPlanExercise.id}
+              id={workoutPlanExercise.id + 1}
+              title={`${workoutPlanExercise.exercise?.name}: ${workoutPlanExercise.sets} sets of ${workoutPlanExercise.reps} reps`}
             >
-              {Array.from({ length: workoutExercise.sets || 0 }).map((_, col) => (
+              {exerciseSetVolumes[workoutPlanExercise.id].volumes.map((volume, setIndex) => (
                 <WorkoutExerciseSet
-                  key={`${row} ${col}`}
-                  row={row}
-                  col={col}
+                  key={`${workoutPlanExercise.id} ${setIndex}`}
                   updateVolumes={updateVolumes}
-                  volume={volumes[row][col]}
-                  exerciseId={workoutExercise?.exercise?.id || -1}
+                  setIndex={setIndex}
+                  workoutPlanExerciseId={workoutPlanExercise.id}
+                  volume={volume}
+                  exerciseId={workoutPlanExercise.exercise.id}
                   bodystat={bodyStatData?.activeUser?.bodystat ? bodyStatData.activeUser.bodystat : undefined}
                 />
               ))}
             </List.Accordion>
-          ) : undefined;
-        })}
+          ) : undefined
+        ))}
       </List.AccordionGroup>
-      <WorkoutTimer volumes={volumes} />
     </SafeAreaView>
   );
 };

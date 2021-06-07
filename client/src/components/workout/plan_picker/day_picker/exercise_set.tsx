@@ -3,14 +3,15 @@ import { BodystatFragment } from "../../../../generated/graphql";
 import { TextInput, List } from "react-native-paper";
 import useStrengthPredictions from "./use_strength_predictions";
 import {ConditionalVolume} from './day'
+
 const WorkoutExerciseSet: React.FC<{
   exerciseId: number;
-  row: number;
-  col: number;
+  setIndex: number;
+  workoutPlanExerciseId: number,
   volume: ConditionalVolume;
-  updateVolumes: (row: number, column: number, volume: Volume) => void;
+  updateVolumes: (workoutPlanExerciseId: number, setIndex: number, volume: ConditionalVolume) => void;
   bodystat: BodystatFragment | undefined;
-}> = ({ exerciseId, row, col, volume, updateVolumes, bodystat }) => {
+}> = ({ exerciseId, setIndex, workoutPlanExerciseId, volume, updateVolumes, bodystat }) => {
   const predictions = useStrengthPredictions(volume.reps, volume.weight, exerciseId, bodystat);
   console.log({exerciseId})
   return (
@@ -31,7 +32,7 @@ const WorkoutExerciseSet: React.FC<{
               if (!isNaN(parsed)) {
                 weight = parsed;
               }
-              updateVolumes(row, col, { reps: volume.reps, weight });
+              updateVolumes(workoutPlanExerciseId, setIndex, { reps: volume.reps, weight });
             }}
           />
           <TextInput
@@ -47,7 +48,7 @@ const WorkoutExerciseSet: React.FC<{
               if (!isNaN(parsed)) {
                 reps = parsed;
               }
-              updateVolumes(row, col, { weight: volume.weight, reps });
+              updateVolumes(workoutPlanExerciseId, setIndex, { weight: volume.weight, reps });
             }}
           />
         </>

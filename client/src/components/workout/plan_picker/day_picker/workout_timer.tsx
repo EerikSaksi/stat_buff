@@ -11,16 +11,16 @@ import { ExerciseSetVolume } from "./day";
 
 const transformVolumeToPayload = (volumes: ExerciseSetVolume[], completedWorkoutId: number): CompletedWorkoutExerciseInput[] => {
   return volumes
-    .map((volume, i) => {
+    .map((exerciseSetVolume) => {
       return {
-        volumes: volume.filter(({ reps, weight }) => reps && weight).map((conditional) => conditional as Volume),
+        volumes: exerciseSetVolume.volumes.filter(({ reps, weight }) => reps && weight).map((conditional) => conditional as Volume),
         completedWorkoutId,
-        exerciseId: volume.workoutExerciseId
+        exerciseId: exerciseSetVolume.exerciseId
       }
     })
     .filter(({ volumes }) => volumes.length);
 };
-const WorkoutTimer: React.FC<{ volumes: ExerciseSetVolume[]; exerciseIds: number[] }> = ({ volumes }) => {
+const WorkoutTimer: React.FC<{ exerciseSetVolumes: ExerciseSetVolume[]; }> = ({ exerciseSetVolumes }) => {
   const startTime = useRef<Date | undefined>();
   const [minutes, setMinutes] = useState<undefined | number>();
 
@@ -30,7 +30,7 @@ const WorkoutTimer: React.FC<{ volumes: ExerciseSetVolume[]; exerciseIds: number
     onCompleted: ({ createCompletedWorkout }) => {
       if (createCompletedWorkout?.completedWorkout?.id) {
         saveWorkout({
-          variables: { completedExercises: transformVolumeToPayload(volumes, createCompletedWorkout.completedWorkout.id) },
+          variables: { completedExercises: transformVolumeToPayload(exerciseSetVolumes, createCompletedWorkout.completedWorkout.id) },
         });
       }
     },
@@ -40,7 +40,7 @@ const WorkoutTimer: React.FC<{ volumes: ExerciseSetVolume[]; exerciseIds: number
   useEffect(() => {
     if (!startTime.current) {
       //user has tracked a lift, then start the timer
-      if (volumes.some((row) => row.some((val) => val.weight || val.reps))) {
+      if (exerciseSetVolumes.some((exerciseSetVolume) => exerciseSetVolume.volumes.some((val) => val.weight || val.reps))) {
         startTime.current = new Date();
         setMinutes(0);
       }
@@ -51,7 +51,8 @@ const WorkoutTimer: React.FC<{ volumes: ExerciseSetVolume[]; exerciseIds: number
       }
     }, 10000);
     return () => clearInterval(interval);
-  }, [startTime, volumes]);
+  }, [startTime, exerciseSetVolumes]);
+
   if (minutes === undefined) {
     return null;
   }

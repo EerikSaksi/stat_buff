@@ -10,7 +10,7 @@ export type RootStackParamList = {
   "Select Workout": undefined;
   "Select Workout Day": { workoutPlanId: number};
   Workout: { workoutPlanDay: WorkoutPlanDayFragment};
-  "Select Exercise": { planId: number };
+  "Select Exercise": { dayId: number };
 };
 const Stack = createStackNavigator<RootStackParamList>();
 
