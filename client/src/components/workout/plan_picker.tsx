@@ -8,7 +8,9 @@ import { View, Text } from "react-native";
 const WorkoutPlanPicker: React.FC = () => {
   const navigation = useNavigation();
   const { data } = useWorkoutQuery();
-  const [upsertCurrentWorkoutPlan] = useUpsertCurrentWorkoutPlanMutation();
+  const [upsertCurrentWorkoutPlan] = useUpsertCurrentWorkoutPlanMutation({
+    update(cache, { data }) {},
+  });
   const [deleteCurrentWorkoutPlanMutation] = useDeleteCurrentWorkoutPlanMutation();
 
   if (!data?.activeUser) {
@@ -31,28 +33,10 @@ const WorkoutPlanPicker: React.FC = () => {
                       if (plan.id === data.activeUser?.userCurrentWorkoutPlan?.workoutPlan.id) {
                         deleteCurrentWorkoutPlanMutation({
                           variables: { userId: data.activeUser.id },
-                          optimisticResponse: {
-                            deleteUserCurrentWorkoutPlan: {
-                              __typename: 'DeleteUserCurrentWorkoutPlanPayload',
-                              user: {
-                                id: data.activeUser.id,
-                                __typename: "User",
-                                userCurrentWorkoutPlan: null,
-                              },
-
-                            },
-
-                          },
                         });
                       } else {
                         upsertCurrentWorkoutPlan({
                           variables: { userId: data.activeUser.id, workoutPlanId: plan.id },
-                          optimisticResponse: {
-                            upsertUserCurrentWorkoutPlan: {
-                              __typename: "UpsertUserCurrentWorkoutPlanPayload",
-                              user: { __typename: "User", id: data.activeUser.id, userCurrentWorkoutPlan: { workoutPlan: plan, __typename: "UserCurrentWorkoutPlan" } },
-                            },
-                          },
                         });
                       }
                     }

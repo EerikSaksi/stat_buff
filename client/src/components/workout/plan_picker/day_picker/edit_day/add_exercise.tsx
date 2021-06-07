@@ -6,7 +6,7 @@ import {
   useExerciseOrderingsByWorkoutPlanIdQuery,
   WorkoutPlanExerciseFragmentDoc
 } from "../../../../../generated/graphql";
-import { RootStackParamList } from "components/workout";
+import { RootStackParamList } from "../../../../workout";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 
@@ -21,17 +21,13 @@ type Props = {
 const ExerciseSearch: React.FC<Props> = ({ navigation, route }) => {
   const [query, setQuery] = useState("");
 
-  const { data: orderingData } = useExerciseOrderingsByWorkoutPlanIdQuery({
-    variables: { id: route.params.dayId },
-    fetchPolicy: "cache-only",
-  });
   const { data } = useExerciseSearchQuery({
     variables: { query },
   });
   const [insertExerciseInPlan] = useInsertExerciseInPlanMutation({
     update(cache, { data }) {
       cache.modify({
-        id: `WorkoutPlanDay:${route.params.dayId}`,
+        id: `WorkoutPlanDay:${route.params.workoutPlanDayData.workoutPlanDay.id}`,
         fields: {
           workoutPlanExercises(existingWorkoutPlanExercises = { nodes: [] }) {
             if (data?.createWorkoutPlanExercise?.workoutPlanExercise) {

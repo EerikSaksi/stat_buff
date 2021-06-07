@@ -1,5 +1,14 @@
 query WorkoutPlanById($id: Int!){
   workoutPlan(id: $id){
-    ...WorkoutPlan
+    workoutPlanDays{
+      nodes{
+        name
+        id
+        workoutPlanExercises{
+          totalCount
+        }
+      }
+    }
   }
 }
+

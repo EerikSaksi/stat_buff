@@ -23,11 +23,10 @@ type Props = {
 const Day: React.FC<Props> = ({ route, navigation }) => {
   const [expandedId, setExpandedId] = useState(1);
 
-  console.log(cache.data.data[`WorkoutPlanDay:${route.params.workoutPlanDay.id}`])
+  console.log(cache.data.data[`WorkoutPlanDay:${route.params.dayId}`])
 
   const { data: workoutPlanDayData } = useWorkoutPlanDayByIdQuery({
-    variables: { id: route.params.workoutPlanDay.id },
-    fetchPolicy: 'cache-only'
+    variables: { id: route.params.dayId },
   });
   const {exerciseSetVolumes, updateVolumes} = useLocalVolumes(workoutPlanDayData)
 
@@ -40,7 +39,7 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
         headerRight: () => (
           <Button
             icon="square-edit-outline"
-            onPress={() => navigation.navigate("Select Exercise", { dayId: route.params.workoutPlanDay.id })}
+            onPress={() => navigation.navigate("Select Exercise", {workoutPlanDayData})}
           >
             Edit workout
           </Button>

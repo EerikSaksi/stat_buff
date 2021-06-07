@@ -1,40 +1,19 @@
-fragment WorkoutPlanExercise on WorkoutPlanExercise {
-  sets
-  reps
-  id
-  ordering
-  exercise {
-    name
-    id
+fragment UserCurrentWorkoutPlan on UserCurrentWorkoutPlan{
+  userId
+  workoutPlan{
+    ...WorkoutPlan
   }
 }
-fragment WorkoutPlanDay on WorkoutPlanDay {
-  name
-  id
-  workoutPlanExercises(orderBy: ORDERING_ASC) {
-    nodes {
-      ...WorkoutPlanExercise
-    }
-  }
-}
-
 fragment WorkoutPlan on WorkoutPlan {
   name
   id
-  workoutPlanDays {
-    nodes {
-      ...WorkoutPlanDay
-    }
-  }
 }
 
 query Workout {
   activeUser {
     id
     userCurrentWorkoutPlan {
-      workoutPlan {
-        ...WorkoutPlan
-      }
+      ...UserCurrentWorkoutPlan
     }
     workoutPlans {
       nodes {
