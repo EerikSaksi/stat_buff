@@ -1,12 +1,11 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect, useEffect, useRef } from "react";
 import { List, Button, Snackbar } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   useBodyStatQuery,
   useWorkoutPlanDayByIdQuery,
   WorkoutPlanExerciseFragment,
-  useInsertExerciseInPlanMutation,
-  WorkoutPlanExerciseFragmentDoc,
+  useDeleteExerciseInPlanMutation,
 } from "../../../../generated/graphql";
 import WorkoutExerciseSet from "./exercise_set";
 import WorkoutTimer from "./workout_timer";
@@ -16,6 +15,7 @@ import { RootStackParamList } from "../../../workout";
 import { ActivityIndicator } from "react-native-paper";
 import useLocalVolumes from "./use_local_volumes";
 import EditExerciseButtons from "./edit_day/edit_exercise_buttons";
+import useInsertExerciseInPlanMutationCached from "./edit_day/use_insert_exercise_in_plan_mutation_cached";
 
 type WorkoutDayRouteProp = RouteProp<RootStackParamList, "Workout">;
 
@@ -27,11 +27,14 @@ type Props = {
 
 const Day: React.FC<Props> = ({ route, navigation }) => {
   const [expandedId, setExpandedId] = useState(1);
-  const [lastDeletedItem, setLastDeletedItem] = useState<undefined | WorkoutPlanExerciseFragment>();
 
+  const [lastDeletedWorkoutExerciseId, setLastDeletedWorkoutExerciseId] = useState<number>(-1);
+  const undoPressed = useRef(false);
+
+  const [deleteExerciseInPlan] = useDeleteExerciseInPlanMutation({});
   const { data: workoutPlanDayData } = useWorkoutPlanDayByIdQuery({
     variables: { id: route.params.dayId },
-    //fetchPolicy: 'cache-and-network'
+    //fetchPolicy: "cache-and-network",
   });
   const { exerciseSetVolumes, updateVolumes } = useLocalVolumes(workoutPlanDayData);
 
@@ -56,6 +59,7 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
   if (!workoutPlanDayData?.workoutPlanDay || !exerciseSetVolumes) {
     return <ActivityIndicator />;
   }
+  console.log(lastDeletedWorkoutExerciseId);
 
   return (
     <SafeAreaView style={{ height: "100%" }}>
@@ -68,7 +72,7 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
         }}
       >
         {workoutPlanDayData.workoutPlanDay.workoutPlanExercises.nodes.map((workoutPlanExercise) =>
-          exerciseSetVolumes[workoutPlanExercise.id.toString()] ? (
+          exerciseSetVolumes[workoutPlanExercise.id.toString()] && lastDeletedWorkoutExerciseId !== workoutPlanExercise.id ? (
             <List.Accordion
               key={workoutPlanExercise.id}
               id={workoutPlanExercise.id + 1}
@@ -85,23 +89,39 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
                   bodystat={bodyStatData?.activeUser?.bodystat ? bodyStatData.activeUser.bodystat : undefined}
                 />
               ))}
-              <EditExerciseButtons workoutPlanExercise={workoutPlanExercise} setLastDeletedItem={setLastDeletedItem} />
+              <EditExerciseButtons
+                workoutPlanExercise={workoutPlanExercise}
+                setLastDeletedWorkoutExerciseId={setLastDeletedWorkoutExerciseId}
+              />
             </List.Accordion>
           ) : undefined
         )}
       </List.AccordionGroup>
-
       <Snackbar
-        visible={lastDeletedItem !== undefined}
+        visible={lastDeletedWorkoutExerciseId !== -1}
         action={{
           label: "Undo",
-          onPress: () => {
-            insertLastDeletedExerciseInPlan();
-          },
+          onPress: () => (undoPressed.current = true),
         }}
-        onDismiss={() => setLastDeletedItem(undefined)}
+        duration={5000}
+        onDismiss={() => {
+          if (!undoPressed.current) {
+            deleteExerciseInPlan({
+              variables: { id: lastDeletedWorkoutExerciseId },
+              update(cache) {
+                cache.evict({ id: `WorkoutPlanExercise:${lastDeletedWorkoutExerciseId}` });
+
+                undoPressed.current = false;
+                setLastDeletedWorkoutExerciseId(-1);
+              },
+            });
+          } else {
+            undoPressed.current = false;
+            setLastDeletedWorkoutExerciseId(-1);
+          }
+        }}
       >
-        {lastDeletedItem?.exercise.name} ({lastDeletedItem?.sets}x{lastDeletedItem?.reps}) Deleted
+        Exercise Deleted
       </Snackbar>
     </SafeAreaView>
   );

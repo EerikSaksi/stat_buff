@@ -9,20 +9,9 @@ import {
 import { Button } from "react-native-paper";
 const EditExerciseButtons: React.FC<{
   workoutPlanExercise: WorkoutPlanExerciseFragment;
-  setLastDeletedItem: (arg: WorkoutPlanExerciseFragment) => void;
-}> = ({ workoutPlanExercise, setLastDeletedItem }) => {
+  setLastDeletedWorkoutExerciseId: (arg: number) => void;
+}> = ({ workoutPlanExercise, setLastDeletedWorkoutExerciseId }) => {
   const [updateUserCurrentWorkoutPlanSets] = useUpdateWorkoutPlanExerciseSetsMutation();
-  const [deleteExerciseInPlan] = useDeleteExerciseInPlanMutation({
-    variables: { id: workoutPlanExercise.id },
-    update(cache, { data }) {
-      console.log({ data });
-      if (!data?.deleteWorkoutPlanExercise || !data.deleteWorkoutPlanExercise.clientMutationId) {
-        setLastDeletedItem(workoutPlanExercise)
-        console.log("cache evicted");
-        cache.evict({ id: cache.identify(workoutPlanExercise) });
-      }
-    },
-  });
   return (
     <List.Item
       title=""
@@ -75,7 +64,7 @@ const EditExerciseButtons: React.FC<{
         </View>
       )}
       right={() => (
-        <Button icon="delete-circle" onPress={() => deleteExerciseInPlan()} contentStyle={{ scaleX: 1.5, scaleY: 1.5 }}>
+        <Button icon="delete-circle" onPress={() => setLastDeletedWorkoutExerciseId(workoutPlanExercise.id)} contentStyle={{ scaleX: 1.5, scaleY: 1.5 }}>
           {""}
         </Button>
       )}
