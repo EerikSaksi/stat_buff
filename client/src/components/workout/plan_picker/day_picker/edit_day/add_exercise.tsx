@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { List, Searchbar, Button } from "react-native-paper";
-import { useExerciseSearchQuery } from "../../../../../generated/graphql";
+import {
+  useExerciseSearchQuery,
+  useInsertExerciseInPlanMutation,
+  WorkoutPlanExerciseFragmentDoc,
+} from "../../../../../generated/graphql";
 import { RootStackParamList } from "../../../../workout";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
-import useInsertExerciseInPlanMutationCached from "./use_insert_exercise_in_plan_mutation_cached";
 
 type ExerciseSearchRouteProp = RouteProp<RootStackParamList, "Select Exercise">;
 
@@ -20,15 +23,33 @@ const ExerciseSearch: React.FC<Props> = ({ navigation, route }) => {
   const { data } = useExerciseSearchQuery({
     variables: { query },
   });
-  const [insertExerciseInPlan] = useInsertExerciseInPlanMutationCached(
-    {
-      onCompleted: () => {
-        navigation.goBack();
-      },
-    },
-    route.params.workoutPlanDayData.workoutPlanDay!.id
-  );
 
+  const [insertExerciseInPlan] = useInsertExerciseInPlanMutation({
+    update(cache, { data }) {
+      if (route.params.workoutPlanDayData.workoutPlanDay?.id) {
+        cache.modify({
+          //modify the workout plan from which this was opened
+          id: `WorkoutPlanDay:${route.params.workoutPlanDayData.workoutPlanDay.id}`,
+          fields: {
+            workoutPlanExercises(existingWorkoutPlanExercises = { nodes: [] }) {
+              //if succesfully created
+              if (data?.createWorkoutPlanExercise?.workoutPlanExercise) {
+                const newWorkoutPlanExercise = cache.writeFragment({
+                  data: data.createWorkoutPlanExercise.workoutPlanExercise,
+                  fragment: WorkoutPlanExerciseFragmentDoc,
+                });
+                //insert into the end of the plan
+                return { nodes: [...existingWorkoutPlanExercises.nodes, newWorkoutPlanExercise] };
+              }
+            },
+          },
+        });
+      }
+    },
+    onCompleted: () => {
+      navigation.goBack();
+    },
+  });
   return (
     <>
       <Searchbar value={query} onChangeText={(v) => setQuery(v)} autoFocus />

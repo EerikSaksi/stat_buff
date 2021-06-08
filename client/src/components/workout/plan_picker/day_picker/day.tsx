@@ -15,7 +15,6 @@ import { RootStackParamList } from "../../../workout";
 import { ActivityIndicator } from "react-native-paper";
 import useLocalVolumes from "./use_local_volumes";
 import EditExerciseButtons from "./edit_day/edit_exercise_buttons";
-import useInsertExerciseInPlanMutationCached from "./edit_day/use_insert_exercise_in_plan_mutation_cached";
 
 type WorkoutDayRouteProp = RouteProp<RootStackParamList, "Workout">;
 
@@ -34,7 +33,7 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
   const [deleteExerciseInPlan] = useDeleteExerciseInPlanMutation({});
   const { data: workoutPlanDayData } = useWorkoutPlanDayByIdQuery({
     variables: { id: route.params.dayId },
-    //fetchPolicy: "cache-and-network",
+    fetchPolicy: "cache-and-network",
   });
   const { exerciseSetVolumes, updateVolumes } = useLocalVolumes(workoutPlanDayData);
 
@@ -46,7 +45,9 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
         <Button
           icon="square-edit-outline"
           onPress={() => {
-            if (workoutPlanDayData) navigation.navigate("Select Exercise", { workoutPlanDayData });
+            if (workoutPlanDayData) {
+              navigation.navigate("Select Exercise", { workoutPlanDayData });
+            }
           }}
         >
           Add exercise
@@ -54,12 +55,11 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
       ),
       title: route.params.name,
     });
-  }, []);
+  }, [workoutPlanDayData]);
 
   if (!workoutPlanDayData?.workoutPlanDay || !exerciseSetVolumes) {
     return <ActivityIndicator />;
   }
-  console.log(lastDeletedWorkoutExerciseId);
 
   return (
     <SafeAreaView style={{ height: "100%" }}>
