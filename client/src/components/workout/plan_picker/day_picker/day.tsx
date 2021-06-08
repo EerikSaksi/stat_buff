@@ -1,10 +1,8 @@
-import React, { useState, useLayoutEffect, useEffect, useRef } from "react";
+import React, { useState, useLayoutEffect, useRef } from "react";
 import { List, Button, Snackbar } from "react-native-paper";
-import { SafeAreaView } from "react-native-safe-area-context";
 import {
   useBodyStatQuery,
   useWorkoutPlanDayByIdQuery,
-  WorkoutPlanExerciseFragment,
   useDeleteExerciseInPlanMutation,
 } from "../../../../generated/graphql";
 import WorkoutExerciseSet from "./exercise_set";
@@ -50,28 +48,17 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <Button
-          icon="square-edit-outline"
-          onPress={() => {
-            if (workoutPlanDayData) {
-              navigation.navigate("Select Exercise", { workoutPlanDayData });
-            }
-          }}
-        >
-          Add exercise
-        </Button>
-      ),
+      headerRight: () => exerciseSetVolumes ? <WorkoutTimer exerciseSetVolumes={exerciseSetVolumes} /> : undefined,
       title: route.params.name,
     });
-  }, [workoutPlanDayData]);
+  }, [exerciseSetVolumes]);
 
   if (!workoutPlanDayData?.workoutPlanDay || !exerciseSetVolumes) {
     return <ActivityIndicator />;
   }
 
   return (
-    <ScrollView stickyHeaderIndices = {[2]}>
+    <ScrollView stickyHeaderIndices={[2]}>
       <List.AccordionGroup
         expandedId={expandedId}
         onAccordionPress={(expandedId) => {
@@ -95,7 +82,7 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
                   workoutPlanExerciseId={workoutPlanExercise.id}
                   volume={volume}
                   exerciseId={workoutPlanExercise.exercise.id}
-                  bodystat={bodyStatData?.activeUser?.bodystat ? bodyStatData.activeUser.bodystat : {ismale: true, bodymass: 80}}
+                  bodystat={bodyStatData?.activeUser?.bodystat ? bodyStatData.activeUser.bodystat : { ismale: true, bodymass: 80 }}
                 />
               ))}
               <EditExerciseButtons
@@ -131,7 +118,16 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
       >
         Exercise Deleted
       </Snackbar>
-      <WorkoutTimer exerciseSetVolumes={exerciseSetVolumes} />
+      <Button
+        icon="table-row-plus-after"
+        onPress={() => {
+          if (workoutPlanDayData) {
+            navigation.navigate("Select Exercise", { workoutPlanDayData });
+          }
+        }}
+      >
+        Add exercise
+      </Button>
     </ScrollView>
   );
 };

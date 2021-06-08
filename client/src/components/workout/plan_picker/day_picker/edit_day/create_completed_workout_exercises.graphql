@@ -1,4 +1,4 @@
-mutation SaveWorkout($completedExercises: [CompletedWorkoutExerciseInput!]){
+mutation createCompletedWorkoutExercises($completedExercises: [CompletedWorkoutExerciseInput!]){
   mnCreateCompletedWorkoutExercise(input: {mnCompletedWorkoutExercise: $completedExercises}){
     completedWorkoutExercise{
       volumes{

@@ -1,9 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
 import {
   Volume,
-  useSaveWorkoutMutation,
-  CompletedWorkoutExerciseInput,
   useCreateCompletedWorkoutMutation,
+  CompletedWorkoutExerciseInput,
+  useCreateCompletedWorkoutExercisesMutation
 } from "../../../../generated/graphql";
 import { Button } from "react-native-paper";
 import { View } from "react-native";
@@ -24,16 +24,16 @@ const WorkoutTimer: React.FC<{ exerciseSetVolumes: ExerciseSetVolumes }> = ({ ex
 
   //first we create a workout (parent of all exercises)
   //on complete hook then saves each exercise
-  const [createWorkout] = useCreateCompletedWorkoutMutation({
+  const [createCompletedWorkout] = useCreateCompletedWorkoutMutation({
     onCompleted: ({ createCompletedWorkout }) => {
       if (createCompletedWorkout?.completedWorkout?.id) {
-        saveWorkout({
+        createCompletedWorkoutExercises({
           variables: { completedExercises: transformVolumeToPayload(exerciseSetVolumes, createCompletedWorkout.completedWorkout.id) },
         });
       }
     },
   });
-  const [saveWorkout] = useSaveWorkoutMutation();
+  const [createCompletedWorkoutExercises] = useCreateCompletedWorkoutExercisesMutation();
 
   useEffect(() => {
     if (!startTime.current) {
@@ -54,12 +54,15 @@ const WorkoutTimer: React.FC<{ exerciseSetVolumes: ExerciseSetVolumes }> = ({ ex
     return () => clearInterval(interval);
   }, [startTime, exerciseSetVolumes]);
 
+
+
   if (minutes === undefined) {
     return null;
   }
+  console.log({minutes})
   return (
-    <View>
-      <Button mode="contained" compact icon="stop-circle" labelStyle={{ fontSize: 14 }} onPress={() => createWorkout()}>
+    <View style={{ position: "absolute", bottom: 0, flex: 1, justifyContent: "center",  padding: 8 }}>
+      <Button mode="contained" compact icon="stop-circle" labelStyle={{ fontSize: 14 }} onPress={() => createCompletedWorkout()}>
         {minutes} min
       </Button>
     </View>
