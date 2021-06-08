@@ -3,11 +3,12 @@ import {
   Volume,
   useCreateCompletedWorkoutMutation,
   CompletedWorkoutExerciseInput,
-  useCreateCompletedWorkoutExercisesMutation
+  useCreateCompletedWorkoutExercisesMutation,
 } from "../../../../generated/graphql";
 import { Button } from "react-native-paper";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { ExerciseSetVolumes } from "./use_local_volumes";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const transformVolumeToPayload = (exerciseSetVolumes: ExerciseSetVolumes, completedWorkoutId: number): CompletedWorkoutExerciseInput[] => {
   const toReturn: CompletedWorkoutExerciseInput[] = [];
@@ -38,13 +39,13 @@ const WorkoutTimer: React.FC<{ exerciseSetVolumes: ExerciseSetVolumes }> = ({ ex
   useEffect(() => {
     if (!startTime.current) {
       //user has tracked a lift, then start the timer
-      for (const [_, { volumes }] of Object.entries(exerciseSetVolumes)) {
-        if (volumes.some((volume) => volume.weight || volume.reps)) {
-          startTime.current = new Date();
-          setMinutes(0);
-          break;
-        }
-      }
+      //for (const [_, { volumes }] of Object.entries(exerciseSetVolumes)) {
+      //  if (volumes.some((volume) => volume.weight || volume.reps)) {
+      startTime.current = new Date();
+      setMinutes(0);
+      //    break;
+      //  }
+      //}
     }
     const interval = setInterval(() => {
       if (startTime.current) {
@@ -54,16 +55,13 @@ const WorkoutTimer: React.FC<{ exerciseSetVolumes: ExerciseSetVolumes }> = ({ ex
     return () => clearInterval(interval);
   }, [startTime, exerciseSetVolumes]);
 
-
-
   if (minutes === undefined) {
     return null;
   }
-  console.log({minutes})
   return (
-    <View style={{ position: "absolute", bottom: 0, flex: 1, justifyContent: "center",  padding: 8 }}>
-      <Button mode="contained" compact icon="stop-circle" labelStyle={{ fontSize: 14 }} onPress={() => createCompletedWorkout()}>
-        {minutes} min
+    <View style={{ position: "absolute", bottom: 0, flex: 1, justifyContent: "center", padding: 8 }}>
+      <Button mode="contained" labelStyle={{ fontSize: 18 }} icon="stop-circle" onPress={() => createCompletedWorkout()}>
+        <Text style={{ fontSize: 14 }}>{minutes} min</Text>
       </Button>
     </View>
   );

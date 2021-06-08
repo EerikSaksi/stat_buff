@@ -37,7 +37,7 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
       if (expandedId === -1) {
         const firstExercise = workoutPlanDayData?.workoutPlanDay?.workoutPlanExercises.nodes[0];
         if (firstExercise) {
-          //setExpandedId(firstExercise.id);
+          setExpandedId(firstExercise.id);
         }
       }
     },
