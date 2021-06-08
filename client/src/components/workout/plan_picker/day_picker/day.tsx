@@ -15,6 +15,7 @@ import { RootStackParamList } from "../../../workout";
 import { ActivityIndicator } from "react-native-paper";
 import useLocalVolumes from "./use_local_volumes";
 import EditExerciseButtons from "./edit_day/edit_exercise_buttons";
+import { ScrollView } from "react-native";
 
 type WorkoutDayRouteProp = RouteProp<RootStackParamList, "Workout">;
 
@@ -25,7 +26,7 @@ type Props = {
 };
 
 const Day: React.FC<Props> = ({ route, navigation }) => {
-  const [expandedId, setExpandedId] = useState(1);
+  const [expandedId, setExpandedId] = useState(-1);
 
   const [lastDeletedWorkoutExerciseId, setLastDeletedWorkoutExerciseId] = useState<number>(-1);
   const undoPressed = useRef(false);
@@ -34,6 +35,14 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
   const { data: workoutPlanDayData } = useWorkoutPlanDayByIdQuery({
     variables: { id: route.params.dayId },
     fetchPolicy: "cache-and-network",
+    onCompleted: () => {
+      if (expandedId === -1) {
+        const firstExercise = workoutPlanDayData?.workoutPlanDay?.workoutPlanExercises.nodes[0];
+        if (firstExercise) {
+          //setExpandedId(firstExercise.id);
+        }
+      }
+    },
   });
   const { exerciseSetVolumes, updateVolumes } = useLocalVolumes(workoutPlanDayData);
 
@@ -62,7 +71,7 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
   }
 
   return (
-    <SafeAreaView style={{ height: "100%" }}>
+    <ScrollView stickyHeaderIndices = {[2]}>
       <List.AccordionGroup
         expandedId={expandedId}
         onAccordionPress={(expandedId) => {
@@ -75,7 +84,7 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
           exerciseSetVolumes[workoutPlanExercise.id.toString()] && lastDeletedWorkoutExerciseId !== workoutPlanExercise.id ? (
             <List.Accordion
               key={workoutPlanExercise.id}
-              id={workoutPlanExercise.id + 1}
+              id={workoutPlanExercise.id}
               title={`${workoutPlanExercise.exercise?.name}: ${workoutPlanExercise.sets} sets of ${workoutPlanExercise.reps} reps`}
             >
               {exerciseSetVolumes[workoutPlanExercise.id].volumes.map((volume, setIndex) => (
@@ -86,7 +95,7 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
                   workoutPlanExerciseId={workoutPlanExercise.id}
                   volume={volume}
                   exerciseId={workoutPlanExercise.exercise.id}
-                  bodystat={bodyStatData?.activeUser?.bodystat ? bodyStatData.activeUser.bodystat : undefined}
+                  bodystat={bodyStatData?.activeUser?.bodystat ? bodyStatData.activeUser.bodystat : {ismale: true, bodymass: 80}}
                 />
               ))}
               <EditExerciseButtons
@@ -110,7 +119,6 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
               variables: { id: lastDeletedWorkoutExerciseId },
               update(cache) {
                 cache.evict({ id: `WorkoutPlanExercise:${lastDeletedWorkoutExerciseId}` });
-
                 undoPressed.current = false;
                 setLastDeletedWorkoutExerciseId(-1);
               },
@@ -123,7 +131,8 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
       >
         Exercise Deleted
       </Snackbar>
-    </SafeAreaView>
+      <WorkoutTimer exerciseSetVolumes={exerciseSetVolumes} />
+    </ScrollView>
   );
 };
 export default Day;

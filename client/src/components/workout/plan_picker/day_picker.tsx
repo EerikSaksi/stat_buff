@@ -12,6 +12,7 @@ type Props = {
   route: WorkoutDayPickerRouteProp;
   navigation: WorkoutDayPickerNavigationProp;
 };
+//PERF: fix
 
 const WorkoutDayPicker: React.FC<Props> = ({ navigation, route }) => {
   const { data } = useWorkoutPlanByIdQuery({ variables: { id: route.params.workoutPlanId }, fetchPolicy: 'no-cache' });

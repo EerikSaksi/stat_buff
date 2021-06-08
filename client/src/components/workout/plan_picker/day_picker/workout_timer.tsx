@@ -7,20 +7,18 @@ import {
 } from "../../../../generated/graphql";
 import { Button } from "react-native-paper";
 import { View } from "react-native";
-import { ExerciseSetVolume } from "./day";
+import { ExerciseSetVolumes } from "./use_local_volumes";
 
-const transformVolumeToPayload = (volumes: ExerciseSetVolume[], completedWorkoutId: number): CompletedWorkoutExerciseInput[] => {
-  return volumes
-    .map((exerciseSetVolume) => {
-      return {
-        volumes: exerciseSetVolume.volumes.filter(({ reps, weight }) => reps && weight).map((conditional) => conditional as Volume),
-        completedWorkoutId,
-        exerciseId: exerciseSetVolume.exerciseId
-      }
-    })
-    .filter(({ volumes }) => volumes.length);
+const transformVolumeToPayload = (exerciseSetVolumes: ExerciseSetVolumes, completedWorkoutId: number): CompletedWorkoutExerciseInput[] => {
+  const toReturn: CompletedWorkoutExerciseInput[] = [];
+  for (const [_, { exerciseId, volumes }] of Object.entries(exerciseSetVolumes)) {
+    //filter sets that were not completed, and cast to Volume (where reps and sets must be defined)
+    const filteredVolumes = volumes.filter((volume) => volume.weight !== undefined && volume.reps).map((volume) => volume as Volume);
+    toReturn.push({ completedWorkoutId, volumes: filteredVolumes, exerciseId });
+  }
+  return toReturn;
 };
-const WorkoutTimer: React.FC<{ exerciseSetVolumes: ExerciseSetVolume[]; }> = ({ exerciseSetVolumes }) => {
+const WorkoutTimer: React.FC<{ exerciseSetVolumes: ExerciseSetVolumes }> = ({ exerciseSetVolumes }) => {
   const startTime = useRef<Date | undefined>();
   const [minutes, setMinutes] = useState<undefined | number>();
 
@@ -40,9 +38,12 @@ const WorkoutTimer: React.FC<{ exerciseSetVolumes: ExerciseSetVolume[]; }> = ({ 
   useEffect(() => {
     if (!startTime.current) {
       //user has tracked a lift, then start the timer
-      if (exerciseSetVolumes.some((exerciseSetVolume) => exerciseSetVolume.volumes.some((val) => val.weight || val.reps))) {
-        startTime.current = new Date();
-        setMinutes(0);
+      for (const [_, { volumes }] of Object.entries(exerciseSetVolumes)) {
+        if (volumes.some((volume) => volume.weight || volume.reps)) {
+          startTime.current = new Date();
+          setMinutes(0);
+          break;
+        }
       }
     }
     const interval = setInterval(() => {
@@ -57,7 +58,7 @@ const WorkoutTimer: React.FC<{ exerciseSetVolumes: ExerciseSetVolume[]; }> = ({ 
     return null;
   }
   return (
-    <View style={{ position: "absolute", bottom: 0, flex: 1, justifyContent: "center", alignItems: "flex-end", width: "100%", padding: 8 }}>
+    <View>
       <Button mode="contained" compact icon="stop-circle" labelStyle={{ fontSize: 14 }} onPress={() => createWorkout()}>
         {minutes} min
       </Button>

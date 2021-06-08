@@ -18,7 +18,7 @@ const useLocalVolumes = (workoutPlanDayData: WorkoutPlanDayByIdQuery | undefined
     setExerciseSetVolumes((old) => {
       if (old) {
         const copy = { ...old };
-        copy[workoutPlanExerciseId][setIndex] = volume;
+        copy[workoutPlanExerciseId].volumes[setIndex] = volume;
         return copy;
       }
     });
@@ -50,6 +50,7 @@ const useLocalVolumes = (workoutPlanDayData: WorkoutPlanDayByIdQuery | undefined
       setExerciseSetVolumes(newExerciseSetVolumes);
     }
   }, [workoutPlanDayData]);
+
   return { exerciseSetVolumes, updateVolumes };
 };
 export default useLocalVolumes;

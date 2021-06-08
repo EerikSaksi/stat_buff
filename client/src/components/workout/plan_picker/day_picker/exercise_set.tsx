@@ -11,9 +11,9 @@ const WorkoutExerciseSet: React.FC<{
   workoutPlanExerciseId: number,
   volume: ConditionalVolume;
   updateVolumes: (workoutPlanExerciseId: number, setIndex: number, volume: ConditionalVolume) => void;
-  bodystat: BodystatFragment | undefined;
+  bodystat: BodystatFragment;
 }> = ({ exerciseId, setIndex, workoutPlanExerciseId, volume, updateVolumes, bodystat }) => {
-  const predictions = useStrengthPredictions(volume.reps, volume.weight, exerciseId, bodystat);
+  const predictions = useStrengthPredictions(volume, exerciseId, bodystat);
   return (
     <List.Item
       title={predictions ? `${predictions.percentile}%, 1RM: ${predictions.oneRepMax}` : ""}
@@ -56,4 +56,4 @@ const WorkoutExerciseSet: React.FC<{
     ></List.Item>
   );
 };
-export default React.memo(WorkoutExerciseSet);
+export default WorkoutExerciseSet;
