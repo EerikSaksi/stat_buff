@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   useWorkoutQuery,
   useUpdateUserCurrentWorkoutPlanMutation,
-  useCreateWorkoutPlanMutation,
-  WorkoutPlanFragmentDoc,
 } from "../../generated/graphql";
-import { ActivityIndicator, Checkbox, Button, TextInput, Portal, Dialog } from "react-native-paper";
+import { ActivityIndicator, Checkbox, Button, } from "react-native-paper";
 import { List } from "react-native-paper";
 import { View, Text } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../workout";
+import NewWorkoutPlanDialog from "./new_workout_plan_dialog";
 
 type NavigationProp = StackNavigationProp<RootStackParamList, "Select Workout">;
 type Props = {
@@ -19,34 +18,10 @@ type Props = {
 const WorkoutPlanPicker: React.FC<Props> = ({ navigation }) => {
   const { data } = useWorkoutQuery();
   const [updateUserCurrentWorkoutPlan] = useUpdateUserCurrentWorkoutPlanMutation();
-  const [newWorkoutPlanName, setNewWorkoutPlanName] = useState<undefined | string>();
-  const closeDialog = () => setNewWorkoutPlanName(undefined);
-  const [createWorkoutPlan] = useCreateWorkoutPlanMutation({
-    update(cache, { data: createWorkoutPlanData }) {
-      cache.modify({
-        id: cache.identify(data!.activeUser!),
-        fields: {
-          workoutPlans(existingWorkoutPlans = { nodes: [] }) {
-            const newWorkoutPlan = createWorkoutPlanData?.createWorkoutPlan?.workoutPlan;
-            if (newWorkoutPlan) {
-              const newWorkoutPlanExercise = cache.writeFragment({
-                data: newWorkoutPlan,
-                fragment: WorkoutPlanFragmentDoc,
-              });
-              return { nodes: [...existingWorkoutPlans.nodes, newWorkoutPlanExercise] };
-            }
-          },
-        },
-      });
-    },
-    onCompleted: closeDialog,
-  });
-  console.log(newWorkoutPlanName);
   if (!data?.activeUser) {
     return <ActivityIndicator />;
   }
   return (
-    <>
       <List.Section>
         {data.activeUser.workoutPlans.nodes.map((plan) => (
           <List.Item
@@ -84,36 +59,8 @@ const WorkoutPlanPicker: React.FC<Props> = ({ navigation }) => {
             )}
           />
         ))}
-        <Button icon="table-row-plus-after" onPress={() => setNewWorkoutPlanName("")}>
-          Create new plan
-        </Button>
-        <Portal>
-          <Dialog visible={newWorkoutPlanName !== undefined} onDismiss={closeDialog}>
-            <Dialog.Title>Enter name for new plan</Dialog.Title>
-            <Dialog.Content>
-              <TextInput autoFocus dense mode="outlined" value={newWorkoutPlanName} onChangeText={(t) => setNewWorkoutPlanName(t)} />
-            </Dialog.Content>
-            <Dialog.Actions>
-              <Button onPress={closeDialog}>Cancel</Button>
-              <Button
-                disabled={newWorkoutPlanName === undefined || !newWorkoutPlanName.length || !data.activeUser.id}
-                mode="contained"
-                onPress={() =>
-                  createWorkoutPlan({
-                    variables: {
-                      name: newWorkoutPlanName!,
-                      userId: data!.activeUser!.id,
-                    },
-                  })
-                }
-              >
-                Submit
-              </Button>
-            </Dialog.Actions>
-          </Dialog>
-        </Portal>
+        <NewWorkoutPlanDialog userId = {data.activeUser.id} workoutPlanNames = {data.activeUser.workoutPlans.nodes.map(workoutPlan => workoutPlan.name)}/>
       </List.Section>
-    </>
   );
 };
 export default WorkoutPlanPicker;
