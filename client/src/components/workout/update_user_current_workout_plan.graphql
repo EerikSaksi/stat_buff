@@ -7,3 +7,4 @@ mutation updateUserCurrentWorkoutPlan($userId: Int!, $currentWorkoutPlanId: Int)
   }
 }
 
+

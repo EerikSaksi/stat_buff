@@ -1,3 +1,18 @@
+
+do $$
+begin  
+  if not exists (select 1 from workout_plan where id = 1) then 
+    insert into workout_plan(name, id) values ('Push Pull Pegs', 1);
+  end if;
+end $$;
+
+do $$
+begin  
+  if not exists (select 1 from workout_plan_day where id = 1) then 
+    insert into workout_plan_day(id, workout_plan_id, name) values (1, 1, 'Legs');
+  end if;
+end $$;
+
 do $$
 begin  
   if not exists (select 1 from workout_plan_exercise where ordering = 0) then 
@@ -17,7 +32,7 @@ create index if not exists exercise_name_idx on "exercise"(name);
 drop table if exists user_current_workout_plan;
 
 alter TABLE "user" drop COLUMN if exists current_workout_plan_id;
-ALTER TABLE "user" ADD COLUMN current_workout_plan_id integer references "workout_plan"(id) on delete cascade;
+ALTER TABLE "user" ADD COLUMN current_workout_plan_id integer references "workout_plan"(id) on delete set null;
 create index if not exists user_workout_plan_idx on "user"(current_workout_plan_id);
 
 
@@ -49,10 +64,13 @@ CHECK (
   (name = '') IS FALSE
 );
 
-ALTER TABLE workout_plan_exercise drop CONSTRAINT if exists non_empty_name;
+
+ALTER TABLE workout_plan_day drop CONSTRAINT if exists non_empty_name;
 ALTER TABLE workout_plan_day
 ADD CONSTRAINT non_empty_name
 CHECK (
   (name = '') IS FALSE
 );
 
+delete from "workout_plan";
+ALTER TABLE "workout_plan" alter column user_id set not null;

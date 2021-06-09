@@ -1,14 +1,11 @@
-import React from "react";
-import {
-  useWorkoutQuery,
-  useUpdateUserCurrentWorkoutPlanMutation,
-} from "../../generated/graphql";
-import { ActivityIndicator, Checkbox, Button, } from "react-native-paper";
+import React, { useState, useEffect } from "react";
+import { useWorkoutQuery, useUpdateUserCurrentWorkoutPlanMutation } from "../../generated/graphql";
+import { ActivityIndicator, Button, Menu, Divider, TouchableRipple, Surface } from "react-native-paper";
 import { List } from "react-native-paper";
-import { View, Text } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../workout";
 import NewWorkoutPlanDialog from "./new_workout_plan_dialog";
+import {View} from "react-native";
 
 type NavigationProp = StackNavigationProp<RootStackParamList, "Select Workout">;
 type Props = {
@@ -16,51 +13,43 @@ type Props = {
 };
 
 const WorkoutPlanPicker: React.FC<Props> = ({ navigation }) => {
-  const { data } = useWorkoutQuery();
+  const { data } = useWorkoutQuery({
+    onCompleted: () => {
+      const currentId = data?.activeUser?.currentWorkoutPlanId;
+      if (currentId) {
+        navigation.navigate("Select Workout Day", { workoutPlanId: currentId });
+      }
+    },
+  });
+  const [visible, setVisible] = useState(true);
+  useEffect(() => {
+    setVisible(true);
+  }, []);
   const [updateUserCurrentWorkoutPlan] = useUpdateUserCurrentWorkoutPlanMutation();
   if (!data?.activeUser) {
     return <ActivityIndicator />;
   }
   return (
-      <List.Section>
-        {data.activeUser.workoutPlans.nodes.map((plan) => (
-          <List.Item
-            key={plan.id}
-            title={plan.name}
-            right={() => (
-              <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
-                <Text>Default</Text>
-                <Checkbox
-                  status={plan.id === data.activeUser?.currentWorkoutPlanId ? "checked" : "unchecked"}
-                  onPress={() => {
-                    if (data.activeUser?.id) {
-                      const currentWorkoutPlanId = plan.id === data.activeUser?.currentWorkoutPlanId ? null : plan.id;
-                      const userId = data.activeUser.id;
-                      updateUserCurrentWorkoutPlan({
-                        variables: { userId: data.activeUser.id, currentWorkoutPlanId },
-                        optimisticResponse: {
-                          updateUser: {
-                            __typename: "UpdateUserPayload",
-                            user: {
-                              __typename: "User",
-                              id: userId,
-                              currentWorkoutPlanId,
-                            },
-                          },
-                        },
-                      });
-                    }
-                  }}
-                />
-                <Button icon="arrow-right" onPress={() => navigation.navigate("Select Workout Day", { workoutPlanId: plan.id })}>
-                  View
-                </Button>
-              </View>
-            )}
-          />
-        ))}
-        <NewWorkoutPlanDialog userId = {data.activeUser.id} workoutPlanNames = {data.activeUser.workoutPlans.nodes.map(workoutPlan => workoutPlan.name)}/>
-      </List.Section>
+    <List.Section>
+      {data.activeUser.workoutPlans.nodes.map((plan) => (
+        <List.Item
+          style={{ marginBottom: 1, backgroundColor: "lightblue" }}
+          title={plan.name}
+          left={() => <List.Icon icon="clipboard-list" />}
+          right={() => (
+            <View style = {{ justifyContent: 'center', alignItems: 'center' }}>
+              <Button icon="dots-vertical">{""}</Button>
+            </View>
+          )}
+        >
+          {""}
+        </List.Item>
+      ))}
+      <NewWorkoutPlanDialog
+        userId={data.activeUser.id}
+        workoutPlanNames={data.activeUser.workoutPlans.nodes.map((workoutPlan) => workoutPlan.name)}
+      />
+    </List.Section>
   );
 };
 export default WorkoutPlanPicker;

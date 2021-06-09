@@ -17,7 +17,7 @@ const postgraphileOptions = {
   setofFunctionsContainNulls: false,
   ignoreRBAC: false,
   ignoreIndexes: false,
-  appendPlugins: [require("@graphile-contrib/pg-simplify-inflector"), require("postgraphile-plugin-connection-filter"), MyPlugins, PgMutationUpsertPlugin, PgManyCUDPlugin, PgNonNullRelationsPlugin],
+  appendPlugins: [require("@graphile-contrib/pg-simplify-inflector"), require("postgraphile-plugin-connection-filter"), MyPlugins, PgManyCUDPlugin, PgNonNullRelationsPlugin],
   exportGqlSchemaPath: "schema.graphql",
   handleErrors: (error) => console.log(error),
   graphiql: true,

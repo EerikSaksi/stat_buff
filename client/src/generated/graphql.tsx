@@ -4953,6 +4953,17 @@ export type MnUpdateCompletedWorkoutExercisePayloadCompletedWorkoutExerciseEdgeA
   orderBy?: Maybe<Array<CompletedWorkoutExercisesOrderBy>>;
 };
 
+export type ActiveUserCurrentWorkoutPlanIdQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ActiveUserCurrentWorkoutPlanIdQuery = (
+  { __typename?: 'Query' }
+  & { activeUser?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'currentWorkoutPlanId'>
+  )> }
+);
+
 export type CreateWorkoutPlanMutationVariables = Exact<{
   name: Scalars['String'];
   userId: Scalars['Int'];
@@ -5223,6 +5234,41 @@ export const ExerciseFragmentDoc = gql`
   eliteStrengthBaseline
 }
     `;
+export const ActiveUserCurrentWorkoutPlanIdDocument = gql`
+    query activeUserCurrentWorkoutPlanId {
+  activeUser {
+    id
+    currentWorkoutPlanId
+  }
+}
+    `;
+
+/**
+ * __useActiveUserCurrentWorkoutPlanIdQuery__
+ *
+ * To run a query within a React component, call `useActiveUserCurrentWorkoutPlanIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useActiveUserCurrentWorkoutPlanIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useActiveUserCurrentWorkoutPlanIdQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useActiveUserCurrentWorkoutPlanIdQuery(baseOptions?: Apollo.QueryHookOptions<ActiveUserCurrentWorkoutPlanIdQuery, ActiveUserCurrentWorkoutPlanIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ActiveUserCurrentWorkoutPlanIdQuery, ActiveUserCurrentWorkoutPlanIdQueryVariables>(ActiveUserCurrentWorkoutPlanIdDocument, options);
+      }
+export function useActiveUserCurrentWorkoutPlanIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ActiveUserCurrentWorkoutPlanIdQuery, ActiveUserCurrentWorkoutPlanIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ActiveUserCurrentWorkoutPlanIdQuery, ActiveUserCurrentWorkoutPlanIdQueryVariables>(ActiveUserCurrentWorkoutPlanIdDocument, options);
+        }
+export type ActiveUserCurrentWorkoutPlanIdQueryHookResult = ReturnType<typeof useActiveUserCurrentWorkoutPlanIdQuery>;
+export type ActiveUserCurrentWorkoutPlanIdLazyQueryHookResult = ReturnType<typeof useActiveUserCurrentWorkoutPlanIdLazyQuery>;
+export type ActiveUserCurrentWorkoutPlanIdQueryResult = Apollo.QueryResult<ActiveUserCurrentWorkoutPlanIdQuery, ActiveUserCurrentWorkoutPlanIdQueryVariables>;
 export const CreateWorkoutPlanDocument = gql`
     mutation createWorkoutPlan($name: String!, $userId: Int!) {
   createWorkoutPlan(input: {workoutPlan: {name: $name, userId: $userId}}) {
