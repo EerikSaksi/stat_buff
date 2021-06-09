@@ -4953,6 +4953,23 @@ export type MnUpdateCompletedWorkoutExercisePayloadCompletedWorkoutExerciseEdgeA
   orderBy?: Maybe<Array<CompletedWorkoutExercisesOrderBy>>;
 };
 
+export type CreateWorkoutPlanMutationVariables = Exact<{
+  name: Scalars['String'];
+  userId: Scalars['Int'];
+}>;
+
+
+export type CreateWorkoutPlanMutation = (
+  { __typename?: 'Mutation' }
+  & { createWorkoutPlan?: Maybe<(
+    { __typename?: 'CreateWorkoutPlanPayload' }
+    & { workoutPlan?: Maybe<(
+      { __typename?: 'WorkoutPlan' }
+      & WorkoutPlanFragment
+    )> }
+  )> }
+);
+
 export type CreateCompletedWorkoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -5206,6 +5223,42 @@ export const ExerciseFragmentDoc = gql`
   eliteStrengthBaseline
 }
     `;
+export const CreateWorkoutPlanDocument = gql`
+    mutation createWorkoutPlan($name: String!, $userId: Int!) {
+  createWorkoutPlan(input: {workoutPlan: {name: $name, userId: $userId}}) {
+    workoutPlan {
+      ...WorkoutPlan
+    }
+  }
+}
+    ${WorkoutPlanFragmentDoc}`;
+export type CreateWorkoutPlanMutationFn = Apollo.MutationFunction<CreateWorkoutPlanMutation, CreateWorkoutPlanMutationVariables>;
+
+/**
+ * __useCreateWorkoutPlanMutation__
+ *
+ * To run a mutation, you first call `useCreateWorkoutPlanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateWorkoutPlanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createWorkoutPlanMutation, { data, loading, error }] = useCreateWorkoutPlanMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useCreateWorkoutPlanMutation(baseOptions?: Apollo.MutationHookOptions<CreateWorkoutPlanMutation, CreateWorkoutPlanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateWorkoutPlanMutation, CreateWorkoutPlanMutationVariables>(CreateWorkoutPlanDocument, options);
+      }
+export type CreateWorkoutPlanMutationHookResult = ReturnType<typeof useCreateWorkoutPlanMutation>;
+export type CreateWorkoutPlanMutationResult = Apollo.MutationResult<CreateWorkoutPlanMutation>;
+export type CreateWorkoutPlanMutationOptions = Apollo.BaseMutationOptions<CreateWorkoutPlanMutation, CreateWorkoutPlanMutationVariables>;
 export const CreateCompletedWorkoutDocument = gql`
     mutation createCompletedWorkout {
   createCompletedWorkout(input: {completedWorkout: {}}) {

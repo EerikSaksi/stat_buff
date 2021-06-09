@@ -39,3 +39,20 @@ values
   (4, 5, 5, 4, 1),
   (5, 5, 5, 5, 1),
   (6, 5, 5, 6, 1);
+
+
+
+ALTER TABLE workout_plan drop CONSTRAINT if exists non_empty_name;
+ALTER TABLE workout_plan
+ADD CONSTRAINT non_empty_name
+CHECK (
+  (name = '') IS FALSE
+);
+
+ALTER TABLE workout_plan_exercise drop CONSTRAINT if exists non_empty_name;
+ALTER TABLE workout_plan_day
+ADD CONSTRAINT non_empty_name
+CHECK (
+  (name = '') IS FALSE
+);
+

@@ -39,13 +39,13 @@ const WorkoutTimer: React.FC<{ exerciseSetVolumes: ExerciseSetVolumes }> = ({ ex
   useEffect(() => {
     if (!startTime.current) {
       //user has tracked a lift, then start the timer
-      //for (const [_, { volumes }] of Object.entries(exerciseSetVolumes)) {
-      //  if (volumes.some((volume) => volume.weight || volume.reps)) {
-      startTime.current = new Date();
-      setMinutes(0);
-      //    break;
-      //  }
-      //}
+      for (const [_, { volumes }] of Object.entries(exerciseSetVolumes)) {
+        if (volumes.some((volume) => volume.weight || volume.reps)) {
+          startTime.current = new Date();
+          setMinutes(0);
+          break;
+        }
+      }
     }
     const interval = setInterval(() => {
       if (startTime.current) {

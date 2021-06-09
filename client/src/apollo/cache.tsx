@@ -12,5 +12,6 @@ var cache;
     cache,
     storage: new AsyncStorageWrapper(AsyncStorage),
   });
+  await cache.reset()
 })();
 export { cache, visibleSection };
