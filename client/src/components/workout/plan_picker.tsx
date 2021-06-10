@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useWorkoutQuery, useUpdateUserCurrentWorkoutPlanMutation } from "../../generated/graphql";
-import { ActivityIndicator, Button, Menu, Divider, TouchableRipple, Surface } from "react-native-paper";
+import { ActivityIndicator, Button, Menu, Divider, TouchableRipple, Surface, DefaultTheme } from "react-native-paper";
 import { List } from "react-native-paper";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../workout";
 import NewWorkoutPlanDialog from "./new_workout_plan_dialog";
-import {View} from "react-native";
+import { View, ScrollView } from "react-native";
 
 type NavigationProp = StackNavigationProp<RootStackParamList, "Select Workout">;
 type Props = {
@@ -29,27 +29,48 @@ const WorkoutPlanPicker: React.FC<Props> = ({ navigation }) => {
   if (!data?.activeUser) {
     return <ActivityIndicator />;
   }
+
   return (
-    <List.Section>
-      {data.activeUser.workoutPlans.nodes.map((plan) => (
-        <List.Item
-          style={{ marginBottom: 1, backgroundColor: "lightblue" }}
-          title={plan.name}
-          left={() => <List.Icon icon="clipboard-list" />}
-          right={() => (
-            <View style = {{ justifyContent: 'center', alignItems: 'center' }}>
-              <Button icon="dots-vertical">{""}</Button>
-            </View>
-          )}
-        >
-          {""}
-        </List.Item>
-      ))}
-      <NewWorkoutPlanDialog
-        userId={data.activeUser.id}
-        workoutPlanNames={data.activeUser.workoutPlans.nodes.map((workoutPlan) => workoutPlan.name)}
-      />
-    </List.Section>
+    <ScrollView contentContainerStyle={{ flex: 1, alignItems: "center" }}>
+      <List.Section style={{ width: "70%" }}>
+        {data.activeUser.workoutPlans.nodes.map((plan) => (
+          <TouchableRipple
+            key={plan.id}
+            style={{ marginBottom: "4%" }}
+            onPress={() => navigation.navigate("Select Workout Day", { workoutPlanId: plan.id })}
+          >
+            <List.Item
+              style={{ borderColor: DefaultTheme.colors.primary, borderWidth: 1, borderRadius: 10 }}
+              title={plan.name}
+              left={() => <List.Icon icon="clipboard-list" />}
+              right={() => (
+                <Menu
+                  visible={false}
+                  onDismiss={() => null}
+                  style={{ alignItems: "center", justifyContent: "center" }}
+                  anchor={
+                    <View style={{ justifyContent: "center", flex: 1 }}>
+                      <Button icon="dots-vertical">{""}</Button>
+                    </View>
+                  }
+                >
+                  <Menu.Item onPress={() => {}} title="Item 1" />
+                  <Menu.Item onPress={() => {}} title="Item 2" />
+                  <Divider />
+                  <Menu.Item onPress={() => {}} title="Item 3" />
+                </Menu>
+              )}
+            >
+              {""}
+            </List.Item>
+          </TouchableRipple>
+        ))}
+        <NewWorkoutPlanDialog
+          userId={data.activeUser.id}
+          workoutPlanNames={data.activeUser.workoutPlans.nodes.map((workoutPlan) => workoutPlan.name)}
+        />
+      </List.Section>
+    </ScrollView>
   );
 };
 export default WorkoutPlanPicker;
