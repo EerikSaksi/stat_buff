@@ -7,16 +7,19 @@ import {
   useRenameWorkoutPlanMutation,
   useDeleteWorkoutPlanMutation,
 } from "../../generated/graphql";
+import useDuplicateValidation from "./use_duplicate_validation";
 
 const ListItemWithMenu: React.FC<{
   workoutPlan: WorkoutPlanFragment;
   onPress: (WorkoutPlanFragment: any) => void;
   userId: number;
   isDefault: boolean;
-}> = ({ workoutPlan, onPress, userId, isDefault }) => {
+  workoutPlanNames: string[];
+}> = ({ workoutPlan, onPress, userId, isDefault, workoutPlanNames }) => {
   const [visible, setVisible] = useState(false);
   const [newPlanName, setNewPlanName] = useState<undefined | string>();
   const [updateUserCurrentWorkout] = useUpdateUserCurrentWorkoutPlanMutation();
+  const { duplicateError } = useDuplicateValidation(workoutPlanNames, newPlanName, workoutPlan.name);
   const [renameWorkoutPlan] = useRenameWorkoutPlanMutation({
     variables: {
       name: newPlanName!,
@@ -44,6 +47,7 @@ const ListItemWithMenu: React.FC<{
       }
     },
   });
+  
   return (
     <TouchableRipple onPress={() => onPress(workoutPlan)}>
       <List.Item
@@ -63,10 +67,13 @@ const ListItemWithMenu: React.FC<{
                   autoFocus
                   dense
                   style={{ height: 55 }}
-                  onBlur={() => renameWorkoutPlan()}
+                  error = {duplicateError || newPlanName === ""}
+                  onBlur={() => {
+                    if (!duplicateError && newPlanName) renameWorkoutPlan();
+                  }}
                 ></TextInput>
                 <View style={{ justifyContent: "center" }}>
-                  <Button icon="check" labelStyle={{ fontSize: 24 }} onPress={() => renameWorkoutPlan()}>
+                  <Button icon="check" disabled={duplicateError || newPlanName === ""} labelStyle={{ fontSize: 24 }} onPress={() => renameWorkoutPlan()}>
                     {""}
                   </Button>
                 </View>

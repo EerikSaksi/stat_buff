@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { TextInput, Portal, Dialog, Button } from "react-native-paper";
 import { useCreateWorkoutPlanMutation, WorkoutPlanFragmentDoc } from "../../generated/graphql";
+import useDuplicateValidation from "./use_duplicate_validation";
 
-
-
-const NewWorkoutPlanDialog: React.FC<{ userId: number, workoutPlanNames: string[] }> = ({ userId, workoutPlanNames }) => {
+const NewWorkoutPlanDialog: React.FC<{ userId: number; workoutPlanNames: string[] }> = ({ userId, workoutPlanNames }) => {
   const [newWorkoutPlanName, setNewWorkoutPlanName] = useState<undefined | string>();
   const closeDialog = () => setNewWorkoutPlanName(undefined);
+  const { duplicateError } = useDuplicateValidation(workoutPlanNames, newWorkoutPlanName, undefined);
 
   const [createWorkoutPlan] = useCreateWorkoutPlanMutation({
     update(cache, { data: createWorkoutPlanData }) {
@@ -26,7 +26,6 @@ const NewWorkoutPlanDialog: React.FC<{ userId: number, workoutPlanNames: string[
         },
       });
     },
-    onCompleted: closeDialog,
   });
   return (
     <>
@@ -37,14 +36,23 @@ const NewWorkoutPlanDialog: React.FC<{ userId: number, workoutPlanNames: string[
         <Dialog visible={newWorkoutPlanName !== undefined} onDismiss={closeDialog}>
           <Dialog.Title>Enter New Plan Name</Dialog.Title>
           <Dialog.Content>
-            <TextInput autoFocus dense mode="outlined" error = {duplicateError} label = {duplicateError ? `${newWorkoutPlanName} already exists` : undefined}  value={newWorkoutPlanName} onChangeText={(t) => setNewWorkoutPlanName(t)} />
+            <TextInput
+              autoFocus
+              dense
+              mode="outlined"
+              error={duplicateError}
+              label={duplicateError ? `${newWorkoutPlanName} already exists` : undefined}
+              value={newWorkoutPlanName}
+              onChangeText={(t) => setNewWorkoutPlanName(t)}
+            />
           </Dialog.Content>
           <Dialog.Actions>
             <Button onPress={closeDialog}>Cancel</Button>
             <Button
-              disabled={newWorkoutPlanName === undefined || !newWorkoutPlanName.length || duplicateError} 
+              disabled={newWorkoutPlanName === undefined || !newWorkoutPlanName.length || duplicateError}
               mode="contained"
-              onPress={() =>
+              onPress={() => {
+                closeDialog()
                 createWorkoutPlan({
                   variables: {
                     name: newWorkoutPlanName!,
@@ -56,8 +64,8 @@ const NewWorkoutPlanDialog: React.FC<{ userId: number, workoutPlanNames: string[
                       workoutPlan: { __typename: "WorkoutPlan", name: newWorkoutPlanName!, id: -1 },
                     },
                   },
-                })
-              }
+                });
+              }}
             >
               Submit
             </Button>
