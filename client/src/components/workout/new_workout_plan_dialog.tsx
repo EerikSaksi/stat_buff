@@ -7,11 +7,6 @@ import { useCreateWorkoutPlanMutation, WorkoutPlanFragmentDoc } from "../../gene
 const NewWorkoutPlanDialog: React.FC<{ userId: number, workoutPlanNames: string[] }> = ({ userId, workoutPlanNames }) => {
   const [newWorkoutPlanName, setNewWorkoutPlanName] = useState<undefined | string>();
   const closeDialog = () => setNewWorkoutPlanName(undefined);
-  const [duplicateError, setDuplicateError] = useState(false)
-
-  useEffect(() => {
-    setDuplicateError(workoutPlanNames.some(name => newWorkoutPlanName === name))
-  }, [newWorkoutPlanName])
 
   const [createWorkoutPlan] = useCreateWorkoutPlanMutation({
     update(cache, { data: createWorkoutPlanData }) {
