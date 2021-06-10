@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useWorkoutQuery, useUpdateUserCurrentWorkoutPlanMutation } from "../../generated/graphql";
-import { ActivityIndicator, Button, Menu, Divider, TouchableRipple, Surface, DefaultTheme } from "react-native-paper";
+import React, { useCallback } from "react";
+import { useWorkoutQuery, WorkoutPlanFragment } from "../../generated/graphql";
+import { ActivityIndicator } from "react-native-paper";
 import { List } from "react-native-paper";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../workout";
 import NewWorkoutPlanDialog from "./new_workout_plan_dialog";
-import { View, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
+import ListItemWithMenu from "./list_item_with_menu";
 
 type NavigationProp = StackNavigationProp<RootStackParamList, "Select Workout">;
 type Props = {
@@ -21,49 +22,19 @@ const WorkoutPlanPicker: React.FC<Props> = ({ navigation }) => {
       }
     },
   });
-  const [visible, setVisible] = useState(true);
-  useEffect(() => {
-    setVisible(true);
+
+  const onListItemPress = useCallback((plan: WorkoutPlanFragment) => {
+    navigation.navigate("Select Workout Day", { workoutPlanId: plan.id });
   }, []);
-  const [updateUserCurrentWorkoutPlan] = useUpdateUserCurrentWorkoutPlanMutation();
-  if (!data?.activeUser) {
+
+  if (!data?.activeUser?.id) {
     return <ActivityIndicator />;
   }
-
   return (
     <ScrollView contentContainerStyle={{ flex: 1, alignItems: "center" }}>
-      <List.Section style={{ width: "70%" }}>
-        {data.activeUser.workoutPlans.nodes.map((plan) => (
-          <TouchableRipple
-            key={plan.id}
-            style={{ marginBottom: "4%" }}
-            onPress={() => navigation.navigate("Select Workout Day", { workoutPlanId: plan.id })}
-          >
-            <List.Item
-              style={{ borderColor: DefaultTheme.colors.primary, borderWidth: 1, borderRadius: 10 }}
-              title={plan.name}
-              left={() => <List.Icon icon="clipboard-list" />}
-              right={() => (
-                <Menu
-                  visible={false}
-                  onDismiss={() => null}
-                  style={{ alignItems: "center", justifyContent: "center" }}
-                  anchor={
-                    <View style={{ justifyContent: "center", flex: 1 }}>
-                      <Button icon="dots-vertical">{""}</Button>
-                    </View>
-                  }
-                >
-                  <Menu.Item onPress={() => {}} title="Item 1" />
-                  <Menu.Item onPress={() => {}} title="Item 2" />
-                  <Divider />
-                  <Menu.Item onPress={() => {}} title="Item 3" />
-                </Menu>
-              )}
-            >
-              {""}
-            </List.Item>
-          </TouchableRipple>
+      <List.Section style={{ width: "80%" }}>
+        {data.activeUser.workoutPlans.nodes.map((workoutPlan) => (
+          <ListItemWithMenu key={workoutPlan.id} workoutPlan={workoutPlan} onPress={onListItemPress} userId = {data.activeUser!.id} isDefault = {workoutPlan.id === data.activeUser!.currentWorkoutPlanId} />
         ))}
         <NewWorkoutPlanDialog
           userId={data.activeUser.id}
