@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors')
 const {postgraphile, makePluginHook} = require('postgraphile');
 const MyPlugins = require('./postgraphile_plugins')
-const { PgMutationUpsertPlugin,  } = require('postgraphile-upsert-plugin')
 const {default: PgManyCUDPlugin} = require('postgraphile-plugin-many-create-update-delete')
 const PgNonNullRelationsPlugin = require('@graphile-contrib/pg-non-null/relations');
 const { default: PgPubsub } = require("@graphile/pg-pubsub"); 

@@ -18,7 +18,7 @@ const WorkoutPlanPicker: React.FC<Props> = ({ navigation }) => {
     onCompleted: () => {
       const currentId = data?.activeUser?.currentWorkoutPlanId;
       if (currentId) {
-        navigation.navigate("Select Workout Day", { workoutPlanId: currentId });
+        //navigation.navigate("Select Workout Day", { workoutPlanId: currentId });
       }
     },
   });

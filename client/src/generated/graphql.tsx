@@ -90,15 +90,6 @@ export type BattleFilter = {
   not?: Maybe<BattleFilter>;
 };
 
-/** An input for mutations affecting `Battle` */
-export type BattleInput = {
-  enemyLevel?: Maybe<Scalars['Int']>;
-  groupname: Scalars['String'];
-  battleNumber?: Maybe<Scalars['Int']>;
-  currentHealth?: Maybe<Scalars['Float']>;
-  maxHealth?: Maybe<Scalars['Float']>;
-};
-
 /** Represents an update to a `Battle`. Fields that are set will be updated. */
 export type BattlePatch = {
   enemyLevel?: Maybe<Scalars['Int']>;
@@ -780,7 +771,7 @@ export type CreateWorkoutPlanPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `WorkoutPlan`. */
-  user?: Maybe<User>;
+  user: User;
   /** An edge for our `WorkoutPlan`. May be used by Relay 1. */
   workoutPlanEdge?: Maybe<WorkoutPlansEdge>;
 };
@@ -1385,7 +1376,7 @@ export type DeleteWorkoutPlanPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `WorkoutPlan`. */
-  user?: Maybe<User>;
+  user: User;
   /** An edge for our `WorkoutPlan`. May be used by Relay 1. */
   workoutPlanEdge?: Maybe<WorkoutPlansEdge>;
 };
@@ -2002,32 +1993,6 @@ export type Mutation = {
   joinGroup?: Maybe<JoinGroupPayload>;
   joinRandomPublicGroup?: Maybe<JoinRandomPublicGroupPayload>;
   nullifyGroup?: Maybe<NullifyGroupPayload>;
-  /** Upserts a single `Battle`. */
-  upsertBattle?: Maybe<UpsertBattlePayload>;
-  /** Upserts a single `Bodystat`. */
-  upsertBodystat?: Maybe<UpsertBodystatPayload>;
-  /** Upserts a single `CompletedWorkout`. */
-  upsertCompletedWorkout?: Maybe<UpsertCompletedWorkoutPayload>;
-  /** Upserts a single `CompletedWorkoutExercise`. */
-  upsertCompletedWorkoutExercise?: Maybe<UpsertCompletedWorkoutExercisePayload>;
-  /** Upserts a single `Exercise`. */
-  upsertExercise?: Maybe<UpsertExercisePayload>;
-  /** Upserts a single `Group`. */
-  upsertGroup?: Maybe<UpsertGroupPayload>;
-  /** Upserts a single `SessionAnalytic`. */
-  upsertSessionAnalytic?: Maybe<UpsertSessionAnalyticPayload>;
-  /** Upserts a single `User`. */
-  upsertUser?: Maybe<UpsertUserPayload>;
-  /** Upserts a single `UserExercise`. */
-  upsertUserExercise?: Maybe<UpsertUserExercisePayload>;
-  /** Upserts a single `Volume`. */
-  upsertVolume?: Maybe<UpsertVolumePayload>;
-  /** Upserts a single `WorkoutPlan`. */
-  upsertWorkoutPlan?: Maybe<UpsertWorkoutPlanPayload>;
-  /** Upserts a single `WorkoutPlanDay`. */
-  upsertWorkoutPlanDay?: Maybe<UpsertWorkoutPlanDayPayload>;
-  /** Upserts a single `WorkoutPlanExercise`. */
-  upsertWorkoutPlanExercise?: Maybe<UpsertWorkoutPlanExercisePayload>;
   /** Creates one or many `CompletedWorkoutExercise`. */
   mnCreateCompletedWorkoutExercise?: Maybe<MnCreateCompletedWorkoutExercisePayload>;
   /** Updates one or many `CompletedWorkoutExercise` using a unique key and a patch. */
@@ -2454,84 +2419,6 @@ export type MutationJoinRandomPublicGroupArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationNullifyGroupArgs = {
   input: NullifyGroupInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpsertBattleArgs = {
-  input: UpsertBattleInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpsertBodystatArgs = {
-  input: UpsertBodystatInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpsertCompletedWorkoutArgs = {
-  input: UpsertCompletedWorkoutInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpsertCompletedWorkoutExerciseArgs = {
-  input: UpsertCompletedWorkoutExerciseInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpsertExerciseArgs = {
-  input: UpsertExerciseInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpsertGroupArgs = {
-  input: UpsertGroupInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpsertSessionAnalyticArgs = {
-  input: UpsertSessionAnalyticInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpsertUserArgs = {
-  input: UpsertUserInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpsertUserExerciseArgs = {
-  input: UpsertUserExerciseInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpsertVolumeArgs = {
-  input: UpsertVolumeInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpsertWorkoutPlanArgs = {
-  input: UpsertWorkoutPlanInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpsertWorkoutPlanDayArgs = {
-  input: UpsertWorkoutPlanDayInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpsertWorkoutPlanExerciseArgs = {
-  input: UpsertWorkoutPlanExerciseInput;
 };
 
 
@@ -3849,7 +3736,7 @@ export type UpdateWorkoutPlanPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `WorkoutPlan`. */
-  user?: Maybe<User>;
+  user: User;
   /** An edge for our `WorkoutPlan`. May be used by Relay 1. */
   workoutPlanEdge?: Maybe<WorkoutPlansEdge>;
 };
@@ -3857,387 +3744,6 @@ export type UpdateWorkoutPlanPayload = {
 
 /** The output of our update `WorkoutPlan` mutation. */
 export type UpdateWorkoutPlanPayloadWorkoutPlanEdgeArgs = {
-  orderBy?: Maybe<Array<WorkoutPlansOrderBy>>;
-};
-
-/** All input for the upsert `Battle` mutation. */
-export type UpsertBattleInput = {
-  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Battle` to be upserted by this mutation. */
-  battle: BattleInput;
-};
-
-/** The output of our upsert `Battle` mutation. */
-export type UpsertBattlePayload = {
-  __typename?: 'UpsertBattlePayload';
-  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Battle` that was upserted by this mutation. */
-  battle?: Maybe<Battle>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `Enemy` that is related to this `Battle`. */
-  enemyByEnemyLevel: Enemy;
-  /** Reads a single `Group` that is related to this `Battle`. */
-  groupByGroupname: Group;
-  /** An edge for our `Battle`. May be used by Relay 1. */
-  battleEdge?: Maybe<BattlesEdge>;
-};
-
-
-/** The output of our upsert `Battle` mutation. */
-export type UpsertBattlePayloadBattleEdgeArgs = {
-  orderBy?: Maybe<Array<BattlesOrderBy>>;
-};
-
-/** All input for the upsert `Bodystat` mutation. */
-export type UpsertBodystatInput = {
-  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Bodystat` to be upserted by this mutation. */
-  bodystat: BodystatInput;
-};
-
-/** The output of our upsert `Bodystat` mutation. */
-export type UpsertBodystatPayload = {
-  __typename?: 'UpsertBodystatPayload';
-  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Bodystat` that was upserted by this mutation. */
-  bodystat?: Maybe<Bodystat>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `User` that is related to this `Bodystat`. */
-  user: User;
-  /** An edge for our `Bodystat`. May be used by Relay 1. */
-  bodystatEdge?: Maybe<BodystatsEdge>;
-};
-
-
-/** The output of our upsert `Bodystat` mutation. */
-export type UpsertBodystatPayloadBodystatEdgeArgs = {
-  orderBy?: Maybe<Array<BodystatsOrderBy>>;
-};
-
-/** All input for the upsert `CompletedWorkoutExercise` mutation. */
-export type UpsertCompletedWorkoutExerciseInput = {
-  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `CompletedWorkoutExercise` to be upserted by this mutation. */
-  completedWorkoutExercise: CompletedWorkoutExerciseInput;
-};
-
-/** The output of our upsert `CompletedWorkoutExercise` mutation. */
-export type UpsertCompletedWorkoutExercisePayload = {
-  __typename?: 'UpsertCompletedWorkoutExercisePayload';
-  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `CompletedWorkoutExercise` that was upserted by this mutation. */
-  completedWorkoutExercise?: Maybe<CompletedWorkoutExercise>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `Exercise` that is related to this `CompletedWorkoutExercise`. */
-  exercise: Exercise;
-  /** Reads a single `CompletedWorkout` that is related to this `CompletedWorkoutExercise`. */
-  completedWorkout: CompletedWorkout;
-  /** An edge for our `CompletedWorkoutExercise`. May be used by Relay 1. */
-  completedWorkoutExerciseEdge?: Maybe<CompletedWorkoutExercisesEdge>;
-};
-
-
-/** The output of our upsert `CompletedWorkoutExercise` mutation. */
-export type UpsertCompletedWorkoutExercisePayloadCompletedWorkoutExerciseEdgeArgs = {
-  orderBy?: Maybe<Array<CompletedWorkoutExercisesOrderBy>>;
-};
-
-/** All input for the upsert `CompletedWorkout` mutation. */
-export type UpsertCompletedWorkoutInput = {
-  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `CompletedWorkout` to be upserted by this mutation. */
-  completedWorkout: CompletedWorkoutInput;
-};
-
-/** The output of our upsert `CompletedWorkout` mutation. */
-export type UpsertCompletedWorkoutPayload = {
-  __typename?: 'UpsertCompletedWorkoutPayload';
-  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `CompletedWorkout` that was upserted by this mutation. */
-  completedWorkout?: Maybe<CompletedWorkout>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** An edge for our `CompletedWorkout`. May be used by Relay 1. */
-  completedWorkoutEdge?: Maybe<CompletedWorkoutsEdge>;
-};
-
-
-/** The output of our upsert `CompletedWorkout` mutation. */
-export type UpsertCompletedWorkoutPayloadCompletedWorkoutEdgeArgs = {
-  orderBy?: Maybe<Array<CompletedWorkoutsOrderBy>>;
-};
-
-/** All input for the upsert `Exercise` mutation. */
-export type UpsertExerciseInput = {
-  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Exercise` to be upserted by this mutation. */
-  exercise: ExerciseInput;
-};
-
-/** The output of our upsert `Exercise` mutation. */
-export type UpsertExercisePayload = {
-  __typename?: 'UpsertExercisePayload';
-  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Exercise` that was upserted by this mutation. */
-  exercise?: Maybe<Exercise>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** An edge for our `Exercise`. May be used by Relay 1. */
-  exerciseEdge?: Maybe<ExercisesEdge>;
-};
-
-
-/** The output of our upsert `Exercise` mutation. */
-export type UpsertExercisePayloadExerciseEdgeArgs = {
-  orderBy?: Maybe<Array<ExercisesOrderBy>>;
-};
-
-/** All input for the upsert `Group` mutation. */
-export type UpsertGroupInput = {
-  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Group` to be upserted by this mutation. */
-  group: GroupInput;
-};
-
-/** The output of our upsert `Group` mutation. */
-export type UpsertGroupPayload = {
-  __typename?: 'UpsertGroupPayload';
-  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Group` that was upserted by this mutation. */
-  group?: Maybe<Group>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `Battle` that is related to this `Group`. */
-  battleByNameAndBattleNumber?: Maybe<Battle>;
-  /** An edge for our `Group`. May be used by Relay 1. */
-  groupEdge?: Maybe<GroupsEdge>;
-};
-
-
-/** The output of our upsert `Group` mutation. */
-export type UpsertGroupPayloadGroupEdgeArgs = {
-  orderBy?: Maybe<Array<GroupsOrderBy>>;
-};
-
-/** All input for the upsert `SessionAnalytic` mutation. */
-export type UpsertSessionAnalyticInput = {
-  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `SessionAnalytic` to be upserted by this mutation. */
-  sessionAnalytic: SessionAnalyticInput;
-};
-
-/** The output of our upsert `SessionAnalytic` mutation. */
-export type UpsertSessionAnalyticPayload = {
-  __typename?: 'UpsertSessionAnalyticPayload';
-  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `SessionAnalytic` that was upserted by this mutation. */
-  sessionAnalytic?: Maybe<SessionAnalytic>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `User` that is related to this `SessionAnalytic`. */
-  user: User;
-  /** An edge for our `SessionAnalytic`. May be used by Relay 1. */
-  sessionAnalyticEdge?: Maybe<SessionAnalyticsEdge>;
-};
-
-
-/** The output of our upsert `SessionAnalytic` mutation. */
-export type UpsertSessionAnalyticPayloadSessionAnalyticEdgeArgs = {
-  orderBy?: Maybe<Array<SessionAnalyticsOrderBy>>;
-};
-
-/** All input for the upsert `UserExercise` mutation. */
-export type UpsertUserExerciseInput = {
-  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `UserExercise` to be upserted by this mutation. */
-  userExercise: UserExerciseInput;
-};
-
-/** The output of our upsert `UserExercise` mutation. */
-export type UpsertUserExercisePayload = {
-  __typename?: 'UpsertUserExercisePayload';
-  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `UserExercise` that was upserted by this mutation. */
-  userExercise?: Maybe<UserExercise>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `Battle` that is related to this `UserExercise`. */
-  battleByGroupnameAndBattleNumber?: Maybe<Battle>;
-  /** Reads a single `User` that is related to this `UserExercise`. */
-  user: User;
-  /** An edge for our `UserExercise`. May be used by Relay 1. */
-  userExerciseEdge?: Maybe<UserExercisesEdge>;
-};
-
-
-/** The output of our upsert `UserExercise` mutation. */
-export type UpsertUserExercisePayloadUserExerciseEdgeArgs = {
-  orderBy?: Maybe<Array<UserExercisesOrderBy>>;
-};
-
-/** All input for the upsert `User` mutation. */
-export type UpsertUserInput = {
-  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `User` to be upserted by this mutation. */
-  user: UserInput;
-};
-
-/** The output of our upsert `User` mutation. */
-export type UpsertUserPayload = {
-  __typename?: 'UpsertUserPayload';
-  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `User` that was upserted by this mutation. */
-  user?: Maybe<User>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `Group` that is related to this `User`. */
-  groupByGroupname?: Maybe<Group>;
-  /** Reads a single `WorkoutPlan` that is related to this `User`. */
-  currentWorkoutPlan?: Maybe<WorkoutPlan>;
-  /** An edge for our `User`. May be used by Relay 1. */
-  userEdge?: Maybe<UsersEdge>;
-};
-
-
-/** The output of our upsert `User` mutation. */
-export type UpsertUserPayloadUserEdgeArgs = {
-  orderBy?: Maybe<Array<UsersOrderBy>>;
-};
-
-/** All input for the upsert `Volume` mutation. */
-export type UpsertVolumeInput = {
-  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Volume` to be upserted by this mutation. */
-  volume: VolumeInput;
-};
-
-/** The output of our upsert `Volume` mutation. */
-export type UpsertVolumePayload = {
-  __typename?: 'UpsertVolumePayload';
-  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Volume` that was upserted by this mutation. */
-  volume?: Maybe<Volume>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** An edge for our `Volume`. May be used by Relay 1. */
-  volumeEdge?: Maybe<VolumesEdge>;
-};
-
-
-/** The output of our upsert `Volume` mutation. */
-export type UpsertVolumePayloadVolumeEdgeArgs = {
-  orderBy?: Maybe<Array<VolumesOrderBy>>;
-};
-
-/** All input for the upsert `WorkoutPlanDay` mutation. */
-export type UpsertWorkoutPlanDayInput = {
-  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `WorkoutPlanDay` to be upserted by this mutation. */
-  workoutPlanDay: WorkoutPlanDayInput;
-};
-
-/** The output of our upsert `WorkoutPlanDay` mutation. */
-export type UpsertWorkoutPlanDayPayload = {
-  __typename?: 'UpsertWorkoutPlanDayPayload';
-  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `WorkoutPlanDay` that was upserted by this mutation. */
-  workoutPlanDay?: Maybe<WorkoutPlanDay>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `WorkoutPlan` that is related to this `WorkoutPlanDay`. */
-  workoutPlan: WorkoutPlan;
-  /** An edge for our `WorkoutPlanDay`. May be used by Relay 1. */
-  workoutPlanDayEdge?: Maybe<WorkoutPlanDaysEdge>;
-};
-
-
-/** The output of our upsert `WorkoutPlanDay` mutation. */
-export type UpsertWorkoutPlanDayPayloadWorkoutPlanDayEdgeArgs = {
-  orderBy?: Maybe<Array<WorkoutPlanDaysOrderBy>>;
-};
-
-/** All input for the upsert `WorkoutPlanExercise` mutation. */
-export type UpsertWorkoutPlanExerciseInput = {
-  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `WorkoutPlanExercise` to be upserted by this mutation. */
-  workoutPlanExercise: WorkoutPlanExerciseInput;
-};
-
-/** The output of our upsert `WorkoutPlanExercise` mutation. */
-export type UpsertWorkoutPlanExercisePayload = {
-  __typename?: 'UpsertWorkoutPlanExercisePayload';
-  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `WorkoutPlanExercise` that was upserted by this mutation. */
-  workoutPlanExercise?: Maybe<WorkoutPlanExercise>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `Exercise` that is related to this `WorkoutPlanExercise`. */
-  exercise: Exercise;
-  /** Reads a single `WorkoutPlanDay` that is related to this `WorkoutPlanExercise`. */
-  workoutPlanDay: WorkoutPlanDay;
-  /** An edge for our `WorkoutPlanExercise`. May be used by Relay 1. */
-  workoutPlanExerciseEdge?: Maybe<WorkoutPlanExercisesEdge>;
-};
-
-
-/** The output of our upsert `WorkoutPlanExercise` mutation. */
-export type UpsertWorkoutPlanExercisePayloadWorkoutPlanExerciseEdgeArgs = {
-  orderBy?: Maybe<Array<WorkoutPlanExercisesOrderBy>>;
-};
-
-/** All input for the upsert `WorkoutPlan` mutation. */
-export type UpsertWorkoutPlanInput = {
-  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `WorkoutPlan` to be upserted by this mutation. */
-  workoutPlan: WorkoutPlanInput;
-};
-
-/** The output of our upsert `WorkoutPlan` mutation. */
-export type UpsertWorkoutPlanPayload = {
-  __typename?: 'UpsertWorkoutPlanPayload';
-  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `WorkoutPlan` that was upserted by this mutation. */
-  workoutPlan?: Maybe<WorkoutPlan>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `User` that is related to this `WorkoutPlan`. */
-  user?: Maybe<User>;
-  /** An edge for our `WorkoutPlan`. May be used by Relay 1. */
-  workoutPlanEdge?: Maybe<WorkoutPlansEdge>;
-};
-
-
-/** The output of our upsert `WorkoutPlan` mutation. */
-export type UpsertWorkoutPlanPayloadWorkoutPlanEdgeArgs = {
   orderBy?: Maybe<Array<WorkoutPlansOrderBy>>;
 };
 
@@ -4445,14 +3951,6 @@ export type UserFilter = {
   not?: Maybe<UserFilter>;
 };
 
-/** An input for mutations affecting `User` */
-export type UserInput = {
-  username: Scalars['String'];
-  groupname?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['Int']>;
-  currentWorkoutPlanId?: Maybe<Scalars['Int']>;
-};
-
 /** Represents an update to a `User`. Fields that are set will be updated. */
 export type UserPatch = {
   username?: Maybe<Scalars['String']>;
@@ -4544,10 +4042,10 @@ export type WorkoutPlan = Node & {
   nodeId: Scalars['ID'];
   id: Scalars['Int'];
   createdAt: Scalars['Datetime'];
-  userId?: Maybe<Scalars['Int']>;
+  userId: Scalars['Int'];
   name: Scalars['String'];
   /** Reads a single `User` that is related to this `WorkoutPlan`. */
-  user?: Maybe<User>;
+  user: User;
   /** Reads and enables pagination through a set of `User`. */
   usersByCurrentWorkoutPlanId: UsersConnection;
   /** Reads and enables pagination through a set of `WorkoutPlanDay`. */
@@ -4808,7 +4306,7 @@ export type WorkoutPlanFilter = {
 export type WorkoutPlanInput = {
   id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['Datetime']>;
-  userId?: Maybe<Scalars['Int']>;
+  userId: Scalars['Int'];
   name: Scalars['String'];
 };
 
@@ -4952,17 +4450,6 @@ export type MnUpdateCompletedWorkoutExercisePayload = {
 export type MnUpdateCompletedWorkoutExercisePayloadCompletedWorkoutExerciseEdgeArgs = {
   orderBy?: Maybe<Array<CompletedWorkoutExercisesOrderBy>>;
 };
-
-export type ActiveUserCurrentWorkoutPlanIdQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ActiveUserCurrentWorkoutPlanIdQuery = (
-  { __typename?: 'Query' }
-  & { activeUser?: Maybe<(
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'currentWorkoutPlanId'>
-  )> }
-);
 
 export type CreateWorkoutPlanMutationVariables = Exact<{
   name: Scalars['String'];
@@ -5119,6 +4606,23 @@ export type WorkoutPlanByIdQuery = (
   )> }
 );
 
+export type RenameWorkoutPlanMutationVariables = Exact<{
+  workoutPlanId: Scalars['Int'];
+  name: Scalars['String'];
+}>;
+
+
+export type RenameWorkoutPlanMutation = (
+  { __typename?: 'Mutation' }
+  & { updateWorkoutPlan?: Maybe<(
+    { __typename?: 'UpdateWorkoutPlanPayload' }
+    & { workoutPlan?: Maybe<(
+      { __typename?: 'WorkoutPlan' }
+      & WorkoutPlanFragment
+    )> }
+  )> }
+);
+
 export type UpdateUserCurrentWorkoutPlanMutationVariables = Exact<{
   userId: Scalars['Int'];
   currentWorkoutPlanId?: Maybe<Scalars['Int']>;
@@ -5234,41 +4738,6 @@ export const ExerciseFragmentDoc = gql`
   eliteStrengthBaseline
 }
     `;
-export const ActiveUserCurrentWorkoutPlanIdDocument = gql`
-    query activeUserCurrentWorkoutPlanId {
-  activeUser {
-    id
-    currentWorkoutPlanId
-  }
-}
-    `;
-
-/**
- * __useActiveUserCurrentWorkoutPlanIdQuery__
- *
- * To run a query within a React component, call `useActiveUserCurrentWorkoutPlanIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useActiveUserCurrentWorkoutPlanIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useActiveUserCurrentWorkoutPlanIdQuery({
- *   variables: {
- *   },
- * });
- */
-export function useActiveUserCurrentWorkoutPlanIdQuery(baseOptions?: Apollo.QueryHookOptions<ActiveUserCurrentWorkoutPlanIdQuery, ActiveUserCurrentWorkoutPlanIdQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ActiveUserCurrentWorkoutPlanIdQuery, ActiveUserCurrentWorkoutPlanIdQueryVariables>(ActiveUserCurrentWorkoutPlanIdDocument, options);
-      }
-export function useActiveUserCurrentWorkoutPlanIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ActiveUserCurrentWorkoutPlanIdQuery, ActiveUserCurrentWorkoutPlanIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ActiveUserCurrentWorkoutPlanIdQuery, ActiveUserCurrentWorkoutPlanIdQueryVariables>(ActiveUserCurrentWorkoutPlanIdDocument, options);
-        }
-export type ActiveUserCurrentWorkoutPlanIdQueryHookResult = ReturnType<typeof useActiveUserCurrentWorkoutPlanIdQuery>;
-export type ActiveUserCurrentWorkoutPlanIdLazyQueryHookResult = ReturnType<typeof useActiveUserCurrentWorkoutPlanIdLazyQuery>;
-export type ActiveUserCurrentWorkoutPlanIdQueryResult = Apollo.QueryResult<ActiveUserCurrentWorkoutPlanIdQuery, ActiveUserCurrentWorkoutPlanIdQueryVariables>;
 export const CreateWorkoutPlanDocument = gql`
     mutation createWorkoutPlan($name: String!, $userId: Int!) {
   createWorkoutPlan(input: {workoutPlan: {name: $name, userId: $userId}}) {
@@ -5576,6 +5045,42 @@ export function useWorkoutPlanByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type WorkoutPlanByIdQueryHookResult = ReturnType<typeof useWorkoutPlanByIdQuery>;
 export type WorkoutPlanByIdLazyQueryHookResult = ReturnType<typeof useWorkoutPlanByIdLazyQuery>;
 export type WorkoutPlanByIdQueryResult = Apollo.QueryResult<WorkoutPlanByIdQuery, WorkoutPlanByIdQueryVariables>;
+export const RenameWorkoutPlanDocument = gql`
+    mutation renameWorkoutPlan($workoutPlanId: Int!, $name: String!) {
+  updateWorkoutPlan(input: {id: $workoutPlanId, patch: {name: $name}}) {
+    workoutPlan {
+      ...WorkoutPlan
+    }
+  }
+}
+    ${WorkoutPlanFragmentDoc}`;
+export type RenameWorkoutPlanMutationFn = Apollo.MutationFunction<RenameWorkoutPlanMutation, RenameWorkoutPlanMutationVariables>;
+
+/**
+ * __useRenameWorkoutPlanMutation__
+ *
+ * To run a mutation, you first call `useRenameWorkoutPlanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRenameWorkoutPlanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [renameWorkoutPlanMutation, { data, loading, error }] = useRenameWorkoutPlanMutation({
+ *   variables: {
+ *      workoutPlanId: // value for 'workoutPlanId'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useRenameWorkoutPlanMutation(baseOptions?: Apollo.MutationHookOptions<RenameWorkoutPlanMutation, RenameWorkoutPlanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RenameWorkoutPlanMutation, RenameWorkoutPlanMutationVariables>(RenameWorkoutPlanDocument, options);
+      }
+export type RenameWorkoutPlanMutationHookResult = ReturnType<typeof useRenameWorkoutPlanMutation>;
+export type RenameWorkoutPlanMutationResult = Apollo.MutationResult<RenameWorkoutPlanMutation>;
+export type RenameWorkoutPlanMutationOptions = Apollo.BaseMutationOptions<RenameWorkoutPlanMutation, RenameWorkoutPlanMutationVariables>;
 export const UpdateUserCurrentWorkoutPlanDocument = gql`
     mutation updateUserCurrentWorkoutPlan($userId: Int!, $currentWorkoutPlanId: Int) {
   updateUser(

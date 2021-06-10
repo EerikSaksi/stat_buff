@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Button, Menu, List, TouchableRipple, DefaultTheme } from "react-native-paper";
+import { Button, Menu, List, TouchableRipple, DefaultTheme, TextInput } from "react-native-paper";
 import { View } from "react-native";
-import { WorkoutPlanFragment, useUpdateUserCurrentWorkoutPlanMutation } from "../../generated/graphql";
+import { WorkoutPlanFragment, useUpdateUserCurrentWorkoutPlanMutation, useRenameWorkoutPlanMutation } from "../../generated/graphql";
 
 const ListItemWithMenu: React.FC<{
   workoutPlan: WorkoutPlanFragment;
@@ -10,15 +10,37 @@ const ListItemWithMenu: React.FC<{
   isDefault: boolean;
 }> = ({ workoutPlan, onPress, userId, isDefault }) => {
   const [visible, setVisible] = useState(false);
-  const [editing, setEditing] = useState(false);
+  const [newPlanName, setNewPlanName] = useState<undefined | string>();
   const [updateUserCurrentWorkout] = useUpdateUserCurrentWorkoutPlanMutation();
-
+  const [renameWorkoutPlan] = useRenameWorkoutPlanMutation({
+    variables: {
+      name: newPlanName!,
+      workoutPlanId: workoutPlan.id,
+    },
+    onCompleted: () => setNewPlanName(undefined),
+  });
   return (
     <TouchableRipple onPress={() => onPress(workoutPlan)}>
       <List.Item
-        title={editing workoutPlan.name}
+        title={newPlanName === undefined ? workoutPlan.name : ""}
+        titleStyle = {{padding: 4}}
         left={() => (
-          <List.Icon icon={isDefault ? "clipboard-check" : "clipboard-list"} color={isDefault ? DefaultTheme.colors.primary : undefined} />
+          <>
+            <List.Icon
+              icon={isDefault ? "clipboard-check" : "clipboard-list"}
+              color={isDefault ? DefaultTheme.colors.primary : undefined}
+            />
+            {newPlanName === undefined ? null : (
+              <>
+                <TextInput value={newPlanName}  onChangeText={(t) => setNewPlanName(t)} autoFocus dense style = {{ height: 55}}></TextInput>
+                <View style={{ justifyContent: "center" }}>
+                  <Button icon="check" labelStyle={{ fontSize: 24 }} onPress={() => renameWorkoutPlan()}>
+                    {""}
+                  </Button>
+                </View>
+              </>
+            )}
+          </>
         )}
         right={() => (
           <Menu
@@ -34,7 +56,7 @@ const ListItemWithMenu: React.FC<{
                     setVisible(true);
                   }}
                 >
-                 {""}
+                  {""}
                 </Button>
               </View>
             }
@@ -59,7 +81,13 @@ const ListItemWithMenu: React.FC<{
               }}
               title="Set as default"
             />
-            <Menu.Item onPress={() => setEditing(true)} title="Rename" />
+            <Menu.Item
+              onPress={() => {
+                setNewPlanName(workoutPlan.name);
+                setVisible(false);
+              }}
+              title="Rename"
+            />
           </Menu>
         )}
       >
