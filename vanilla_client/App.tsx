@@ -81,7 +81,7 @@ const options: ApolloClientOptions<unknown> = {
   cache,
   defaultOptions: {
     watchQuery: {
-      fetchPolicy: "cache-first",
+      fetchPolicy: "cache-and-network",
     },
     query: {
       fetchPolicy: "cache-first",
