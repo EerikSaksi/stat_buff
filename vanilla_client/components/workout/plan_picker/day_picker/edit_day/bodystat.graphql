@@ -1,0 +1,12 @@
+fragment Bodystat on Bodystat {
+  ismale
+  bodymass
+}
+query BodyStat {
+  activeUser {
+    id
+    bodystat {
+      ...Bodystat
+    }
+  }
+}

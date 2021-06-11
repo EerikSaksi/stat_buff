@@ -1,115 +1,102 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
+import React from "react";
+import { setContext } from "@apollo/client/link/context";
+import { ApolloProvider, ApolloClient, ApolloClientOptions, createHttpLink, from } from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
+import { split } from "@apollo/client";
+import { getMainDefinition } from "@apollo/client/utilities";
+import { WebSocketLink } from "@apollo/client/link/ws";
+import "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Provider as PaperProvider } from "react-native-paper";
+import {InMemoryCache} from '@apollo/client/cache';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {persistCache, AsyncStorageWrapper} from 'apollo3-cache-persist';
+import Authenticator from './components/authenticator'
+var cache: InMemoryCache;
 
- import React from 'react';
- import {
-   SafeAreaView,
-   ScrollView,
-   StatusBar,
-   StyleSheet,
-   Text,
-   useColorScheme,
-   View,
- } from 'react-native';
+(async () => {
+  cache = new InMemoryCache({
+    possibleTypes: {},
+  });
+  // await before instantiating ApolloClient, else queries might run before the cache is persisted
+  await persistCache({
+    cache,
+    storage: new AsyncStorageWrapper(AsyncStorage),
+  });
+  await cache.reset();
+})();
 
- import {
-   Colors,
-   DebugInstructions,
-   Header,
-   LearnMoreLinks,
-   ReloadInstructions,
- } from 'react-native/Libraries/NewAppScreen';
+var token: string | null;
+const authLink = setContext(async (_, { headers }) => {
+  if (!token) {
+    try {
+      const value = await AsyncStorage.getItem("jwt_token");
+      if (value !== "") {
+        token = value;
+      }
+    } catch (error) {}
+  }
+  if (!token) {
+    return { headers };
+  }
+  return {
+    headers: {
+      ...headers,
+      authorization: `Bearer ${token}`,
+    },
+  };
+});
+const wsLink = new WebSocketLink({
+  uri: `ws://localhost:4000/graphql`,
+  options: {
+    reconnect: true,
+  },
+});
 
- const Section: React.FC<{
-   title: string;
- }> = ({children, title}) => {
-   const isDarkMode = useColorScheme() === 'dark';
-   return (
-     <View style={styles.sectionContainer}>
-       <Text
-         style={[
-           styles.sectionTitle,
-           {
-             color: isDarkMode ? Colors.white : Colors.black,
-           },
-         ]}>
-         {title}
-       </Text>
-       <Text
-         style={[
-           styles.sectionDescription,
-           {
-             color: isDarkMode ? Colors.light : Colors.dark,
-           },
-         ]}>
-         {children}
-       </Text>
-     </View>
-   );
- };
+const httpLink = createHttpLink({
+  uri: "http://localhost:4000/graphql",
+});
 
- const App = () => {
-   const isDarkMode = useColorScheme() === 'dark';
+const errorLink = onError(({networkError}) => {
+  if (networkError && 'statusCode' in networkError ){
+    if (networkError.statusCode === 401){
+      //invalidate token if its invalid
+      AsyncStorage.setItem("jwt_token", '');
+    }
+  }
+});
 
-   const backgroundStyle = {
-     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-   };
 
-   return (
-     <SafeAreaView style={backgroundStyle}>
-       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-       <ScrollView
-         contentInsetAdjustmentBehavior="automatic"
-         style={backgroundStyle}>
-         <Header />
-         <View
-           style={{
-             backgroundColor: isDarkMode ? Colors.black : Colors.white,
-           }}>
-           <Section title="Step One">
-             Edit <Text style={styles.highlight}>App.js</Text> to change this
-             screen and then come back to see your edits.
-           </Section>
-           <Section title="See Your Changes">
-             <ReloadInstructions />
-           </Section>
-           <Section title="Debug">
-             <DebugInstructions />
-           </Section>
-           <Section title="Learn More">
-             Read the docs to discover what to do next:
-           </Section>
-           <LearnMoreLinks />
-         </View>
-       </ScrollView>
-     </SafeAreaView>
-   );
- };
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return definition.kind === "OperationDefinition" && definition.operation === "subscription";
+  },
+  wsLink,
+  authLink.concat(httpLink)
+);
 
- const styles = StyleSheet.create({
-   sectionContainer: {
-     marginTop: 32,
-     paddingHorizontal: 24,
-   },
-   sectionTitle: {
-     fontSize: 24,
-     fontWeight: '600',
-   },
-   sectionDescription: {
-     marginTop: 8,
-     fontSize: 18,
-     fontWeight: '400',
-   },
-   highlight: {
-     fontWeight: '700',
-   },
- });
-
- export default App;
+const options: ApolloClientOptions<unknown> = {
+  link: from([errorLink, splitLink]),
+  cache,
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: "cache-first",
+    },
+    query: {
+      fetchPolicy: "cache-first",
+    },
+  },
+};
+console.log("noice")
+const client = new ApolloClient(options);
+const App: React.FC = () => (
+  <ApolloProvider client={client}>
+    <PaperProvider>
+      <SafeAreaProvider>
+        <Authenticator/>
+      </SafeAreaProvider>
+    </PaperProvider>
+  </ApolloProvider>
+);
+export default App

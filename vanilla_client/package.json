@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "generate": "graphql-codegen --config codegen.json"
   },
   "dependencies": {
     "@apollo/client": "^3.3.6",
@@ -24,11 +25,18 @@
     "react-native-paper": "^4.8.1",
     "react-native-reanimated": "^2.2.0",
     "react-native-safe-area-context": "^3.2.0",
-    "react-native-screens": "^3.3.0"
+    "react-native-screens": "^3.3.0",
+    "react-native-vector-icons": "^8.1.0",
+    "subscriptions-transport-ws": "^0.9.19"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
+    "@graphql-codegen/cli": "^1.21.5",
+    "@graphql-codegen/introspection": "^1.18.2",
+    "@graphql-codegen/typescript": "^1.22.1",
+    "@graphql-codegen/typescript-operations": "^1.18.0",
+    "@graphql-codegen/typescript-react-apollo": "^2.2.5",
     "@react-native-community/eslint-config": "^2.0.0",
     "@types/jest": "^26.0.23",
     "@types/react-native": "^0.64.5",

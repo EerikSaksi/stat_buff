@@ -1,0 +1,7 @@
+mutation renameWorkoutPlan($workoutPlanId: Int!, $name: String!){
+  updateWorkoutPlan(input: {id: $workoutPlanId, patch: {name: $name}}){
+    workoutPlan{
+      ...WorkoutPlan
+    }
+  }
+}

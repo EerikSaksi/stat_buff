@@ -1,0 +1,22 @@
+query WorkoutPlanDayById($id: Int!) {
+  workoutPlanDay(id: $id) {
+    id
+    workoutPlanExercises {
+      nodes {
+        ...WorkoutPlanExercise
+      }
+    }
+  }
+}
+
+fragment WorkoutPlanExercise on WorkoutPlanExercise {
+  exerciseId
+  sets
+  reps
+  ordering
+  id
+  exercise {
+    id
+    name
+  }
+}
