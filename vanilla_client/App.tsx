@@ -12,6 +12,8 @@ import {InMemoryCache} from '@apollo/client/cache';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {persistCache, AsyncStorageWrapper} from 'apollo3-cache-persist';
 import Authenticator from './components/authenticator'
+import NetInfo from '@react-native-community/netinfo'
+import QueueLink from 'apollo-link-queue'
 var cache: InMemoryCache;
 
 (async () => {
@@ -65,6 +67,9 @@ const errorLink = onError(({networkError}) => {
     }
   }
 });
+
+const offlineLink = new QueueLink();
+NetInfo.addEventListener(({isConnected}) => isConnected ? offlineLink.open() : offlineLink.close());
 
 
 const splitLink = split(

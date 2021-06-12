@@ -1,0 +1,8 @@
+mutation renameDay($dayId: Int!, $name: String!){
+  updateWorkoutPlanDay(input: {id: $dayId, patch: {name: $name}}){
+    workoutPlanDay{
+      id
+      name
+    }
+  }
+}

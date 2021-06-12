@@ -49,7 +49,6 @@ const WorkoutPlanPicker: React.FC<Props> = ({navigation}) => {
       },
     });
   }, []);
-
   const [deleteWorkoutPlan] = useDeleteWorkoutPlanMutation();
   const onDelete = useCallback((id: number) => {
     deleteWorkoutPlan({
