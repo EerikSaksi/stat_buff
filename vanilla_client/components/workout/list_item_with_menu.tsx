@@ -8,57 +8,38 @@ import {
   TextInput,
 } from 'react-native-paper';
 import {View} from 'react-native';
-import {
-  WorkoutPlanFragment,
-  useUpdateUserCurrentWorkoutPlanMutation,
-  useRenameWorkoutPlanMutation,
-  useDeleteWorkoutPlanMutation,
-} from '../../generated/graphql';
 import useDuplicateValidation from './use_duplicate_validation';
 
+type DefaultsData = {
+  this: boolean;
+  onSet: (id: number) => void;
+};
 const ListItemWithMenu: React.FC<{
-  workoutPlan: WorkoutPlanFragment;
-  onPress: (WorkoutPlanFragment: any) => void;
-  userId: number;
-  isDefault: boolean;
+  id: number;
+  name: string;
   workoutPlanNames: string[];
+  defaults: DefaultsData | undefined;
+  onPress: (id: number) => void;
   onRename: (id: number, newName: string) => void;
-}> = ({
-  workoutPlan,
-  onPress,
-  userId,
-  isDefault,
-  workoutPlanNames,
-  onRename,
-}) => {
+  onDelete: (id: number, options: {onCompleted: () => void}) => void;
+}> = ({id, name, workoutPlanNames, defaults, onPress, onRename, onDelete}) => {
   const [visible, setVisible] = useState(false);
   const [newPlanName, setNewPlanName] = useState<undefined | string>();
-  const [updateUserCurrentWorkout] = useUpdateUserCurrentWorkoutPlanMutation();
   const {duplicateError} = useDuplicateValidation(
     workoutPlanNames,
     newPlanName,
-    workoutPlan.name,
+    name,
   );
-  const [deleteWorkoutPlan] = useDeleteWorkoutPlanMutation({
-    variables: {
-      workoutPlanId: workoutPlan.id,
-    },
-    update(cache, {data}) {
-      if (data?.deleteWorkoutPlan?.workoutPlan) {
-        cache.evict({id: cache.identify(data.deleteWorkoutPlan.workoutPlan)});
-      }
-    },
-  });
   return (
-    <TouchableRipple onPress={() => onPress(workoutPlan)}>
+    <TouchableRipple onPress={() => onPress(id)}>
       <List.Item
-        title={newPlanName === undefined ? workoutPlan.name : ''}
+        title={newPlanName === undefined ? name : ''}
         titleStyle={{padding: 4}}
         left={() => (
           <>
             <List.Icon
-              icon={isDefault ? 'clipboard-check' : 'clipboard-list'}
-              color={isDefault ? DefaultTheme.colors.primary : undefined}
+              icon={defaults?.this ? 'clipboard-check' : 'clipboard-list'}
+              color={defaults?.this ? DefaultTheme.colors.primary : undefined}
             />
             {newPlanName === undefined ? null : (
               <>
@@ -71,7 +52,7 @@ const ListItemWithMenu: React.FC<{
                   error={duplicateError || newPlanName === ''}
                   onBlur={() => {
                     if (!duplicateError && newPlanName) {
-                      onRename(workoutPlan.id, newPlanName);
+                      onRename(id, newPlanName);
                       setNewPlanName(undefined);
                     }
                   }}></TextInput>
@@ -81,7 +62,7 @@ const ListItemWithMenu: React.FC<{
                     disabled={duplicateError || newPlanName === ''}
                     labelStyle={{fontSize: 24}}
                     onPress={() => {
-                      onRename(workoutPlan.id, newPlanName);
+                      onRename(id, newPlanName);
                       setNewPlanName(undefined);
                     }}>
                     {''}
@@ -107,31 +88,19 @@ const ListItemWithMenu: React.FC<{
                 </Button>
               </View>
             }>
+            {defaults ? (
+              <Menu.Item
+                onPress={() => {
+                  setVisible(false);
+                }}
+                disabled={defaults.this}
+                title="Set as default"
+                icon="clipboard-check"
+              />
+            ) : undefined}
             <Menu.Item
               onPress={() => {
-                updateUserCurrentWorkout({
-                  variables: {currentWorkoutPlanId: workoutPlan.id, userId},
-                  optimisticResponse: {
-                    updateUser: {
-                      __typename: 'UpdateUserPayload',
-                      user: {
-                        __typename: 'User',
-                        id: userId,
-                        currentWorkoutPlanId: workoutPlan.id,
-                      },
-                    },
-                  },
-                });
-
-                setVisible(false);
-              }}
-              disabled={isDefault}
-              title="Set as default"
-              icon="clipboard-check"
-            />
-            <Menu.Item
-              onPress={() => {
-                setNewPlanName(workoutPlan.name);
+                setNewPlanName(name);
                 setVisible(false);
               }}
               title="Rename"
@@ -139,8 +108,9 @@ const ListItemWithMenu: React.FC<{
             />
             <Menu.Item
               onPress={() => {
-                deleteWorkoutPlan();
-                setVisible(false);
+                onDelete(id, {
+                  onCompleted: () => setVisible(false)
+                });
               }}
               title="Delete"
               icon="delete-circle"

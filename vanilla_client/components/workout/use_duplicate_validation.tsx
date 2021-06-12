@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-const useInputValidation = (existingNames: string[], newName: string | undefined, excluded: string | undefined) => {
+const useDuplicateValidation= (existingNames: string[], newName: string | undefined, excluded: string | undefined) => {
   const [duplicateError, setDuplicateError] = useState(false);
   useEffect(() => {
     //check if newname clashes with any existing one. if exclude passed, then dont throw error if matches exclude.
@@ -8,4 +8,4 @@ const useInputValidation = (existingNames: string[], newName: string | undefined
   }, [newName, existingNames]);
   return { duplicateError };
 };
-export default useInputValidation;
+export default useDuplicateValidation;

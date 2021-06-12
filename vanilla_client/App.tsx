@@ -88,7 +88,6 @@ const options: ApolloClientOptions<unknown> = {
     },
   },
 };
-console.log("noice")
 const client = new ApolloClient(options);
 const App: React.FC = () => (
   <ApolloProvider client={client}>

@@ -1,8 +1,9 @@
 import React, {useCallback, useState, useEffect} from 'react';
 import {
   useWorkoutQuery,
-  WorkoutPlanFragment,
   useRenameWorkoutPlanMutation,
+  useDeleteWorkoutPlanMutation,
+  useUpdateUserCurrentWorkoutPlanMutation,
 } from '../../generated/graphql';
 import {ActivityIndicator} from 'react-native-paper';
 import {List} from 'react-native-paper';
@@ -49,8 +50,52 @@ const WorkoutPlanPicker: React.FC<Props> = ({navigation}) => {
     });
   }, []);
 
-  const onListItemPress = useCallback((plan: WorkoutPlanFragment) => {
-    navigation.navigate('Select Workout Day', {workoutPlanId: plan.id});
+  const [deleteWorkoutPlan] = useDeleteWorkoutPlanMutation();
+  const onDelete = useCallback((id: number) => {
+    deleteWorkoutPlan({
+      variables: {
+        workoutPlanId: id,
+      },
+      update(cache, {data}) {
+        if (data?.deleteWorkoutPlan?.workoutPlan) {
+          cache.evict({id: cache.identify(data.deleteWorkoutPlan.workoutPlan)});
+        }
+      },
+      optimisticResponse: {
+        deleteWorkoutPlan: {
+          __typename: 'DeleteWorkoutPlanPayload',
+          workoutPlan: {
+            id: id,
+            __typename: 'WorkoutPlan',
+          },
+        },
+      },
+    });
+  }, []);
+
+  const [updateUserCurrentWorkout] = useUpdateUserCurrentWorkoutPlanMutation();
+  const onSetDefault = useCallback(
+    (id: number) => {
+      if (data?.activeUser?.id) {
+        updateUserCurrentWorkout({
+          variables: {currentWorkoutPlanId: id, userId: data.activeUser.id},
+          optimisticResponse: {
+            updateUser: {
+              __typename: 'UpdateUserPayload',
+              user: {
+                __typename: 'User',
+                id: data.activeUser.id,
+                currentWorkoutPlanId: id,
+              },
+            },
+          },
+        });
+      }
+    },
+    [data],
+  );
+  const onListItemPress = useCallback((id: number) => {
+    navigation.navigate('Select Workout Day', {workoutPlanId: id});
   }, []);
 
   if (!data?.activeUser?.id) {
@@ -61,13 +106,17 @@ const WorkoutPlanPicker: React.FC<Props> = ({navigation}) => {
       <List.Section style={{width: '80%'}}>
         {data.activeUser.workoutPlans.nodes.map(workoutPlan => (
           <ListItemWithMenu
+            id={workoutPlan.id}
+            name={workoutPlan.name}
             key={workoutPlan.id}
-            workoutPlan={workoutPlan}
-            onPress={onListItemPress}
-            userId={data.activeUser!.id}
-            isDefault={workoutPlan.id === data.activeUser!.currentWorkoutPlanId}
+            defaults={{
+              this: workoutPlan.id === data.activeUser!.currentWorkoutPlanId,
+              onSet: onSetDefault,
+            }}
             workoutPlanNames={workoutPlanNames}
+            onPress={onListItemPress}
             onRename={onRename}
+            onDelete={onDelete}
           />
         ))}
         <NewWorkoutPlanDialog

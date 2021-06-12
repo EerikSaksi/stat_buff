@@ -4451,39 +4451,6 @@ export type MnUpdateCompletedWorkoutExercisePayloadCompletedWorkoutExerciseEdgeA
   orderBy?: Maybe<Array<CompletedWorkoutExercisesOrderBy>>;
 };
 
-export type CreateWorkoutPlanMutationVariables = Exact<{
-  name: Scalars['String'];
-  userId: Scalars['Int'];
-}>;
-
-
-export type CreateWorkoutPlanMutation = (
-  { __typename?: 'Mutation' }
-  & { createWorkoutPlan?: Maybe<(
-    { __typename?: 'CreateWorkoutPlanPayload' }
-    & { workoutPlan?: Maybe<(
-      { __typename?: 'WorkoutPlan' }
-      & WorkoutPlanFragment
-    )> }
-  )> }
-);
-
-export type DeleteWorkoutPlanMutationVariables = Exact<{
-  workoutPlanId: Scalars['Int'];
-}>;
-
-
-export type DeleteWorkoutPlanMutation = (
-  { __typename?: 'Mutation' }
-  & { deleteWorkoutPlan?: Maybe<(
-    { __typename?: 'DeleteWorkoutPlanPayload' }
-    & { workoutPlan?: Maybe<(
-      { __typename?: 'WorkoutPlan' }
-      & Pick<WorkoutPlan, 'id'>
-    )> }
-  )> }
-);
-
 export type BodystatFragment = (
   { __typename?: 'Bodystat' }
   & Pick<Bodystat, 'ismale' | 'bodymass'>
@@ -4640,6 +4607,39 @@ export type WorkoutPlanExerciseFragment = (
   ) }
 );
 
+export type DeleteDayMutationVariables = Exact<{
+  dayId: Scalars['Int'];
+}>;
+
+
+export type DeleteDayMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteWorkoutPlanDay?: Maybe<(
+    { __typename?: 'DeleteWorkoutPlanDayPayload' }
+    & { workoutPlanDay?: Maybe<(
+      { __typename?: 'WorkoutPlanDay' }
+      & Pick<WorkoutPlanDay, 'id'>
+    )> }
+  )> }
+);
+
+export type RenameDayMutationVariables = Exact<{
+  dayId: Scalars['Int'];
+  name: Scalars['String'];
+}>;
+
+
+export type RenameDayMutation = (
+  { __typename?: 'Mutation' }
+  & { updateWorkoutPlanDay?: Maybe<(
+    { __typename?: 'UpdateWorkoutPlanDayPayload' }
+    & { workoutPlanDay?: Maybe<(
+      { __typename?: 'WorkoutPlanDay' }
+      & Pick<WorkoutPlanDay, 'id' | 'name'>
+    )> }
+  )> }
+);
+
 export type WorkoutPlanByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
@@ -4660,6 +4660,39 @@ export type WorkoutPlanByIdQuery = (
         ) }
       )> }
     ) }
+  )> }
+);
+
+export type CreateWorkoutPlanMutationVariables = Exact<{
+  name: Scalars['String'];
+  userId: Scalars['Int'];
+}>;
+
+
+export type CreateWorkoutPlanMutation = (
+  { __typename?: 'Mutation' }
+  & { createWorkoutPlan?: Maybe<(
+    { __typename?: 'CreateWorkoutPlanPayload' }
+    & { workoutPlan?: Maybe<(
+      { __typename?: 'WorkoutPlan' }
+      & WorkoutPlanFragment
+    )> }
+  )> }
+);
+
+export type DeleteWorkoutPlanMutationVariables = Exact<{
+  workoutPlanId: Scalars['Int'];
+}>;
+
+
+export type DeleteWorkoutPlanMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteWorkoutPlan?: Maybe<(
+    { __typename?: 'DeleteWorkoutPlanPayload' }
+    & { workoutPlan?: Maybe<(
+      { __typename?: 'WorkoutPlan' }
+      & Pick<WorkoutPlan, 'id'>
+    )> }
   )> }
 );
 
@@ -4754,77 +4787,6 @@ export const WorkoutPlanFragmentDoc = gql`
   id
 }
     `;
-export const CreateWorkoutPlanDocument = gql`
-    mutation createWorkoutPlan($name: String!, $userId: Int!) {
-  createWorkoutPlan(input: {workoutPlan: {name: $name, userId: $userId}}) {
-    workoutPlan {
-      ...WorkoutPlan
-    }
-  }
-}
-    ${WorkoutPlanFragmentDoc}`;
-export type CreateWorkoutPlanMutationFn = Apollo.MutationFunction<CreateWorkoutPlanMutation, CreateWorkoutPlanMutationVariables>;
-
-/**
- * __useCreateWorkoutPlanMutation__
- *
- * To run a mutation, you first call `useCreateWorkoutPlanMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateWorkoutPlanMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createWorkoutPlanMutation, { data, loading, error }] = useCreateWorkoutPlanMutation({
- *   variables: {
- *      name: // value for 'name'
- *      userId: // value for 'userId'
- *   },
- * });
- */
-export function useCreateWorkoutPlanMutation(baseOptions?: Apollo.MutationHookOptions<CreateWorkoutPlanMutation, CreateWorkoutPlanMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateWorkoutPlanMutation, CreateWorkoutPlanMutationVariables>(CreateWorkoutPlanDocument, options);
-      }
-export type CreateWorkoutPlanMutationHookResult = ReturnType<typeof useCreateWorkoutPlanMutation>;
-export type CreateWorkoutPlanMutationResult = Apollo.MutationResult<CreateWorkoutPlanMutation>;
-export type CreateWorkoutPlanMutationOptions = Apollo.BaseMutationOptions<CreateWorkoutPlanMutation, CreateWorkoutPlanMutationVariables>;
-export const DeleteWorkoutPlanDocument = gql`
-    mutation deleteWorkoutPlan($workoutPlanId: Int!) {
-  deleteWorkoutPlan(input: {id: $workoutPlanId}) {
-    workoutPlan {
-      id
-    }
-  }
-}
-    `;
-export type DeleteWorkoutPlanMutationFn = Apollo.MutationFunction<DeleteWorkoutPlanMutation, DeleteWorkoutPlanMutationVariables>;
-
-/**
- * __useDeleteWorkoutPlanMutation__
- *
- * To run a mutation, you first call `useDeleteWorkoutPlanMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteWorkoutPlanMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteWorkoutPlanMutation, { data, loading, error }] = useDeleteWorkoutPlanMutation({
- *   variables: {
- *      workoutPlanId: // value for 'workoutPlanId'
- *   },
- * });
- */
-export function useDeleteWorkoutPlanMutation(baseOptions?: Apollo.MutationHookOptions<DeleteWorkoutPlanMutation, DeleteWorkoutPlanMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteWorkoutPlanMutation, DeleteWorkoutPlanMutationVariables>(DeleteWorkoutPlanDocument, options);
-      }
-export type DeleteWorkoutPlanMutationHookResult = ReturnType<typeof useDeleteWorkoutPlanMutation>;
-export type DeleteWorkoutPlanMutationResult = Apollo.MutationResult<DeleteWorkoutPlanMutation>;
-export type DeleteWorkoutPlanMutationOptions = Apollo.BaseMutationOptions<DeleteWorkoutPlanMutation, DeleteWorkoutPlanMutationVariables>;
 export const BodyStatDocument = gql`
     query BodyStat {
   activeUser {
@@ -5127,6 +5089,78 @@ export function useWorkoutPlanDayByIdLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type WorkoutPlanDayByIdQueryHookResult = ReturnType<typeof useWorkoutPlanDayByIdQuery>;
 export type WorkoutPlanDayByIdLazyQueryHookResult = ReturnType<typeof useWorkoutPlanDayByIdLazyQuery>;
 export type WorkoutPlanDayByIdQueryResult = Apollo.QueryResult<WorkoutPlanDayByIdQuery, WorkoutPlanDayByIdQueryVariables>;
+export const DeleteDayDocument = gql`
+    mutation deleteDay($dayId: Int!) {
+  deleteWorkoutPlanDay(input: {id: $dayId}) {
+    workoutPlanDay {
+      id
+    }
+  }
+}
+    `;
+export type DeleteDayMutationFn = Apollo.MutationFunction<DeleteDayMutation, DeleteDayMutationVariables>;
+
+/**
+ * __useDeleteDayMutation__
+ *
+ * To run a mutation, you first call `useDeleteDayMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteDayMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteDayMutation, { data, loading, error }] = useDeleteDayMutation({
+ *   variables: {
+ *      dayId: // value for 'dayId'
+ *   },
+ * });
+ */
+export function useDeleteDayMutation(baseOptions?: Apollo.MutationHookOptions<DeleteDayMutation, DeleteDayMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteDayMutation, DeleteDayMutationVariables>(DeleteDayDocument, options);
+      }
+export type DeleteDayMutationHookResult = ReturnType<typeof useDeleteDayMutation>;
+export type DeleteDayMutationResult = Apollo.MutationResult<DeleteDayMutation>;
+export type DeleteDayMutationOptions = Apollo.BaseMutationOptions<DeleteDayMutation, DeleteDayMutationVariables>;
+export const RenameDayDocument = gql`
+    mutation renameDay($dayId: Int!, $name: String!) {
+  updateWorkoutPlanDay(input: {id: $dayId, patch: {name: $name}}) {
+    workoutPlanDay {
+      id
+      name
+    }
+  }
+}
+    `;
+export type RenameDayMutationFn = Apollo.MutationFunction<RenameDayMutation, RenameDayMutationVariables>;
+
+/**
+ * __useRenameDayMutation__
+ *
+ * To run a mutation, you first call `useRenameDayMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRenameDayMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [renameDayMutation, { data, loading, error }] = useRenameDayMutation({
+ *   variables: {
+ *      dayId: // value for 'dayId'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useRenameDayMutation(baseOptions?: Apollo.MutationHookOptions<RenameDayMutation, RenameDayMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RenameDayMutation, RenameDayMutationVariables>(RenameDayDocument, options);
+      }
+export type RenameDayMutationHookResult = ReturnType<typeof useRenameDayMutation>;
+export type RenameDayMutationResult = Apollo.MutationResult<RenameDayMutation>;
+export type RenameDayMutationOptions = Apollo.BaseMutationOptions<RenameDayMutation, RenameDayMutationVariables>;
 export const WorkoutPlanByIdDocument = gql`
     query WorkoutPlanById($id: Int!) {
   workoutPlan(id: $id) {
@@ -5170,6 +5204,77 @@ export function useWorkoutPlanByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type WorkoutPlanByIdQueryHookResult = ReturnType<typeof useWorkoutPlanByIdQuery>;
 export type WorkoutPlanByIdLazyQueryHookResult = ReturnType<typeof useWorkoutPlanByIdLazyQuery>;
 export type WorkoutPlanByIdQueryResult = Apollo.QueryResult<WorkoutPlanByIdQuery, WorkoutPlanByIdQueryVariables>;
+export const CreateWorkoutPlanDocument = gql`
+    mutation createWorkoutPlan($name: String!, $userId: Int!) {
+  createWorkoutPlan(input: {workoutPlan: {name: $name, userId: $userId}}) {
+    workoutPlan {
+      ...WorkoutPlan
+    }
+  }
+}
+    ${WorkoutPlanFragmentDoc}`;
+export type CreateWorkoutPlanMutationFn = Apollo.MutationFunction<CreateWorkoutPlanMutation, CreateWorkoutPlanMutationVariables>;
+
+/**
+ * __useCreateWorkoutPlanMutation__
+ *
+ * To run a mutation, you first call `useCreateWorkoutPlanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateWorkoutPlanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createWorkoutPlanMutation, { data, loading, error }] = useCreateWorkoutPlanMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useCreateWorkoutPlanMutation(baseOptions?: Apollo.MutationHookOptions<CreateWorkoutPlanMutation, CreateWorkoutPlanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateWorkoutPlanMutation, CreateWorkoutPlanMutationVariables>(CreateWorkoutPlanDocument, options);
+      }
+export type CreateWorkoutPlanMutationHookResult = ReturnType<typeof useCreateWorkoutPlanMutation>;
+export type CreateWorkoutPlanMutationResult = Apollo.MutationResult<CreateWorkoutPlanMutation>;
+export type CreateWorkoutPlanMutationOptions = Apollo.BaseMutationOptions<CreateWorkoutPlanMutation, CreateWorkoutPlanMutationVariables>;
+export const DeleteWorkoutPlanDocument = gql`
+    mutation deleteWorkoutPlan($workoutPlanId: Int!) {
+  deleteWorkoutPlan(input: {id: $workoutPlanId}) {
+    workoutPlan {
+      id
+    }
+  }
+}
+    `;
+export type DeleteWorkoutPlanMutationFn = Apollo.MutationFunction<DeleteWorkoutPlanMutation, DeleteWorkoutPlanMutationVariables>;
+
+/**
+ * __useDeleteWorkoutPlanMutation__
+ *
+ * To run a mutation, you first call `useDeleteWorkoutPlanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteWorkoutPlanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteWorkoutPlanMutation, { data, loading, error }] = useDeleteWorkoutPlanMutation({
+ *   variables: {
+ *      workoutPlanId: // value for 'workoutPlanId'
+ *   },
+ * });
+ */
+export function useDeleteWorkoutPlanMutation(baseOptions?: Apollo.MutationHookOptions<DeleteWorkoutPlanMutation, DeleteWorkoutPlanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteWorkoutPlanMutation, DeleteWorkoutPlanMutationVariables>(DeleteWorkoutPlanDocument, options);
+      }
+export type DeleteWorkoutPlanMutationHookResult = ReturnType<typeof useDeleteWorkoutPlanMutation>;
+export type DeleteWorkoutPlanMutationResult = Apollo.MutationResult<DeleteWorkoutPlanMutation>;
+export type DeleteWorkoutPlanMutationOptions = Apollo.BaseMutationOptions<DeleteWorkoutPlanMutation, DeleteWorkoutPlanMutationVariables>;
 export const RenameWorkoutPlanDocument = gql`
     mutation renameWorkoutPlan($workoutPlanId: Int!, $name: String!) {
   updateWorkoutPlan(input: {id: $workoutPlanId, patch: {name: $name}}) {
