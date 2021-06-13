@@ -12,6 +12,8 @@ target 'vanilla_client' do
     :hermes_enabled => false
   )
 
+  pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
+
   target 'vanilla_clientTests' do
     inherit! :complete
     # Pods for testing

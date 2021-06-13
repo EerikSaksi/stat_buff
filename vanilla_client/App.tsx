@@ -69,7 +69,10 @@ const errorLink = onError(({networkError}) => {
 });
 
 const offlineLink = new QueueLink();
-NetInfo.addEventListener(({isConnected}) => isConnected ? offlineLink.open() : offlineLink.close());
+NetInfo.addEventListener(({isConnected}) => {
+  console.log({isConnected})
+  isConnected ? offlineLink.open() : offlineLink.close()
+});
 
 
 const splitLink = split(
@@ -86,7 +89,7 @@ const options: ApolloClientOptions<unknown> = {
   cache,
   defaultOptions: {
     watchQuery: {
-      fetchPolicy: "cache-and-network",
+      fetchPolicy: "cache-first",
     },
     query: {
       fetchPolicy: "cache-first",

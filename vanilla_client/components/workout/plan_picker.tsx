@@ -112,7 +112,7 @@ const WorkoutPlanPicker: React.FC<Props> = ({navigation}) => {
               this: workoutPlan.id === data.activeUser!.currentWorkoutPlanId,
               onSet: onSetDefault,
             }}
-            workoutPlanNames={workoutPlanNames}
+            existingNames={workoutPlanNames}
             onPress={onListItemPress}
             onRename={onRename}
             onDelete={onDelete}

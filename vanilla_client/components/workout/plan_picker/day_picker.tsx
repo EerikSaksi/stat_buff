@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {List, Button, ActivityIndicator} from 'react-native-paper';
 import {RootStackParamList} from '../../workout';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -6,8 +6,9 @@ import {RouteProp} from '@react-navigation/native';
 import {
   useWorkoutPlanByIdQuery,
   useDeleteDayMutation,
-  useRenameDayMutation
+  useRenameDayMutation,
 } from '../../../generated/graphql';
+import ListItemWithMenu from '../list_item_with_menu';
 
 type WorkoutDayPickerRouteProp = RouteProp<
   RootStackParamList,
@@ -27,13 +28,33 @@ const WorkoutDayPicker: React.FC<Props> = ({navigation, route}) => {
   const {data} = useWorkoutPlanByIdQuery({
     variables: {id: route.params.workoutPlanId},
     fetchPolicy: 'no-cache',
+    onCompleted: () => {
+      if (data?.workoutPlan?.workoutPlanDays)
+        setExistingNames(
+          data.workoutPlan.workoutPlanDays.nodes.map(day => day.name),
+        );
+    },
   });
-  const [renameDay] = useRenameDayMutation()
+  const [existingNames, setExistingNames] = useState<string[]>([]);
+  const [renameDay] = useRenameDayMutation();
+  const onListItemPress = useCallback(
+    (id: number) => {
+      //the callback only gives us the id, so we have to filter to find the name (the name is required so the workout day's name is instantly shown on the header)
+      const dayById = data?.workoutPlan?.workoutPlanDays.nodes.find(
+        day => day.id === id,
+      );
+      if (dayById) {
+        navigation.navigate('Workout', {dayId: id, name: dayById.name});
+      }
+    },
+    [data],
+  );
+
   const onRename = useCallback((id: number, newName: string) => {
     renameDay({
       variables: {
         name: newName,
-        dayId: id
+        dayId: id,
       },
       optimisticResponse: {
         updateWorkoutPlanDay: {
@@ -62,28 +83,21 @@ const WorkoutDayPicker: React.FC<Props> = ({navigation, route}) => {
       },
     });
   }, []);
-  if (!data?.workoutPlan) {
+  if (!data?.workoutPlan?.workoutPlanDays) {
     return <ActivityIndicator />;
   }
   return (
     <List.Section>
       {data.workoutPlan.workoutPlanDays.nodes.map(day => (
-        <List.Item
-          left={props => <List.Icon {...props} icon="arm-flex" />}
-          key={day.name}
-          title={day.name}
-          titleStyle={{fontSize: 24}}
-          descriptionStyle={{fontSize: 16}}
-          description={`${day.workoutPlanExercises.totalCount} exercises`}
-          right={() => (
-            <Button
-              icon="arrow-right"
-              onPress={() =>
-                navigation.navigate('Workout', {dayId: day.id, name: day.name})
-              }>
-              Start
-            </Button>
-          )}></List.Item>
+        <ListItemWithMenu
+          id={day.id}
+          name={day.name}
+          existingNames={existingNames}
+          onPress = {onListItemPress}
+          onDelete={onDelete}
+          onRename={onRename}
+          defaults = {undefined}
+        />
       ))}
     </List.Section>
   );

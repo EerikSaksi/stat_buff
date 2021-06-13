@@ -17,16 +17,16 @@ type DefaultsData = {
 const ListItemWithMenu: React.FC<{
   id: number;
   name: string;
-  workoutPlanNames: string[];
-  defaults: DefaultsData | undefined;
+  existingNames: string[];
+  defaults: undefined | DefaultsData;
   onPress: (id: number) => void;
   onRename: (id: number, newName: string) => void;
   onDelete: (id: number, options: {onCompleted: () => void}) => void;
-}> = ({id, name, workoutPlanNames, defaults, onPress, onRename, onDelete}) => {
+}> = ({id, name, existingNames, defaults, onPress, onRename, onDelete}) => {
   const [visible, setVisible] = useState(false);
   const [newPlanName, setNewPlanName] = useState<undefined | string>();
   const {duplicateError} = useDuplicateValidation(
-    workoutPlanNames,
+    existingNames,
     newPlanName,
     name,
   );
@@ -109,7 +109,7 @@ const ListItemWithMenu: React.FC<{
             <Menu.Item
               onPress={() => {
                 onDelete(id, {
-                  onCompleted: () => setVisible(false)
+                  onCompleted: () => setVisible(false),
                 });
               }}
               title="Delete"
