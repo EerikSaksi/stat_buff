@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {List, Button, ActivityIndicator} from 'react-native-paper';
+import {List, ActivityIndicator} from 'react-native-paper';
 import {RootStackParamList} from '../../workout';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
@@ -7,17 +7,18 @@ import {
   useWorkoutPlanByIdQuery,
   useDeleteDayMutation,
   useRenameDayMutation,
+  useCreateWorkoutPlanDayMutation,
+  WorkoutPlanDayFragmentDoc,
 } from '../../../generated/graphql';
 import ListItemWithMenu from '../list_item_with_menu';
+import NewListItemDialog from '../new_list_item_dialog';
+import {ScrollView} from 'react-native';
 
-type WorkoutDayPickerRouteProp = RouteProp<
-  RootStackParamList,
-  'Select Workout Day'
->;
+type WorkoutDayPickerRouteProp = RouteProp<RootStackParamList, 'Select Day'>;
 
 type WorkoutDayPickerNavigationProp = StackNavigationProp<
   RootStackParamList,
-  'Select Workout Day'
+  'Select Day'
 >;
 type Props = {
   route: WorkoutDayPickerRouteProp;
@@ -83,23 +84,78 @@ const WorkoutDayPicker: React.FC<Props> = ({navigation, route}) => {
       },
     });
   }, []);
+
+  const [createWorkoutPlanDay] = useCreateWorkoutPlanDayMutation();
+
+  const onCreate = useCallback((newName: string) => {
+      createWorkoutPlanDay({
+        variables: {
+          name: newName,
+          workoutPlanId: route.params.workoutPlanId,
+        },
+        update(cache, {data: createWorkoutPlanDayData}) {
+          cache.modify({
+            id: `WorkoutPlan${route.params.workoutPlanId}`,
+            fields: {
+              workoutPlans(existingWorkoutPlanDays = {nodes: []}) {
+                const newWorkoutPlanDay =
+                  createWorkoutPlanDayData?.createWorkoutPlanDay
+                    ?.workoutPlanDay;
+                if (newWorkoutPlanDay) {
+                  const newWorkoutPlanDayFragment = cache.writeFragment({
+                    data: newWorkoutPlanDay,
+                    fragment: WorkoutPlanDayFragmentDoc,
+                  });
+                  return {
+                    nodes: [
+                      ...existingWorkoutPlanDays.nodes,
+                      newWorkoutPlanDayFragment,
+                    ],
+                  };
+                }
+              },
+            },
+          });
+        },
+        optimisticResponse: {
+          createWorkoutPlanDay: {
+            __typename: 'CreateWorkoutPlanDayPayload',
+            workoutPlanDay: {
+              __typename: "WorkoutPlanDay",
+              id: -1,
+              name: newName,
+            },
+          },
+        },
+      });
+  }, []);
   if (!data?.workoutPlan?.workoutPlanDays) {
     return <ActivityIndicator />;
   }
+
   return (
-    <List.Section>
-      {data.workoutPlan.workoutPlanDays.nodes.map(day => (
-        <ListItemWithMenu
-          id={day.id}
-          name={day.name}
-          existingNames={existingNames}
-          onPress = {onListItemPress}
-          onDelete={onDelete}
-          onRename={onRename}
-          defaults = {undefined}
-        />
-      ))}
-    </List.Section>
+    <ScrollView>
+      <List.Section>
+        {data.workoutPlan.workoutPlanDays.nodes.map(day => (
+          <ListItemWithMenu
+            id={day.id}
+            name={day.name}
+            existingNames={existingNames}
+            onPress={onListItemPress}
+            onDelete={onDelete}
+            onRename={onRename}
+            defaults={undefined}
+          />
+        ))}
+      </List.Section>
+      <NewListItemDialog
+        existingNames = {existingNames}
+        onCreate = {onCreate}
+        listItemType = "Day"
+      />
+    </ScrollView>
   );
 };
 export default WorkoutDayPicker;
+
+//<NewListItemDialog existingNames = {existingNames} onCreate = />

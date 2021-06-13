@@ -4607,6 +4607,23 @@ export type WorkoutPlanExerciseFragment = (
   ) }
 );
 
+export type CreateWorkoutPlanDayMutationVariables = Exact<{
+  name: Scalars['String'];
+  workoutPlanId: Scalars['Int'];
+}>;
+
+
+export type CreateWorkoutPlanDayMutation = (
+  { __typename?: 'Mutation' }
+  & { createWorkoutPlanDay?: Maybe<(
+    { __typename?: 'CreateWorkoutPlanDayPayload' }
+    & { workoutPlanDay?: Maybe<(
+      { __typename?: 'WorkoutPlanDay' }
+      & Pick<WorkoutPlanDay, 'id' | 'name'>
+    )> }
+  )> }
+);
+
 export type DeleteDayMutationVariables = Exact<{
   dayId: Scalars['Int'];
 }>;
@@ -4638,6 +4655,11 @@ export type RenameDayMutation = (
       & Pick<WorkoutPlanDay, 'id' | 'name'>
     )> }
   )> }
+);
+
+export type WorkoutPlanDayFragment = (
+  { __typename?: 'WorkoutPlanDay' }
+  & Pick<WorkoutPlanDay, 'name' | 'id'>
 );
 
 export type WorkoutPlanByIdQueryVariables = Exact<{
@@ -4779,6 +4801,12 @@ export const WorkoutPlanExerciseFragmentDoc = gql`
     id
     name
   }
+}
+    `;
+export const WorkoutPlanDayFragmentDoc = gql`
+    fragment WorkoutPlanDay on WorkoutPlanDay {
+  name
+  id
 }
     `;
 export const WorkoutPlanFragmentDoc = gql`
@@ -5089,6 +5117,45 @@ export function useWorkoutPlanDayByIdLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type WorkoutPlanDayByIdQueryHookResult = ReturnType<typeof useWorkoutPlanDayByIdQuery>;
 export type WorkoutPlanDayByIdLazyQueryHookResult = ReturnType<typeof useWorkoutPlanDayByIdLazyQuery>;
 export type WorkoutPlanDayByIdQueryResult = Apollo.QueryResult<WorkoutPlanDayByIdQuery, WorkoutPlanDayByIdQueryVariables>;
+export const CreateWorkoutPlanDayDocument = gql`
+    mutation createWorkoutPlanDay($name: String!, $workoutPlanId: Int!) {
+  createWorkoutPlanDay(
+    input: {workoutPlanDay: {name: $name, workoutPlanId: $workoutPlanId}}
+  ) {
+    workoutPlanDay {
+      id
+      name
+    }
+  }
+}
+    `;
+export type CreateWorkoutPlanDayMutationFn = Apollo.MutationFunction<CreateWorkoutPlanDayMutation, CreateWorkoutPlanDayMutationVariables>;
+
+/**
+ * __useCreateWorkoutPlanDayMutation__
+ *
+ * To run a mutation, you first call `useCreateWorkoutPlanDayMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateWorkoutPlanDayMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createWorkoutPlanDayMutation, { data, loading, error }] = useCreateWorkoutPlanDayMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      workoutPlanId: // value for 'workoutPlanId'
+ *   },
+ * });
+ */
+export function useCreateWorkoutPlanDayMutation(baseOptions?: Apollo.MutationHookOptions<CreateWorkoutPlanDayMutation, CreateWorkoutPlanDayMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateWorkoutPlanDayMutation, CreateWorkoutPlanDayMutationVariables>(CreateWorkoutPlanDayDocument, options);
+      }
+export type CreateWorkoutPlanDayMutationHookResult = ReturnType<typeof useCreateWorkoutPlanDayMutation>;
+export type CreateWorkoutPlanDayMutationResult = Apollo.MutationResult<CreateWorkoutPlanDayMutation>;
+export type CreateWorkoutPlanDayMutationOptions = Apollo.BaseMutationOptions<CreateWorkoutPlanDayMutation, CreateWorkoutPlanDayMutationVariables>;
 export const DeleteDayDocument = gql`
     mutation deleteDay($dayId: Int!) {
   deleteWorkoutPlanDay(input: {id: $dayId}) {

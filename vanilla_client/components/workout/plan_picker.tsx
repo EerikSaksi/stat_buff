@@ -4,12 +4,14 @@ import {
   useRenameWorkoutPlanMutation,
   useDeleteWorkoutPlanMutation,
   useUpdateUserCurrentWorkoutPlanMutation,
+  WorkoutPlanFragmentDoc,
+  useCreateWorkoutPlanMutation,
 } from '../../generated/graphql';
 import {ActivityIndicator} from 'react-native-paper';
 import {List} from 'react-native-paper';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../workout';
-import NewWorkoutPlanDialog from './new_workout_plan_dialog';
+import NewWorkoutPlanDialog from './new_list_item_dialog';
 import {ScrollView} from 'react-native';
 import ListItemWithMenu from './list_item_with_menu';
 
@@ -93,8 +95,57 @@ const WorkoutPlanPicker: React.FC<Props> = ({navigation}) => {
     },
     [data],
   );
+
+  const [createWorkoutPlan] = useCreateWorkoutPlanMutation();
+
+  const onCreate = useCallback(
+    (newName: string) => {
+      if (data?.activeUser)
+        createWorkoutPlan({
+          variables: {
+            userId: data.activeUser.id,
+            name: newName,
+          },
+          update(cache, {data: createWorkoutPlanData}) {
+            cache.modify({
+              id: cache.identify(data!.activeUser!),
+              fields: {
+                workoutPlans(existingWorkoutPlans = {nodes: []}) {
+                  const newWorkoutPlan =
+                    createWorkoutPlanData?.createWorkoutPlan?.workoutPlan;
+                  if (newWorkoutPlan) {
+                    const newWorkoutPlanExercise = cache.writeFragment({
+                      data: newWorkoutPlan,
+                      fragment: WorkoutPlanFragmentDoc,
+                    });
+                    return {
+                      nodes: [
+                        ...existingWorkoutPlans.nodes,
+                        newWorkoutPlanExercise,
+                      ],
+                    };
+                  }
+                },
+              },
+            });
+          },
+          optimisticResponse: {
+            createWorkoutPlan: {
+              __typename: "CreateWorkoutPlanPayload",
+              workoutPlan: {
+                __typename: "WorkoutPlan",
+                id: -1,
+                name: newName
+              }
+            }
+          }
+        });
+    },
+    [data],
+  );
+
   const onListItemPress = useCallback((id: number) => {
-    navigation.navigate('Select Workout Day', {workoutPlanId: id});
+    navigation.navigate('Select Day', {workoutPlanId: id});
   }, []);
 
   if (!data?.activeUser?.id) {
@@ -119,8 +170,9 @@ const WorkoutPlanPicker: React.FC<Props> = ({navigation}) => {
           />
         ))}
         <NewWorkoutPlanDialog
-          userId={data.activeUser.id}
-          workoutPlanNames={workoutPlanNames}
+          existingNames={workoutPlanNames}
+          onCreate = {onCreate}
+          listItemType = "Plan"
         />
       </List.Section>
     </ScrollView>

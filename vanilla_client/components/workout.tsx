@@ -7,7 +7,7 @@ import ExerciseSearch from "./workout/plan_picker/day_picker/edit_day/add_exerci
 import { WorkoutPlanDayByIdQuery} from "../generated/graphql";
 export type RootStackParamList = {
   "Select Workout": undefined;
-  "Select Workout Day": { workoutPlanId: number };
+  "Select Day": { workoutPlanId: number };
   Workout: { dayId: number; name: string };
   "Select Exercise": { workoutPlanDayData: WorkoutPlanDayByIdQuery };
 };
@@ -18,7 +18,7 @@ const Workout: React.FC = () => {
     <Stack.Navigator>
       <Stack.Screen name="Select Workout" component={WorkoutPlanPicker} />
       <Stack.Screen
-        name="Select Workout Day"
+        name="Select Day"
         component={WorkoutDayPicker}
       />
       <Stack.Screen name="Workout" component={WorkoutDay} />
