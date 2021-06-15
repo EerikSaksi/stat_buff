@@ -36,3 +36,4 @@ app.use(cors());
 })();
 console.log('app running')
 app.listen(process.env.PORT || 4000);
+module.exports = app

@@ -132,7 +132,6 @@ const WorkoutDayPicker: React.FC<Props> = ({navigation, route}) => {
   if (!data?.workoutPlan?.workoutPlanDays) {
     return <ActivityIndicator />;
   }
-
   return (
     <ScrollView>
       <List.Section>
