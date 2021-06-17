@@ -1,5 +1,6 @@
 const { Client } = require("pg");
 const client = new Client("postgres://eerik:Postgrizzly@localhost:5432/rpgym");
+const execGraphQL = require("./helpers");
 client.connect();
 
 const deleteAllData = async () => {
@@ -10,14 +11,12 @@ const deleteAllData = async () => {
     await client.query(delete_query);
   }
 
-  const { rows: sequences } = await client.query(
-    ` SELECT c.relname as name FROM pg_class c WHERE c.relkind = 'S';`
-  );
+  const { rows: sequences } = await client.query(` SELECT c.relname as name FROM pg_class c WHERE c.relkind = 'S';`);
 
   for ({ name } of sequences) {
     await client.query(`alter sequence ${name} restart`);
   }
-  console.log("setup complete")
+  console.log("setup complete");
 };
 
 const setupUsers = async () => {
@@ -31,6 +30,31 @@ const setupUsers = async () => {
 const setup = async () => {
   await deleteAllData();
   await setupUsers();
+
+  const queryRes = await execGraphQL({
+    query: `
+      query{
+        appUsers{
+          nodes{
+            id
+          }
+        }
+      }
+    `
+  });
+  console.log(queryRes.data.appUsers.nodes)
+  const res = await execGraphQL({
+    query: `
+      mutation{
+        updateAppUser(input: {id: 1, patch: {username: "hello"}}){
+          clientMutationId
+        }
+      }
+    `
+  });
+  console.log({res})
   await client.end();
 };
-module.exports = setup
+setup();
+
+module.exports = setup;
