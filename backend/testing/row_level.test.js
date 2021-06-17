@@ -1,40 +1,20 @@
-const execGraphQL = require("./helpers");
-const setup = require("./setup_fixtures");
-const fs = require("fs");
-const server = require('../src/index.js')
+const { Client } = require("pg");
+const client = new Client("postgres://query_sender:restrictedPermissions@localhost:5432/rpgym");
 
-beforeAll(async () => {
-  await setup();
+beforeAll(async (done) => {
+  await client.connect();
+  done();
 });
 
-test("user row policies", async () => {
-  const res = await execGraphQL({
-    query: `
-      query{
-        appUsers{
-          nodes{
-            username
-          }
-        }
-      }
-    `
-  });
-  console.log({res})
-  //const res = await execGraphQL({
-  //  query: `
-  //    mutation{
-  //      updateAppUser(input: {id: 4, patch: {username: "squat"}}){
-  //        appUser{
-  //          username
-  //        }
-  //      }
-  //    }`,
-  //});
-  //console.log(res);
-  //expect(res.updateAppUser.appUser.username === "squat");
-});
+const testTablesWithUserIdFk = async ({ tableName, columnToAlter, newVal }) => {
+  await client.query(`update $1 set $2 = $3 where app_user_id = 1`, [tableName, columnToAlter, newVal]);
+  const { res } = await client.query(`select $2 from $1 where app_user_id = 1`, [tableName, columnToAlter, newVal]);
+  expect(res.rows[0][columnToAlter]).toBe(newVal)
+};
 
-afterAll(() => {
-  server.close()
-});
+test("user row level policies", async () => {});
 
+afterAll(async (done) => {
+  await client.end();
+  done();
+});

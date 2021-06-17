@@ -1,6 +1,5 @@
 const { Client } = require("pg");
 const client = new Client("postgres://eerik:Postgrizzly@localhost:5432/rpgym");
-const execGraphQL = require("./helpers");
 client.connect();
 
 const deleteAllData = async () => {
@@ -20,41 +19,16 @@ const deleteAllData = async () => {
 };
 
 const setupUsers = async () => {
-  await client.query("select create_user($1, $2)", ["bobby", "tables"]);
+  await client.query("select create_user($1, $2)", ["bobby", "tables"])
   await client.query("select create_user($1, $2)", ["bro", "science"]);
   await client.query("select create_user($1, $2)", ["armday", "everyday"]);
   await client.query("select create_user($1, $2)", ["hip", "thruster"]);
-  await client.query("select set_config('jwt.claims.user_id', '4', false)");
+  await client.query(`set_config('jwt.claims.user_id', 1, true)`)
 };
 
 const setup = async () => {
   await deleteAllData();
   await setupUsers();
-
-  const queryRes = await execGraphQL({
-    query: `
-      query{
-        appUsers{
-          nodes{
-            id
-          }
-        }
-      }
-    `
-  });
-  console.log(queryRes.data.appUsers.nodes)
-  const res = await execGraphQL({
-    query: `
-      mutation{
-        updateAppUser(input: {id: 1, patch: {username: "hello"}}){
-          clientMutationId
-        }
-      }
-    `
-  });
-  console.log({res})
   await client.end();
 };
-setup();
-
-module.exports = setup;
+module.exports = setup
