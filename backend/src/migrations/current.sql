@@ -1,16 +1,4 @@
-alter TABLE bodystat drop COLUMN if exists app_user_id cascade;
-ALTER TABLE bodystat ADD COLUMN app_user_id integer not null references app_user(id) on delete cascade;
-create index if not exists bodystat_app_user_idx on "bodystat"(app_user_id);
-
-alter table bodystat enable row level security;
-drop policy if exists bodystat_select_policy on bodystat;
-CREATE POLICY bodystat_select_policy ON bodystat FOR SELECT USING (true);
-drop policy if exists bodystat_insert_policy on bodystat;
-create POLICY bodystat_insert_policy ON bodystat FOR insert with check (app_user_id = (select current_user_id()));
-drop policy if exists bodystat_update_policy on bodystat;
-CREATE POLICY bodystat_update_policy ON bodystat FOR update USING (app_user_id = (select current_user_id()));
-drop policy if exists bodystat_delete_policy on bodystat;
-CREATE POLICY bodystat_delete_policy ON bodystat FOR delete USING (app_user_id = (select current_user_id()));
+drop table if exists bodystat ;
 
 alter TABLE completed_workout drop COLUMN if exists app_user_id cascade;
 ALTER TABLE completed_workout ADD COLUMN app_user_id integer not null references app_user(id) on delete cascade;
@@ -98,3 +86,41 @@ begin
 end;
 $$ language plpgsql stable strict security definer ;
 grant all on function authenticate to public;
+
+delete from app_user;
+alter TABLE app_user drop COLUMN if exists is_male;
+ALTER TABLE app_user ADD COLUMN is_male boolean not null default true;
+
+delete from app_user;
+alter TABLE app_user drop COLUMN if exists bodymass;
+ALTER TABLE app_user ADD COLUMN bodymass float not null default 80.0;
+
+alter TABLE completed_workout drop COLUMN if exists created_at;
+ALTER TABLE completed_workout ADD COLUMN created_at timestamp with time zone DEFAULT now() NOT NULL;
+alter TABLE completed_workout drop COLUMN if exists updated_at;
+ALTER TABLE completed_workout ADD COLUMN updated_at timestamp with time zone DEFAULT now() NOT NULL;
+comment on column completed_workout.created_at is E'@omit create, update, delete';
+comment on column completed_workout.updated_at is E'@omit create, update, delete';
+do $$
+  begin
+    CREATE TRIGGER set_timestamp BEFORE UPDATE ON completed_workout FOR EACH ROW EXECUTE procedure trigger_set_timestamp();
+  exception 
+    when sqlstate '42710' then
+      raise notice '';
+end $$;
+
+
+comment on column app_user.created_at is E'@omit create, update, delete';
+comment on column app_user.updated_at is E'@omit create, update, delete';
+
+comment on column app_user.created_at is E'@omit create, update, delete';
+comment on column app_user.updated_at is E'@omit create, update, delete';
+
+alter table completed_workout_exercise drop column if exists created_at cascade;
+
+
+alter TABLE workout_plan drop COLUMN if exists updated_at;
+ALTER TABLE workout_plan ADD COLUMN updated_at timestamp with time zone DEFAULT now() NOT NULL;
+CREATE TRIGGER set_timestamp BEFORE UPDATE ON workout_plan FOR EACH ROW EXECUTE procedure trigger_set_timestamp();
+comment on column workout_plan.created_at is E'@omit update, delete, create';
+comment on column workout_plan.updated_at is E'@omit update, delete, create';

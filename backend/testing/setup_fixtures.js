@@ -23,7 +23,6 @@ const setupUsers = async () => {
   await client.query("select create_user($1, $2)", ["bro", "science"]);
   await client.query("select create_user($1, $2)", ["armday", "everyday"]);
   await client.query("select create_user($1, $2)", ["hip", "thruster"]);
-  await client.query(`set_config('jwt.claims.user_id', 1, true)`)
 };
 
 const setup = async () => {
