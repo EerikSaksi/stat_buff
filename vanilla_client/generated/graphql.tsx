@@ -12,8 +12,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** A floating point number that requires more precision than IEEE 754 binary 64 */
-  BigFloat: any;
   /** A location in a connection that can be used for resuming pagination. */
   Cursor: any;
   /**
@@ -21,43 +19,38 @@ export type Scalars = {
    * 8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
    */
   Datetime: any;
+  /**
+   * A JSON Web Token defined by [RFC 7519](https://tools.ietf.org/html/rfc7519)
+   * which securely represents claims between two parties.
+   */
+  JwtToken: any;
 };
 
-export type Battle = Node & {
-  __typename?: 'Battle';
+export type AppUser = Node & {
+  __typename?: 'AppUser';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
-  enemyLevel: Scalars['Int'];
-  groupname: Scalars['String'];
-  battleNumber: Scalars['Int'];
-  currentHealth: Scalars['Float'];
-  maxHealth: Scalars['Float'];
+  username: Scalars['String'];
   createdAt: Scalars['Datetime'];
   updatedAt: Scalars['Datetime'];
-  /** Reads a single `Enemy` that is related to this `Battle`. */
-  enemyByEnemyLevel: Enemy;
-  /** Reads a single `Group` that is related to this `Battle`. */
-  groupByGroupname: Group;
-  /** Reads and enables pagination through a set of `Group`. */
-  groupsByNameAndBattleNumber: GroupsConnection;
+  id: Scalars['Int'];
+  currentWorkoutPlanId?: Maybe<Scalars['Int']>;
+  isMale: Scalars['Boolean'];
+  bodymass: Scalars['Float'];
+  /** Reads a single `WorkoutPlan` that is related to this `AppUser`. */
+  currentWorkoutPlan?: Maybe<WorkoutPlan>;
   /** Reads and enables pagination through a set of `UserExercise`. */
-  userExercisesByGroupnameAndBattleNumber: UserExercisesConnection;
+  userExercises: UserExercisesConnection;
+  /** Reads and enables pagination through a set of `SessionAnalytic`. */
+  sessionAnalytics: SessionAnalyticsConnection;
+  /** Reads and enables pagination through a set of `CompletedWorkout`. */
+  completedWorkouts: CompletedWorkoutsConnection;
+  /** Reads and enables pagination through a set of `WorkoutPlan`. */
+  workoutPlans: WorkoutPlansConnection;
 };
 
 
-export type BattleGroupsByNameAndBattleNumberArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<GroupsOrderBy>>;
-  condition?: Maybe<GroupCondition>;
-  filter?: Maybe<GroupFilter>;
-};
-
-
-export type BattleUserExercisesByGroupnameAndBattleNumberArgs = {
+export type AppUserUserExercisesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
@@ -68,72 +61,113 @@ export type BattleUserExercisesByGroupnameAndBattleNumberArgs = {
   filter?: Maybe<UserExerciseFilter>;
 };
 
-/** A condition to be used against `Battle` object types. All fields are tested for equality and combined with a logical ‘and.’ */
-export type BattleCondition = {
-  /** Checks for equality with the object’s `enemyLevel` field. */
-  enemyLevel?: Maybe<Scalars['Int']>;
-  /** Checks for equality with the object’s `groupname` field. */
-  groupname?: Maybe<Scalars['String']>;
+
+export type AppUserSessionAnalyticsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SessionAnalyticsOrderBy>>;
+  condition?: Maybe<SessionAnalyticCondition>;
+  filter?: Maybe<SessionAnalyticFilter>;
 };
 
-/** A filter to be used against `Battle` object types. All fields are combined with a logical ‘and.’ */
-export type BattleFilter = {
-  /** Filter by the object’s `enemyLevel` field. */
-  enemyLevel?: Maybe<IntFilter>;
-  /** Filter by the object’s `groupname` field. */
-  groupname?: Maybe<StringFilter>;
+
+export type AppUserCompletedWorkoutsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CompletedWorkoutsOrderBy>>;
+  condition?: Maybe<CompletedWorkoutCondition>;
+  filter?: Maybe<CompletedWorkoutFilter>;
+};
+
+
+export type AppUserWorkoutPlansArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<WorkoutPlansOrderBy>>;
+  condition?: Maybe<WorkoutPlanCondition>;
+  filter?: Maybe<WorkoutPlanFilter>;
+};
+
+/** A condition to be used against `AppUser` object types. All fields are tested for equality and combined with a logical ‘and.’ */
+export type AppUserCondition = {
+  /** Checks for equality with the object’s `username` field. */
+  username?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['Int']>;
+  /** Checks for equality with the object’s `currentWorkoutPlanId` field. */
+  currentWorkoutPlanId?: Maybe<Scalars['Int']>;
+};
+
+/** A filter to be used against `AppUser` object types. All fields are combined with a logical ‘and.’ */
+export type AppUserFilter = {
+  /** Filter by the object’s `username` field. */
+  username?: Maybe<StringFilter>;
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<IntFilter>;
+  /** Filter by the object’s `currentWorkoutPlanId` field. */
+  currentWorkoutPlanId?: Maybe<IntFilter>;
   /** Checks for all expressions in this list. */
-  and?: Maybe<Array<BattleFilter>>;
+  and?: Maybe<Array<AppUserFilter>>;
   /** Checks for any expressions in this list. */
-  or?: Maybe<Array<BattleFilter>>;
+  or?: Maybe<Array<AppUserFilter>>;
   /** Negates the expression. */
-  not?: Maybe<BattleFilter>;
+  not?: Maybe<AppUserFilter>;
 };
 
-/** Represents an update to a `Battle`. Fields that are set will be updated. */
-export type BattlePatch = {
-  enemyLevel?: Maybe<Scalars['Int']>;
-  groupname?: Maybe<Scalars['String']>;
-  battleNumber?: Maybe<Scalars['Int']>;
-  currentHealth?: Maybe<Scalars['Float']>;
-  maxHealth?: Maybe<Scalars['Float']>;
+/** Represents an update to a `AppUser`. Fields that are set will be updated. */
+export type AppUserPatch = {
+  username?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['Datetime']>;
   updatedAt?: Maybe<Scalars['Datetime']>;
+  id?: Maybe<Scalars['Int']>;
+  currentWorkoutPlanId?: Maybe<Scalars['Int']>;
+  isMale?: Maybe<Scalars['Boolean']>;
+  bodymass?: Maybe<Scalars['Float']>;
 };
 
-/** A connection to a list of `Battle` values. */
-export type BattlesConnection = {
-  __typename?: 'BattlesConnection';
-  /** A list of `Battle` objects. */
-  nodes: Array<Battle>;
-  /** A list of edges which contains the `Battle` and cursor to aid in pagination. */
-  edges: Array<BattlesEdge>;
+/** A connection to a list of `AppUser` values. */
+export type AppUsersConnection = {
+  __typename?: 'AppUsersConnection';
+  /** A list of `AppUser` objects. */
+  nodes: Array<AppUser>;
+  /** A list of edges which contains the `AppUser` and cursor to aid in pagination. */
+  edges: Array<AppUsersEdge>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The count of *all* `Battle` you could get from the connection. */
+  /** The count of *all* `AppUser` you could get from the connection. */
   totalCount: Scalars['Int'];
 };
 
-/** A `Battle` edge in the connection. */
-export type BattlesEdge = {
-  __typename?: 'BattlesEdge';
+/** A `AppUser` edge in the connection. */
+export type AppUsersEdge = {
+  __typename?: 'AppUsersEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Battle` at the end of the edge. */
-  node: Battle;
+  /** The `AppUser` at the end of the edge. */
+  node: AppUser;
 };
 
-/** Methods to use when ordering `Battle`. */
-export enum BattlesOrderBy {
+/** Methods to use when ordering `AppUser`. */
+export enum AppUsersOrderBy {
   Natural = 'NATURAL',
-  EnemyLevelAsc = 'ENEMY_LEVEL_ASC',
-  EnemyLevelDesc = 'ENEMY_LEVEL_DESC',
-  GroupnameAsc = 'GROUPNAME_ASC',
-  GroupnameDesc = 'GROUPNAME_DESC',
+  UsernameAsc = 'USERNAME_ASC',
+  UsernameDesc = 'USERNAME_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  CurrentWorkoutPlanIdAsc = 'CURRENT_WORKOUT_PLAN_ID_ASC',
+  CurrentWorkoutPlanIdDesc = 'CURRENT_WORKOUT_PLAN_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
-
 
 export enum BodyPartEnum {
   Back = 'BACK',
@@ -147,58 +181,16 @@ export enum BodyPartEnum {
   WholeBody = 'WHOLE_BODY'
 }
 
-export type Bodystat = Node & {
-  __typename?: 'Bodystat';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  ismale: Scalars['Boolean'];
-  bodymass: Scalars['Int'];
-  createdAt: Scalars['Datetime'];
-  updatedAt: Scalars['Datetime'];
-  userId: Scalars['Int'];
-  /** Reads a single `User` that is related to this `Bodystat`. */
-  user: User;
-};
-
-/** An input for mutations affecting `Bodystat` */
-export type BodystatInput = {
-  ismale: Scalars['Boolean'];
-  bodymass: Scalars['Int'];
-  userId: Scalars['Int'];
-};
-
-/** Represents an update to a `Bodystat`. Fields that are set will be updated. */
-export type BodystatPatch = {
-  ismale?: Maybe<Scalars['Boolean']>;
-  bodymass?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['Datetime']>;
-  updatedAt?: Maybe<Scalars['Datetime']>;
-  userId?: Maybe<Scalars['Int']>;
-};
-
-/** A `Bodystat` edge in the connection. */
-export type BodystatsEdge = {
-  __typename?: 'BodystatsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Bodystat` at the end of the edge. */
-  node: Bodystat;
-};
-
-/** Methods to use when ordering `Bodystat`. */
-export enum BodystatsOrderBy {
-  Natural = 'NATURAL',
-  UserIdAsc = 'USER_ID_ASC',
-  UserIdDesc = 'USER_ID_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
-}
-
 export type CompletedWorkout = Node & {
   __typename?: 'CompletedWorkout';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
   id: Scalars['Int'];
+  appUserId: Scalars['Int'];
+  createdAt: Scalars['Datetime'];
+  updatedAt: Scalars['Datetime'];
+  /** Reads a single `AppUser` that is related to this `CompletedWorkout`. */
+  appUser: AppUser;
   /** Reads and enables pagination through a set of `CompletedWorkoutExercise`. */
   completedWorkoutExercises: CompletedWorkoutExercisesConnection;
 };
@@ -222,6 +214,8 @@ export type CompletedWorkoutCompletedWorkoutExercisesArgs = {
 export type CompletedWorkoutCondition = {
   /** Checks for equality with the object’s `id` field. */
   id?: Maybe<Scalars['Int']>;
+  /** Checks for equality with the object’s `appUserId` field. */
+  appUserId?: Maybe<Scalars['Int']>;
 };
 
 export type CompletedWorkoutExercise = Node & {
@@ -231,7 +225,6 @@ export type CompletedWorkoutExercise = Node & {
   id: Scalars['Int'];
   exerciseId: Scalars['Int'];
   completedWorkoutId: Scalars['Int'];
-  createdAt: Scalars['Datetime'];
   volumes: Array<Maybe<Volume>>;
   /** Reads a single `Exercise` that is related to this `CompletedWorkoutExercise`. */
   exercise: Exercise;
@@ -273,7 +266,6 @@ export type CompletedWorkoutExerciseInput = {
   id?: Maybe<Scalars['Int']>;
   exerciseId: Scalars['Int'];
   completedWorkoutId: Scalars['Int'];
-  createdAt?: Maybe<Scalars['Datetime']>;
   volumes: Array<Maybe<VolumeInput>>;
 };
 
@@ -282,7 +274,6 @@ export type CompletedWorkoutExercisePatch = {
   id?: Maybe<Scalars['Int']>;
   exerciseId?: Maybe<Scalars['Int']>;
   completedWorkoutId?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['Datetime']>;
   volumes?: Maybe<Array<Maybe<VolumeInput>>>;
 };
 
@@ -325,6 +316,8 @@ export enum CompletedWorkoutExercisesOrderBy {
 export type CompletedWorkoutFilter = {
   /** Filter by the object’s `id` field. */
   id?: Maybe<IntFilter>;
+  /** Filter by the object’s `appUserId` field. */
+  appUserId?: Maybe<IntFilter>;
   /** Checks for all expressions in this list. */
   and?: Maybe<Array<CompletedWorkoutFilter>>;
   /** Checks for any expressions in this list. */
@@ -336,11 +329,15 @@ export type CompletedWorkoutFilter = {
 /** An input for mutations affecting `CompletedWorkout` */
 export type CompletedWorkoutInput = {
   id?: Maybe<Scalars['Int']>;
+  appUserId: Scalars['Int'];
 };
 
 /** Represents an update to a `CompletedWorkout`. Fields that are set will be updated. */
 export type CompletedWorkoutPatch = {
   id?: Maybe<Scalars['Int']>;
+  appUserId?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['Datetime']>;
+  updatedAt?: Maybe<Scalars['Datetime']>;
 };
 
 /** A connection to a list of `CompletedWorkout` values. */
@@ -370,44 +367,11 @@ export enum CompletedWorkoutsOrderBy {
   Natural = 'NATURAL',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
+  AppUserIdAsc = 'APP_USER_ID_ASC',
+  AppUserIdDesc = 'APP_USER_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
-
-/** All input for the create `Bodystat` mutation. */
-export type CreateBodystatInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Bodystat` to be created by this mutation. */
-  bodystat: BodystatInput;
-};
-
-/** The output of our create `Bodystat` mutation. */
-export type CreateBodystatPayload = {
-  __typename?: 'CreateBodystatPayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Bodystat` that was created by this mutation. */
-  bodystat?: Maybe<Bodystat>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `User` that is related to this `Bodystat`. */
-  user: User;
-  /** An edge for our `Bodystat`. May be used by Relay 1. */
-  bodystatEdge?: Maybe<BodystatsEdge>;
-};
-
-
-/** The output of our create `Bodystat` mutation. */
-export type CreateBodystatPayloadBodystatEdgeArgs = {
-  orderBy?: Maybe<Array<BodystatsOrderBy>>;
-};
 
 /** All input for the create `CompletedWorkoutExercise` mutation. */
 export type CreateCompletedWorkoutExerciseInput = {
@@ -469,6 +433,8 @@ export type CreateCompletedWorkoutPayload = {
   completedWorkout?: Maybe<CompletedWorkout>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
+  /** Reads a single `AppUser` that is related to this `CompletedWorkout`. */
+  appUser: AppUser;
   /** An edge for our `CompletedWorkout`. May be used by Relay 1. */
   completedWorkoutEdge?: Maybe<CompletedWorkoutsEdge>;
 };
@@ -512,41 +478,6 @@ export type CreateExercisePayloadExerciseEdgeArgs = {
   orderBy?: Maybe<Array<ExercisesOrderBy>>;
 };
 
-/** All input for the create `Group` mutation. */
-export type CreateGroupInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Group` to be created by this mutation. */
-  group: GroupInput;
-};
-
-/** The output of our create `Group` mutation. */
-export type CreateGroupPayload = {
-  __typename?: 'CreateGroupPayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Group` that was created by this mutation. */
-  group?: Maybe<Group>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `Battle` that is related to this `Group`. */
-  battleByNameAndBattleNumber?: Maybe<Battle>;
-  /** An edge for our `Group`. May be used by Relay 1. */
-  groupEdge?: Maybe<GroupsEdge>;
-};
-
-
-/** The output of our create `Group` mutation. */
-export type CreateGroupPayloadGroupEdgeArgs = {
-  orderBy?: Maybe<Array<GroupsOrderBy>>;
-};
-
 /** All input for the create `SessionAnalytic` mutation. */
 export type CreateSessionAnalyticInput = {
   /**
@@ -570,8 +501,8 @@ export type CreateSessionAnalyticPayload = {
   sessionAnalytic?: Maybe<SessionAnalytic>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `User` that is related to this `SessionAnalytic`. */
-  user: User;
+  /** Reads a single `AppUser` that is related to this `SessionAnalytic`. */
+  appUser: AppUser;
   /** An edge for our `SessionAnalytic`. May be used by Relay 1. */
   sessionAnalyticEdge?: Maybe<SessionAnalyticsEdge>;
 };
@@ -605,10 +536,8 @@ export type CreateUserExercisePayload = {
   userExercise?: Maybe<UserExercise>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `Battle` that is related to this `UserExercise`. */
-  battleByGroupnameAndBattleNumber?: Maybe<Battle>;
-  /** Reads a single `User` that is related to this `UserExercise`. */
-  user: User;
+  /** Reads a single `AppUser` that is related to this `UserExercise`. */
+  appUser: AppUser;
   /** An edge for our `UserExercise`. May be used by Relay 1. */
   userExerciseEdge?: Maybe<UserExercisesEdge>;
 };
@@ -638,8 +567,19 @@ export type CreateUserPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']>;
+  appUser?: Maybe<AppUser>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
+  /** Reads a single `WorkoutPlan` that is related to this `AppUser`. */
+  currentWorkoutPlan?: Maybe<WorkoutPlan>;
+  /** An edge for our `AppUser`. May be used by Relay 1. */
+  appUserEdge?: Maybe<AppUsersEdge>;
+};
+
+
+/** The output of our `createUser` mutation. */
+export type CreateUserPayloadAppUserEdgeArgs = {
+  orderBy?: Maybe<Array<AppUsersOrderBy>>;
 };
 
 /** All input for the create `Volume` mutation. */
@@ -770,8 +710,8 @@ export type CreateWorkoutPlanPayload = {
   workoutPlan?: Maybe<WorkoutPlan>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `User` that is related to this `WorkoutPlan`. */
-  user: User;
+  /** Reads a single `AppUser` that is related to this `WorkoutPlan`. */
+  appUser: AppUser;
   /** An edge for our `WorkoutPlan`. May be used by Relay 1. */
   workoutPlanEdge?: Maybe<WorkoutPlansEdge>;
 };
@@ -784,99 +724,60 @@ export type CreateWorkoutPlanPayloadWorkoutPlanEdgeArgs = {
 
 
 
-/** All input for the `deleteBattleByNodeId` mutation. */
-export type DeleteBattleByNodeIdInput = {
+/** All input for the `deleteAppUserByNodeId` mutation. */
+export type DeleteAppUserByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `Battle` to be deleted. */
+  /** The globally unique `ID` which will identify a single `AppUser` to be deleted. */
   nodeId: Scalars['ID'];
 };
 
-/** All input for the `deleteBattle` mutation. */
-export type DeleteBattleInput = {
+/** All input for the `deleteAppUserByUsername` mutation. */
+export type DeleteAppUserByUsernameInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  groupname: Scalars['String'];
-  battleNumber: Scalars['Int'];
+  username: Scalars['String'];
 };
 
-/** The output of our delete `Battle` mutation. */
-export type DeleteBattlePayload = {
-  __typename?: 'DeleteBattlePayload';
+/** All input for the `deleteAppUser` mutation. */
+export type DeleteAppUserInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+};
+
+/** The output of our delete `AppUser` mutation. */
+export type DeleteAppUserPayload = {
+  __typename?: 'DeleteAppUserPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Battle` that was deleted by this mutation. */
-  battle?: Maybe<Battle>;
-  deletedBattleNodeId?: Maybe<Scalars['ID']>;
+  /** The `AppUser` that was deleted by this mutation. */
+  appUser?: Maybe<AppUser>;
+  deletedAppUserNodeId?: Maybe<Scalars['ID']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `Enemy` that is related to this `Battle`. */
-  enemyByEnemyLevel: Enemy;
-  /** Reads a single `Group` that is related to this `Battle`. */
-  groupByGroupname: Group;
-  /** An edge for our `Battle`. May be used by Relay 1. */
-  battleEdge?: Maybe<BattlesEdge>;
+  /** Reads a single `WorkoutPlan` that is related to this `AppUser`. */
+  currentWorkoutPlan?: Maybe<WorkoutPlan>;
+  /** An edge for our `AppUser`. May be used by Relay 1. */
+  appUserEdge?: Maybe<AppUsersEdge>;
 };
 
 
-/** The output of our delete `Battle` mutation. */
-export type DeleteBattlePayloadBattleEdgeArgs = {
-  orderBy?: Maybe<Array<BattlesOrderBy>>;
-};
-
-/** All input for the `deleteBodystatByNodeId` mutation. */
-export type DeleteBodystatByNodeIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `Bodystat` to be deleted. */
-  nodeId: Scalars['ID'];
-};
-
-/** All input for the `deleteBodystat` mutation. */
-export type DeleteBodystatInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  userId: Scalars['Int'];
-};
-
-/** The output of our delete `Bodystat` mutation. */
-export type DeleteBodystatPayload = {
-  __typename?: 'DeleteBodystatPayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Bodystat` that was deleted by this mutation. */
-  bodystat?: Maybe<Bodystat>;
-  deletedBodystatNodeId?: Maybe<Scalars['ID']>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `User` that is related to this `Bodystat`. */
-  user: User;
-  /** An edge for our `Bodystat`. May be used by Relay 1. */
-  bodystatEdge?: Maybe<BodystatsEdge>;
-};
-
-
-/** The output of our delete `Bodystat` mutation. */
-export type DeleteBodystatPayloadBodystatEdgeArgs = {
-  orderBy?: Maybe<Array<BodystatsOrderBy>>;
+/** The output of our delete `AppUser` mutation. */
+export type DeleteAppUserPayloadAppUserEdgeArgs = {
+  orderBy?: Maybe<Array<AppUsersOrderBy>>;
 };
 
 /** All input for the `deleteCompletedWorkoutByNodeId` mutation. */
@@ -961,6 +862,8 @@ export type DeleteCompletedWorkoutPayload = {
   deletedCompletedWorkoutNodeId?: Maybe<Scalars['ID']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
+  /** Reads a single `AppUser` that is related to this `CompletedWorkout`. */
+  appUser: AppUser;
   /** An edge for our `CompletedWorkout`. May be used by Relay 1. */
   completedWorkoutEdge?: Maybe<CompletedWorkoutsEdge>;
 };
@@ -1015,52 +918,6 @@ export type DeleteExercisePayloadExerciseEdgeArgs = {
   orderBy?: Maybe<Array<ExercisesOrderBy>>;
 };
 
-/** All input for the `deleteGroupByNodeId` mutation. */
-export type DeleteGroupByNodeIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `Group` to be deleted. */
-  nodeId: Scalars['ID'];
-};
-
-/** All input for the `deleteGroup` mutation. */
-export type DeleteGroupInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
-};
-
-/** The output of our delete `Group` mutation. */
-export type DeleteGroupPayload = {
-  __typename?: 'DeleteGroupPayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Group` that was deleted by this mutation. */
-  group?: Maybe<Group>;
-  deletedGroupNodeId?: Maybe<Scalars['ID']>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `Battle` that is related to this `Group`. */
-  battleByNameAndBattleNumber?: Maybe<Battle>;
-  /** An edge for our `Group`. May be used by Relay 1. */
-  groupEdge?: Maybe<GroupsEdge>;
-};
-
-
-/** The output of our delete `Group` mutation. */
-export type DeleteGroupPayloadGroupEdgeArgs = {
-  orderBy?: Maybe<Array<GroupsOrderBy>>;
-};
-
 /** All input for the `deleteSessionAnalyticByNodeId` mutation. */
 export type DeleteSessionAnalyticByNodeIdInput = {
   /**
@@ -1095,8 +952,8 @@ export type DeleteSessionAnalyticPayload = {
   deletedSessionAnalyticNodeId?: Maybe<Scalars['ID']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `User` that is related to this `SessionAnalytic`. */
-  user: User;
+  /** Reads a single `AppUser` that is related to this `SessionAnalytic`. */
+  appUser: AppUser;
   /** An edge for our `SessionAnalytic`. May be used by Relay 1. */
   sessionAnalyticEdge?: Maybe<SessionAnalyticsEdge>;
 };
@@ -1105,27 +962,6 @@ export type DeleteSessionAnalyticPayload = {
 /** The output of our delete `SessionAnalytic` mutation. */
 export type DeleteSessionAnalyticPayloadSessionAnalyticEdgeArgs = {
   orderBy?: Maybe<Array<SessionAnalyticsOrderBy>>;
-};
-
-/** All input for the `deleteUserByNodeId` mutation. */
-export type DeleteUserByNodeIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `User` to be deleted. */
-  nodeId: Scalars['ID'];
-};
-
-/** All input for the `deleteUserByUsername` mutation. */
-export type DeleteUserByUsernameInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  username: Scalars['String'];
 };
 
 /** All input for the `deleteUserExerciseByNodeId` mutation. */
@@ -1163,10 +999,8 @@ export type DeleteUserExercisePayload = {
   deletedUserExerciseNodeId?: Maybe<Scalars['ID']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `Battle` that is related to this `UserExercise`. */
-  battleByGroupnameAndBattleNumber?: Maybe<Battle>;
-  /** Reads a single `User` that is related to this `UserExercise`. */
-  user: User;
+  /** Reads a single `AppUser` that is related to this `UserExercise`. */
+  appUser: AppUser;
   /** An edge for our `UserExercise`. May be used by Relay 1. */
   userExerciseEdge?: Maybe<UserExercisesEdge>;
 };
@@ -1175,43 +1009,6 @@ export type DeleteUserExercisePayload = {
 /** The output of our delete `UserExercise` mutation. */
 export type DeleteUserExercisePayloadUserExerciseEdgeArgs = {
   orderBy?: Maybe<Array<UserExercisesOrderBy>>;
-};
-
-/** All input for the `deleteUser` mutation. */
-export type DeleteUserInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  id: Scalars['Int'];
-};
-
-/** The output of our delete `User` mutation. */
-export type DeleteUserPayload = {
-  __typename?: 'DeleteUserPayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `User` that was deleted by this mutation. */
-  user?: Maybe<User>;
-  deletedUserNodeId?: Maybe<Scalars['ID']>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `Group` that is related to this `User`. */
-  groupByGroupname?: Maybe<Group>;
-  /** Reads a single `WorkoutPlan` that is related to this `User`. */
-  currentWorkoutPlan?: Maybe<WorkoutPlan>;
-  /** An edge for our `User`. May be used by Relay 1. */
-  userEdge?: Maybe<UsersEdge>;
-};
-
-
-/** The output of our delete `User` mutation. */
-export type DeleteUserPayloadUserEdgeArgs = {
-  orderBy?: Maybe<Array<UsersOrderBy>>;
 };
 
 /** All input for the `deleteWorkoutPlanByNodeId` mutation. */
@@ -1223,17 +1020,6 @@ export type DeleteWorkoutPlanByNodeIdInput = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The globally unique `ID` which will identify a single `WorkoutPlan` to be deleted. */
   nodeId: Scalars['ID'];
-};
-
-/** All input for the `deleteWorkoutPlanByUserIdAndName` mutation. */
-export type DeleteWorkoutPlanByUserIdAndNameInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  userId: Scalars['Int'];
-  name: Scalars['String'];
 };
 
 /** All input for the `deleteWorkoutPlanDayByNodeId` mutation. */
@@ -1375,8 +1161,8 @@ export type DeleteWorkoutPlanPayload = {
   deletedWorkoutPlanNodeId?: Maybe<Scalars['ID']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `User` that is related to this `WorkoutPlan`. */
-  user: User;
+  /** Reads a single `AppUser` that is related to this `WorkoutPlan`. */
+  appUser: AppUser;
   /** An edge for our `WorkoutPlan`. May be used by Relay 1. */
   workoutPlanEdge?: Maybe<WorkoutPlansEdge>;
 };
@@ -1385,78 +1171,6 @@ export type DeleteWorkoutPlanPayload = {
 /** The output of our delete `WorkoutPlan` mutation. */
 export type DeleteWorkoutPlanPayloadWorkoutPlanEdgeArgs = {
   orderBy?: Maybe<Array<WorkoutPlansOrderBy>>;
-};
-
-/** A connection to a list of `Enemy` values. */
-export type EnemiesConnection = {
-  __typename?: 'EnemiesConnection';
-  /** A list of `Enemy` objects. */
-  nodes: Array<Enemy>;
-  /** A list of edges which contains the `Enemy` and cursor to aid in pagination. */
-  edges: Array<EnemiesEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Enemy` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `Enemy` edge in the connection. */
-export type EnemiesEdge = {
-  __typename?: 'EnemiesEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Enemy` at the end of the edge. */
-  node: Enemy;
-};
-
-/** Methods to use when ordering `Enemy`. */
-export enum EnemiesOrderBy {
-  Natural = 'NATURAL',
-  LevelAsc = 'LEVEL_ASC',
-  LevelDesc = 'LEVEL_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
-}
-
-export type Enemy = Node & {
-  __typename?: 'Enemy';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  level: Scalars['Int'];
-  maxHealth?: Maybe<Scalars['Float']>;
-  name?: Maybe<Scalars['String']>;
-  /** Reads and enables pagination through a set of `Battle`. */
-  battlesByEnemyLevel: BattlesConnection;
-};
-
-
-export type EnemyBattlesByEnemyLevelArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<BattlesOrderBy>>;
-  condition?: Maybe<BattleCondition>;
-  filter?: Maybe<BattleFilter>;
-};
-
-/** A condition to be used against `Enemy` object types. All fields are tested for equality and combined with a logical ‘and.’ */
-export type EnemyCondition = {
-  /** Checks for equality with the object’s `level` field. */
-  level?: Maybe<Scalars['Int']>;
-};
-
-/** A filter to be used against `Enemy` object types. All fields are combined with a logical ‘and.’ */
-export type EnemyFilter = {
-  /** Filter by the object’s `level` field. */
-  level?: Maybe<IntFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<EnemyFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<EnemyFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<EnemyFilter>;
 };
 
 export type Exercise = Node & {
@@ -1642,139 +1356,6 @@ export enum ExercisesOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
-/** All input for the `getBattleAndCheckExpiry` mutation. */
-export type GetBattleAndCheckExpiryInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-};
-
-/** The output of our `getBattleAndCheckExpiry` mutation. */
-export type GetBattleAndCheckExpiryPayload = {
-  __typename?: 'GetBattleAndCheckExpiryPayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  battle?: Maybe<Battle>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `Enemy` that is related to this `Battle`. */
-  enemyByEnemyLevel: Enemy;
-  /** Reads a single `Group` that is related to this `Battle`. */
-  groupByGroupname: Group;
-  /** An edge for our `Battle`. May be used by Relay 1. */
-  battleEdge?: Maybe<BattlesEdge>;
-};
-
-
-/** The output of our `getBattleAndCheckExpiry` mutation. */
-export type GetBattleAndCheckExpiryPayloadBattleEdgeArgs = {
-  orderBy?: Maybe<Array<BattlesOrderBy>>;
-};
-
-export type Group = Node & {
-  __typename?: 'Group';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  name: Scalars['String'];
-  createdAt: Scalars['Datetime'];
-  updatedAt: Scalars['Datetime'];
-  password?: Maybe<Scalars['String']>;
-  isPasswordProtected?: Maybe<Scalars['Boolean']>;
-  battleNumber?: Maybe<Scalars['Int']>;
-  /** Reads a single `Battle` that is related to this `Group`. */
-  battleByNameAndBattleNumber?: Maybe<Battle>;
-  /** Reads and enables pagination through a set of `User`. */
-  usersByGroupname: UsersConnection;
-  /** Reads and enables pagination through a set of `Battle`. */
-  battlesByGroupname: BattlesConnection;
-};
-
-
-export type GroupUsersByGroupnameArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<UsersOrderBy>>;
-  condition?: Maybe<UserCondition>;
-  filter?: Maybe<UserFilter>;
-};
-
-
-export type GroupBattlesByGroupnameArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<BattlesOrderBy>>;
-  condition?: Maybe<BattleCondition>;
-  filter?: Maybe<BattleFilter>;
-};
-
-/** A condition to be used against `Group` object types. All fields are tested for equality and combined with a logical ‘and.’ */
-export type GroupCondition = {
-  /** Checks for equality with the object’s `name` field. */
-  name?: Maybe<Scalars['String']>;
-};
-
-/** A filter to be used against `Group` object types. All fields are combined with a logical ‘and.’ */
-export type GroupFilter = {
-  /** Filter by the object’s `name` field. */
-  name?: Maybe<StringFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<GroupFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<GroupFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<GroupFilter>;
-};
-
-/** An input for mutations affecting `Group` */
-export type GroupInput = {
-  name: Scalars['String'];
-  password?: Maybe<Scalars['String']>;
-  isPasswordProtected?: Maybe<Scalars['Boolean']>;
-  battleNumber?: Maybe<Scalars['Int']>;
-};
-
-/** A connection to a list of `Group` values. */
-export type GroupsConnection = {
-  __typename?: 'GroupsConnection';
-  /** A list of `Group` objects. */
-  nodes: Array<Group>;
-  /** A list of edges which contains the `Group` and cursor to aid in pagination. */
-  edges: Array<GroupsEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Group` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `Group` edge in the connection. */
-export type GroupsEdge = {
-  __typename?: 'GroupsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Group` at the end of the edge. */
-  node: Group;
-};
-
-/** Methods to use when ordering `Group`. */
-export enum GroupsOrderBy {
-  Natural = 'NATURAL',
-  NameAsc = 'NAME_ASC',
-  NameDesc = 'NAME_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
-}
-
 /** A filter to be used against Int fields. All fields are combined with a logical ‘and.’ */
 export type IntFilter = {
   /** Is null (if `true` is specified) or is not null (if `false` is specified). */
@@ -1801,51 +1382,6 @@ export type IntFilter = {
   greaterThanOrEqualTo?: Maybe<Scalars['Int']>;
 };
 
-/** All input for the `joinGroup` mutation. */
-export type JoinGroupInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  inputGroupname?: Maybe<Scalars['String']>;
-  inputPassword?: Maybe<Scalars['String']>;
-};
-
-/** The output of our `joinGroup` mutation. */
-export type JoinGroupPayload = {
-  __typename?: 'JoinGroupPayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  boolean?: Maybe<Scalars['Boolean']>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-};
-
-/** All input for the `joinRandomPublicGroup` mutation. */
-export type JoinRandomPublicGroupInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-};
-
-/** The output of our `joinRandomPublicGroup` mutation. */
-export type JoinRandomPublicGroupPayload = {
-  __typename?: 'JoinRandomPublicGroupPayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  boolean?: Maybe<Scalars['Boolean']>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-};
 
 export type ListenPayload = {
   __typename?: 'ListenPayload';
@@ -1858,16 +1394,12 @@ export type ListenPayload = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type Mutation = {
   __typename?: 'Mutation';
-  /** Creates a single `Bodystat`. */
-  createBodystat?: Maybe<CreateBodystatPayload>;
   /** Creates a single `CompletedWorkout`. */
   createCompletedWorkout?: Maybe<CreateCompletedWorkoutPayload>;
   /** Creates a single `CompletedWorkoutExercise`. */
   createCompletedWorkoutExercise?: Maybe<CreateCompletedWorkoutExercisePayload>;
   /** Creates a single `Exercise`. */
   createExercise?: Maybe<CreateExercisePayload>;
-  /** Creates a single `Group`. */
-  createGroup?: Maybe<CreateGroupPayload>;
   /** Creates a single `SessionAnalytic`. */
   createSessionAnalytic?: Maybe<CreateSessionAnalyticPayload>;
   /** Creates a single `UserExercise`. */
@@ -1880,14 +1412,12 @@ export type Mutation = {
   createWorkoutPlanDay?: Maybe<CreateWorkoutPlanDayPayload>;
   /** Creates a single `WorkoutPlanExercise`. */
   createWorkoutPlanExercise?: Maybe<CreateWorkoutPlanExercisePayload>;
-  /** Updates a single `Battle` using its globally unique id and a patch. */
-  updateBattleByNodeId?: Maybe<UpdateBattlePayload>;
-  /** Updates a single `Battle` using a unique key and a patch. */
-  updateBattle?: Maybe<UpdateBattlePayload>;
-  /** Updates a single `Bodystat` using its globally unique id and a patch. */
-  updateBodystatByNodeId?: Maybe<UpdateBodystatPayload>;
-  /** Updates a single `Bodystat` using a unique key and a patch. */
-  updateBodystat?: Maybe<UpdateBodystatPayload>;
+  /** Updates a single `AppUser` using its globally unique id and a patch. */
+  updateAppUserByNodeId?: Maybe<UpdateAppUserPayload>;
+  /** Updates a single `AppUser` using a unique key and a patch. */
+  updateAppUserByUsername?: Maybe<UpdateAppUserPayload>;
+  /** Updates a single `AppUser` using a unique key and a patch. */
+  updateAppUser?: Maybe<UpdateAppUserPayload>;
   /** Updates a single `CompletedWorkout` using its globally unique id and a patch. */
   updateCompletedWorkoutByNodeId?: Maybe<UpdateCompletedWorkoutPayload>;
   /** Updates a single `CompletedWorkout` using a unique key and a patch. */
@@ -1900,16 +1430,6 @@ export type Mutation = {
   updateExerciseByNodeId?: Maybe<UpdateExercisePayload>;
   /** Updates a single `Exercise` using a unique key and a patch. */
   updateExercise?: Maybe<UpdateExercisePayload>;
-  /** Updates a single `SessionAnalytic` using its globally unique id and a patch. */
-  updateSessionAnalyticByNodeId?: Maybe<UpdateSessionAnalyticPayload>;
-  /** Updates a single `SessionAnalytic` using a unique key and a patch. */
-  updateSessionAnalytic?: Maybe<UpdateSessionAnalyticPayload>;
-  /** Updates a single `User` using its globally unique id and a patch. */
-  updateUserByNodeId?: Maybe<UpdateUserPayload>;
-  /** Updates a single `User` using a unique key and a patch. */
-  updateUserByUsername?: Maybe<UpdateUserPayload>;
-  /** Updates a single `User` using a unique key and a patch. */
-  updateUser?: Maybe<UpdateUserPayload>;
   /** Updates a single `UserExercise` using its globally unique id and a patch. */
   updateUserExerciseByNodeId?: Maybe<UpdateUserExercisePayload>;
   /** Updates a single `UserExercise` using a unique key and a patch. */
@@ -1918,8 +1438,6 @@ export type Mutation = {
   updateWorkoutPlanByNodeId?: Maybe<UpdateWorkoutPlanPayload>;
   /** Updates a single `WorkoutPlan` using a unique key and a patch. */
   updateWorkoutPlan?: Maybe<UpdateWorkoutPlanPayload>;
-  /** Updates a single `WorkoutPlan` using a unique key and a patch. */
-  updateWorkoutPlanByUserIdAndName?: Maybe<UpdateWorkoutPlanPayload>;
   /** Updates a single `WorkoutPlanDay` using its globally unique id and a patch. */
   updateWorkoutPlanDayByNodeId?: Maybe<UpdateWorkoutPlanDayPayload>;
   /** Updates a single `WorkoutPlanDay` using a unique key and a patch. */
@@ -1932,14 +1450,12 @@ export type Mutation = {
   updateWorkoutPlanExerciseByOrderingAndWorkoutPlanDayId?: Maybe<UpdateWorkoutPlanExercisePayload>;
   /** Updates a single `WorkoutPlanExercise` using a unique key and a patch. */
   updateWorkoutPlanExercise?: Maybe<UpdateWorkoutPlanExercisePayload>;
-  /** Deletes a single `Battle` using its globally unique id. */
-  deleteBattleByNodeId?: Maybe<DeleteBattlePayload>;
-  /** Deletes a single `Battle` using a unique key. */
-  deleteBattle?: Maybe<DeleteBattlePayload>;
-  /** Deletes a single `Bodystat` using its globally unique id. */
-  deleteBodystatByNodeId?: Maybe<DeleteBodystatPayload>;
-  /** Deletes a single `Bodystat` using a unique key. */
-  deleteBodystat?: Maybe<DeleteBodystatPayload>;
+  /** Deletes a single `AppUser` using its globally unique id. */
+  deleteAppUserByNodeId?: Maybe<DeleteAppUserPayload>;
+  /** Deletes a single `AppUser` using a unique key. */
+  deleteAppUserByUsername?: Maybe<DeleteAppUserPayload>;
+  /** Deletes a single `AppUser` using a unique key. */
+  deleteAppUser?: Maybe<DeleteAppUserPayload>;
   /** Deletes a single `CompletedWorkout` using its globally unique id. */
   deleteCompletedWorkoutByNodeId?: Maybe<DeleteCompletedWorkoutPayload>;
   /** Deletes a single `CompletedWorkout` using a unique key. */
@@ -1952,20 +1468,10 @@ export type Mutation = {
   deleteExerciseByNodeId?: Maybe<DeleteExercisePayload>;
   /** Deletes a single `Exercise` using a unique key. */
   deleteExercise?: Maybe<DeleteExercisePayload>;
-  /** Deletes a single `Group` using its globally unique id. */
-  deleteGroupByNodeId?: Maybe<DeleteGroupPayload>;
-  /** Deletes a single `Group` using a unique key. */
-  deleteGroup?: Maybe<DeleteGroupPayload>;
   /** Deletes a single `SessionAnalytic` using its globally unique id. */
   deleteSessionAnalyticByNodeId?: Maybe<DeleteSessionAnalyticPayload>;
   /** Deletes a single `SessionAnalytic` using a unique key. */
   deleteSessionAnalytic?: Maybe<DeleteSessionAnalyticPayload>;
-  /** Deletes a single `User` using its globally unique id. */
-  deleteUserByNodeId?: Maybe<DeleteUserPayload>;
-  /** Deletes a single `User` using a unique key. */
-  deleteUserByUsername?: Maybe<DeleteUserPayload>;
-  /** Deletes a single `User` using a unique key. */
-  deleteUser?: Maybe<DeleteUserPayload>;
   /** Deletes a single `UserExercise` using its globally unique id. */
   deleteUserExerciseByNodeId?: Maybe<DeleteUserExercisePayload>;
   /** Deletes a single `UserExercise` using a unique key. */
@@ -1974,8 +1480,6 @@ export type Mutation = {
   deleteWorkoutPlanByNodeId?: Maybe<DeleteWorkoutPlanPayload>;
   /** Deletes a single `WorkoutPlan` using a unique key. */
   deleteWorkoutPlan?: Maybe<DeleteWorkoutPlanPayload>;
-  /** Deletes a single `WorkoutPlan` using a unique key. */
-  deleteWorkoutPlanByUserIdAndName?: Maybe<DeleteWorkoutPlanPayload>;
   /** Deletes a single `WorkoutPlanDay` using its globally unique id. */
   deleteWorkoutPlanDayByNodeId?: Maybe<DeleteWorkoutPlanDayPayload>;
   /** Deletes a single `WorkoutPlanDay` using a unique key. */
@@ -1989,22 +1493,12 @@ export type Mutation = {
   /** Deletes a single `WorkoutPlanExercise` using a unique key. */
   deleteWorkoutPlanExercise?: Maybe<DeleteWorkoutPlanExercisePayload>;
   createUser?: Maybe<CreateUserPayload>;
-  getBattleAndCheckExpiry?: Maybe<GetBattleAndCheckExpiryPayload>;
-  joinGroup?: Maybe<JoinGroupPayload>;
-  joinRandomPublicGroup?: Maybe<JoinRandomPublicGroupPayload>;
-  nullifyGroup?: Maybe<NullifyGroupPayload>;
   /** Creates one or many `CompletedWorkoutExercise`. */
   mnCreateCompletedWorkoutExercise?: Maybe<MnCreateCompletedWorkoutExercisePayload>;
   /** Updates one or many `CompletedWorkoutExercise` using a unique key and a patch. */
   mnUpdateCompletedWorkoutExercise?: Maybe<MnUpdateCompletedWorkoutExercisePayload>;
   /** Deletes one or many `CompletedWorkoutExercise` a unique key via a patch. */
   mnDeleteCompletedWorkoutExercise?: Maybe<MnDeleteCompletedWorkoutExercisePayload>;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateBodystatArgs = {
-  input: CreateBodystatInput;
 };
 
 
@@ -2023,12 +1517,6 @@ export type MutationCreateCompletedWorkoutExerciseArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateExerciseArgs = {
   input: CreateExerciseInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateGroupArgs = {
-  input: CreateGroupInput;
 };
 
 
@@ -2069,26 +1557,20 @@ export type MutationCreateWorkoutPlanExerciseArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateBattleByNodeIdArgs = {
-  input: UpdateBattleByNodeIdInput;
+export type MutationUpdateAppUserByNodeIdArgs = {
+  input: UpdateAppUserByNodeIdInput;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateBattleArgs = {
-  input: UpdateBattleInput;
+export type MutationUpdateAppUserByUsernameArgs = {
+  input: UpdateAppUserByUsernameInput;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateBodystatByNodeIdArgs = {
-  input: UpdateBodystatByNodeIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateBodystatArgs = {
-  input: UpdateBodystatInput;
+export type MutationUpdateAppUserArgs = {
+  input: UpdateAppUserInput;
 };
 
 
@@ -2129,36 +1611,6 @@ export type MutationUpdateExerciseArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSessionAnalyticByNodeIdArgs = {
-  input: UpdateSessionAnalyticByNodeIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSessionAnalyticArgs = {
-  input: UpdateSessionAnalyticInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateUserByNodeIdArgs = {
-  input: UpdateUserByNodeIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateUserByUsernameArgs = {
-  input: UpdateUserByUsernameInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateUserArgs = {
-  input: UpdateUserInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateUserExerciseByNodeIdArgs = {
   input: UpdateUserExerciseByNodeIdInput;
 };
@@ -2179,12 +1631,6 @@ export type MutationUpdateWorkoutPlanByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateWorkoutPlanArgs = {
   input: UpdateWorkoutPlanInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateWorkoutPlanByUserIdAndNameArgs = {
-  input: UpdateWorkoutPlanByUserIdAndNameInput;
 };
 
 
@@ -2225,26 +1671,20 @@ export type MutationUpdateWorkoutPlanExerciseArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteBattleByNodeIdArgs = {
-  input: DeleteBattleByNodeIdInput;
+export type MutationDeleteAppUserByNodeIdArgs = {
+  input: DeleteAppUserByNodeIdInput;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteBattleArgs = {
-  input: DeleteBattleInput;
+export type MutationDeleteAppUserByUsernameArgs = {
+  input: DeleteAppUserByUsernameInput;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteBodystatByNodeIdArgs = {
-  input: DeleteBodystatByNodeIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteBodystatArgs = {
-  input: DeleteBodystatInput;
+export type MutationDeleteAppUserArgs = {
+  input: DeleteAppUserInput;
 };
 
 
@@ -2285,18 +1725,6 @@ export type MutationDeleteExerciseArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteGroupByNodeIdArgs = {
-  input: DeleteGroupByNodeIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteGroupArgs = {
-  input: DeleteGroupInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteSessionAnalyticByNodeIdArgs = {
   input: DeleteSessionAnalyticByNodeIdInput;
 };
@@ -2305,24 +1733,6 @@ export type MutationDeleteSessionAnalyticByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteSessionAnalyticArgs = {
   input: DeleteSessionAnalyticInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteUserByNodeIdArgs = {
-  input: DeleteUserByNodeIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteUserByUsernameArgs = {
-  input: DeleteUserByUsernameInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteUserArgs = {
-  input: DeleteUserInput;
 };
 
 
@@ -2347,12 +1757,6 @@ export type MutationDeleteWorkoutPlanByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteWorkoutPlanArgs = {
   input: DeleteWorkoutPlanInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteWorkoutPlanByUserIdAndNameArgs = {
-  input: DeleteWorkoutPlanByUserIdAndNameInput;
 };
 
 
@@ -2399,30 +1803,6 @@ export type MutationCreateUserArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationGetBattleAndCheckExpiryArgs = {
-  input: GetBattleAndCheckExpiryInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationJoinGroupArgs = {
-  input: JoinGroupInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationJoinRandomPublicGroupArgs = {
-  input: JoinRandomPublicGroupInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationNullifyGroupArgs = {
-  input: NullifyGroupInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationMnCreateCompletedWorkoutExerciseArgs = {
   input: MnCreateCompletedWorkoutExerciseInput;
 };
@@ -2443,27 +1823,6 @@ export type MutationMnDeleteCompletedWorkoutExerciseArgs = {
 export type Node = {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
-};
-
-/** All input for the `nullifyGroup` mutation. */
-export type NullifyGroupInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-};
-
-/** The output of our `nullifyGroup` mutation. */
-export type NullifyGroupPayload = {
-  __typename?: 'NullifyGroupPayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
 };
 
 /** Information about pagination in a connection. */
@@ -2491,24 +1850,18 @@ export type Query = Node & {
   nodeId: Scalars['ID'];
   /** Fetches an object given its globally unique `ID`. */
   node?: Maybe<Node>;
-  /** Reads and enables pagination through a set of `Battle`. */
-  battles?: Maybe<BattlesConnection>;
+  /** Reads and enables pagination through a set of `AppUser`. */
+  appUsers?: Maybe<AppUsersConnection>;
   /** Reads and enables pagination through a set of `CompletedWorkout`. */
   completedWorkouts?: Maybe<CompletedWorkoutsConnection>;
   /** Reads and enables pagination through a set of `CompletedWorkoutExercise`. */
   completedWorkoutExercises?: Maybe<CompletedWorkoutExercisesConnection>;
-  /** Reads and enables pagination through a set of `Enemy`. */
-  enemies?: Maybe<EnemiesConnection>;
   /** Reads and enables pagination through a set of `Exercise`. */
   exercises?: Maybe<ExercisesConnection>;
   /** Reads and enables pagination through a set of `ExerciseAlias`. */
   exerciseAliases?: Maybe<ExerciseAliasesConnection>;
-  /** Reads and enables pagination through a set of `Group`. */
-  groups?: Maybe<GroupsConnection>;
   /** Reads and enables pagination through a set of `SessionAnalytic`. */
   sessionAnalytics?: Maybe<SessionAnalyticsConnection>;
-  /** Reads and enables pagination through a set of `User`. */
-  users?: Maybe<UsersConnection>;
   /** Reads and enables pagination through a set of `UserExercise`. */
   userExercises?: Maybe<UserExercisesConnection>;
   /** Reads and enables pagination through a set of `Volume`. */
@@ -2519,43 +1872,31 @@ export type Query = Node & {
   workoutPlanDays?: Maybe<WorkoutPlanDaysConnection>;
   /** Reads and enables pagination through a set of `WorkoutPlanExercise`. */
   workoutPlanExercises?: Maybe<WorkoutPlanExercisesConnection>;
-  battle?: Maybe<Battle>;
-  bodystat?: Maybe<Bodystat>;
+  appUserByUsername?: Maybe<AppUser>;
+  appUser?: Maybe<AppUser>;
   completedWorkout?: Maybe<CompletedWorkout>;
   completedWorkoutExercise?: Maybe<CompletedWorkoutExercise>;
-  enemy?: Maybe<Enemy>;
   exercise?: Maybe<Exercise>;
-  group?: Maybe<Group>;
   sessionAnalytic?: Maybe<SessionAnalytic>;
-  userByUsername?: Maybe<User>;
-  user?: Maybe<User>;
   userExercise?: Maybe<UserExercise>;
   workoutPlan?: Maybe<WorkoutPlan>;
-  workoutPlanByUserIdAndName?: Maybe<WorkoutPlan>;
   workoutPlanDay?: Maybe<WorkoutPlanDay>;
   workoutPlanDayByWorkoutPlanIdAndName?: Maybe<WorkoutPlanDay>;
   workoutPlanExerciseByOrderingAndWorkoutPlanDayId?: Maybe<WorkoutPlanExercise>;
   workoutPlanExercise?: Maybe<WorkoutPlanExercise>;
-  activeUser?: Maybe<User>;
-  calculateStrengthStats?: Maybe<Strengthstat>;
-  /** Reads a single `Battle` using its globally unique `ID`. */
-  battleByNodeId?: Maybe<Battle>;
-  /** Reads a single `Bodystat` using its globally unique `ID`. */
-  bodystatByNodeId?: Maybe<Bodystat>;
+  activeUser?: Maybe<AppUser>;
+  authenticate?: Maybe<UserIdAndJwt>;
+  currentUserId?: Maybe<Scalars['Int']>;
+  /** Reads a single `AppUser` using its globally unique `ID`. */
+  appUserByNodeId?: Maybe<AppUser>;
   /** Reads a single `CompletedWorkout` using its globally unique `ID`. */
   completedWorkoutByNodeId?: Maybe<CompletedWorkout>;
   /** Reads a single `CompletedWorkoutExercise` using its globally unique `ID`. */
   completedWorkoutExerciseByNodeId?: Maybe<CompletedWorkoutExercise>;
-  /** Reads a single `Enemy` using its globally unique `ID`. */
-  enemyByNodeId?: Maybe<Enemy>;
   /** Reads a single `Exercise` using its globally unique `ID`. */
   exerciseByNodeId?: Maybe<Exercise>;
-  /** Reads a single `Group` using its globally unique `ID`. */
-  groupByNodeId?: Maybe<Group>;
   /** Reads a single `SessionAnalytic` using its globally unique `ID`. */
   sessionAnalyticByNodeId?: Maybe<SessionAnalytic>;
-  /** Reads a single `User` using its globally unique `ID`. */
-  userByNodeId?: Maybe<User>;
   /** Reads a single `UserExercise` using its globally unique `ID`. */
   userExerciseByNodeId?: Maybe<UserExercise>;
   /** Reads a single `WorkoutPlan` using its globally unique `ID`. */
@@ -2575,15 +1916,15 @@ export type QueryNodeArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryBattlesArgs = {
+export type QueryAppUsersArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<BattlesOrderBy>>;
-  condition?: Maybe<BattleCondition>;
-  filter?: Maybe<BattleFilter>;
+  orderBy?: Maybe<Array<AppUsersOrderBy>>;
+  condition?: Maybe<AppUserCondition>;
+  filter?: Maybe<AppUserFilter>;
 };
 
 
@@ -2614,19 +1955,6 @@ export type QueryCompletedWorkoutExercisesArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryEnemiesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<EnemiesOrderBy>>;
-  condition?: Maybe<EnemyCondition>;
-  filter?: Maybe<EnemyFilter>;
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryExercisesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -2653,19 +1981,6 @@ export type QueryExerciseAliasesArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryGroupsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<GroupsOrderBy>>;
-  condition?: Maybe<GroupCondition>;
-  filter?: Maybe<GroupFilter>;
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QuerySessionAnalyticsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -2675,19 +1990,6 @@ export type QuerySessionAnalyticsArgs = {
   orderBy?: Maybe<Array<SessionAnalyticsOrderBy>>;
   condition?: Maybe<SessionAnalyticCondition>;
   filter?: Maybe<SessionAnalyticFilter>;
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryUsersArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<UsersOrderBy>>;
-  condition?: Maybe<UserCondition>;
-  filter?: Maybe<UserFilter>;
 };
 
 
@@ -2755,15 +2057,14 @@ export type QueryWorkoutPlanExercisesArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryBattleArgs = {
-  groupname: Scalars['String'];
-  battleNumber: Scalars['Int'];
+export type QueryAppUserByUsernameArgs = {
+  username: Scalars['String'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryBodystatArgs = {
-  userId: Scalars['Int'];
+export type QueryAppUserArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -2780,37 +2081,13 @@ export type QueryCompletedWorkoutExerciseArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryEnemyArgs = {
-  level: Scalars['Int'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryExerciseArgs = {
   id: Scalars['Int'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryGroupArgs = {
-  name: Scalars['String'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QuerySessionAnalyticArgs = {
-  id: Scalars['Int'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryUserByUsernameArgs = {
-  username: Scalars['String'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryUserArgs = {
   id: Scalars['Int'];
 };
 
@@ -2825,13 +2102,6 @@ export type QueryUserExerciseArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryWorkoutPlanArgs = {
   id: Scalars['Int'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryWorkoutPlanByUserIdAndNameArgs = {
-  userId: Scalars['Int'];
-  name: Scalars['String'];
 };
 
 
@@ -2862,13 +2132,14 @@ export type QueryWorkoutPlanExerciseArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryBattleByNodeIdArgs = {
-  nodeId: Scalars['ID'];
+export type QueryAuthenticateArgs = {
+  username: Scalars['String'];
+  password: Scalars['String'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryBodystatByNodeIdArgs = {
+export type QueryAppUserByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
@@ -2886,31 +2157,13 @@ export type QueryCompletedWorkoutExerciseByNodeIdArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryEnemyByNodeIdArgs = {
-  nodeId: Scalars['ID'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryExerciseByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryGroupByNodeIdArgs = {
-  nodeId: Scalars['ID'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QuerySessionAnalyticByNodeIdArgs = {
-  nodeId: Scalars['ID'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryUserByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
@@ -2966,9 +2219,9 @@ export type SessionAnalytic = Node & {
   username: Scalars['String'];
   analytics: Array<Maybe<SectionAndTimeSpent>>;
   createdAt: Scalars['Datetime'];
-  userId: Scalars['Int'];
-  /** Reads a single `User` that is related to this `SessionAnalytic`. */
-  user: User;
+  appUserId: Scalars['Int'];
+  /** Reads a single `AppUser` that is related to this `SessionAnalytic`. */
+  appUser: AppUser;
 };
 
 /**
@@ -2980,8 +2233,8 @@ export type SessionAnalyticCondition = {
   id?: Maybe<Scalars['Int']>;
   /** Checks for equality with the object’s `username` field. */
   username?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `userId` field. */
-  userId?: Maybe<Scalars['Int']>;
+  /** Checks for equality with the object’s `appUserId` field. */
+  appUserId?: Maybe<Scalars['Int']>;
 };
 
 /** A filter to be used against `SessionAnalytic` object types. All fields are combined with a logical ‘and.’ */
@@ -2990,8 +2243,8 @@ export type SessionAnalyticFilter = {
   id?: Maybe<IntFilter>;
   /** Filter by the object’s `username` field. */
   username?: Maybe<StringFilter>;
-  /** Filter by the object’s `userId` field. */
-  userId?: Maybe<IntFilter>;
+  /** Filter by the object’s `appUserId` field. */
+  appUserId?: Maybe<IntFilter>;
   /** Checks for all expressions in this list. */
   and?: Maybe<Array<SessionAnalyticFilter>>;
   /** Checks for any expressions in this list. */
@@ -3005,16 +2258,7 @@ export type SessionAnalyticInput = {
   username: Scalars['String'];
   analytics: Array<Maybe<SectionAndTimeSpentInput>>;
   createdAt?: Maybe<Scalars['Datetime']>;
-  userId?: Maybe<Scalars['Int']>;
-};
-
-/** Represents an update to a `SessionAnalytic`. Fields that are set will be updated. */
-export type SessionAnalyticPatch = {
-  id?: Maybe<Scalars['Int']>;
-  username?: Maybe<Scalars['String']>;
-  analytics?: Maybe<Array<Maybe<SectionAndTimeSpentInput>>>;
-  createdAt?: Maybe<Scalars['Datetime']>;
-  userId?: Maybe<Scalars['Int']>;
+  appUserId?: Maybe<Scalars['Int']>;
 };
 
 /** A connection to a list of `SessionAnalytic` values. */
@@ -3046,18 +2290,11 @@ export enum SessionAnalyticsOrderBy {
   IdDesc = 'ID_DESC',
   UsernameAsc = 'USERNAME_ASC',
   UsernameDesc = 'USERNAME_DESC',
-  UserIdAsc = 'USER_ID_ASC',
-  UserIdDesc = 'USER_ID_DESC',
+  AppUserIdAsc = 'APP_USER_ID_ASC',
+  AppUserIdDesc = 'APP_USER_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
-
-export type Strengthstat = {
-  __typename?: 'Strengthstat';
-  averageStrength?: Maybe<Scalars['BigFloat']>;
-  numExercises?: Maybe<Scalars['BigFloat']>;
-  dph?: Maybe<Scalars['BigFloat']>;
-};
 
 /** A filter to be used against String fields. All fields are combined with a logical ‘and.’ */
 export type StringFilter = {
@@ -3149,105 +2386,65 @@ export type SubscriptionListenArgs = {
   topic: Scalars['String'];
 };
 
-/** All input for the `updateBattleByNodeId` mutation. */
-export type UpdateBattleByNodeIdInput = {
+/** All input for the `updateAppUserByNodeId` mutation. */
+export type UpdateAppUserByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `Battle` to be updated. */
+  /** The globally unique `ID` which will identify a single `AppUser` to be updated. */
   nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `Battle` being updated. */
-  patch: BattlePatch;
+  /** An object where the defined keys will be set on the `AppUser` being updated. */
+  patch: AppUserPatch;
 };
 
-/** All input for the `updateBattle` mutation. */
-export type UpdateBattleInput = {
+/** All input for the `updateAppUserByUsername` mutation. */
+export type UpdateAppUserByUsernameInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** An object where the defined keys will be set on the `Battle` being updated. */
-  patch: BattlePatch;
-  groupname: Scalars['String'];
-  battleNumber: Scalars['Int'];
+  /** An object where the defined keys will be set on the `AppUser` being updated. */
+  patch: AppUserPatch;
+  username: Scalars['String'];
 };
 
-/** The output of our update `Battle` mutation. */
-export type UpdateBattlePayload = {
-  __typename?: 'UpdateBattlePayload';
+/** All input for the `updateAppUser` mutation. */
+export type UpdateAppUserInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `AppUser` being updated. */
+  patch: AppUserPatch;
+  id: Scalars['Int'];
+};
+
+/** The output of our update `AppUser` mutation. */
+export type UpdateAppUserPayload = {
+  __typename?: 'UpdateAppUserPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Battle` that was updated by this mutation. */
-  battle?: Maybe<Battle>;
+  /** The `AppUser` that was updated by this mutation. */
+  appUser?: Maybe<AppUser>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `Enemy` that is related to this `Battle`. */
-  enemyByEnemyLevel: Enemy;
-  /** Reads a single `Group` that is related to this `Battle`. */
-  groupByGroupname: Group;
-  /** An edge for our `Battle`. May be used by Relay 1. */
-  battleEdge?: Maybe<BattlesEdge>;
+  /** Reads a single `WorkoutPlan` that is related to this `AppUser`. */
+  currentWorkoutPlan?: Maybe<WorkoutPlan>;
+  /** An edge for our `AppUser`. May be used by Relay 1. */
+  appUserEdge?: Maybe<AppUsersEdge>;
 };
 
 
-/** The output of our update `Battle` mutation. */
-export type UpdateBattlePayloadBattleEdgeArgs = {
-  orderBy?: Maybe<Array<BattlesOrderBy>>;
-};
-
-/** All input for the `updateBodystatByNodeId` mutation. */
-export type UpdateBodystatByNodeIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `Bodystat` to be updated. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `Bodystat` being updated. */
-  patch: BodystatPatch;
-};
-
-/** All input for the `updateBodystat` mutation. */
-export type UpdateBodystatInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** An object where the defined keys will be set on the `Bodystat` being updated. */
-  patch: BodystatPatch;
-  userId: Scalars['Int'];
-};
-
-/** The output of our update `Bodystat` mutation. */
-export type UpdateBodystatPayload = {
-  __typename?: 'UpdateBodystatPayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Bodystat` that was updated by this mutation. */
-  bodystat?: Maybe<Bodystat>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `User` that is related to this `Bodystat`. */
-  user: User;
-  /** An edge for our `Bodystat`. May be used by Relay 1. */
-  bodystatEdge?: Maybe<BodystatsEdge>;
-};
-
-
-/** The output of our update `Bodystat` mutation. */
-export type UpdateBodystatPayloadBodystatEdgeArgs = {
-  orderBy?: Maybe<Array<BodystatsOrderBy>>;
+/** The output of our update `AppUser` mutation. */
+export type UpdateAppUserPayloadAppUserEdgeArgs = {
+  orderBy?: Maybe<Array<AppUsersOrderBy>>;
 };
 
 /** All input for the `updateCompletedWorkoutByNodeId` mutation. */
@@ -3338,6 +2535,8 @@ export type UpdateCompletedWorkoutPayload = {
   completedWorkout?: Maybe<CompletedWorkout>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
+  /** Reads a single `AppUser` that is related to this `CompletedWorkout`. */
+  appUser: AppUser;
   /** An edge for our `CompletedWorkout`. May be used by Relay 1. */
   completedWorkoutEdge?: Maybe<CompletedWorkoutsEdge>;
 };
@@ -3395,80 +2594,6 @@ export type UpdateExercisePayloadExerciseEdgeArgs = {
   orderBy?: Maybe<Array<ExercisesOrderBy>>;
 };
 
-/** All input for the `updateSessionAnalyticByNodeId` mutation. */
-export type UpdateSessionAnalyticByNodeIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `SessionAnalytic` to be updated. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `SessionAnalytic` being updated. */
-  patch: SessionAnalyticPatch;
-};
-
-/** All input for the `updateSessionAnalytic` mutation. */
-export type UpdateSessionAnalyticInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** An object where the defined keys will be set on the `SessionAnalytic` being updated. */
-  patch: SessionAnalyticPatch;
-  id: Scalars['Int'];
-};
-
-/** The output of our update `SessionAnalytic` mutation. */
-export type UpdateSessionAnalyticPayload = {
-  __typename?: 'UpdateSessionAnalyticPayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `SessionAnalytic` that was updated by this mutation. */
-  sessionAnalytic?: Maybe<SessionAnalytic>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `User` that is related to this `SessionAnalytic`. */
-  user: User;
-  /** An edge for our `SessionAnalytic`. May be used by Relay 1. */
-  sessionAnalyticEdge?: Maybe<SessionAnalyticsEdge>;
-};
-
-
-/** The output of our update `SessionAnalytic` mutation. */
-export type UpdateSessionAnalyticPayloadSessionAnalyticEdgeArgs = {
-  orderBy?: Maybe<Array<SessionAnalyticsOrderBy>>;
-};
-
-/** All input for the `updateUserByNodeId` mutation. */
-export type UpdateUserByNodeIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `User` to be updated. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `User` being updated. */
-  patch: UserPatch;
-};
-
-/** All input for the `updateUserByUsername` mutation. */
-export type UpdateUserByUsernameInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** An object where the defined keys will be set on the `User` being updated. */
-  patch: UserPatch;
-  username: Scalars['String'];
-};
-
 /** All input for the `updateUserExerciseByNodeId` mutation. */
 export type UpdateUserExerciseByNodeIdInput = {
   /**
@@ -3507,10 +2632,8 @@ export type UpdateUserExercisePayload = {
   userExercise?: Maybe<UserExercise>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `Battle` that is related to this `UserExercise`. */
-  battleByGroupnameAndBattleNumber?: Maybe<Battle>;
-  /** Reads a single `User` that is related to this `UserExercise`. */
-  user: User;
+  /** Reads a single `AppUser` that is related to this `UserExercise`. */
+  appUser: AppUser;
   /** An edge for our `UserExercise`. May be used by Relay 1. */
   userExerciseEdge?: Maybe<UserExercisesEdge>;
 };
@@ -3519,44 +2642,6 @@ export type UpdateUserExercisePayload = {
 /** The output of our update `UserExercise` mutation. */
 export type UpdateUserExercisePayloadUserExerciseEdgeArgs = {
   orderBy?: Maybe<Array<UserExercisesOrderBy>>;
-};
-
-/** All input for the `updateUser` mutation. */
-export type UpdateUserInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** An object where the defined keys will be set on the `User` being updated. */
-  patch: UserPatch;
-  id: Scalars['Int'];
-};
-
-/** The output of our update `User` mutation. */
-export type UpdateUserPayload = {
-  __typename?: 'UpdateUserPayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `User` that was updated by this mutation. */
-  user?: Maybe<User>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `Group` that is related to this `User`. */
-  groupByGroupname?: Maybe<Group>;
-  /** Reads a single `WorkoutPlan` that is related to this `User`. */
-  currentWorkoutPlan?: Maybe<WorkoutPlan>;
-  /** An edge for our `User`. May be used by Relay 1. */
-  userEdge?: Maybe<UsersEdge>;
-};
-
-
-/** The output of our update `User` mutation. */
-export type UpdateUserPayloadUserEdgeArgs = {
-  orderBy?: Maybe<Array<UsersOrderBy>>;
 };
 
 /** All input for the `updateWorkoutPlanByNodeId` mutation. */
@@ -3570,19 +2655,6 @@ export type UpdateWorkoutPlanByNodeIdInput = {
   nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `WorkoutPlan` being updated. */
   patch: WorkoutPlanPatch;
-};
-
-/** All input for the `updateWorkoutPlanByUserIdAndName` mutation. */
-export type UpdateWorkoutPlanByUserIdAndNameInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** An object where the defined keys will be set on the `WorkoutPlan` being updated. */
-  patch: WorkoutPlanPatch;
-  userId: Scalars['Int'];
-  name: Scalars['String'];
 };
 
 /** All input for the `updateWorkoutPlanDayByNodeId` mutation. */
@@ -3735,8 +2807,8 @@ export type UpdateWorkoutPlanPayload = {
   workoutPlan?: Maybe<WorkoutPlan>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `User` that is related to this `WorkoutPlan`. */
-  user: User;
+  /** Reads a single `AppUser` that is related to this `WorkoutPlan`. */
+  appUser: AppUser;
   /** An edge for our `WorkoutPlan`. May be used by Relay 1. */
   workoutPlanEdge?: Maybe<WorkoutPlansEdge>;
 };
@@ -3745,78 +2817,6 @@ export type UpdateWorkoutPlanPayload = {
 /** The output of our update `WorkoutPlan` mutation. */
 export type UpdateWorkoutPlanPayloadWorkoutPlanEdgeArgs = {
   orderBy?: Maybe<Array<WorkoutPlansOrderBy>>;
-};
-
-export type User = Node & {
-  __typename?: 'User';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  username: Scalars['String'];
-  groupname?: Maybe<Scalars['String']>;
-  createdAt: Scalars['Datetime'];
-  updatedAt: Scalars['Datetime'];
-  id: Scalars['Int'];
-  currentWorkoutPlanId?: Maybe<Scalars['Int']>;
-  /** Reads a single `Group` that is related to this `User`. */
-  groupByGroupname?: Maybe<Group>;
-  /** Reads a single `WorkoutPlan` that is related to this `User`. */
-  currentWorkoutPlan?: Maybe<WorkoutPlan>;
-  /** Reads a single `Bodystat` that is related to this `User`. */
-  bodystat?: Maybe<Bodystat>;
-  /** Reads and enables pagination through a set of `UserExercise`. */
-  userExercises: UserExercisesConnection;
-  /** Reads and enables pagination through a set of `SessionAnalytic`. */
-  sessionAnalytics: SessionAnalyticsConnection;
-  /** Reads and enables pagination through a set of `WorkoutPlan`. */
-  workoutPlans: WorkoutPlansConnection;
-};
-
-
-export type UserUserExercisesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<UserExercisesOrderBy>>;
-  condition?: Maybe<UserExerciseCondition>;
-  filter?: Maybe<UserExerciseFilter>;
-};
-
-
-export type UserSessionAnalyticsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<SessionAnalyticsOrderBy>>;
-  condition?: Maybe<SessionAnalyticCondition>;
-  filter?: Maybe<SessionAnalyticFilter>;
-};
-
-
-export type UserWorkoutPlansArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<WorkoutPlansOrderBy>>;
-  condition?: Maybe<WorkoutPlanCondition>;
-  filter?: Maybe<WorkoutPlanFilter>;
-};
-
-/** A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’ */
-export type UserCondition = {
-  /** Checks for equality with the object’s `username` field. */
-  username?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `groupname` field. */
-  groupname?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `id` field. */
-  id?: Maybe<Scalars['Int']>;
-  /** Checks for equality with the object’s `currentWorkoutPlanId` field. */
-  currentWorkoutPlanId?: Maybe<Scalars['Int']>;
 };
 
 export type UserExercise = Node & {
@@ -3832,11 +2832,9 @@ export type UserExercise = Node & {
   battleNumber?: Maybe<Scalars['Int']>;
   createdAt: Scalars['Datetime'];
   updatedAt: Scalars['Datetime'];
-  userId: Scalars['Int'];
-  /** Reads a single `Battle` that is related to this `UserExercise`. */
-  battleByGroupnameAndBattleNumber?: Maybe<Battle>;
-  /** Reads a single `User` that is related to this `UserExercise`. */
-  user: User;
+  appUserId: Scalars['Int'];
+  /** Reads a single `AppUser` that is related to this `UserExercise`. */
+  appUser: AppUser;
 };
 
 /**
@@ -3850,8 +2848,8 @@ export type UserExerciseCondition = {
   username?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `groupname` field. */
   groupname?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `userId` field. */
-  userId?: Maybe<Scalars['Int']>;
+  /** Checks for equality with the object’s `appUserId` field. */
+  appUserId?: Maybe<Scalars['Int']>;
 };
 
 /** A filter to be used against `UserExercise` object types. All fields are combined with a logical ‘and.’ */
@@ -3862,8 +2860,8 @@ export type UserExerciseFilter = {
   username?: Maybe<StringFilter>;
   /** Filter by the object’s `groupname` field. */
   groupname?: Maybe<StringFilter>;
-  /** Filter by the object’s `userId` field. */
-  userId?: Maybe<IntFilter>;
+  /** Filter by the object’s `appUserId` field. */
+  appUserId?: Maybe<IntFilter>;
   /** Checks for all expressions in this list. */
   and?: Maybe<Array<UserExerciseFilter>>;
   /** Checks for any expressions in this list. */
@@ -3879,7 +2877,7 @@ export type UserExerciseInput = {
   repetitions: Scalars['Int'];
   liftmass: Scalars['Float'];
   strongerpercentage: Scalars['Int'];
-  userId?: Maybe<Scalars['Int']>;
+  appUserId?: Maybe<Scalars['Int']>;
 };
 
 /** Represents an update to a `UserExercise`. Fields that are set will be updated. */
@@ -3893,7 +2891,7 @@ export type UserExercisePatch = {
   battleNumber?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['Datetime']>;
   updatedAt?: Maybe<Scalars['Datetime']>;
-  userId?: Maybe<Scalars['Int']>;
+  appUserId?: Maybe<Scalars['Int']>;
 };
 
 /** A connection to a list of `UserExercise` values. */
@@ -3927,75 +2925,17 @@ export enum UserExercisesOrderBy {
   UsernameDesc = 'USERNAME_DESC',
   GroupnameAsc = 'GROUPNAME_ASC',
   GroupnameDesc = 'GROUPNAME_DESC',
-  UserIdAsc = 'USER_ID_ASC',
-  UserIdDesc = 'USER_ID_DESC',
+  AppUserIdAsc = 'APP_USER_ID_ASC',
+  AppUserIdDesc = 'APP_USER_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
-/** A filter to be used against `User` object types. All fields are combined with a logical ‘and.’ */
-export type UserFilter = {
-  /** Filter by the object’s `username` field. */
-  username?: Maybe<StringFilter>;
-  /** Filter by the object’s `groupname` field. */
-  groupname?: Maybe<StringFilter>;
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<IntFilter>;
-  /** Filter by the object’s `currentWorkoutPlanId` field. */
-  currentWorkoutPlanId?: Maybe<IntFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<UserFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<UserFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<UserFilter>;
+export type UserIdAndJwt = {
+  __typename?: 'UserIdAndJwt';
+  appUserId?: Maybe<Scalars['Int']>;
+  token?: Maybe<Scalars['JwtToken']>;
 };
-
-/** Represents an update to a `User`. Fields that are set will be updated. */
-export type UserPatch = {
-  username?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Datetime']>;
-  updatedAt?: Maybe<Scalars['Datetime']>;
-  id?: Maybe<Scalars['Int']>;
-  currentWorkoutPlanId?: Maybe<Scalars['Int']>;
-};
-
-/** A connection to a list of `User` values. */
-export type UsersConnection = {
-  __typename?: 'UsersConnection';
-  /** A list of `User` objects. */
-  nodes: Array<User>;
-  /** A list of edges which contains the `User` and cursor to aid in pagination. */
-  edges: Array<UsersEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `User` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `User` edge in the connection. */
-export type UsersEdge = {
-  __typename?: 'UsersEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `User` at the end of the edge. */
-  node: User;
-};
-
-/** Methods to use when ordering `User`. */
-export enum UsersOrderBy {
-  Natural = 'NATURAL',
-  UsernameAsc = 'USERNAME_ASC',
-  UsernameDesc = 'USERNAME_DESC',
-  GroupnameAsc = 'GROUPNAME_ASC',
-  GroupnameDesc = 'GROUPNAME_DESC',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  CurrentWorkoutPlanIdAsc = 'CURRENT_WORKOUT_PLAN_ID_ASC',
-  CurrentWorkoutPlanIdDesc = 'CURRENT_WORKOUT_PLAN_ID_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
-}
 
 export type Volume = {
   __typename?: 'Volume';
@@ -4042,26 +2982,27 @@ export type WorkoutPlan = Node & {
   nodeId: Scalars['ID'];
   id: Scalars['Int'];
   createdAt: Scalars['Datetime'];
-  userId: Scalars['Int'];
   name: Scalars['String'];
-  /** Reads a single `User` that is related to this `WorkoutPlan`. */
-  user: User;
-  /** Reads and enables pagination through a set of `User`. */
-  usersByCurrentWorkoutPlanId: UsersConnection;
+  appUserId: Scalars['Int'];
+  updatedAt: Scalars['Datetime'];
+  /** Reads a single `AppUser` that is related to this `WorkoutPlan`. */
+  appUser: AppUser;
+  /** Reads and enables pagination through a set of `AppUser`. */
+  appUsersByCurrentWorkoutPlanId: AppUsersConnection;
   /** Reads and enables pagination through a set of `WorkoutPlanDay`. */
   workoutPlanDays: WorkoutPlanDaysConnection;
 };
 
 
-export type WorkoutPlanUsersByCurrentWorkoutPlanIdArgs = {
+export type WorkoutPlanAppUsersByCurrentWorkoutPlanIdArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<UsersOrderBy>>;
-  condition?: Maybe<UserCondition>;
-  filter?: Maybe<UserFilter>;
+  orderBy?: Maybe<Array<AppUsersOrderBy>>;
+  condition?: Maybe<AppUserCondition>;
+  filter?: Maybe<AppUserFilter>;
 };
 
 
@@ -4083,8 +3024,8 @@ export type WorkoutPlanWorkoutPlanDaysArgs = {
 export type WorkoutPlanCondition = {
   /** Checks for equality with the object’s `id` field. */
   id?: Maybe<Scalars['Int']>;
-  /** Checks for equality with the object’s `userId` field. */
-  userId?: Maybe<Scalars['Int']>;
+  /** Checks for equality with the object’s `appUserId` field. */
+  appUserId?: Maybe<Scalars['Int']>;
 };
 
 export type WorkoutPlanDay = Node & {
@@ -4292,8 +3233,8 @@ export enum WorkoutPlanExercisesOrderBy {
 export type WorkoutPlanFilter = {
   /** Filter by the object’s `id` field. */
   id?: Maybe<IntFilter>;
-  /** Filter by the object’s `userId` field. */
-  userId?: Maybe<IntFilter>;
+  /** Filter by the object’s `appUserId` field. */
+  appUserId?: Maybe<IntFilter>;
   /** Checks for all expressions in this list. */
   and?: Maybe<Array<WorkoutPlanFilter>>;
   /** Checks for any expressions in this list. */
@@ -4306,16 +3247,16 @@ export type WorkoutPlanFilter = {
 export type WorkoutPlanInput = {
   id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['Datetime']>;
-  userId: Scalars['Int'];
   name: Scalars['String'];
+  appUserId: Scalars['Int'];
+  updatedAt?: Maybe<Scalars['Datetime']>;
 };
 
 /** Represents an update to a `WorkoutPlan`. Fields that are set will be updated. */
 export type WorkoutPlanPatch = {
   id?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['Datetime']>;
-  userId?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
+  appUserId?: Maybe<Scalars['Int']>;
 };
 
 /** A connection to a list of `WorkoutPlan` values. */
@@ -4345,8 +3286,8 @@ export enum WorkoutPlansOrderBy {
   Natural = 'NATURAL',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
-  UserIdAsc = 'USER_ID_ASC',
-  UserIdDesc = 'USER_ID_DESC',
+  AppUserIdAsc = 'APP_USER_ID_ASC',
+  AppUserIdDesc = 'APP_USER_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
@@ -4451,27 +3392,51 @@ export type MnUpdateCompletedWorkoutExercisePayloadCompletedWorkoutExerciseEdgeA
   orderBy?: Maybe<Array<CompletedWorkoutExercisesOrderBy>>;
 };
 
-export type BodystatFragment = (
-  { __typename?: 'Bodystat' }
-  & Pick<Bodystat, 'ismale' | 'bodymass'>
+export type AuthenticateQueryVariables = Exact<{
+  password: Scalars['String'];
+  username: Scalars['String'];
+}>;
+
+
+export type AuthenticateQuery = (
+  { __typename?: 'Query' }
+  & { authenticate?: Maybe<(
+    { __typename?: 'UserIdAndJwt' }
+    & Pick<UserIdAndJwt, 'appUserId' | 'token'>
+  )> }
 );
 
-export type BodyStatQueryVariables = Exact<{ [key: string]: never; }>;
+export type CreateUserMutationVariables = Exact<{
+  password: Scalars['String'];
+  username: Scalars['String'];
+}>;
 
 
-export type BodyStatQuery = (
-  { __typename?: 'Query' }
-  & { activeUser?: Maybe<(
-    { __typename?: 'User' }
-    & Pick<User, 'id'>
-    & { bodystat?: Maybe<(
-      { __typename?: 'Bodystat' }
-      & BodystatFragment
+export type CreateUserMutation = (
+  { __typename?: 'Mutation' }
+  & { createUser?: Maybe<(
+    { __typename?: 'CreateUserPayload' }
+    & { appUser?: Maybe<(
+      { __typename?: 'AppUser' }
+      & Pick<AppUser, 'id'>
     )> }
   )> }
 );
 
-export type CreateCompletedWorkoutMutationVariables = Exact<{ [key: string]: never; }>;
+export type CheckTokenQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CheckTokenQuery = (
+  { __typename?: 'Query' }
+  & { activeUser?: Maybe<(
+    { __typename?: 'AppUser' }
+    & Pick<AppUser, 'id'>
+  )> }
+);
+
+export type CreateCompletedWorkoutMutationVariables = Exact<{
+  appUserId: Scalars['Int'];
+}>;
 
 
 export type CreateCompletedWorkoutMutation = (
@@ -4585,7 +3550,10 @@ export type WorkoutPlanDayByIdQueryVariables = Exact<{
 
 export type WorkoutPlanDayByIdQuery = (
   { __typename?: 'Query' }
-  & { workoutPlanDay?: Maybe<(
+  & { activeUser?: Maybe<(
+    { __typename?: 'AppUser' }
+    & Pick<AppUser, 'isMale' | 'bodymass'>
+  )>, workoutPlanDay?: Maybe<(
     { __typename?: 'WorkoutPlanDay' }
     & Pick<WorkoutPlanDay, 'id'>
     & { workoutPlanExercises: (
@@ -4687,7 +3655,7 @@ export type WorkoutPlanByIdQuery = (
 
 export type CreateWorkoutPlanMutationVariables = Exact<{
   name: Scalars['String'];
-  userId: Scalars['Int'];
+  appUserId: Scalars['Int'];
 }>;
 
 
@@ -4743,11 +3711,11 @@ export type UpdateUserCurrentWorkoutPlanMutationVariables = Exact<{
 
 export type UpdateUserCurrentWorkoutPlanMutation = (
   { __typename?: 'Mutation' }
-  & { updateUser?: Maybe<(
-    { __typename?: 'UpdateUserPayload' }
-    & { user?: Maybe<(
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'currentWorkoutPlanId'>
+  & { updateAppUser?: Maybe<(
+    { __typename?: 'UpdateAppUserPayload' }
+    & { appUser?: Maybe<(
+      { __typename?: 'AppUser' }
+      & Pick<AppUser, 'id' | 'currentWorkoutPlanId'>
     )> }
   )> }
 );
@@ -4763,8 +3731,8 @@ export type WorkoutQueryVariables = Exact<{ [key: string]: never; }>;
 export type WorkoutQuery = (
   { __typename?: 'Query' }
   & { activeUser?: Maybe<(
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'currentWorkoutPlanId'>
+    { __typename?: 'AppUser' }
+    & Pick<AppUser, 'id' | 'currentWorkoutPlanId'>
     & { workoutPlans: (
       { __typename?: 'WorkoutPlansConnection' }
       & { nodes: Array<(
@@ -4775,12 +3743,6 @@ export type WorkoutQuery = (
   )> }
 );
 
-export const BodystatFragmentDoc = gql`
-    fragment Bodystat on Bodystat {
-  ismale
-  bodymass
-}
-    `;
 export const ExerciseFragmentDoc = gql`
     fragment Exercise on Exercise {
   id
@@ -4815,46 +3777,116 @@ export const WorkoutPlanFragmentDoc = gql`
   id
 }
     `;
-export const BodyStatDocument = gql`
-    query BodyStat {
-  activeUser {
-    id
-    bodystat {
-      ...Bodystat
-    }
+export const AuthenticateDocument = gql`
+    query authenticate($password: String!, $username: String!) {
+  authenticate(password: $password, username: $username) {
+    appUserId
+    token
   }
 }
-    ${BodystatFragmentDoc}`;
+    `;
 
 /**
- * __useBodyStatQuery__
+ * __useAuthenticateQuery__
  *
- * To run a query within a React component, call `useBodyStatQuery` and pass it any options that fit your needs.
- * When your component renders, `useBodyStatQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useAuthenticateQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAuthenticateQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useBodyStatQuery({
+ * const { data, loading, error } = useAuthenticateQuery({
+ *   variables: {
+ *      password: // value for 'password'
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useAuthenticateQuery(baseOptions: Apollo.QueryHookOptions<AuthenticateQuery, AuthenticateQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AuthenticateQuery, AuthenticateQueryVariables>(AuthenticateDocument, options);
+      }
+export function useAuthenticateLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AuthenticateQuery, AuthenticateQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AuthenticateQuery, AuthenticateQueryVariables>(AuthenticateDocument, options);
+        }
+export type AuthenticateQueryHookResult = ReturnType<typeof useAuthenticateQuery>;
+export type AuthenticateLazyQueryHookResult = ReturnType<typeof useAuthenticateLazyQuery>;
+export type AuthenticateQueryResult = Apollo.QueryResult<AuthenticateQuery, AuthenticateQueryVariables>;
+export const CreateUserDocument = gql`
+    mutation createUser($password: String!, $username: String!) {
+  createUser(input: {username: $username, password: $password}) {
+    appUser {
+      id
+    }
+  }
+}
+    `;
+export type CreateUserMutationFn = Apollo.MutationFunction<CreateUserMutation, CreateUserMutationVariables>;
+
+/**
+ * __useCreateUserMutation__
+ *
+ * To run a mutation, you first call `useCreateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createUserMutation, { data, loading, error }] = useCreateUserMutation({
+ *   variables: {
+ *      password: // value for 'password'
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<CreateUserMutation, CreateUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, options);
+      }
+export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
+export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
+export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
+export const CheckTokenDocument = gql`
+    query checkToken {
+  activeUser {
+    id
+  }
+}
+    `;
+
+/**
+ * __useCheckTokenQuery__
+ *
+ * To run a query within a React component, call `useCheckTokenQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCheckTokenQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCheckTokenQuery({
  *   variables: {
  *   },
  * });
  */
-export function useBodyStatQuery(baseOptions?: Apollo.QueryHookOptions<BodyStatQuery, BodyStatQueryVariables>) {
+export function useCheckTokenQuery(baseOptions?: Apollo.QueryHookOptions<CheckTokenQuery, CheckTokenQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<BodyStatQuery, BodyStatQueryVariables>(BodyStatDocument, options);
+        return Apollo.useQuery<CheckTokenQuery, CheckTokenQueryVariables>(CheckTokenDocument, options);
       }
-export function useBodyStatLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BodyStatQuery, BodyStatQueryVariables>) {
+export function useCheckTokenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CheckTokenQuery, CheckTokenQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<BodyStatQuery, BodyStatQueryVariables>(BodyStatDocument, options);
+          return Apollo.useLazyQuery<CheckTokenQuery, CheckTokenQueryVariables>(CheckTokenDocument, options);
         }
-export type BodyStatQueryHookResult = ReturnType<typeof useBodyStatQuery>;
-export type BodyStatLazyQueryHookResult = ReturnType<typeof useBodyStatLazyQuery>;
-export type BodyStatQueryResult = Apollo.QueryResult<BodyStatQuery, BodyStatQueryVariables>;
+export type CheckTokenQueryHookResult = ReturnType<typeof useCheckTokenQuery>;
+export type CheckTokenLazyQueryHookResult = ReturnType<typeof useCheckTokenLazyQuery>;
+export type CheckTokenQueryResult = Apollo.QueryResult<CheckTokenQuery, CheckTokenQueryVariables>;
 export const CreateCompletedWorkoutDocument = gql`
-    mutation createCompletedWorkout {
-  createCompletedWorkout(input: {completedWorkout: {}}) {
+    mutation createCompletedWorkout($appUserId: Int!) {
+  createCompletedWorkout(input: {completedWorkout: {appUserId: $appUserId}}) {
     completedWorkout {
       id
     }
@@ -4876,6 +3908,7 @@ export type CreateCompletedWorkoutMutationFn = Apollo.MutationFunction<CreateCom
  * @example
  * const [createCompletedWorkoutMutation, { data, loading, error }] = useCreateCompletedWorkoutMutation({
  *   variables: {
+ *      appUserId: // value for 'appUserId'
  *   },
  * });
  */
@@ -5079,6 +4112,10 @@ export type UpdateWorkoutPlanExerciseSetsMutationResult = Apollo.MutationResult<
 export type UpdateWorkoutPlanExerciseSetsMutationOptions = Apollo.BaseMutationOptions<UpdateWorkoutPlanExerciseSetsMutation, UpdateWorkoutPlanExerciseSetsMutationVariables>;
 export const WorkoutPlanDayByIdDocument = gql`
     query WorkoutPlanDayById($id: Int!) {
+  activeUser {
+    isMale
+    bodymass
+  }
   workoutPlanDay(id: $id) {
     id
     workoutPlanExercises {
@@ -5272,8 +4309,8 @@ export type WorkoutPlanByIdQueryHookResult = ReturnType<typeof useWorkoutPlanByI
 export type WorkoutPlanByIdLazyQueryHookResult = ReturnType<typeof useWorkoutPlanByIdLazyQuery>;
 export type WorkoutPlanByIdQueryResult = Apollo.QueryResult<WorkoutPlanByIdQuery, WorkoutPlanByIdQueryVariables>;
 export const CreateWorkoutPlanDocument = gql`
-    mutation createWorkoutPlan($name: String!, $userId: Int!) {
-  createWorkoutPlan(input: {workoutPlan: {name: $name, userId: $userId}}) {
+    mutation createWorkoutPlan($name: String!, $appUserId: Int!) {
+  createWorkoutPlan(input: {workoutPlan: {name: $name, appUserId: $appUserId}}) {
     workoutPlan {
       ...WorkoutPlan
     }
@@ -5296,7 +4333,7 @@ export type CreateWorkoutPlanMutationFn = Apollo.MutationFunction<CreateWorkoutP
  * const [createWorkoutPlanMutation, { data, loading, error }] = useCreateWorkoutPlanMutation({
  *   variables: {
  *      name: // value for 'name'
- *      userId: // value for 'userId'
+ *      appUserId: // value for 'appUserId'
  *   },
  * });
  */
@@ -5380,10 +4417,10 @@ export type RenameWorkoutPlanMutationResult = Apollo.MutationResult<RenameWorkou
 export type RenameWorkoutPlanMutationOptions = Apollo.BaseMutationOptions<RenameWorkoutPlanMutation, RenameWorkoutPlanMutationVariables>;
 export const UpdateUserCurrentWorkoutPlanDocument = gql`
     mutation updateUserCurrentWorkoutPlan($userId: Int!, $currentWorkoutPlanId: Int) {
-  updateUser(
+  updateAppUser(
     input: {id: $userId, patch: {currentWorkoutPlanId: $currentWorkoutPlanId}}
   ) {
-    user {
+    appUser {
       id
       currentWorkoutPlanId
     }

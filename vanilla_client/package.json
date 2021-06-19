@@ -5,10 +5,11 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "start": "react-native start",
+    "server": "react-native start",
+    "start": "concurrently -c red,green \"npm:server\" \"npm:generate\"",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "generate": "graphql-codegen --config codegen.json"
+    "generate": "graphql-codegen --config codegen.json --watch"
   },
   "dependencies": {
     "//": [

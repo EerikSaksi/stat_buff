@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "adb devices; adb reverse tcp:4000 tcp:4000; node src/index.js"
+    "start": "adb devices; adb reverse tcp:4000 tcp:4000; concurrently -n Postgraphile,Migrate -c blue,green  \"node src/index.js\" \"cd src; graphile-migrate watch\""
   },
   "author": "",
   "license": "ISC",

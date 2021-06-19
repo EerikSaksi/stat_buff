@@ -1,9 +1,8 @@
 import React from "react";
-import { BodystatFragment } from "../../../../generated/graphql";
-import { TextInput, List, Button } from "react-native-paper";
+import { TextInput, List} from "react-native-paper";
 import useStrengthPredictions from "./use_strength_predictions";
 import {ConditionalVolume} from './use_local_volumes'
-import {View} from 'react-native'
+import {Bodystat} from './day'
 
 const WorkoutExerciseSet: React.FC<{
   exerciseId: number;
@@ -11,7 +10,7 @@ const WorkoutExerciseSet: React.FC<{
   workoutPlanExerciseId: number,
   volume: ConditionalVolume;
   updateVolumes: (workoutPlanExerciseId: number, setIndex: number, volume: ConditionalVolume) => void;
-  bodystat: BodystatFragment;
+  bodystat: Bodystat;
 }> = ({ exerciseId, setIndex, workoutPlanExerciseId, volume, updateVolumes, bodystat }) => {
   const predictions = useStrengthPredictions(volume, exerciseId, bodystat);
   return (

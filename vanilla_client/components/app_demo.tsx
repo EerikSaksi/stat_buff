@@ -1,6 +1,5 @@
 import React, { useState, useRef, Suspense } from "react";
 import { ScrollView, StyleSheet, View, Dimensions, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import StrongerCharacter from "./app_demo/stronger_character";
 import CreateUser from "./app_demo/create_user";
@@ -37,7 +36,6 @@ const AppDemo: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
           style={styles.arrow}
           onPress={() => scrollViewRef?.current?.scrollTo({ x: scrollOffset + width, animated: true })}
         >
-          <Ionicons size={40} name="arrow-forward-sharp" />
         </TouchableOpacity>
       </SafeAreaView>
       <SafeAreaView style={styles.view}>
@@ -53,7 +51,6 @@ const AppDemo: React.FC<{ refetchUser: () => void }> = ({ refetchUser }) => {
           style={styles.arrow}
           onPress={() => scrollViewRef?.current?.scrollTo({ x: scrollOffset + width, animated: true })}
         >
-          <Ionicons size={40} name="arrow-forward-sharp" />
         </TouchableOpacity>
       </SafeAreaView>
       <View style={styles.view}>

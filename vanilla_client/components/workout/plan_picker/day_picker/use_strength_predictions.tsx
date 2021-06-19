@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { BodystatFragment } from "../../../../generated/graphql";
 import {ConditionalVolume} from "./use_local_volumes";
+import {Bodystat} from './day'
 
 const roundToOneDecimalPoint = (x: number) => Number(x.toFixed(1));
 
@@ -307,14 +307,14 @@ const eliteStrengthBaselines = [
 const useStrengthPredictions = (
   volume: ConditionalVolume,
   exerciseId: number,
-  bodystat: BodystatFragment 
+  bodystat: Bodystat
 ) => {
   const [predictions, setPredictions] = useState<undefined | predictions>();
   useEffect(() => {
-    if (volume.weight && volume.reps && bodystat) {
-      const max_one_rm = eliteStrengthBaselines[exerciseId - 1] * (bodystat.ismale ? 1 : 0.57);
+    if (volume.weight && volume.reps ) {
+      const max_one_rm = eliteStrengthBaselines[exerciseId - 1] * (bodystat.isMale ? 1 : 0.57);
       const one_rm = volume.weight * (1 + volume.reps / 30);
-      const x = wilks(bodystat.bodymass, one_rm / max_one_rm, bodystat.ismale);
+      const x = wilks(bodystat.bodymass, one_rm / max_one_rm, bodystat.isMale);
       setPredictions({
         percentile: Math.max(0, Math.min(100, roundToOneDecimalPoint(115471.14623106 * x - 8.801363625876917))),
         oneRepMax: roundToOneDecimalPoint(one_rm),

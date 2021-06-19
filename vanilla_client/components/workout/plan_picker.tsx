@@ -81,10 +81,10 @@ const WorkoutPlanPicker: React.FC<Props> = ({navigation}) => {
         updateUserCurrentWorkout({
           variables: {currentWorkoutPlanId: id, userId: data.activeUser.id},
           optimisticResponse: {
-            updateUser: {
-              __typename: 'UpdateUserPayload',
-              user: {
-                __typename: 'User',
+            updateAppUser: {
+              __typename: 'UpdateAppUserPayload',
+              appUser: {
+                __typename: 'AppUser',
                 id: data.activeUser.id,
                 currentWorkoutPlanId: id,
               },
@@ -103,7 +103,7 @@ const WorkoutPlanPicker: React.FC<Props> = ({navigation}) => {
       if (data?.activeUser)
         createWorkoutPlan({
           variables: {
-            userId: data.activeUser.id,
+            appUserId: data.activeUser.id,
             name: newName,
           },
           update(cache, {data: createWorkoutPlanData}) {

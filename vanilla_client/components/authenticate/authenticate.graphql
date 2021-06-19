@@ -1,0 +1,6 @@
+query authenticate($password: String!, $username: String!){
+  authenticate(password: $password, username: $username){
+    appUserId
+    token
+  }
+}

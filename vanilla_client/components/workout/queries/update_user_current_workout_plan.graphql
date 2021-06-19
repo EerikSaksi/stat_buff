@@ -1,6 +1,6 @@
 mutation updateUserCurrentWorkoutPlan($userId: Int!, $currentWorkoutPlanId: Int){
-  updateUser(input: {id: $userId, patch: {currentWorkoutPlanId: $currentWorkoutPlanId}}){
-    user{
+  updateAppUser(input: {id: $userId, patch: {currentWorkoutPlanId: $currentWorkoutPlanId}}){
+    appUser{
       id
       currentWorkoutPlanId
     }

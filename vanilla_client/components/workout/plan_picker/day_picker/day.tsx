@@ -1,7 +1,6 @@
 import React, { useState, useLayoutEffect, useRef } from "react";
 import { List, Button, Snackbar } from "react-native-paper";
 import {
-  useBodyStatQuery,
   useWorkoutPlanDayByIdQuery,
   useDeleteExerciseInPlanMutation,
 } from "../../../../generated/graphql";
@@ -15,7 +14,10 @@ import useLocalVolumes from "./use_local_volumes";
 import EditExerciseButtons from "./edit_day/edit_exercise_buttons";
 import { ScrollView } from "react-native";
 
+
+export type Bodystat = {isMale: boolean, bodymass: number}
 type WorkoutDayRouteProp = RouteProp<RootStackParamList, "Workout">;
+
 
 type WorkoutDayNavigationProp = StackNavigationProp<RootStackParamList, "Workout">;
 type Props = {
@@ -30,21 +32,20 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
   const undoPressed = useRef(false);
 
   const [deleteExerciseInPlan] = useDeleteExerciseInPlanMutation({});
-  const { data: workoutPlanDayData } = useWorkoutPlanDayByIdQuery({
+  const { data } = useWorkoutPlanDayByIdQuery({
     variables: { id: route.params.dayId },
     fetchPolicy: "cache-and-network",
     onCompleted: () => {
       if (expandedId === -1) {
-        const firstExercise = workoutPlanDayData?.workoutPlanDay?.workoutPlanExercises.nodes[0];
+        const firstExercise = data?.workoutPlanDay?.workoutPlanExercises.nodes[0];
         if (firstExercise) {
           setExpandedId(firstExercise.id);
         }
       }
     },
   });
-  const { exerciseSetVolumes, updateVolumes } = useLocalVolumes(workoutPlanDayData);
+  const { exerciseSetVolumes, updateVolumes } = useLocalVolumes(data);
 
-  const { data: bodyStatData } = useBodyStatQuery();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -53,7 +54,7 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
     });
   }, [exerciseSetVolumes]);
 
-  if (!workoutPlanDayData?.workoutPlanDay || !exerciseSetVolumes) {
+  if (!data?.workoutPlanDay || !exerciseSetVolumes || !data.activeUser) {
     return <ActivityIndicator />;
   }
 
@@ -67,7 +68,7 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
           }
         }}
       >
-        {workoutPlanDayData.workoutPlanDay.workoutPlanExercises.nodes.map((workoutPlanExercise) =>
+        {data.workoutPlanDay.workoutPlanExercises.nodes.map((workoutPlanExercise) =>
           exerciseSetVolumes[workoutPlanExercise.id] && lastDeletedWorkoutExerciseId !== workoutPlanExercise.id ? (
             <List.Accordion
               key={workoutPlanExercise.id}
@@ -82,7 +83,7 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
                   workoutPlanExerciseId={workoutPlanExercise.id}
                   volume={volume}
                   exerciseId={workoutPlanExercise.exercise.id}
-                  bodystat={bodyStatData?.activeUser?.bodystat ? bodyStatData.activeUser.bodystat : { ismale: true, bodymass: 80 }}
+                  bodystat={data.activeUser!}
                 />
               ))}
               <EditExerciseButtons
@@ -121,8 +122,8 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
       <Button
         icon="table-row-plus-after"
         onPress={() => {
-          if (workoutPlanDayData) {
-            navigation.navigate("Select Exercise", { workoutPlanDayData });
+          if (data) {
+            navigation.navigate("Select Exercise", { workoutPlanDayData: data });
           }
         }}
       >

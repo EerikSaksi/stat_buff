@@ -1,4 +1,8 @@
 query WorkoutPlanDayById($id: Int!) {
+  activeUser{
+    isMale
+    bodymass
+  }
   workoutPlanDay(id: $id) {
     id
     workoutPlanExercises {

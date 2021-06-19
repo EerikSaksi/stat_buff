@@ -11,10 +11,10 @@ import { Provider as PaperProvider } from "react-native-paper";
 import {InMemoryCache} from '@apollo/client/cache';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {persistCache, AsyncStorageWrapper} from 'apollo3-cache-persist';
-import Authenticator from './components/authenticator'
+import Authenticator from './components/authenticate/authenticator'
 import NetInfo from '@react-native-community/netinfo'
 import QueueLink from 'apollo-link-queue'
-var cache: InMemoryCache;
+export var cache: InMemoryCache;
 
 (async () => {
   cache = new InMemoryCache({
