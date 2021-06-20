@@ -12,7 +12,7 @@ import useDuplicateValidation from './use_duplicate_validation';
 
 type DefaultsData = {
   this: boolean;
-  onSet: (id: number) => void;
+  onSet: (id: number, ) => void;
 };
 const ListItemWithMenu: React.FC<{
   id: number;
@@ -21,7 +21,7 @@ const ListItemWithMenu: React.FC<{
   defaults: undefined | DefaultsData;
   onPress: (id: number) => void;
   onRename: (id: number, newName: string) => void;
-  onDelete: (id: number, options: {onCompleted: () => void}) => void;
+  onDelete: (id: number) => void;
 }> = ({id, name, existingNames, defaults, onPress, onRename, onDelete}) => {
   const [visible, setVisible] = useState(false);
   const [newPlanName, setNewPlanName] = useState<undefined | string>();
@@ -91,10 +91,10 @@ const ListItemWithMenu: React.FC<{
             {defaults ? (
               <Menu.Item
                 onPress={() => {
+                  defaults.onSet(id);
                   setVisible(false);
                 }}
-                disabled={defaults.this}
-                title="Set as default"
+                title={`${defaults.this ? "Remove" : "Set"} default`}
                 icon="clipboard-check"
               />
             ) : undefined}
@@ -107,11 +107,7 @@ const ListItemWithMenu: React.FC<{
               icon="rename-box"
             />
             <Menu.Item
-              onPress={() => {
-                onDelete(id, {
-                  onCompleted: () => setVisible(false),
-                });
-              }}
+              onPress={() => onDelete(id)}
               title="Delete"
               icon="delete-circle"
             />

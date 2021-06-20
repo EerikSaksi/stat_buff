@@ -1,8 +1,0 @@
-mutation updateWorkoutPlanExerciseSets($id: Int!, $sets: Int!){
-  updateWorkoutPlanExercise(input: {id: $id, patch: {sets: $sets}}){
-    workoutPlanExercise{
-      id
-      sets
-    }
-  }
-}

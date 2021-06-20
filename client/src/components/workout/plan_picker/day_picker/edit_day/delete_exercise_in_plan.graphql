@@ -1,5 +1,0 @@
-mutation deleteExerciseInPlan($id: Int!){
-  deleteWorkoutPlanExercise(input: {id: $id}){
-    clientMutationId
-  }
-}

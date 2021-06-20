@@ -32,6 +32,7 @@ const CreateUser: React.FC = () => {
       password,
     },
     onCompleted: async (data) => {
+      console.log({data})
       if (data.authenticate) {
         await AsyncStorage.setItem('jwt_token', data.authenticate.token);
         cache.writeQuery({

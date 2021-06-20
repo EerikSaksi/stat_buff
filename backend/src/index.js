@@ -34,6 +34,9 @@ const postgraphileOptions = {
   jwtPgTypeIdentifier: "public.jwt_token",
   jwtSecret: process.env.JWT_SECRET,
   ownerConnectionString: "postgres://eerik:Postgrizzly@localhost:5432/rpgym",
+  simpleCollections: "only",
+  graphileBuildOptions: { pgOmitListSuffix: true },
+  skipPlugins: [require('graphile-build').NodePlugin]
 };
 const app = express();
 app.use(cors());

@@ -3552,7 +3552,7 @@ export type WorkoutPlanDayByIdQuery = (
   { __typename?: 'Query' }
   & { activeUser?: Maybe<(
     { __typename?: 'AppUser' }
-    & Pick<AppUser, 'isMale' | 'bodymass'>
+    & Pick<AppUser, 'id' | 'isMale' | 'bodymass'>
   )>, workoutPlanDay?: Maybe<(
     { __typename?: 'WorkoutPlanDay' }
     & Pick<WorkoutPlanDay, 'id'>
@@ -3587,7 +3587,7 @@ export type CreateWorkoutPlanDayMutation = (
     { __typename?: 'CreateWorkoutPlanDayPayload' }
     & { workoutPlanDay?: Maybe<(
       { __typename?: 'WorkoutPlanDay' }
-      & Pick<WorkoutPlanDay, 'id' | 'name'>
+      & WorkoutPlanDayFragment
     )> }
   )> }
 );
@@ -3603,7 +3603,7 @@ export type DeleteDayMutation = (
     { __typename?: 'DeleteWorkoutPlanDayPayload' }
     & { workoutPlanDay?: Maybe<(
       { __typename?: 'WorkoutPlanDay' }
-      & Pick<WorkoutPlanDay, 'id'>
+      & WorkoutPlanDayFragment
     )> }
   )> }
 );
@@ -3620,7 +3620,7 @@ export type RenameDayMutation = (
     { __typename?: 'UpdateWorkoutPlanDayPayload' }
     & { workoutPlanDay?: Maybe<(
       { __typename?: 'WorkoutPlanDay' }
-      & Pick<WorkoutPlanDay, 'id' | 'name'>
+      & WorkoutPlanDayFragment
     )> }
   )> }
 );
@@ -3628,6 +3628,13 @@ export type RenameDayMutation = (
 export type WorkoutPlanDayFragment = (
   { __typename?: 'WorkoutPlanDay' }
   & Pick<WorkoutPlanDay, 'name' | 'id'>
+  & { workoutPlanExercises: (
+    { __typename?: 'WorkoutPlanExercisesConnection' }
+    & { nodes: Array<(
+      { __typename?: 'WorkoutPlanExercise' }
+      & WorkoutPlanExerciseFragment
+    )> }
+  ) }
 );
 
 export type WorkoutPlanByIdQueryVariables = Exact<{
@@ -3643,11 +3650,7 @@ export type WorkoutPlanByIdQuery = (
       { __typename?: 'WorkoutPlanDaysConnection' }
       & { nodes: Array<(
         { __typename?: 'WorkoutPlanDay' }
-        & Pick<WorkoutPlanDay, 'name' | 'id'>
-        & { workoutPlanExercises: (
-          { __typename?: 'WorkoutPlanExercisesConnection' }
-          & Pick<WorkoutPlanExercisesConnection, 'totalCount'>
-        ) }
+        & WorkoutPlanDayFragment
       )> }
     ) }
   )> }
@@ -3769,8 +3772,13 @@ export const WorkoutPlanDayFragmentDoc = gql`
     fragment WorkoutPlanDay on WorkoutPlanDay {
   name
   id
+  workoutPlanExercises {
+    nodes {
+      ...WorkoutPlanExercise
+    }
+  }
 }
-    `;
+    ${WorkoutPlanExerciseFragmentDoc}`;
 export const WorkoutPlanFragmentDoc = gql`
     fragment WorkoutPlan on WorkoutPlan {
   name
@@ -4113,6 +4121,7 @@ export type UpdateWorkoutPlanExerciseSetsMutationOptions = Apollo.BaseMutationOp
 export const WorkoutPlanDayByIdDocument = gql`
     query WorkoutPlanDayById($id: Int!) {
   activeUser {
+    id
     isMale
     bodymass
   }
@@ -4160,12 +4169,11 @@ export const CreateWorkoutPlanDayDocument = gql`
     input: {workoutPlanDay: {name: $name, workoutPlanId: $workoutPlanId}}
   ) {
     workoutPlanDay {
-      id
-      name
+      ...WorkoutPlanDay
     }
   }
 }
-    `;
+    ${WorkoutPlanDayFragmentDoc}`;
 export type CreateWorkoutPlanDayMutationFn = Apollo.MutationFunction<CreateWorkoutPlanDayMutation, CreateWorkoutPlanDayMutationVariables>;
 
 /**
@@ -4197,11 +4205,11 @@ export const DeleteDayDocument = gql`
     mutation deleteDay($dayId: Int!) {
   deleteWorkoutPlanDay(input: {id: $dayId}) {
     workoutPlanDay {
-      id
+      ...WorkoutPlanDay
     }
   }
 }
-    `;
+    ${WorkoutPlanDayFragmentDoc}`;
 export type DeleteDayMutationFn = Apollo.MutationFunction<DeleteDayMutation, DeleteDayMutationVariables>;
 
 /**
@@ -4232,12 +4240,11 @@ export const RenameDayDocument = gql`
     mutation renameDay($dayId: Int!, $name: String!) {
   updateWorkoutPlanDay(input: {id: $dayId, patch: {name: $name}}) {
     workoutPlanDay {
-      id
-      name
+      ...WorkoutPlanDay
     }
   }
 }
-    `;
+    ${WorkoutPlanDayFragmentDoc}`;
 export type RenameDayMutationFn = Apollo.MutationFunction<RenameDayMutation, RenameDayMutationVariables>;
 
 /**
@@ -4270,16 +4277,12 @@ export const WorkoutPlanByIdDocument = gql`
   workoutPlan(id: $id) {
     workoutPlanDays {
       nodes {
-        name
-        id
-        workoutPlanExercises {
-          totalCount
-        }
+        ...WorkoutPlanDay
       }
     }
   }
 }
-    `;
+    ${WorkoutPlanDayFragmentDoc}`;
 
 /**
  * __useWorkoutPlanByIdQuery__

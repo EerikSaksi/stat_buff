@@ -1,4 +1,9 @@
-fragment WorkoutPlanDay on WorkoutPlanDay{
+fragment WorkoutPlanDay on WorkoutPlanDay {
   name
   id
+  workoutPlanExercises{
+    nodes{
+      ...WorkoutPlanExercise
+    }
+  }
 }

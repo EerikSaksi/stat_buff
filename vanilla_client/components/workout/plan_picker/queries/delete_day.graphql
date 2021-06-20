@@ -1,7 +1,7 @@
 mutation deleteDay($dayId: Int!){
   deleteWorkoutPlanDay(input: {id: $dayId}){
     workoutPlanDay{
-      id
+      ...WorkoutPlanDay
     }
   }
 }

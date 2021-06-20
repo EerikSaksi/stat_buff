@@ -1,7 +1,0 @@
-mutation createWorkoutPlan($name: String!, $userId: Int!){
-  createWorkoutPlan(input: {workoutPlan: {name: $name, userId: $userId}}){
-    workoutPlan{
-      ...WorkoutPlan
-    }
-  }
-}

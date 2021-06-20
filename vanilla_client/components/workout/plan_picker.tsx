@@ -78,15 +78,17 @@ const WorkoutPlanPicker: React.FC<Props> = ({navigation}) => {
   const onSetDefault = useCallback(
     (id: number) => {
       if (data?.activeUser?.id) {
+        //this toggles the default. if the default was pressed, set to null, otherwise set to this id
+        const newId = id === data.activeUser.currentWorkoutPlanId ? null : id 
         updateUserCurrentWorkout({
-          variables: {currentWorkoutPlanId: id, userId: data.activeUser.id},
+          variables: {currentWorkoutPlanId: newId, userId: data.activeUser.id},
           optimisticResponse: {
             updateAppUser: {
               __typename: 'UpdateAppUserPayload',
               appUser: {
                 __typename: 'AppUser',
                 id: data.activeUser.id,
-                currentWorkoutPlanId: id,
+                currentWorkoutPlanId: newId,
               },
             },
           },

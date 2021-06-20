@@ -1,9 +1,7 @@
 mutation createWorkoutPlanDay($name: String!, $workoutPlanId: Int!){
   createWorkoutPlanDay(input: {workoutPlanDay: {name: $name, workoutPlanId: $workoutPlanId}}){
     workoutPlanDay{
-      id
-      name
+      ...WorkoutPlanDay
     }
   }
 }
-

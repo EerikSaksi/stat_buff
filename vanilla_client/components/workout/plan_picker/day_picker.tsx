@@ -28,7 +28,6 @@ type Props = {
 const WorkoutDayPicker: React.FC<Props> = ({navigation, route}) => {
   const {data} = useWorkoutPlanByIdQuery({
     variables: {id: route.params.workoutPlanId},
-    fetchPolicy: 'no-cache',
     onCompleted: () => {
       if (data?.workoutPlan?.workoutPlanDays)
         setExistingNames(
@@ -64,6 +63,13 @@ const WorkoutDayPicker: React.FC<Props> = ({navigation, route}) => {
             __typename: 'WorkoutPlanDay',
             name: newName,
             id: id,
+            workoutPlanExercises: {
+              __typename: 'WorkoutPlanExercisesConnection',
+              totalCount:
+                data?.workoutPlan?.workoutPlanDays.nodes.find(
+                  day => day.id === id,
+                )?.workoutPlanExercises.totalCount ?? 0,
+            },
           },
         },
       },
@@ -82,52 +88,70 @@ const WorkoutDayPicker: React.FC<Props> = ({navigation, route}) => {
           });
         }
       },
+      optimisticResponse: {
+        deleteWorkoutPlanDay: {
+          __typename: 'DeleteWorkoutPlanDayPayload',
+          workoutPlanDay: {
+            id: -1,
+            name: '',
+            __typename: 'WorkoutPlanDay',
+            workoutPlanExercises: {
+              totalCount: 0,
+              __typename: 'WorkoutPlanExercisesConnection',
+            },
+          },
+        },
+      },
     });
   }, []);
 
   const [createWorkoutPlanDay] = useCreateWorkoutPlanDayMutation();
-
   const onCreate = useCallback((newName: string) => {
-      createWorkoutPlanDay({
-        variables: {
-          name: newName,
-          workoutPlanId: route.params.workoutPlanId,
-        },
-        update(cache, {data: createWorkoutPlanDayData}) {
-          cache.modify({
-            id: `WorkoutPlan${route.params.workoutPlanId}`,
-            fields: {
-              workoutPlans(existingWorkoutPlanDays = {nodes: []}) {
-                const newWorkoutPlanDay =
-                  createWorkoutPlanDayData?.createWorkoutPlanDay
-                    ?.workoutPlanDay;
-                if (newWorkoutPlanDay) {
-                  const newWorkoutPlanDayFragment = cache.writeFragment({
-                    data: newWorkoutPlanDay,
-                    fragment: WorkoutPlanDayFragmentDoc,
-                  });
-                  return {
-                    nodes: [
-                      ...existingWorkoutPlanDays.nodes,
-                      newWorkoutPlanDayFragment,
-                    ],
-                  };
-                }
-              },
+    createWorkoutPlanDay({
+      variables: {
+        name: newName,
+        workoutPlanId: route.params.workoutPlanId,
+      },
+      update(cache, {data: createWorkoutPlanDayData}) {
+        console.log({createWorkoutPlanDay})
+        cache.modify({
+          id: `WorkoutPlan:${route.params.workoutPlanId}`,
+          fields: {
+            workoutPlanDays(existingWorkoutPlanDays = {nodes: []}) {
+              const newWorkoutPlanDay =
+                createWorkoutPlanDayData?.createWorkoutPlanDay;
+              if (newWorkoutPlanDay) {
+                console.log({newWorkoutPlanDay});
+                const newWorkoutPlanDayFragment = cache.writeFragment({
+                  data: newWorkoutPlanDay,
+                  fragment: WorkoutPlanDayFragmentDoc,
+                });
+                return {
+                  nodes: [
+                    ...existingWorkoutPlanDays.nodes,
+                    newWorkoutPlanDayFragment,
+                  ],
+                };
+              }
             },
-          });
-        },
-        optimisticResponse: {
-          createWorkoutPlanDay: {
-            __typename: 'CreateWorkoutPlanDayPayload',
-            workoutPlanDay: {
-              __typename: "WorkoutPlanDay",
-              id: -1,
-              name: newName,
+          },
+        });
+      },
+      optimisticResponse: {
+        createWorkoutPlanDay: {
+          __typename: 'CreateWorkoutPlanDayPayload',
+          workoutPlanDay: {
+            __typename: 'WorkoutPlanDay',
+            id: -1,
+            name: newName,
+            workoutPlanExercises: {
+              totalCount: 0,
+              __typename: 'WorkoutPlanExercisesConnection',
             },
           },
         },
-      });
+      },
+    });
   }, []);
   if (!data?.workoutPlan?.workoutPlanDays) {
     return <ActivityIndicator />;
@@ -137,6 +161,7 @@ const WorkoutDayPicker: React.FC<Props> = ({navigation, route}) => {
       <List.Section>
         {data.workoutPlan.workoutPlanDays.nodes.map(day => (
           <ListItemWithMenu
+            key={day.id}
             id={day.id}
             name={day.name}
             existingNames={existingNames}
@@ -148,9 +173,9 @@ const WorkoutDayPicker: React.FC<Props> = ({navigation, route}) => {
         ))}
       </List.Section>
       <NewListItemDialog
-        existingNames = {existingNames}
-        onCreate = {onCreate}
-        listItemType = "Day"
+        existingNames={existingNames}
+        onCreate={onCreate}
+        listItemType="Day"
       />
     </ScrollView>
   );
