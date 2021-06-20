@@ -28,7 +28,7 @@ const useLocalVolumes = (workoutPlanDayData: WorkoutPlanDayByIdQuery | undefined
     if (workoutPlanDayData?.workoutPlanDay) {
       //either copy or initialize
       const newExerciseSetVolumes: ExerciseSetVolumes = exerciseSetVolumes ? { ...exerciseSetVolumes } : {};
-      workoutPlanDayData?.workoutPlanDay.workoutPlanExercises.nodes.forEach((workoutPlanExercise) => {
+      workoutPlanDayData?.workoutPlanDay.workoutPlanExercises.forEach((workoutPlanExercise) => {
         if (!newExerciseSetVolumes[workoutPlanExercise.id]) {
           //initialize with empty sets and reps
           newExerciseSetVolumes[workoutPlanExercise.id] = {

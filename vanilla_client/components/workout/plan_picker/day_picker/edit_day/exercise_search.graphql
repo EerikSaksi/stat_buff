@@ -7,8 +7,6 @@ fragment Exercise on Exercise{
 }
 query exerciseSearch($query: String!){
   exercises(filter: {name: {includesInsensitive: $query}}, first: 10){
-    nodes{
-      ...Exercise
-    }
+    ...Exercise
   }
 }

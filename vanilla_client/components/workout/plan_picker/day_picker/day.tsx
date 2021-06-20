@@ -37,7 +37,7 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
     fetchPolicy: "cache-and-network",
     onCompleted: () => {
       if (expandedId === -1) {
-        const firstExercise = data?.workoutPlanDay?.workoutPlanExercises.nodes[0];
+        const firstExercise = data?.workoutPlanDay?.workoutPlanExercises[0];
         if (firstExercise) {
           setExpandedId(firstExercise.id);
         }
@@ -68,7 +68,7 @@ const Day: React.FC<Props> = ({ route, navigation }) => {
           }
         }}
       >
-        {data.workoutPlanDay.workoutPlanExercises.nodes.map((workoutPlanExercise) =>
+        {data.workoutPlanDay.workoutPlanExercises.map((workoutPlanExercise) =>
           exerciseSetVolumes[workoutPlanExercise.id] && lastDeletedWorkoutExerciseId !== workoutPlanExercise.id ? (
             <List.Accordion
               key={workoutPlanExercise.id}

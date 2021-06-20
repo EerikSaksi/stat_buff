@@ -31,7 +31,7 @@ const ExerciseSearch: React.FC<Props> = ({ navigation, route }) => {
           //modify the workout plan from which this was opened
           id: `WorkoutPlanDay:${route.params.workoutPlanDayData.workoutPlanDay.id}`,
           fields: {
-            workoutPlanExercises(existingWorkoutPlanExercises = { nodes: [] }) {
+            workoutPlanExercises(existingWorkoutPlanExercises = []) {
               //if succesfully created
               if (data?.createWorkoutPlanExercise?.workoutPlanExercise) {
                 const newWorkoutPlanExercise = cache.writeFragment({
@@ -39,7 +39,7 @@ const ExerciseSearch: React.FC<Props> = ({ navigation, route }) => {
                   fragment: WorkoutPlanExerciseFragmentDoc,
                 });
                 //insert into the end of the plan
-                return { nodes: [...existingWorkoutPlanExercises.nodes, newWorkoutPlanExercise] };
+                return [...existingWorkoutPlanExercises, newWorkoutPlanExercise];
               }
             },
           },
@@ -54,7 +54,7 @@ const ExerciseSearch: React.FC<Props> = ({ navigation, route }) => {
     <>
       <Searchbar value={query} onChangeText={(v) => setQuery(v)} autoFocus />
       <List.Section>
-        {data?.exercises?.nodes.map((exercise) => (
+        {data?.exercises?.map((exercise) => (
           <List.Item
             title={exercise.name}
             key={exercise.id}
@@ -64,7 +64,7 @@ const ExerciseSearch: React.FC<Props> = ({ navigation, route }) => {
                 icon="plus-thick"
                 onPress={() => {
                   //first get all orderings
-                  const listOfOrderings = route.params.workoutPlanDayData!.workoutPlanDay!.workoutPlanExercises.nodes.map(
+                  const listOfOrderings = route.params.workoutPlanDayData!.workoutPlanDay!.workoutPlanExercises.map(
                     (exercise) => exercise.ordering
                   );
 

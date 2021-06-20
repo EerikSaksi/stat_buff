@@ -8,9 +8,7 @@ query Workout {
     id
     currentWorkoutPlanId
     workoutPlans {
-      nodes {
-        ...WorkoutPlan
-      }
+      ...WorkoutPlan
     }
   }
 }

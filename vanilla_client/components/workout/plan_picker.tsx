@@ -27,7 +27,7 @@ const WorkoutPlanPicker: React.FC<Props> = ({navigation}) => {
   useEffect(() => {
     if (data?.activeUser) {
       setWorkoutPlanNames(
-        data.activeUser.workoutPlans.nodes.map(workoutPlan => workoutPlan.name),
+        data.activeUser.workoutPlans.map(workoutPlan => workoutPlan.name),
       );
     }
   }, [data]);
@@ -112,7 +112,7 @@ const WorkoutPlanPicker: React.FC<Props> = ({navigation}) => {
             cache.modify({
               id: cache.identify(data!.activeUser!),
               fields: {
-                workoutPlans(existingWorkoutPlans = {nodes: []}) {
+                workoutPlans(existingWorkoutPlans = []) {
                   const newWorkoutPlan =
                     createWorkoutPlanData?.createWorkoutPlan?.workoutPlan;
                   if (newWorkoutPlan) {
@@ -120,12 +120,10 @@ const WorkoutPlanPicker: React.FC<Props> = ({navigation}) => {
                       data: newWorkoutPlan,
                       fragment: WorkoutPlanFragmentDoc,
                     });
-                    return {
-                      nodes: [
-                        ...existingWorkoutPlans.nodes,
+                    return ([
+                        ...existingWorkoutPlans,
                         newWorkoutPlanExercise,
-                      ],
-                    };
+                    ])
                   }
                 },
               },
@@ -156,7 +154,7 @@ const WorkoutPlanPicker: React.FC<Props> = ({navigation}) => {
   return (
     <ScrollView contentContainerStyle={{flex: 1, alignItems: 'center'}}>
       <List.Section style={{width: '80%'}}>
-        {data.activeUser.workoutPlans.nodes.map(workoutPlan => (
+        {data.activeUser.workoutPlans.map(workoutPlan => (
           <ListItemWithMenu
             id={workoutPlan.id}
             name={workoutPlan.name}

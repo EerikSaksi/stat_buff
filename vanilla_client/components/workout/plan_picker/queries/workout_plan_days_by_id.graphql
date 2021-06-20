@@ -1,9 +1,7 @@
 query WorkoutPlanById($id: Int!){
   workoutPlan(id: $id){
     workoutPlanDays{
-      nodes{
         ...WorkoutPlanDay
-      }
     }
   }
 }
