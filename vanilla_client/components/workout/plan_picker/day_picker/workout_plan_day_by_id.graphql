@@ -5,7 +5,7 @@ query WorkoutPlanDayById($id: Int!) {
     bodymass
   }
   workoutPlanDay(id: $id) {
-    id
+    ...WorkoutPlanDay
     workoutPlanExercises {
       ...WorkoutPlanExercise
     }

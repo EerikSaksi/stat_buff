@@ -1,71 +1,123 @@
-import React from "react";
-import { View } from "react-native";
-import { List } from "react-native-paper";
+import React, {useState} from 'react';
+import {
+  List,
+  Portal,
+  Dialog,
+  Button,
+  Text,
+  TextInput,
+} from 'react-native-paper';
 import {
   useUpdateWorkoutPlanExerciseSetsMutation,
   WorkoutPlanExerciseFragment,
-} from "../../../../../generated/graphql";
-import { Button } from "react-native-paper";
+} from '../../../../../generated/graphql';
+import {View} from 'react-native';
+
 const EditExerciseButtons: React.FC<{
   workoutPlanExercise: WorkoutPlanExerciseFragment;
   setLastDeletedWorkoutExerciseId: (arg: number) => void;
-}> = ({ workoutPlanExercise, setLastDeletedWorkoutExerciseId }) => {
-  const [updateUserCurrentWorkoutPlanSets] = useUpdateWorkoutPlanExerciseSetsMutation();
+}> = ({workoutPlanExercise, setLastDeletedWorkoutExerciseId}) => {
+  const [updateUserCurrentWorkoutPlanSets] =
+    useUpdateWorkoutPlanExerciseSetsMutation();
+  const [dialogVisible, setDialogVisible] = useState(false);
+  const closeDialog = () => setDialogVisible(false);
+  const [newSets, setNewSets] = useState<number | undefined>(
+    workoutPlanExercise.sets,
+  );
+  const [newReps, setNewReps] = useState<number | undefined>(
+    workoutPlanExercise.reps,
+  );
+
   return (
     <List.Item
       title=""
       left={() => (
-        <View style={{ flexDirection: "row", width: "55%", justifyContent: "space-evenly" }}>
-          <Button
-            icon="table-row-plus-after"
-            contentStyle={{ scaleX: 1.5, scaleY: 1.5 }}
-            onPress={() =>
-              updateUserCurrentWorkoutPlanSets({
-                variables: { id: workoutPlanExercise.id, sets: workoutPlanExercise.sets + 1 },
-                optimisticResponse: {
-                  updateWorkoutPlanExercise: {
-                    __typename: "UpdateWorkoutPlanExercisePayload",
-                    workoutPlanExercise: {
-                      __typename: "WorkoutPlanExercise",
-                      sets: workoutPlanExercise.sets + 1,
-                      id: workoutPlanExercise.id,
-                    },
-                  },
-                },
-              })
-            }
-          >
-            {""}
-          </Button>
-          <Button
-            icon="table-row-remove"
-            contentStyle={{ scaleX: 1.5, scaleY: 1.5 }}
-            onPress={() => {
-              if (1 < workoutPlanExercise.sets) {
-                updateUserCurrentWorkoutPlanSets({
-                  variables: { id: workoutPlanExercise.id, sets: workoutPlanExercise.sets - 1 },
-                  optimisticResponse: {
-                    updateWorkoutPlanExercise: {
-                      __typename: "UpdateWorkoutPlanExercisePayload",
-                      workoutPlanExercise: {
-                        __typename: "WorkoutPlanExercise",
-                        sets: workoutPlanExercise.sets - 1,
+        <Portal>
+          <Dialog visible={dialogVisible} onDismiss={closeDialog}>
+            <Dialog.Title>
+              Edit {workoutPlanExercise.exercise.name} (
+              {workoutPlanExercise.sets}x{workoutPlanExercise.reps})
+            </Dialog.Title>
+            <Dialog.Content
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <TextInput
+                value={newSets ? newSets.toString() : ''}
+                onChangeText={t => {
+                  const newVal = parseInt(t);
+                  setNewSets(isNaN(newVal) ? undefined : newVal);
+                }}
+                dense
+                mode="outlined"
+                keyboardType="numeric"
+              />
+              <Text style={{fontSize: 16, margin: '2%'}}>sets of</Text>
+              <TextInput
+                value={newReps ? newReps.toString() : ''}
+                onChangeText={t => {
+                  const newVal = parseInt(t);
+                  setNewReps(isNaN(newVal) ? undefined : newVal);
+                }}
+                dense
+                mode="outlined"
+                keyboardType="numeric"
+              />
+              <Text style={{fontSize: 16, margin: '2%'}}>reps</Text>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button onPress={closeDialog}>Cancel</Button>
+              <Button
+                disabled={!newSets || !newReps}
+                onPress={() => {
+                  //only save if the values changed to save server request
+                  if (
+                    newSets !== workoutPlanExercise.sets ||
+                    newReps !== workoutPlanExercise.reps
+                  ) {
+                    updateUserCurrentWorkoutPlanSets({
+                      variables: {
+                        sets: newSets!,
+                        reps: newReps!,
                         id: workoutPlanExercise.id,
                       },
-                    },
-                  },
-                });
-              }
-            }}
-          >
-            {""}
-          </Button>
-        </View>
+                      optimisticResponse: {
+                        updateWorkoutPlanExercise: {
+                          __typename: 'UpdateWorkoutPlanExercisePayload',
+                          workoutPlanExercise: {
+                            __typename: 'WorkoutPlanExercise',
+                            ...workoutPlanExercise,
+                            sets: newSets!,
+                            reps: newReps!,
+                          },
+                        },
+                      },
+                    });
+                  }
+                  closeDialog();
+                }}>
+                Save
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
       )}
       right={() => (
-        <Button icon="delete-circle" onPress={() => setLastDeletedWorkoutExerciseId(workoutPlanExercise.id)} contentStyle={{ scaleX: 1.5, scaleY: 1.5 }}>
-          {""}
-        </Button>
+        <>
+          <Button icon="pencil" onPress={() => setDialogVisible(true)}>
+            {''}
+          </Button>
+          <Button
+            icon="delete-circle"
+            onPress={() =>
+              setLastDeletedWorkoutExerciseId(workoutPlanExercise.id)
+            }
+            contentStyle={{scaleX: 1.5, scaleY: 1.5}}>
+            {''}
+          </Button>
+        </>
       )}
     />
   );

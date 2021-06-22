@@ -9,7 +9,7 @@ import { Button } from "react-native-paper";
 import { View, Text } from "react-native";
 import { ExerciseSetVolumes } from "./use_local_volumes";
 
-const transformVolumeToPayload = (exerciseSetVolumes: ExerciseSetVolumes, completedWorkoutId: number): CompletedWorkoutExerciseInput[] => {
+const transformVolumeToPayload = (exerciseSetVolumes: ExerciseSetVolumes, completedWorkoutId: number, ): CompletedWorkoutExerciseInput[] => {
   const toReturn: CompletedWorkoutExerciseInput[] = [];
   for (const [_, { exerciseId, volumes }] of Object.entries(exerciseSetVolumes)) {
     //filter sets that were not completed, and cast to Volume (where reps and sets must be defined)
@@ -18,17 +18,18 @@ const transformVolumeToPayload = (exerciseSetVolumes: ExerciseSetVolumes, comple
   }
   return toReturn;
 };
-const WorkoutTimer: React.FC<{ exerciseSetVolumes: ExerciseSetVolumes }> = ({ exerciseSetVolumes }) => {
+const WorkoutTimer: React.FC<{ exerciseSetVolumes: ExerciseSetVolumes, appUserId: number }> = ({ exerciseSetVolumes, appUserId }) => {
   const startTime = useRef<Date | undefined>();
   const [minutes, setMinutes] = useState<undefined | number>();
 
   //first we create a workout (parent of all exercises)
   //on complete hook then saves each exercise
   const [createCompletedWorkout] = useCreateCompletedWorkoutMutation({
+    variables: {appUserId},
     onCompleted: ({ createCompletedWorkout }) => {
       if (createCompletedWorkout?.completedWorkout?.id) {
         createCompletedWorkoutExercises({
-          variables: { completedExercises: transformVolumeToPayload(exerciseSetVolumes, createCompletedWorkout.completedWorkout.id) },
+          variables: { completedExercises: transformVolumeToPayload(exerciseSetVolumes, createCompletedWorkout.completedWorkout.id)  },
         });
       }
     },

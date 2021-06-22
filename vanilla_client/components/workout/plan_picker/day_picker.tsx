@@ -34,7 +34,6 @@ const WorkoutDayPicker: React.FC<Props> = ({navigation, route}) => {
   useEffect(() => {
     if (data?.workoutPlan?.workoutPlanDays) {
       setExistingNames(data.workoutPlan.workoutPlanDays.map(day => day.name));
-      onCreate('newName');
     }
   }, [data]);
 

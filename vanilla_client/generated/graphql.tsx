@@ -2518,6 +2518,7 @@ export type InsertExerciseInPlanMutation = (
 export type UpdateWorkoutPlanExerciseSetsMutationVariables = Exact<{
   id: Scalars['Int'];
   sets: Scalars['Int'];
+  reps: Scalars['Int'];
 }>;
 
 
@@ -2527,7 +2528,7 @@ export type UpdateWorkoutPlanExerciseSetsMutation = (
     { __typename?: 'UpdateWorkoutPlanExercisePayload' }
     & { workoutPlanExercise?: Maybe<(
       { __typename?: 'WorkoutPlanExercise' }
-      & Pick<WorkoutPlanExercise, 'id' | 'sets'>
+      & WorkoutPlanExerciseFragment
     )> }
   )> }
 );
@@ -2544,11 +2545,11 @@ export type WorkoutPlanDayByIdQuery = (
     & Pick<AppUser, 'id' | 'isMale' | 'bodymass'>
   )>, workoutPlanDay?: Maybe<(
     { __typename?: 'WorkoutPlanDay' }
-    & Pick<WorkoutPlanDay, 'id'>
     & { workoutPlanExercises: Array<(
       { __typename?: 'WorkoutPlanExercise' }
       & WorkoutPlanExerciseFragment
     )> }
+    & WorkoutPlanDayFragment
   )> }
 );
 
@@ -3049,15 +3050,14 @@ export type InsertExerciseInPlanMutationHookResult = ReturnType<typeof useInsert
 export type InsertExerciseInPlanMutationResult = Apollo.MutationResult<InsertExerciseInPlanMutation>;
 export type InsertExerciseInPlanMutationOptions = Apollo.BaseMutationOptions<InsertExerciseInPlanMutation, InsertExerciseInPlanMutationVariables>;
 export const UpdateWorkoutPlanExerciseSetsDocument = gql`
-    mutation updateWorkoutPlanExerciseSets($id: Int!, $sets: Int!) {
-  updateWorkoutPlanExercise(input: {id: $id, patch: {sets: $sets}}) {
+    mutation updateWorkoutPlanExerciseSets($id: Int!, $sets: Int!, $reps: Int!) {
+  updateWorkoutPlanExercise(input: {id: $id, patch: {sets: $sets, reps: $reps}}) {
     workoutPlanExercise {
-      id
-      sets
+      ...WorkoutPlanExercise
     }
   }
 }
-    `;
+    ${WorkoutPlanExerciseFragmentDoc}`;
 export type UpdateWorkoutPlanExerciseSetsMutationFn = Apollo.MutationFunction<UpdateWorkoutPlanExerciseSetsMutation, UpdateWorkoutPlanExerciseSetsMutationVariables>;
 
 /**
@@ -3075,6 +3075,7 @@ export type UpdateWorkoutPlanExerciseSetsMutationFn = Apollo.MutationFunction<Up
  *   variables: {
  *      id: // value for 'id'
  *      sets: // value for 'sets'
+ *      reps: // value for 'reps'
  *   },
  * });
  */
@@ -3093,13 +3094,14 @@ export const WorkoutPlanDayByIdDocument = gql`
     bodymass
   }
   workoutPlanDay(id: $id) {
-    id
+    ...WorkoutPlanDay
     workoutPlanExercises {
       ...WorkoutPlanExercise
     }
   }
 }
-    ${WorkoutPlanExerciseFragmentDoc}`;
+    ${WorkoutPlanDayFragmentDoc}
+${WorkoutPlanExerciseFragmentDoc}`;
 
 /**
  * __useWorkoutPlanDayByIdQuery__
