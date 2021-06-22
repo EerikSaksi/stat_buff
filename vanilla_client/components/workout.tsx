@@ -4,10 +4,10 @@ import WorkoutPlanPicker from "./workout/plan_picker";
 import WorkoutDayPicker from "./workout/plan_picker/day_picker";
 import WorkoutDay from "./workout/plan_picker/day_picker/day";
 import ExerciseSearch from "./workout/plan_picker/day_picker/edit_day/add_exercise";
-import { WorkoutPlanDayByIdQuery} from "../generated/graphql";
+import { WorkoutPlanDayByIdQuery, WorkoutPlanFragment} from "../generated/graphql";
 export type RootStackParamList = {
   "Select Workout": undefined;
-  "Select Day": { workoutPlanId: number };
+  "Select Day": { workoutPlan: WorkoutPlanFragment};
   Workout: { dayId: number; name: string };
   "Select Exercise": { workoutPlanDayData: WorkoutPlanDayByIdQuery };
 };

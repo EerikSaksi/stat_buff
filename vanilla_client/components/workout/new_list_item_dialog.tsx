@@ -1,7 +1,6 @@
 import React, { useState} from "react";
 import { TextInput, Portal, Dialog, Button } from "react-native-paper";
 import useDuplicateValidation from "./use_duplicate_validation";
-
 const NewListItemDialog: React.FC<{ existingNames: string[], onCreate: (newName: string) => void, listItemType: string}> = ({ existingNames, onCreate, listItemType }) => {
   const [newName, setNewName] = useState<undefined | string>();
   const closeDialog = () => setNewName(undefined);

@@ -2629,6 +2629,7 @@ export type WorkoutPlanByIdQuery = (
       { __typename?: 'WorkoutPlanDay' }
       & WorkoutPlanDayFragment
     )> }
+    & WorkoutPlanFragment
   )> }
 );
 
@@ -3239,12 +3240,14 @@ export type RenameDayMutationOptions = Apollo.BaseMutationOptions<RenameDayMutat
 export const WorkoutPlanByIdDocument = gql`
     query WorkoutPlanById($id: Int!) {
   workoutPlan(id: $id) {
+    ...WorkoutPlan
     workoutPlanDays {
       ...WorkoutPlanDay
     }
   }
 }
-    ${WorkoutPlanDayFragmentDoc}`;
+    ${WorkoutPlanFragmentDoc}
+${WorkoutPlanDayFragmentDoc}`;
 
 /**
  * __useWorkoutPlanByIdQuery__

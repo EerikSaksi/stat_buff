@@ -5,8 +5,7 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "server": "react-native start",
-    "start": "concurrently -c red,green \"npm:server\" \"npm:generate\"",
+    "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "generate": "graphql-codegen --config codegen.json --watch"

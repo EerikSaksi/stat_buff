@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import {List, ActivityIndicator} from 'react-native-paper';
 import {RootStackParamList} from '../../workout';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -27,13 +27,17 @@ type Props = {
 
 const WorkoutDayPicker: React.FC<Props> = ({navigation, route}) => {
   const {data} = useWorkoutPlanByIdQuery({
-    variables: {id: route.params.workoutPlanId},
-    onCompleted: () => {
-      if (data?.workoutPlan?.workoutPlanDays)
-        setExistingNames(data.workoutPlan.workoutPlanDays.map(day => day.name));
-    },
+    variables: {id: route.params.workoutPlan.id},
   });
   const [existingNames, setExistingNames] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (data?.workoutPlan?.workoutPlanDays) {
+      setExistingNames(data.workoutPlan.workoutPlanDays.map(day => day.name));
+      onCreate('newName');
+    }
+  }, [data]);
+
   const [renameDay] = useRenameDayMutation();
   const onListItemPress = useCallback(
     (id: number) => {
@@ -60,8 +64,8 @@ const WorkoutDayPicker: React.FC<Props> = ({navigation, route}) => {
           workoutPlanDay: {
             id,
             name: newName,
-            __typename: "WorkoutPlanDay",
-          }
+            __typename: 'WorkoutPlanDay',
+          },
         },
       },
     });
@@ -97,41 +101,40 @@ const WorkoutDayPicker: React.FC<Props> = ({navigation, route}) => {
     createWorkoutPlanDay({
       variables: {
         name: newName,
-        workoutPlanId: route.params.workoutPlanId,
+        workoutPlanId: route.params.workoutPlan.id,
       },
       update(cache, {data: createWorkoutPlanDayData}) {
-        console.log({createWorkoutPlanDay});
-        cache.modify({
-          id: `WorkoutPlan:${route.params.workoutPlanId}`,
-          fields: {
-            workoutPlanDays(existingWorkoutPlanDays = []) {
-              const newWorkoutPlanDay =
-                createWorkoutPlanDayData?.createWorkoutPlanDay;
-              if (newWorkoutPlanDay) {
-                console.log({newWorkoutPlanDay});
-                const newWorkoutPlanDayFragment = cache.writeFragment({
-                  data: newWorkoutPlanDay,
-                  fragment: WorkoutPlanDayFragmentDoc,
-                });
-                return [
-                  ...existingWorkoutPlanDays,
-                  newWorkoutPlanDayFragment,
-                ];
-              }
+          cache.modify({
+            id: cache.identify(route.params.workoutPlan),
+            fields: {
+              workoutPlanDays(existingWorkoutPlanDays = []) {
+                const newWorkoutPlanDay =
+                  createWorkoutPlanDayData?.createWorkoutPlanDay?.workoutPlanDay;
+                if (newWorkoutPlanDay) {
+                  console.log({newWorkoutPlanDay});
+                  const newWorkoutPlanDayFragment = cache.writeFragment({
+                    data: newWorkoutPlanDay,
+                    fragment: WorkoutPlanDayFragmentDoc,
+                  });
+                  return [
+                    ...existingWorkoutPlanDays,
+                    newWorkoutPlanDayFragment,
+                  ];
+                }
+              },
             },
-          },
-        });
+          });
       },
-      optimisticResponse: {
-        createWorkoutPlanDay: {
-          __typename: 'CreateWorkoutPlanDayPayload',
-          workoutPlanDay: {
-            __typename: 'WorkoutPlanDay',
-            id: -1,
-            name: newName,
-          },
-        },
-      },
+      //optimisticResponse: {
+      //  createWorkoutPlanDay: {
+      //    __typename: 'CreateWorkoutPlanDayPayload',
+      //    workoutPlanDay: {
+      //      __typename: 'WorkoutPlanDay',
+      //      id: -1,
+      //      name: newName,
+      //    },
+      //  },
+      //},
     });
   }, []);
   if (!data?.workoutPlan?.workoutPlanDays) {

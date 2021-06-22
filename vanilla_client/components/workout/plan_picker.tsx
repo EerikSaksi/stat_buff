@@ -79,7 +79,7 @@ const WorkoutPlanPicker: React.FC<Props> = ({navigation}) => {
     (id: number) => {
       if (data?.activeUser?.id) {
         //this toggles the default. if the default was pressed, set to null, otherwise set to this id
-        const newId = id === data.activeUser.currentWorkoutPlanId ? null : id 
+        const newId = id === data.activeUser.currentWorkoutPlanId ? null : id;
         updateUserCurrentWorkout({
           variables: {currentWorkoutPlanId: newId, userId: data.activeUser.id},
           optimisticResponse: {
@@ -120,10 +120,7 @@ const WorkoutPlanPicker: React.FC<Props> = ({navigation}) => {
                       data: newWorkoutPlan,
                       fragment: WorkoutPlanFragmentDoc,
                     });
-                    return ([
-                        ...existingWorkoutPlans,
-                        newWorkoutPlanExercise,
-                    ])
+                    return [...existingWorkoutPlans, newWorkoutPlanExercise];
                   }
                 },
               },
@@ -131,22 +128,30 @@ const WorkoutPlanPicker: React.FC<Props> = ({navigation}) => {
           },
           optimisticResponse: {
             createWorkoutPlan: {
-              __typename: "CreateWorkoutPlanPayload",
+              __typename: 'CreateWorkoutPlanPayload',
               workoutPlan: {
-                __typename: "WorkoutPlan",
+                __typename: 'WorkoutPlan',
                 id: -1,
-                name: newName
-              }
-            }
-          }
+                name: newName,
+              },
+            },
+          },
         });
     },
     [data],
   );
 
-  const onListItemPress = useCallback((id: number) => {
-    navigation.navigate('Select Day', {workoutPlanId: id});
-  }, []);
+  const onListItemPress = useCallback(
+    (id: number) => {
+      const selectedPlan = data?.activeUser?.workoutPlans.find(plan => plan.id === id)
+      if (selectedPlan) {
+        navigation.navigate('Select Day', {
+          workoutPlan: selectedPlan
+        });
+      }
+    },
+    [data],
+  );
 
   if (!data?.activeUser?.id) {
     return <ActivityIndicator />;
@@ -171,8 +176,8 @@ const WorkoutPlanPicker: React.FC<Props> = ({navigation}) => {
         ))}
         <NewWorkoutPlanDialog
           existingNames={workoutPlanNames}
-          onCreate = {onCreate}
-          listItemType = "Plan"
+          onCreate={onCreate}
+          listItemType="Plan"
         />
       </List.Section>
     </ScrollView>

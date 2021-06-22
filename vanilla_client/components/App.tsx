@@ -18,6 +18,8 @@ const App: React.FC = () => {
         if (Platform.OS !== "web") {
 
           // Only restore state if there's no deep link and we're not on web
+          
+          //await AsyncStorage.clear()
           const savedStateString = await AsyncStorage.getItem(PERSISTENCE_KEY);
           const state = savedStateString ? JSON.parse(savedStateString) : undefined;
           if (state !== undefined) {

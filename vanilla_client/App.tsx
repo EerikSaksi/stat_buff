@@ -16,6 +16,7 @@ import NetInfo from '@react-native-community/netinfo'
 import QueueLink from 'apollo-link-queue'
 export var cache: InMemoryCache;
 
+
 (async () => {
   cache = new InMemoryCache({
     possibleTypes: {},
@@ -25,7 +26,9 @@ export var cache: InMemoryCache;
     cache,
     storage: new AsyncStorageWrapper(AsyncStorage),
   });
-  await cache.reset();
+  if (__DEV__) {
+    await cache.reset();
+  }
 })();
 
 var token: string | null;
@@ -70,7 +73,6 @@ const errorLink = onError(({networkError}) => {
 
 const offlineLink = new QueueLink();
 NetInfo.addEventListener(({isConnected}) => {
-  console.log({isConnected})
   isConnected ? offlineLink.open() : offlineLink.close()
 });
 
