@@ -17,7 +17,7 @@ import {ScrollView} from 'react-native';
 export type Bodystat = {isMale: boolean; bodymass: number};
 type WorkoutDayRouteProp = RouteProp<RootStackParamList, 'Workout'>;
 
-type WorkoutDayNavigationProp = StackNavigationProp<
+export type WorkoutDayNavigationProp = StackNavigationProp<
   RootStackParamList,
   'Workout'
 >;
@@ -54,6 +54,7 @@ const Day: React.FC<Props> = ({route, navigation}) => {
           <WorkoutTimer
             exerciseSetVolumes={exerciseSetVolumes}
             appUserId={data!.activeUser!.id}
+            navigation = {navigation}
           />
         ) : undefined,
       title: route.params.name,
@@ -67,7 +68,6 @@ const Day: React.FC<Props> = ({route, navigation}) => {
   return (
     <>
       <ScrollView
-        style={{minHeight: '100%', backgroundColor: 'lightblue'}}
         stickyHeaderIndices={[1]}
         invertStickyHeaders={true}>
         <List.AccordionGroup

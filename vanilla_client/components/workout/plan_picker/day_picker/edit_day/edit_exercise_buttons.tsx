@@ -70,6 +70,7 @@ const EditExerciseButtons: React.FC<{
               <Button onPress={closeDialog}>Cancel</Button>
               <Button
                 disabled={!newSets || !newReps}
+                mode = "contained"
                 onPress={() => {
                   //only save if the values changed to save server request
                   if (

@@ -2442,6 +2442,18 @@ export type CreateCompletedWorkoutMutation = (
   )> }
 );
 
+export type CompletedWorkoutExerciseFragment = (
+  { __typename?: 'CompletedWorkoutExercise' }
+  & Pick<CompletedWorkoutExercise, 'id'>
+  & { volumes: Array<Maybe<(
+    { __typename?: 'Volume' }
+    & Pick<Volume, 'reps' | 'weight'>
+  )>>, exercise: (
+    { __typename?: 'Exercise' }
+    & ExerciseFragment
+  ) }
+);
+
 export type CreateCompletedWorkoutExercisesMutationVariables = Exact<{
   completedExercises?: Maybe<Array<CompletedWorkoutExerciseInput> | CompletedWorkoutExerciseInput>;
 }>;
@@ -2451,15 +2463,13 @@ export type CreateCompletedWorkoutExercisesMutation = (
   { __typename?: 'Mutation' }
   & { mnCreateCompletedWorkoutExercise?: Maybe<(
     { __typename?: 'mnCreateCompletedWorkoutExercisePayload' }
-    & { completedWorkoutExercise?: Maybe<(
-      { __typename?: 'CompletedWorkoutExercise' }
-      & { volumes: Array<Maybe<(
-        { __typename?: 'Volume' }
-        & Pick<Volume, 'reps' | 'weight'>
-      )>> }
-    )>, exercise: (
-      { __typename?: 'Exercise' }
-      & Pick<Exercise, 'bodyPart'>
+    & { completedWorkout: (
+      { __typename?: 'CompletedWorkout' }
+      & Pick<CompletedWorkout, 'id'>
+      & { completedWorkoutExercises: Array<(
+        { __typename?: 'CompletedWorkoutExercise' }
+        & CompletedWorkoutExerciseFragment
+      )> }
     ) }
   )> }
 );
@@ -2730,6 +2740,18 @@ export const ExerciseFragmentDoc = gql`
   eliteStrengthBaseline
 }
     `;
+export const CompletedWorkoutExerciseFragmentDoc = gql`
+    fragment CompletedWorkoutExercise on CompletedWorkoutExercise {
+  id
+  volumes {
+    reps
+    weight
+  }
+  exercise {
+    ...Exercise
+  }
+}
+    ${ExerciseFragmentDoc}`;
 export const WorkoutPlanExerciseFragmentDoc = gql`
     fragment WorkoutPlanExercise on WorkoutPlanExercise {
   exerciseId
@@ -2902,18 +2924,15 @@ export const CreateCompletedWorkoutExercisesDocument = gql`
   mnCreateCompletedWorkoutExercise(
     input: {mnCompletedWorkoutExercise: $completedExercises}
   ) {
-    completedWorkoutExercise {
-      volumes {
-        reps
-        weight
+    completedWorkout {
+      id
+      completedWorkoutExercises {
+        ...CompletedWorkoutExercise
       }
-    }
-    exercise {
-      bodyPart
     }
   }
 }
-    `;
+    ${CompletedWorkoutExerciseFragmentDoc}`;
 export type CreateCompletedWorkoutExercisesMutationFn = Apollo.MutationFunction<CreateCompletedWorkoutExercisesMutation, CreateCompletedWorkoutExercisesMutationVariables>;
 
 /**

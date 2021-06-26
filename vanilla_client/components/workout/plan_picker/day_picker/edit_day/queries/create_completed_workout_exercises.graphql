@@ -1,13 +1,20 @@
+fragment CompletedWorkoutExercise on CompletedWorkoutExercise{
+  id
+  volumes{
+    reps
+    weight
+  }
+  exercise{
+    ...Exercise
+  }
+}
 mutation createCompletedWorkoutExercises($completedExercises: [CompletedWorkoutExerciseInput!]){
   mnCreateCompletedWorkoutExercise(input: {mnCompletedWorkoutExercise: $completedExercises}){
-    completedWorkoutExercise{
-      volumes{
-        reps
-        weight
+    completedWorkout{
+      id
+      completedWorkoutExercises{
+        ...CompletedWorkoutExercise
       }
-    }
-    exercise{
-      bodyPart
     }
   }
 }

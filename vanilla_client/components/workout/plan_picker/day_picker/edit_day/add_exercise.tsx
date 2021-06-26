@@ -19,11 +19,9 @@ type Props = {
 
 const ExerciseSearch: React.FC<Props> = ({ navigation, route }) => {
   const [query, setQuery] = useState("");
-
   const { data } = useExerciseSearchQuery({
     variables: { query },
   });
-
   const [insertExerciseInPlan] = useInsertExerciseInPlanMutation({
     update(cache, { data }) {
       if (route.params.workoutPlanDayData.workoutPlanDay?.id) {
