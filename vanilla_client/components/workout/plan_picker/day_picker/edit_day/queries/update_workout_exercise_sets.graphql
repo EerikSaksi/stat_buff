@@ -1,0 +1,7 @@
+mutation updateWorkoutPlanExerciseSets($id: Int!, $sets: Int!, $reps: Int!){
+  updateWorkoutPlanExercise(input: {id: $id, patch: {sets: $sets, reps: $reps}}){
+    workoutPlanExercise{
+      ...WorkoutPlanExercise
+    }
+  }
+}

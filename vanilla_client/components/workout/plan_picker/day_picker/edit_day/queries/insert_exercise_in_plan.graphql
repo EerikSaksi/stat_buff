@@ -1,0 +1,11 @@
+mutation insertExerciseInPlan($sets: Int!, $reps: Int!, $ordering: Int!, $exerciseId: Int!, $workoutPlanDayId: Int!) {
+  createWorkoutPlanExercise(
+    input: {
+      workoutPlanExercise: { sets: $sets, reps: $reps, ordering: $ordering, exerciseId: $exerciseId, workoutPlanDayId: $workoutPlanDayId }
+    }
+  ) {
+    workoutPlanExercise{
+      ...WorkoutPlanExercise
+    }
+  }
+}

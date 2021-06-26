@@ -29,7 +29,8 @@ type Props = {
 const Day: React.FC<Props> = ({route, navigation}) => {
   const [expandedId, setExpandedId] = useState(-1);
 
-  const [lastDeletedWorkoutExerciseId, setLastDeletedWorkoutExerciseId] = useState<number>(-1);
+  const [lastDeletedWorkoutExerciseId, setLastDeletedWorkoutExerciseId] =
+    useState<number>(-1);
   const undoPressed = useRef(false);
 
   const [deleteExerciseInPlan] = useDeleteExerciseInPlanMutation({});
@@ -64,46 +65,63 @@ const Day: React.FC<Props> = ({route, navigation}) => {
   }
 
   return (
-    <ScrollView>
-      <List.AccordionGroup
-        expandedId={expandedId}
-        onAccordionPress={expandedId => {
-          if (typeof expandedId === 'number') {
-            setExpandedId(oldExpandedId =>
-              oldExpandedId === expandedId ? 0 : expandedId,
-            );
-          }
-        }}>
-        {data.workoutPlanDay.workoutPlanExercises.map(workoutPlanExercise =>
-          exerciseSetVolumes[workoutPlanExercise.id] &&
-          lastDeletedWorkoutExerciseId !== workoutPlanExercise.id ? (
-            <List.Accordion
-              key={workoutPlanExercise.id}
-              id={workoutPlanExercise.id}
-              title={`${workoutPlanExercise.exercise?.name}: ${workoutPlanExercise.sets} sets of ${workoutPlanExercise.reps} reps`}>
-              {exerciseSetVolumes[workoutPlanExercise.id].volumes.map(
-                (volume, setIndex) => (
-                  <WorkoutExerciseSet
-                    key={`${workoutPlanExercise.id} ${setIndex}`}
-                    updateVolumes={updateVolumes}
-                    setIndex={setIndex}
-                    workoutPlanExerciseId={workoutPlanExercise.id}
-                    volume={volume}
-                    exerciseId={workoutPlanExercise.exercise.id}
-                    bodystat={data.activeUser!}
-                  />
-                ),
-              )}
-              <EditExerciseButtons
-                workoutPlanExercise={workoutPlanExercise}
-                setLastDeletedWorkoutExerciseId={
-                  setLastDeletedWorkoutExerciseId
-                }
-              />
-            </List.Accordion>
-          ) : undefined,
-        )}
-      </List.AccordionGroup>
+    <>
+      <ScrollView
+        style={{minHeight: '100%', backgroundColor: 'lightblue'}}
+        stickyHeaderIndices={[1]}
+        invertStickyHeaders={true}>
+        <List.AccordionGroup
+          expandedId={expandedId}
+          onAccordionPress={expandedId => {
+            if (typeof expandedId === 'number') {
+              setExpandedId(oldExpandedId =>
+                oldExpandedId === expandedId ? 0 : expandedId,
+              );
+            }
+          }}>
+          {data.workoutPlanDay.workoutPlanExercises.map(workoutPlanExercise =>
+            exerciseSetVolumes[workoutPlanExercise.id] &&
+            lastDeletedWorkoutExerciseId !== workoutPlanExercise.id ? (
+              <List.Accordion
+                key={workoutPlanExercise.id}
+                id={workoutPlanExercise.id}
+                title={`${workoutPlanExercise.exercise?.name}: ${workoutPlanExercise.sets} sets of ${workoutPlanExercise.reps} reps`}>
+                {exerciseSetVolumes[workoutPlanExercise.id].volumes.map(
+                  (volume, setIndex) => (
+                    <WorkoutExerciseSet
+                      key={`${workoutPlanExercise.id} ${setIndex}`}
+                      updateVolumes={updateVolumes}
+                      setIndex={setIndex}
+                      workoutPlanExerciseId={workoutPlanExercise.id}
+                      volume={volume}
+                      exerciseId={workoutPlanExercise.exercise.id}
+                      bodystat={data.activeUser!}
+                    />
+                  ),
+                )}
+                <EditExerciseButtons
+                  workoutPlanExercise={workoutPlanExercise}
+                  setLastDeletedWorkoutExerciseId={
+                    setLastDeletedWorkoutExerciseId
+                  }
+                />
+              </List.Accordion>
+            ) : undefined,
+          )}
+        </List.AccordionGroup>
+        <Button
+          icon="table-row-plus-after"
+          disabled={lastDeletedWorkoutExerciseId !== -1}
+          onPress={() => {
+            if (data) {
+              navigation.navigate('Select Exercise', {
+                workoutPlanDayData: data,
+              });
+            }
+          }}>
+          Add exercise
+        </Button>
+      </ScrollView>
       <Snackbar
         visible={lastDeletedWorkoutExerciseId !== -1}
         action={{
@@ -130,16 +148,7 @@ const Day: React.FC<Props> = ({route, navigation}) => {
         }}>
         Exercise Deleted
       </Snackbar>
-      <Button
-        icon="table-row-plus-after"
-        onPress={() => {
-          if (data) {
-            navigation.navigate('Select Exercise', {workoutPlanDayData: data});
-          }
-        }}>
-        Add exercise
-      </Button>
-    </ScrollView>
+    </>
   );
 };
 export default Day;

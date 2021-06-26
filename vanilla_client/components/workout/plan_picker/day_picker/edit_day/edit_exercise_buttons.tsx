@@ -11,7 +11,6 @@ import {
   useUpdateWorkoutPlanExerciseSetsMutation,
   WorkoutPlanExerciseFragment,
 } from '../../../../../generated/graphql';
-import {View} from 'react-native';
 
 const EditExerciseButtons: React.FC<{
   workoutPlanExercise: WorkoutPlanExerciseFragment;
@@ -106,7 +105,10 @@ const EditExerciseButtons: React.FC<{
       )}
       right={() => (
         <>
-          <Button icon="pencil" onPress={() => setDialogVisible(true)}>
+          <Button
+            contentStyle={{scaleX: 1.2, scaleY: 1.2}}
+            icon="pencil"
+            onPress={() => setDialogVisible(true)}>
             {''}
           </Button>
           <Button
@@ -114,7 +116,7 @@ const EditExerciseButtons: React.FC<{
             onPress={() =>
               setLastDeletedWorkoutExerciseId(workoutPlanExercise.id)
             }
-            contentStyle={{scaleX: 1.5, scaleY: 1.5}}>
+            contentStyle={{scaleX: 1.2, scaleY: 1.2}}>
             {''}
           </Button>
         </>

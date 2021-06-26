@@ -1,0 +1,7 @@
+mutation createCompletedWorkout($appUserId: Int!){
+  createCompletedWorkout(input: {completedWorkout: {appUserId: $appUserId}}){
+    completedWorkout{
+      id
+    }
+  }
+}

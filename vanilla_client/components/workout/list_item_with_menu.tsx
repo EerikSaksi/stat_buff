@@ -46,6 +46,7 @@ const ListItemWithMenu: React.FC<{
                 <TextInput
                   value={newPlanName}
                   onChangeText={t => setNewPlanName(t)}
+                  
                   autoFocus
                   dense
                   style={{height: 55}}
