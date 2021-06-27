@@ -1,80 +1,31 @@
 -- Enter migration here
-drop function if exists create_user;
-CREATE
-or replace FUNCTION public.create_user(username text, password text) RETURNS app_user LANGUAGE plpgsql STRICT SECURITY DEFINER AS $$ declare to_return app_user;
+alter TABLE app_user drop COLUMN if exists total_xp;
+ALTER TABLE app_user ADD COLUMN total_xp integer not null default 0;
+
+alter TABLE app_user drop COLUMN if exists level;
+
+ALTER TABLE app_user ADD COLUMN level integer GENERATED ALWAYS AS (floor(total_xp / 20)) STORED;
+
+drop function if exists create_completed_workout;
+
+drop type if exists create_completed_workout_input;
+create type create_completed_workout_input as (
+  exercise_id integer,
+  volumes volume[]
+);
+
+create or replace function create_completed_workout(completed_workout_exercises create_completed_workout_input[]) returns completed_workout_exercise[] as $$
+declare
+  completed_workout_id integer;
+  cwe create_completed_workout_input;
+  new_id integer;
+  to_return completed_workout_exercise[];
 begin
-insert into
-  app_user(username, password)
-values
-  (username, crypt(password, gen_salt('bf'))) returning * into to_return;
-return to_return;
-end;
-$$;
-drop type if exists user_id_and_jwt cascade;
-create type user_id_and_jwt as (app_user_id integer, token jwt_token);
-drop function if exists authenticate;
-CREATE FUNCTION public.authenticate(username character varying, password text) RETURNS public.user_id_and_jwt LANGUAGE plpgsql STABLE STRICT SECURITY DEFINER AS $$ declare account app_user;
-begin
-select
-  a.* into account
-from
-  app_user as a
-where
-  a.username = authenticate.username;
-if account.password = crypt(password, account.password) then return (
-  account.id,
-  (
-    extract(
-      epoch
-      from
-        now() + interval '7 days'
-    ),
-    account.id
-  ):: jwt_token
-):: user_id_and_jwt;
-else return null;
-end if;
-end;
-$$;
-
-
-alter table workout_plan_exercise enable row level security;
-drop policy if exists workout_plan_exercise_select_policy on workout_plan_exercise;
-CREATE POLICY workout_plan_exercise_select_policy ON workout_plan_exercise FOR SELECT USING (true);
-
-drop policy if exists workout_plan_exercise_insert_policy on workout_plan_exercise;
-create POLICY workout_plan_exercise_insert_policy ON workout_plan_exercise FOR insert with check ((workout_plan_day_id IN ( SELECT workout_plan_day.id
-   FROM workout_plan
-     JOIN workout_plan_day ON workout_plan_day.workout_plan_id = workout_plan.id
-  WHERE workout_plan.app_user_id = ( SELECT current_user_id()))));
-
-drop policy if exists workout_plan_exercise_update_policy on workout_plan_exercise;
-CREATE POLICY workout_plan_exercise_update_policy ON workout_plan_exercise FOR update USING ((workout_plan_day_id IN ( SELECT workout_plan_day.id
-   FROM workout_plan
-     JOIN workout_plan_day ON workout_plan_day.workout_plan_id = workout_plan.id
-  WHERE workout_plan.app_user_id = ( SELECT current_user_id()))));
-
-drop policy if exists workout_plan_exercise_delete_policy on workout_plan_exercise;
-CREATE POLICY workout_plan_exercise_delete_policy ON workout_plan_exercise FOR delete USING ((workout_plan_day_id IN ( SELECT workout_plan_day.id
-   FROM workout_plan
-     JOIN workout_plan_day ON workout_plan_day.workout_plan_id = workout_plan.id
-  WHERE workout_plan.app_user_id = ( SELECT current_user_id()))));
-
-alter table workout_plan_day enable row level security;
-
-drop policy if exists workout_plan_day_select_policy on workout_plan_day;
-CREATE POLICY workout_plan_day_select_policy ON workout_plan_day FOR SELECT USING (true);
-
-drop policy if exists workout_plan_day_insert_policy on workout_plan_day;
-create POLICY workout_plan_day_insert_policy ON workout_plan_day FOR insert with check (workout_plan_id in ( SELECT workout_plan.id
-   FROM workout_plan
-  WHERE workout_plan.app_user_id = ( SELECT current_user_id())));
-drop policy if exists workout_plan_day_update_policy on workout_plan_day;
-
-CREATE POLICY workout_plan_day_update_policy ON workout_plan_day FOR update USING (workout_plan_id in ( SELECT workout_plan.id
-   FROM workout_plan
-  WHERE workout_plan.app_user_id = ( SELECT current_user_id())));
-drop policy if exists workout_plan_day_delete_policy on workout_plan_day;
-CREATE POLICY workout_plan_day_delete_policy ON workout_plan_day FOR delete USING (workout_plan_id in ( SELECT workout_plan.id
-   FROM workout_plan
-  WHERE workout_plan.app_user_id = ( SELECT current_user_id())));
+  insert into completed_workout(app_user_id) values (3) returning id into completed_workout_id;
+  foreach cwe in array completed_workout_exercises loop
+    insert into completed_workout_exercise(completed_workout_id, exercise_id, volumes) values (completed_workout_id, cwe.exercise_id, cwe.volumes) returning * into cwe;
+  end loop;
+  return null;
+end; $$ language plpgsql security definer;
+comment on table completed_workout is E'@omit create, update';
+comment on table completed_workout_exercise is E'@omit create, update';

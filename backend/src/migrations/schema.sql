@@ -100,6 +100,16 @@ CREATE TYPE public.strengthstats AS (
 
 
 --
+-- Name: user_id_and_jwt; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.user_id_and_jwt AS (
+	app_user_id integer,
+	token public.jwt_token
+);
+
+
+--
 -- Name: notify_watchers_ddl(); Type: FUNCTION; Schema: postgraphile_watch; Owner: -
 --
 
@@ -205,23 +215,29 @@ $$;
 -- Name: authenticate(character varying, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION public.authenticate(username character varying, password text) RETURNS public.jwt_token
+CREATE FUNCTION public.authenticate(username character varying, password text) RETURNS public.user_id_and_jwt
     LANGUAGE plpgsql STABLE STRICT SECURITY DEFINER
-    AS $$
-declare
-  account app_user;
+    AS $$ declare account app_user;
 begin
-  select a.* into account
-    from app_user as a
-    where a.username = authenticate.username;
-  if account.password = crypt(password, account.password) then
-    return (
-      extract(epoch from now() + interval '7 days'),
-      account.id
-    )::jwt_token;
-  else
-    return null;
-  end if;
+select
+  a.* into account
+from
+  app_user as a
+where
+  a.username = authenticate.username;
+if account.password = crypt(password, account.password) then return (
+  account.id,
+  (
+    extract(
+      epoch
+      from
+        now() + interval '7 days'
+    ),
+    account.id
+  ):: jwt_token
+):: user_id_and_jwt;
+else return null;
+end if;
 end;
 $$;
 
@@ -230,13 +246,15 @@ $$;
 -- Name: create_user(text, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION public.create_user(username text, password text) RETURNS void
+CREATE FUNCTION public.create_user(username text, password text) RETURNS public.app_user
     LANGUAGE plpgsql STRICT SECURITY DEFINER
-    AS $$ begin
+    AS $$ declare to_return app_user;
+begin
 insert into
   app_user(username, password)
 values
-  (username, crypt(password, gen_salt('bf')));
+  (username, crypt(password, gen_salt('bf'))) returning * into to_return;
+return to_return;
 end;
 $$;
 
@@ -264,6 +282,22 @@ BEGIN
   RETURN NEW;
 END;
 $$;
+
+
+--
+-- Name: account; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.account (
+    username character varying(32),
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone,
+    id integer,
+    current_workout_plan_id integer,
+    password text,
+    is_male boolean,
+    bodymass double precision
+);
 
 
 --
@@ -1242,9 +1276,8 @@ ALTER TABLE public.workout_plan_day ENABLE ROW LEVEL SECURITY;
 -- Name: workout_plan_day workout_plan_day_delete_policy; Type: POLICY; Schema: public; Owner: -
 --
 
-CREATE POLICY workout_plan_day_delete_policy ON public.workout_plan_day FOR DELETE USING ((id IN ( SELECT workout_plan_day_1.id
-   FROM (public.workout_plan
-     JOIN public.workout_plan_day workout_plan_day_1 ON ((workout_plan_day_1.workout_plan_id = workout_plan.id)))
+CREATE POLICY workout_plan_day_delete_policy ON public.workout_plan_day FOR DELETE USING ((workout_plan_id IN ( SELECT workout_plan.id
+   FROM public.workout_plan
   WHERE (workout_plan.app_user_id = ( SELECT public.current_user_id() AS current_user_id)))));
 
 
@@ -1252,9 +1285,8 @@ CREATE POLICY workout_plan_day_delete_policy ON public.workout_plan_day FOR DELE
 -- Name: workout_plan_day workout_plan_day_insert_policy; Type: POLICY; Schema: public; Owner: -
 --
 
-CREATE POLICY workout_plan_day_insert_policy ON public.workout_plan_day FOR INSERT WITH CHECK ((id IN ( SELECT workout_plan_day_1.id
-   FROM (public.workout_plan
-     JOIN public.workout_plan_day workout_plan_day_1 ON ((workout_plan_day_1.workout_plan_id = workout_plan.id)))
+CREATE POLICY workout_plan_day_insert_policy ON public.workout_plan_day FOR INSERT WITH CHECK ((workout_plan_id IN ( SELECT workout_plan.id
+   FROM public.workout_plan
   WHERE (workout_plan.app_user_id = ( SELECT public.current_user_id() AS current_user_id)))));
 
 
@@ -1269,9 +1301,8 @@ CREATE POLICY workout_plan_day_select_policy ON public.workout_plan_day FOR SELE
 -- Name: workout_plan_day workout_plan_day_update_policy; Type: POLICY; Schema: public; Owner: -
 --
 
-CREATE POLICY workout_plan_day_update_policy ON public.workout_plan_day FOR UPDATE USING ((id IN ( SELECT workout_plan_day_1.id
-   FROM (public.workout_plan
-     JOIN public.workout_plan_day workout_plan_day_1 ON ((workout_plan_day_1.workout_plan_id = workout_plan.id)))
+CREATE POLICY workout_plan_day_update_policy ON public.workout_plan_day FOR UPDATE USING ((workout_plan_id IN ( SELECT workout_plan.id
+   FROM public.workout_plan
   WHERE (workout_plan.app_user_id = ( SELECT public.current_user_id() AS current_user_id)))));
 
 
@@ -1292,10 +1323,9 @@ ALTER TABLE public.workout_plan_exercise ENABLE ROW LEVEL SECURITY;
 -- Name: workout_plan_exercise workout_plan_exercise_delete_policy; Type: POLICY; Schema: public; Owner: -
 --
 
-CREATE POLICY workout_plan_exercise_delete_policy ON public.workout_plan_exercise FOR DELETE USING ((id IN ( SELECT workout_plan_exercise_1.id
-   FROM ((public.workout_plan
+CREATE POLICY workout_plan_exercise_delete_policy ON public.workout_plan_exercise FOR DELETE USING ((workout_plan_day_id IN ( SELECT workout_plan_day.id
+   FROM (public.workout_plan
      JOIN public.workout_plan_day ON ((workout_plan_day.workout_plan_id = workout_plan.id)))
-     JOIN public.workout_plan_exercise workout_plan_exercise_1 ON ((workout_plan_day.id = workout_plan_exercise_1.workout_plan_day_id)))
   WHERE (workout_plan.app_user_id = ( SELECT public.current_user_id() AS current_user_id)))));
 
 
@@ -1303,10 +1333,9 @@ CREATE POLICY workout_plan_exercise_delete_policy ON public.workout_plan_exercis
 -- Name: workout_plan_exercise workout_plan_exercise_insert_policy; Type: POLICY; Schema: public; Owner: -
 --
 
-CREATE POLICY workout_plan_exercise_insert_policy ON public.workout_plan_exercise FOR INSERT WITH CHECK ((id IN ( SELECT workout_plan_exercise_1.id
-   FROM ((public.workout_plan
+CREATE POLICY workout_plan_exercise_insert_policy ON public.workout_plan_exercise FOR INSERT WITH CHECK ((workout_plan_day_id IN ( SELECT workout_plan_day.id
+   FROM (public.workout_plan
      JOIN public.workout_plan_day ON ((workout_plan_day.workout_plan_id = workout_plan.id)))
-     JOIN public.workout_plan_exercise workout_plan_exercise_1 ON ((workout_plan_day.id = workout_plan_exercise_1.workout_plan_day_id)))
   WHERE (workout_plan.app_user_id = ( SELECT public.current_user_id() AS current_user_id)))));
 
 
@@ -1321,10 +1350,9 @@ CREATE POLICY workout_plan_exercise_select_policy ON public.workout_plan_exercis
 -- Name: workout_plan_exercise workout_plan_exercise_update_policy; Type: POLICY; Schema: public; Owner: -
 --
 
-CREATE POLICY workout_plan_exercise_update_policy ON public.workout_plan_exercise FOR UPDATE USING ((id IN ( SELECT workout_plan_exercise_1.id
-   FROM ((public.workout_plan
+CREATE POLICY workout_plan_exercise_update_policy ON public.workout_plan_exercise FOR UPDATE USING ((workout_plan_day_id IN ( SELECT workout_plan_day.id
+   FROM (public.workout_plan
      JOIN public.workout_plan_day ON ((workout_plan_day.workout_plan_id = workout_plan.id)))
-     JOIN public.workout_plan_exercise workout_plan_exercise_1 ON ((workout_plan_day.id = workout_plan_exercise_1.workout_plan_day_id)))
   WHERE (workout_plan.app_user_id = ( SELECT public.current_user_id() AS current_user_id)))));
 
 
