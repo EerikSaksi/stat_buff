@@ -45,7 +45,7 @@ const Day: React.FC<Props> = ({route, navigation}) => {
       }
     },
   });
-  const {exerciseSetVolumes, updateVolumes} = useLocalVolumes(data);
+  const {localSets, updateLocalSets} = useLocalVolumes(data);
 
   useLayoutEffect(() => {
     navigation.setOptions({

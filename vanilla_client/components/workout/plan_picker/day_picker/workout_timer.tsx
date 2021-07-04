@@ -1,9 +1,8 @@
 import React, {useRef, useEffect, useState} from 'react';
 import {
-  Volume,
-  useCreateCompletedWorkoutMutation,
   CompletedWorkoutExerciseInput,
-  useCreateCompletedWorkoutExercisesMutation,
+  useSaveWorkoutMutation,
+  ExerciseIdAndSetInput
 } from '../../../../generated/graphql';
 import {Button, Portal, Dialog} from 'react-native-paper';
 import {View, Text} from 'react-native';
@@ -13,14 +12,11 @@ import {WorkoutDayNavigationProp} from './day';
 const transformVolumeToPayload = (
   exerciseSetVolumes: ExerciseSetVolumes,
   completedWorkoutId: number,
-): CompletedWorkoutExerciseInput[] => {
-  const toReturn: CompletedWorkoutExerciseInput[] = [];
-  for (const [_, {exerciseId, volumes}] of Object.entries(exerciseSetVolumes)) {
+): ExerciseIdAndSetInput => {
+  const toReturn: ExerciseIdAndSetInput[] = [];
+  for (const [_, {exerciseId, }] of Object.entries(exerciseSetVolumes)) {
     //filter sets that were not completed, and cast to Volume (where reps and sets must be defined)
-    const filteredVolumes = volumes
-      .filter(volume => volume.weight !== undefined && volume.reps)
-      .map(volume => volume as Volume);
-    toReturn.push({completedWorkoutId, volumes: filteredVolumes, exerciseId});
+    const filteredVolumes = volumes.filter(volume => volume.weight && volume.reps)
   }
   return toReturn;
 };
@@ -34,33 +30,10 @@ const WorkoutTimer: React.FC<{
   const [dialogVisible, setDialogVisible] = useState(false);
   const closeDialog = () => setDialogVisible(false);
 
-  //first we create a workout (parent of all exercises)
-  //on complete hook then saves each exercise
-  const [createCompletedWorkout] = useCreateCompletedWorkoutMutation({
-    variables: {appUserId},
-    onCompleted: ({createCompletedWorkout}) => {
-      if (createCompletedWorkout?.completedWorkout?.id) {
-        createCompletedWorkoutExercises({
-          variables: {
-            completedExercises: transformVolumeToPayload(
-              exerciseSetVolumes,
-              createCompletedWorkout.completedWorkout.id,
-            ),
-          },
-        });
-      }
-    },
-  });
-  const [createCompletedWorkoutExercises] =
-    useCreateCompletedWorkoutExercisesMutation({
-      onCompleted: data => {
-        if (data.mnCreateCompletedWorkoutExercise) {
-          navigation.navigate('Workout Complete!', {
-            completedWorkoutExercises: data.mnCreateCompletedWorkoutExercise.completedWorkout.completedWorkoutExercises
-          });
-        }
-      },
-    });
+  const saveWorkout = useSaveWorkoutMutation({
+    variables: {
+    }
+  })
 
   useEffect(() => {
     if (!startTime.current) {

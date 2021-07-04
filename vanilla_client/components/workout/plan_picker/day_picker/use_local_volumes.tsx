@@ -1,24 +1,24 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { WorkoutPlanDayByIdQuery } from "../../../../generated/graphql";
-export type ConditionalVolume = {
+export type ConditionalSets = {
   weight: number | undefined | null;
   reps: number | undefined | null;
 };
-export type ExerciseSetVolumes = {
+export type LocalExerciseSets = {
   [workoutPlanExerciseId: number]: {
     exerciseId: number;
-    volumes: ConditionalVolume[];
+    conditionalSets: ConditionalSets[];
   };
 };
-const useLocalVolumes = (workoutPlanDayData: WorkoutPlanDayByIdQuery | undefined) => {
-  //volumes stores the sets and reps for various exercises. For instance
-  const [exerciseSetVolumes, setExerciseSetVolumes] = useState<ExerciseSetVolumes | undefined>();
+const useLocalSets = (workoutPlanDayData: WorkoutPlanDayByIdQuery | undefined) => {
+  //local sets stores the sets and reps for various exercises
+  const [localSets, setLocalSets] = useState<LocalExerciseSets | undefined>();
 
-  const updateVolumes = useCallback((workoutPlanExerciseId: number, setIndex: number, volume: ConditionalVolume) => {
-    setExerciseSetVolumes((old) => {
+  const updateLocalSets = useCallback((workoutPlanExerciseId: number, setIndex: number, conditionalSets: ConditionalSets) => {
+    setLocalSets((old) => {
       if (old) {
         const copy = { ...old };
-        copy[workoutPlanExerciseId].volumes[setIndex] = volume;
+        copy[workoutPlanExerciseId].conditionalSets[setIndex] = conditionalSets;
         return copy;
       }
     });
@@ -27,30 +27,30 @@ const useLocalVolumes = (workoutPlanDayData: WorkoutPlanDayByIdQuery | undefined
   useEffect(() => {
     if (workoutPlanDayData?.workoutPlanDay) {
       //either copy or initialize
-      const newExerciseSetVolumes: ExerciseSetVolumes = exerciseSetVolumes ? { ...exerciseSetVolumes } : {};
+      const newLocalSets: LocalExerciseSets = localSets ? { ...localSets } : {};
       workoutPlanDayData?.workoutPlanDay.workoutPlanExercises.forEach((workoutPlanExercise) => {
-        if (!newExerciseSetVolumes[workoutPlanExercise.id]) {
+        if (!newLocalSets[workoutPlanExercise.id]) {
           //initialize with empty sets and reps
-          newExerciseSetVolumes[workoutPlanExercise.id] = {
+          newLocalSets[workoutPlanExercise.id] = {
             exerciseId: workoutPlanExercise.exercise!.id,
-            volumes: new Array(workoutPlanExercise.sets).fill({ weight: undefined, reps: undefined }),
+            conditionalSets: new Array(workoutPlanExercise.sets).fill({ weight: undefined, reps: undefined }),
           };
         }
         //rendering fewer sets than the server has
-        else if (newExerciseSetVolumes[workoutPlanExercise.id].volumes.length < workoutPlanExercise.sets) {
+        else if (newLocalSets[workoutPlanExercise.id].conditionalSets.length < workoutPlanExercise.sets) {
           do {
-            newExerciseSetVolumes[workoutPlanExercise.id].volumes.push({ weight: undefined, reps: undefined });
-          } while (newExerciseSetVolumes[workoutPlanExercise.id].volumes.length < workoutPlanExercise.sets);
+            newLocalSets[workoutPlanExercise.id].conditionalSets.push({ weight: undefined, reps: undefined });
+          } while (newLocalSets[workoutPlanExercise.id].conditionalSets.length < workoutPlanExercise.sets);
         }
         //rendering more sets than the server has
-        else if (newExerciseSetVolumes[workoutPlanExercise.id].volumes.length > workoutPlanExercise.sets) {
-          newExerciseSetVolumes[workoutPlanExercise.id].volumes.splice(workoutPlanExercise.sets);
+        else if (newLocalSets[workoutPlanExercise.id].conditionalSets.length > workoutPlanExercise.sets) {
+          newLocalSets[workoutPlanExercise.id].conditionalSets.splice(workoutPlanExercise.sets);
         }
       });
-      setExerciseSetVolumes(newExerciseSetVolumes);
+      setLocalSets(newLocalSets);
     }
   }, [workoutPlanDayData]);
 
-  return { exerciseSetVolumes, updateVolumes };
+  return { localSets, updateLocalSets };
 };
-export default useLocalVolumes;
+export default useLocalSets;

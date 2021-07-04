@@ -1,0 +1,32 @@
+fragment CompletedSet on CompletedSet{
+  id
+  weight
+  reps
+}
+
+fragment CompletedWorkoutExercise on CompletedWorkoutExercise{
+  id
+  exercise{
+    ...Exercise
+  }
+  completedSets{
+    ...CompletedSet
+  }
+}
+fragment CompletedWorkout on CompletedWorkout{
+  id
+  completedWorkoutExercises{
+    ...CompletedWorkoutExercise
+  }
+}
+
+mutation saveWorkout($exerciseIdsAndSets: [ExerciseIdAndSetInput]!) {
+  saveWorkout(input: {exerciseIdsAndSets: $exerciseIdsAndSets}){
+    completedWorkout{
+      ...CompletedWorkout
+      completedWorkoutExercises{
+        ...CompletedWorkoutExercise
+      }
+    }
+  }
+}

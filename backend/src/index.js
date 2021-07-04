@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const { postgraphile, makePluginHook } = require("postgraphile");
 const MyPlugins = require("./postgraphile_plugins");
-const { default: PgManyCUDPlugin } = require("postgraphile-plugin-many-create-update-delete");
 const PgNonNullRelationsPlugin = require("@graphile-contrib/pg-non-null/relations");
 const { default: PgPubsub } = require("@graphile/pg-pubsub");
 require("dotenv").config({ path: "../.env" });
@@ -20,7 +19,6 @@ const postgraphileOptions = {
     require("@graphile-contrib/pg-simplify-inflector"),
     require("postgraphile-plugin-connection-filter"),
     MyPlugins,
-    PgManyCUDPlugin,
     PgNonNullRelationsPlugin,
   ],
   exportGqlSchemaPath: "schema.graphql",
@@ -31,12 +29,13 @@ const postgraphileOptions = {
   legacyRelations: "omit",
   disableDefaultMutations: false,
   allowExplain: () => true,
-  jwtPgTypeIdentifier: "public.jwt_token",
-  jwtSecret: process.env.JWT_SECRET,
   ownerConnectionString: "postgres://eerik:Postgrizzly@localhost:5432/rpgym",
   simpleCollections: "only",
   graphileBuildOptions: { pgOmitListSuffix: true },
-  skipPlugins: [require('graphile-build').NodePlugin]
+  skipPlugins: [require("graphile-build").NodePlugin],
+  pgSettings: process.env.__DEV__ ? () => ({ 'jwt.claims.user_id': 4 }) : undefined,
+  jwtSecret:  process.env.JWT_SECRET,
+  jwtPgTypeIdentifier: "public.jwt_token",
 };
 const app = express();
 app.use(cors());
