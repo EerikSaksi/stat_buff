@@ -10,7 +10,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 import {RootStackParamList} from '../../../workout';
 import {ActivityIndicator} from 'react-native-paper';
-import useLocalVolumes from './use_local_volumes';
+import useLocalVolumes from './use_local_sets';
 import EditExerciseButtons from './edit_day/edit_exercise_buttons';
 import {ScrollView} from 'react-native';
 
@@ -45,31 +45,29 @@ const Day: React.FC<Props> = ({route, navigation}) => {
       }
     },
   });
-  const {localSets, updateLocalSets} = useLocalVolumes(data);
+  const {localSets, updateLocalSet} = useLocalVolumes(data);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () =>
-        exerciseSetVolumes && data?.activeUser ? (
+        localSets && data?.activeUser ? (
           <WorkoutTimer
-            exerciseSetVolumes={exerciseSetVolumes}
+            exerciseSetVolumes={localSets}
             appUserId={data!.activeUser!.id}
-            navigation = {navigation}
+            navigation={navigation}
           />
         ) : undefined,
       title: route.params.name,
     });
-  }, [exerciseSetVolumes, data]);
+  }, [localSets, data]);
 
-  if (!data?.workoutPlanDay || !exerciseSetVolumes || !data.activeUser) {
+  if (!data?.workoutPlanDay || !localSets || !data.activeUser) {
     return <ActivityIndicator />;
   }
 
   return (
     <>
-      <ScrollView
-        stickyHeaderIndices={[1]}
-        invertStickyHeaders={true}>
+      <ScrollView stickyHeaderIndices={[1]} invertStickyHeaders={true}>
         <List.AccordionGroup
           expandedId={expandedId}
           onAccordionPress={expandedId => {
@@ -80,20 +78,20 @@ const Day: React.FC<Props> = ({route, navigation}) => {
             }
           }}>
           {data.workoutPlanDay.workoutPlanExercises.map(workoutPlanExercise =>
-            exerciseSetVolumes[workoutPlanExercise.id] &&
+            localSets[workoutPlanExercise.id] &&
             lastDeletedWorkoutExerciseId !== workoutPlanExercise.id ? (
               <List.Accordion
                 key={workoutPlanExercise.id}
                 id={workoutPlanExercise.id}
                 title={`${workoutPlanExercise.exercise?.name}: ${workoutPlanExercise.sets} sets of ${workoutPlanExercise.reps} reps`}>
-                {exerciseSetVolumes[workoutPlanExercise.id].volumes.map(
-                  (volume, setIndex) => (
+                {localSets[workoutPlanExercise.id].conditionalSets.map(
+                  (conditionalSet, setIndex) => (
                     <WorkoutExerciseSet
                       key={`${workoutPlanExercise.id} ${setIndex}`}
-                      updateVolumes={updateVolumes}
+                      updateLocalSet={updateLocalSet}
                       setIndex={setIndex}
                       workoutPlanExerciseId={workoutPlanExercise.id}
-                      volume={volume}
+                      conditionalSet={conditionalSet}
                       exerciseId={workoutPlanExercise.exercise.id}
                       bodystat={data.activeUser!}
                     />

@@ -17,13 +17,6 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: postgraphile_watch; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA postgraphile_watch;
-
-
---
 -- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -51,48 +44,6 @@ CREATE TYPE public.body_part_enum AS ENUM (
     'Shoulders',
     'Triceps',
     'Whole Body'
-);
-
-
-SET default_tablespace = '';
-
-SET default_table_access_method = heap;
-
---
--- Name: completed_set; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.completed_set (
-    id integer NOT NULL,
-    weight smallint NOT NULL,
-    reps smallint NOT NULL,
-    completed_workout_exercise_id integer NOT NULL,
-    CONSTRAINT completed_set_reps_check CHECK ((reps > 0)),
-    CONSTRAINT completed_set_weight_check CHECK ((weight > 0))
-);
-
-
---
--- Name: COLUMN completed_set.id; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON COLUMN public.completed_set.id IS '@omit create';
-
-
---
--- Name: COLUMN completed_set.completed_workout_exercise_id; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON COLUMN public.completed_set.completed_workout_exercise_id IS '@omit create';
-
-
---
--- Name: exercise_id_and_sets; Type: TYPE; Schema: public; Owner: -
---
-
-CREATE TYPE public.exercise_id_and_sets AS (
-	exercise_id integer,
-	completed_sets public.completed_set[]
 );
 
 
@@ -151,47 +102,9 @@ CREATE TYPE public.user_id_and_jwt AS (
 );
 
 
---
--- Name: notify_watchers_ddl(); Type: FUNCTION; Schema: postgraphile_watch; Owner: -
---
+SET default_tablespace = '';
 
-CREATE FUNCTION postgraphile_watch.notify_watchers_ddl() RETURNS event_trigger
-    LANGUAGE plpgsql
-    AS $$
-begin
-  perform pg_notify(
-    'postgraphile_watch',
-    json_build_object(
-      'type',
-      'ddl',
-      'payload',
-      (select json_agg(json_build_object('schema', schema_name, 'command', command_tag)) from pg_event_trigger_ddl_commands() as x)
-    )::text
-  );
-end;
-$$;
-
-
---
--- Name: notify_watchers_drop(); Type: FUNCTION; Schema: postgraphile_watch; Owner: -
---
-
-CREATE FUNCTION postgraphile_watch.notify_watchers_drop() RETURNS event_trigger
-    LANGUAGE plpgsql
-    AS $$
-begin
-  perform pg_notify(
-    'postgraphile_watch',
-    json_build_object(
-      'type',
-      'drop',
-      'payload',
-      (select json_agg(distinct x.schema_name) from pg_event_trigger_dropped_objects() as x)
-    )::text
-  );
-end;
-$$;
-
+SET default_table_access_method = heap;
 
 --
 -- Name: app_user; Type: TABLE; Schema: public; Owner: -
@@ -311,14 +224,71 @@ $$;
 
 
 --
--- Name: save_workout(public.exercise_id_and_sets[]); Type: FUNCTION; Schema: public; Owner: -
+-- Name: completed_set; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE FUNCTION public.save_workout(exercise_ids_and_sets public.exercise_id_and_sets[]) RETURNS void
+CREATE TABLE public.completed_set (
+    id integer NOT NULL,
+    weight smallint NOT NULL,
+    reps smallint NOT NULL,
+    completed_workout_exercise_id integer NOT NULL,
+    CONSTRAINT completed_set_reps_check CHECK ((reps > 0)),
+    CONSTRAINT completed_set_weight_check CHECK ((weight > 0))
+);
+
+
+--
+-- Name: COLUMN completed_set.id; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.completed_set.id IS '@omit create';
+
+
+--
+-- Name: COLUMN completed_set.completed_workout_exercise_id; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.completed_set.completed_workout_exercise_id IS '@omit create';
+
+
+--
+-- Name: completed_workout; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.completed_workout (
+    id integer NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    app_user_id integer DEFAULT public.current_user_id() NOT NULL
+);
+
+
+--
+-- Name: sets_and_exercise_id; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.sets_and_exercise_id (
+    exercise_id integer NOT NULL,
+    completed_sets public.completed_set[] NOT NULL
+);
+
+
+--
+-- Name: TABLE sets_and_exercise_id; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.sets_and_exercise_id IS '@omit update create delete';
+
+
+--
+-- Name: save_workout(public.sets_and_exercise_id[]); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.save_workout(exercise_ids_and_sets public.sets_and_exercise_id[]) RETURNS public.completed_workout
     LANGUAGE plpgsql SECURITY DEFINER
     AS $$
 declare
-  id_and_sets exercise_id_and_sets;
+  id_and_sets sets_and_exercise_id;
   set completed_set;
   workout_id integer;
   exercise_id integer;
@@ -330,6 +300,7 @@ begin
       insert into completed_set(completed_workout_exercise_id, reps, weight) values (exercise_id, set.reps, set.weight);
     end loop;
   end loop;
+  return (select * from completed_workout where id = workout_id);
 end; $$;
 
 
@@ -358,18 +329,6 @@ ALTER TABLE public.completed_set ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTIT
     NO MINVALUE
     NO MAXVALUE
     CACHE 1
-);
-
-
---
--- Name: completed_workout; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.completed_workout (
-    id integer NOT NULL,
-    app_user_id integer NOT NULL,
-    created_at timestamp with time zone DEFAULT now() NOT NULL,
-    updated_at timestamp with time zone DEFAULT now() NOT NULL
 );
 
 
@@ -645,8 +604,8 @@ CREATE TABLE public.workout_plan (
 
 CREATE TABLE public.workout_plan_day (
     id integer NOT NULL,
-    workout_plan_id integer NOT NULL,
     name character varying NOT NULL,
+    workout_plan_id integer NOT NULL,
     CONSTRAINT non_empty_name CHECK ((((name)::text = ''::text) IS FALSE))
 );
 
@@ -686,6 +645,20 @@ CREATE TABLE public.workout_plan_exercise (
 
 ALTER TABLE public.workout_plan_exercise ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
     SEQUENCE NAME public.workout_plan_exercise_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- Name: workout_plan_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+ALTER TABLE public.workout_plan ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.workout_plan_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -779,14 +752,6 @@ ALTER TABLE ONLY public.app_user
 
 
 --
--- Name: workout_plan_day unique_workout_plan_id_name; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.workout_plan_day
-    ADD CONSTRAINT unique_workout_plan_id_name UNIQUE (workout_plan_id, name);
-
-
---
 -- Name: user_exercise user_exercise_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -819,10 +784,25 @@ ALTER TABLE ONLY public.workout_plan_day
 
 
 --
+-- Name: workout_plan workout_plan_pkey1; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.workout_plan
+    ADD CONSTRAINT workout_plan_pkey1 PRIMARY KEY (id);
+
+
+--
 -- Name: completed_set_completed_workout_exercise_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX completed_set_completed_workout_exercise_idx ON public.completed_set USING btree (completed_workout_exercise_id);
+
+
+--
+-- Name: completed_workout_app_user_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX completed_workout_app_user_idx ON public.completed_workout USING btree (app_user_id);
 
 
 --
@@ -903,10 +883,17 @@ CREATE INDEX user_workout_plan_idx ON public.app_user USING btree (current_worko
 
 
 --
--- Name: workout_plan_day_workout_plan_id_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: workout_plan_app_user_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX workout_plan_day_workout_plan_id_idx ON public.workout_plan_day USING btree (workout_plan_id);
+CREATE INDEX workout_plan_app_user_idx ON public.workout_plan USING btree (app_user_id);
+
+
+--
+-- Name: workout_plan_day_workout_plan_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX workout_plan_day_workout_plan_idx ON public.workout_plan_day USING btree (workout_plan_id);
 
 
 --
@@ -946,6 +933,14 @@ ALTER TABLE ONLY public.completed_set
 
 
 --
+-- Name: completed_workout completed_workout_app_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.completed_workout
+    ADD CONSTRAINT completed_workout_app_user_id_fkey FOREIGN KEY (app_user_id) REFERENCES public.app_user(id) ON DELETE CASCADE;
+
+
+--
 -- Name: completed_workout_exercise completed_workout_exercise_completed_workout_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -975,6 +970,22 @@ ALTER TABLE ONLY public.session_analytics
 
 ALTER TABLE ONLY public.user_exercise
     ADD CONSTRAINT user_exercise_user_id_fkey FOREIGN KEY (app_user_id) REFERENCES public.app_user(id) ON DELETE CASCADE;
+
+
+--
+-- Name: workout_plan workout_plan_app_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.workout_plan
+    ADD CONSTRAINT workout_plan_app_user_id_fkey FOREIGN KEY (app_user_id) REFERENCES public.app_user(id) ON DELETE CASCADE;
+
+
+--
+-- Name: workout_plan_day workout_plan_day_workout_plan_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.workout_plan_day
+    ADD CONSTRAINT workout_plan_day_workout_plan_id_fkey FOREIGN KEY (workout_plan_id) REFERENCES public.workout_plan(id) ON DELETE CASCADE;
 
 
 --
@@ -1034,43 +1045,10 @@ CREATE POLICY app_user_update_policy ON public.app_user FOR UPDATE USING ((id = 
 ALTER TABLE public.completed_set ENABLE ROW LEVEL SECURITY;
 
 --
--- Name: completed_set completed_set_delete_policy; Type: POLICY; Schema: public; Owner: -
---
-
-CREATE POLICY completed_set_delete_policy ON public.completed_set FOR DELETE USING ((id IN ( SELECT completed_set_1.id
-   FROM ((public.completed_workout
-     JOIN public.completed_workout_exercise ON ((completed_workout.id = completed_workout_exercise.completed_workout_id)))
-     JOIN public.completed_set completed_set_1 ON ((completed_workout_exercise.id = completed_set_1.completed_workout_exercise_id)))
-  WHERE (completed_workout.app_user_id = ( SELECT public.current_user_id() AS current_user_id)))));
-
-
---
--- Name: completed_set completed_set_insert_policy; Type: POLICY; Schema: public; Owner: -
---
-
-CREATE POLICY completed_set_insert_policy ON public.completed_set FOR INSERT WITH CHECK ((id IN ( SELECT completed_set_1.id
-   FROM ((public.completed_workout
-     JOIN public.completed_workout_exercise ON ((completed_workout.id = completed_workout_exercise.completed_workout_id)))
-     JOIN public.completed_set completed_set_1 ON ((completed_workout_exercise.id = completed_set_1.completed_workout_exercise_id)))
-  WHERE (completed_workout.app_user_id = ( SELECT public.current_user_id() AS current_user_id)))));
-
-
---
 -- Name: completed_set completed_set_select_policy; Type: POLICY; Schema: public; Owner: -
 --
 
 CREATE POLICY completed_set_select_policy ON public.completed_set FOR SELECT USING (true);
-
-
---
--- Name: completed_set completed_set_update_policy; Type: POLICY; Schema: public; Owner: -
---
-
-CREATE POLICY completed_set_update_policy ON public.completed_set FOR UPDATE USING ((id IN ( SELECT completed_set_1.id
-   FROM ((public.completed_workout
-     JOIN public.completed_workout_exercise ON ((completed_workout.id = completed_workout_exercise.completed_workout_id)))
-     JOIN public.completed_set completed_set_1 ON ((completed_workout_exercise.id = completed_set_1.completed_workout_exercise_id)))
-  WHERE (completed_workout.app_user_id = ( SELECT public.current_user_id() AS current_user_id)))));
 
 
 --
@@ -1080,40 +1058,10 @@ CREATE POLICY completed_set_update_policy ON public.completed_set FOR UPDATE USI
 ALTER TABLE public.completed_workout_exercise ENABLE ROW LEVEL SECURITY;
 
 --
--- Name: completed_workout_exercise completed_workout_exercise_delete_policy; Type: POLICY; Schema: public; Owner: -
---
-
-CREATE POLICY completed_workout_exercise_delete_policy ON public.completed_workout_exercise FOR DELETE USING ((id IN ( SELECT completed_workout_exercise_1.id
-   FROM (public.completed_workout
-     JOIN public.completed_workout_exercise completed_workout_exercise_1 ON ((completed_workout.id = completed_workout_exercise_1.completed_workout_id)))
-  WHERE (completed_workout.app_user_id = ( SELECT public.current_user_id() AS current_user_id)))));
-
-
---
--- Name: completed_workout_exercise completed_workout_exercise_insert_policy; Type: POLICY; Schema: public; Owner: -
---
-
-CREATE POLICY completed_workout_exercise_insert_policy ON public.completed_workout_exercise FOR INSERT WITH CHECK ((id IN ( SELECT completed_workout_exercise_1.id
-   FROM (public.completed_workout
-     JOIN public.completed_workout_exercise completed_workout_exercise_1 ON ((completed_workout.id = completed_workout_exercise_1.completed_workout_id)))
-  WHERE (completed_workout.app_user_id = ( SELECT public.current_user_id() AS current_user_id)))));
-
-
---
 -- Name: completed_workout_exercise completed_workout_exercise_select_policy; Type: POLICY; Schema: public; Owner: -
 --
 
 CREATE POLICY completed_workout_exercise_select_policy ON public.completed_workout_exercise FOR SELECT USING (true);
-
-
---
--- Name: completed_workout_exercise completed_workout_exercise_update_policy; Type: POLICY; Schema: public; Owner: -
---
-
-CREATE POLICY completed_workout_exercise_update_policy ON public.completed_workout_exercise FOR UPDATE USING ((id IN ( SELECT completed_workout_exercise_1.id
-   FROM (public.completed_workout
-     JOIN public.completed_workout_exercise completed_workout_exercise_1 ON ((completed_workout.id = completed_workout_exercise_1.completed_workout_id)))
-  WHERE (completed_workout.app_user_id = ( SELECT public.current_user_id() AS current_user_id)))));
 
 
 --
@@ -1285,10 +1233,40 @@ CREATE POLICY user_update ON public.app_user FOR UPDATE TO query_sender USING ((
 ALTER TABLE public.workout_plan_day ENABLE ROW LEVEL SECURITY;
 
 --
+-- Name: workout_plan_day workout_plan_day_delete_policy; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY workout_plan_day_delete_policy ON public.workout_plan_day FOR DELETE USING ((id IN ( SELECT workout_plan_day_1.id
+   FROM (public.workout_plan
+     JOIN public.workout_plan_day workout_plan_day_1 ON ((workout_plan.id = workout_plan_day_1.workout_plan_id)))
+  WHERE (workout_plan.app_user_id = ( SELECT public.current_user_id() AS current_user_id)))));
+
+
+--
+-- Name: workout_plan_day workout_plan_day_insert_policy; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY workout_plan_day_insert_policy ON public.workout_plan_day FOR INSERT WITH CHECK ((id IN ( SELECT workout_plan_day_1.id
+   FROM (public.workout_plan
+     JOIN public.workout_plan_day workout_plan_day_1 ON ((workout_plan.id = workout_plan_day_1.workout_plan_id)))
+  WHERE (workout_plan.app_user_id = ( SELECT public.current_user_id() AS current_user_id)))));
+
+
+--
 -- Name: workout_plan_day workout_plan_day_select_policy; Type: POLICY; Schema: public; Owner: -
 --
 
 CREATE POLICY workout_plan_day_select_policy ON public.workout_plan_day FOR SELECT USING (true);
+
+
+--
+-- Name: workout_plan_day workout_plan_day_update_policy; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY workout_plan_day_update_policy ON public.workout_plan_day FOR UPDATE USING ((id IN ( SELECT workout_plan_day_1.id
+   FROM (public.workout_plan
+     JOIN public.workout_plan_day workout_plan_day_1 ON ((workout_plan.id = workout_plan_day_1.workout_plan_id)))
+  WHERE (workout_plan.app_user_id = ( SELECT public.current_user_id() AS current_user_id)))));
 
 
 --
@@ -1319,6 +1297,13 @@ GRANT ALL ON SCHEMA public TO query_sender;
 
 
 --
+-- Name: TABLE app_user; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT ALL ON TABLE public.app_user TO query_sender;
+
+
+--
 -- Name: TABLE completed_set; Type: ACL; Schema: public; Owner: -
 --
 
@@ -1326,10 +1311,17 @@ GRANT ALL ON TABLE public.completed_set TO PUBLIC;
 
 
 --
--- Name: TABLE app_user; Type: ACL; Schema: public; Owner: -
+-- Name: TABLE completed_workout; Type: ACL; Schema: public; Owner: -
 --
 
-GRANT ALL ON TABLE public.app_user TO query_sender;
+GRANT ALL ON TABLE public.completed_workout TO PUBLIC;
+
+
+--
+-- Name: TABLE sets_and_exercise_id; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT ALL ON TABLE public.sets_and_exercise_id TO PUBLIC;
 
 
 --
@@ -1382,6 +1374,13 @@ GRANT ALL ON TABLE public.user_exercise TO query_sender;
 
 
 --
+-- Name: TABLE workout_plan; Type: ACL; Schema: public; Owner: -
+--
+
+GRANT ALL ON TABLE public.workout_plan TO PUBLIC;
+
+
+--
 -- Name: TABLE workout_plan_day; Type: ACL; Schema: public; Owner: -
 --
 
@@ -1396,24 +1395,6 @@ GRANT ALL ON TABLE public.workout_plan_exercise TO PUBLIC;
 
 
 --
--- Name: postgraphile_watch_ddl; Type: EVENT TRIGGER; Schema: -; Owner: -
---
-
-CREATE EVENT TRIGGER postgraphile_watch_ddl ON ddl_command_end
-         WHEN TAG IN ('ALTER AGGREGATE', 'ALTER DOMAIN', 'ALTER EXTENSION', 'ALTER FOREIGN TABLE', 'ALTER FUNCTION', 'ALTER POLICY', 'ALTER SCHEMA', 'ALTER TABLE', 'ALTER TYPE', 'ALTER VIEW', 'COMMENT', 'CREATE AGGREGATE', 'CREATE DOMAIN', 'CREATE EXTENSION', 'CREATE FOREIGN TABLE', 'CREATE FUNCTION', 'CREATE INDEX', 'CREATE POLICY', 'CREATE RULE', 'CREATE SCHEMA', 'CREATE TABLE', 'CREATE TABLE AS', 'CREATE VIEW', 'DROP AGGREGATE', 'DROP DOMAIN', 'DROP EXTENSION', 'DROP FOREIGN TABLE', 'DROP FUNCTION', 'DROP INDEX', 'DROP OWNED', 'DROP POLICY', 'DROP RULE', 'DROP SCHEMA', 'DROP TABLE', 'DROP TYPE', 'DROP VIEW', 'GRANT', 'REVOKE', 'SELECT INTO')
-   EXECUTE FUNCTION postgraphile_watch.notify_watchers_ddl();
-
-
---
--- Name: postgraphile_watch_drop; Type: EVENT TRIGGER; Schema: -; Owner: -
---
-
-CREATE EVENT TRIGGER postgraphile_watch_drop ON sql_drop
-   EXECUTE FUNCTION postgraphile_watch.notify_watchers_drop();
-
-
---
 -- PostgreSQL database dump complete
 --
-
 

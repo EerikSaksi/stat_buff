@@ -1,20 +1,20 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { WorkoutPlanDayByIdQuery } from "../../../../generated/graphql";
-export type ConditionalSets = {
+export type ConditionalSet = {
   weight: number | undefined | null;
   reps: number | undefined | null;
 };
 export type LocalExerciseSets = {
   [workoutPlanExerciseId: number]: {
     exerciseId: number;
-    conditionalSets: ConditionalSets[];
+    conditionalSets: ConditionalSet[];
   };
 };
 const useLocalSets = (workoutPlanDayData: WorkoutPlanDayByIdQuery | undefined) => {
   //local sets stores the sets and reps for various exercises
   const [localSets, setLocalSets] = useState<LocalExerciseSets | undefined>();
 
-  const updateLocalSets = useCallback((workoutPlanExerciseId: number, setIndex: number, conditionalSets: ConditionalSets) => {
+  const updateLocalSet = useCallback((workoutPlanExerciseId: number, setIndex: number, conditionalSets: ConditionalSet) => {
     setLocalSets((old) => {
       if (old) {
         const copy = { ...old };
@@ -29,6 +29,7 @@ const useLocalSets = (workoutPlanDayData: WorkoutPlanDayByIdQuery | undefined) =
       //either copy or initialize
       const newLocalSets: LocalExerciseSets = localSets ? { ...localSets } : {};
       workoutPlanDayData?.workoutPlanDay.workoutPlanExercises.forEach((workoutPlanExercise) => {
+        //not even rendering the exercise
         if (!newLocalSets[workoutPlanExercise.id]) {
           //initialize with empty sets and reps
           newLocalSets[workoutPlanExercise.id] = {
@@ -50,7 +51,6 @@ const useLocalSets = (workoutPlanDayData: WorkoutPlanDayByIdQuery | undefined) =
       setLocalSets(newLocalSets);
     }
   }, [workoutPlanDayData]);
-
-  return { localSets, updateLocalSets };
+  return { localSets, updateLocalSet };
 };
 export default useLocalSets;
