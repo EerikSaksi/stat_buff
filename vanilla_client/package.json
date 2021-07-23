@@ -5,10 +5,11 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "start": "react-native start",
+    "run": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "generate": "graphql-codegen --config codegen.json --watch"
+    "generate": "graphql-codegen --config codegen.json --watch",
+    "start": "emulator -avd Pixel_2_API_30 & concurrently -n React Native,Codegen -c blue,green  \"npm:run\" \"npm:generate\""
   },
   "dependencies": {
     "//": [
