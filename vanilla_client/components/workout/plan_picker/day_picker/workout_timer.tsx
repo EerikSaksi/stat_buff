@@ -1,45 +1,54 @@
 import React, {useRef, useEffect, useState} from 'react';
 import {
-  CompletedWorkoutExerciseInput,
   useSaveWorkoutMutation,
-  ExerciseIdAndSetInput
+  ExerciseIdAndSetInput,
+  CompletedSetInput,
 } from '../../../../generated/graphql';
 import {Button, Portal, Dialog} from 'react-native-paper';
 import {View, Text} from 'react-native';
-import {ExerciseSetVolumes} from './use_local_volumes';
-import {WorkoutDayNavigationProp} from './day';
+import {LocalExerciseSets} from './use_local_sets';
 
-const transformVolumeToPayload = (
-  exerciseSetVolumes: ExerciseSetVolumes,
-  completedWorkoutId: number,
-): ExerciseIdAndSetInput => {
+//given the sets that are stored locally, this function transforms this to the input format required.
+const transformLocalSetsToInput = (
+  localExerciseSets: LocalExerciseSets,
+): ExerciseIdAndSetInput[] => {
   const toReturn: ExerciseIdAndSetInput[] = [];
-  for (const [_, {exerciseId, }] of Object.entries(exerciseSetVolumes)) {
+  for (const [_, {exerciseId, conditionalSets}] of Object.entries(
+    localExerciseSets,
+  )) {
     //filter sets that were not completed, and cast to Volume (where reps and sets must be defined)
-    const filteredVolumes = volumes.filter(volume => volume.weight && volume.reps)
+    const completedSets = conditionalSets
+      .filter(({reps, weight}) => reps && weight)
+      .map(
+        ({reps, weight}) =>
+          ({
+            reps,
+            weight,
+          } as CompletedSetInput),
+      );
+    toReturn.push({completedSets, exerciseId});
   }
   return toReturn;
 };
 const WorkoutTimer: React.FC<{
-  exerciseSetVolumes: ExerciseSetVolumes;
-  appUserId: number;
-  navigation: WorkoutDayNavigationProp;
-}> = ({exerciseSetVolumes, appUserId, navigation}) => {
+  localExerciseSets: LocalExerciseSets;
+}> = ({localExerciseSets}) => {
   const startTime = useRef<Date | undefined>();
   const [minutes, setMinutes] = useState<undefined | number>();
   const [dialogVisible, setDialogVisible] = useState(false);
   const closeDialog = () => setDialogVisible(false);
 
-  const saveWorkout = useSaveWorkoutMutation({
+  const [saveWorkout] = useSaveWorkoutMutation({
     variables: {
-    }
-  })
+      exerciseIdsAndSets: transformLocalSetsToInput(localExerciseSets)
+    },
+  });
 
   useEffect(() => {
     if (!startTime.current) {
       //user has tracked a lift, then start the timer
-      for (const [_, {volumes}] of Object.entries(exerciseSetVolumes)) {
-        if (volumes.some(volume => volume.weight || volume.reps)) {
+      for (const [_, {conditionalSets}] of Object.entries(localExerciseSets)) {
+        if (conditionalSets.some(({weight, reps}) => weight || reps)) {
           startTime.current = new Date();
           setMinutes(0);
           break;
@@ -52,7 +61,7 @@ const WorkoutTimer: React.FC<{
       }
     }, 10000);
     return () => clearInterval(interval);
-  }, [startTime, exerciseSetVolumes]);
+  }, [startTime, localExerciseSets]);
 
   if (minutes === undefined) {
     return null;
@@ -78,7 +87,12 @@ const WorkoutTimer: React.FC<{
           <Dialog.Title>Do you want to end your workout?</Dialog.Title>
           <Dialog.Actions>
             <Button onPress={closeDialog}>Cancel</Button>
-            <Button mode="contained" onPress={() => {closeDialog(); createCompletedWorkout()}}>
+            <Button
+              mode="contained"
+              onPress={() => {
+                closeDialog();
+                saveWorkout()
+              }}>
               End
             </Button>
           </Dialog.Actions>

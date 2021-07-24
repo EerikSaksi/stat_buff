@@ -52,9 +52,7 @@ const Day: React.FC<Props> = ({route, navigation}) => {
       headerRight: () =>
         localSets && data?.activeUser ? (
           <WorkoutTimer
-            exerciseSetVolumes={localSets}
-            appUserId={data!.activeUser!.id}
-            navigation={navigation}
+            localExerciseSets={localSets}
           />
         ) : undefined,
       title: route.params.name,

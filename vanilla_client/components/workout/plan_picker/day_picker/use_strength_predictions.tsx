@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {ConditionalVolume} from "./use_local_volumes";
+import {ConditionalSet} from "./use_local_sets";
 import {Bodystat} from './day'
 
 const roundToOneDecimalPoint = (x: number) => Number(x.toFixed(1));
@@ -305,7 +305,7 @@ const eliteStrengthBaselines = [
 ];
 
 const useStrengthPredictions = (
-  volume: ConditionalVolume,
+  volume: ConditionalSet,
   exerciseId: number,
   bodystat: Bodystat
 ) => {

@@ -105,8 +105,7 @@ const WorkoutPlanPicker: React.FC<Props> = ({navigation}) => {
       if (data?.activeUser)
         createWorkoutPlan({
           variables: {
-            appUserId: data.activeUser.id,
-            name: newName,
+            name: newName
           },
           update(cache, {data: createWorkoutPlanData}) {
             cache.modify({

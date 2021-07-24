@@ -103,26 +103,23 @@ const WorkoutDayPicker: React.FC<Props> = ({navigation, route}) => {
         workoutPlanId: route.params.workoutPlan.id,
       },
       update(cache, {data: createWorkoutPlanDayData}) {
-          cache.modify({
-            id: cache.identify(route.params.workoutPlan),
-            fields: {
-              workoutPlanDays(existingWorkoutPlanDays = []) {
-                const newWorkoutPlanDay =
-                  createWorkoutPlanDayData?.createWorkoutPlanDay?.workoutPlanDay;
-                if (newWorkoutPlanDay) {
-                  console.log({newWorkoutPlanDay});
-                  const newWorkoutPlanDayFragment = cache.writeFragment({
-                    data: newWorkoutPlanDay,
-                    fragment: WorkoutPlanDayFragmentDoc,
-                  });
-                  return [
-                    ...existingWorkoutPlanDays,
-                    newWorkoutPlanDayFragment,
-                  ];
-                }
-              },
+        cache.modify({
+          id: cache.identify(route.params.workoutPlan),
+          fields: {
+            workoutPlanDays(existingWorkoutPlanDays = []) {
+              const newWorkoutPlanDay =
+                createWorkoutPlanDayData?.createWorkoutPlanDay?.workoutPlanDay;
+              if (newWorkoutPlanDay) {
+                console.log({newWorkoutPlanDay});
+                const newWorkoutPlanDayFragment = cache.writeFragment({
+                  data: newWorkoutPlanDay,
+                  fragment: WorkoutPlanDayFragmentDoc,
+                });
+                return [...existingWorkoutPlanDays, newWorkoutPlanDayFragment];
+              }
             },
-          });
+          },
+        });
       },
       optimisticResponse: {
         createWorkoutPlanDay: {
