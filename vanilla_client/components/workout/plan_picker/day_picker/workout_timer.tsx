@@ -1,7 +1,7 @@
 import React, {useRef, useEffect, useState} from 'react';
 import {
   useSaveWorkoutMutation,
-  ExerciseIdAndSetInput,
+  SetsAndExerciseIdInput,
   CompletedSetInput,
 } from '../../../../generated/graphql';
 import {Button, Portal, Dialog} from 'react-native-paper';
@@ -11,8 +11,8 @@ import {LocalExerciseSets} from './use_local_sets';
 //given the sets that are stored locally, this function transforms this to the input format required.
 const transformLocalSetsToInput = (
   localExerciseSets: LocalExerciseSets,
-): ExerciseIdAndSetInput[] => {
-  const toReturn: ExerciseIdAndSetInput[] = [];
+): SetsAndExerciseIdInput[] => {
+  const toReturn: SetsAndExerciseIdInput[] = [];
   for (const [_, {exerciseId, conditionalSets}] of Object.entries(
     localExerciseSets,
   )) {
@@ -26,7 +26,9 @@ const transformLocalSetsToInput = (
             weight,
           } as CompletedSetInput),
       );
-    toReturn.push({completedSets, exerciseId});
+    if (completedSets.length) {
+      toReturn.push({completedSets, exerciseId});
+    }
   }
   return toReturn;
 };
@@ -40,7 +42,7 @@ const WorkoutTimer: React.FC<{
 
   const [saveWorkout] = useSaveWorkoutMutation({
     variables: {
-      exerciseIdsAndSets: transformLocalSetsToInput(localExerciseSets)
+      exerciseIdsAndSets: transformLocalSetsToInput(localExerciseSets),
     },
   });
 
@@ -91,7 +93,7 @@ const WorkoutTimer: React.FC<{
               mode="contained"
               onPress={() => {
                 closeDialog();
-                saveWorkout()
+                saveWorkout();
               }}>
               End
             </Button>
