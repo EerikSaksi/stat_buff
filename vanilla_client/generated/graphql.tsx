@@ -436,31 +436,6 @@ export type CreateCompletedWorkoutPayload = {
   appUser: AppUser;
 };
 
-/** All input for the create `ExerciseIdAndSet` mutation. */
-export type CreateExerciseIdAndSetInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `ExerciseIdAndSet` to be created by this mutation. */
-  exerciseIdAndSet: ExerciseIdAndSetInput;
-};
-
-/** The output of our create `ExerciseIdAndSet` mutation. */
-export type CreateExerciseIdAndSetPayload = {
-  __typename?: 'CreateExerciseIdAndSetPayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `ExerciseIdAndSet` that was created by this mutation. */
-  exerciseIdAndSet?: Maybe<ExerciseIdAndSet>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-};
-
 /** All input for the create `Exercise` mutation. */
 export type CreateExerciseInput = {
   /**
@@ -511,6 +486,31 @@ export type CreateSessionAnalyticPayload = {
   query?: Maybe<Query>;
   /** Reads a single `AppUser` that is related to this `SessionAnalytic`. */
   appUser: AppUser;
+};
+
+/** All input for the create `SetsAndExerciseId` mutation. */
+export type CreateSetsAndExerciseIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `SetsAndExerciseId` to be created by this mutation. */
+  setsAndExerciseId: SetsAndExerciseIdInput;
+};
+
+/** The output of our create `SetsAndExerciseId` mutation. */
+export type CreateSetsAndExerciseIdPayload = {
+  __typename?: 'CreateSetsAndExerciseIdPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `SetsAndExerciseId` that was created by this mutation. */
+  setsAndExerciseId?: Maybe<SetsAndExerciseId>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
 };
 
 /** All input for the create `UserExercise` mutation. */
@@ -1031,23 +1031,6 @@ export type ExerciseFilter = {
   not?: Maybe<ExerciseFilter>;
 };
 
-export type ExerciseIdAndSet = {
-  __typename?: 'ExerciseIdAndSet';
-  exerciseId: Scalars['Int'];
-  completedSets: Array<Maybe<CompletedSet>>;
-};
-
-/** An input for mutations affecting `ExerciseIdAndSet` */
-export type ExerciseIdAndSetInput = {
-  exerciseId: Scalars['Int'];
-  completedSets: Array<Maybe<CompletedSetInput>>;
-};
-
-/** Methods to use when ordering `ExerciseIdAndSet`. */
-export enum ExerciseIdAndSetsOrderBy {
-  Natural = 'NATURAL'
-}
-
 /** An input for mutations affecting `Exercise` */
 export type ExerciseInput = {
   id?: Maybe<Scalars['Int']>;
@@ -1132,10 +1115,10 @@ export type Mutation = {
   createCompletedWorkoutExercise?: Maybe<CreateCompletedWorkoutExercisePayload>;
   /** Creates a single `Exercise`. */
   createExercise?: Maybe<CreateExercisePayload>;
-  /** Creates a single `ExerciseIdAndSet`. */
-  createExerciseIdAndSet?: Maybe<CreateExerciseIdAndSetPayload>;
   /** Creates a single `SessionAnalytic`. */
   createSessionAnalytic?: Maybe<CreateSessionAnalyticPayload>;
+  /** Creates a single `SetsAndExerciseId`. */
+  createSetsAndExerciseId?: Maybe<CreateSetsAndExerciseIdPayload>;
   /** Creates a single `UserExercise`. */
   createUserExercise?: Maybe<CreateUserExercisePayload>;
   /** Creates a single `WorkoutPlan`. */
@@ -1220,14 +1203,14 @@ export type MutationCreateExerciseArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateExerciseIdAndSetArgs = {
-  input: CreateExerciseIdAndSetInput;
+export type MutationCreateSessionAnalyticArgs = {
+  input: CreateSessionAnalyticInput;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateSessionAnalyticArgs = {
-  input: CreateSessionAnalyticInput;
+export type MutationCreateSetsAndExerciseIdArgs = {
+  input: CreateSetsAndExerciseIdInput;
 };
 
 
@@ -1424,10 +1407,10 @@ export type Query = {
   exercises?: Maybe<Array<Exercise>>;
   /** Reads a set of `ExerciseAlias`. */
   exerciseAliases?: Maybe<Array<ExerciseAlias>>;
-  /** Reads a set of `ExerciseIdAndSet`. */
-  exerciseIdAndSets?: Maybe<Array<ExerciseIdAndSet>>;
   /** Reads a set of `SessionAnalytic`. */
   sessionAnalytics?: Maybe<Array<SessionAnalytic>>;
+  /** Reads a set of `SetsAndExerciseId`. */
+  setsAndExerciseIds?: Maybe<Array<SetsAndExerciseId>>;
   /** Reads a set of `UserExercise`. */
   userExercises?: Maybe<Array<UserExercise>>;
   /** Reads a set of `WorkoutPlan`. */
@@ -1516,20 +1499,20 @@ export type QueryExerciseAliasesArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryExerciseIdAndSetsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<Array<ExerciseIdAndSetsOrderBy>>;
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QuerySessionAnalyticsArgs = {
   first?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Array<SessionAnalyticsOrderBy>>;
   condition?: Maybe<SessionAnalyticCondition>;
   filter?: Maybe<SessionAnalyticFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QuerySetsAndExerciseIdsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Array<SetsAndExerciseIdsOrderBy>>;
 };
 
 
@@ -1668,7 +1651,7 @@ export type SaveWorkoutInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  exerciseIdsAndSets?: Maybe<Array<Maybe<ExerciseIdAndSetInput>>>;
+  exerciseIdsAndSets?: Maybe<Array<Maybe<SetsAndExerciseIdInput>>>;
 };
 
 /** The output of our `saveWorkout` mutation. */
@@ -1757,6 +1740,23 @@ export enum SessionAnalyticsOrderBy {
   AppUserIdDesc = 'APP_USER_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+export type SetsAndExerciseId = {
+  __typename?: 'SetsAndExerciseId';
+  exerciseId: Scalars['Int'];
+  completedSets: Array<Maybe<CompletedSet>>;
+};
+
+/** An input for mutations affecting `SetsAndExerciseId` */
+export type SetsAndExerciseIdInput = {
+  exerciseId: Scalars['Int'];
+  completedSets: Array<Maybe<CompletedSetInput>>;
+};
+
+/** Methods to use when ordering `SetsAndExerciseId`. */
+export enum SetsAndExerciseIdsOrderBy {
+  Natural = 'NATURAL'
 }
 
 /** A filter to be used against String fields. All fields are combined with a logical ‘and.’ */
@@ -2455,7 +2455,7 @@ export type AuthenticateQuery = (
   { __typename?: 'Query' }
   & { authenticate?: Maybe<(
     { __typename?: 'UserIdAndJwt' }
-    & Pick<UserIdAndJwt, 'appUserId' | 'token'>
+    & Pick<UserIdAndJwt, 'token'>
   )> }
 );
 
@@ -2565,7 +2565,7 @@ export type CompletedWorkoutFragment = (
 );
 
 export type SaveWorkoutMutationVariables = Exact<{
-  exerciseIdsAndSets: Array<Maybe<ExerciseIdAndSetInput>> | Maybe<ExerciseIdAndSetInput>;
+  exerciseIdsAndSets: Array<Maybe<SetsAndExerciseIdInput>> | Maybe<SetsAndExerciseIdInput>;
 }>;
 
 
@@ -2705,7 +2705,6 @@ export type WorkoutPlanByIdQuery = (
 
 export type CreateWorkoutPlanMutationVariables = Exact<{
   name: Scalars['String'];
-  appUserId: Scalars['Int'];
 }>;
 
 
@@ -2854,7 +2853,6 @@ export const WorkoutPlanFragmentDoc = gql`
 export const AuthenticateDocument = gql`
     query authenticate($password: String!, $username: String!) {
   authenticate(password: $password, username: $username) {
-    appUserId
     token
   }
 }
@@ -3068,7 +3066,7 @@ export type InsertExerciseInPlanMutationHookResult = ReturnType<typeof useInsert
 export type InsertExerciseInPlanMutationResult = Apollo.MutationResult<InsertExerciseInPlanMutation>;
 export type InsertExerciseInPlanMutationOptions = Apollo.BaseMutationOptions<InsertExerciseInPlanMutation, InsertExerciseInPlanMutationVariables>;
 export const SaveWorkoutDocument = gql`
-    mutation saveWorkout($exerciseIdsAndSets: [ExerciseIdAndSetInput]!) {
+    mutation saveWorkout($exerciseIdsAndSets: [SetsAndExerciseIdInput]!) {
   saveWorkout(input: {exerciseIdsAndSets: $exerciseIdsAndSets}) {
     completedWorkout {
       ...CompletedWorkout
@@ -3336,8 +3334,8 @@ export type WorkoutPlanByIdQueryHookResult = ReturnType<typeof useWorkoutPlanByI
 export type WorkoutPlanByIdLazyQueryHookResult = ReturnType<typeof useWorkoutPlanByIdLazyQuery>;
 export type WorkoutPlanByIdQueryResult = Apollo.QueryResult<WorkoutPlanByIdQuery, WorkoutPlanByIdQueryVariables>;
 export const CreateWorkoutPlanDocument = gql`
-    mutation createWorkoutPlan($name: String!, $appUserId: Int!) {
-  createWorkoutPlan(input: {workoutPlan: {name: $name, appUserId: $appUserId}}) {
+    mutation createWorkoutPlan($name: String!) {
+  createWorkoutPlan(input: {workoutPlan: {name: $name}}) {
     workoutPlan {
       ...WorkoutPlan
     }
@@ -3360,7 +3358,6 @@ export type CreateWorkoutPlanMutationFn = Apollo.MutationFunction<CreateWorkoutP
  * const [createWorkoutPlanMutation, { data, loading, error }] = useCreateWorkoutPlanMutation({
  *   variables: {
  *      name: // value for 'name'
- *      appUserId: // value for 'appUserId'
  *   },
  * });
  */

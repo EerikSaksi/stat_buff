@@ -20,7 +20,7 @@ fragment CompletedWorkout on CompletedWorkout{
   }
 }
 
-mutation saveWorkout($exerciseIdsAndSets: [ExerciseIdAndSetInput]!) {
+mutation saveWorkout($exerciseIdsAndSets: [SetsAndExerciseIdInput]!) {
   saveWorkout(input: {exerciseIdsAndSets: $exerciseIdsAndSets}){
     completedWorkout{
       ...CompletedWorkout

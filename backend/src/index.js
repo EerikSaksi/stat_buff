@@ -33,7 +33,7 @@ const postgraphileOptions = {
   simpleCollections: "only",
   graphileBuildOptions: { pgOmitListSuffix: true },
   skipPlugins: [require("graphile-build").NodePlugin],
-  pgSettings: process.env.__DEV__ ? () => ({ 'jwt.claims.user_id': 4 }) : undefined,
+  pgSettings: process.env.__DEV__ ? () => ({ 'jwt.claims.user_id': 1 }) : undefined,
   jwtSecret:  process.env.JWT_SECRET,
   jwtPgTypeIdentifier: "public.jwt_token",
 };
