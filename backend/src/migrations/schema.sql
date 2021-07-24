@@ -1246,7 +1246,7 @@ CREATE POLICY workout_plan_day_delete_policy ON public.workout_plan_day FOR DELE
 -- Name: workout_plan_day workout_plan_day_insert_policy; Type: POLICY; Schema: public; Owner: -
 --
 
-CREATE POLICY workout_plan_day_insert_policy ON public.workout_plan_day FOR INSERT WITH CHECK ((id IN ( SELECT workout_plan_day_1.id
+CREATE POLICY workout_plan_day_insert_policy ON public.workout_plan_day FOR INSERT WITH CHECK ((workout_plan_id IN ( SELECT id
    FROM (public.workout_plan
      JOIN public.workout_plan_day workout_plan_day_1 ON ((workout_plan.id = workout_plan_day_1.workout_plan_id)))
   WHERE (workout_plan.app_user_id = ( SELECT public.current_user_id() AS current_user_id)))));

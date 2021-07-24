@@ -64,6 +64,7 @@ const httpLink = createHttpLink({
 
 const errorLink = onError(({networkError}) => {
   if (networkError && 'statusCode' in networkError ){
+    console.log(errorLink)
     if (networkError.statusCode === 401){
       //invalidate token if its invalid
       AsyncStorage.setItem("jwt_token", '');

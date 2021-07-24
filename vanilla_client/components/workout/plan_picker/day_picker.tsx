@@ -124,16 +124,16 @@ const WorkoutDayPicker: React.FC<Props> = ({navigation, route}) => {
             },
           });
       },
-      //optimisticResponse: {
-      //  createWorkoutPlanDay: {
-      //    __typename: 'CreateWorkoutPlanDayPayload',
-      //    workoutPlanDay: {
-      //      __typename: 'WorkoutPlanDay',
-      //      id: -1,
-      //      name: newName,
-      //    },
-      //  },
-      //},
+      optimisticResponse: {
+        createWorkoutPlanDay: {
+          __typename: 'CreateWorkoutPlanDayPayload',
+          workoutPlanDay: {
+            __typename: 'WorkoutPlanDay',
+            id: -1,
+            name: newName,
+          },
+        },
+      },
     });
   }, []);
   if (!data?.workoutPlan?.workoutPlanDays) {

@@ -1,4 +1,4 @@
-const { Pool} = require("pg");
+const { Pool } = require("pg");
 const exerciseSql = require("./exercise_sql");
 
 const admin_client = new Pool({
@@ -17,8 +17,8 @@ const user_client = new Pool({
 });
 
 const setup = async () => {
-  admin_client.connect().catch(err => console.log(err));
-  user_client.connect().catch(err => console.log(err));
+  admin_client.connect().catch((err) => console.log(err));
+  user_client.connect().catch((err) => console.log(err));
 
   const { rows } = await admin_client.query(
     "SELECT 'delete from ' || table_name || ' cascade;' as delete_query FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'"
@@ -36,14 +36,16 @@ const setup = async () => {
   //setup exercises (not really tested but still necessary for a lot of tables, eg workout_plan_exercise)
   await admin_client.query(exerciseSql);
 
-  await admin_client.query(`select set_config('jwt.claims.user_id', '1', false);`);
-  await admin_client.query("delete from app_user;");
-  await admin_client.query("select create_user($1, $2)", ["armday", "everyday"]);
-  await admin_client.query("select create_user($1, $2)", ["bro", "science"]);
-  console.log("Fixtures setup!");
+  //await admin_client.query("delete from app_user;");
+  try {
+    await admin_client.query("select create_user('armday', 'everyday')");
+    await admin_client.query("select create_user($1, $2)", ["bro", "science"]);
+    await admin_client.query(`select set_config('jwt.claims.user_id', '1', true);`);
+  }
+  catch{}
   return { admin_client, user_client };
 };
-setup()
+setup();
 
 const tearDown = async () => {
   await admin_client.end();
