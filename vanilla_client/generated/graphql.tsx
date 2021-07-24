@@ -2496,7 +2496,10 @@ export type DeleteExerciseInPlanMutation = (
   { __typename?: 'Mutation' }
   & { deleteWorkoutPlanExercise?: Maybe<(
     { __typename?: 'DeleteWorkoutPlanExercisePayload' }
-    & Pick<DeleteWorkoutPlanExercisePayload, 'clientMutationId'>
+    & { workoutPlanExercise?: Maybe<(
+      { __typename?: 'WorkoutPlanExercise' }
+      & Pick<WorkoutPlanExercise, 'id'>
+    )> }
   )> }
 );
 
@@ -2575,10 +2578,6 @@ export type SaveWorkoutMutation = (
     { __typename?: 'SaveWorkoutPayload' }
     & { completedWorkout?: Maybe<(
       { __typename?: 'CompletedWorkout' }
-      & { completedWorkoutExercises: Array<(
-        { __typename?: 'CompletedWorkoutExercise' }
-        & CompletedWorkoutExerciseFragment
-      )> }
       & CompletedWorkoutFragment
     )> }
   )> }
@@ -2959,7 +2958,9 @@ export type CheckTokenQueryResult = Apollo.QueryResult<CheckTokenQuery, CheckTok
 export const DeleteExerciseInPlanDocument = gql`
     mutation deleteExerciseInPlan($id: Int!) {
   deleteWorkoutPlanExercise(input: {id: $id}) {
-    clientMutationId
+    workoutPlanExercise {
+      id
+    }
   }
 }
     `;
@@ -3070,14 +3071,10 @@ export const SaveWorkoutDocument = gql`
   saveWorkout(input: {exerciseIdsAndSets: $exerciseIdsAndSets}) {
     completedWorkout {
       ...CompletedWorkout
-      completedWorkoutExercises {
-        ...CompletedWorkoutExercise
-      }
     }
   }
 }
-    ${CompletedWorkoutFragmentDoc}
-${CompletedWorkoutExerciseFragmentDoc}`;
+    ${CompletedWorkoutFragmentDoc}`;
 export type SaveWorkoutMutationFn = Apollo.MutationFunction<SaveWorkoutMutation, SaveWorkoutMutationVariables>;
 
 /**

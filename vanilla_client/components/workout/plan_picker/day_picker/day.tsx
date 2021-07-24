@@ -33,7 +33,7 @@ const Day: React.FC<Props> = ({route, navigation}) => {
     useState<number>(-1);
   const undoPressed = useRef(false);
 
-  const [deleteExerciseInPlan] = useDeleteExerciseInPlanMutation({});
+  const [deleteExerciseInPlan] = useDeleteExerciseInPlanMutation();
   const {data} = useWorkoutPlanDayByIdQuery({
     variables: {id: route.params.dayId},
     onCompleted: () => {
@@ -51,9 +51,7 @@ const Day: React.FC<Props> = ({route, navigation}) => {
     navigation.setOptions({
       headerRight: () =>
         localSets && data?.activeUser ? (
-          <WorkoutTimer
-            localExerciseSets={localSets}
-          />
+          <WorkoutTimer localExerciseSets={localSets} navigation = {navigation}/>
         ) : undefined,
       title: route.params.name,
     });
@@ -129,12 +127,25 @@ const Day: React.FC<Props> = ({route, navigation}) => {
           if (!undoPressed.current) {
             deleteExerciseInPlan({
               variables: {id: lastDeletedWorkoutExerciseId},
-              update(cache) {
-                cache.evict({
-                  id: `WorkoutPlanExercise:${lastDeletedWorkoutExerciseId}`,
-                });
-                undoPressed.current = false;
-                setLastDeletedWorkoutExerciseId(-1);
+              optimisticResponse: {
+                deleteWorkoutPlanExercise: {
+                  __typename: "DeleteWorkoutPlanExercisePayload",
+                  workoutPlanExercise: {
+                    __typename: "WorkoutPlanExercise",
+                    id: lastDeletedWorkoutExerciseId,
+                  },
+                },
+              },
+
+              update(cache, {data}) {
+                const deletedId = data?.deleteWorkoutPlanExercise?.workoutPlanExercise?.id
+                if (deletedId) {
+                  cache.evict({
+                    id: `WorkoutPlanExercise:${deletedId}`,
+                  });
+                  undoPressed.current = false;
+                  setLastDeletedWorkoutExerciseId(-1);
+                }
               },
             });
           } else {

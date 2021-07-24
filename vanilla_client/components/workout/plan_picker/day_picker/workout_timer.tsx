@@ -7,6 +7,7 @@ import {
 import {Button, Portal, Dialog} from 'react-native-paper';
 import {View, Text} from 'react-native';
 import {LocalExerciseSets} from './use_local_sets';
+import {WorkoutDayNavigationProp} from './day';
 
 //given the sets that are stored locally, this function transforms this to the input format required.
 const transformLocalSetsToInput = (
@@ -34,7 +35,8 @@ const transformLocalSetsToInput = (
 };
 const WorkoutTimer: React.FC<{
   localExerciseSets: LocalExerciseSets;
-}> = ({localExerciseSets}) => {
+  navigation: WorkoutDayNavigationProp;
+}> = ({localExerciseSets, navigation}) => {
   const startTime = useRef<Date | undefined>();
   const [minutes, setMinutes] = useState<undefined | number>();
   const [dialogVisible, setDialogVisible] = useState(false);
@@ -43,6 +45,15 @@ const WorkoutTimer: React.FC<{
   const [saveWorkout] = useSaveWorkoutMutation({
     variables: {
       exerciseIdsAndSets: transformLocalSetsToInput(localExerciseSets),
+    },
+    onCompleted: data => {
+      const completedWorkoutExercises =
+        data.saveWorkout?.completedWorkout?.completedWorkoutExercises;
+      if (completedWorkoutExercises) {
+        navigation.navigate('Workout Complete!', {
+          completedWorkoutExercises,
+        });
+      }
     },
   });
 

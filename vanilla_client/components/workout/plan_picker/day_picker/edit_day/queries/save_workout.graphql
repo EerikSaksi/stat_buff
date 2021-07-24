@@ -24,9 +24,6 @@ mutation saveWorkout($exerciseIdsAndSets: [SetsAndExerciseIdInput]!) {
   saveWorkout(input: {exerciseIdsAndSets: $exerciseIdsAndSets}){
     completedWorkout{
       ...CompletedWorkout
-      completedWorkoutExercises{
-        ...CompletedWorkoutExercise
-      }
     }
   }
 }
