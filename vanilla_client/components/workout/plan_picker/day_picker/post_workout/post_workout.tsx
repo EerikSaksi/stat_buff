@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 import {RootStackParamList} from '../../../../workout';
@@ -20,11 +19,20 @@ const PostWorkout: React.FC<Props> = ({route, navigation}) => {
   return (
     <>
       <List.Section>
-        {route.params.completedWorkoutExercises.map(cwe => (
-          <List.Item key = {cwe.id} title={`${cwe.exercise.name}`} />
-        ))}
+        <List.Subheader>Summary</List.Subheader>
+        {route.params.completedWorkoutExercises.map(
+          ({exercise, completedSets, id}) => (
+            <List.Item
+              key={id}
+              title={`${exercise.name}`}
+              description={`${completedSets.length} set${
+                completedSets.length === 1 ? '' : 's'
+              }`}
+            />
+          ),
+        )}
       </List.Section>
-      <Button onPress = {() => navigation.navigate('Select Workout')}>
+      <Button onPress={() => navigation.navigate('Select Workout')}>
         Done
       </Button>
     </>

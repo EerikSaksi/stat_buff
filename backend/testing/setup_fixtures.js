@@ -1,4 +1,4 @@
-const { Pool } = require("pg");
+const { Pool, Client } = require("pg");
 const exerciseSql = require("./exercise_sql");
 
 const admin_client = new Pool({
@@ -15,8 +15,7 @@ const user_client = new Pool({
   password: "restrictedPermissions",
   port: 5432,
 });
-
-const setup = async () => {
+(async () => {
   admin_client.connect().catch((err) => console.log(err));
   user_client.connect().catch((err) => console.log(err));
 
@@ -36,19 +35,14 @@ const setup = async () => {
   //setup exercises (not really tested but still necessary for a lot of tables, eg workout_plan_exercise)
   await admin_client.query(exerciseSql);
 
-  //await admin_client.query("delete from app_user;");
-  try {
-    await admin_client.query("select create_user('armday', 'everyday')");
-    await admin_client.query("select create_user($1, $2)", ["bro", "science"]);
-    await admin_client.query(`select set_config('jwt.claims.user_id', '1', true);`);
-  }
-  catch{}
-  return { admin_client, user_client };
-};
-setup();
+  await admin_client.query(`select set_config('jwt.claims.user_id', '1', true);`);
+  await admin_client.query("select create_user('armday', 'everyday')");
+  await admin_client.query("select create_user($1, $2)", ["bro", "science"]);
+})();
 
 const tearDown = async () => {
   await admin_client.end();
   await user_client.end();
 };
-module.exports = { setup, tearDown, admin_client, user_client };
+debugger;
+module.exports = { tearDown, admin_client, user_client };

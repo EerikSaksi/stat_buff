@@ -225,6 +225,12 @@ export type CompletedWorkoutCompletedWorkoutExercisesArgs = {
   filter?: Maybe<CompletedWorkoutExerciseFilter>;
 };
 
+export type CompletedWorkoutAndUser = {
+  __typename?: 'CompletedWorkoutAndUser';
+  completedWorkout?: Maybe<CompletedWorkout>;
+  appUser?: Maybe<AppUser>;
+};
+
 /**
  * A condition to be used against `CompletedWorkout` object types. All fields are
  * tested for equality and combined with a logical ‘and.’
@@ -1662,11 +1668,9 @@ export type SaveWorkoutPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  completedWorkout?: Maybe<CompletedWorkout>;
+  completedWorkoutAndUser?: Maybe<CompletedWorkoutAndUser>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `AppUser` that is related to this `CompletedWorkout`. */
-  appUser: AppUser;
 };
 
 export type SectionAndTimeSpent = {
@@ -2576,9 +2580,15 @@ export type SaveWorkoutMutation = (
   { __typename?: 'Mutation' }
   & { saveWorkout?: Maybe<(
     { __typename?: 'SaveWorkoutPayload' }
-    & { completedWorkout?: Maybe<(
-      { __typename?: 'CompletedWorkout' }
-      & CompletedWorkoutFragment
+    & { completedWorkoutAndUser?: Maybe<(
+      { __typename?: 'CompletedWorkoutAndUser' }
+      & { completedWorkout?: Maybe<(
+        { __typename?: 'CompletedWorkout' }
+        & CompletedWorkoutFragment
+      )>, appUser?: Maybe<(
+        { __typename?: 'AppUser' }
+        & Pick<AppUser, 'id' | 'totalXp'>
+      )> }
     )> }
   )> }
 );
@@ -2598,6 +2608,17 @@ export type UpdateWorkoutPlanExerciseSetsMutation = (
       { __typename?: 'WorkoutPlanExercise' }
       & WorkoutPlanExerciseFragment
     )> }
+  )> }
+);
+
+export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Unnamed_1_Query = (
+  { __typename?: 'Query' }
+  & { activeUser?: Maybe<(
+    { __typename?: 'AppUser' }
+    & Pick<AppUser, 'totalXp' | 'level'>
   )> }
 );
 
@@ -3069,8 +3090,14 @@ export type InsertExerciseInPlanMutationOptions = Apollo.BaseMutationOptions<Ins
 export const SaveWorkoutDocument = gql`
     mutation saveWorkout($exerciseIdsAndSets: [SetsAndExerciseIdInput]!) {
   saveWorkout(input: {exerciseIdsAndSets: $exerciseIdsAndSets}) {
-    completedWorkout {
-      ...CompletedWorkout
+    completedWorkoutAndUser {
+      completedWorkout {
+        ...CompletedWorkout
+      }
+      appUser {
+        id
+        totalXp
+      }
     }
   }
 }
@@ -3138,6 +3165,41 @@ export function useUpdateWorkoutPlanExerciseSetsMutation(baseOptions?: Apollo.Mu
 export type UpdateWorkoutPlanExerciseSetsMutationHookResult = ReturnType<typeof useUpdateWorkoutPlanExerciseSetsMutation>;
 export type UpdateWorkoutPlanExerciseSetsMutationResult = Apollo.MutationResult<UpdateWorkoutPlanExerciseSetsMutation>;
 export type UpdateWorkoutPlanExerciseSetsMutationOptions = Apollo.BaseMutationOptions<UpdateWorkoutPlanExerciseSetsMutation, UpdateWorkoutPlanExerciseSetsMutationVariables>;
+export const Document = gql`
+    {
+  activeUser {
+    totalXp
+    level
+  }
+}
+    `;
+
+/**
+ * __useQuery__
+ *
+ * To run a query within a React component, call `useQuery` and pass it any options that fit your needs.
+ * When your component renders, `useQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useQuery(baseOptions?: Apollo.QueryHookOptions<Query, QueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<Query, QueryVariables>(Document, options);
+      }
+export function useLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Query, QueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<Query, QueryVariables>(Document, options);
+        }
+export type QueryHookResult = ReturnType<typeof useQuery>;
+export type LazyQueryHookResult = ReturnType<typeof useLazyQuery>;
+export type QueryResult = Apollo.QueryResult<Query, QueryVariables>;
 export const WorkoutPlanDayByIdDocument = gql`
     query WorkoutPlanDayById($id: Int!) {
   activeUser {

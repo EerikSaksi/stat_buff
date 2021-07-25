@@ -1,0 +1,6 @@
+query{
+  activeUser{
+    totalXp
+    level
+  }
+}

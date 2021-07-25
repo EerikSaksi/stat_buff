@@ -22,8 +22,14 @@ fragment CompletedWorkout on CompletedWorkout{
 
 mutation saveWorkout($exerciseIdsAndSets: [SetsAndExerciseIdInput]!) {
   saveWorkout(input: {exerciseIdsAndSets: $exerciseIdsAndSets}){
-    completedWorkout{
-      ...CompletedWorkout
+    completedWorkoutAndUser{
+      completedWorkout{
+        ...CompletedWorkout,
+      }
+      appUser{
+        id
+        totalXp
+      }
     }
   }
 }
