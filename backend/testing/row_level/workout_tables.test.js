@@ -1,27 +1,41 @@
-const {admin_client, setup} = require('../setup_fixtures')
-const {testTableUpdateDelete} = require('./row_level_helper.js')
+const {setup} = require('../setup_fixtures')
+const {testTableUpdateDelete, testTableInsert} = require('./row_level_helper.js')
+var user_client, admin_client;
 beforeAll(async (done) => {
-  await setup()
-  await admin_client.query("insert into workout_plan(name, app_user_id) values('Chest', 1)");
-  await admin_client.query("insert into workout_plan(name, app_user_id) values('Back', 2)");
-  await admin_client.query("insert into workout_plan_day(name, workout_plan_id) values('1st', 1)");
-  await admin_client.query("insert into workout_plan_day(name, workout_plan_id) values('2nd', 2)");
-  await admin_client.query("insert into workout_plan_exercise(exercise_id, sets, reps, ordering, workout_plan_day_id) values(1, 5, 5, 1, 1)");
-  await admin_client.query("insert into workout_plan_exercise(exercise_id, sets, reps, ordering, workout_plan_day_id) values(2, 4, 20, 1, 2)");
+  const clients = await setup()
+  user_client = clients.user_client
+  admin_client = clients.admin_client
   done()
+})
 
-});
+test('Plan Insert', () => {
+   testTableInsert({
+     tableAndCols: 'workout_plan(name, app_user_id)', permittedValues: "('Leg Day', 1)", unpermittedValues: "('Leg Day', 2)", admin_client, user_client 
+   })
+})
+test('Plan Update Delete', () => {
+  await testTableUpdateDelete({
+    tableName: "workout_plan",
+    columnToAlter: "name",
+    newVal: 'Chest Day',
+    permittedWhereClause: "app_user_id = 1",
+    unpermittedWhereClause: "app_user_id = 2",
+    user_client
+  });
+})
 
 test('All workout plan actions', () => {
-//  await user_client.query("delete from workout_plan where id = 1").catch(error => expect(error).toBe(undefined))
-//  await user_client.query("delete from workout_plan where id = 2").catch(error => expect(error).not.toBe(undefined))
-//  await user_client.query("insert into workout_plan(name, app_user_id) values('Leg Day', 1)").catch(error => expect(error).toBe(undefined))
-//  await user_client.query("insert into workout_plan(name, app_user_id) values('Back', 2)").catch(error => expect(error).not.toBe(undefined))
-//
-//  await user_client.query("insert into workout_plan(name, app_user_id) values('Back', 2)").catch(error => expect(error).not.toBe(undefined))
-//  await user_client.query("update workout_plan set name = 'New name' where id = 1").catch(error => expect(error).toBe(undefined))
-//  await user_client.query("update workout_plan set name = 'New name' where id = 2").catch(error => expect(error).not.toBe(undefined))
-//
-//  user_client.query("update workout_plan set name = 'Leg day' where id = 1").catch(err => expect(err).toBe(undefined))
-//  user_client.query("update workout_plan set name = 'Leg day' where id = 2").catch(err => expect(err).not.toBe(undefined))
+  await testTableUpdateDelete({
+    tableName: "",
+    columnToAlter: "bodymass",
+    newVal: 90,
+    permittedWhereClause: "id = 1",
+    unpermittedWhereClause: "id = 2",
+    user_client
+  });
+})
+
+afterAll(() => {
+  await admin_client.$pool.end()
+  await user_client.$pool.end()
 })
