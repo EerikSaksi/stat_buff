@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.7 (Ubuntu 12.7-0ubuntu0.20.04.1)
--- Dumped by pg_dump version 12.7 (Ubuntu 12.7-0ubuntu0.20.04.1)
+-- Dumped from database version 13.4 (Ubuntu 13.4-0ubuntu0.21.04.1)
+-- Dumped by pg_dump version 13.4 (Ubuntu 13.4-0ubuntu0.21.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1246,7 +1246,7 @@ CREATE POLICY workout_plan_day_delete_policy ON public.workout_plan_day FOR DELE
 -- Name: workout_plan_day workout_plan_day_insert_policy; Type: POLICY; Schema: public; Owner: -
 --
 
-CREATE POLICY workout_plan_day_insert_policy ON public.workout_plan_day FOR INSERT WITH CHECK ((workout_plan_id IN ( SELECT id
+CREATE POLICY workout_plan_day_insert_policy ON public.workout_plan_day FOR INSERT WITH CHECK ((id IN ( SELECT workout_plan_day_1.id
    FROM (public.workout_plan
      JOIN public.workout_plan_day workout_plan_day_1 ON ((workout_plan.id = workout_plan_day_1.workout_plan_id)))
   WHERE (workout_plan.app_user_id = ( SELECT public.current_user_id() AS current_user_id)))));

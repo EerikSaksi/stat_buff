@@ -51,3 +51,38 @@ begin
   return to_return;
 end; 
 $$;
+
+drop table if exists table1 cascade;
+create table table1(
+	id integer primary key generated always as identity,
+	exercise_id integer not null references exercise(id) on delete cascade,
+	field1 int,
+	field2 int,
+	field3 int
+);
+create index if not exists table1_exercise_idx on "table1"(exercise_id);
+grant all on table1 to public;
+
+
+drop table if exists table2 cascade;
+create table table2(
+	id integer primary key generated always as identity,
+	table1_id integer not null references table1(id) on delete cascade,
+	field21 int,
+	field22 int,
+	field23 int
+);
+create index if not exists table2_exercise_idx on "table2"(table1_id);
+grant all on table2 to public;
+
+
+drop table if exists table3 cascade;
+create table table3(
+	id integer primary key generated always as identity,
+	table2_id integer not null references table2(id) on delete cascade,
+	field31 int,
+	field32 int,
+	field33 int
+);
+create index if not exists table3_exercise_idx on "table3"(table2_id);
+grant all on table3 to public;
