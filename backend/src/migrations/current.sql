@@ -55,12 +55,12 @@ $$;
 drop table if exists table1 cascade;
 create table table1(
 	id integer primary key generated always as identity,
-	exercise_id integer not null references exercise(id) on delete cascade,
+	workout_plan_exercise_id integer not null references workout_plan_exercise(id) on delete cascade,
 	field1 int,
 	field2 int,
 	field3 int
 );
-create index if not exists table1_exercise_idx on "table1"(exercise_id);
+create index if not exists table1_exercise_idx on "table1"(workout_plan_exercise_id);
 grant all on table1 to public;
 
 
